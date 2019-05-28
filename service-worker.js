@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/filledbottle_admin/precache-manifest.e7e2ef7c644022b61c38e14083956da9.js"
+  "/filledbottle_admin/precache-manifest.6da6fe7ea1f3a566c18d4453b089a915.js"
 );
 
 self.addEventListener('message', (event) => {
