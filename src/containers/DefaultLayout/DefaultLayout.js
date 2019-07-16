@@ -17,6 +17,8 @@ import {
 } from '@coreui/react';
 // sidebar nav config
 import navigation from '../../_nav';
+import home_nav from '../../home_nav';
+import sales_nav from '../../sales_nav';
 // routes config
 import routes from '../../routes';
 
@@ -33,11 +35,21 @@ class DefaultLayout extends Component {
     this.props.history.push('/login')
   }
 
+  loadNav(pathname) {
+    const page = pathname.split('/')[1];
+    if(page === "dashboard")
+      return navigation;
+    else if(page === "home")
+      return home_nav;
+    else if(page === "sales")
+      return sales_nav;
+  }
+
   render() {
     return (
       <div className="app">
         <AppHeader fixed>
-          <Suspense  fallback={this.loading()}>
+          <Suspense fallback={this.loading()}>
             <DefaultHeader onLogout={e=>this.signOut(e)}/>
           </Suspense>
         </AppHeader>
@@ -46,7 +58,7 @@ class DefaultLayout extends Component {
             <AppSidebarHeader />
             <AppSidebarForm />
             <Suspense>
-            <AppSidebarNav navConfig={navigation} {...this.props} router={router}/>
+            <AppSidebarNav navConfig={this.loadNav(this.props.location.pathname)} {...this.props} router={router}/>
             </Suspense>
             <AppSidebarFooter />
             <AppSidebarMinimizer />
@@ -68,7 +80,7 @@ class DefaultLayout extends Component {
                         )} />
                     ) : (null);
                   })}
-                  <Redirect from="/" to="/dashboard" />
+                  <Redirect from="/" to="/home" />
                 </Switch>
               </Suspense>
             </Container>
