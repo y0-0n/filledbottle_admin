@@ -10,18 +10,8 @@ export default {
       },
     },
     {
-      name: '영업',
-      url: '/sales',
-      icon: 'icon-speedometer',
-    },
-    {
-      name: '재고',
-      url: '/ex',
-      icon: 'icon-speedometer',
-    },
-    {
-      name: '세무',
-      url: '/ex',
+      name: '거래처',
+      url: '/customer',
       icon: 'icon-speedometer',
     },
   ],

@@ -40,6 +40,8 @@ const User = React.lazy(() => import('./views/Users/User'));
 
 const Home = React.lazy(() => import('./views/Home/Home'));
 const Sales = React.lazy(() => import('./views/Sales/Sales'));
+const Customer = React.lazy(() => import('./views/Customer/Customer'));
+
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
@@ -47,6 +49,7 @@ const routes = [
   { path: '/sales', exact: true,  name: '영업', component: Sales},
   { path: '/sales/1/1', name: '견적서 입력', component: Sales},
   { path: '/sales/1/2', name: '견적서 조회', component: Sales},
+  { path: '/customer', exact: true,  name: '거래처', component: Customer},
 
 
 

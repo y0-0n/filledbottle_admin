@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
-import { Row } from 'reactstrap';
 
 class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: []
+    };
+  }
+  componentWillMount() {
+  }
   render() {
     return (
       <div className="animated fadeIn">
         <div className="card">
           <div className="card-header">
-            <i className="icon-drop">Todo</i>
+            홈
           </div>
           <div className="card-body">
-            <Row>
-              여기에 버튼이 들어갑니다
-            </Row>
           </div>
         </div>
       </div>

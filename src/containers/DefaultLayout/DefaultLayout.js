@@ -39,10 +39,10 @@ class DefaultLayout extends Component {
     const page = pathname.split('/')[1];
     if(page === "dashboard")
       return navigation;
-    else if(page === "home")
-      return home_nav;
     else if(page === "sales")
       return sales_nav;
+    else
+      return home_nav;
   }
 
   render() {
