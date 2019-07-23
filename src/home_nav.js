@@ -14,5 +14,10 @@ export default {
       url: '/customer',
       icon: 'icon-speedometer',
     },
+    {
+      name: '제품',
+      url: '/product',
+      icon: 'icon-speedometer',
+    },
   ],
 };
