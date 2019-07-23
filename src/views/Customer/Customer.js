@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Redirect } from 'react-router-dom';
 
 class Customer extends Component {
   constructor(props) {
@@ -97,10 +98,11 @@ class Customer extends Component {
                   {e.name}
                 </CardHeader>
                 <CardBody>
-                  <div>{e.delegate}</div>
+                  {/*<div>{e.delegate}</div>
                   <div>{e.telephone}</div>
                   <div>{e.cellphone}</div>
-                  <div>{e.address}</div>
+                  <div>{e.address}</div>*/}
+                  <Button block outline color="primary" onClick={() => {this.props.history.push("/customer/"+e.id)}}>거래처 상세보기</Button>
                   <Button block outline color="primary" onClick={() => alert('준비중입니다.')}>주문 조회하기</Button>
                 </CardBody>
                 <CardFooter>
