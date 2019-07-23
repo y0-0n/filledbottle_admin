@@ -19,5 +19,10 @@ export default {
       url: '/product',
       icon: 'icon-speedometer',
     },
+    {
+      name: '공장',
+      url: '/plant',
+      icon: 'icon-speedometer',
+    },
   ],
 };
