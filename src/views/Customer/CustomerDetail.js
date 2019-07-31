@@ -69,6 +69,10 @@ class CustomerDetail extends Component {
               <Label>주소 :&nbsp;</Label>
               <Label>{this.state.data.address}</Label>
               </Row>
+              <Row>
+              <Label>담당자 :&nbsp;</Label>
+              <Label>{this.state.data.manager}</Label>
+              </Row>
             </CardBody>
             <CardFooter>
             </CardFooter>

@@ -42,7 +42,7 @@ const Home = React.lazy(() => import('./views/Home/Home'));
 const Sales = React.lazy(() => import('./views/Sales/Sales'));
 const Customer = React.lazy(() => import('./views/Customer/Customer'));
 const CreateCustomer = React.lazy(() => import('./views/Customer/CreateCustomer'));
-const CustomerDetail = React.lazy(() => import('./views/CustomerDetail/CustomerDetail'));
+const CustomerDetail = React.lazy(() => import('./views/Customer/CustomerDetail'));
 const Product = React.lazy(() => import('./views/Product/Product'));
 const Plant = React.lazy(() => import('./views/Plant/Plant'));
 const CreateOrder = React.lazy(() => import('./views/Order/CreateOrder'));
@@ -60,7 +60,6 @@ const routes = [
   { path: '/product', exact: true,  name: '제품', component: Product},
   { path: '/plant', exact: true,  name: '공장', component: Plant},
   { path: '/sales/order', exact: true,  name: '주문하기', component: CreateOrder},
-
 
 
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
