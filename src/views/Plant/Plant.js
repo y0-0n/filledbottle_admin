@@ -24,7 +24,7 @@ class Plant extends Component {
   }
 
   addPlant(form) {
-    const {name} = this.form;
+    const {name} = form;
     fetch("http://localhost:4000/plant", {
       method: 'POST',
       headers: {
