@@ -24,16 +24,14 @@ class Product extends Component {
   }
 
   addProduct(form) {
-    const {name} = this.form;
+    const {name} = form;
     fetch("http://localhost:4000/product", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        name
-      })
+      body: JSON.stringify(form)
     })
       .then(response => response.json())
       .then(data => {console.warn(data); this.findProduct()});

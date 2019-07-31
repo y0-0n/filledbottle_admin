@@ -41,9 +41,11 @@ const User = React.lazy(() => import('./views/Users/User'));
 const Home = React.lazy(() => import('./views/Home/Home'));
 const Sales = React.lazy(() => import('./views/Sales/Sales'));
 const Customer = React.lazy(() => import('./views/Customer/Customer'));
+const CreateCustomer = React.lazy(() => import('./views/Customer/CreateCustomer'));
 const CustomerDetail = React.lazy(() => import('./views/CustomerDetail/CustomerDetail'));
 const Product = React.lazy(() => import('./views/Product/Product'));
 const Plant = React.lazy(() => import('./views/Plant/Plant'));
+const CreateOrder = React.lazy(() => import('./views/Order/CreateOrder'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -52,10 +54,12 @@ const routes = [
   { path: '/sales', exact: true,  name: '영업', component: Sales},
   { path: '/sales/1/1', name: '견적서 입력', component: Sales},
   { path: '/sales/1/2', name: '견적서 조회', component: Sales},
-  { path: '/customer', exact: true,  name: '거래처', component: Customer},
+  { path: '/customer/list', exact: true,  name: '거래처 조회', component: Customer},
+  { path: '/customer/create', exact: true,  name: '거래처 추가하기', component: CreateCustomer},
   { path: '/customer/:id', exact: true,  name: '거래처 상세', component: CustomerDetail},
   { path: '/product', exact: true,  name: '제품', component: Product},
   { path: '/plant', exact: true,  name: '공장', component: Plant},
+  { path: '/sales/order', exact: true,  name: '주문하기', component: CreateOrder},
 
 
 
