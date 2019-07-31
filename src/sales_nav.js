@@ -11,21 +11,9 @@ export default {
       },
     },
     {
-      name: '견적',
-      url: '/sales/1',
+      name: '주문 추가',
+      url: '/sales/order',
       icon: 'icon-speedometer',
-      children: [
-        {
-          name: '견적서 입력',
-          url: '/sales/1/1',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: '견적서 조회',
-          url: '/sales/1/2',
-          icon: 'icon-puzzle',
-        },
-      ]
     },
     {
       name: '주문',
@@ -34,12 +22,12 @@ export default {
       children: [
         {
           name: '입력',
-          url: '/sales/2/1',
+          url: '/sales/1/1',
           icon: 'icon-puzzle',
         },
         {
           name: '조회',
-          url: '/sales/2/2',
+          url: '/sales/1/2',
           icon: 'icon-puzzle',
         },
       ]
@@ -57,23 +45,6 @@ export default {
         {
           name: '조회',
           url: '/sales/3/1',
-          icon: 'icon-puzzle',
-        },
-      ]
-    },
-    {
-      name: '출하',
-      url: '/sales/4',
-      icon: 'icon-speedometer',
-      children: [
-        {
-          name: '입력',
-          url: '/sales/4/1',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: '조회',
-          url: '/sales/4/2',
           icon: 'icon-puzzle',
         },
       ]
