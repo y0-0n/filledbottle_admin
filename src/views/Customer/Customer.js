@@ -6,7 +6,9 @@ class Customer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: []
+      data: [],
+      sdata: [],
+      search: false
     };
     this.form = {
 
@@ -22,22 +24,6 @@ class Customer extends Component {
     })
       .then(response => response.json())
       .then(data => {this.setState({data})})
-  }
-
-  addCustomer(form) {
-    const {name, delegate, telephone, cellphone, address} = this.form;
-    fetch("http://localhost:4000/customer", {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name, delegate, telephone, cellphone, address
-      })
-    })
-      .then(response => response.json())
-      .then(data => {console.warn(data); this.findCustomer()});
   }
 
   deleteCustomer(id) {
@@ -58,37 +44,33 @@ class Customer extends Component {
     }
   }
 
+  searchCustomer() {
+    let result = this.state.data.filter(word => word.name.indexOf(this.state.keyword) !== -1)
+
+    this.setState({sdata: result, search: true});
+  }
+
   render() {
-    var data = this.state.data;
+    var data = this.state.search ? this.state.sdata : this.state.data;
     return (
       <div className="animated fadeIn">
+
+        <Row className="mb-5">
+          <Col md="12" xs="12" sm="12">
+            <Button block color="primary" onClick={()=> {this.props.history.push('/customer/create');}}>거래처 추가하기</Button>
+          </Col>
+        </Row>
+
+        <Row className="mb-5">
+            <Col md="10" xs="10" sm="10">
+              <Input onChange={(e)=> {this.setState({keyword: e.target.value})}}/>
+            </Col>
+            <Col md="2" xs="2" sm="2">
+              <Button block color="primary" onClick={()=> {this.searchCustomer()}}>거래처 검색</Button>
+            </Col>
+        </Row>
+
         <Row>
-        <Col md="4" xs="12" sm="6">
-          <Form onSubmit={(e) => {e.preventDefault(); this.addCustomer(this.form)}}>
-            <FormGroup>
-              <Card>
-                <CardHeader>
-                  거래처 추가하기
-                </CardHeader>
-                <CardBody>
-                  <Label>거래처명</Label>
-                  <Input onChange={(e) => this.form.name=e.target.value} />
-                  <Label>대표자명</Label>
-                  <Input onChange={(e) => this.form.delegate=e.target.value} />
-                  <Label>전화번호</Label>
-                  <Input onChange={(e) => this.form.telephone=e.target.value}/>
-                  <Label>핸드폰번호</Label>
-                  <Input onChange={(e) => this.form.cellphone=e.target.value}/>
-                  <Label>주소</Label>
-                  <Input onChange={(e) => this.form.address=e.target.value}/>
-                </CardBody>
-                <CardFooter>
-                  <Button block outline color="primary">추가하기</Button>
-                </CardFooter>
-              </Card>
-            </FormGroup>
-          </Form>
-        </Col>
         {
           data.map(function (e) {
           return (
