@@ -19,7 +19,7 @@ class Customer extends Component {
   }
 
   findCustomer() {
-    fetch("http://localhost:4000/customer", {
+    fetch(process.env.REACT_APP_HOST+"/customer", {
       method: 'GET',
     })
       .then(response => response.json())
