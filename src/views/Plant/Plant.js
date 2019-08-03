@@ -16,7 +16,7 @@ class Plant extends Component {
   }
 
   findPlant() {
-    fetch("http://localhost:4000/plant", {
+    fetch(process.env.REACT_APP_HOST+"/plant", {
       method: 'GET',
     })
       .then(response => response.json())
@@ -25,7 +25,7 @@ class Plant extends Component {
 
   addPlant(form) {
     const {name} = form;
-    fetch("http://localhost:4000/plant", {
+    fetch(process.env.REACT_APP_HOST+"/plant", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -42,7 +42,7 @@ class Plant extends Component {
   deletePlant(id) {
     let c = window.confirm('Are you sure you wish to delete this item?')
     if (c) {
-      fetch("http://localhost:4000/plant", {
+      fetch(process.env.REACT_APP_HOST+"/plant", {
         method: 'DELETE',
         headers: {
           'Accept': 'application/json',

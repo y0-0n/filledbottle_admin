@@ -16,7 +16,7 @@ class Product extends Component {
   }
 
   findProduct() {
-    fetch("http://localhost:4000/product", {
+    fetch(process.env.REACT_APP_HOST+"/product", {
       method: 'GET',
     })
       .then(response => response.json())
@@ -25,7 +25,7 @@ class Product extends Component {
 
   addProduct(form) {
     //const {name} = form;
-    fetch("http://localhost:4000/product", {
+    fetch(process.env.REACT_APP_HOST+"/product", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -40,7 +40,7 @@ class Product extends Component {
   deleteProduct(id) {
     let c = window.confirm('Are you sure you wish to delete this item?')
     if (c) {
-      fetch("http://localhost:4000/product", {
+      fetch(process.env.REACT_APP_HOST+"/product", {
         method: 'DELETE',
         headers: {
           'Accept': 'application/json',

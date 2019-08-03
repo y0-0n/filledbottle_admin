@@ -28,7 +28,7 @@ class Customer extends Component {
   deleteCustomer(id) {
     let c = window.confirm('Are you sure you wish to delete this item?')
     if (c) {
-      fetch("http://localhost:4000/customer", {
+      fetch(process.env.REACT_APP_HOST+"/customer", {
         method: 'DELETE',
         headers: {
           'Accept': 'application/json',

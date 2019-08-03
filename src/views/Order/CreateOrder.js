@@ -29,7 +29,7 @@ class CreateOrder extends Component {
   }
 
   findCustomer() {
-    fetch("http://localhost:4000/customer", {
+    fetch(process.env.REACT_APP_HOST+"/customer", {
       method: 'GET',
     })
       .then(response => response.json())
@@ -37,7 +37,7 @@ class CreateOrder extends Component {
   }
 
   findProduct() {
-    fetch("http://localhost:4000/product", {
+    fetch(process.env.REACT_APP_HOST+"/product", {
       method: 'GET',
     })
       .then(response => response.json())
@@ -54,7 +54,7 @@ class CreateOrder extends Component {
 
     date = this.convertDateFormat(date);
 
-    fetch("http://localhost:4000/order", {
+    fetch(process.env.REACT_APP_HOST+"/order", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

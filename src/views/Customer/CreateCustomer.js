@@ -19,7 +19,7 @@ class CreateCustomer extends Component {
 
   addCustomer(form) {
     //const {name, delegate, telephone, cellphone, address, manager} = this.form;
-    fetch("http://localhost:4000/customer", {
+    fetch(process.env.REACT_APP_HOST+"/customer", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
