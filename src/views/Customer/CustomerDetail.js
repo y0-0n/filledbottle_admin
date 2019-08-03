@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Label } from 'reactstrap';
+import { Card, CardBody, CardHeader, CardFooter, Col, Row, Label } from 'reactstrap';
 
 class CustomerDetail extends Component {
   constructor(props) {
@@ -34,12 +34,12 @@ class CustomerDetail extends Component {
         })
       })
         .then(response => response.json())
-        .then(data => {this.findCustomer()});
+        .then(_ => {this.findCustomer()});
     }
   }
 
   render() {
-    var data = this.state.data;
+    //var data = this.state.data;
     return (
       <div className="animated fadeIn">
         <Row>

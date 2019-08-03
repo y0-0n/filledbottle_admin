@@ -24,7 +24,7 @@ class Product extends Component {
   }
 
   addProduct(form) {
-    const {name} = form;
+    //const {name} = form;
     fetch("http://localhost:4000/product", {
       method: 'POST',
       headers: {

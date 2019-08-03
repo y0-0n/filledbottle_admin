@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Input, Label } from 'reactstrap';
 
 import DatePicker from "react-datepicker";
-import { registerLocale, setDefaultLocale } from  "react-datepicker";
+import { registerLocale } from  "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ko from 'date-fns/locale/ko';
 registerLocale('ko', ko)
