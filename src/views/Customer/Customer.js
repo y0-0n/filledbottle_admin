@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Form, FormGroup, Label, Input } from 'reactstrap';
-import { Redirect } from 'react-router-dom';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Input } from 'reactstrap';
 
 class Customer extends Component {
   constructor(props) {
