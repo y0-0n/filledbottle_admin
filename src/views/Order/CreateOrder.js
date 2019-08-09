@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Input, Label } from 'reactstrap';
-
+import Popup from "reactjs-popup";
+import Modal from './Modal';
 import DatePicker from "react-datepicker";
 import { registerLocale } from  "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ko from 'date-fns/locale/ko';
 registerLocale('ko', ko)
 
-let d = {a: null, b: null, c: null, d: null, e: null, f: null};
+let d = {a: null, b: '', c: '', d: '', e: '', f: '', keyword: ''};
 
 class CreateOrder extends Component {
   constructor(props) {
@@ -45,7 +46,7 @@ class CreateOrder extends Component {
   }
 
   convertDateFormat(date) {
-    return date.getFullYear() + "-" + date.getMonth()+1 + "-" + date.getDate();
+    return date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
   }
 
   addOrder() {
@@ -53,7 +54,7 @@ class CreateOrder extends Component {
     let {date} = this.state;
 
     date = this.convertDateFormat(date);
-
+    console.warn(sProduct);
     fetch(process.env.REACT_APP_HOST+"/order", {
       method: 'POST',
       headers: {
@@ -63,14 +64,15 @@ class CreateOrder extends Component {
       body: JSON.stringify({date, manager, sCustomer, sProduct})
     })
       .then(response => response.json())
-      .then(data => {console.warn(data);  this.props.history.push('/sales/list');});
+      .then(data => {this.props.history.push('/sales/list');});
   }
 
-  onUpdateComments(idx, key, e) {
+  onUpdateComments(idx, e) {
     /*
         you can modify your state only using setState. But be carefull when trying to grab actual state and modify it's reference.
         So, the best way is to create a new object (immutable pattern), and one way of doing that is to use Object.assign
     */
+    let key = e.target.name;
     let sProduct = this.state.sProduct;
 
     let val = Object.assign({}, sProduct[idx]);
@@ -79,10 +81,11 @@ class CreateOrder extends Component {
     val[key] = e.target.value;
 
     sProduct[idx] = val;
+    sProduct[idx].keyword = e.target.value;
 
     /* set the state to the new variable */
     this.setState({sProduct});
-   }
+  }
 
   render() {
     let customer = this.customer;
@@ -168,7 +171,7 @@ class CreateOrder extends Component {
                     <Button block color="primary" 
                       onClick={()=> {
                         let sProduct = this.state.sProduct;
-                        sProduct.push(d)
+                        sProduct.push(d);
                         this.setState({
                           sProduct
                         })}}>
@@ -181,7 +184,7 @@ class CreateOrder extends Component {
                 <Table>
                   <thead>
                     <tr>
-                      <th>#</th>
+                      <th>검색 / #</th>
                       <th>품명</th>
                       <th>수량</th>
                       <th>단가</th>
@@ -195,14 +198,35 @@ class CreateOrder extends Component {
                         return (
                           <tr key={i}>
                             <td>
-                              <Input onChange={this.onUpdateComments.bind(this,i,'a')} style={{display:'inline', width: '80%'}}/>
-                              <i style={{display:'inline-block'}} className="cui-align-left icons font-2xl"></i>
+                              <Input name='a' value={this.state.sProduct[i].a} onChange={this.onUpdateComments.bind(this,i)} style={{display:'inline', width: '80%'}}/>
+                              <Popup
+                                trigger={<i style={{display:'inline-block'}} className="cui-align-left icons font-2xl"></i>}
+                                modal>
+                                {close => <Modal keyword={this.state.sProduct[i].keyword} index={i} close={close}
+                                            test={(data) => {
+                                              console.log(data);
+                                              let sProduct = this.state.sProduct;
+
+                                              let val = Object.assign({}, sProduct[i]);
+                                          
+                                              /* set, for instance, comment[1] to "some text" */
+                                              val['a'] = data['id'];
+                                              val['b'] = data['name'];
+                                              val['d'] = data['price_shipping'];
+                                          
+                                              sProduct[i] = val;
+                                          
+                                              /* set the state to the new variable */
+                                              this.setState({sProduct});
+                                            }}>
+                                          </Modal>}
+                              </Popup>
                             </td>
-                            <td><Input onChange={this.onUpdateComments.bind(this,i,'b')}/></td>
-                            <td><Input onChange={this.onUpdateComments.bind(this,i,'c')} /></td>
-                            <td><Input onChange={this.onUpdateComments.bind(this,i,'d')} /></td>
-                            <td><Input onChange={this.onUpdateComments.bind(this,i,'e')} /></td>
-                            <td><Input onChange={this.onUpdateComments.bind(this,i,'f')} /></td>
+                            <td><Input name='b' value={this.state.sProduct[i].b} onChange={this.onUpdateComments.bind(this,i)}/></td>
+                            <td><Input name='c' onChange={this.onUpdateComments.bind(this,i)} /></td>
+                            <td><Input name='d' value={this.state.sProduct[i].d} onChange={this.onUpdateComments.bind(this,i)} /></td>
+                            <td><Input name='e' onChange={this.onUpdateComments.bind(this,i)} /></td>
+                            <td><Input name='f' onChange={this.onUpdateComments.bind(this,i)} /></td>
                           </tr>
                         )
                       }, this)
