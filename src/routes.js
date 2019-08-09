@@ -46,6 +46,7 @@ const CustomerDetail = React.lazy(() => import('./views/Customer/CustomerDetail'
 const Product = React.lazy(() => import('./views/Product/Product'));
 const Plant = React.lazy(() => import('./views/Plant/Plant'));
 const CreateOrder = React.lazy(() => import('./views/Order/CreateOrder'));
+const Stock = React.lazy(() => import('./views/Stock/Stock'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -60,7 +61,7 @@ const routes = [
   { path: '/product', exact: true,  name: '제품', component: Product},
   { path: '/plant', exact: true,  name: '공장', component: Plant},
   { path: '/sales/order', exact: true,  name: '주문하기', component: CreateOrder},
-
+  { path: '/stock', exact: true,  name: '재고', component: Stock},
 
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },

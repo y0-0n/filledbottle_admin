@@ -36,7 +36,7 @@ class DefaultHeader extends Component {
             <NavLink to="/sales" className="nav-link" >영업</NavLink>
           </NavItem>
           <NavItem className="px-3">
-            <NavLink to="/home" className="nav-link" >재고</NavLink>
+            <NavLink to="/stock" className="nav-link" >재고</NavLink>
           </NavItem>
           <NavItem className="px-3">
             <NavLink to="/home" className="nav-link" >세무</NavLink>

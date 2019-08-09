@@ -19,6 +19,8 @@ import {
 import navigation from '../../_nav';
 import home_nav from '../../home_nav';
 import sales_nav from '../../sales_nav';
+import stock_nav from '../../stock_nav';
+
 // routes config
 import routes from '../../routes';
 
@@ -37,12 +39,12 @@ class DefaultLayout extends Component {
 
   loadNav(pathname) {
     const page = pathname.split('/')[1];
-    if(page === "dashboard")
-      return navigation;
-    else if(page === "sales")
-      return sales_nav;
-    else
-      return home_nav;
+    switch(page) {
+      case "home" : return home_nav; break;
+      case "sales" : return sales_nav; break;
+      case "stock" : return stock_nav; break;
+      default : return navigation;
+    }
   }
 
   render() {
