@@ -13,11 +13,12 @@ class Customer extends Component {
 
     }
   }
+  
   componentWillMount() {
-    this.findCustomer();
+    this.getCustomer();
   }
 
-  findCustomer() {
+  getCustomer() {
     fetch(process.env.REACT_APP_HOST+"/customer", {
       method: 'GET',
     })
@@ -39,7 +40,7 @@ class Customer extends Component {
         })
       })
         .then(response => response.json())
-        .then(data => {console.warn(data); this.findCustomer()});
+        .then(data => {console.warn(data); this.getCustomer()});
     }
   }
 

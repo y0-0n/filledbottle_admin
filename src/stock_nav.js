@@ -11,8 +11,8 @@ export default {
         },
       },
       {
-        name: '재고 추가',
-        url: '/stock/1',
+        name: '재고 관리',
+        url: '/stock/edit',
         icon: 'icon-speedometer',
       },
       {
