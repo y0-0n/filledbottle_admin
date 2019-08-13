@@ -15,7 +15,6 @@ const defaultProps = {};
 
 class DefaultHeader extends Component {
   render() {
-    console.warn(this.props.location)
     // eslint-disable-next-line
     const { children, ...attributes } = this.props;
 

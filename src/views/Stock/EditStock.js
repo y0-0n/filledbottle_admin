@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Bar } from 'react-chartjs-2';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Input, Label } from 'reactstrap';
+import { Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
 
 class EditStock extends Component {
   constructor(props) {
@@ -52,7 +51,7 @@ class EditStock extends Component {
                             <td>{e.quantity}</td>
                           </tr>
                         )
-                      }.bind(this))}
+                      })}
                     </tbody>
                   </Table>
                 </CardBody>
