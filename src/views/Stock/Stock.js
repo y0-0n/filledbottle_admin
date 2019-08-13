@@ -30,21 +30,6 @@ class Stock extends Component {
       orderData: [],
       productData: {}
     };
-    this.bar = {
-      labels: ['주문', '재고', '생산 중', '생산 필요'],
-      datasets: [
-        {
-          label: 'My First dataset',
-          backgroundColor: 'rgba(255,99,132,0.2)',
-          borderColor: 'rgba(255,99,132,1)',
-          borderWidth: 1,
-          hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-          hoverBorderColor: 'rgba(255,99,132,1)',
-          data: [0, 0, 0, 0],// 주문 / 재고 / 생산 중 / 생산 필요
-        },
-      ],
-    };
-
     this.classify = this.classify.bind(this);
   }
 
