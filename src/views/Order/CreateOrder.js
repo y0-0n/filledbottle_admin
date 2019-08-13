@@ -8,7 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import ko from 'date-fns/locale/ko';
 registerLocale('ko', ko)
 
-let d = {a: null, b: '', c: '', d: '', e: '', f: '', keyword: ''};
+let d = {a: '', b: '', c: '', d: '', e: '', f: '', keyword: ''};
 
 class CreateOrder extends Component {
   constructor(props) {

@@ -40,10 +40,10 @@ class DefaultLayout extends Component {
   loadNav(pathname) {
     const page = pathname.split('/')[1];
     switch(page) {
-      case "home" : return home_nav; break;
-      case "sales" : return sales_nav; break;
-      case "stock" : return stock_nav; break;
-      default : return navigation;
+      case "dashboard" : return navigation;
+      case "sales" : return sales_nav;
+      case "stock" : return stock_nav;
+      default : return home_nav;
     }
   }
 
@@ -52,7 +52,7 @@ class DefaultLayout extends Component {
       <div className="app">
         <AppHeader fixed>
           <Suspense fallback={this.loading()}>
-            <DefaultHeader onLogout={e=>this.signOut(e)}/>
+            <DefaultHeader {...this.props} onLogout={e=>this.signOut(e)}/>
           </Suspense>
         </AppHeader>
         <div className="app-body">
