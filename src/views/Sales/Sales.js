@@ -1,114 +1,90 @@
 import React, { Component } from 'react';
-import { Bar } from 'react-chartjs-2';
-import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-import { Card, CardBody, CardHeader, Col, Row } from 'reactstrap';
 
-const options = {
-  legend: {
-    display: false,
-  },
-  tooltips: {
-    enabled: false,
-    custom: CustomTooltips
-  },
-  maintainAspectRatio: false,
-  scales: {
-    yAxes: [{
-      ticks: {
-        beginAtZero: true,
-        min: 0
-      }    
-    }]
-  }  
-}
+import { Card, CardBody, CardHeader, Col, Row, NavItem, Nav, NavLink, Table } from 'reactstrap';
+
   
 class Sales extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
-      classifiedData: {}
+      process: "",
+      orderData: [],
     };
-    
-    this.classify = this.classify.bind(this);
-  }
-
-  getOrderSummary(callback) {
-    fetch(process.env.REACT_APP_HOST+"/order_summary", {
-      method: 'GET',
-    })
-      .then(response => response.json())
-      .then(data => {this.setState({data}, () => {callback()})})
-  }
-
-  classify() {
-    this.state.data.map((e, i) => {
-      let classifiedData = this.state.classifiedData;
-
-      if(this.state.classifiedData[e['order_id']] === undefined) {
-        classifiedData[e['order_id']] = {};
-        classifiedData[e['order_id']][e['product_id']] = e.quantity;
-
-        this.setState({
-          classifiedData
-        })
-      } else {
-        if(classifiedData[e['order_id']][e['product_id']] === undefined)
-          classifiedData[e['order_id']][e['product_id']] = e.quantity;
-        else
-        classifiedData[e['order_id']][e['product_id']] += e.quantity;
-
-        this.setState({
-          classifiedData
-        })
-      }
-
-      return 0;
-    })
   }
 
   componentWillMount() {
-    this.getOrderSummary(this.classify);
+    this.getOrder("");
+  }
+
+  getOrder(state) {
+    fetch(process.env.REACT_APP_HOST+"/order/"+state, {
+      method: 'GET',
+    })
+      .then(response => response.json())
+      .then(orderData => {this.setState({orderData})});
+  }
+
+  tabClick(process) {
+    this.setState({
+      process
+    });
+    this.getOrder(process);
   }
 
   render() {
     return (
       <div className="animated fadeIn">
         <Row>
-        {
-          Object.entries(this.state.classifiedData).map((e, i) => {
-
-            let data = Object.values(e[1]);
-            let labels = Object.keys(e[1]);
-            let bar = {
-              labels,
-              datasets: [
-                {
-                  backgroundColor: 'rgba(255,99,132,0.2)',
-                  borderColor: 'rgba(255,99,132,1)',
-                  borderWidth: 1,
-                  hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-                  hoverBorderColor: 'rgba(255,99,132,1)',
-                  data,
-                },
-              ],
-            };
-            return (
-              <Col key={i} md="6" xs="12" sm="12">
-                <Card>
-                  <CardHeader>
-                    {e[0]}
-                  </CardHeader>
-                  <CardBody className="card-body">
-                    <div className="chart-wrapper">
-                      <Bar data={bar} options={options} />
-                    </div>
-                  </CardBody>
-                </Card>
-              </Col>
-            )
-          })
-        }
+          <Col>
+            <Card>
+              <CardHeader>
+                주문 보기
+              </CardHeader>
+              <CardBody>
+                <Nav tabs>
+                  <NavItem>
+                    <NavLink active={this.state.process === ""} onClick={() => this.tabClick("")} href="#">전체</NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink active={this.state.process === "estimate"} onClick={() => this.tabClick("estimate")} href="#">견적</NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink active={this.state.process === "order"} onClick={() => this.tabClick("order")} href="#">주문</NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink active={this.state.process === "shipment"} onClick={() => this.tabClick("shipment")} href="#">출하</NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink active={this.state.process === "complete"} onClick={() => this.tabClick("complete")} href="#">완료</NavLink>
+                  </NavItem>
+                </Nav>
+                <Table>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>일자</th>
+                      <th>거래처</th>
+                      <th>주문 금액 합계</th>
+                      <th>받은 금액</th>
+                      <th>상태</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.state.orderData.map((e, i) => {
+                      return <tr key={e.id}>
+                        <td>{e.id}</td>
+                        <td>{e.date}</td>
+                        <td>{e['customer_id']}</td>
+                        <td>{e.price}</td>
+                        <td>{e.receive}</td>
+                        <td>{e.state}</td>
+                      </tr>;
+                    })}
+                  </tbody>
+                </Table>
+              </CardBody>
+            </Card>
+          </Col>
         </Row>
       </div>
     )

@@ -29,7 +29,7 @@ class DefaultHeader extends Component {
 
         <Nav className="d-md-down-none" navbar>
           <NavItem className="px-3">
-            <NavLink to="/home" className="nav-link" >홈</NavLink>
+            <NavLink to="/home" className="nav-link" >기초 정보</NavLink>
           </NavItem>
           <NavItem className="px-3">
             <NavLink to="/sales" className="nav-link" >영업</NavLink>
