@@ -71,7 +71,7 @@ class Sales extends Component {
                   </thead>
                   <tbody>
                     {this.state.orderData.map((e, i) => {
-                      return <tr key={e.id}>
+                      return <tr key={e.id} onClick={() => {this.props.history.push(`/sales/order/${e.id}`)}}>
                         <td>{e.id}</td>
                         <td>{e.date}</td>
                         <td>{e['customer_id']}</td>

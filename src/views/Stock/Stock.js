@@ -77,7 +77,6 @@ class Stock extends Component {
   }
 
   render() {
-    console.warn(this.state.productData)
     return (
       <div className="animated fadeIn">
         <Row>
