@@ -22,6 +22,7 @@ class OrderDetail extends Component {
   }
 
   render() {
+    console.warn(this.state.data)
     return (
       <div className="animated fadeIn">
         <Row>
@@ -50,6 +51,18 @@ class OrderDetail extends Component {
                 <Row>
                   <Label>상태 :&nbsp;</Label>
                   <Label>{this.state.data[0]['state']}</Label>
+                </Row>
+                <Row>
+                  <Label>배송지 :&nbsp;</Label>
+                  <Label>{}</Label>
+                </Row>
+                <Row>
+                  <Label>요청사항 :&nbsp;</Label>
+                  <Label>{}</Label>
+                </Row>
+                <Row>
+                  <Label>배송유형 :&nbsp;</Label>
+                  <Label>{}</Label>
                 </Row>
               </CardBody>
               <CardFooter>
