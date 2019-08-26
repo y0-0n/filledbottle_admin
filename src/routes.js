@@ -61,6 +61,7 @@ const routes = [
   { path: '/main/product', exact: true,  name: '제품', component: Product},
   { path: '/main/plant', exact: true,  name: '공장', component: Plant},
   { path: '/main/sales/order', exact: true,  name: '주문하기', component: CreateOrder},
+  { path: '/main/sales/order/:id', exact: true,  name: '주문 상세', component: OrderDetail},
   { path: '/main/stock', exact: true,  name: '재고', component: Stock},
   { path: '/main/stock/edit', exact: true,  name: '재고 관리', component: EditStock},
 
