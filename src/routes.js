@@ -48,6 +48,7 @@ const Plant = React.lazy(() => import('./views/Plant/Plant'));
 const CreateOrder = React.lazy(() => import('./views/Order/CreateOrder'));
 const Stock = React.lazy(() => import('./views/Stock/Stock'));
 const EditStock = React.lazy(() => import('./views/Stock/EditStock'));
+const OrderDetail = React.lazy(() => import('./views/Order/OrderDetail'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
