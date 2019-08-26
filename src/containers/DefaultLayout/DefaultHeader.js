@@ -29,19 +29,16 @@ class DefaultHeader extends Component {
 
         <Nav className="d-md-down-none" navbar>
           <NavItem className="px-3">
-            <NavLink to="/home" className="nav-link" >기초 정보</NavLink>
+            <NavLink to="/main" className="nav-link" >메인 메뉴</NavLink>
           </NavItem>
           <NavItem className="px-3">
-            <NavLink to="/sales" className="nav-link" >영업</NavLink>
+            <NavLink to="/main/customer/create" className="nav-link" >고객 등록</NavLink>
           </NavItem>
           <NavItem className="px-3">
-            <NavLink to="/stock" className="nav-link" >재고</NavLink>
+            <NavLink to="/main/sales/order" className="nav-link" >주문 등록</NavLink>
           </NavItem>
           <NavItem className="px-3">
-            <NavLink to="/home" className="nav-link" >세무</NavLink>
-          </NavItem>
-          <NavItem className="px-3">
-            <Link to="/users" className="nav-link">직원</Link>
+            <NavLink to="/main/product" className="nav-link" >상품 등록</NavLink>
           </NavItem>
           <NavItem className="px-3">
             <NavLink to="/dashboard" className="nav-link" >Dashboard</NavLink>

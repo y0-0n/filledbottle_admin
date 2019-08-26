@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Card, CardBody, CardHeader, Col, Row, NavItem, Nav, NavLink, Table } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, Col, Row, NavItem, Nav, NavLink, Table } from 'reactstrap';
 
   
 class Sales extends Component {
@@ -34,6 +34,13 @@ class Sales extends Component {
   render() {
     return (
       <div className="animated fadeIn">
+        <Row className="mb-5">
+          <Col md="10" xs="10" sm="10" />
+          <Col md="2" xs="2" sm="2">
+            <Button block color="primary" onClick={()=> {this.props.history.push('/main/sales/order');}}>주문 추가하기</Button>
+          </Col>
+        </Row>
+
         <Row>
           <Col>
             <Card>
@@ -74,7 +81,7 @@ class Sales extends Component {
                       return <tr key={e.id}>
                         <td>{e.id}</td>
                         <td>{e.date}</td>
-                        <td>{e['customer_id']}</td>
+                        <td>{e.name}</td>
                         <td>{e.price}</td>
                         <td>{e.receive}</td>
                         <td>{e.state}</td>

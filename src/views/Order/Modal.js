@@ -10,10 +10,20 @@ class Modal extends Component {
   }
 
   componentWillMount() {
-    this.searchProduct(this.props);
+    //this.searchProduct(this.props);
+    this.getProduct();
     this.selectProduct = this.selectProduct.bind(this);
   }
 
+  getProduct() {
+    fetch(process.env.REACT_APP_HOST+`/product`, {
+      method: 'GET',
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({data});
+      })
+  }
   searchProduct(props) {
     let {keyword} = props;
     fetch(process.env.REACT_APP_HOST+`/product/search/${keyword}`, {
@@ -42,8 +52,8 @@ class Modal extends Component {
           <div className="card-header">
             <i className="icon-drop">거래처 검색</i>
           </div>
-          <div className="card-body">
-          <Table>
+          <div className="card-body" style={{height: 500, overflow: 'scroll'}} >
+          <Table hover>
                   <thead>
                     <tr>
                       <th>#</th>
@@ -57,7 +67,7 @@ class Modal extends Component {
                       this.state.data.map(function (e, i) {
                         //console.warn(e);
                         return (
-                          <tr onClick={() => this.selectProduct(e)} key={i}>
+                          <tr style={{cursor: 'pointer'}} onClick={() => this.selectProduct(e)} key={i}>
                             <td>{e.id}</td>
                             <td>{e.name}</td>
                             <td>{e.price_shipping}</td>

@@ -20,7 +20,7 @@ class CreateOrder extends Component {
       product: [],
       sProduct: [d],
       sCustomer: null, //선택된 거래처
-      date: null,
+      date: new Date(),
       manager: null
     };
   }
@@ -54,7 +54,6 @@ class CreateOrder extends Component {
     let {date} = this.state;
 
     date = this.convertDateFormat(date);
-    console.warn(sProduct);
     fetch(process.env.REACT_APP_HOST+"/order", {
       method: 'POST',
       headers: {
@@ -89,18 +88,19 @@ class CreateOrder extends Component {
 
   render() {
     let customer = this.customer;
+    console.warn(this.state.sProduct);
     return (
       <div className="animated fadeIn">
         <Row>
           <Col md="12" xs="12" sm="12">
             <Card>
               <CardHeader>
-                거래처 추가하기
+                주문서
               </CardHeader>
               <CardBody>
                 <Row>
                   <Col>
-                    <Label>날짜</Label>
+                    <Label>일자</Label><br />
                     <DatePicker
                       dateFormat="yyyy년 MM월 dd일"
                       locale="ko"
@@ -121,18 +121,18 @@ class CreateOrder extends Component {
           <Col md="12" xs="12" sm="12">
             <Card>
               <CardHeader>
-                거래처
+                거래처를 클릭하세요
               </CardHeader>
               <CardBody>
                 <Table striped>
                   <thead>
                     <tr>
                       <th>#</th>
-                      <th>name</th>
-                      <th>delegate</th>
-                      <th>manager</th>
-                      <th>cellphone</th>
-                      <th>telephone</th>
+                      <th>거래처</th>
+                      <th>대표</th>
+                      <th>담당자</th>
+                      <th>핸드폰</th>
+                      <th>전화번호</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -166,7 +166,7 @@ class CreateOrder extends Component {
             <Card>
               <CardHeader>
                 <Row>
-                  <Col md="10" xs="10" sm="10">제품</Col>
+                  <Col md="10" xs="10" sm="10">품목을 입력하세요</Col>
                   <Col md="2" xs="2" sm="2">
                     <Button block color="primary" 
                       onClick={()=> {
@@ -184,12 +184,12 @@ class CreateOrder extends Component {
                 <Table>
                   <thead>
                     <tr>
-                      <th>검색 / #</th>
-                      <th>품명</th>
+                      <th>품목명</th>
                       <th>수량</th>
                       <th>단가</th>
                       <th>공급가액</th>
                       <th>부가세</th>
+                      <th>삭제</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -198,9 +198,8 @@ class CreateOrder extends Component {
                         return (
                           <tr key={i}>
                             <td>
-                              <Input name='a' value={this.state.sProduct[i].a} onChange={this.onUpdateComments.bind(this,i)} style={{display:'inline', width: '80%'}}/>
-                              <Popup
-                                trigger={<i style={{display:'inline-block'}} className="cui-align-left icons font-2xl"></i>}
+                              {<Popup
+                                trigger={<Input name='b' value={this.state.sProduct[i].b} style={{cursor: 'pointer'}} onChange={this.onUpdateComments.bind(this,i)}/>}
                                 modal>
                                 {close => <Modal keyword={this.state.sProduct[i].keyword} index={i} close={close}
                                             test={(data) => {
@@ -209,7 +208,7 @@ class CreateOrder extends Component {
 
                                               let val = Object.assign({}, sProduct[i]);
                                           
-                                              /* set, for instance, comment[1] to "some text" */
+                                              /* set, for instance, comment[1] to "some text"*/
                                               val['a'] = data['id'];
                                               val['b'] = data['name'];
                                               val['d'] = data['price_shipping'];
@@ -220,13 +219,24 @@ class CreateOrder extends Component {
                                               this.setState({sProduct});
                                             }}>
                                           </Modal>}
-                              </Popup>
+                                </Popup>}
                             </td>
-                            <td><Input name='b' value={this.state.sProduct[i].b} onChange={this.onUpdateComments.bind(this,i)}/></td>
                             <td><Input name='c' onChange={this.onUpdateComments.bind(this,i)} /></td>
                             <td><Input name='d' value={this.state.sProduct[i].d} onChange={this.onUpdateComments.bind(this,i)} /></td>
                             <td><Input name='e' onChange={this.onUpdateComments.bind(this,i)} /></td>
                             <td><Input name='f' onChange={this.onUpdateComments.bind(this,i)} /></td>
+                            <td>
+                              <Button block color="danger" 
+                                onClick={()=> {
+                                  let {sProduct} = this.state;
+                                  sProduct.splice(i, 1);
+                                  this.setState({
+                                    sProduct
+                                  })
+                                }}>
+                                X
+                              </Button>
+                            </td>
                           </tr>
                         )
                       }, this)

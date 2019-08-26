@@ -17,9 +17,7 @@ import {
 } from '@coreui/react';
 // sidebar nav config
 import navigation from '../../_nav';
-import home_nav from '../../home_nav';
-import sales_nav from '../../sales_nav';
-import stock_nav from '../../stock_nav';
+import main_nav from '../../main_nav';
 
 // routes config
 import routes from '../../routes';
@@ -37,15 +35,15 @@ class DefaultLayout extends Component {
     this.props.history.push('/login')
   }
 
-  loadNav(pathname) {
+  /*loadNav(pathname) {
     const page = pathname.split('/')[1];
     switch(page) {
       case "dashboard" : return navigation;
       case "sales" : return sales_nav;
       case "stock" : return stock_nav;
-      default : return home_nav;
+      default : return main_nav;
     }
-  }
+  }*/
 
   render() {
     return (
@@ -60,7 +58,8 @@ class DefaultLayout extends Component {
             <AppSidebarHeader />
             <AppSidebarForm />
             <Suspense>
-            <AppSidebarNav navConfig={this.loadNav(this.props.location.pathname)} {...this.props} router={router}/>
+            {/*<AppSidebarNav navConfig={this.loadNav(this.props.location.pathname)} {...this.props} router={router}/>*/}
+              <AppSidebarNav navConfig={main_nav} {...this.props} router={router}/>
             </Suspense>
             <AppSidebarFooter />
             <AppSidebarMinimizer />
@@ -82,7 +81,7 @@ class DefaultLayout extends Component {
                         )} />
                     ) : (null);
                   })}
-                  <Redirect from="/" to="/home" />
+                  <Redirect from="/" to="/main/home" />
                 </Switch>
               </Suspense>
             </Container>
