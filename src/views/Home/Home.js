@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import { Calendar, momentLocalizer } from 'react-big-calendar'
+import moment from 'moment'
+import "react-big-calendar/lib/css/react-big-calendar.css";
+
+const localizer = momentLocalizer(moment)
 
 class Home extends Component {
   constructor(props) {
@@ -7,8 +12,10 @@ class Home extends Component {
       data: []
     };
   }
+
   componentWillMount() {
   }
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -17,6 +24,13 @@ class Home extends Component {
             홈
           </div>
           <div className="card-body">
+            <Calendar
+              localizer={localizer}
+              events={[]}
+              startAccessor="start"
+              endAccessor="end"
+              style={{ height: "100vh" }}
+            />
           </div>
         </div>
       </div>
