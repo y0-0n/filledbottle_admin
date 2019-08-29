@@ -32,10 +32,10 @@ class DefaultHeader extends Component {
             <NavLink to="/main" className="nav-link" >메인 메뉴</NavLink>
           </NavItem>
           <NavItem className="px-3">
-            <NavLink to="/main/customer/create" className="nav-link" >고객 등록</NavLink>
+            <NavLink to="/customer/create" className="nav-link" >고객 등록</NavLink>
           </NavItem>
           <NavItem className="px-3">
-            <NavLink to="/main/sales/order" className="nav-link" >주문 등록</NavLink>
+            <NavLink to="/sales/order" className="nav-link" >주문 등록</NavLink>
           </NavItem>
           <NavItem className="px-3">
             <NavLink to="/main/product" className="nav-link" >상품 등록</NavLink>
@@ -62,7 +62,7 @@ class DefaultHeader extends Component {
           </NavItem>
           <AppHeaderDropdown direction="down">
             <DropdownToggle nav>
-              <img src={'./assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+              <img src={'/assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
             </DropdownToggle>
             <DropdownMenu right style={{ right: 'auto' }}>
               <DropdownItem header tag="div" className="text-center"><strong>Account</strong></DropdownItem>

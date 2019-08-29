@@ -37,7 +37,7 @@ class Sales extends Component {
         <Row className="mb-5">
           <Col md="10" xs="10" sm="10" />
           <Col md="2" xs="2" sm="2">
-            <Button block color="primary" onClick={()=> {this.props.history.push('/main/sales/order');}}>주문 추가하기</Button>
+            <Button block color="primary" onClick={()=> {this.props.history.push('/sales/order');}}>주문 추가하기</Button>
           </Col>
         </Row>
 
