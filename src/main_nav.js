@@ -21,7 +21,7 @@ export default {
         },
         {
           name: '주문 분석',
-          url: '/main/sales/a',
+          url: '/404',
           icon: 'icon-puzzle',
         },
       ]
@@ -38,7 +38,7 @@ export default {
         },
         {
           name: '고객 분석',
-          url: '/main/customer/a',
+          url: '/404',
           icon: 'icon-puzzle',
         },
       ]

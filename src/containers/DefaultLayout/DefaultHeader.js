@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { Badge, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem } from 'reactstrap';
+//import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+//import { Badge, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem } from 'reactstrap';
+import { Nav, NavItem } from 'reactstrap';
 import PropTypes from 'prop-types';
+//import { AppAsideToggler, AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
+import { AppAsideToggler, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
 
-import { AppAsideToggler, AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
 import logo from '../../assets/img/brand/logo.svg'
 import sygnet from '../../assets/img/brand/sygnet.svg'
 
@@ -40,7 +43,7 @@ class DefaultHeader extends Component {
           <NavItem className="px-3">
             <NavLink to="/main/product" className="nav-link" >상품 등록</NavLink>
           </NavItem>
-          <NavItem className="px-3">
+          {/*<NavItem className="px-3">
             <NavLink to="/dashboard" className="nav-link" >Dashboard</NavLink>
           </NavItem>
           <NavItem className="px-3">
@@ -48,10 +51,10 @@ class DefaultHeader extends Component {
           </NavItem>
           <NavItem className="px-3">
             <NavLink to="#" className="nav-link">Settings</NavLink>
-          </NavItem>
+          </NavItem>*/}
         </Nav>
         <Nav className="ml-auto" navbar>
-          <NavItem className="d-md-down-none">
+          {/*<NavItem className="d-md-down-none">
             <NavLink to="#" className="nav-link"><i className="icon-bell"></i><Badge pill color="danger">5</Badge></NavLink>
           </NavItem>
           <NavItem className="d-md-down-none">
@@ -79,7 +82,7 @@ class DefaultHeader extends Component {
               <DropdownItem><i className="fa fa-shield"></i> Lock Account</DropdownItem>
               <DropdownItem onClick={e => this.props.onLogout(e)}><i className="fa fa-lock"></i> Logout</DropdownItem>
             </DropdownMenu>
-          </AppHeaderDropdown>
+          </AppHeaderDropdown>*/}
         </Nav>
         <AppAsideToggler className="d-md-down-none" />
         {/*<AppAsideToggler className="d-lg-none" mobile />*/}

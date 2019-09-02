@@ -70,6 +70,8 @@ class Product extends Component {
                 <CardBody>
                   <Label>제품명</Label>
                   <Input onChange={(e) => this.form.name=e.target.value} />
+                  <Label>단가</Label>
+                  <Input onChange={(e) => this.form.price=e.target.value} />
                 </CardBody>
                 <CardFooter>
                   <Button block outline color="primary">추가하기</Button>
