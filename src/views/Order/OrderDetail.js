@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Label } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Label, Table } from 'reactstrap';
 
 class OrderDetail extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      data: [[]]
+      data: {
+        orderInfo: [{}],
+        productInfo: [{}]
+      }
     };
   }
   componentWillMount() {
@@ -22,6 +25,11 @@ class OrderDetail extends Component {
   }
 
   render() {
+    let {orderInfo} = this.state.data;
+    orderInfo = orderInfo[0];
+    let {productInfo} = this.state.data;
+
+    console.warn(productInfo)
     return (
       <div className="animated fadeIn">
         <Row>
@@ -33,23 +41,23 @@ class OrderDetail extends Component {
               <CardBody>
                 <Row>
                   <Label>거래처명 :&nbsp;</Label>
-                  <Label>{this.state.data[0]['customer_name']}</Label>
+                  <Label>{orderInfo['name']}</Label>
                 </Row>
                 <Row>
                   <Label>일자 :&nbsp;</Label>
-                  <Label>{this.state.data[0]['date']}</Label>
+                  <Label>{orderInfo['date']}</Label>
                 </Row>
                 <Row>
                   <Label>총액 :&nbsp;</Label>
-                  <Label>{this.state.data[0]['sum']}</Label>
+                  <Label>{orderInfo['price']}</Label>
                 </Row>
                 <Row>
                   <Label>수금 :&nbsp;</Label>
-                  <Label>{this.state.data[0]['received']}</Label>
+                  <Label>{orderInfo['received']}</Label>
                 </Row>
                 <Row>
                   <Label>상태 :&nbsp;</Label>
-                  <Label>{this.state.data[0]['state']}</Label>
+                  <Label>{orderInfo['state']}</Label>
                 </Row>
                 <Row>
                   <Label>배송지 :&nbsp;</Label>
@@ -65,8 +73,8 @@ class OrderDetail extends Component {
                 </Row>
               </CardBody>
               <CardFooter>
-                {this.state.data[0]['state'] === "order" ? <Button>출하 완료</Button> : null}
-                {this.state.data[0]['state'] === "shipment" ? <Button>완료</Button> : null}
+                {orderInfo['state'] === "order" ? <Button>출하 완료</Button> : null}
+                {orderInfo['state'] === "shipment" ? <Button>완료</Button> : null}
               </CardFooter>
             </Card>
           </Col>
@@ -78,11 +86,28 @@ class OrderDetail extends Component {
               품목
             </CardHeader>
             <CardBody>
-              {this.state.data.map((e, i) => {
-                return (
-                  e['product_id']
-                )
-              })}
+            <Table>
+                  <thead>
+                    <tr>
+                      <th>제품명</th>
+                      <th>단가</th>
+                      <th>수량</th>
+                      <th>공급가액</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {productInfo.map((e, i) => {
+                      return ( <tr key={i}>
+                        <td>{e['name']}</td>
+                        <td>{e['price_shipping']}</td>
+                        <td>{e['quantity']}</td>
+                        <td>{e['price']}</td>
+                      </tr>
+                      )
+                    })}
+                  </tbody>
+                </Table>
+
             </CardBody>
           </Card>
           </Col>
