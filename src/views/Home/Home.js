@@ -10,41 +10,34 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
-      events: [{
-        start: new Date(),
-        end: new Date(),
-        title: "주문건",
-        resource: 3
-      },
-      {
-        start: new Date(),
-        end: new Date(),
-        title: "주문건",
-        resource: 3
-      },
-      {
-        start: new Date(),
-        end: new Date(),
-        title: "주문건",
-        resource: 3
-      },
-      {
-        start: new Date(),
-        end: new Date(),
-        title: "주문건",
-        resource: 3
-      },
-      {
-        start: new Date(),
-        end: new Date(),
-        title: "주문건",
-        resource: 3
-      }]
+      orderData: [],
+      events: []
     };
   }
 
   componentWillMount() {
+    this.getOrder();
+  }
+
+  getOrder() {
+    fetch(process.env.REACT_APP_HOST+"/order/", {
+      method: 'GET',
+    })
+      .then(response => response.json())
+      .then(orderData => {this.setState({orderData}, () => {
+        let events = [];
+        this.state.orderData.map((e, i) => {
+          let {name, date, id} = this.state.orderData[i];
+          let event = {
+            start: date,
+            end: date,
+            title: name + "님 주문",
+            resource: id
+          };
+          events.push(event);
+          this.setState({events})
+        })
+      })});
   }
 
   render() {

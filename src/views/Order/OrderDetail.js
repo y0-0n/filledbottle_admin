@@ -29,7 +29,6 @@ class OrderDetail extends Component {
     orderInfo = orderInfo[0];
     let {productInfo} = this.state.data;
 
-    console.warn(productInfo)
     return (
       <div className="animated fadeIn">
         <Row>
@@ -71,7 +70,7 @@ class OrderDetail extends Component {
                 </Row>
                 <Row>
                   <Col>
-                    <Label>배송지 :&nbsp;</Label>
+                      <Label>배송지 :&nbsp;</Label>
                     <Label>{}</Label>
                   </Col>
                   <Col>
@@ -89,12 +88,12 @@ class OrderDetail extends Component {
         </Row>
         <Row>
           <Col>
-          <Card>
-            <CardHeader>
-              품목
-            </CardHeader>
-            <CardBody>
-            <Table>
+            <Card>
+              <CardHeader>
+                품목
+              </CardHeader>
+              <CardBody>
+                <Table>
                   <thead>
                     <tr>
                       <th>제품명</th>
@@ -115,9 +114,8 @@ class OrderDetail extends Component {
                     })}
                   </tbody>
                 </Table>
-
-            </CardBody>
-          </Card>
+              </CardBody>
+            </Card>
           </Col>
         </Row>
       </div>
