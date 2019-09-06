@@ -88,7 +88,7 @@ class CreateOrder extends Component {
 
   render() {
     let customer = this.customer;
-    console.warn(this.state.sProduct);
+
     return (
       <div className="animated fadeIn">
         <Row>
@@ -189,6 +189,7 @@ class CreateOrder extends Component {
                       <th>단가</th>
                       <th>공급가액</th>
                       <th>부가세</th>
+                      <th>총액</th>
                       <th>삭제</th>
                     </tr>
                   </thead>
@@ -199,12 +200,11 @@ class CreateOrder extends Component {
                           <tr key={i}>
                             <td>
                               {<Popup
-                                trigger={<Input name='b' value={this.state.sProduct[i].b} style={{cursor: 'pointer'}} />}
+                                trigger={<Input name='b' value={this.state.sProduct[i].b} style={{cursor: 'pointer'}} onChange={() => {console.log('S')}} />}
                                 modal>
                                 {close => <Modal keyword={this.state.sProduct[i].keyword} index={i} close={close}
                                             test={(data) => {
-                                              console.log(data);
-                                              let sProduct = this.state.sProduct;
+                                              let {sProduct} = this.state;
 
                                               let val = Object.assign({}, sProduct[i]);
                                           
@@ -214,7 +214,9 @@ class CreateOrder extends Component {
                                               val['d'] = data['price_shipping'];
                                           
                                               sProduct[i] = val;
-                                          
+                                              sProduct[i].e = Math.round(sProduct[i].c * sProduct[i].d * 10 / 11);
+                                              sProduct[i].f = Math.round(sProduct[i].e / 10);
+                
                                               /* set the state to the new variable */
                                               this.setState({sProduct});
                                             }}>
@@ -224,11 +226,14 @@ class CreateOrder extends Component {
                             <td><Input name='c' value={this.state.sProduct[i].c} onChange={(e)=> {
                               let {sProduct} = this.state;
                               sProduct[i].c = e.target.value;
+                              sProduct[i].e = Math.round(e.target.value * sProduct[i].d * 10 / 11);
+                              sProduct[i].f = Math.round(sProduct[i].e / 10);
                               this.setState({sProduct})}}
                             /></td>
                             <td><Input name='d' value={this.state.sProduct[i].d} readOnly/></td>
                             <td><Input name='e' value={this.state.sProduct[i].e} readOnly/></td>
                             <td><Input name='f' value={this.state.sProduct[i].f} readOnly/></td>
+                            <td><Input name='sum' value={this.state.sProduct[i].c * this.state.sProduct[i].d} readOnly/></td>
                             <td>
                               <Button block color="danger" 
                                 onClick={()=> {
