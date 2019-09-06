@@ -199,7 +199,7 @@ class CreateOrder extends Component {
                           <tr key={i}>
                             <td>
                               {<Popup
-                                trigger={<Input name='b' value={this.state.sProduct[i].b} style={{cursor: 'pointer'}} onChange={this.onUpdateComments.bind(this,i)}/>}
+                                trigger={<Input name='b' value={this.state.sProduct[i].b} style={{cursor: 'pointer'}} />}
                                 modal>
                                 {close => <Modal keyword={this.state.sProduct[i].keyword} index={i} close={close}
                                             test={(data) => {
@@ -221,14 +221,19 @@ class CreateOrder extends Component {
                                           </Modal>}
                                 </Popup>}
                             </td>
-                            <td><Input name='c' onChange={this.onUpdateComments.bind(this,i)} /></td>
-                            <td><Input name='d' value={this.state.sProduct[i].d} onChange={this.onUpdateComments.bind(this,i)} /></td>
-                            <td><Input name='e' onChange={this.onUpdateComments.bind(this,i)} /></td>
-                            <td><Input name='f' onChange={this.onUpdateComments.bind(this,i)} /></td>
+                            <td><Input name='c' value={this.state.sProduct[i].c} onChange={(e)=> {
+                              let {sProduct} = this.state;
+                              sProduct[i].c = e.target.value;
+                              this.setState({sProduct})}}
+                            /></td>
+                            <td><Input name='d' value={this.state.sProduct[i].d} readOnly/></td>
+                            <td><Input name='e' value={this.state.sProduct[i].e} readOnly/></td>
+                            <td><Input name='f' value={this.state.sProduct[i].f} readOnly/></td>
                             <td>
                               <Button block color="danger" 
                                 onClick={()=> {
                                   let {sProduct} = this.state;
+                                  console.warn(i)
                                   sProduct.splice(i, 1);
                                   this.setState({
                                     sProduct
