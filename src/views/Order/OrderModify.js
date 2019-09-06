@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Label, Table } from 'reactstrap';
 
-class OrderDetail extends Component {
+class OrderModify extends Component {
   constructor(props) {
     super(props);
 
@@ -82,7 +82,6 @@ class OrderDetail extends Component {
               <CardFooter>
                 {orderInfo['state'] === "order" ? <Button>출하 완료</Button> : null}
                 {orderInfo['state'] === "shipment" ? <Button>완료</Button> : null}
-                <Button onClick={() => {this.props.history.push(`/main/order/edit/`+this.props.match.params.id)}}>수정</Button>
               </CardFooter>
             </Card>
           </Col>
@@ -125,4 +124,4 @@ class OrderDetail extends Component {
   }
 }
 
-export default OrderDetail;
+export default OrderModify;

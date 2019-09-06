@@ -49,6 +49,7 @@ const CreateOrder = React.lazy(() => import('./views/Order/CreateOrder'));
 const Stock = React.lazy(() => import('./views/Stock/Stock'));
 const EditStock = React.lazy(() => import('./views/Stock/EditStock'));
 const OrderDetail = React.lazy(() => import('./views/Order/OrderDetail'));
+const OrderModify = React.lazy(() => import('./views/Order/OrderModify'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -64,6 +65,7 @@ const routes = [
   { path: '/main/sales/order/:id', exact: true,  name: '주문 상세', component: OrderDetail},
   { path: '/main/stock', exact: true,  name: '재고', component: Stock},
   { path: '/main/stock/edit', exact: true,  name: '재고 관리', component: EditStock},
+  { path: '/main/order/edit/:id', exact: true,  name: '주문 수정', component: OrderModify},
 
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },
