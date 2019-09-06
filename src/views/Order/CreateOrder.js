@@ -86,6 +86,16 @@ class CreateOrder extends Component {
     this.setState({sProduct});
   }
 
+  vaild() {
+    let length = this.state.sProduct.length;
+    for(var i = 0; i < length; i++){
+      if(this.state.sProduct[i].b == '' || this.state.sProduct[i].c == ''){
+        return(true)
+      }
+    }
+    return(!this.state.manager)
+  }
+
   render() {
     let customer = this.customer;
 
@@ -259,7 +269,7 @@ class CreateOrder extends Component {
             </Card>
           </Col>
         </Row>
-        <Button block color="primary" onClick={() => {
+        <Button disabled={this.vaild()} color="primary" onClick={() => {
           this.addOrder(this.state);
         }}>주문 추가하기</Button>
       </div>
