@@ -3,8 +3,8 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import { Row, Col } from 'reactstrap';
 import moment from 'moment';
 import "react-big-calendar/lib/css/react-big-calendar.css";
-
-const localizer = momentLocalizer(moment)
+import "moment/locale/ko";
+const localizer = momentLocalizer(moment);
 
 class Home extends Component {
   constructor(props) {
@@ -13,6 +13,15 @@ class Home extends Component {
       orderData: [],
       events: []
     };
+    this.messages = {
+      today: '오늘',
+      previous: '이전',
+      next: '다음',
+      month: '월',
+      week: '주',
+      day: '일',
+      agenda: '일정'
+    }
   }
 
   componentWillMount() {
@@ -31,6 +40,7 @@ class Home extends Component {
           let event = {
             start: date,
             end: date,
+            allDay: true,
             title: name + "님 주문",
             resource: id
           };
@@ -49,11 +59,14 @@ class Home extends Component {
           </div>
           <div className="card-body">
             <Calendar
+              selectable
               localizer={localizer}
               startAccessor="start"
               endAccessor="end"
               style={{ height: "70vh" }}
               events={this.state.events}
+              messages={this.messages}
+              culture='ko'
               onDoubleClickEvent={(e, s) => this.props.history.push(`/main/sales/order/${e.resource}`)}
             />
           </div>
