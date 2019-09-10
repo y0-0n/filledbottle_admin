@@ -70,7 +70,7 @@ class Product extends Component {
                   {e.name}
                 </CardHeader>
                 <CardBody>
-                  <Button block outline color="primary" onClick={() => alert('준비중입니다.')}>제품 상세보기</Button>
+                  <Button block outline color="primary" onClick={() => {this.props.history.push("/main/product/"+e.id)}}>제품 상세보기</Button>
                 </CardBody>
                 <CardFooter>
                   <Button block color="ghost-danger" onClick={() => this.deleteProduct(e.id)}>제품 삭제하기</Button>

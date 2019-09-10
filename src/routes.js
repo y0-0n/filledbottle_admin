@@ -45,6 +45,7 @@ const CreateCustomer = React.lazy(() => import('./views/Customer/CreateCustomer'
 const CustomerDetail = React.lazy(() => import('./views/Customer/CustomerDetail'));
 const Product = React.lazy(() => import('./views/Product/Product'));
 const CreateProduct = React.lazy(() => import('./views/Product/CreateProduct'));
+const ProductDetail = React.lazy(() => import('./views/Product/ProductDetail'));
 const Plant = React.lazy(() => import('./views/Plant/Plant'));
 const CreateOrder = React.lazy(() => import('./views/Order/CreateOrder'));
 //const Stock = React.lazy(() => import('./views/Stock/Stock'));
@@ -61,6 +62,7 @@ const routes = [
   { path: '/customer/create', exact: true,  name: '고객 등록', component: CreateCustomer},
   { path: '/main/customer/:id', exact: true,  name: '고객 상세정보', component: CustomerDetail},
   { path: '/main/product/list', exact: true,  name: '상품 목록', component: Product},
+  { path: '/main/product/:id', exact: true,  name: '상품 상세정보', component: ProductDetail},
   { path: '/product/create', exact: true,  name: '상품 등록', component: CreateProduct},
   { path: '/main/plant', exact: true,  name: '공장', component: Plant},
   { path: '/sales/order', exact: true,  name: '주문', component: CreateOrder},
