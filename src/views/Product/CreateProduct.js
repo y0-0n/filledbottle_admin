@@ -1,7 +1,9 @@
+
+
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Form, FormGroup, Label, Input } from 'reactstrap';
 
-class CreateCustomer extends Component {
+class CreateProduct extends Component {
   constructor(props) {
     super(props);
     this.form = {
@@ -12,9 +14,9 @@ class CreateCustomer extends Component {
   componentWillMount() {
   }
 
-  addCustomer(form) {
-    //const {name, delegate, telephone, cellphone, address, manager} = this.form;
-    fetch(process.env.REACT_APP_HOST+"/customer", {
+  addProduct(form) {
+    //const {name} = form;
+    fetch(process.env.REACT_APP_HOST+"/product", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -23,7 +25,7 @@ class CreateCustomer extends Component {
       body: JSON.stringify(form)
     })
       .then(response => response.json())
-      .then(data => {this.props.history.push('/main/customer/list');});
+      .then(data => {this.props.history.push('/main/product/list');});
   }
 
   render() {
@@ -31,25 +33,21 @@ class CreateCustomer extends Component {
       <div className="animated fadeIn">
         <Row className="mb-5">
           <Col md="4" xs="12" sm="6">
-            <Form onSubmit={(e) => {e.preventDefault(); this.addCustomer(this.form)}}>
+            <Form onSubmit={(e) => {e.preventDefault(); this.addProduct(this.form)}}>
               <FormGroup>
                 <Card>
                   <CardHeader>
-                    거래처 추가하기
+                    상품 등록하기
                   </CardHeader>
                   <CardBody>
-                    <Label>거래처명</Label>
+                    <Label>상품명</Label>
                     <Input onChange={(e) => this.form.name=e.target.value} />
-                    <Label>대표자명</Label>
+                    <Label>등급</Label>
+                    <Input onChange={(e) => this.form.grade=e.target.value} />
+                    <Label>무게</Label>
+                    <Input onChange={(e) => this.form.weight=e.target.value} />
+                    <Label>단가</Label>
                     <Input onChange={(e) => this.form.delegate=e.target.value} />
-                    <Label>전화번호</Label>
-                    <Input onChange={(e) => this.form.telephone=e.target.value}/>
-                    <Label>핸드폰번호</Label>
-                    <Input onChange={(e) => this.form.cellphone=e.target.value}/>
-                    <Label>주소</Label>
-                    <Input onChange={(e) => this.form.address=e.target.value}/>
-                    <Label>담당자</Label>
-                    <Input onChange={(e) => this.form.manager=e.target.value}/>
                   </CardBody>
                   <CardFooter>
                     <Button block outline color="primary">추가하기</Button>
@@ -64,5 +62,5 @@ class CreateCustomer extends Component {
   }
 }
 
-export default CreateCustomer;
+export default CreateProduct;
 

@@ -80,8 +80,8 @@ class OrderDetail extends Component {
                 </Row>
               </CardBody>
               <CardFooter>
-                {orderInfo['state'] === "order" ? <Button>출하 완료</Button> : null}
-                {orderInfo['state'] === "shipment" ? <Button>완료</Button> : null}
+                {/*orderInfo['state'] === "order" ? <Button>출하 완료</Button> : null}
+                {orderInfo['state'] === "shipment" ? <Button>완료</Button> : null*/}
                 <Button onClick={() => {this.props.history.push(`/main/order/edit/`+this.props.match.params.id)}}>수정</Button>
               </CardFooter>
             </Card>

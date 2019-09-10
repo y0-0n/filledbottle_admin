@@ -21,7 +21,7 @@ class CreateOrder extends Component {
       sProduct: [d],
       sCustomer: null, //선택된 거래처
       date: new Date(),
-      manager: null
+      manager: ''
     };
   }
   componentWillMount() {
@@ -248,7 +248,6 @@ class CreateOrder extends Component {
                               <Button block color="danger" 
                                 onClick={()=> {
                                   let {sProduct} = this.state;
-                                  console.warn(i)
                                   sProduct.splice(i, 1);
                                   this.setState({
                                     sProduct
@@ -269,7 +268,7 @@ class CreateOrder extends Component {
             </Card>
           </Col>
         </Row>
-        <Button disabled={this.vaild()} color="primary" onClick={() => {
+        <Button disabled={this.state.manager==''} block color="primary" onClick={() => {
           this.addOrder(this.state);
         }}>주문 추가하기</Button>
       </div>
