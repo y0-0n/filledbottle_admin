@@ -5,11 +5,10 @@ class Product extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: []
+      data: [],
+      sData: [],
+      keyword: ''
     };
-    this.form = {
-
-    }
   }
   componentWillMount() {
     this.findProduct();
@@ -23,22 +22,9 @@ class Product extends Component {
       .then(data => {this.setState({data})})
   }
 
-  addProduct(form) {
-    //const {name} = form;
-    fetch(process.env.REACT_APP_HOST+"/product", {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(form)
-    })
-      .then(response => response.json())
-      .then(data => {console.warn(data); this.findProduct()});
-  }
 
   deleteProduct(id) {
-    let c = window.confirm('Are you sure you wish to delete this item?')
+    let c = window.confirm('이 상품을 삭제하시겠습니까?')
     if (c) {
       fetch(process.env.REACT_APP_HOST+"/product", {
         method: 'DELETE',
@@ -55,31 +41,26 @@ class Product extends Component {
     }
   }
 
+  searchProduct() {
+    let result = this.state.data.filter(word => word.name.indexOf(this.state.keyword) !== -1)
+
+    this.setState({sdata: result, search: true});
+  }
+
   render() {
-    var data = this.state.data;
+    var data = this.state.search ? this.state.sdata : this.state.data;
     return (
       <div className="animated fadeIn">
+        <Row className="mb-5">
+            <Col md="10" xs="10" sm="10">
+              <Input onChange={(e)=> {this.setState({keyword: e.target.value})}}/>
+            </Col>
+            <Col md="2" xs="2" sm="2">
+              <Button block color="primary" onClick={()=> {this.searchProduct()}}>제품 검색</Button>
+            </Col>
+        </Row>
+
         <Row>
-        <Col md="4" xs="12" sm="6">
-          <Form onSubmit={(e) => {e.preventDefault(); this.addProduct(this.form)}}>
-            <FormGroup>
-              <Card>
-                <CardHeader>
-                  제품 추가하기
-                </CardHeader>
-                <CardBody>
-                  <Label>제품명</Label>
-                  <Input onChange={(e) => this.form.name=e.target.value} />
-                  <Label>단가</Label>
-                  <Input onChange={(e) => this.form.price=e.target.value} />
-                </CardBody>
-                <CardFooter>
-                  <Button block outline color="primary">추가하기</Button>
-                </CardFooter>
-              </Card>
-            </FormGroup>
-          </Form>
-        </Col>
         {
           data.map(function (e) {
           return (
@@ -98,6 +79,13 @@ class Product extends Component {
             </Col>)
           }.bind(this))
         }
+        </Row>
+
+        <Row className="mb-5">
+          <Col md="10" xs="10" sm="10" />
+          <Col md="2" xs="2" sm="2">
+            <Button block color="primary" onClick={()=> {this.props.history.push('/product/create');}}>제품 등록하기</Button>
+          </Col>
         </Row>
       </div>
     )

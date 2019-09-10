@@ -44,9 +44,10 @@ const Customer = React.lazy(() => import('./views/Customer/Customer'));
 const CreateCustomer = React.lazy(() => import('./views/Customer/CreateCustomer'));
 const CustomerDetail = React.lazy(() => import('./views/Customer/CustomerDetail'));
 const Product = React.lazy(() => import('./views/Product/Product'));
+const CreateProduct = React.lazy(() => import('./views/Product/CreateProduct'));
 const Plant = React.lazy(() => import('./views/Plant/Plant'));
 const CreateOrder = React.lazy(() => import('./views/Order/CreateOrder'));
-const Stock = React.lazy(() => import('./views/Stock/Stock'));
+//const Stock = React.lazy(() => import('./views/Stock/Stock'));
 const EditStock = React.lazy(() => import('./views/Stock/EditStock'));
 const OrderDetail = React.lazy(() => import('./views/Order/OrderDetail'));
 const OrderModify = React.lazy(() => import('./views/Order/OrderModify'));
@@ -56,15 +57,15 @@ const routes = [
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/main/home', name: '홈', component: Home},
   { path: '/main/sales/list', exact: true,  name: '영업', component: Sales},
-  { path: '/main/customer/list', exact: true,  name: '거래처 조회', component: Customer},
-  { path: '/customer/create', exact: true,  name: '거래처 추가하기', component: CreateCustomer},
-  { path: '/main/customer/:id', exact: true,  name: '거래처 상세', component: CustomerDetail},
-  { path: '/main/product', exact: true,  name: '제품', component: Product},
+  { path: '/main/customer/list', exact: true,  name: '고객 목록', component: Customer},
+  { path: '/customer/create', exact: true,  name: '고객 등록', component: CreateCustomer},
+  { path: '/main/customer/:id', exact: true,  name: '고객 상세정보', component: CustomerDetail},
+  { path: '/main/product/list', exact: true,  name: '상품 목록', component: Product},
+  { path: '/product/create', exact: true,  name: '상품 등록', component: CreateProduct},
   { path: '/main/plant', exact: true,  name: '공장', component: Plant},
-  { path: '/sales/order', exact: true,  name: '주문하기', component: CreateOrder},
+  { path: '/sales/order', exact: true,  name: '주문', component: CreateOrder},
   { path: '/main/sales/order/:id', exact: true,  name: '주문 상세', component: OrderDetail},
-  { path: '/main/stock', exact: true,  name: '재고', component: Stock},
-  { path: '/main/stock/edit', exact: true,  name: '재고 관리', component: EditStock},
+  { path: '/main/stock', exact: true,  name: '재고 관리', component: EditStock},
   { path: '/main/order/edit/:id', exact: true,  name: '주문 수정', component: OrderModify},
 
   { path: '/theme', exact: true, name: 'Theme', component: Colors },

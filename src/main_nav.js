@@ -32,7 +32,7 @@ export default {
       icon: 'icon-speedometer',
       children: [
         {
-          name: '고객 조회',
+          name: '고객 목록',
           url: '/main/customer/list',
           icon: 'icon-puzzle',
         },
@@ -44,18 +44,25 @@ export default {
       ]
     },
     {
-      name: '제품',
+      name: '상품',
       url: '/main/product',
       icon: 'icon-speedometer',
+      children: [
+        {
+          name: '상품 목록',
+          url: '/main/product/list',
+          icon: 'icon-puzzle',
+        },
+        {
+          name: '상품 분석',
+          url: '/404',
+          icon: 'icon-puzzle',
+        },
+      ]
     },
     {
-      name: '공장',
-      url: '/main/plant',
-      icon: 'icon-speedometer',
-    },
-    {
-      name: '재고 관리',
-      url: '/main/stock/edit',
+      name: '재고',
+      url: '/main/stock',
       icon: 'icon-speedometer',
     },
   ],

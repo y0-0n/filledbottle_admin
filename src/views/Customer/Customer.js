@@ -60,11 +60,9 @@ class Customer extends Component {
               <Input onChange={(e)=> {this.setState({keyword: e.target.value})}}/>
             </Col>
             <Col md="2" xs="2" sm="2">
-              <Button block color="primary" onClick={()=> {this.searchCustomer()}}>거래처 검색</Button>
+              <Button block color="primary" onClick={()=> {this.searchCustomer()}}>고객 검색</Button>
             </Col>
         </Row>
-
-
 
         <Row className="mb-5">
         {
@@ -80,11 +78,11 @@ class Customer extends Component {
                   <div>{e.telephone}</div>
                   <div>{e.cellphone}</div>
                   <div>{e.address}</div>*/}
-                  <Button block outline color="primary" onClick={() => {this.props.history.push("/customer/"+e.id)}}>거래처 상세보기</Button>
+                  <Button block outline color="primary" onClick={() => {this.props.history.push("/main/customer/"+e.id)}}>고객 상세정보</Button>
                   <Button block outline color="primary" onClick={() => alert('준비중입니다.')}>주문 조회하기</Button>
                 </CardBody>
                 <CardFooter>
-                  <Button block color="ghost-danger" onClick={() => this.deleteCustomer(e.id)}>거래처 삭제하기</Button>
+                  <Button block color="ghost-danger" onClick={() => this.deleteCustomer(e.id)}>고객 삭제하기</Button>
                 </CardFooter>
               </Card>
             </Col>)
@@ -95,7 +93,7 @@ class Customer extends Component {
         <Row className="mb-5">
           <Col md="10" xs="10" sm="10" />
           <Col md="2" xs="2" sm="2">
-            <Button block color="primary" onClick={()=> {this.props.history.push('/customer/create');}}>거래처 추가하기</Button>
+            <Button block color="primary" onClick={()=> {this.props.history.push('/customer/create');}}>고객 등록하기</Button>
           </Col>
         </Row>
       </div>
