@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
+import { Card, CardBody, CardHeader, Col, Row, Table, Button, Input } from 'reactstrap';
 
 class EditStock extends Component {
   constructor(props) {
@@ -21,6 +21,21 @@ class EditStock extends Component {
       .then(data => {this.setState({data})})
   }
 
+  modifyStock(id, quantity) {
+    console.warn(quantity)
+    fetch(process.env.REACT_APP_HOST+`/stock/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(
+        {quantity}
+      )
+    })
+      .then(response => response.json())
+  }
+
   render() {
     let {data} = this.state;
     return (
@@ -35,20 +50,22 @@ class EditStock extends Component {
                 <Table striped>
                     <thead>
                       <tr>
-                        <th>#</th>
-                        <th>제품 id</th>
-                        <th>공장 id</th>
+                        <th>제품명</th>
+                        <th>등급</th>
+                        <th>무게</th>
                         <th>수량</th>
+                        <th style={{width: 100}}>업데이트</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {data.map(function (e) {
+                      {data.map((d) => {
                         return (
-                          <tr key={e.id}>
-                            <th scope="row">{e.id}</th>
-                            <td>{e["product_id"]}</td>
-                            <td>{e["plant_id"]}</td>
-                            <td>{e.quantity}</td>
+                          <tr key={d.id}>
+                            <td>{d.name}</td>
+                            <td>{d.grade}</td>
+                            <td>{d.weight}</td>
+                            <td style={{width: 200}}><Input defaultValue={d.quantity} onChange={(e) => {d.quantity = e.target.value;}}/></td>
+                            <td><Button onClick={()=>{this.modifyStock(d.id, d.quantity)}} color="primary" >수정</Button></td>
                           </tr>
                         )
                       })}
