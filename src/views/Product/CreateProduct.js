@@ -7,7 +7,10 @@ class CreateProduct extends Component {
   constructor(props) {
     super(props);
     this.form = {
-
+      name: '',
+      grade: '',
+      weight: '',
+      price: '',
     }
   }
 
@@ -47,7 +50,7 @@ class CreateProduct extends Component {
                     <Label>무게</Label>
                     <Input onChange={(e) => this.form.weight=e.target.value} />
                     <Label>단가</Label>
-                    <Input onChange={(e) => this.form.delegate=e.target.value} />
+                    <Input onChange={(e) => this.form.price=e.target.value} />
                   </CardBody>
                   <CardFooter>
                     <Button block outline color="primary">추가하기</Button>
