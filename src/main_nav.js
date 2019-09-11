@@ -6,7 +6,7 @@ export default {
       icon: 'icon-speedometer',
       badge: {
         variant: 'info',
-        text: 'It\'s Home',
+        text: '달력',
       },
     },
     {
@@ -33,8 +33,12 @@ export default {
       name: '분석',
       url: '/main/analysis',
       icon: 'icon-speedometer',
+      badge: {
+        variant: 'info',
+        text: '준비중',
+      },
       children: [
-        {
+        /*{
           name: '분석 1',
           url: '/main/analysis/1',
           icon: 'icon-puzzle',
@@ -43,7 +47,7 @@ export default {
           name: '분석 2',
           url: '/main/analysis/2',
           icon: 'icon-puzzle',
-        },
+        },*/
       ]
     },
   ],
