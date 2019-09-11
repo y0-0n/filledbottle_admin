@@ -56,7 +56,7 @@ const OrderModify = React.lazy(() => import('./views/Order/OrderModify'));
 const routes = [
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/main/home', name: '홈', component: Home},
-  { path: '/main/sales/list', exact: true,  name: '영업', component: Sales},
+  { path: '/main/sales/list', exact: true,  name: '주문', component: Sales},
   { path: '/main/customer/list', exact: true,  name: '고객 목록', component: Customer},
   { path: '/customer/create', exact: true,  name: '고객 등록', component: CreateCustomer},
   { path: '/main/customer/:id', exact: true,  name: '고객 상세정보', component: CustomerDetail},
