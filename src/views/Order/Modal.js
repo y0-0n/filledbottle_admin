@@ -41,7 +41,7 @@ class Modal extends Component {
   }
 
   selectProduct(data) {
-    this.props.test(data);
+    this.props.selectProduct(data);
     this.props.close();
   }
 
@@ -50,16 +50,16 @@ class Modal extends Component {
       <div className="animated fadeIn">
         <div className="card">
           <div className="card-header">
-            <i className="icon-drop">거래처 검색</i>
+            <i className="icon-drop">상품 검색</i>
           </div>
           <div className="card-body" style={{height: 500, overflow: 'scroll'}} >
           <Table hover>
                   <thead>
                     <tr>
-                      <th>#</th>
-                      <th>품명</th>
-                      <th>출고가</th>
-                      <th>입고가</th>
+                      <th>상품명</th>
+                      <th>등급</th>
+                      <th>무게</th>
+                      <th>단가</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -68,10 +68,10 @@ class Modal extends Component {
                         //console.warn(e);
                         return (
                           <tr style={{cursor: 'pointer'}} onClick={() => this.selectProduct(e)} key={i}>
-                            <td>{e.id}</td>
                             <td>{e.name}</td>
+                            <td>{e.grade}</td>
+                            <td>{e.weight}</td>
                             <td>{e.price_shipping}</td>
-                            <td>{e.price_receiving}</td>
                           </tr>
                         )
                       }, this)
