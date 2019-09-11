@@ -5,7 +5,10 @@ class CreateCustomer extends Component {
   constructor(props) {
     super(props);
     this.form = {
-
+      name: '',
+      telephone: '',
+      cellphone: '',
+      address: ''
     }
   }
 
@@ -35,21 +38,17 @@ class CreateCustomer extends Component {
               <FormGroup>
                 <Card>
                   <CardHeader>
-                    거래처 추가하기
+                    고객 정보
                   </CardHeader>
                   <CardBody>
-                    <Label>거래처명</Label>
-                    <Input onChange={(e) => this.form.name=e.target.value} />
-                    <Label>대표자명</Label>
-                    <Input onChange={(e) => this.form.delegate=e.target.value} />
+                    <Label>고객명</Label>
+                    <Input onChange={(e) => this.form.name=e.target.value}/>
                     <Label>전화번호</Label>
                     <Input onChange={(e) => this.form.telephone=e.target.value}/>
                     <Label>핸드폰번호</Label>
                     <Input onChange={(e) => this.form.cellphone=e.target.value}/>
                     <Label>주소</Label>
                     <Input onChange={(e) => this.form.address=e.target.value}/>
-                    <Label>담당자</Label>
-                    <Input onChange={(e) => this.form.manager=e.target.value}/>
                   </CardBody>
                   <CardFooter>
                     <Button block outline color="primary">추가하기</Button>
