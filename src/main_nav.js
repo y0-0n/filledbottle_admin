@@ -11,59 +11,40 @@ export default {
     },
     {
       name: '주문',
-      url: '/main/sales',
-      icon: 'icon-speedometer',
-      children: [
-        {
-          name: '주문 목록',
-          url: '/main/sales/list',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: '주문 분석',
-          url: '/404',
-          icon: 'icon-puzzle',
-        },
-      ]
+      url: '/main/sales/list',
+      icon: 'icon-puzzle',
     },
     {
       name: '고객',
-      url: '/main/customer',
-      icon: 'icon-speedometer',
-      children: [
-        {
-          name: '고객 목록',
-          url: '/main/customer/list',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: '고객 분석',
-          url: '/404',
-          icon: 'icon-puzzle',
-        },
-      ]
+      url: '/main/customer/list',
+      icon: 'icon-puzzle',
     },
     {
       name: '상품',
-      url: '/main/product',
-      icon: 'icon-speedometer',
-      children: [
-        {
-          name: '상품 목록',
-          url: '/main/product/list',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: '상품 분석',
-          url: '/404',
-          icon: 'icon-puzzle',
-        },
-      ]
+      url: '/main/product/list',
+      icon: 'icon-puzzle',
     },
     {
       name: '재고',
       url: '/main/stock',
       icon: 'icon-speedometer',
+    },
+    {
+      name: '분석',
+      url: '/main/analysis',
+      icon: 'icon-speedometer',
+      children: [
+        {
+          name: '분석 1',
+          url: '/main/analysis/1',
+          icon: 'icon-puzzle',
+        },
+        {
+          name: '분석 2',
+          url: '/main/analysis/2',
+          icon: 'icon-puzzle',
+        },
+      ]
     },
   ],
 };
