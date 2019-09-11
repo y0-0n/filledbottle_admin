@@ -51,13 +51,17 @@ class Product extends Component {
     var data = this.state.search ? this.state.sdata : this.state.data;
     return (
       <div className="animated fadeIn">
+
         <Row className="mb-5">
-            <Col md="10" xs="10" sm="10">
-              <Input onChange={(e)=> {this.setState({keyword: e.target.value})}}/>
-            </Col>
-            <Col md="2" xs="2" sm="2">
-              <Button block color="primary" onClick={()=> {this.searchProduct()}}>제품 검색</Button>
-            </Col>
+          <Col md="10" xs="10" sm="10">
+            <Input onChange={(e)=> {this.setState({keyword: e.target.value})}}/>
+          </Col>
+          <Col md="1" xs="1" sm="1">
+            <Button block color="primary" onClick={()=> {this.searchProduct()}}>제품 검색</Button>
+          </Col>
+          <Col md="1" xs="1" sm="1">
+            <Button block color="primary" onClick={()=> {this.props.history.push('/product/create');}}>등록하기</Button>
+          </Col>
         </Row>
 
         <Row>
@@ -81,12 +85,6 @@ class Product extends Component {
         }
         </Row>
 
-        <Row className="mb-5">
-          <Col md="10" xs="10" sm="10" />
-          <Col md="2" xs="2" sm="2">
-            <Button block color="primary" onClick={()=> {this.props.history.push('/product/create');}}>제품 등록하기</Button>
-          </Col>
-        </Row>
       </div>
     )
   }
