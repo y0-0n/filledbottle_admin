@@ -25,10 +25,10 @@ class OrderDetail extends Component {
   }
 
   render() {
-    let {orderInfo} = this.state.data;
+    let {orderInfo, productInfo} = this.state.data;
     orderInfo = orderInfo[0];
-    let {productInfo} = this.state.data;
 
+    console.warn(orderInfo)
     return (
       <div className="animated fadeIn">
         <Row>
@@ -49,33 +49,26 @@ class OrderDetail extends Component {
                   </Col>
                 </Row>
                 <Row>
-                  <Col>
-                    <Label>총액 :&nbsp;</Label>
-                    <Label>{orderInfo['price']}</Label>
-                  </Col>
-                  <Col>
-                    <Label>수금 :&nbsp;</Label>
-                    <Label>{orderInfo['received']}</Label>
-                  </Col>
+
                 </Row>
                 <Row>
                   <Col>
-                    <Label>상태 :&nbsp;</Label>
-                    <Label>{orderInfo['state']}</Label>
+                    <Label>전화번호 :&nbsp;</Label>
+                    <Label>{orderInfo['telephone']}</Label>
                   </Col>
                   <Col>
-                    <Label>배송유형 :&nbsp;</Label>
-                    <Label>{}</Label>
+                    <Label>HP :&nbsp;</Label>
+                    <Label>{orderInfo['cellphone']}</Label>
                   </Col>
                 </Row>
                 <Row>
                   <Col>
                     <Label>배송지 :&nbsp;</Label>
-                    <Label>{}</Label>
+                    <Label>{orderInfo['address']}</Label>
                   </Col>
                   <Col>
                     <Label>요청사항 :&nbsp;</Label>
-                    <Label>{}</Label>
+                    <Label>{orderInfo['comment']}</Label>
                   </Col>
                 </Row>
               </CardBody>
@@ -98,15 +91,19 @@ class OrderDetail extends Component {
                   <thead>
                     <tr>
                       <th>제품명</th>
+                      <th>등급</th>
+                      <th>무게</th>
                       <th>단가</th>
                       <th>수량</th>
-                      <th>공급가액</th>
+                      <th>총액</th>
                     </tr>
                   </thead>
                   <tbody>
                     {productInfo.map((e, i) => {
                       return ( <tr key={i}>
                         <td>{e['name']}</td>
+                        <td>{e['grade']}</td>
+                        <td>{e['weight']}</td>
                         <td>{e['price_shipping']}</td>
                         <td>{e['quantity']}</td>
                         <td>{e['price']}</td>
