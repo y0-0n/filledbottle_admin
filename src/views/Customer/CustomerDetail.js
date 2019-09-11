@@ -54,10 +54,6 @@ class CustomerDetail extends Component {
                 <Label>{this.state.data.name}</Label>
               </Row>
               <Row>
-              <Label>대표 :&nbsp;</Label>
-              <Label>{this.state.data.delegate}</Label>
-              </Row>
-              <Row>
               <Label>전화번호 :&nbsp;</Label>
               <Label>{this.state.data.telephone}</Label>
               </Row>
@@ -68,10 +64,6 @@ class CustomerDetail extends Component {
               <Row>
               <Label>주소 :&nbsp;</Label>
               <Label>{this.state.data.address}</Label>
-              </Row>
-              <Row>
-              <Label>담당자 :&nbsp;</Label>
-              <Label>{this.state.data.manager}</Label>
               </Row>
             </CardBody>
             <CardFooter>
