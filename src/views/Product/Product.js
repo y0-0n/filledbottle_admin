@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, CardTitle, CardSubtitle } from 'reactstrap';
 
 class Product extends Component {
   constructor(props) {
@@ -51,42 +51,46 @@ class Product extends Component {
     var data = this.state.search ? this.state.sdata : this.state.data;
     return (
       <div className="animated fadeIn">
+
         <Row className="mb-5">
-            <Col md="10" xs="10" sm="10">
-              <Input onChange={(e)=> {this.setState({keyword: e.target.value})}}/>
-            </Col>
-            <Col md="2" xs="2" sm="2">
-              <Button block color="primary" onClick={()=> {this.searchProduct()}}>제품 검색</Button>
-            </Col>
+          <Col md="8" xs="6" sm="6">
+            <Input onChange={(e)=> {this.setState({keyword: e.target.value})}}/>
+          </Col>
+          <Col md="2" xs="3" sm="3">
+            <Button block color="primary" onClick={()=> {this.searchProduct()}}>상품 검색</Button>
+          </Col>
+          <Col md="2" xs="3" sm="3">
+            <Button block color="primary" onClick={()=> {this.props.history.push('/product/create');}}>등록하기</Button>
+          </Col>
         </Row>
 
         <Row>
         {
           data.map(function (e) {
-          return (
-            <Col key={e.id} md="4" xs="12" sm="6">
-              <Card>
-                <CardHeader>
-                  {e.name}
-                </CardHeader>
-                <CardBody>
-                  <Button block outline color="primary" onClick={() => {this.props.history.push("/main/product/"+e.id)}}>제품 상세보기</Button>
-                </CardBody>
-                <CardFooter>
-                  <Button block color="ghost-danger" onClick={() => this.deleteProduct(e.id)}>제품 삭제하기</Button>
-                </CardFooter>
-              </Card>
-            </Col>)
+            console.warn(e)
+            return (
+              <Col key={e.id} lg="4" md="6" xs="12" sm="12">
+                <Card>
+                  <CardHeader>
+                    {e.name}
+                  </CardHeader>
+                  <CardImg top width="100%" src={"318x180.svg"} alt="Card image cap"/>
+                  <CardBody>
+                    <CardTitle><h3>상품명 : {e.name}</h3></CardTitle>
+                    <CardSubtitle><h4>등급 : {e.grade}</h4></CardSubtitle>
+                    <CardSubtitle><h4>무게 : {e.weight}</h4></CardSubtitle>
+                    <CardSubtitle><h4>단가 : {e['price_shipping']}</h4></CardSubtitle>
+                    <Button block outline color="primary" onClick={() => alert('준비중입니다.')}>상품 분석</Button>
+                  </CardBody>
+                  <CardFooter>
+                    <Button block color="ghost-danger" onClick={() => this.deleteProduct(e.id)}>상품 삭제</Button>
+                  </CardFooter>
+                </Card>
+              </Col>)
           }.bind(this))
         }
         </Row>
 
-        <Row className="mb-5">
-          <Col md="10" xs="10" sm="10" />
-          <Col md="2" xs="2" sm="2">
-            <Button block color="primary" onClick={()=> {this.props.history.push('/product/create');}}>제품 등록하기</Button>
-          </Col>
-        </Row>
       </div>
     )
   }

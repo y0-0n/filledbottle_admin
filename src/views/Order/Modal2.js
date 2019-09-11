@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table } from 'reactstrap';
 
-class Modal extends Component {
+class Modal2 extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -10,13 +10,13 @@ class Modal extends Component {
   }
 
   componentWillMount() {
-    //this.searchProduct(this.props);
-    this.getProduct();
-    this.selectProduct = this.selectProduct.bind(this);
+    //this.searchCustomer(this.props);
+    this.getCustomer();
+    this.selectCustomer = this.selectCustomer.bind(this);
   }
 
-  getProduct() {
-    fetch(process.env.REACT_APP_HOST+`/product`, {
+  getCustomer() {
+    fetch(process.env.REACT_APP_HOST+`/customer`, {
       method: 'GET',
     })
       .then(response => response.json())
@@ -24,9 +24,10 @@ class Modal extends Component {
         this.setState({data});
       })
   }
-  searchProduct(props) {
+
+  searchCustomer(props) {
     let {keyword} = props;
-    fetch(process.env.REACT_APP_HOST+`/product/search/${keyword}`, {
+    fetch(process.env.REACT_APP_HOST+`/customer/search/${keyword}`, {
       method: 'GET',
     })
       .then(response => response.json())
@@ -40,8 +41,8 @@ class Modal extends Component {
       });
   }
 
-  selectProduct(data) {
-    this.props.selectProduct(data);
+  selectCustomer(data) {
+    this.props.selectCustomer(data);
     this.props.close();
   }
 
@@ -50,16 +51,16 @@ class Modal extends Component {
       <div className="animated fadeIn">
         <div className="card">
           <div className="card-header">
-            <i className="icon-drop">상품 검색</i>
+            <i className="icon-drop">고객 검색</i>
           </div>
           <div className="card-body" style={{height: 500, overflow: 'scroll'}} >
           <Table hover>
                   <thead>
                     <tr>
-                      <th>상품명</th>
-                      <th>등급</th>
-                      <th>무게</th>
-                      <th>단가</th>
+                      <th>고객명</th>
+                      <th>전화번호</th>
+                      <th>HP</th>
+                      <th>주소</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -67,11 +68,11 @@ class Modal extends Component {
                       this.state.data.map(function (e, i) {
                         //console.warn(e);
                         return (
-                          <tr style={{cursor: 'pointer'}} onClick={() => this.selectProduct(e)} key={i}>
+                          <tr style={{cursor: 'pointer'}} onClick={() => this.selectCustomer(e)} key={i}>
                             <td>{e.name}</td>
-                            <td>{e.grade}</td>
-                            <td>{e.weight}</td>
-                            <td>{e.price_shipping}</td>
+                            <td>{e.telephone}</td>
+                            <td>{e.cellphone}</td>
+                            <td>{e.address}</td>
                           </tr>
                         )
                       }, this)
@@ -85,4 +86,4 @@ class Modal extends Component {
   }
 }
 
-export default Modal;
+export default Modal2;

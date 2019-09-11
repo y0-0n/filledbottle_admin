@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Input, Label } from 'reactstrap';
 import Popup from "reactjs-popup";
-import Modal from './Modal';
+import ProductModal from './Modal';
+import CustomerModal from './Modal2';
 import DatePicker from "react-datepicker";
 import { registerLocale } from  "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -21,7 +22,12 @@ class CreateOrder extends Component {
       sProduct: [d],
       sCustomer: null, //선택된 거래처
       date: new Date(),
-      manager: ''
+      manager: '',
+      address: '',
+      cellphone: '',
+      telephone: '',
+      customerName: '',
+      comment: ''
     };
   }
   componentWillMount() {
@@ -50,7 +56,7 @@ class CreateOrder extends Component {
   }
 
   addOrder() {
-    const {manager, sCustomer, sProduct} = this.state;
+    const {sCustomer, sProduct, cellphone, telephone, address, comment} = this.state;
     let {date} = this.state;
 
     date = this.convertDateFormat(date);
@@ -60,7 +66,7 @@ class CreateOrder extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({date, manager, sCustomer, sProduct})
+      body: JSON.stringify({date, sCustomer, sProduct, cellphone, telephone, address, comment})
     })
       .then(response => response.json())
       .then(data => {this.props.history.push('/sales/list');});
@@ -97,7 +103,7 @@ class CreateOrder extends Component {
   }
 
   render() {
-    let customer = this.customer;
+    //let customer = this.customer;
 
     return (
       <div className="animated fadeIn">
@@ -111,16 +117,57 @@ class CreateOrder extends Component {
                 <Row>
                   <Col>
                     <Label>일자</Label><br />
-                    <DatePicker
-                      dateFormat="yyyy년 MM월 dd일"
-                      locale="ko"
-                      selected={this.state.date}
-                      onChange={(date) => {this.setState({date})}}
-                    />
+                    <div style={{pointer: 'cursor'}}>
+                      <DatePicker
+                        dateFormat="yyyy년 MM월 dd일"
+                        locale="ko"
+                        selected={this.state.date}
+                        onChange={(date) => {this.setState({date})}}
+                      />
+                    </div>
                   </Col>
                   <Col>
-                    <Label>담당자</Label>
-                    <Input onChange={(e) => this.setState({manager: e.target.value})} />
+                    <Label>고객</Label>
+                    {<Popup
+                      trigger={<Input value={this.state.customerName} style={{cursor: 'pointer'}} onChange={() => {console.log('S')}} />}
+                      modal>
+                      {close => <CustomerModal close={close}
+                      selectCustomer={(data) => {
+                        let {address, cellphone, name, id, telephone} = data;
+                        this.setState({
+                          address,
+                          cellphone,
+                          customerName: name,
+                          sCustomer: id,
+                          telephone
+                        })
+                        /* set, for instance, comment[1] to "some text"*/
+                      }}/>}
+                    </Popup>}
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Label>전화번호</Label>
+                    <Input value={this.state.telephone} onChange={() => {console.log('S')}} />
+                  </Col>
+                  <Col>
+                    <Label>HP</Label>
+                    <Input value={this.state.cellphone} onChange={() => {console.log('S')}} />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Label>주소</Label>
+                    <Input value={this.state.address} onChange={() => {console.log('S')}} />
+                  </Col>
+                  <Col>
+                    <Label>요청사항</Label>
+                    <Input value={this.state.comment} onChange={(e) => {
+                      this.setState({
+                        comment: e.target.value
+                      })
+                    }} />
                   </Col>
                 </Row>
               </CardBody>
@@ -128,7 +175,7 @@ class CreateOrder extends Component {
               </CardFooter>
             </Card>
           </Col>
-          <Col md="12" xs="12" sm="12">
+          {/*<Col md="12" xs="12" sm="12">
             <Card>
               <CardHeader>
                 거래처를 클릭하세요
@@ -171,7 +218,7 @@ class CreateOrder extends Component {
               <CardFooter>
               </CardFooter>
             </Card>
-          </Col>
+          </Col>*/}
           <Col md="12" xs="12" sm="12">
             <Card>
               <CardHeader>
@@ -212,8 +259,8 @@ class CreateOrder extends Component {
                               {<Popup
                                 trigger={<Input name='b' value={this.state.sProduct[i].b} style={{cursor: 'pointer'}} onChange={() => {console.log('S')}} />}
                                 modal>
-                                {close => <Modal keyword={this.state.sProduct[i].keyword} index={i} close={close}
-                                            test={(data) => {
+                                {close => <ProductModal keyword={this.state.sProduct[i].keyword} index={i} close={close}
+                                            selectProduct={(data) => {
                                               let {sProduct} = this.state;
 
                                               let val = Object.assign({}, sProduct[i]);
@@ -229,8 +276,7 @@ class CreateOrder extends Component {
                 
                                               /* set the state to the new variable */
                                               this.setState({sProduct});
-                                            }}>
-                                          </Modal>}
+                                            }}/>}
                                 </Popup>}
                             </td>
                             <td><Input name='c' value={this.state.sProduct[i].c} onChange={(e)=> {
@@ -268,7 +314,7 @@ class CreateOrder extends Component {
             </Card>
           </Col>
         </Row>
-        <Button disabled={this.state.manager==''} block color="primary" onClick={() => {
+        <Button block color="primary" onClick={() => {
           this.addOrder(this.state);
         }}>주문 추가하기</Button>
       </div>

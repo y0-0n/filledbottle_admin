@@ -45,8 +45,8 @@ class Home extends Component {
             resource: id
           };
           events.push(event);
-          this.setState({events})
-        })
+          this.setState({events});
+        });
       })});
   }
 
