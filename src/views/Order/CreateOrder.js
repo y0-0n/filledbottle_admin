@@ -9,7 +9,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import ko from 'date-fns/locale/ko';
 registerLocale('ko', ko)
 
-let d = {a: '', b: '', c: '', d: '', e: '', f: '', keyword: ''};
+//vos = value of supply (공급가액)
+//vos = value added tax (부가세))
+let d = {id: '', name: '', quantity: 0, price: 0, vos: 0, vat: 0, tax: false, sum: 0, keyword: ''};
 
 class CreateOrder extends Component {
   constructor(props) {
@@ -175,50 +177,6 @@ class CreateOrder extends Component {
               </CardFooter>
             </Card>
           </Col>
-          {/*<Col md="12" xs="12" sm="12">
-            <Card>
-              <CardHeader>
-                거래처를 클릭하세요
-              </CardHeader>
-              <CardBody>
-                <Table striped>
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>거래처</th>
-                      <th>대표</th>
-                      <th>담당자</th>
-                      <th>핸드폰</th>
-                      <th>전화번호</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {customer.map(function (e) {
-                      return (
-                        <tr style={{cursor: "pointer", backgroundColor: this.state.sCustomer === e.id ? 'lightgray' : 'transparent'}}
-                          onClick={()=>{
-                            if(this.state.sCustomer !== e.id)
-                              this.setState({sCustomer: e.id})
-                            else
-                              this.setState({sCustomer: null})
-                          }}
-                          key={e.id}>
-                          <th scope="row">{e.id}</th>
-                          <td>{e.name}</td>
-                          <td>{e.delegate}</td>
-                          <td>{e.manager}</td>
-                          <td>{e.cellphone}</td>
-                          <td>{e.telephone}</td>
-                        </tr>
-                      )
-                    }.bind(this))}
-                  </tbody>
-                </Table>
-              </CardBody>
-              <CardFooter>
-              </CardFooter>
-            </Card>
-          </Col>*/}
           <Col md="12" xs="12" sm="12">
             <Card>
               <CardHeader>
@@ -246,6 +204,7 @@ class CreateOrder extends Component {
                       <th>단가</th>
                       <th>공급가액</th>
                       <th>부가세</th>
+                      <th>과세</th>
                       <th>총액</th>
                       <th>삭제</th>
                     </tr>
@@ -257,7 +216,7 @@ class CreateOrder extends Component {
                           <tr key={i}>
                             <td>
                               {<Popup
-                                trigger={<Input name='b' value={this.state.sProduct[i].b} style={{cursor: 'pointer'}} onChange={() => {console.log('S')}} />}
+                                trigger={<Input name='name' value={this.state.sProduct[i].name} style={{cursor: 'pointer'}} onChange={() => {console.log('S')}} />}
                                 modal>
                                 {close => <ProductModal keyword={this.state.sProduct[i].keyword} index={i} close={close}
                                             selectProduct={(data) => {
@@ -266,30 +225,42 @@ class CreateOrder extends Component {
                                               let val = Object.assign({}, sProduct[i]);
                                           
                                               /* set, for instance, comment[1] to "some text"*/
-                                              val['a'] = data['id'];
-                                              val['b'] = data['name'];
-                                              val['d'] = data['price_shipping'];
+                                              val['id'] = data['id'];
+                                              val['name'] = data['name'];
+                                              val['price'] = data['price_shipping'];
                                           
                                               sProduct[i] = val;
-                                              sProduct[i].e = Math.round(sProduct[i].c * sProduct[i].d * 10 / 11);
-                                              sProduct[i].f = Math.round(sProduct[i].e / 10);
+                                              sProduct[i].vos = sProduct[i].tax ? Math.round(sProduct[i].quantity * sProduct[i].price * 10 / 11) : sProduct[i].quantity * sProduct[i].price;
+                                              sProduct[i].vat = sProduct[i].tax ? Math.round(sProduct[i].vos / 10) : 0;
                 
                                               /* set the state to the new variable */
                                               this.setState({sProduct});
                                             }}/>}
                                 </Popup>}
                             </td>
-                            <td><Input name='c' value={this.state.sProduct[i].c} onChange={(e)=> {
+                            <td><Input name='quantity' value={this.state.sProduct[i].quantity} onChange={(e)=> {
                               let {sProduct} = this.state;
-                              sProduct[i].c = e.target.value;
-                              sProduct[i].e = Math.round(e.target.value * sProduct[i].d * 10 / 11);
-                              sProduct[i].f = Math.round(sProduct[i].e / 10);
+                              sProduct[i].quantity = e.target.value;
+                              sProduct[i].vos = sProduct[i].tax ? Math.round(e.target.value * sProduct[i].price * 10 / 11) : e.target.value * sProduct[i].price;
+                              sProduct[i].vat = sProduct[i].tax ? Math.round(sProduct[i].vos / 10) : 0;
                               this.setState({sProduct})}}
                             /></td>
-                            <td><Input name='d' value={this.state.sProduct[i].d} readOnly/></td>
-                            <td><Input name='e' value={this.state.sProduct[i].e} readOnly/></td>
-                            <td><Input name='f' value={this.state.sProduct[i].f} readOnly/></td>
-                            <td><Input name='sum' value={this.state.sProduct[i].c * this.state.sProduct[i].d} readOnly/></td>
+                            <td><Input name='price' value={this.state.sProduct[i].price} readOnly/></td>
+                            <td><Input name='vos' value={this.state.sProduct[i].vos} readOnly/></td>
+                            <td><Input name='vat' value={this.state.sProduct[i].vat} readOnly/></td>
+                            <td><Input name='tax' type='checkbox' value={this.state.sProduct[i].tax} onClick={() => {
+                              let {sProduct} = this.state;
+                              if(sProduct[i].tax) {//면세로 바꿀 경우
+                                sProduct[i].vos += sProduct[i].vat;
+                                sProduct[i].vat = 0;
+                              } else {//과세로 바꿀 경우
+                                sProduct[i].vat = Math.round(sProduct[i].vos * 1/11);
+                                sProduct[i].vos = Math.round(sProduct[i].vos * 10/11);
+                              }
+                              sProduct[i].tax = !sProduct[i].tax;
+                              this.setState({sProduct})}} />
+                            </td>
+                            <td><Input name='sum' value={this.state.sProduct[i].price * this.state.sProduct[i].quantity} readOnly/></td>
                             <td>
                               <Button block color="danger" 
                                 onClick={()=> {
