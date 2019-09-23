@@ -32,6 +32,10 @@ class Sales extends Component {
     this.getOrder(process);
   }
 
+  numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -41,10 +45,10 @@ class Sales extends Component {
             <Button block color="primary" onClick={()=> {this.props.history.push('/sales/order');}}>주문 추가</Button>
           </Col>
         </Row>
-
-        <Row>
+        
+        <Row style={{overflow: 'scroll'}}>
           <Col>
-            <Card>
+            <Card style={{'min-width': 1000}}>
               <CardHeader>
                 주문 보기
               </CardHeader>
@@ -71,21 +75,21 @@ class Sales extends Component {
                     <tr>
                       <th>#</th>
                       <th>일자</th>
-                      <th>거래처</th>
-                      <th>주문 금액 합계</th>
-                      <th>받은 금액</th>
+                      <th>고객</th>
+                      <th>총액</th>
                       <th>상태</th>
                     </tr>
                   </thead>
                   <tbody>
                     {this.state.orderData.map((e, i) => {
+                      var d = new Date(e.date);
+                      var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
                       return <tr style={{cursor: 'pointer'}} key={e.id} onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>
-                        <td>{e.id}</td>
-                        <td>{e.date}</td>
-                        <td>{e.name}</td>
-                        <td>{e.price}</td>
-                        <td>{e.receive}</td>
-                        <td>{e.state}</td>
+                      <td>{e.id}</td>
+                      <td>{year + "년 " + month + "월 " + date + "일"}</td>
+                      <td>{e.name}</td>
+                      <td>{this.numberWithCommas(e.price)}</td>
+                      <td>{e.state}</td> {/* TODO: 상태 변경 구현후 한글화 필요 */}
                       </tr>;
                     })}
                   </tbody>
