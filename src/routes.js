@@ -39,7 +39,7 @@ const User = React.lazy(() => import('./views/Users/User'));
 
 
 const Home = React.lazy(() => import('./views/Home/Home'));
-const Sales = React.lazy(() => import('./views/Sales/Sales'));
+const Sales = React.lazy(() => import('./views/Order/Order'));
 const Customer = React.lazy(() => import('./views/Customer/Customer'));
 const CreateCustomer = React.lazy(() => import('./views/Customer/CreateCustomer'));
 const CustomerDetail = React.lazy(() => import('./views/Customer/CustomerDetail'));
