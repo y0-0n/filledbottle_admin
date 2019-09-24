@@ -141,17 +141,17 @@ class CreateOrder extends Component {
                 <Row>
                   <Col>
                     <Label>전화번호</Label>
-                    <Input value={this.state.telephone} onChange={() => {console.log('S')}} />
+                    <Input value={this.state.telephone} onChange={(e) => {this.setState({telephone: e.target.value})}} />
                   </Col>
                   <Col>
                     <Label>HP</Label>
-                    <Input value={this.state.cellphone} onChange={() => {console.log('S')}} />
+                    <Input value={this.state.cellphone} onChange={(e) => {this.setState({cellphone: e.target.value})}} />
                   </Col>
                 </Row>
                 <Row>
                   <Col>
                     <Label>주소</Label>
-                    <Input value={this.state.address} onChange={() => {console.log('S')}} />
+                    <Input value={this.state.address} onChange={(e) => {this.setState({address: e.target.value})}} />
                   </Col>
                   <Col>
                     <Label>요청사항</Label>
