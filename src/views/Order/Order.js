@@ -71,7 +71,7 @@ class Sales extends Component {
                   </NavItem>
                 </Nav>
                 <div style={{overflow: 'scroll'}}>
-                  <Table style={{'min-width': 1500}}>
+                  <Table style={{'minWidth': 1500}}>
                     <thead>
                       <tr>
                         <th>#</th>
@@ -85,13 +85,13 @@ class Sales extends Component {
                       {this.state.orderData.map((e, i) => {
                         var d = new Date(e.date);
                         var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
-                        return <tr style={{cursor: 'pointer'}} key={e.id} onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>
+                        return (<tr style={{cursor: 'pointer'}} key={e.id} onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>
                         <td>{e.id}</td>
                         <td>{year + "년 " + month + "월 " + date + "일"}</td>
                         <td>{e.name}</td>
                         <td>{this.numberWithCommas(e.price)}</td>
-                        <td>{e.state}</td> {/* TODO: 상태 변경 구현후 한글화 필요 */}
-                        </tr>;
+                        <td>{e.state}</td>{/* TODO: 상태 변경 구현후 한글화 필요 */}
+                        </tr>)
                       })}
                     </tbody>
                   </Table>
