@@ -24,11 +24,21 @@ class OrderDetail extends Component {
       .then(data => {this.setState({data})});
   }
 
+  numberWithCommas(x) {
+    if(!x) {
+      console.log('Cannot convert');
+      return 0;
+    }
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   render() {
     let {orderInfo, productInfo} = this.state.data;
     orderInfo = orderInfo[0];
+    var d = new Date(orderInfo['date']);
+    var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
 
-    console.warn(orderInfo)
+
     return (
       <div className="animated fadeIn">
         <Row>
@@ -40,12 +50,12 @@ class OrderDetail extends Component {
               <CardBody>
                 <Row>
                   <Col>
-                    <Label>거래처명 :&nbsp;</Label>
+                    <Label>고객명 :&nbsp;</Label>
                     <Label>{orderInfo['name']}</Label>
                   </Col>
                   <Col>
                     <Label>일자 :&nbsp;</Label>
-                    <Label>{orderInfo['date']}</Label>
+                    <Label>{year}년 {month}월 {date}일</Label>
                   </Col>
                 </Row>
                 <Row>
@@ -106,9 +116,9 @@ class OrderDetail extends Component {
                         <td>{e['name']}</td>
                         <td>{e['grade']}</td>
                         <td>{e['weight']}</td>
-                        <td>{e['price_shipping']}</td>
+                        <td>{this.numberWithCommas(e['price_shipping'])}</td>
                         <td>{e['quantity']}</td>
-                        <td>{e['price']}</td>
+                        <td>{this.numberWithCommas(e['price'])}</td>
                       </tr>
                       )
                     })}
