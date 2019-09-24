@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Button, Card, CardBody, CardHeader, Col, Row, NavItem, Nav, NavLink, Table } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, Col, Row, NavItem, Nav, NavLink, Table, Input } from 'reactstrap';
 
   
 class Sales extends Component {
@@ -9,7 +9,9 @@ class Sales extends Component {
     this.state = {
       process: "",
       orderData: [],
-      page: 1
+      page: 1,
+      sdata: [],
+      search: false
     };
   }
 
@@ -36,11 +38,24 @@ class Sales extends Component {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
+  searchCustomer() {
+    let result = this.state.orderData.filter(word => word.name.indexOf(this.state.keyword) !== -1)
+
+    this.setState({sdata: result, search: true});
+  }
+
   render() {
+    var data = this.state.search ? this.state.sdata : this.state.orderData;
+
     return (
       <div className="animated fadeIn">
         <Row className="mb-5">
-          <Col md="10" xs="10" sm="10" />
+          <Col md="8" xs="6" sm="6">
+            <Input onChange={(e)=> {this.setState({keyword: e.target.value})}}/>
+          </Col>
+          <Col md="2" xs="3" sm="3">
+            <Button block color="primary" onClick={()=> {this.searchCustomer()}}>고객 검색</Button>
+          </Col>
           <Col md="2" xs="2" sm="2">
             <Button block color="primary" onClick={()=> {this.props.history.push('/sales/order');}}>주문 추가</Button>
           </Col>
@@ -82,7 +97,7 @@ class Sales extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {this.state.orderData.map((e, i) => {
+                      {data.map((e, i) => {
                         var d = new Date(e.date);
                         var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
                         return (<tr style={{cursor: 'pointer'}} key={e.id} onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>
