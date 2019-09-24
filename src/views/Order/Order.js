@@ -46,9 +46,9 @@ class Sales extends Component {
           </Col>
         </Row>
         
-        <Row style={{overflow: 'scroll'}}>
+        <Row>
           <Col>
-            <Card style={{'min-width': 1000}}>
+            <Card>
               <CardHeader>
                 주문 보기
               </CardHeader>
@@ -70,30 +70,33 @@ class Sales extends Component {
                     <NavLink active={this.state.process === "complete"} onClick={() => this.tabClick("complete")} href="#">완료</NavLink>
                   </NavItem>
                 </Nav>
-                <Table>
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>일자</th>
-                      <th>고객</th>
-                      <th>총액</th>
-                      <th>상태</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {this.state.orderData.map((e, i) => {
-                      var d = new Date(e.date);
-                      var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
-                      return <tr style={{cursor: 'pointer'}} key={e.id} onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>
-                      <td>{e.id}</td>
-                      <td>{year + "년 " + month + "월 " + date + "일"}</td>
-                      <td>{e.name}</td>
-                      <td>{this.numberWithCommas(e.price)}</td>
-                      <td>{e.state}</td> {/* TODO: 상태 변경 구현후 한글화 필요 */}
-                      </tr>;
-                    })}
-                  </tbody>
-                </Table>
+                <div style={{overflow: 'scroll'}}>
+                  <Table style={{'min-width': 1500}}>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>일자</th>
+                        <th>고객</th>
+                        <th>총액</th>
+                        <th>상태</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {this.state.orderData.map((e, i) => {
+                        var d = new Date(e.date);
+                        var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
+                        return <tr style={{cursor: 'pointer'}} key={e.id} onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>
+                        <td>{e.id}</td>
+                        <td>{year + "년 " + month + "월 " + date + "일"}</td>
+                        <td>{e.name}</td>
+                        <td>{this.numberWithCommas(e.price)}</td>
+                        <td>{e.state}</td> {/* TODO: 상태 변경 구현후 한글화 필요 */}
+                        </tr>;
+                      })}
+                    </tbody>
+                  </Table>
+                </div>
+
               </CardBody>
             </Card>
           </Col>
