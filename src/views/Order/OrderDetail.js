@@ -50,7 +50,7 @@ class OrderDetail extends Component {
               <CardBody>
                 <Row>
                   <Col>
-                    <Label>거래처명 :&nbsp;</Label>
+                    <Label>고객명 :&nbsp;</Label>
                     <Label>{orderInfo['name']}</Label>
                   </Col>
                   <Col>

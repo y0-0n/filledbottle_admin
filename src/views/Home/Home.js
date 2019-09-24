@@ -68,7 +68,7 @@ class Home extends Component {
               events={this.state.events}
               messages={this.messages}
               culture='ko'
-              onDoubleClickEvent={(e, s) => this.props.history.push(`/main/sales/order/${e.resource}`)}
+              onSelectEvent={(e, s) => this.props.history.push(`/main/sales/order/${e.resource}`)}
             />
             </div>
           </CardBody>
