@@ -76,6 +76,8 @@ class OrderDetail extends Component {
                 {/*orderInfo['state'] === "order" ? <Button>출하 완료</Button> : null}
                 {orderInfo['state'] === "shipment" ? <Button>완료</Button> : null*/}
                 <Button onClick={() => {this.props.history.push(`/main/order/edit/`+this.props.match.params.id)}}>수정</Button>
+                <Button onClick={() => {this.props.history.push(`/main/order/transaction/`+this.props.match.params.id)}}>거래명세서</Button>
+                <Button onClick={() => {this.props.history.push(`/main/order/post/`+this.props.match.params.id)}}>택배송장</Button>
               </CardFooter>
             </Card>
           </Col>
