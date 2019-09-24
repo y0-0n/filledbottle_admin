@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';                                                                                                                           
-import { Row, Col } from 'reactstrap';
+import { Row, Col, Card, CardBody, CardHeader } from 'reactstrap';
 import moment from 'moment';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "moment/locale/ko";
@@ -53,42 +53,44 @@ class Home extends Component {
   render() {
     return (
       <div className="animated fadeIn">
-        <div className="card">
-          <div className="card-header">
+        <Card>
+          <CardHeader>
             일정
-          </div>
-          <div className="card-body">
+          </CardHeader>
+          <CardBody>
+            <div style={{overflow: 'scroll', height: 900}}>
             <Calendar
               selectable
               localizer={localizer}
               startAccessor="start"
               endAccessor="end"
-              style={{ height: "70vh" }}
+              style={{ height: "¡70vh", 'min-width': 1500 }}
               events={this.state.events}
               messages={this.messages}
               culture='ko'
               onDoubleClickEvent={(e, s) => this.props.history.push(`/main/sales/order/${e.resource}`)}
             />
-          </div>
-        </div>
+            </div>
+          </CardBody>
+        </Card>
         <Row>
           <Col>
-            <div className="card" style={{height: 200}}>
-              <div className="card-header">
+            <Card style={{height: 200}}>
+              <CardHeader>
                 최근 주문
-              </div>
-              <div className="card-body">
-              </div>
-            </div>
+              </CardHeader>
+              <CardBody>
+              </CardBody>
+            </Card>
           </Col>
           <Col>
-            <div className="card" style={{height: 200}}>
-              <div className="card-header">
+            <Card style={{height: 200}}>
+              <CardHeader>
                 최근 고객
-              </div>
-              <div className="card-body">
-              </div>
-            </div>
+              </CardHeader>
+              <CardBody>
+              </CardBody>
+            </Card>
           </Col>
         </Row>
       </div>
