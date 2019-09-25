@@ -102,11 +102,12 @@ class OrderDetail extends Component {
             <Table>
                   <thead>
                     <tr>
-                      <th>제품명</th>
-                      <th>등급</th>
-                      <th>무게</th>
-                      <th>단가</th>
+                    <th>품목명</th>
                       <th>수량</th>
+                      <th>단가</th>
+                      <th>공급가액</th>
+                      <th>부가세</th>
+                      <th>과세</th>
                       <th>총액</th>
                     </tr>
                   </thead>
@@ -114,10 +115,11 @@ class OrderDetail extends Component {
                     {productInfo.map((e, i) => {
                       return ( <tr key={i}>
                         <td>{e['name']}</td>
-                        <td>{e['grade']}</td>
-                        <td>{e['weight']}</td>
-                        <td>{this.numberWithCommas(e['price_shipping'])}</td>
                         <td>{e['quantity']}</td>
+                        <td>{this.numberWithCommas(e['price_shipping'])}</td>
+                        <td>{this.numberWithCommas(e['vat'])}</td>
+                        <td>{e['tax']}</td>
+                        <td>{this.numberWithCommas(e['vos'])}</td>
                         <td>{this.numberWithCommas(e['price'])}</td>
                       </tr>
                       )
