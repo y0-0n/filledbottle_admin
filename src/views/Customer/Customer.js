@@ -71,7 +71,7 @@ class Customer extends Component {
         {
           data.map(function (e) {
           return (
-            <Col key={e.id} md="4" xs="12" sm="6">
+            <Col key={e.id}  lg="4" md="6" xs="12" sm="12">
               <Card>
                 <CardHeader>
                   {e.name}

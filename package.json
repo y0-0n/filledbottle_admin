@@ -39,7 +39,8 @@
     "react-test-renderer": "^16.8.6",
     "reactjs-popup": "^1.4.2",
     "reactstrap": "^7.1.0",
-    "simple-line-icons": "^2.4.1"
+    "simple-line-icons": "^2.4.1",
+    "styled-components": "^4.4.0"
   },
   "devDependencies": {
     "react-scripts": "^3.0.1"
