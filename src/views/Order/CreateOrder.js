@@ -74,6 +74,16 @@ class CreateOrder extends Component {
       .then(data => {this.props.history.push('/sales/list');});
   }
 
+  vaild() {
+    let length = this.state.sProduct.length;
+    for(var i = 0; i < length; i++){
+      if(this.state.sProduct[i].b === '' || this.state.sProduct[i].c === ''){
+        return(true)
+      }
+    }
+    return(!this.state.manager)
+  }
+
   render() {
     //let customer = this.customer;
 
