@@ -97,7 +97,7 @@ class CreateOrder extends Component {
   vaild() {
     let length = this.state.sProduct.length;
     for(var i = 0; i < length; i++){
-      if(this.state.sProduct[i].b == '' || this.state.sProduct[i].c == ''){
+      if(this.state.sProduct[i].b === '' || this.state.sProduct[i].c === ''){
         return(true)
       }
     }
