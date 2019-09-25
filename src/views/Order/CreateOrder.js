@@ -11,7 +11,7 @@ registerLocale('ko', ko)
 
 //vos = value of supply (공급가액)
 //vos = value added tax (부가세))
-let d = {id: '', name: '', quantity: 0, price: 0, vos: 0, vat: 0, tax: false, sum: 0, keyword: ''};
+let d = {id: '', name: '', quantity: 0, price: 0, vos: 0, vat: 0, tax: false, sum: 0};
 
 class CreateOrder extends Component {
   constructor(props) {
@@ -72,26 +72,6 @@ class CreateOrder extends Component {
     })
       .then(response => response.json())
       .then(data => {this.props.history.push('/sales/list');});
-  }
-
-  onUpdateComments(idx, e) {
-    /*
-        you can modify your state only using setState. But be carefull when trying to grab actual state and modify it's reference.
-        So, the best way is to create a new object (immutable pattern), and one way of doing that is to use Object.assign
-    */
-    let key = e.target.name;
-    let sProduct = this.state.sProduct;
-
-    let val = Object.assign({}, sProduct[idx]);
-
-    /* set, for instance, comment[1] to "some text" */
-    val[key] = e.target.value;
-
-    sProduct[idx] = val;
-    sProduct[idx].keyword = e.target.value;
-
-    /* set the state to the new variable */
-    this.setState({sProduct});
   }
 
   render() {
@@ -208,7 +188,7 @@ class CreateOrder extends Component {
                               {<Popup
                                 trigger={<Input name='name' value={this.state.sProduct[i].name} style={{cursor: 'pointer'}} onChange={() => {console.log('S')}} />}
                                 modal>
-                                {close => <ProductModal keyword={this.state.sProduct[i].keyword} index={i} close={close}
+                                {close => <ProductModal index={i} close={close}
                                             selectProduct={(data) => {
                                               let {sProduct} = this.state;
 
@@ -218,11 +198,9 @@ class CreateOrder extends Component {
                                               val['id'] = data['id'];
                                               val['name'] = data['name'];
                                               val['price'] = data['price_shipping'];
-                                          
+
                                               sProduct[i] = val;
-                                              sProduct[i].vos = sProduct[i].tax ? Math.round(sProduct[i].quantity * sProduct[i].price * 10 / 11) : sProduct[i].quantity * sProduct[i].price;
-                                              sProduct[i].vat = sProduct[i].tax ? Math.round(sProduct[i].vos / 10) : 0;
-                
+                                                         
                                               /* set the state to the new variable */
                                               this.setState({sProduct});
                                             }}/>}
@@ -231,22 +209,13 @@ class CreateOrder extends Component {
                             <td><Input name='quantity' value={this.state.sProduct[i].quantity} onChange={(e)=> {
                               let {sProduct} = this.state;
                               sProduct[i].quantity = e.target.value;
-                              sProduct[i].vos = sProduct[i].tax ? Math.round(e.target.value * sProduct[i].price * 10 / 11) : e.target.value * sProduct[i].price;
-                              sProduct[i].vat = sProduct[i].tax ? Math.round(sProduct[i].vos / 10) : 0;
                               this.setState({sProduct})}}
                             /></td>
                             <td><Input name='price' value={this.state.sProduct[i].price} readOnly/></td>
-                            <td><Input name='vos' value={this.state.sProduct[i].vos} readOnly/></td>
-                            <td><Input name='vat' value={this.state.sProduct[i].vat} readOnly/></td>
+                            <td><Input name='vos' value={this.state.sProduct[i].tax ? Math.round(this.state.sProduct[i].price * this.state.sProduct[i].quantity * 10 / 11) : Math.round(this.state.sProduct[i].price * this.state.sProduct[i].quantity)} readOnly/></td>
+                            <td><Input name='vat' value={this.state.sProduct[i].tax ? Math.round(this.state.sProduct[i].price * this.state.sProduct[i].quantity * 1 / 11) : 0} readOnly/></td>
                             <td><Input name='tax' type='checkbox' value={this.state.sProduct[i].tax} onClick={() => {
                               let {sProduct} = this.state;
-                              if(sProduct[i].tax) {//면세로 바꿀 경우
-                                sProduct[i].vos += sProduct[i].vat;
-                                sProduct[i].vat = 0;
-                              } else {//과세로 바꿀 경우
-                                sProduct[i].vat = Math.round(sProduct[i].vos * 1/11);
-                                sProduct[i].vos = Math.round(sProduct[i].vos * 10/11);
-                              }
                               sProduct[i].tax = !sProduct[i].tax;
                               this.setState({sProduct})}} />
                             </td>
