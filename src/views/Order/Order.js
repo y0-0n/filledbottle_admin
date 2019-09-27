@@ -2,6 +2,21 @@ import React, { Component } from 'react';
 
 import { Button, Card, CardBody, CardHeader, Col, Row, NavItem, Nav, NavLink, Table, Input } from 'reactstrap';
 
+/*
+
+  GET /order/state
+
+  -> this.state.orderData
+
+  id : 주문 번호
+  state : 주문 상태
+  date : 출하 일자
+  price : 주문 총액
+  name : 고객 이름
+  orderDate : 주문 일자
+
+*/
+
 const stateKor = {
   order: '주문',
   shipping: '출하',
