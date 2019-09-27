@@ -2,6 +2,19 @@ import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, CardTitle, CardSubtitle } from 'reactstrap';
 import axios from 'axios';
 
+/*
+
+  GET /product/state
+
+  -> this.state.data
+
+  id : 주문 번호
+  name : 상품명
+  grade : 등급
+  weight : 무게
+  price_shipping : 단가
+
+*/
 
 class Product extends Component {
   constructor(props) {

@@ -2,6 +2,21 @@ import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Input, CardImg, CardTitle, CardSubtitle } from 'reactstrap';
 import axios from 'axios';
 
+/*
+
+  GET /customer/state
+
+  -> this.state.data
+
+  id : 주문 번호
+  name : 고객 이름
+  telephone : 전화번호
+  cellphone : HP
+  address : 주소
+  이미지
+
+*/
+
 class Customer extends Component {
   constructor(props) {
     super(props);

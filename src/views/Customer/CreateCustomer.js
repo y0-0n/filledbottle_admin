@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Form, FormGroup, Label, Input,} from 'reactstrap';
 import axios from 'axios';
 
 class CreateCustomer extends Component {
@@ -10,8 +10,11 @@ class CreateCustomer extends Component {
       telephone: '',
       cellphone: '',
       address: '',
-      selectedFile : null,
+      
     }
+    this.state = {
+      selectedFile : null,
+    };
   }
 
   componentWillMount() {
@@ -33,7 +36,7 @@ class CreateCustomer extends Component {
 
   handleFileInput(e){
     this.setState({
-      selectedFile : e.target.files[0],
+      selectedFile : e.target.value,
     })
   }
 
@@ -68,7 +71,8 @@ class CreateCustomer extends Component {
                     <Label>주소</Label>
                     <Input onChange={(e) => this.form.address=e.target.value}/>
                     <Label>사진</Label>
-                    <Input type="file" name="file" onChange={e => this.handleFileInput(e)}/>
+                    <Input type="file" name="file" onChange={e =>{this.handleFileInput(e); console.log(this.state)}}/>
+                    <img src={this.state} />
                     <Button onClick={this.handlePost()}>사진 업로드</Button>
                   </CardBody>
                   <CardFooter>
@@ -81,6 +85,7 @@ class CreateCustomer extends Component {
         </Row>
       </div>
     )
+
   }
 }
 
