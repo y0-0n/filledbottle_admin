@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 
 import { Button, Card, CardBody, CardHeader, Col, Row, NavItem, Nav, NavLink, Table, Input } from 'reactstrap';
 
+const stateKor = {
+  order: '주문',
+  shipping: '출하',
+  refund: '환불'
+}
   
 class Sales extends Component {
   constructor(props) {
@@ -30,8 +35,9 @@ class Sales extends Component {
   tabClick(process) {
     this.setState({
       process
+    }, function () {
+      this.getOrder(process);
     });
-    this.getOrder(process);
   }
 
   numberWithCommas(x) {
@@ -44,7 +50,15 @@ class Sales extends Component {
     this.setState({sdata: result, search: true});
   }
 
+  getDate(dateInput) {
+    var d = new Date(dateInput);
+    var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
+
+    return year + "년 " + month + "월 " + date + "일";
+  }
+
   render() {
+    console.log(this.state.orderData)
     var data = this.state.search ? this.state.sdata : this.state.orderData;
 
     return (
@@ -72,25 +86,26 @@ class Sales extends Component {
                   <NavItem>
                     <NavLink active={this.state.process === ""} onClick={() => this.tabClick("")} href="#">전체</NavLink>
                   </NavItem>
-                  <NavItem>
+                  {/*<NavItem>
                     <NavLink active={this.state.process === "estimate"} onClick={() => this.tabClick("estimate")} href="#">견적</NavLink>
-                  </NavItem>
+                  </NavItem>*/}
                   <NavItem>
                     <NavLink active={this.state.process === "order"} onClick={() => this.tabClick("order")} href="#">주문</NavLink>
                   </NavItem>
                   <NavItem>
-                    <NavLink active={this.state.process === "shipment"} onClick={() => this.tabClick("shipment")} href="#">출하</NavLink>
+                    <NavLink active={this.state.process === "shipping"} onClick={() => this.tabClick("shipping")} href="#">출하</NavLink>
                   </NavItem>
                   <NavItem>
-                    <NavLink active={this.state.process === "complete"} onClick={() => this.tabClick("complete")} href="#">완료</NavLink>
+                    <NavLink active={this.state.process === "refund"} onClick={() => this.tabClick("refund")} href="#">환불</NavLink>
                   </NavItem>
                 </Nav>
                 <div style={{overflow: 'scroll'}}>
-                  <Table style={{'minWidth': 1500}}>
+                  <Table style={{minWidth: 600}} hover>
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>일자</th>
+                        <th>출하일</th>
+                        <th>등록일</th>
                         <th>고객</th>
                         <th>총액</th>
                         <th>상태</th>
@@ -98,14 +113,13 @@ class Sales extends Component {
                     </thead>
                     <tbody>
                       {data.map((e, i) => {
-                        var d = new Date(e.date);
-                        var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
                         return (<tr style={{cursor: 'pointer'}} key={e.id} onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>
                         <td>{e.id}</td>
-                        <td>{year + "년 " + month + "월 " + date + "일"}</td>
+                        <td>{this.getDate(e.date)}</td>
+                        <td>{this.getDate(e.orderDate)}</td>
                         <td>{e.name}</td>
                         <td>{this.numberWithCommas(e.price)}</td>
-                        <td>{e.state}</td>{/* TODO: 상태 변경 구현후 한글화 필요 */}
+                        <td>{stateKor[e.state]}</td>{/* TODO: 상태 변경 구현후 한글화 필요 */}
                         </tr>)
                       })}
                     </tbody>

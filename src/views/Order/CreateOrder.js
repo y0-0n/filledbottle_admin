@@ -29,7 +29,7 @@ class CreateOrder extends Component {
       cellphone: '',
       telephone: '',
       customerName: '',
-      comment: ''
+      comment: '',
     };
   }
   componentWillMount() {
@@ -54,7 +54,7 @@ class CreateOrder extends Component {
   }
 
   convertDateFormat(date) {
-    return date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
+    return date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
   }
 
   addOrder() {
@@ -62,13 +62,15 @@ class CreateOrder extends Component {
     let {date} = this.state;
 
     date = this.convertDateFormat(date);
+    const orderDate = this.convertDateFormat(new Date());
+
     fetch(process.env.REACT_APP_HOST+"/order", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({date, sCustomer, sProduct, cellphone, telephone, address, comment})
+      body: JSON.stringify({date, sCustomer, sProduct, cellphone, telephone, address, comment, orderDate})
     })
       .then(response => response.json())
       .then(data => {this.props.history.push('/sales/list');});
