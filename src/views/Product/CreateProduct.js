@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Form, FormGroup, Label, Input } from 'reactstrap';
+import axios from 'axios';
 
 class CreateProduct extends Component {
   constructor(props) {
@@ -11,7 +12,8 @@ class CreateProduct extends Component {
       grade: '',
       weight: '',
       price: '',
-    }
+      selectedFile : null,
+    };
   }
 
   componentWillMount() {
@@ -29,6 +31,22 @@ class CreateProduct extends Component {
     })
       .then(response => response.json())
       .then(data => {this.props.history.push('/main/product/list');});
+  }
+
+  handleFileInput(e){
+    this.setState({
+      selectedFile : e.target.files[0],
+    })
+  }
+
+  handlePost(){
+    const formData = new FormData();
+
+    return axios.post("/api/upload", formData).then(res => {
+      alert('성공')
+    }),(err=> {
+      alert('실패')
+    })
   }
 
   render() {
@@ -51,6 +69,9 @@ class CreateProduct extends Component {
                     <Input onChange={(e) => this.form.weight=e.target.value} />
                     <Label>단가</Label>
                     <Input onChange={(e) => this.form.price=e.target.value} />
+                    <Label>사진</Label>
+                    <Input type="file" name="file" onChange={e => this.handleFileInput(e)}/>
+                    <Button onClick={this.handlePost()}>사진 업로드</Button>
                   </CardBody>
                   <CardFooter>
                     <Button block outline color="primary">추가하기</Button>

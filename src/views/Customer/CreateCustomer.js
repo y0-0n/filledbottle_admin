@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Form, FormGroup, Label, Input } from 'reactstrap';
+import axios from 'axios';
 
 class CreateCustomer extends Component {
   constructor(props) {
@@ -8,7 +9,8 @@ class CreateCustomer extends Component {
       name: '',
       telephone: '',
       cellphone: '',
-      address: ''
+      address: '',
+      selectedFile : null,
     }
   }
 
@@ -27,6 +29,22 @@ class CreateCustomer extends Component {
     })
       .then(response => response.json())
       .then(data => {this.props.history.push('/main/customer/list');});
+  }
+
+  handleFileInput(e){
+    this.setState({
+      selectedFile : e.target.files[0],
+    })
+  }
+
+  handlePost(){
+    const formData = new FormData();
+
+    return axios.post("/api/upload", formData).then(res => {
+      alert('성공')
+    }),(err=> {
+      alert('실패')
+    })
   }
 
   render() {
@@ -49,6 +67,9 @@ class CreateCustomer extends Component {
                     <Input onChange={(e) => this.form.cellphone=e.target.value}/>
                     <Label>주소</Label>
                     <Input onChange={(e) => this.form.address=e.target.value}/>
+                    <Label>사진</Label>
+                    <Input type="file" name="file" onChange={e => this.handleFileInput(e)}/>
+                    <Button onClick={this.handlePost()}>사진 업로드</Button>
                   </CardBody>
                   <CardFooter>
                     <Button block outline color="primary">추가하기</Button>

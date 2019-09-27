@@ -9,8 +9,11 @@ class Product extends Component {
     this.state = {
       data: [],
       sData: [],
-      keyword: ''
+      keyword: '',
     };
+    this.form = {
+
+    }
   }
   componentWillMount() {
     this.findProduct();
@@ -49,21 +52,6 @@ class Product extends Component {
     this.setState({sdata: result, search: true});
   }
 
-  handleFileInput(e){
-    this.setState({
-      selectedFile : e.target.files[0],
-    })
-  }
-
-  handlePost(){
-    const formData = new FormData();
-    formData.append('file', this.state.selectedFile);
-
-    return axios.post("/api/upload", formData).then(res => {
-      alert('성공')
-    }).catch(err=> {
-    })
-  }
 
   render() {
     var data = this.state.search ? this.state.sdata : this.state.data;
@@ -93,8 +81,6 @@ class Product extends Component {
                     {e.name}
                   </CardHeader>
                   <CardImg top width="100%" src={"318x180.svg"} alt="Card image cap"/>
-                  <Input type="file" name="file" onChange={e => this.handleFileInput(e)}/>
-                  <Button onClick={this.handlePost()}>사진 업로드</Button>
                   <CardBody>
                     <CardTitle><h3>상품명 : {e.name}</h3></CardTitle>
                     <CardSubtitle><h4>등급 : {e.grade}</h4></CardSubtitle>
