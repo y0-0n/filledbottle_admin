@@ -32,20 +32,29 @@ class OrderDetail extends Component {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
+  changeState(s) {
+    fetch(process.env.REACT_APP_HOST+"/order/changeState/"+this.props.match.params.id+"/"+s, {
+      method: 'PUT',
+    })
+      .then(response => response.json())
+      .then(data => this.getData(this.props.match.params.id))
+}
+
   render() {
     let {orderInfo, productInfo} = this.state.data;
     orderInfo = orderInfo[0];
     var d = new Date(orderInfo['date']);
     var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
-
-
     return (
       <div className="animated fadeIn">
         <Row>
           <Col md="12" xs="12" sm="12">
             <Card>
               <CardHeader>
-                {this.props.match.params.id}번 주문
+                <Row>
+                  <Col>{this.props.match.params.id}번 주문</Col>
+                  <Col><Button onClick={() => {this.props.history.goBack()}}>뒤로가기</Button></Col>
+                </Row>
               </CardHeader>
               <CardBody>
                 <Row>
@@ -83,8 +92,8 @@ class OrderDetail extends Component {
                 </Row>
               </CardBody>
               <CardFooter>
-                {/*orderInfo['state'] === "order" ? <Button>출하 완료</Button> : null}
-                {orderInfo['state'] === "shipment" ? <Button>완료</Button> : null*/}
+                {orderInfo['state'] === "order" ? <Button onClick={() => this.changeState('shipping')}>출하 완료</Button> : null}
+                {orderInfo['state'] === "shipping" ? <Button onClick={() => this.changeState('order')}>출하 취소</Button> : null}
                 <Button onClick={() => {this.props.history.push(`/main/order/edit/`+this.props.match.params.id)}}>수정</Button>
                 <Button onClick={() => {this.props.history.push(`/main/order/transaction/`+this.props.match.params.id)}}>거래명세서</Button>
                 <Button onClick={() => {this.props.history.push(`/main/order/post/`+this.props.match.params.id)}}>택배송장</Button>
