@@ -64,7 +64,7 @@ class Home extends Component {
               localizer={localizer}
               startAccessor="start"
               endAccessor="end"
-              style={{ height: "¡70vh", 'minWidth': 1500 }}
+              style={{ height: "¡70vh", 'minWidth': 1000 }}
               events={this.state.events}
               messages={this.messages}
               culture='ko'

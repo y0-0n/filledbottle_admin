@@ -44,8 +44,7 @@
     "react-to-print": "^2.4.0",
     "reactjs-popup": "^1.4.2",
     "reactstrap": "^7.1.0",
-    "simple-line-icons": "^2.4.1",
-    "styled-components": "^4.4.0"
+    "simple-line-icons": "^2.4.1"
   },
   "devDependencies": {
     "react-scripts": "^3.0.1"
