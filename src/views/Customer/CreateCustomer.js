@@ -35,9 +35,17 @@ class CreateCustomer extends Component {
   }
 
   handleFileInput(e){
-    this.setState({
-      selectedFile : e.target.value,
-    })
+    var file = this.refs.file.files[0];
+    var reader = new FileReader();
+    var url = reader.readAsDataURL(file);
+
+    reader.onloadend = function (e) {
+      this.setState({
+        selectedFile : [reader.result],
+      });
+    }.bind(this);
+
+    console.log(url)
   }
 
   handlePost(){
@@ -51,10 +59,11 @@ class CreateCustomer extends Component {
   }
 
   render() {
+    console.log(this.state.selectedFile)
     return (
       <div className="animated fadeIn">
         <Row className="mb-5">
-          <Col md="4" xs="12" sm="6">
+          <Col md="12" xs="12" sm="12">
             <Form onSubmit={(e) => {e.preventDefault(); this.addCustomer(this.form)}}>
               <FormGroup>
                 <Card>
@@ -71,9 +80,9 @@ class CreateCustomer extends Component {
                     <Label>주소</Label>
                     <Input onChange={(e) => this.form.address=e.target.value}/>
                     <Label>사진</Label>
-                    <Input type="file" name="file" onChange={e =>{this.handleFileInput(e); console.log(this.state)}}/>
-                    <img src={this.state} />
-                    <Button onClick={this.handlePost()}>사진 업로드</Button>
+                    <input ref="file" type="file" name="file" onChange={e =>{this.handleFileInput(e);}}/>
+                    <img style={{height: 500, width: 500}} src={this.state.selectedFile} />
+                    <Button onClick={() => this.handlePost()}>사진 업로드</Button>
                   </CardBody>
                   <CardFooter>
                     <Button block outline color="primary">추가하기</Button>
