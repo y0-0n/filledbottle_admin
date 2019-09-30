@@ -1,8 +1,9 @@
 
 
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Form, FormGroup, Label, Input, Table } from 'reactstrap';
 import axios from 'axios';
+import './CreateProduct.css'
 
 class CreateProduct extends Component {
   constructor(props) {
@@ -12,6 +13,10 @@ class CreateProduct extends Component {
       grade: '',
       weight: '',
       price: '',
+      selectedFile : null,
+    };
+
+    this.state = {
       selectedFile : null,
     };
   }
@@ -53,7 +58,7 @@ class CreateProduct extends Component {
     return (
       <div className="animated fadeIn">
         <Row className="mb-5">
-          <Col md="4" xs="12" sm="6">
+          <Col md="40" xs="12" sm="6">
             <Form onSubmit={(e) => {e.preventDefault(); this.addProduct(this.form)}}>
               <FormGroup>
                 <Card>
@@ -61,17 +66,35 @@ class CreateProduct extends Component {
                     상품 등록하기
                   </CardHeader>
                   <CardBody>
-                    <Label>상품명</Label>
-                    <Input onChange={(e) => this.form.name=e.target.value} />
-                    <Label>등급</Label>
-                    <Input onChange={(e) => this.form.grade=e.target.value} />
-                    <Label>무게</Label>
-                    <Input onChange={(e) => this.form.weight=e.target.value} />
-                    <Label>단가</Label>
-                    <Input onChange={(e) => this.form.price=e.target.value} />
-                    <Label>사진</Label>
-                    <Input type="file" name="file" onChange={e => this.handleFileInput(e)}/>
-                    <Button onClick={this.handlePost()}>사진 업로드</Button>
+                    <Table id="ProductTable">
+                      <tr>
+                        <th>상품명</th>
+                        <td>
+                          <Input onChange={(e) => this.form.name=e.target.value} />
+                        </td>
+                        <th>등급</th>
+                        <td id="ProductTableRight">
+                          <Input onChange={(e) => this.form.grade=e.target.value} />
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>무게</th>
+                        <td>
+                          <Input onChange={(e) => this.form.weight=e.target.value} />
+                        </td>
+                        <th>단가</th>
+                        <td id="ProductTableRight">
+                          <Input onChange={(e) => this.form.price=e.target.value} />
+                        </td>
+                      </tr>
+                      <tr id="ProductTableBottom">
+                        <th>사진</th>
+                        <td colspan="3" id="ProductTableRight">
+                          <img style={{height: 250, width: 250}} src={this.state.selectedFile} /> <br></br>
+                        <input ref="file" type="file" name="file" onChange={e =>{this.handleFileInput(e);}}/> 
+                        </td>
+                      </tr>
+                    </Table>
                   </CardBody>
                   <CardFooter>
                     <Button block outline color="primary">추가하기</Button>

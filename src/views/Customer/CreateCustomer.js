@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Form, FormGroup, Label, Input,} from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Form, FormGroup, Label, Input, Table,} from 'reactstrap';
 import axios from 'axios';
+import './CreateCustomer.css'
 
 class CreateCustomer extends Component {
   constructor(props) {
@@ -71,18 +72,35 @@ class CreateCustomer extends Component {
                     고객 정보
                   </CardHeader>
                   <CardBody>
-                    <Label>고객명</Label>
-                    <Input onChange={(e) => this.form.name=e.target.value}/>
-                    <Label>전화번호</Label>
-                    <Input onChange={(e) => this.form.telephone=e.target.value}/>
-                    <Label>핸드폰번호</Label>
-                    <Input onChange={(e) => this.form.cellphone=e.target.value}/>
-                    <Label>주소</Label>
-                    <Input onChange={(e) => this.form.address=e.target.value}/>
-                    <Label>사진</Label>
-                    <input ref="file" type="file" name="file" onChange={e =>{this.handleFileInput(e);}}/>
-                    <img style={{height: 500, width: 500}} src={this.state.selectedFile} />
-                    <Button onClick={() => this.handlePost()}>사진 업로드</Button>
+                    <Table id="CustomerTable">
+                      <tr>
+                        <th>고객명</th>
+                        <td>
+                          <Input onChange={(e) => this.form.name=e.target.value}/>
+                        </td>
+                        <th>전화번호</th>
+                        <td id="CustomerTableRight">
+                          <Input onChange={(e) => this.form.telephone=e.target.value}/>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>핸드폰번호</th>
+                        <td>
+                          <Input onChange={(e) => this.form.cellphone=e.target.value}/>
+                        </td>
+                        <th>주소</th>
+                        <td id="CustomerTableRight">
+                          <Input onChange={(e) => this.form.address=e.target.value}/>
+                        </td>
+                      </tr>
+                      <tr id="CustomerTableBottom">
+                        <th>사진</th>
+                        <td colspan="3" id="CustomerTableRight">
+                          <img style={{height: 500, width: 500}} src={this.state.selectedFile} /> <br></br>
+                        <input ref="file" type="file" name="file" onChange={e =>{this.handleFileInput(e);}}/> 
+                        </td>
+                      </tr>
+                    </Table>
                   </CardBody>
                   <CardFooter>
                     <Button block outline color="primary">추가하기</Button>
