@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Input, Card, CardBody, CardHeader, CardFooter, Col, Row, Label, Table } from 'reactstrap';
 import ProductModal from './Modal';
 import Popup from "reactjs-popup";
+import '../../css/Table.css';
 
 let def = {id: '', name: '', quantity: 0, price: 0, vos: 0, vat: 0, tax: false, sum: 0, tax: false};
 
@@ -72,39 +73,34 @@ class OrderModify extends Component {
                 {this.props.match.params.id}번 주문
               </CardHeader>
               <CardBody>
-                <Row>
-                  <Col>
-                    <Label>고객명 :&nbsp;</Label><br />
-                    <Label>{orderInfo['name']}</Label>
-                  </Col>
-                  <Col>
-                    <Label>일자 :&nbsp;</Label><br />
-                    <Label>{year}년 {month}월 {date}일</Label>
-                  </Col>
-                </Row>
-                <Row>
-
-                </Row>
-                <Row>
-                  <Col>
-                    <Label>전화번호 :&nbsp;</Label>
-                    <Input defaultValue={orderInfo['telephone']} onChange={(e) => {orderInfo['telephone'] = e.target.value}} />
-                  </Col>
-                  <Col>
-                    <Label>HP :&nbsp;</Label>
-                    <Input defaultValue={orderInfo['cellphone']} onChange={(e) => {orderInfo['cellphone'] = e.target.value}} />
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <Label>배송지 :&nbsp;</Label>
-                    <Input defaultValue={orderInfo['address']} onChange={(e) => {orderInfo['address'] = e.target.value}} />
-                  </Col>
-                  <Col>
-                    <Label>요청사항 :&nbsp;</Label>
-                    <Input defaultValue={orderInfo['comment']} onChange={(e) => {orderInfo['comment'] = e.target.value}} />
-                  </Col>
-                </Row>
+                <Table id="ShowTable">
+                  <tr>
+                    <th>고객명</th>
+                    <td>{orderInfo['name']}</td>
+                    <th>일자</th>
+                    <td id="TableRight">{year}년 {month}월 {date}일</td>
+                  </tr>
+                  <tr>
+                    <th>전화번호</th>
+                    <td>
+                      <Input defaultValue={orderInfo['telephone']} onChange={(e) => {orderInfo['telephone'] = e.target.value}} />
+                    </td>
+                    <th>HP</th>
+                    <td id="TableRight">
+                      <Input defaultValue={orderInfo['cellphone']} onChange={(e) => {orderInfo['cellphone'] = e.target.value}} />
+                    </td>
+                  </tr>
+                  <tr id="TableBottom">
+                    <th>배송지</th>
+                    <td>
+                      <Input defaultValue={orderInfo['address']} onChange={(e) => {orderInfo['address'] = e.target.value}} />
+                    </td>
+                    <th>요청사항</th>
+                    <td id="TableRight">
+                      <Input defaultValue={orderInfo['comment']} onChange={(e) => {orderInfo['comment'] = e.target.value}} />
+                    </td>
+                  </tr>
+                </Table>
               </CardBody>
               <CardFooter>
               </CardFooter>

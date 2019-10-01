@@ -1,0 +1,27 @@
+#post td{
+    border: 1px solid black;
+    padding : 10px;
+  }
+  
+  #post{
+    display: block;
+    margin: auto;
+    width: 800px;
+  }
+  
+  .stylecenter{
+    text-align: center;
+  }
+  
+  .styleright{
+    text-align: right;
+  }
+  
+  .widthnar{
+    width: 100px;
+  }
+  
+  .widthlong{
+    width: 200px;
+  }
+  

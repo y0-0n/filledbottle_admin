@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Form, FormGroup, Label, Input, Table } from 'reactstrap';
 import axios from 'axios';
-import './CreateProduct.css'
+import '../../css/Table.css';
 
 class CreateProduct extends Component {
   constructor(props) {
@@ -66,14 +66,14 @@ class CreateProduct extends Component {
                     상품 등록하기
                   </CardHeader>
                   <CardBody>
-                    <Table id="ProductTable">
+                    <Table id="ShowTable">
                       <tr>
                         <th>상품명</th>
                         <td>
                           <Input onChange={(e) => this.form.name=e.target.value} />
                         </td>
                         <th>등급</th>
-                        <td id="ProductTableRight">
+                        <td id="TableRight">
                           <Input onChange={(e) => this.form.grade=e.target.value} />
                         </td>
                       </tr>
@@ -83,13 +83,13 @@ class CreateProduct extends Component {
                           <Input onChange={(e) => this.form.weight=e.target.value} />
                         </td>
                         <th>단가</th>
-                        <td id="ProductTableRight">
+                        <td id="TableRight">
                           <Input onChange={(e) => this.form.price=e.target.value} />
                         </td>
                       </tr>
-                      <tr id="ProductTableBottom">
+                      <tr id="TableBottom">
                         <th>사진</th>
-                        <td colspan="3" id="ProductTableRight">
+                        <td colspan="3" id="TableRight">
                           <img style={{height: 250, width: 250}} src={this.state.selectedFile} /> <br></br>
                         <input ref="file" type="file" name="file" onChange={e =>{this.handleFileInput(e);}}/> 
                         </td>

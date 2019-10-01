@@ -1,13 +1,13 @@
-#ProductTable th{
+#ShowTable th{
     border-right: 1px solid lightgray;
     border-left: 1px solid lightgray;
     text-align: center;
 }
 
-#ProductTableBottom {
+#TableBottom {
     border-bottom: 1px solid lightgray;
 }
 
-#ProductTableRight {
+#TableRight {
     border-right: 1px solid lightgray;
 }

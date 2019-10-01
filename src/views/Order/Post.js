@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter} from 'reactstrap';
-import './Post.css'
+import '../../css/Post.css'
 import ReactToPrint from "react-to-print";
 
 class Post extends Component {

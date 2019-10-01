@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Label, Table, Input } from 'reactstrap';
+import '../../css/Table.css';
 
 class OrderDetail extends Component {
   constructor(props) {
@@ -9,7 +10,8 @@ class OrderDetail extends Component {
       data: {
         orderInfo: [{}],
         productInfo: [{}]
-      }
+      },
+      refund : false,
     };
   }
   componentWillMount() {
@@ -40,11 +42,29 @@ class OrderDetail extends Component {
       .then(data => this.getData(this.props.match.params.id))
 }
 
+  handleRefund() {
+    if(this.state.refund === true){
+      this.setState({refund: false});
+    }else{
+      this.setState({refund: true});
+    }
+    
+  }
+
+  changeRefundstate(id) {
+    let c = window.confirm('이 상품을 환불하시겠습니까?')
+
+    if(c) {
+      this.setState({refund: false});
+    }
+  }
+
   render() {
     let {orderInfo, productInfo} = this.state.data;
     orderInfo = orderInfo[0];
     var d = new Date(orderInfo['date']);
     var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
+
     return (
       <div className="animated fadeIn">
         <Row>
@@ -57,39 +77,26 @@ class OrderDetail extends Component {
                 </Row>
               </CardHeader>
               <CardBody>
-                <Row>
-                  <Col>
-                    <Label>고객명 :&nbsp;</Label>
-                    <Label>{orderInfo['name']}</Label>
-                  </Col>
-                  <Col>
-                    <Label>일자 :&nbsp;</Label>
-                    <Label>{year}년 {month}월 {date}일</Label>
-                  </Col>
-                </Row>
-                <Row>
-
-                </Row>
-                <Row>
-                  <Col>
-                    <Label>전화번호 :&nbsp;</Label>
-                    <Label>{orderInfo['telephone']}</Label>
-                  </Col>
-                  <Col>
-                    <Label>HP :&nbsp;</Label>
-                    <Label>{orderInfo['cellphone']}</Label>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <Label>배송지 :&nbsp;</Label>
-                    <Label>{orderInfo['address']}</Label>
-                  </Col>
-                  <Col>
-                    <Label>요청사항 :&nbsp;</Label>
-                    <Label>{orderInfo['comment']}</Label>
-                  </Col>
-                </Row>
+                <Table id="ShowTable">
+                  <tr>
+                    <th>고객명</th>
+                    <td>{orderInfo['name']}</td>
+                    <th>일자</th>
+                    <td id="TableRight">{year}년 {month}월 {date}일</td>
+                  </tr>
+                  <tr>
+                    <th>전화번호</th>
+                    <td>{orderInfo['telephone']}</td>
+                    <th>HP</th>
+                    <td id="TableRight">{orderInfo['cellphone']}</td>
+                  </tr>
+                  <tr id="TableBottom">
+                    <th>배송지</th>
+                    <td>{orderInfo['address']}</td>
+                    <th>요청사항</th>
+                    <td id="TableRight">{orderInfo['comment']}</td>
+                  </tr>
+                </Table>
               </CardBody>
               <CardFooter>
                 {orderInfo['state'] === "order" ? <Button onClick={() => this.changeState('shipping')}>출하 완료</Button> : null}
@@ -105,7 +112,12 @@ class OrderDetail extends Component {
           <Col>
           <Card>
             <CardHeader>
-              품목
+              <Row>
+                <Col>품목</Col>
+                <Col>
+                  <Button onClick={()=>{this.handleRefund()}}>환불하기</Button>
+                </Col>
+              </Row>
             </CardHeader>
             <CardBody>
             <Table>
@@ -118,6 +130,7 @@ class OrderDetail extends Component {
                       <th>부가세</th>
                       <th>과세</th>
                       <th>총액</th>
+                      {this.state.refund === true ? <th>환불</th> : null}
                     </tr>
                   </thead>
                   <tbody>
@@ -130,6 +143,7 @@ class OrderDetail extends Component {
                         <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price_shipping'] * e['quantity'] * 1 / 11 : 0))}</td>
                         <td><Input name='tax' type='checkbox' checked={e.tax} disabled/></td>
                         <td>{this.numberWithCommas(e['quantity']*e['price_shipping'])}</td>
+                        <td>{this.state.refund === true ? <Button onClick={() => this.changeRefundstate(e.id)}>X</Button> : null}</td>
                       </tr>
                       )
                     })}

@@ -7,7 +7,7 @@ import DatePicker from "react-datepicker";
 import { registerLocale } from  "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ko from 'date-fns/locale/ko';
-import './CreateOrder.css'
+import '../../css/Table.css';
 registerLocale('ko', ko)
 
 //vos = value of supply (공급가액)
@@ -97,7 +97,7 @@ class CreateOrder extends Component {
                 주문서
               </CardHeader>
               <CardBody>
-                <Table id="OrderTable">
+                <Table id="ShowTable">
                   <tr>
                     <th>일자</th>
                     <td>
@@ -111,7 +111,7 @@ class CreateOrder extends Component {
                       </div>
                     </td>
                     <th>고객</th>
-                    <td id="OrderTableRight">
+                    <td id="TableRight">
                     {<Popup
                       trigger={<Input value={this.state.customerName} style={{cursor: 'pointer'}} onChange={() => {console.log('S')}} />}
                       modal>
@@ -136,17 +136,17 @@ class CreateOrder extends Component {
                       <Input value={this.state.telephone} onChange={(e) => {this.setState({telephone: e.target.value})}} />
                     </td>
                     <th>HP</th>
-                    <td id="OrderTableRight">
+                    <td id="TableRight">
                       <Input value={this.state.cellphone} onChange={(e) => {this.setState({cellphone: e.target.value})}} />
                     </td>
                   </tr>
-                  <tr id="OrderTableBottom">
+                  <tr id="TableBottom">
                     <th>주소</th>
                     <td>
                       <Input value={this.state.address} onChange={(e) => {this.setState({address: e.target.value})}} />
                     </td>
                     <th>요청사항</th>
-                    <td id="OrderTableRight">
+                    <td id="TableRight">
                       <Input value={this.state.comment} onChange={(e) => {
                         this.setState({
                           comment: e.target.value
