@@ -7,6 +7,7 @@ import DatePicker from "react-datepicker";
 import { registerLocale } from  "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ko from 'date-fns/locale/ko';
+import './CreateOrder.css'
 registerLocale('ko', ko)
 
 //vos = value of supply (공급가액)
@@ -96,20 +97,21 @@ class CreateOrder extends Component {
                 주문서
               </CardHeader>
               <CardBody>
-                <Row>
-                  <Col>
-                    <Label>일자</Label><br />
-                    <div style={{pointer: 'cursor'}}>
-                      <DatePicker
-                        dateFormat="yyyy년 MM월 dd일"
-                        locale="ko"
-                        selected={this.state.date}
-                        onChange={(date) => {this.setState({date})}}
-                      />
-                    </div>
-                  </Col>
-                  <Col>
-                    <Label>고객</Label>
+                <Table id="OrderTable">
+                  <tr>
+                    <th>일자</th>
+                    <td>
+                      <div style={{pointer: 'cursor'}}>
+                        <DatePicker
+                          dateFormat="yyyy년 MM월 dd일"
+                          locale="ko"
+                          selected={this.state.date}
+                          onChange={(date) => {this.setState({date})}}
+                        />
+                      </div>
+                    </td>
+                    <th>고객</th>
+                    <td id="OrderTableRight">
                     {<Popup
                       trigger={<Input value={this.state.customerName} style={{cursor: 'pointer'}} onChange={() => {console.log('S')}} />}
                       modal>
@@ -126,32 +128,33 @@ class CreateOrder extends Component {
                         /* set, for instance, comment[1] to "some text"*/
                       }}/>}
                     </Popup>}
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <Label>전화번호</Label>
-                    <Input value={this.state.telephone} onChange={(e) => {this.setState({telephone: e.target.value})}} />
-                  </Col>
-                  <Col>
-                    <Label>HP</Label>
-                    <Input value={this.state.cellphone} onChange={(e) => {this.setState({cellphone: e.target.value})}} />
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <Label>주소</Label>
-                    <Input value={this.state.address} onChange={(e) => {this.setState({address: e.target.value})}} />
-                  </Col>
-                  <Col>
-                    <Label>요청사항</Label>
-                    <Input value={this.state.comment} onChange={(e) => {
-                      this.setState({
-                        comment: e.target.value
-                      })
-                    }} />
-                  </Col>
-                </Row>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>전화번호</th>
+                    <td>
+                      <Input value={this.state.telephone} onChange={(e) => {this.setState({telephone: e.target.value})}} />
+                    </td>
+                    <th>HP</th>
+                    <td id="OrderTableRight">
+                      <Input value={this.state.cellphone} onChange={(e) => {this.setState({cellphone: e.target.value})}} />
+                    </td>
+                  </tr>
+                  <tr id="OrderTableBottom">
+                    <th>주소</th>
+                    <td>
+                      <Input value={this.state.address} onChange={(e) => {this.setState({address: e.target.value})}} />
+                    </td>
+                    <th>요청사항</th>
+                    <td id="OrderTableRight">
+                      <Input value={this.state.comment} onChange={(e) => {
+                        this.setState({
+                          comment: e.target.value
+                        })
+                      }} />
+                    </td>
+                  </tr>
+                </Table>
               </CardBody>
               <CardFooter>
               </CardFooter>

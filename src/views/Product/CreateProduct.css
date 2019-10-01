@@ -1,0 +1,13 @@
+#ProductTable th{
+    border-right: 1px solid lightgray;
+    border-left: 1px solid lightgray;
+    text-align: center;
+}
+
+#ProductTableBottom {
+    border-bottom: 1px solid lightgray;
+}
+
+#ProductTableRight {
+    border-right: 1px solid lightgray;
+}

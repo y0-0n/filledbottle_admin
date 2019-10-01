@@ -6,6 +6,19 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import "moment/locale/ko";
 const localizer = momentLocalizer(moment);
 
+/*
+
+  GET /order/state
+
+  -> this.state.orderData
+
+  id : 주문 번호
+  date : 출하 일자
+  name : 고객 이름
+  orderDate : 주문 일자
+
+*/
+
 class Home extends Component {
   constructor(props) {
     super(props);

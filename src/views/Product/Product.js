@@ -1,5 +1,20 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, CardTitle, CardSubtitle } from 'reactstrap';
+import axios from 'axios';
+
+/*
+
+  GET /product/state
+
+  -> this.state.data
+
+  id : 주문 번호
+  name : 상품명
+  grade : 등급
+  weight : 무게
+  price_shipping : 단가
+
+*/
 
 class Product extends Component {
   constructor(props) {
@@ -7,8 +22,11 @@ class Product extends Component {
     this.state = {
       data: [],
       sData: [],
-      keyword: ''
+      keyword: '',
     };
+    this.form = {
+
+    }
   }
   componentWillMount() {
     this.findProduct();
@@ -46,6 +64,7 @@ class Product extends Component {
 
     this.setState({sdata: result, search: true});
   }
+
 
   render() {
     var data = this.state.search ? this.state.sdata : this.state.data;

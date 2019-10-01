@@ -1,0 +1,13 @@
+#OrderTable th{
+    border-right: 1px solid lightgray;
+    border-left: 1px solid lightgray;
+    text-align: center;
+}
+
+#OrderTableBottom {
+    border-bottom: 1px solid lightgray;
+}
+
+#OrderTableRight {
+    border-right: 1px solid lightgray;
+}

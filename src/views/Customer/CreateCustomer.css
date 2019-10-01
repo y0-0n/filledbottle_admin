@@ -1,0 +1,13 @@
+#CustomerTable th{
+    border-right: 1px solid lightgray;
+    border-left: 1px solid lightgray;
+    text-align: center;
+}
+
+#CustomerTableBottom {
+    border-bottom: 1px solid lightgray;
+}
+
+#CustomerTableRight {
+    border-right: 1px solid lightgray;
+}
