@@ -3,7 +3,7 @@ import { Button, Input, Card, CardBody, CardHeader, CardFooter, Col, Row, Label,
 import ProductModal from './Modal';
 import Popup from "reactjs-popup";
 
-let d = {id: '', name: '', quantity: 0, price: 0, vos: 0, vat: 0, tax: false, sum: 0, tax: false};
+let def = {id: '', name: '', quantity: 0, price: 0, vos: 0, vat: 0, tax: false, sum: 0, tax: false};
 
 class OrderModify extends Component {
   constructor(props) {
@@ -37,12 +37,31 @@ class OrderModify extends Component {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
+  convertDateFormat(date) {
+    return date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+  }
+
+  modifyOrder() {
+    let {orderInfo, productInfo} = this.state.data;
+
+    fetch(process.env.REACT_APP_HOST+"/order/modify/"+this.props.match.params.id, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({orderInfo, productInfo})
+    })
+      .then(response => response.json())
+      .then(data => {this.props.history.push('/main/sales/order/'+this.props.match.params.id);});
+  }
+
   render() {
+    console.log(this.state.data)
     let {orderInfo, productInfo} = this.state.data;
     orderInfo = orderInfo[0];
     var d = new Date(orderInfo['date']);
     var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
-
 
     return (
       <div className="animated fadeIn">
@@ -102,9 +121,9 @@ class OrderModify extends Component {
                   <Button block color="primary" 
                     onClick={()=> {
                       let sProduct = productInfo;
-                      sProduct.push(d);
+                      sProduct.push(def);
                       this.setState({
-                        productInfo: sProduct
+                        sProduct: productInfo
                       })}}>
                     추가하기
                   </Button>
@@ -112,84 +131,82 @@ class OrderModify extends Component {
               </Row>
             </CardHeader>
             <CardBody>
-            <Table>
-                  <thead>
-                    <tr>
-                      <th>품목명</th>
-                      <th>수량</th>
-                      <th>단가</th>
-                      <th>공급가액</th>
-                      <th>부가세</th>
-                      <th>과세</th>
-                      <th>총액</th>
-                      <th>삭제</th>
+              <Table>
+                <thead>
+                  <tr>
+                    <th>품목명</th>
+                    <th>수량</th>
+                    <th>단가</th>
+                    <th>공급가액</th>
+                    <th>부가세</th>
+                    <th>과세</th>
+                    <th>총액</th>
+                    <th>삭제</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {productInfo.map((e, i) => {
+                    return ( <tr key={i}>
+                      <td>
+                        {<Popup
+                          trigger={<Input name='name' value={productInfo[i].name || ''} style={{cursor: 'pointer'}} onChange={() => console.log('S')}/>}
+                          modal>
+                          {close => <ProductModal index={i} close={close}
+                                      selectProduct={(data) => {
+                                        let sProduct = productInfo;
+
+                                        let val = Object.assign({}, sProduct[i]);
+
+                                        /* set, for instance, comment[1] to "some text"*/
+                                        val['id'] = data['id'];
+                                        val['name'] = data['name'];
+                                        val['price_shipping'] = data['price_shipping'];
+
+                                        sProduct[i] = val;
+
+                                        /* set the state to the new variable */
+                                        this.setState({productInfo: sProduct});
+                                      }}/>}
+                        </Popup>}
+                      </td>
+                      <td><Input name='quantity' value={productInfo[i].quantity || ''} onChange={(e)=> {
+                        let sProduct = productInfo;
+                        sProduct[i].quantity = e.target.value;
+                        this.setState({productInfo: sProduct})}}
+                      /></td>
+                      <td>{this.numberWithCommas(e['price_shipping'])}</td>
+                      <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price_shipping'] * e['quantity'] * 10 / 11 : e['price_shipping'] * e['quantity']))}</td>
+                      <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price_shipping'] * e['quantity'] * 1 / 11 : 0))}</td>
+                      <td><Input name='tax' type='checkbox' defaultChecked={e.tax} onClick={() => {
+                        let sProduct = productInfo;
+                        sProduct[i].tax = !sProduct[i].tax;
+                        this.setState({productInfo: sProduct})}}
+                        />
+                      </td>
+                      <td>{this.numberWithCommas(e['price_shipping']*e['quantity'])}</td>
+                      <td>
+                        <Button block color="danger" 
+                          onClick={()=> {
+                            let sProduct = productInfo;
+                            sProduct.splice(i, 1);
+                            this.setState({
+                              productInfo: sProduct
+                            })
+                          }}>
+                          X
+                        </Button>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {productInfo.map((e, i) => {
-                      console.log(e)
-                      return ( <tr key={i}>
-                        <td>
-                          {<Popup
-                            trigger={<Input name='name' value={productInfo[i].name || ''} style={{cursor: 'pointer'}} onChange={() => console.log('S')}/>}
-                            modal>
-                            {close => <ProductModal index={i} close={close}
-                                        selectProduct={(data) => {
-                                          let sProduct = productInfo;
-
-                                          let val = Object.assign({}, sProduct[i]);
-                                      
-                                          /* set, for instance, comment[1] to "some text"*/
-                                          val['id'] = data['id'];
-                                          val['name'] = data['name'];
-                                          val['price_shipping'] = data['price_shipping'];
-                                      
-                                          sProduct[i] = val;
-                                          
-                                          /* set the state to the new variable */
-                                          console.log(productInfo, sProduct)
-                                          this.setState({productInfo: sProduct});
-                                        }}/>}
-                          </Popup>}
-                        </td>
-                        <td><Input name='quantity' value={productInfo[i].quantity || ''} onChange={(e)=> {
-                          let sProduct = productInfo;
-                          sProduct[i].quantity = e.target.value;
-                          this.setState({productInfo: sProduct})}}
-                        /></td>
-                        <td>{this.numberWithCommas(e['price_shipping'])}</td>
-                        <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price_shipping'] * e['quantity'] * 10 / 11 : e['price_shipping'] * e['quantity']))}</td>
-                        <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price_shipping'] * e['quantity'] * 1 / 11 : 0))}</td>
-                        <td><Input name='tax' type='checkbox' value={productInfo[i].tax} onClick={() => {
-                          let sProduct = productInfo;
-                          sProduct[i].tax = !sProduct[i].tax;
-                          this.setState({productInfo: sProduct})}} />
-                        </td>
-                        <td>{this.numberWithCommas(e['price_shipping'] * e['quantity'])}</td>
-                        <td>
-                          <Button block color="danger" 
-                            onClick={()=> {
-                              let sProduct = productInfo;
-                              sProduct.splice(i, 1);
-                              this.setState({
-                                productInfo: sProduct
-                              })
-                            }}>
-                            X
-                          </Button>
-                        </td>
-                      </tr>
-                      )
-                    })}
-                  </tbody>
-                </Table>
-
+                    )
+                  })}
+                </tbody>
+              </Table>
             </CardBody>
           </Card>
           </Col>
         </Row>
         <Button block color="primary" onClick={() => {
-          this.convertOrder(this.state);
+          this.modifyOrder();
         }}>주문 수정하기</Button>
 
       </div>
