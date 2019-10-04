@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Button, Card, CardBody, CardHeader, Col, Row, NavItem, Nav, NavLink, Table, Input } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, NavItem, Nav, NavLink, Table, Input, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
 /*
 
@@ -22,7 +22,8 @@ const stateKor = {
   shipping: '출하',
   refund: '환불'
 }
-  
+const listCount = 5;
+
 class Sales extends Component {
   constructor(props) {
     super(props);
@@ -31,16 +32,29 @@ class Sales extends Component {
       orderData: [],
       page: 1,
       sdata: [],
-      search: false
+      search: false,
+      number : 1,
+      total: 0,
+      //arr :[-2, -1, 0, 1, 2],
     };
   }
 
   componentWillMount() {
-    this.getOrder("");
+    this.getOrder();
+    this.getTotal();
   }
 
-  getOrder(state) {
-    fetch(process.env.REACT_APP_HOST+"/order/"+state, {
+  getTotal() {
+    console.log(process.env.REACT_APP_HOST+"/order/total/"+this.state.process)
+    fetch(process.env.REACT_APP_HOST+"/order/total/"+this.state.process, {
+      method: 'GET',
+    })
+      .then(response => response.json())
+      .then(data => {this.setState({total: Math.ceil(data[0].total/listCount)})});
+  }
+
+  getOrder() {
+    fetch(process.env.REACT_APP_HOST+"/order/"+this.state.number+"/"+this.state.process, {
       method: 'GET',
     })
       .then(response => response.json())
@@ -49,9 +63,11 @@ class Sales extends Component {
 
   tabClick(process) {
     this.setState({
-      process
-    }, function () {
-      this.getOrder(process);
+      process,
+      number: 1
+    }, () => {
+      this.getTotal();
+      this.getOrder();
     });
   }
 
@@ -72,9 +88,18 @@ class Sales extends Component {
     return year + "년 " + month + "월 " + date + "일";
   }
 
+  countPageNumber(x){
+    this.setState({
+      number: x,
+    }, () => {
+      this.getOrder();
+    });
+  }
+
   render() {
-    console.log(this.state.orderData)
     var data = this.state.search ? this.state.sdata : this.state.orderData;
+    const arr = [-2, -1, 0, 1, 2];
+    const arr1 = [];
 
     return (
       <div className="animated fadeIn">
@@ -134,14 +159,34 @@ class Sales extends Component {
                         <td>{this.getDate(e.orderDate)}</td>
                         <td>{e.name}</td>
                         <td>{this.numberWithCommas(e.price)}</td>
-                        <td>{stateKor[e.state]}</td>{/* TODO: 상태 변경 구현후 한글화 필요 */}
+                        <td>{stateKor[e.state]}</td>
                         </tr>)
                       })}
                     </tbody>
                   </Table>
                 </div>
-
               </CardBody>
+              <CardFooter>
+                <Pagination>
+                  <PaginationItem>
+                    <PaginationLink previous onClick={() => {this.countPageNumber(this.state.number-1)}}/>
+                  </PaginationItem>
+                  {this.state.number === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
+                  {this.state.number === 2 ? arr.forEach(x => arr1.push(x+1)) : null}   
+                  {this.state.number != 1 && this.state.number!= 2 ? arr.forEach(x => arr1.push(x)) :null }    
+                  {arr1.map((e, i) => {
+                    if(this.state.total >= this.state.number+e)
+                    return <PaginationItem key={i} active={this.state.number === this.state.number+e}>
+                    <PaginationLink onClick={() => {this.countPageNumber(this.state.number+e)}}>
+                    {this.state.number+e}
+                    </PaginationLink>
+                  </PaginationItem>
+                  })}
+                  <PaginationItem>
+                    <PaginationLink next onClick={() => {this.countPageNumber(this.state.number+1)}}/>
+                  </PaginationItem>
+                </Pagination>
+              </CardFooter>
             </Card>
           </Col>
         </Row>
