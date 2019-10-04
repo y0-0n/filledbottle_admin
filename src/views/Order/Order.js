@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Button, Card, CardBody, CardHeader, Col, Row, NavItem, Nav, NavLink, Table, Input } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, NavItem, Nav, NavLink, Table, Input, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
 /*
 
@@ -31,7 +31,9 @@ class Sales extends Component {
       orderData: [],
       page: 1,
       sdata: [],
-      search: false
+      search: false,
+      number : 1,
+      //arr :[-2, -1, 0, 1, 2],
     };
   }
 
@@ -72,9 +74,17 @@ class Sales extends Component {
     return year + "년 " + month + "월 " + date + "일";
   }
 
+  countPageNumber(x){
+    this.setState({
+      number: x,
+    })
+  }
+
   render() {
     console.log(this.state.orderData)
     var data = this.state.search ? this.state.sdata : this.state.orderData;
+    const arr = [-2, -1, 0, 1, 2];
+    const arr1 = [];
 
     return (
       <div className="animated fadeIn">
@@ -140,8 +150,28 @@ class Sales extends Component {
                     </tbody>
                   </Table>
                 </div>
-
               </CardBody>
+              <CardFooter>
+                <Pagination>
+                  <PaginationItem>
+                    <PaginationLink previous onClick={() => {this.countPageNumber(this.state.number-1)}}/>
+                  </PaginationItem>
+                  {this.state.number === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
+                  {this.state.number === 2 ? arr.forEach(x => arr1.push(x+1)) : null}   
+                  {this.state.number != 1 && this.state.number!= 2 ? arr.forEach(x => arr1.push(x)) :null }    
+                  {
+                  arr1.map((e, i) => {
+                    return <PaginationItem active={this.state.number === this.state.number+e}>
+                    <PaginationLink onClick={() => {this.countPageNumber(this.state.number+e)}}>
+                    {this.state.number+e}
+                    </PaginationLink>
+                  </PaginationItem>
+                  })}
+                  <PaginationItem>
+                    <PaginationLink next onClick={() => {this.countPageNumber(this.state.number+1)}}/>
+                  </PaginationItem>
+                </Pagination>
+              </CardFooter>
             </Card>
           </Col>
         </Row>
