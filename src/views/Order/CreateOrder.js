@@ -97,7 +97,7 @@ class CreateOrder extends Component {
                 주문서
               </CardHeader>
               <CardBody>
-                <Table id="ShowTable">
+                <Table className="ShowTable">
                   <tr>
                     <th>일자</th>
                     <td>
@@ -111,7 +111,7 @@ class CreateOrder extends Component {
                       </div>
                     </td>
                     <th>고객</th>
-                    <td id="TableRight">
+                    <td className="TableRight">
                     {<Popup
                       trigger={<Input value={this.state.customerName} style={{cursor: 'pointer'}} onChange={() => {console.log('S')}} />}
                       modal>
@@ -136,17 +136,17 @@ class CreateOrder extends Component {
                       <Input value={this.state.telephone} onChange={(e) => {this.setState({telephone: e.target.value})}} />
                     </td>
                     <th>HP</th>
-                    <td id="TableRight">
+                    <td className="TableRight">
                       <Input value={this.state.cellphone} onChange={(e) => {this.setState({cellphone: e.target.value})}} />
                     </td>
                   </tr>
-                  <tr id="TableBottom">
+                  <tr className="TableBottom">
                     <th>주소</th>
                     <td>
                       <Input value={this.state.address} onChange={(e) => {this.setState({address: e.target.value})}} />
                     </td>
                     <th>요청사항</th>
-                    <td id="TableRight">
+                    <td className="TableRight">
                       <Input value={this.state.comment} onChange={(e) => {
                         this.setState({
                           comment: e.target.value

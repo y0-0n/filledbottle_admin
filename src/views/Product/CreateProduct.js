@@ -58,7 +58,7 @@ class CreateProduct extends Component {
     return (
       <div className="animated fadeIn">
         <Row className="mb-5">
-          <Col md="40" xs="12" sm="6">
+          <Col>
             <Form onSubmit={(e) => {e.preventDefault(); this.addProduct(this.form)}}>
               <FormGroup>
                 <Card>
@@ -66,14 +66,14 @@ class CreateProduct extends Component {
                     상품 등록하기
                   </CardHeader>
                   <CardBody>
-                    <Table id="ShowTable">
+                    <Table className="ShowTable">
                       <tr>
                         <th>상품명</th>
                         <td>
                           <Input onChange={(e) => this.form.name=e.target.value} />
                         </td>
                         <th>등급</th>
-                        <td id="TableRight">
+                        <td className="TableRight">
                           <Input onChange={(e) => this.form.grade=e.target.value} />
                         </td>
                       </tr>
@@ -83,14 +83,14 @@ class CreateProduct extends Component {
                           <Input onChange={(e) => this.form.weight=e.target.value} />
                         </td>
                         <th>단가</th>
-                        <td id="TableRight">
+                        <td className="TableRight">
                           <Input onChange={(e) => this.form.price=e.target.value} />
                         </td>
                       </tr>
-                      <tr id="TableBottom">
+                      <tr className="TableBottom">
                         <th>사진</th>
-                        <td colspan="3" id="TableRight">
-                          <img style={{height: 250, width: 250}} src={this.state.selectedFile} /> <br></br>
+                        <td colspan="3" className="TableRight">
+                          <img style={{height: 500, width: 500}} src={this.state.selectedFile} /> <br></br>
                         <input ref="file" type="file" name="file" onChange={e =>{this.handleFileInput(e);}}/> 
                         </td>
                       </tr>
