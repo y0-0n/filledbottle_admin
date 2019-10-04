@@ -22,7 +22,8 @@ const stateKor = {
   shipping: '출하',
   refund: '환불'
 }
-  
+const listCount = 5;
+
 class Sales extends Component {
   constructor(props) {
     super(props);
@@ -33,16 +34,30 @@ class Sales extends Component {
       sdata: [],
       search: false,
       number : 1,
+<<<<<<< HEAD
+=======
+      total: 0,
+>>>>>>> 990096a827c86c8b24fab9f9ab38b979ad474e34
       //arr :[-2, -1, 0, 1, 2],
     };
   }
 
   componentWillMount() {
-    this.getOrder("");
+    this.getOrder();
+    this.getTotal();
   }
 
-  getOrder(state) {
-    fetch(process.env.REACT_APP_HOST+"/order/"+state, {
+  getTotal() {
+    console.log(process.env.REACT_APP_HOST+"/order/total/"+this.state.process)
+    fetch(process.env.REACT_APP_HOST+"/order/total/"+this.state.process, {
+      method: 'GET',
+    })
+      .then(response => response.json())
+      .then(data => {this.setState({total: Math.ceil(data[0].total/listCount)})});
+  }
+
+  getOrder() {
+    fetch(process.env.REACT_APP_HOST+"/order/"+this.state.number+"/"+this.state.process, {
       method: 'GET',
     })
       .then(response => response.json())
@@ -51,9 +66,11 @@ class Sales extends Component {
 
   tabClick(process) {
     this.setState({
-      process
-    }, function () {
-      this.getOrder(process);
+      process,
+      number: 1
+    }, () => {
+      this.getTotal();
+      this.getOrder();
     });
   }
 
@@ -77,11 +94,16 @@ class Sales extends Component {
   countPageNumber(x){
     this.setState({
       number: x,
+<<<<<<< HEAD
     })
+=======
+    }, () => {
+      this.getOrder();
+    });
+>>>>>>> 990096a827c86c8b24fab9f9ab38b979ad474e34
   }
 
   render() {
-    console.log(this.state.orderData)
     var data = this.state.search ? this.state.sdata : this.state.orderData;
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
@@ -144,7 +166,7 @@ class Sales extends Component {
                         <td>{this.getDate(e.orderDate)}</td>
                         <td>{e.name}</td>
                         <td>{this.numberWithCommas(e.price)}</td>
-                        <td>{stateKor[e.state]}</td>{/* TODO: 상태 변경 구현후 한글화 필요 */}
+                        <td>{stateKor[e.state]}</td>
                         </tr>)
                       })}
                     </tbody>
@@ -159,9 +181,15 @@ class Sales extends Component {
                   {this.state.number === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
                   {this.state.number === 2 ? arr.forEach(x => arr1.push(x+1)) : null}   
                   {this.state.number != 1 && this.state.number!= 2 ? arr.forEach(x => arr1.push(x)) :null }    
+<<<<<<< HEAD
                   {
                   arr1.map((e, i) => {
                     return <PaginationItem active={this.state.number === this.state.number+e}>
+=======
+                  {arr1.map((e, i) => {
+                    if(this.state.total >= this.state.number+e)
+                    return <PaginationItem key={i} active={this.state.number === this.state.number+e}>
+>>>>>>> 990096a827c86c8b24fab9f9ab38b979ad474e34
                     <PaginationLink onClick={() => {this.countPageNumber(this.state.number+e)}}>
                     {this.state.number+e}
                     </PaginationLink>

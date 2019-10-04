@@ -227,7 +227,8 @@ class CreateOrder extends Component {
                             <td><Input name='price' value={this.state.sProduct[i].price} readOnly/></td>
                             <td><Input name='vos' value={this.state.sProduct[i].tax ? Math.round(this.state.sProduct[i].price * this.state.sProduct[i].quantity * 10 / 11) : Math.round(this.state.sProduct[i].price * this.state.sProduct[i].quantity)} readOnly/></td>
                             <td><Input name='vat' value={this.state.sProduct[i].tax ? Math.round(this.state.sProduct[i].price * this.state.sProduct[i].quantity * 1 / 11) : 0} readOnly/></td>
-                            <td><Input name='tax' type='checkbox' checked={this.state.sProduct[i].tax} onClick={() => {
+                            <td>
+                              <input name='tax' type='checkbox' checked={this.state.sProduct[i].tax} onClick={() => {
                               let {sProduct} = this.state;
                               sProduct[i].tax = !sProduct[i].tax;
                               this.setState({sProduct})}} />
