@@ -92,7 +92,7 @@ class Customer extends Component {
                 <CardHeader>
                   {e.name}
                 </CardHeader>
-                <CardImg top width="100%" src={"318x180.svg"} alt="Card image cap"/>
+                <CardImg top width="100%" src={e.file_name ? "http://211.62.225.216:4000/static/"+e.file_name : '318x180.svg'} alt="Card image cap"/>
                 <CardBody>
                   <CardTitle><h3>고객명 : {e.name}</h3></CardTitle>
                   <CardSubtitle><h4>전화번호 : {e.telephone}</h4></CardSubtitle>
