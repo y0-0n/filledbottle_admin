@@ -11,28 +11,14 @@ class CreateCustomer extends Component {
       telephone: '',
       cellphone: '',
       address: '',
-      
     }
     this.state = {
+      image: null,
       selectedFile : null,
     };
   }
 
   componentWillMount() {
-  }
-
-  addCustomer(form) {
-    //const {name, delegate, telephone, cellphone, address, manager} = this.form;
-    fetch(process.env.REACT_APP_HOST+"/customer", {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(form)
-    })
-      .then(response => response.json())
-      .then(data => {this.props.history.push('/main/customer/list');});
   }
 
   handleFileInput(e){
@@ -42,30 +28,41 @@ class CreateCustomer extends Component {
 
     reader.onloadend = function (e) {
       this.setState({
-        selectedFile : [reader.result],
+        image : [reader.result],
       });
     }.bind(this);
 
-    console.log(url)
+    let img = e.target.files[0];
+
+    this.setState({img});
   }
 
-  handlePost(){
-    const formData = new FormData();
-
-    return axios.post("/api/upload", formData).then(res => {
-      alert('성공')
-    })(err=> {
-      alert('실패')
-    })
+  handlePost() {
+    let formData = new FormData();
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    };
+    formData.append('file', this.state.img);
+    for (let [key, value] of Object.entries(this.form)) {
+      //console.log(`${key}: ${value}`);
+      formData.append(key, value);
+    }
+      return axios.post(process.env.REACT_APP_HOST+"/customer", formData, config).then(res => {
+        alert('성공');
+        this.props.history.push('/main/customer/list');
+      }).catch(err=> {
+        alert('실패');
+      })
   }
 
   render() {
-    console.log(this.state.selectedFile)
     return (
       <div className="animated fadeIn">
         <Row className="mb-5">
           <Col md="12" xs="12" sm="12">
-            <Form onSubmit={(e) => {e.preventDefault(); this.addCustomer(this.form)}}>
+            <form enctype="multipart/form-data" onSubmit={this.handlePost.bind(this)}>
               <FormGroup>
                 <Card>
                   <CardHeader>
@@ -96,8 +93,8 @@ class CreateCustomer extends Component {
                       </tr>
                       <tr className="TableBottom">
                         <th>사진</th>
-                        <td colSpan="3" className="TableRight">
-                          <img style={{height: 500, width: 500}} src={this.state.selectedFile} alt=''/> <br></br>
+                        <td colspan="3" className="TableRight">
+                          <img style={{height: 500, width: 500}} src={this.state.image} /> <br></br>
                         <input ref="file" type="file" name="file" onChange={e =>{this.handleFileInput(e);}}/> 
                         </td>
                       </tr>
@@ -109,7 +106,7 @@ class CreateCustomer extends Component {
                   </CardFooter>
                 </Card>
               </FormGroup>
-            </Form>
+            </form>
           </Col>
         </Row>
       </div>
