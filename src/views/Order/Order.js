@@ -34,11 +34,7 @@ class Sales extends Component {
       sdata: [],
       search: false,
       number : 1,
-<<<<<<< HEAD
-=======
       total: 0,
->>>>>>> 990096a827c86c8b24fab9f9ab38b979ad474e34
-      //arr :[-2, -1, 0, 1, 2],
     };
   }
 
@@ -94,13 +90,9 @@ class Sales extends Component {
   countPageNumber(x){
     this.setState({
       number: x,
-<<<<<<< HEAD
-    })
-=======
     }, () => {
       this.getOrder();
     });
->>>>>>> 990096a827c86c8b24fab9f9ab38b979ad474e34
   }
 
   render() {
@@ -180,16 +172,10 @@ class Sales extends Component {
                   </PaginationItem>
                   {this.state.number === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
                   {this.state.number === 2 ? arr.forEach(x => arr1.push(x+1)) : null}   
-                  {this.state.number != 1 && this.state.number!= 2 ? arr.forEach(x => arr1.push(x)) :null }    
-<<<<<<< HEAD
-                  {
-                  arr1.map((e, i) => {
-                    return <PaginationItem active={this.state.number === this.state.number+e}>
-=======
+                  {this.state.number !== 1 && this.state.number!== 2 ? arr.forEach(x => arr1.push(x)) :null }    
                   {arr1.map((e, i) => {
                     if(this.state.total >= this.state.number+e)
                     return <PaginationItem key={i} active={this.state.number === this.state.number+e}>
->>>>>>> 990096a827c86c8b24fab9f9ab38b979ad474e34
                     <PaginationLink onClick={() => {this.countPageNumber(this.state.number+e)}}>
                     {this.state.number+e}
                     </PaginationLink>

@@ -1,7 +1,7 @@
 
 
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Form, FormGroup, Label, Input, Table } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Form, FormGroup, Input, Table } from 'reactstrap';
 import axios from 'axios';
 import '../../css/Table.css';
 
@@ -49,7 +49,7 @@ class CreateProduct extends Component {
 
     return axios.post("/api/upload", formData).then(res => {
       alert('성공')
-    }),(err=> {
+    })(err=> {
       alert('실패')
     })
   }
@@ -67,6 +67,7 @@ class CreateProduct extends Component {
                   </CardHeader>
                   <CardBody>
                     <Table className="ShowTable">
+                    <tbody>
                       <tr>
                         <th>상품명</th>
                         <td>
@@ -89,11 +90,12 @@ class CreateProduct extends Component {
                       </tr>
                       <tr className="TableBottom">
                         <th>사진</th>
-                        <td colspan="3" className="TableRight">
-                          <img style={{height: 500, width: 500}} src={this.state.selectedFile} /> <br></br>
+                        <td colSpan="3" className="TableRight">
+                          <img style={{height: 500, width: 500}} src={this.state.selectedFile} alt="" /> <br></br>
                         <input ref="file" type="file" name="file" onChange={e =>{this.handleFileInput(e);}}/> 
                         </td>
                       </tr>
+                    </tbody>
                     </Table>
                   </CardBody>
                   <CardFooter>

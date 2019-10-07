@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Label, Table, Input } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Input } from 'reactstrap';
 import '../../css/Table.css';
 
 class OrderDetail extends Component {
@@ -78,6 +78,7 @@ class OrderDetail extends Component {
               </CardHeader>
               <CardBody>
                 <Table id="ShowTable">
+                <tbody>
                   <tr>
                     <th>고객명</th>
                     <td>{orderInfo['name']}</td>
@@ -96,6 +97,7 @@ class OrderDetail extends Component {
                     <th>요청사항</th>
                     <td id="TableRight">{orderInfo['comment']}</td>
                   </tr>
+                </tbody>
                 </Table>
               </CardBody>
               <CardFooter>

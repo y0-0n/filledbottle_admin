@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Input, Label } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Input } from 'reactstrap';
 import Popup from "reactjs-popup";
 import ProductModal from './Modal';
 import CustomerModal from './Modal2';
@@ -98,6 +98,7 @@ class CreateOrder extends Component {
               </CardHeader>
               <CardBody>
                 <Table className="ShowTable">
+                <tbody>
                   <tr>
                     <th>일자</th>
                     <td>
@@ -154,6 +155,8 @@ class CreateOrder extends Component {
                       }} />
                     </td>
                   </tr>
+
+                </tbody>
                 </Table>
               </CardBody>
               <CardFooter>
@@ -231,7 +234,7 @@ class CreateOrder extends Component {
                               <input name='tax' type='checkbox' checked={this.state.sProduct[i].tax} onClick={() => {
                               let {sProduct} = this.state;
                               sProduct[i].tax = !sProduct[i].tax;
-                              this.setState({sProduct})}} />
+                              this.setState({sProduct})}} readOnly/>
                             </td>
                             <td><Input name='sum' value={this.state.sProduct[i].price * this.state.sProduct[i].quantity} readOnly/></td>
                             <td>
