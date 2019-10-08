@@ -53,8 +53,8 @@ class Sales extends Component {
 
   getTotal() {
       fetch(process.env.REACT_APP_HOST+"/order/total/"+this.state.process+"/"+this.state.keyword, {
-      method: 'GET',
-    })
+        method: 'GET',
+      })
       .then(response => response.json())
       .then(data => {
         this.setState({total: Math.ceil(data[0].total/listCount)})
@@ -85,6 +85,7 @@ class Sales extends Component {
 
   searchCustomer() {
     this.getOrder();
+    this.getTotal();
   }
 
   getDate(dateInput) {

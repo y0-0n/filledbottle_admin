@@ -42,7 +42,7 @@ class Home extends Component {
   }
 
   getOrder() {
-    fetch(process.env.REACT_APP_HOST+"/order/", {
+    fetch(process.env.REACT_APP_HOST+"/order/all/all/a", {
       method: 'GET',
     })
       .then(response => response.json())
