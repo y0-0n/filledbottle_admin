@@ -37,7 +37,8 @@ class CreateCustomer extends Component {
     this.setState({img});
   }
 
-  handlePost() {
+  handlePost(e) {
+    e.preventDefault();
     let formData = new FormData();
     const config = {
       headers: {
@@ -46,15 +47,14 @@ class CreateCustomer extends Component {
     };
     formData.append('file', this.state.img);
     for (let [key, value] of Object.entries(this.form)) {
-      //console.log(`${key}: ${value}`);
       formData.append(key, value);
     }
-      return axios.post(process.env.REACT_APP_HOST+"/customer", formData, config).then(res => {
-        alert('성공');
-        this.props.history.push('/main/customer/list');
-      }).catch(err=> {
-        alert('실패');
-      })
+    axios.post(process.env.REACT_APP_HOST+"/customer", formData, config).then(res => {
+      alert('성공');
+      //this.props.history.push('/main/customer/list');
+    }).catch(err=> {
+      alert('실패');
+    })
   }
 
   render() {
@@ -62,7 +62,7 @@ class CreateCustomer extends Component {
       <div className="animated fadeIn">
         <Row className="mb-5">
           <Col md="12" xs="12" sm="12">
-            <form enctype="multipart/form-data" onSubmit={this.handlePost.bind(this)}>
+            <form onSubmit={this.handlePost.bind(this)}>
               <FormGroup>
                 <Card>
                   <CardHeader>
