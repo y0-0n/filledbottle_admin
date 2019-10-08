@@ -1,13 +1,14 @@
-#ShowTable th{
+.ShowTable th{
     border-right: 1px solid lightgray;
     border-left: 1px solid lightgray;
     text-align: center;
+    height: 60px;
 }
 
-#TableBottom {
+.TableBottom {
     border-bottom: 1px solid lightgray;
 }
 
-#TableRight {
+.TableRight {
     border-right: 1px solid lightgray;
 }

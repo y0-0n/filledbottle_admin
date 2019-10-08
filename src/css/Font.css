@@ -1,0 +1,19 @@
+@font-face {
+    font-family: 'nixgonfonts_v2.0l';
+    src: url('../font/nixgonfonts_l_2.0.woff2') format('woff2'),
+         url('../font/nixgonfonts_l_2.0.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  
+  }
+
+  @font-face { font-family: 'ON-IGothic';
+     src: url('../font/ONI_GOTHIC.woff') format('woff'); 
+     font-weight: normal; 
+     font-style: normal; 
+    } 
+
+  body{
+    font-family:'ON-IGothic';
+    font-size: 1.2em;
+  }

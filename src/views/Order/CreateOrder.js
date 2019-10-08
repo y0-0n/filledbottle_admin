@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Input, Label } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Input } from 'reactstrap';
 import Popup from "reactjs-popup";
 import ProductModal from './Modal';
 import CustomerModal from './Modal2';
@@ -97,7 +97,8 @@ class CreateOrder extends Component {
                 주문서
               </CardHeader>
               <CardBody>
-                <Table id="ShowTable">
+                <Table className="ShowTable">
+                <tbody>
                   <tr>
                     <th>일자</th>
                     <td>
@@ -111,7 +112,7 @@ class CreateOrder extends Component {
                       </div>
                     </td>
                     <th>고객</th>
-                    <td id="TableRight">
+                    <td className="TableRight">
                     {<Popup
                       trigger={<Input value={this.state.customerName} style={{cursor: 'pointer'}} onChange={() => {console.log('S')}} />}
                       modal>
@@ -136,17 +137,17 @@ class CreateOrder extends Component {
                       <Input value={this.state.telephone} onChange={(e) => {this.setState({telephone: e.target.value})}} />
                     </td>
                     <th>HP</th>
-                    <td id="TableRight">
+                    <td className="TableRight">
                       <Input value={this.state.cellphone} onChange={(e) => {this.setState({cellphone: e.target.value})}} />
                     </td>
                   </tr>
-                  <tr id="TableBottom">
+                  <tr className="TableBottom">
                     <th>주소</th>
                     <td>
                       <Input value={this.state.address} onChange={(e) => {this.setState({address: e.target.value})}} />
                     </td>
                     <th>요청사항</th>
-                    <td id="TableRight">
+                    <td className="TableRight">
                       <Input value={this.state.comment} onChange={(e) => {
                         this.setState({
                           comment: e.target.value
@@ -154,6 +155,8 @@ class CreateOrder extends Component {
                       }} />
                     </td>
                   </tr>
+
+                </tbody>
                 </Table>
               </CardBody>
               <CardFooter>
@@ -231,7 +234,7 @@ class CreateOrder extends Component {
                               <input name='tax' type='checkbox' checked={this.state.sProduct[i].tax} onClick={() => {
                               let {sProduct} = this.state;
                               sProduct[i].tax = !sProduct[i].tax;
-                              this.setState({sProduct})}} />
+                              this.setState({sProduct})}} readOnly/>
                             </td>
                             <td><Input name='sum' value={this.state.sProduct[i].price * this.state.sProduct[i].quantity} readOnly/></td>
                             <td>

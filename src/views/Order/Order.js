@@ -179,7 +179,7 @@ class Sales extends Component {
                   </PaginationItem>
                   {this.state.number === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
                   {this.state.number === 2 ? arr.forEach(x => arr1.push(x+1)) : null}   
-                  {this.state.number != 1 && this.state.number!= 2 ? arr.forEach(x => arr1.push(x)) :null }    
+                  {this.state.number !== 1 && this.state.number!== 2 ? arr.forEach(x => arr1.push(x)) :null }    
                   {arr1.map((e, i) => {
                     if(this.state.total >= this.state.number+e)
                     return <PaginationItem key={i} active={this.state.number === this.state.number+e}>

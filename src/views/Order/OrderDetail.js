@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Label, Table, Input } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Input } from 'reactstrap';
 import '../../css/Table.css';
+
+const stateKor = {
+  order: '주문',
+  shipping: '출하',
+  refund: '환불'
+}
 
 class OrderDetail extends Component {
   constructor(props) {
@@ -64,6 +70,7 @@ class OrderDetail extends Component {
     orderInfo = orderInfo[0];
     var d = new Date(orderInfo['date']);
     var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
+    var total = 0 ;
 
     return (
       <div className="animated fadeIn">
@@ -77,25 +84,31 @@ class OrderDetail extends Component {
                 </Row>
               </CardHeader>
               <CardBody>
-                <Table id="ShowTable">
+                <Table className="ShowTable">
+                <tbody>
                   <tr>
                     <th>고객명</th>
                     <td>{orderInfo['name']}</td>
                     <th>일자</th>
-                    <td id="TableRight">{year}년 {month}월 {date}일</td>
+                    <td className="TableRight">{year}년 {month}월 {date}일</td>
                   </tr>
                   <tr>
                     <th>전화번호</th>
                     <td>{orderInfo['telephone']}</td>
                     <th>HP</th>
-                    <td id="TableRight">{orderInfo['cellphone']}</td>
+                    <td className="TableRight">{orderInfo['cellphone']}</td>
                   </tr>
-                  <tr id="TableBottom">
+                  <tr>
                     <th>배송지</th>
                     <td>{orderInfo['address']}</td>
                     <th>요청사항</th>
-                    <td id="TableRight">{orderInfo['comment']}</td>
+                    <td className="TableRight">{orderInfo['comment']}</td>
                   </tr>
+                  <tr className="TableBottom">
+                    <th>주문상태</th>
+                    <td colSpan='3'>{stateKor[orderInfo['state']]}</td>
+                  </tr>
+                </tbody>
                 </Table>
               </CardBody>
               <CardFooter>
@@ -115,7 +128,8 @@ class OrderDetail extends Component {
               <Row>
                 <Col>품목</Col>
                 <Col>
-                  <Button onClick={()=>{this.handleRefund()}}>환불하기</Button>
+                  {orderInfo['state'] === "order" ? <Button> 주문 취소</Button> : null}
+                  {orderInfo['state'] === "shipping" ? <Button onClick={() => {this.handleRefund()}}>환불 하기</Button> : null}
                 </Col>
               </Row>
             </CardHeader>
@@ -134,7 +148,8 @@ class OrderDetail extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {productInfo.map((e, i) => {
+                    {productInfo.map((e, i) => {                      
+                      total += e['quantity']*e['price_shipping'];
                       return ( <tr key={i}>
                         <td>{e['name']}</td>
                         <td>{e['quantity']}</td>
@@ -148,6 +163,17 @@ class OrderDetail extends Component {
                       )
                     })}
                   </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>총합</th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th>{this.numberWithCommas(total)}</th>
+                    </tr>
+                  </tfoot>
                 </Table>
 
             </CardBody>

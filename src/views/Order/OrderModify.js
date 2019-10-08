@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Input, Card, CardBody, CardHeader, CardFooter, Col, Row, Label, Table } from 'reactstrap';
+import { Button, Input, Card, CardBody, CardHeader, CardFooter, Col, Row, Table } from 'reactstrap';
 import ProductModal from './Modal';
 import Popup from "reactjs-popup";
 import '../../css/Table.css';
@@ -74,6 +74,7 @@ class OrderModify extends Component {
               </CardHeader>
               <CardBody>
                 <Table id="ShowTable">
+                <tbody>
                   <tr>
                     <th>고객명</th>
                     <td>{orderInfo['name']}</td>
@@ -100,6 +101,8 @@ class OrderModify extends Component {
                       <Input defaultValue={orderInfo['comment']} onChange={(e) => {orderInfo['comment'] = e.target.value}} />
                     </td>
                   </tr>
+                  
+                </tbody>
                 </Table>
               </CardBody>
               <CardFooter>
