@@ -28,33 +28,41 @@ class Sales extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      process: "",
+      process: "all",
       orderData: [],
       page: 1,
       sdata: [],
       search: false,
       number : 1,
       total: 0,
-      //arr :[-2, -1, 0, 1, 2],
+      keyword: 'a'
     };
   }
 
   componentWillMount() {
-    this.getOrder();
-    this.getTotal();
+    if(this.props.location.state !== undefined) {
+      this.setState({keyword: this.props.location.state.name}, () => {
+        this.getOrder();
+        this.getTotal();  
+      });
+    } else {
+      this.getOrder();
+      this.getTotal();
+    }
   }
 
   getTotal() {
-    console.log(process.env.REACT_APP_HOST+"/order/total/"+this.state.process)
-    fetch(process.env.REACT_APP_HOST+"/order/total/"+this.state.process, {
+      fetch(process.env.REACT_APP_HOST+"/order/total/"+this.state.process+"/"+this.state.keyword, {
       method: 'GET',
     })
       .then(response => response.json())
-      .then(data => {this.setState({total: Math.ceil(data[0].total/listCount)})});
+      .then(data => {
+        this.setState({total: Math.ceil(data[0].total/listCount)})
+      });
   }
 
   getOrder() {
-    fetch(process.env.REACT_APP_HOST+"/order/"+this.state.number+"/"+this.state.process, {
+    fetch(process.env.REACT_APP_HOST+"/order/"+this.state.number+"/"+this.state.process+"/"+this.state.keyword, {
       method: 'GET',
     })
       .then(response => response.json())
@@ -76,9 +84,7 @@ class Sales extends Component {
   }
 
   searchCustomer() {
-    let result = this.state.orderData.filter(word => word.name.indexOf(this.state.keyword) !== -1)
-
-    this.setState({sdata: result, search: true});
+    this.getOrder();
   }
 
   getDate(dateInput) {
@@ -124,7 +130,7 @@ class Sales extends Component {
               <CardBody>
                 <Nav tabs>
                   <NavItem>
-                    <NavLink active={this.state.process === ""} onClick={() => this.tabClick("")} href="#">전체</NavLink>
+                    <NavLink active={this.state.process === "all"} onClick={() => this.tabClick("all")} href="#">전체</NavLink>
                   </NavItem>
                   {/*<NavItem>
                     <NavLink active={this.state.process === "estimate"} onClick={() => this.tabClick("estimate")} href="#">견적</NavLink>

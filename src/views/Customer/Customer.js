@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Input, CardImg, CardTitle, CardSubtitle } from 'reactstrap';
-import axios from 'axios';
 
 /*
 
@@ -98,7 +97,12 @@ class Customer extends Component {
                   <CardSubtitle><h4>전화번호 : {e.telephone}</h4></CardSubtitle>
                   <CardSubtitle><h4>HP : {e.cellphone}</h4></CardSubtitle>
                   <CardSubtitle><h4>주소 : {e.address}</h4></CardSubtitle>
-                  <Button block outline color="primary" onClick={() => alert('준비중입니다.')}>주문 조회</Button>
+                  <Button block outline color="primary" onClick={() =>
+                    this.props.history.push({
+                      pathname: '/main/sales/list',
+                      state: {name: e.name}
+                    })}
+                  >주문 조회</Button>
                   <Button block outline color="primary" onClick={() => alert('준비중입니다.')}>고객 분석</Button>
                 </CardBody>
                 <CardFooter>

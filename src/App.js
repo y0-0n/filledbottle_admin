@@ -15,7 +15,6 @@ const Page404 = React.lazy(() => import('./views/Pages/Page404'));
 const Page500 = React.lazy(() => import('./views/Pages/Page500'));
 
 class App extends Component {
-
   render() {
     return (
       <HashRouter>
