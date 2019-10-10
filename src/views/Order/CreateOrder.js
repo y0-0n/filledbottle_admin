@@ -87,6 +87,10 @@ class CreateOrder extends Component {
     return(!this.state.manager)
   }
 
+  countQuantity(){
+    this.setState({refund: false});
+  }
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -222,11 +226,29 @@ class CreateOrder extends Component {
                                             }}/>}
                                 </Popup>}
                             </td>
-                            <td><Input name='quantity' value={this.state.sProduct[i].quantity} onChange={(e)=> {
+                            <td>
+                              <Input name='quantity' value={this.state.sProduct[i].quantity} onChange={(e)=> {
                               let {sProduct} = this.state;
                               sProduct[i].quantity = e.target.value;
                               this.setState({sProduct})}}
-                            /></td>
+                              />
+                              <Button onClick={(e)=> {
+                                let sProduct = this.state.sProduct;
+                                {sProduct[i].quantity > 0 ? sProduct[i].quantity-- :  sProduct[i].quantity= 0};
+                                this.setState({
+                                  sProduct
+                                })}}>
+                                -
+                              </Button>
+                              <Button onClick={(e)=> {
+                                let sProduct = this.state.sProduct;
+                                sProduct[i].quantity++;
+                                this.setState({
+                                  sProduct
+                                })}}>
+                                +
+                              </Button>
+                            </td>
                             <td><Input name='price' value={this.state.sProduct[i].price} readOnly/></td>
                             <td><Input name='vos' value={this.state.sProduct[i].tax ? Math.round(this.state.sProduct[i].price * this.state.sProduct[i].quantity * 10 / 11) : Math.round(this.state.sProduct[i].price * this.state.sProduct[i].quantity)} readOnly/></td>
                             <td><Input name='vat' value={this.state.sProduct[i].tax ? Math.round(this.state.sProduct[i].price * this.state.sProduct[i].quantity * 1 / 11) : 0} readOnly/></td>
