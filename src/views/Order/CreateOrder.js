@@ -229,7 +229,8 @@ class CreateOrder extends Component {
                             <td>
                               <Input name='quantity' value={this.state.sProduct[i].quantity} onChange={(e)=> {
                               let {sProduct} = this.state;
-                              sProduct[i].quantity = e.target.value;
+                              {sProduct[i].quantity > 0 ? sProduct[i].quantity = e.target.value :  sProduct[i].quantity= Math.abs(e.target.value)};
+                              //sProduct[i].quantity = e.target.value;
                               this.setState({sProduct})}}
                               />
                               <Button onClick={(e)=> {
