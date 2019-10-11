@@ -73,31 +73,31 @@ class OrderModify extends Component {
                 {this.props.match.params.id}번 주문
               </CardHeader>
               <CardBody>
-                <Table id="ShowTable">
+                <Table className="ShowTable">
                 <tbody>
                   <tr>
                     <th>고객명</th>
                     <td>{orderInfo['name']}</td>
                     <th>일자</th>
-                    <td id="TableRight">{year}년 {month}월 {date}일</td>
+                    <td className="TableRight">{year}년 {month}월 {date}일</td>
                   </tr>
                   <tr>
                     <th>전화번호</th>
                     <td>
-                      <Input defaultValue={orderInfo['telephone']} onChange={(e) => {orderInfo['telephone'] = e.target.value}} />
+                      <Input defaultValue={orderInfo['telephone']} type="tel" onChange={(e) => {orderInfo['telephone'] = e.target.value}} />
                     </td>
                     <th>HP</th>
-                    <td id="TableRight">
-                      <Input defaultValue={orderInfo['cellphone']} onChange={(e) => {orderInfo['cellphone'] = e.target.value}} />
+                    <td className="TableRight">
+                      <Input defaultValue={orderInfo['cellphone']} type="tel" onChange={(e) => {orderInfo['cellphone'] = e.target.value}} />
                     </td>
                   </tr>
-                  <tr id="TableBottom">
+                  <tr className="TableBottom">
                     <th>배송지</th>
                     <td>
                       <Input defaultValue={orderInfo['address']} onChange={(e) => {orderInfo['address'] = e.target.value}} />
                     </td>
                     <th>요청사항</th>
-                    <td id="TableRight">
+                    <td className="TableRight">
                       <Input defaultValue={orderInfo['comment']} onChange={(e) => {orderInfo['comment'] = e.target.value}} />
                     </td>
                   </tr>
@@ -148,7 +148,7 @@ class OrderModify extends Component {
                     return ( <tr key={i}>
                       <td>
                         {<Popup
-                          trigger={<Input name='name' value={productInfo[i].name || ''} style={{cursor: 'pointer'}} onChange={() => console.log('S')}/>}
+                          trigger={<Input name='name' value={productInfo[i].name || ''} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => console.log('S')} readOnly/>}
                           modal>
                           {close => <ProductModal index={i} close={close}
                                       selectProduct={(data) => {
@@ -169,7 +169,7 @@ class OrderModify extends Component {
                         </Popup>}
                       </td>
                       <td>
-                        <Input name='quantity' value={productInfo[i].quantity || 0} onChange={(e)=> {
+                        <Input name='quantity' style={{width: 100, display: 'inline-block'}} value={productInfo[i].quantity || 0} onChange={(e)=> {
                         let sProduct = productInfo;
                         {sProduct[i].quantity > 0 ? sProduct[i].quantity = e.target.value :  sProduct[i].quantity= Math.abs(e.target.value)};
                         //sProduct[i].quantity = e.target.value;
