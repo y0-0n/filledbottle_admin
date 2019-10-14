@@ -34,7 +34,17 @@ class Customer extends Component {
   }
 
   getCustomer() {
+    this.setState({set: true});
     fetch(process.env.REACT_APP_HOST+"/customer", {
+      method: 'GET',
+    })
+      .then(response => response.json())
+      .then(data => {this.setState({data})})
+  }
+
+  getUnsetCustomer() {
+    this.setState({set: false});
+    fetch(process.env.REACT_APP_HOST+"/customer/unset", {
       method: 'GET',
     })
       .then(response => response.json())
@@ -59,6 +69,24 @@ class Customer extends Component {
     }
   }
 
+  activateCustomer(id) {
+    let c = window.confirm('위 고객을 활성화하시겠습니까?')
+    if (c) {
+      fetch(process.env.REACT_APP_HOST+"/customer", {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id
+        })
+      })
+        .then(response => response.json())
+        .then(data => {console.warn(data); this.getUnsetCustomer()});
+    }
+  }
+
   searchCustomer() {
     let result = this.state.data.filter(word => word.name.indexOf(this.state.keyword) !== -1)
 
@@ -80,6 +108,14 @@ class Customer extends Component {
             <Col md="2" xs="3 " sm="3">
               <Button block color="primary" onClick={()=> {this.props.history.push('/customer/create');}}>등록하기</Button>
             </Col>
+            {this.state.set ?
+              <Col md="2" xs="3 " sm="3">
+                <Button block color="primary" onClick={()=> {this.getUnsetCustomer()}}>비활성화 고객 보기</Button>
+              </Col> :
+              <Col md="2" xs="3 " sm="3">
+                <Button block color="primary" onClick={()=> {this.getCustomer()}}>활성화 고객 보기</Button>
+              </Col> 
+            }
         </Row>
 
         <Row className="mb-5">
@@ -105,9 +141,14 @@ class Customer extends Component {
                   >주문 조회</Button>
                   <Button block outline color="primary" onClick={() => alert('준비중입니다.')}>고객 분석</Button>
                 </CardBody>
+                {this.state.set ?
                 <CardFooter>
-                  <Button block color="ghost-danger" onClick={() => this.deleteCustomer(e.id)}>고객 삭제</Button>
+                  <Button block color="ghost-danger" onClick={() => this.deleteCustomer(e.id)}>고객 비활성화</Button>
+                </CardFooter> :
+                <CardFooter>
+                  <Button block color="ghost-danger" onClick={() => this.activateCustomer(e.id)}>고객 활성화</Button>
                 </CardFooter>
+              }  
               </Card>
             </Col>)
           }.bind(this))
