@@ -5,7 +5,8 @@ import '../../css/Table.css';
 const stateKor = {
   order: '주문',
   shipping: '출하',
-  refund: '환불'
+  refund: '환불',
+  cancel: '취소'
 }
 
 class OrderDetail extends Component {
@@ -54,7 +55,6 @@ class OrderDetail extends Component {
     }else{
       this.setState({refund: true});
     }
-    
   }
 
   changeRefundstate(id) {
@@ -128,7 +128,7 @@ class OrderDetail extends Component {
               <Row>
                 <Col>품목</Col>
                 <Col>
-                  {orderInfo['state'] === "order" ? <Button> 주문 취소</Button> : null}
+                  {orderInfo['state'] === "order" ? <Button onClick={() => {this.changeState('cancel')}}> 주문 취소</Button> : null}
                   {orderInfo['state'] === "shipping" ? <Button onClick={() => {this.handleRefund()}}>환불 하기</Button> : null}
                 </Col>
               </Row>

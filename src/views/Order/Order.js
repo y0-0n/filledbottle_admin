@@ -20,7 +20,8 @@ import { Button, Badge, Card, CardBody, CardHeader, CardFooter, Col, Row, NavIte
 const stateKor = {
   order: '주문',
   shipping: '출하',
-  refund: '환불'
+  refund: '환불',
+  cancel: '취소'
 }
 const listCount = 5;
 
@@ -170,6 +171,7 @@ class Sales extends Component {
                           {e.state === 'order' ? <h3><Badge color="primary">{stateKor[e.state]}</Badge></h3>: null}
                           {e.state === 'shipping' ? <h3><Badge color="secondary">{stateKor[e.state]}</Badge></h3>: null}
                           {e.state === 'refund' ? <h3><Badge color="danger">{stateKor[e.state]}</Badge></h3>: null}
+                          {e.state === 'cancel' ? <h3><Badge color="danger">{stateKor[e.state]}</Badge></h3>: null}
                         </td>
                         </tr>)
                       })}
