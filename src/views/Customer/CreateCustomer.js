@@ -51,7 +51,7 @@ class CreateCustomer extends Component {
     }
     axios.post(process.env.REACT_APP_HOST+"/customer", formData, config).then(res => {
       alert('성공');
-      //this.props.history.push('/main/customer/list');
+      this.props.history.push('/main/customer/list');
     }).catch(err=> {
       alert('실패');
     })
