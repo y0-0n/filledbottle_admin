@@ -86,7 +86,7 @@ class Home extends Component {
             </div>
           </CardBody>
         </Card>
-        <Row>
+        {/*<Row>
           <Col>
             <Card style={{height: 200}}>
               <CardHeader>
@@ -105,7 +105,7 @@ class Home extends Component {
               </CardBody>
             </Card>
           </Col>
-        </Row>
+        </Row>*/}
       </div>
     )
   }
