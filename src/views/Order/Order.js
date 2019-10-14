@@ -146,6 +146,9 @@ class Sales extends Component {
                   <NavItem>
                     <NavLink active={this.state.process === "refund"} onClick={() => this.tabClick("refund")} href="#">환불</NavLink>
                   </NavItem>
+                  <NavItem>
+                    <NavLink active={this.state.process === "cancel"} onClick={() => this.tabClick("cancel")} href="#">취소</NavLink>
+                  </NavItem>
                 </Nav>
                 <div style={{overflow: 'scroll'}}>
                   <Table style={{minWidth: 600}} hover>

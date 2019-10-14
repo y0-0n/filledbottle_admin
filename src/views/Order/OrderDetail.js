@@ -57,12 +57,20 @@ class OrderDetail extends Component {
     }
   }
 
-  changeRefundstate(id) {
-    let c = window.confirm('이 상품을 환불하시겠습니까?')
+  changeRefundstate(id, refund) {
+    let c;
+    if(refund) 
+      c = window.confirm('이 상품을 환불 취소하시겠습니까?');
+    else
+      c = window.confirm('이 상품을 환불하시겠습니까?');
 
     if(c) {
-      this.setState({refund: false});
-    }
+      fetch(process.env.REACT_APP_HOST+"/orderDetail/refund/"+id, {
+        method: 'PUT',  
+      })
+        .then(response => response.json())
+        .then(data => this.getData(this.props.match.params.id))
+      }
   }
 
   render() {
@@ -129,7 +137,10 @@ class OrderDetail extends Component {
                 <Col>품목</Col>
                 <Col>
                   {orderInfo['state'] === "order" ? <Button onClick={() => {this.changeState('cancel')}}> 주문 취소</Button> : null}
-                  {orderInfo['state'] === "shipping" ? <Button onClick={() => {this.handleRefund()}}>환불 하기</Button> : null}
+                  {orderInfo['state'] === "shipping" ?
+                    this.state.refund ? <Button onClick={() => {this.handleRefund()}}>환불 완료</Button>
+                    : <Button onClick={() => {this.handleRefund()}}>환불 하기</Button>
+                  : null}
                 </Col>
               </Row>
             </CardHeader>
@@ -148,17 +159,21 @@ class OrderDetail extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {productInfo.map((e, i) => {                      
-                      total += e['quantity']*e['price_shipping'];
-                      return ( <tr key={i}>
+                    {productInfo.map((e, i) => {
+                      total += e['price'];
+                      return ( <tr key={i} style={{backgroundColor: e.refund ? 'orange' : null}}>
                         <td>{e['name']}</td>
                         <td>{e['quantity']}</td>
-                        <td>{this.numberWithCommas(e['price_shipping'])}</td>
-                        <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price_shipping'] * e['quantity'] * 10 / 11 : e['price_shipping'] * e['quantity']))}</td>
-                        <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price_shipping'] * e['quantity'] * 1 / 11 : 0))}</td>
+                        <td>{this.numberWithCommas(e['price']/e['quantity'])}</td>
+                        <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price'] * 10 / 11 : e['price']))}</td>
+                        <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price'] * 1 / 11 : 0))}</td>
                         <td><Input name='tax' type='checkbox' checked={e.tax} disabled/></td>
-                        <td>{this.numberWithCommas(e['quantity']*e['price_shipping'])}</td>
-                        <td>{this.state.refund === true ? <Button onClick={() => this.changeRefundstate(e.id)}>X</Button> : null}</td>
+                        <td>{this.numberWithCommas(e['price'])}</td>
+                        <td>{
+                          this.state.refund === true ?
+                              !e.refund ? <Button onClick={() => this.changeRefundstate(e.id, e.refund)}>환불</Button>
+                              : <Button onClick={() => this.changeRefundstate(e.id, e.refund)}>환불 취소</Button>
+                          : null}</td>
                       </tr>
                       )
                     })}
