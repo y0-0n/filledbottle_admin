@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Input } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Input, Badge } from 'reactstrap';
 import '../../css/Table.css';
 
 const stateKor = {
@@ -42,11 +42,17 @@ class OrderDetail extends Component {
   }
 
   changeState(s) {
-    fetch(process.env.REACT_APP_HOST+"/order/changeState/"+this.props.match.params.id+"/"+s, {
+    let c;
+    c = window.confirm('이 상품을 주문 취소하시겠습니까?');
+
+    if(c) {
+      fetch(process.env.REACT_APP_HOST+"/order/changeState/"+this.props.match.params.id+"/"+s, {
       method: 'PUT',
     })
       .then(response => response.json())
       .then(data => this.getData(this.props.match.params.id))
+      }
+    
 }
 
   handleRefund() {
@@ -78,7 +84,9 @@ class OrderDetail extends Component {
     orderInfo = orderInfo[0];
     var d = new Date(orderInfo['date']);
     var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
-    var total = 0 ;
+    var total_price = 0 ;
+    var total_supply = 0;
+    var total_vat = 0;
 
     return (
       <div className="animated fadeIn">
@@ -87,7 +95,7 @@ class OrderDetail extends Component {
             <Card>
               <CardHeader>
                 <Row>
-                  <Col>{this.props.match.params.id}번 주문</Col>
+                  <Col md="10" xs="10" sm="10">{this.props.match.params.id}번 주문</Col>
                   <Col><Button onClick={() => {this.props.history.goBack()}}>뒤로가기</Button></Col>
                 </Row>
               </CardHeader>
@@ -114,17 +122,21 @@ class OrderDetail extends Component {
                   </tr>
                   <tr className="TableBottom">
                     <th>주문상태</th>
-                    <td colSpan='3'>{stateKor[orderInfo['state']]}</td>
+                    <td colSpan='3'>
+                      {orderInfo['state'] === 'order' ? <h3><Badge color="primary">{stateKor[orderInfo['state']]}</Badge></h3>: null}
+                      {orderInfo['state'] === 'shipping' ? <h3><Badge color="secondary">{stateKor[orderInfo['state']]}</Badge></h3>: null}
+                      {orderInfo['state'] === 'refund' ? <h3><Badge color="danger">{stateKor[orderInfo['state']]}</Badge></h3>: null}
+                      {orderInfo['state'] === 'cancel' ? <h3><Badge color="danger">{stateKor[orderInfo['state']]}</Badge></h3>: null}</td>
                   </tr>
                 </tbody>
                 </Table>
               </CardBody>
               <CardFooter>
-                {orderInfo['state'] === "order" ? <Button onClick={() => this.changeState('shipping')}>출하 완료</Button> : null}
-                {orderInfo['state'] === "shipping" ? <Button onClick={() => this.changeState('order')}>출하 취소</Button> : null}
-                <Button onClick={() => {this.props.history.push(`/main/order/edit/`+this.props.match.params.id)}}>수정</Button>
-                <Button onClick={() => {this.props.history.push(`/main/order/transaction/`+this.props.match.params.id)}}>거래명세서</Button>
-                <Button onClick={() => {this.props.history.push(`/main/order/post/`+this.props.match.params.id)}}>택배송장</Button>
+                {orderInfo['state'] === "order" ? <Button onClick={() => this.changeState('shipping')} style={{marginLeft : '10px'}}>출하 완료</Button> : null}
+                {orderInfo['state'] === "shipping" ? <Button onClick={() => this.changeState('order')} style={{marginLeft : '10px'}} >출하 취소</Button> : null}
+                <Button onClick={() => {this.props.history.push(`/main/order/edit/`+this.props.match.params.id)}} style={{marginLeft : '10px'}}>수정</Button>
+                <Button onClick={() => {this.props.history.push(`/main/order/transaction/`+this.props.match.params.id)}} style={{marginLeft : '10px'}}>거래명세서</Button>
+                <Button onClick={() => {this.props.history.push(`/main/order/post/`+this.props.match.params.id)}} style={{marginLeft : '10px'}}>택배송장</Button>
               </CardFooter>
             </Card>
           </Col>
@@ -134,7 +146,7 @@ class OrderDetail extends Component {
           <Card>
             <CardHeader>
               <Row>
-                <Col>품목</Col>
+                <Col md="10" xs="10" sm="10">품목</Col>
                 <Col>
                   {orderInfo['state'] === "order" ? <Button onClick={() => {this.changeState('cancel')}}> 주문 취소</Button> : null}
                   {orderInfo['state'] === "shipping" ?
@@ -160,7 +172,9 @@ class OrderDetail extends Component {
                   </thead>
                   <tbody>
                     {productInfo.map((e, i) => {
-                      total += e['price'];
+                      total_price += e['price'];
+                      total_supply += Math.round(e['tax'] ? e['price'] * 10 / 11 : e['price']);
+                      total_vat += Math.round(e['tax'] ? e['price'] * 1 / 11 : 0);
                       return ( <tr key={i} style={{backgroundColor: e.refund ? 'orange' : null}}>
                         <td>{e['name']}</td>
                         <td>{e['quantity']}</td>
@@ -183,10 +197,10 @@ class OrderDetail extends Component {
                       <th>총합</th>
                       <th></th>
                       <th></th>
+                      <th>{this.numberWithCommas(total_supply)}</th>
+                      <th>{this.numberWithCommas(total_vat)}</th>
                       <th></th>
-                      <th></th>
-                      <th></th>
-                      <th>{this.numberWithCommas(total)}</th>
+                      <th>{this.numberWithCommas(total_price)}</th>
                     </tr>
                   </tfoot>
                 </Table>

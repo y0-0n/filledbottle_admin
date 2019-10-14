@@ -39,6 +39,24 @@ class Product extends Component {
       .then(data => {this.setState({data})})
   }
 
+  getProduct() {
+    this.setState({set: true});
+    fetch(process.env.REACT_APP_HOST+"/product", {
+      method: 'GET',
+    })
+      .then(response => response.json())
+      .then(data => {this.setState({data})})
+  }
+
+  getUnsetProduct() {
+    this.setState({set: false});
+    fetch(process.env.REACT_APP_HOST+"/product/unset", {
+      method: 'GET',
+    })
+      .then(response => response.json())
+      .then(data => {this.setState({data})})
+  }
+
 
   deleteProduct(id) {
     let c = window.confirm('이 상품을 삭제하시겠습니까?')
@@ -55,6 +73,24 @@ class Product extends Component {
       })
         .then(response => response.json())
         .then(data => {this.findProduct()});
+    }
+  }
+
+  activateProduct(id) {
+    let c = window.confirm('위 상품을 활성화하시겠습니까?')
+    if (c) {
+      fetch(process.env.REACT_APP_HOST+"/product", {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id
+        })
+      })
+        .then(response => response.json())
+        .then(data => {console.warn(data); this.getUnsetProduct()});
     }
   }
 
@@ -80,6 +116,14 @@ class Product extends Component {
           <Col md="2" xs="3" sm="3">
             <Button block color="primary" onClick={()=> {this.props.history.push('/product/create');}}>등록하기</Button>
           </Col>
+            {this.state.set ?
+              <Col md="2" xs="3 " sm="3">
+                <Button block color="primary" onClick={()=> {this.getUnsetProduct()}}>비활성화 상품 보기</Button>
+              </Col> :
+              <Col md="2" xs="3 " sm="3">
+                <Button block color="primary" onClick={()=> {this.getProduct()}}>활성화 상품 보기</Button>
+              </Col> 
+            }
         </Row>
 
         <Row>
@@ -100,9 +144,14 @@ class Product extends Component {
                     <CardSubtitle><h4>단가 : {e['price_shipping']}</h4></CardSubtitle>
                     <Button block outline color="primary" onClick={() => alert('준비중입니다.')}>상품 분석</Button>
                   </CardBody>
-                  <CardFooter>
-                    <Button block color="ghost-danger" onClick={() => this.deleteProduct(e.id)}>상품 삭제</Button>
-                  </CardFooter>
+                  {this.state.set ?
+                <CardFooter>
+                  <Button block color="ghost-danger" onClick={() => this.deleteProduct(e.id)}>상품 비활성화</Button>
+                </CardFooter> :
+                <CardFooter>
+                  <Button block color="ghost-danger" onClick={() => this.activateProduct(e.id)}>상품 활성화</Button>
+                </CardFooter>
+              }
                 </Card>
               </Col>)
           }.bind(this))
