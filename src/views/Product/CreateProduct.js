@@ -24,23 +24,10 @@ class CreateProduct extends Component {
   componentWillMount() {
   }
 
-  /*addProduct(form) {
-    //const {name} = form;
-    fetch(process.env.REACT_APP_HOST+"/product", {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(form)
-    })
-      .then(response => response.json())
-      .then(data => {this.props.history.push('/main/product/list');});
-  }*/
-
   handleFileInput(e){
     var file = this.refs.file.files[0];
     var reader = new FileReader();
+    var url = reader.readAsDataURL(file);
 
     reader.onloadend = function (e) {
       this.setState({
@@ -53,7 +40,8 @@ class CreateProduct extends Component {
     this.setState({img});
   }
 
-  handlePost(){
+  handlePost(e){
+    e.preventDefault();
     let formData = new FormData();
     const config = {
       headers: {

@@ -87,6 +87,10 @@ class CreateOrder extends Component {
     return(!this.state.manager)
   }
 
+  countQuantity(){
+    this.setState({refund: false});
+  }
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -114,7 +118,7 @@ class CreateOrder extends Component {
                     <th>고객</th>
                     <td className="TableRight">
                     {<Popup
-                      trigger={<Input value={this.state.customerName} style={{cursor: 'pointer'}} onChange={() => {console.log('S')}} />}
+                      trigger={<Input value={this.state.customerName} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}} readOnly/>}
                       modal>
                       {close => <CustomerModal close={close}
                       selectCustomer={(data) => {
@@ -134,11 +138,11 @@ class CreateOrder extends Component {
                   <tr>
                     <th>전화번호</th>
                     <td>
-                      <Input value={this.state.telephone} onChange={(e) => {this.setState({telephone: e.target.value})}} />
+                      <Input value={this.state.telephone} type="tel" onChange={(e) => {this.setState({telephone: e.target.value})}} />
                     </td>
                     <th>HP</th>
                     <td className="TableRight">
-                      <Input value={this.state.cellphone} onChange={(e) => {this.setState({cellphone: e.target.value})}} />
+                      <Input value={this.state.cellphone} type="tel" onChange={(e) => {this.setState({cellphone: e.target.value})}} />
                     </td>
                   </tr>
                   <tr className="TableBottom">
@@ -202,7 +206,7 @@ class CreateOrder extends Component {
                           <tr key={i}>
                             <td>
                               {<Popup
-                                trigger={<Input name='name' value={this.state.sProduct[i].name} style={{cursor: 'pointer'}} onChange={() => {console.log('S')}} />}
+                                trigger={<Input name='name' value={this.state.sProduct[i].name} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}} readOnly/>}
                                 modal>
                                 {close => <ProductModal index={i} close={close}
                                             selectProduct={(data) => {
@@ -222,11 +226,26 @@ class CreateOrder extends Component {
                                             }}/>}
                                 </Popup>}
                             </td>
-                            <td><Input name='quantity' value={this.state.sProduct[i].quantity} onChange={(e)=> {
+                            <td>
+                              <Input name='quantity' style={{width: 100, display: 'inline-block'}} value={this.state.sProduct[i].quantity} onChange={(e)=> {
                               let {sProduct} = this.state;
-                              sProduct[i].quantity = e.target.value;
+                              {sProduct[i].quantity > 0 ? sProduct[i].quantity = e.target.value :  sProduct[i].quantity= Math.abs(e.target.value)};
+                              //sProduct[i].quantity = e.target.value;
                               this.setState({sProduct})}}
-                            /></td>
+                              />
+                              <Button onClick={(e)=> {
+                                let sProduct = this.state.sProduct;
+                                {sProduct[i].quantity > 0 ? sProduct[i].quantity-- :  sProduct[i].quantity= 0};
+                                this.setState({
+                                  sProduct
+                                })}}>-</Button>
+                              <Button onClick={(e)=> {
+                                let sProduct = this.state.sProduct;
+                                sProduct[i].quantity++;
+                                this.setState({
+                                  sProduct
+                                })}}>+</Button>
+                            </td>
                             <td><Input name='price' value={this.state.sProduct[i].price} readOnly/></td>
                             <td><Input name='vos' value={this.state.sProduct[i].tax ? Math.round(this.state.sProduct[i].price * this.state.sProduct[i].quantity * 10 / 11) : Math.round(this.state.sProduct[i].price * this.state.sProduct[i].quantity)} readOnly/></td>
                             <td><Input name='vat' value={this.state.sProduct[i].tax ? Math.round(this.state.sProduct[i].price * this.state.sProduct[i].quantity * 1 / 11) : 0} readOnly/></td>

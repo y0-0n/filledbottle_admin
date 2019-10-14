@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, NavItem, Nav, NavLink, Table, Input, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import { Button, Badge, Card, CardBody, CardHeader, CardFooter, Col, Row, NavItem, Nav, NavLink, Table, Input, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
 /*
 
@@ -166,7 +166,11 @@ class Sales extends Component {
                         <td>{this.getDate(e.orderDate)}</td>
                         <td>{e.name}</td>
                         <td>{this.numberWithCommas(e.price)}</td>
-                        <td>{stateKor[e.state]}</td>
+                        <td>
+                          {e.state === 'order' ? <h3><Badge color="primary">{stateKor[e.state]}</Badge></h3>: null}
+                          {e.state === 'shipping' ? <h3><Badge color="secondary">{stateKor[e.state]}</Badge></h3>: null}
+                          {e.state === 'refund' ? <h3><Badge color="danger">{stateKor[e.state]}</Badge></h3>: null}
+                        </td>
                         </tr>)
                       })}
                     </tbody>
