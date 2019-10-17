@@ -6,8 +6,10 @@ class Register extends Component {
     super(props);
     this.form = {
       name: '',
-      id: '',
-      password: ''
+      email: '',
+      password: '',
+      phone: '',
+      address: ''
     }
   }
 
@@ -15,7 +17,12 @@ class Register extends Component {
   }
 
   signup() {
-    fetch(process.env.REACT_APP_HOST+"/users/signup", {
+    if(this.form.password !== this.passwordCheck) {
+      alert('비밀번호와 비밀번호 반복이 일치하는지 확인해주세요');
+      return;
+    }
+
+    fetch(process.env.REACT_APP_HOST+"/api/auth/signup", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -23,8 +30,33 @@ class Register extends Component {
       },
       body: JSON.stringify(this.form)
     })
-      .then(response => response.json())
-      .then(data => {console.log(data);});
+      .then(response => {
+        return Promise.all([response.status, response.json()]);
+      })
+      .then(data => {
+        let status = data[0];
+        if(status === 422) {
+          let {errors} = data[1];
+          console.log(errors)
+          errors.map(function (e, _) {
+            switch(e.param) {
+              case 'email' : alert('이메일을 확인해주세요'); break;
+              case 'password' : alert('비밀번호를 확인해주세요'); break;
+              case 'name' : alert('성명을 확인해주세요'); break;
+              default: break;
+            }
+          })
+          return ;
+        } else if (status === 400) {
+          alert('이미 존재하는 이메일 계정입니다.');
+          return ;
+        } else if (status === 500) {
+          alert('회원가입을 실패했습니다.');
+          return ;
+        }
+        alert('성공적으로 회원가입 됐습니다.');
+        this.props.history.push('/login');
+      });
   }
   
   render() {
@@ -50,7 +82,7 @@ class Register extends Component {
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>@</InputGroupText>
                       </InputGroupAddon>
-                      <Input type="text" onChange={(e) => this.form.id=e.target.value} placeholder="아이디" autoComplete="email" />
+                      <Input type="text" onChange={(e) => this.form.email=e.target.value} placeholder="아이디" autoComplete="email" />
                     </InputGroup>
                     <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">
@@ -60,13 +92,27 @@ class Register extends Component {
                       </InputGroupAddon>
                       <Input type="password" onChange={(e) => this.form.password=e.target.value} placeholder="비밀번호" autoComplete="new-password" />
                     </InputGroup>
-                    <InputGroup className="mb-4">
+                    <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>
                           <i className="icon-lock"></i>
                         </InputGroupText>
                       </InputGroupAddon>
-                      <Input type="password" placeholder="비밀번호 반복" autoComplete="new-password" />
+                      <Input type="password" onChange={(e) => this.passwordCheck=e.target.value} placeholder="비밀번호 반복" autoComplete="new-password" />
+                    </InputGroup>
+                    <InputGroup className="mb-3">
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>#&nbsp;</InputGroupText>
+                      </InputGroupAddon>
+                      <Input type="text" onChange={(e) => this.form.phone=e.target.value} placeholder="전화번호" autoComplete="phone" />
+                    </InputGroup>
+                    <InputGroup className="mb-4">
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>
+                          <i className="icon-home"></i>
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input type="text" onChange={(e) => this.form.address=e.target.value} placeholder="주소" autoComplete="address" />
                     </InputGroup>
                     <Button color="success" onClick={this.signup.bind(this)} block>가입하기</Button>
                   </Form>
