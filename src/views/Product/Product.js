@@ -28,15 +28,7 @@ class Product extends Component {
     }
   }
   componentWillMount() {
-    this.findProduct();
-  }
-
-  findProduct() {
-    fetch(process.env.REACT_APP_HOST+"/product", {
-      method: 'GET',
-    })
-      .then(response => response.json())
-      .then(data => {this.setState({data})})
+    this.getProduct();
   }
 
   getProduct() {
@@ -59,7 +51,7 @@ class Product extends Component {
 
 
   deleteProduct(id) {
-    let c = window.confirm('이 상품을 삭제하시겠습니까?')
+    let c = window.confirm('이 상품을 비활성화하시겠습니까?')
     if (c) {
       fetch(process.env.REACT_APP_HOST+"/product", {
         method: 'DELETE',
@@ -72,7 +64,7 @@ class Product extends Component {
         })
       })
         .then(response => response.json())
-        .then(data => {this.findProduct()});
+        .then(data => {this.getProduct()});
     }
   }
 
@@ -129,7 +121,6 @@ class Product extends Component {
         <Row>
         {
           data.map(function (e) {
-            console.warn(e)
             return (
               <Col key={e.id} lg="4" md="6" xs="12" sm="12">
                 <Card>

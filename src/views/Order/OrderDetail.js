@@ -26,7 +26,7 @@ class OrderDetail extends Component {
   }
 
   getData(id) {
-    fetch(process.env.REACT_APP_HOST+"/orderDetail/"+id, {
+    fetch(process.env.REACT_APP_HOST+"/order/orderDetail/"+id, {
       method: 'GET',
     })
       .then(response => response.json())
@@ -43,7 +43,7 @@ class OrderDetail extends Component {
 
   changeState(s) {
     let c;
-    c = window.confirm('이 상품을 주문 취소하시겠습니까?');
+    c = window.confirm('이 주문을 변경하시겠습니까?');
 
     if(c) {
       fetch(process.env.REACT_APP_HOST+"/order/changeState/"+this.props.match.params.id+"/"+s, {
@@ -71,7 +71,7 @@ class OrderDetail extends Component {
       c = window.confirm('이 상품을 환불하시겠습니까?');
 
     if(c) {
-      fetch(process.env.REACT_APP_HOST+"/orderDetail/refund/"+id, {
+      fetch(process.env.REACT_APP_HOST+"/order/orderDetail/refund/"+id, {
         method: 'PUT',  
       })
         .then(response => response.json())

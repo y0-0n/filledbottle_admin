@@ -23,7 +23,7 @@ class OrderModify extends Component {
   }
 
   getData(id) {
-    fetch(process.env.REACT_APP_HOST+"/orderDetail/"+id, {
+    fetch(process.env.REACT_APP_HOST+"/order/orderDetail/"+id, {
       method: 'GET',
     })
       .then(response => response.json())
