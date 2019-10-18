@@ -4,6 +4,7 @@ import { Row, Col, Card, CardBody, CardHeader } from 'reactstrap';
 import moment from 'moment';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "moment/locale/ko";
+
 const localizer = momentLocalizer(moment);
 
 /*
@@ -44,23 +45,36 @@ class Home extends Component {
   getOrder() {
     fetch(process.env.REACT_APP_HOST+"/order/all/all/a", {
       method: 'GET',
+      credentials: 'include',
+      cache: 'no-cache',
     })
-      .then(response => response.json())
-      .then(orderData => {this.setState({orderData}, () => {
-        let events = [];
-        this.state.orderData.map((e, i) => {
-          let {name, date, id} = this.state.orderData[i];
-          let event = {
-            start: date,
-            end: date,
-            allDay: true,
-            title: name + "님 주문",
-            resource: id
-          };
-          events.push(event);
-          this.setState({events});
-        });
-      })});
+      .then(response => {
+        return Promise.all([response.status, response.json()]);
+      })
+      .then(data => {
+        let status = data[0];
+        if(status === 200) {
+          let orderData = data[1];
+          this.setState({orderData}, () => {
+            let events = [];
+            this.state.orderData.map((e, i) => {
+              let {name, date, id} = this.state.orderData[i];
+              let event = {
+                start: date,
+                end: date,
+                allDay: true,
+                title: name + "님 주문",
+                resource: id
+              };
+              events.push(event);
+              this.setState({events});
+            });
+          });
+        } else {
+          alert('로그인 하고 접근해주세요')
+          this.props.history.push('/login')
+        }
+      });
   }
 
   render() {
