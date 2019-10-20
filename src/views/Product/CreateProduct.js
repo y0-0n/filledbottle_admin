@@ -43,25 +43,33 @@ class CreateProduct extends Component {
   handlePost(e){
     e.preventDefault();
     let formData = new FormData();
-    const config = {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    };
     formData.append('file', this.state.img);
     for (let [key, value] of Object.entries(this.form)) {
-      //console.log(`${key}: ${value}`);
       formData.append(key, value);
     }
 
-    return axios.post(process.env.REACT_APP_HOST+"/product", formData, config).then(res => {
-      alert('성공');
-      this.props.history.push('/main/product/list');
-    }).catch(err=> {
-      alert('실패')
+    fetch(process.env.REACT_APP_HOST+"/product", {
+      method: 'POST',
+      'Content-Type': 'multipart/form-data',
+      credentials: 'include',
+      cache: 'no-cache',
+      body: formData
     })
-  }
+      .then(response => {
+        return Promise.all([response.status, response.json()]);
+      })
+      .then(data => {
+        let status = data[0];
+        if(status === 200) {
+          alert('등록됐습니다.');
+          this.props.history.push('/main/product/list');
+        } else {
+          alert('등록에 실패했습니다.');
+        }
+      });
 
+  }
+  
   render() {
     return (
       <div className="animated fadeIn">
