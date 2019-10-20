@@ -35,18 +35,42 @@ class Product extends Component {
     this.setState({set: true});
     fetch(process.env.REACT_APP_HOST+"/product", {
       method: 'GET',
+      credentials: 'include',
+      cache: 'no-cache',
     })
-      .then(response => response.json())
-      .then(data => {this.setState({data})})
+      .then(response => {
+        return Promise.all([response.status, response.json()]);
+      })
+      .then(data => {
+        let status = data[0];
+        if(status === 200)
+          this.setState({data: data[1]});
+        else {
+          alert('로그인 하고 접근해주세요')
+          this.props.history.push('/login')
+        }
+      })
   }
 
   getUnsetProduct() {
     this.setState({set: false});
     fetch(process.env.REACT_APP_HOST+"/product/unset", {
       method: 'GET',
+      credentials: 'include',
+      cache: 'no-cache',  
     })
-      .then(response => response.json())
-      .then(data => {this.setState({data})})
+      .then(response => {
+        return Promise.all([response.status, response.json()]);
+      })
+      .then(data => {
+        let status = data[0];
+        if(status === 200)
+          this.setState({data: data[1]});
+        else {
+          alert('로그인 하고 접근해주세요')
+          this.props.history.push('/login')
+        }
+      })
   }
 
 

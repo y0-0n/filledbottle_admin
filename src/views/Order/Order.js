@@ -55,16 +55,28 @@ class Sales extends Component {
   getTotal() {
       fetch(process.env.REACT_APP_HOST+"/order/total/"+this.state.process+"/"+this.state.keyword, {
         method: 'GET',
+        credentials: 'include',
+        cache: 'no-cache',  
       })
-      .then(response => response.json())
+      .then(response => {
+        return Promise.all([response.status, response.json()]);
+      })
       .then(data => {
-        this.setState({total: Math.ceil(data[0].total/listCount)})
+        const status = data[0];
+        if(status === 200) {
+          this.setState({total: Math.ceil(data[1][0].total/listCount)})
+        } else {
+          alert('로그인 하고 접근해주세요')
+          this.props.history.push('/login')
+        }
       });
   }
 
   getOrder() {
     fetch(process.env.REACT_APP_HOST+"/order/"+this.state.number+"/"+this.state.process+"/"+this.state.keyword, {
       method: 'GET',
+      credentials: 'include',
+      cache: 'no-cache',
     })
       .then(response => response.json())
       .then(orderData => {this.setState({orderData})});
