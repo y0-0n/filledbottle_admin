@@ -66,7 +66,7 @@ class Customer extends Component {
   }
 
   deleteCustomer(id) {
-    let c = window.confirm('Are you sure you wish to delete this item?')
+    let c = window.confirm('위 고객을 비활성화하시겠습니까?')
     if (c) {
       fetch(process.env.REACT_APP_HOST+"/customer", {
         method: 'DELETE',
@@ -74,6 +74,8 @@ class Customer extends Component {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
+        cache: 'no-cache',  
         body: JSON.stringify({
           id
         })
@@ -92,6 +94,8 @@ class Customer extends Component {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
+        cache: 'no-cache',  
         body: JSON.stringify({
           id
         })
@@ -108,7 +112,6 @@ class Customer extends Component {
   }
 
   render() {
-    console.log(this.state.data)
     var data = this.state.search ? this.state.sdata : this.state.data;
     return (
       <div className="animated fadeIn">
@@ -136,7 +139,6 @@ class Customer extends Component {
         <Row className="mb-5">
         {
           data.map(function (e) {
-            console.log(e)
           return (
             <Col key={e.name}  lg="4" md="6" xs="12" sm="12">
               <Card>
