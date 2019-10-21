@@ -18,6 +18,8 @@ class Modal2 extends Component {
   getCustomer() {
     fetch(process.env.REACT_APP_HOST+`/customer`, {
       method: 'GET',
+      credentials: 'include',
+      cache: 'no-cache',  
     })
       .then(response => response.json())
       .then(data => {
@@ -29,11 +31,13 @@ class Modal2 extends Component {
     let {keyword} = props;
     fetch(process.env.REACT_APP_HOST+`/customer/search/${keyword}`, {
       method: 'GET',
+      credentials: 'include',
+      cache: 'no-cache',  
     })
       .then(response => response.json())
       .then(data => {
         if(data.length === 0) {
-          alert('제품을 찾을 수 없습니다');
+          alert('고객을 찾을 수 없습니다');
           props.close();
         }
         else

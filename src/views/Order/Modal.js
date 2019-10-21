@@ -18,6 +18,8 @@ class Modal extends Component {
   getProduct() {
     fetch(process.env.REACT_APP_HOST+`/product`, {
       method: 'GET',
+      credentials: 'include',
+      cache: 'no-cache',  
     })
       .then(response => response.json())
       .then(data => {
@@ -28,6 +30,8 @@ class Modal extends Component {
     let {keyword} = props;
     fetch(process.env.REACT_APP_HOST+`/product/search/${keyword}`, {
       method: 'GET',
+      credentials: 'include',
+      cache: 'no-cache',  
     })
       .then(response => response.json())
       .then(data => {
