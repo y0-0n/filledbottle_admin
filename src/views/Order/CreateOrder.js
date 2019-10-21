@@ -34,21 +34,14 @@ class CreateOrder extends Component {
     };
   }
   componentWillMount() {
-    this.findCustomer();
     this.findProduct();
-  }
-
-  findCustomer() {
-    fetch(process.env.REACT_APP_HOST+"/customer", {
-      method: 'GET',
-    })
-      .then(response => response.json())
-      .then(customer => {this.customer = customer;this.setState({customer})})
   }
 
   findProduct() {
     fetch(process.env.REACT_APP_HOST+"/product", {
       method: 'GET',
+      credentials: 'include',
+      cache: 'no-cache',
     })
       .then(response => response.json())
       .then(product => {this.setState({product})})
@@ -71,10 +64,25 @@ class CreateOrder extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
+      cache: 'no-cache',
+      credentials: 'include',
       body: JSON.stringify({date, sCustomer, sProduct, cellphone, telephone, address, comment, orderDate})
     })
-      .then(response => response.json())
-      .then(data => {this.props.history.push('/sales/list');});
+    .then(response => {
+      return Promise.all([response.status, response.json()]);
+    })
+    .then(data => {
+      console.log(data)
+      const status = data[0];
+      if(status === 200) {
+        this.props.history.push('/sales/list');
+      } else if(status === 401) {
+        alert('로그인 하고 접근해주세요.')
+        this.props.history.push('/login')
+      } else {
+        alert('에러로 인해 등록에 실패했습니다.')
+      }
+    });
   }
 
   vaild() {
