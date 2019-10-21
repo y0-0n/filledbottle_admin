@@ -45,6 +45,7 @@ class Register extends Component {
               case 'name' : alert('성명을 확인해주세요'); break;
               default: break;
             }
+            return null;
           })
           return ;
         } else if (status === 400) {

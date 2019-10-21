@@ -1,8 +1,7 @@
 
 
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Form, FormGroup, Input, Table } from 'reactstrap';
-import axios from 'axios';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Input, Table } from 'reactstrap';
 import '../../css/Table.css';
 
 class CreateProduct extends Component {
@@ -27,7 +26,7 @@ class CreateProduct extends Component {
   handleFileInput(e){
     var file = this.refs.file.files[0];
     var reader = new FileReader();
-    var url = reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
 
     reader.onloadend = function (e) {
       this.setState({
@@ -107,7 +106,7 @@ class CreateProduct extends Component {
                       <tr className="TableBottom">
                         <th>사진</th>
                         <td colSpan="3" className="TableRight">
-                        <img style={{height: 500, width: 500}} src={this.state.image} /> <br></br>
+                        <img alt="제품 사진" style={{height: 500, width: 500}} src={this.state.image} /> <br></br>
                         <input ref="file" type="file" name="file" onChange={e =>{this.handleFileInput(e);}}/> 
                         </td>
                       </tr>

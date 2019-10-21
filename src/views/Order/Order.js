@@ -204,11 +204,12 @@ class Sales extends Component {
                   {this.state.number !== 1 && this.state.number!== 2 ? arr.forEach(x => arr1.push(x)) :null }    
                   {arr1.map((e, i) => {
                     if(this.state.total >= this.state.number+e)
-                    return <PaginationItem key={i} active={this.state.number === this.state.number+e}>
-                    <PaginationLink onClick={() => {this.countPageNumber(this.state.number+e)}}>
-                    {this.state.number+e}
-                    </PaginationLink>
-                  </PaginationItem>
+                    return (<PaginationItem key={i} active={this.state.number === this.state.number+e}>
+                      <PaginationLink onClick={() => {this.countPageNumber(this.state.number+e)}}>
+                      {this.state.number+e}
+                      </PaginationLink>
+                    </PaginationItem>)
+                    return null;
                   })}
                   <PaginationItem>
                     <PaginationLink next onClick={() => {this.countPageNumber(this.state.number+1)}}/>

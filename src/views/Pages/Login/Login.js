@@ -22,7 +22,8 @@ class Login extends Component {
     })
   }
 
-  login() {
+  login(e) {
+    e.preventDefault();
     fetch(process.env.REACT_APP_HOST+"/api/auth/login", {
       method: 'POST',
       headers: {
@@ -37,8 +38,8 @@ class Login extends Component {
     })
     .then(data => {
       let status = data[0], msg = data[1].message;
-      if(status == 200) {
-        console.log(data);
+      if(status === 200) {
+        console.log(msg);
         this.props.history.push('/');
       } else {
         alert('아이디 혹은 비밀번호가 잘못됐습니다.');

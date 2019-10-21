@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';                                                                                                                           
-import { Row, Col, Card, CardBody, CardHeader } from 'reactstrap';
+import { Card, CardBody, CardHeader } from 'reactstrap';
 import moment from 'moment';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "moment/locale/ko";
@@ -68,10 +68,12 @@ class Home extends Component {
               };
               events.push(event);
               this.setState({events});
+              return null;
             });
+            return null;
           });
         } else {
-          alert('로그인 하고 접근해주세요')
+          //alert('로그인 하고 접근해주세요')
           this.props.history.push('/login')
         }
       });

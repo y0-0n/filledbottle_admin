@@ -4,7 +4,7 @@ import ProductModal from './Modal';
 import Popup from "reactjs-popup";
 import '../../css/Table.css';
 
-let def = {id: '', name: '', quantity: 0, price: 0, vos: 0, vat: 0, tax: false, sum: 0, tax: false};
+let def = {id: '', name: '', quantity: 0, price: 0, vos: 0, vat: 0, sum: 0, tax: false};
 
 class OrderModify extends Component {
   constructor(props) {
@@ -171,12 +171,12 @@ class OrderModify extends Component {
                       <td>
                         <Input name='quantity' style={{width: 100, display: 'inline-block'}} value={productInfo[i].quantity || 0} onChange={(e)=> {
                         let sProduct = productInfo;
-                        {sProduct[i].quantity > 0 ? sProduct[i].quantity = e.target.value :  sProduct[i].quantity= Math.abs(e.target.value)};
+                        sProduct[i].quantity > 0 ? sProduct[i].quantity = e.target.value :  sProduct[i].quantity= Math.abs(e.target.value);
                         //sProduct[i].quantity = e.target.value;
                         this.setState({productInfo: sProduct})}}
                       /><Button onClick={(e)=> {
                         let sProduct = productInfo;
-                        {sProduct[i].quantity > 0 ? sProduct[i].quantity-- :  sProduct[i].quantity= 0};
+                        sProduct[i].quantity > 0 ? sProduct[i].quantity-- :  sProduct[i].quantity= 0;
                         this.setState({
                           productInfo: sProduct
                         })}}>
