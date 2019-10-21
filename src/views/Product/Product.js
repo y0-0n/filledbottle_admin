@@ -46,8 +46,8 @@ class Product extends Component {
         if(status === 200)
           this.setState({data: data[1]});
         else {
-          alert('로그인 하고 접근해주세요')
-          this.props.history.push('/login')
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
         }
       })
   }
@@ -57,7 +57,7 @@ class Product extends Component {
     fetch(process.env.REACT_APP_HOST+"/product/unset", {
       method: 'GET',
       credentials: 'include',
-      cache: 'no-cache',  
+      cache: 'no-cache',
     })
       .then(response => {
         return Promise.all([response.status, response.json()]);
@@ -67,8 +67,8 @@ class Product extends Component {
         if(status === 200)
           this.setState({data: data[1]});
         else {
-          alert('로그인 하고 접근해주세요')
-          this.props.history.push('/login')
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
         }
       })
   }
@@ -83,6 +83,8 @@ class Product extends Component {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
+        cache: 'no-cache',
         body: JSON.stringify({
           id
         })
@@ -97,6 +99,8 @@ class Product extends Component {
     if (c) {
       fetch(process.env.REACT_APP_HOST+"/product", {
         method: 'PUT',
+        credentials: 'include',
+        cache: 'no-cache',  
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
