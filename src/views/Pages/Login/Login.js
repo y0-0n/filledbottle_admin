@@ -9,10 +9,20 @@ class Login extends Component {
     this.form = {
       email: '',
       password: ''
-    }
+    };
+    this.logout();
   }
+  logout() {
+    fetch(process.env.REACT_APP_HOST+"/api/auth/logout", {
+      method: 'GET',
+      credentials: 'include',
+    })
+    .then(response => {
+      console.log(response);
+    })
+  }
+
   login() {
-    
     fetch(process.env.REACT_APP_HOST+"/api/auth/login", {
       method: 'POST',
       headers: {
