@@ -35,17 +35,25 @@ class EditStock extends Component {
 
   modifyStock(id, quantity) {
     console.warn(quantity)
-    fetch(process.env.REACT_APP_HOST+`/stock/${id}`, {
+    fetch(process.env.REACT_APP_HOST+`/stock/`, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
+      cache: 'no-cache',
       body: JSON.stringify(
-        {quantity}
+        {
+          quantity,
+          id
+        }
       )
     })
-      .then(response => response.json())
+    .then(response => response.json())
+    .then(data => {
+      alert('등록됐습니다.')
+    })
   }
 
   render() {
