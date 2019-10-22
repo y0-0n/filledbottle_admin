@@ -4,7 +4,7 @@ import ProductModal from './Modal';
 import Popup from "reactjs-popup";
 import '../../css/Table.css';
 
-let def = {id: '', name: '', quantity: 0, price: 0, vos: 0, vat: 0, sum: 0, tax: false};
+let def = {id: '', name: '', quantity: 0, price: 0, tax: 0};
 
 class OrderModify extends Component {
   constructor(props) {
@@ -25,14 +25,32 @@ class OrderModify extends Component {
   getData(id) {
     fetch(process.env.REACT_APP_HOST+"/order/orderDetail/"+id, {
       method: 'GET',
+      credentials: 'include',
+      cache: 'no-cache',
     })
-      .then(response => response.json())
-      .then(data => {this.setState({data})});
+    .then(response => {
+      return Promise.all([response.status, response.json()]);
+    })
+    .then(data => {
+      console.log(data)
+      const status = data[0];
+      if(status === 200) {
+        data[1].productInfo.map(function (e,i) {
+          e['price_shipping'] = e['price'] / e['quantity'];
+        })
+        this.setState({data: data[1]})
+      } else if(status === 401) {
+        alert('로그인 하고 접근해주세요')
+        this.props.history.push('/login')
+      } else if(status === 400) {
+        alert('존재하지 않는 주문입니다.');
+        this.props.history.push('/main/sales/list')
+      }
+    });
   }
 
   numberWithCommas(x) {
     if(!x) {
-      console.log('Cannot convert');
       return 0;
     }
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -44,26 +62,40 @@ class OrderModify extends Component {
 
   modifyOrder() {
     let {orderInfo, productInfo} = this.state.data;
-
+    console.log(productInfo)
     fetch(process.env.REACT_APP_HOST+"/order/modify/"+this.props.match.params.id, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
+      cache: 'no-cache',
       body: JSON.stringify({orderInfo, productInfo})
     })
-      .then(response => response.json())
-      .then(data => {this.props.history.push('/main/sales/order/'+this.props.match.params.id);});
+    .then(response => {
+      return Promise.all([response.status, response.json()]);
+    })
+    .then(data => {
+      const status = data[0];
+      if(status === 200) {
+        this.props.history.push('/main/sales/order/'+this.props.match.params.id);
+      } else if(status === 401) {
+        alert('로그인 하고 접근해주세요')
+        this.props.history.push('/login')
+      } else if(status === 400) {
+        alert('존재하지 않는 주문입니다.');
+        this.props.history.push('/main/sales/list')
+      }
+    });
   }
 
   render() {
-    console.log(this.state.data)
     let {orderInfo, productInfo} = this.state.data;
     orderInfo = orderInfo[0];
     var d = new Date(orderInfo['date']);
     var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
-
+    
     return (
       <div className="animated fadeIn">
         <Row>
@@ -101,7 +133,6 @@ class OrderModify extends Component {
                       <Input defaultValue={orderInfo['comment']} onChange={(e) => {orderInfo['comment'] = e.target.value}} />
                     </td>
                   </tr>
-                  
                 </tbody>
                 </Table>
               </CardBody>
@@ -145,6 +176,7 @@ class OrderModify extends Component {
                 </thead>
                 <tbody>
                   {productInfo.map((e, i) => {
+                    console.log(e)
                     return ( <tr key={i}>
                       <td>
                         {<Popup
@@ -160,7 +192,6 @@ class OrderModify extends Component {
                                         val['id'] = data['id'];
                                         val['name'] = data['name'];
                                         val['price_shipping'] = data['price_shipping'];
-
                                         sProduct[i] = val;
 
                                         /* set the state to the new variable */
@@ -176,7 +207,7 @@ class OrderModify extends Component {
                         this.setState({productInfo: sProduct})}}
                       /><Button onClick={(e)=> {
                         let sProduct = productInfo;
-                        sProduct[i].quantity > 0 ? sProduct[i].quantity-- :  sProduct[i].quantity= 0;
+                        sProduct[i].quantity > 0 ? --sProduct[i].quantity :  sProduct[i].quantity = 0;
                         this.setState({
                           productInfo: sProduct
                         })}}>
@@ -184,7 +215,7 @@ class OrderModify extends Component {
                       </Button>
                       <Button onClick={(e)=> {
                         let sProduct = productInfo;
-                        sProduct[i].quantity++;
+                        ++sProduct[i].quantity;
                         this.setState({
                           productInfo: sProduct
                         })}}>
@@ -200,7 +231,7 @@ class OrderModify extends Component {
                         this.setState({productInfo: sProduct})}}
                         />
                       </td>
-                      <td>{this.numberWithCommas(e['price_shipping']*e['quantity'])}</td>
+                      <td>{this.numberWithCommas(e['price'] = e['price_shipping'] * e['quantity'])}</td>
                       <td>
                         <Button block color="danger" 
                           onClick={()=> {

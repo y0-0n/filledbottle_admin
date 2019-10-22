@@ -11,7 +11,7 @@ import '../../css/Table.css';
 registerLocale('ko', ko)
 
 //vos = value of supply (공급가액)
-//vos = value added tax (부가세))
+//vat = value added tax (부가세))
 let d = {id: '', name: '', quantity: 0, price: 0, vos: 0, vat: 0, tax: false, sum: 0};
 
 class CreateOrder extends Component {
@@ -72,7 +72,6 @@ class CreateOrder extends Component {
       return Promise.all([response.status, response.json()]);
     })
     .then(data => {
-      console.log(data)
       const status = data[0];
       if(status === 200) {
         this.props.history.push('/sales/list');
@@ -231,7 +230,8 @@ class CreateOrder extends Component {
                                                          
                                               /* set the state to the new variable */
                                               this.setState({sProduct});
-                                            }}/>}
+                                            }}
+                                          />}
                                 </Popup>}
                             </td>
                             <td>

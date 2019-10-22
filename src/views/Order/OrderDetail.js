@@ -35,7 +35,6 @@ class OrderDetail extends Component {
         return Promise.all([response.status, response.json()]);
       })
       .then(data => {
-        console.log(data)
         const status = data[0];
         if(status === 200) {
           this.setState({data: data[1]})
@@ -63,13 +62,27 @@ class OrderDetail extends Component {
 
     if(c) {
       fetch(process.env.REACT_APP_HOST+"/order/changeState/"+this.props.match.params.id+"/"+s, {
-      method: 'PUT',
-    })
-      .then(response => response.json())
-      .then(data => this.getData(this.props.match.params.id))
-      }
-    
-}
+        method: 'PUT',
+        credentials: 'include',
+        cache: 'no-cache',
+      })
+      .then(response => {
+        return Promise.all([response.status, response.json()]);
+      })
+      .then(data => {
+        const status = data[0];
+        if(status === 200) {
+          this.getData(this.props.match.params.id)
+        } else if(status === 401) {
+          alert('로그인 하고 접근해주세요')
+          this.props.history.push('/login')
+        } else if(status === 400) {
+          alert('존재하지 않는 주문입니다.');
+          this.props.history.push('/main/sales/list')
+        }
+      });
+    }    
+  }
 
   handleRefund() {
     if(this.state.refund === true){
@@ -88,11 +101,13 @@ class OrderDetail extends Component {
 
     if(c) {
       fetch(process.env.REACT_APP_HOST+"/order/orderDetail/refund/"+id, {
-        method: 'PUT',  
+        method: 'PUT',
+        credentials: 'include',
+        cache: 'no-cache',
       })
-        .then(response => response.json())
-        .then(data => this.getData(this.props.match.params.id))
-      }
+      .then(response => response.json())
+      .then(data => this.getData(this.props.match.params.id))
+    }
   }
 
   render() {
@@ -201,8 +216,8 @@ class OrderDetail extends Component {
                         <td>{this.numberWithCommas(e['price'])}</td>
                         <td>{
                           this.state.refund === true ?
-                              !e.refund ? <Button onClick={() => this.changeRefundstate(e.id, e.refund)}>환불</Button>
-                              : <Button onClick={() => this.changeRefundstate(e.id, e.refund)}>환불 취소</Button>
+                              !e.refund ? <Button onClick={() => this.changeRefundstate(e.orderProductId, e.refund)}>환불</Button>
+                              : <Button onClick={() => this.changeRefundstate(e.orderProductId, e.refund)}>환불 취소</Button>
                           : null}</td>
                       </tr>
                       )
