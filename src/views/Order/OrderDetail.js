@@ -127,7 +127,7 @@ class OrderDetail extends Component {
               <CardHeader>
                 <Row>
                   <Col md="10" xs="10" sm="10">{this.props.match.params.id}번 주문</Col>
-                  <Col><Button onClick={() => {this.props.history.goBack()}}>뒤로가기</Button></Col>
+                  <Col><Button onClick={() => {this.props.history.push('/main/sales/list')}}>뒤로가기</Button></Col>
                 </Row>
               </CardHeader>
               <CardBody>
