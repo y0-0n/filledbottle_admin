@@ -62,7 +62,6 @@ class OrderModify extends Component {
 
   modifyOrder() {
     let {orderInfo, productInfo} = this.state.data;
-    console.log(productInfo)
     fetch(process.env.REACT_APP_HOST+"/order/modify/"+this.props.match.params.id, {
       method: 'PUT',
       headers: {
@@ -176,7 +175,6 @@ class OrderModify extends Component {
                 </thead>
                 <tbody>
                   {productInfo.map((e, i) => {
-                    console.log(e)
                     return ( <tr key={i}>
                       <td>
                         {<Popup
@@ -189,7 +187,7 @@ class OrderModify extends Component {
                                         let val = Object.assign({}, sProduct[i]);
 
                                         /* set, for instance, comment[1] to "some text"*/
-                                        val['id'] = data['id'];
+                                        val['productId'] = data['id'];
                                         val['name'] = data['name'];
                                         val['price_shipping'] = data['price_shipping'];
                                         sProduct[i] = val;
