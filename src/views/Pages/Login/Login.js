@@ -39,7 +39,7 @@ class Login extends Component {
     .then(data => {
       let status = data[0], msg = data[1].message;
       if(status === 200) {
-        console.log(msg);
+        //alert(msg);
         this.props.history.push('/');
       } else {
         alert('아이디 혹은 비밀번호가 잘못됐습니다.');
@@ -55,34 +55,32 @@ class Login extends Component {
               <CardGroup>
                 <Card className="p-4">
                   <CardBody>
-                    <Form>
-                      <h1>로그인</h1>
-                      <p className="text-muted">이메일 계정으로 로그인</p>
-                      <InputGroup className="mb-3">
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>
-                            <i className="icon-user"></i>
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <Input type="text" name="email" onChange={(e) => this.form.email=e.target.value} placeholder="e-mail" autoComplete="username"/>
-                      </InputGroup>
-                      <InputGroup className="mb-4">
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>
-                            <i className="icon-lock"></i>
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <Input type="password" name="password" onChange={(e) => this.form.password=e.target.value} placeholder="password" autoComplete="current-password" />
-                      </InputGroup>
-                      <Row>
-                        <Col xs="6">
-                          <Button onClick={this.login.bind(this)} color="primary" className="px-4">로그인</Button>
-                        </Col>
-                        <Col xs="6" className="text-right">
-                          <Button color="link" className="px-0">비밀번호 분실</Button>
-                        </Col>
-                      </Row>
-                    </Form>
+                    <h1>로그인</h1>
+                    <p className="text-muted">이메일 계정으로 로그인</p>
+                    <InputGroup className="mb-3">
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>
+                          <i className="icon-user"></i>
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input type="text" name="email" onChange={(e) => this.form.email=e.target.value} placeholder="e-mail" autoComplete="username"/>
+                    </InputGroup>
+                    <InputGroup className="mb-4">
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>
+                          <i className="icon-lock"></i>
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input type="password" name="password" onChange={(e) => this.form.password=e.target.value} placeholder="password" autoComplete="current-password" />
+                    </InputGroup>
+                    <Row>
+                      <Col xs="6">
+                        <Button onClick={this.login.bind(this)} color="primary" className="px-4">로그인</Button>
+                      </Col>
+                      <Col xs="6" className="text-right">
+                        <Button color="link" className="px-0">비밀번호 분실</Button>
+                      </Col>
+                    </Row>
                   </CardBody>
                 </Card>
                 <Card className="text-white bg-primary py-5 d-md-down-none" style={{ width: '44%' }}>
