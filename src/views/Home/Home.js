@@ -45,8 +45,9 @@ class Home extends Component {
   getOrder() {
     fetch(process.env.REACT_APP_HOST+"/order/all/all/a", {
       method: 'GET',
-      credentials: 'include',
-      cache: 'no-cache',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      }
     })
       .then(response => {
         return Promise.all([response.status, response.json()]);
@@ -73,7 +74,7 @@ class Home extends Component {
             return null;
           });
         } else {
-          //alert('로그인 하고 접근해주세요')
+          alert('로그인 하고 접근해주세요')
           this.props.history.push('/login')
         }
       });

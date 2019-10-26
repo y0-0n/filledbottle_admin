@@ -10,7 +10,7 @@ class Login extends Component {
       email: '',
       password: ''
     };
-    this.logout();
+    //this.logout();
   }
   logout() {
     fetch(process.env.REACT_APP_HOST+"/api/auth/logout", {
@@ -30,16 +30,15 @@ class Login extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      credentials: 'include',
       body: JSON.stringify(this.form)
     })
     .then(response => {
       return Promise.all([response.status, response.json()]);
     })
     .then(data => {
-      let status = data[0], msg = data[1].message;
+      let status = data[0], token = data[1].token;
       if(status === 200) {
-        //alert(msg);
+        localStorage.setItem('token', token);
         this.props.history.push('/');
       } else {
         alert('아이디 혹은 비밀번호가 잘못됐습니다.');
