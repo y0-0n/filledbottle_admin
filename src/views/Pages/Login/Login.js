@@ -10,16 +10,10 @@ class Login extends Component {
       email: '',
       password: ''
     };
-    //this.logout();
+    this.logout();
   }
   logout() {
-    fetch(process.env.REACT_APP_HOST+"/api/auth/logout", {
-      method: 'GET',
-      credentials: 'include',
-    })
-    .then(response => {
-      console.log(response);
-    })
+    localStorage.removeItem('token');
   }
 
   login(e) {
