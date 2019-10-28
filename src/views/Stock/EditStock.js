@@ -16,33 +16,36 @@ class EditStock extends Component {
   getStock() {
     fetch(process.env.REACT_APP_HOST+"/stock", {
       method: 'GET',
-      credentials: 'include',
-      cache: 'no-cache',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
     })
-      .then(response => {
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
         return Promise.all([response.status, response.json()]);
-      })
-      .then(data => {
-        let status = data[0];
-        if(status === 200)
-          this.setState({data: data[1]});
-        else {
-          alert('로그인 하고 접근해주세요')
-          this.props.history.push('/login')
-        }
-      });
+      }
+    })
+    .then(data => {
+      let status = data[0];
+      if(status === 200)
+        this.setState({data: data[1]});
+      else {
+        alert('로그인 하고 접근해주세요');
+        this.props.history.push('/login');
+      }
+    })
   }
 
   modifyStock(id, quantity) {
-    console.warn(quantity)
     fetch(process.env.REACT_APP_HOST+`/stock/`, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
       },
-      credentials: 'include',
-      cache: 'no-cache',
       body: JSON.stringify(
         {
           quantity,
@@ -50,9 +53,21 @@ class EditStock extends Component {
         }
       )
     })
-    .then(response => response.json())
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
     .then(data => {
-      alert('등록됐습니다.')
+      const status = data[0];
+      if(status === 200)
+        alert('등록됐습니다.');
+      else {
+        alert('로그인 하고 접근해주세요');
+        this.props.history.push('/login');
+      }
     })
   }
 

@@ -37,32 +37,52 @@ class Customer extends Component {
     this.setState({set: true});
     fetch(process.env.REACT_APP_HOST+"/customer", {
       method: 'GET',
-      credentials: 'include',
-      cache: 'no-cache',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
     })
-      .then(response => {
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
         return Promise.all([response.status, response.json()]);
-      })
-      .then(data => {
-        let status = data[0];
-        if(status === 200)
-          this.setState({data: data[1]});
-        else {
-          alert('로그인 하고 접근해주세요')
-          this.props.history.push('/login')
-        }
-      })
+      }
+    })
+    .then(data => {
+      let status = data[0];
+      if(status === 200)
+        this.setState({data: data[1]});
+      else {
+        alert('로그인 하고 접근해주세요')
+        this.props.history.push('/login')
+      }
+    })
   }
 
   getUnsetCustomer() {
     this.setState({set: false});
     fetch(process.env.REACT_APP_HOST+"/customer/unset", {
       method: 'GET',
-      credentials: 'include',
-      cache: 'no-cache',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
     })
-      .then(response => response.json())
-      .then(data => {this.setState({data})})
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+      let status = data[0];
+      if(status === 200)
+        this.setState({data: data[1]});
+      else {
+        alert('로그인 하고 접근해주세요')
+        this.props.history.push('/login')
+      }
+    })
   }
 
   deleteCustomer(id) {
@@ -73,15 +93,28 @@ class Customer extends Component {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
         },
-        credentials: 'include',
-        cache: 'no-cache',  
         body: JSON.stringify({
           id
         })
       })
-        .then(response => response.json())
-        .then(data => {console.warn(data); this.getCustomer()});
+      .then(response => {
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if(status === 200)
+          this.getCustomer()
+        else {
+          alert('로그인 하고 접근해주세요')
+          this.props.history.push('/login')
+        }  
+      });
     }
   }
 
@@ -93,15 +126,28 @@ class Customer extends Component {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
         },
-        credentials: 'include',
-        cache: 'no-cache',  
         body: JSON.stringify({
           id
         })
       })
-        .then(response => response.json())
-        .then(data => {console.warn(data); this.getUnsetCustomer()});
+      .then(response => {
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if(status === 200)
+          this.getUnsetCustomer()
+        else {
+          alert('로그인 하고 접근해주세요')
+          this.props.history.push('/login')
+        }
+      });
     }
   }
 

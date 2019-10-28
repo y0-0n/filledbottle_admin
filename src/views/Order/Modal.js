@@ -18,30 +18,56 @@ class Modal extends Component {
   getProduct() {
     fetch(process.env.REACT_APP_HOST+`/product`, {
       method: 'GET',
-      credentials: 'include',
-      cache: 'no-cache',  
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
     })
-      .then(response => response.json())
+      .then(response => {
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }  
+      })
       .then(data => {
-        this.setState({data});
+        const status = data[0];
+        if(status === 200) {
+          this.setState({data: data[1]});
+        } else {
+          alert('로그인 하고 접근해주세요')
+          this.props.history.push('/login')  
+        }
       })
   }
   searchProduct(props) {
     let {keyword} = props;
     fetch(process.env.REACT_APP_HOST+`/product/search/${keyword}`, {
       method: 'GET',
-      credentials: 'include',
-      cache: 'no-cache',  
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }  
+    })
+    .then(data => {
+      const status = data[0];
+      if(status === 200) {
         if(data.length === 0) {
           alert('제품을 찾을 수 없습니다');
           props.close();
         }
         else
-          this.setState({data});
-      });
+          this.setState({data: data[1]});
+      } else {
+        alert('로그인 하고 접근해주세요')
+        this.props.history.push('/login')  
+      }
+    })
   }
 
   selectProduct(data) {

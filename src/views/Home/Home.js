@@ -50,7 +50,11 @@ class Home extends Component {
       }
     })
       .then(response => {
-        return Promise.all([response.status, response.json()]);
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
       })
       .then(data => {
         let status = data[0];

@@ -50,23 +50,27 @@ class CreateProduct extends Component {
     fetch(process.env.REACT_APP_HOST+"/product", {
       method: 'POST',
       'Content-Type': 'multipart/form-data',
-      credentials: 'include',
-      cache: 'no-cache',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
       body: formData
     })
-      .then(response => {
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
         return Promise.all([response.status, response.json()]);
-      })
-      .then(data => {
-        let status = data[0];
-        if(status === 200) {
-          alert('등록됐습니다.');
-          this.props.history.push('/main/product/list');
-        } else {
-          alert('등록에 실패했습니다.');
-        }
-      });
-
+      }
+    })
+    .then(data => {
+      let status = data[0];
+      if(status === 200) {
+        alert('등록됐습니다.');
+        this.props.history.push('/main/product/list');
+      } else {
+        alert('등록에 실패했습니다.');
+      }
+    });
   }
   
   render() {

@@ -53,13 +53,18 @@ class Sales extends Component {
   }
 
   getTotal() {
-      fetch(process.env.REACT_APP_HOST+"/order/total/"+this.state.process+"/"+this.state.keyword, {
-        method: 'GET',
-        credentials: 'include',
-        cache: 'no-cache',  
+    fetch(process.env.REACT_APP_HOST+"/order/total/"+this.state.process+"/"+this.state.keyword, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      }
       })
       .then(response => {
-        return Promise.all([response.status, response.json()]);
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
       })
       .then(data => {
         const status = data[0];
@@ -75,11 +80,27 @@ class Sales extends Component {
   getOrder() {
     fetch(process.env.REACT_APP_HOST+"/order/"+this.state.number+"/"+this.state.process+"/"+this.state.keyword, {
       method: 'GET',
-      credentials: 'include',
-      cache: 'no-cache',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      }
     })
-      .then(response => response.json())
-      .then(orderData => {this.setState({orderData})});
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+      let status = data[0];
+      if(status === 200) {
+        let orderData = data[1];
+        this.setState({orderData})
+      } else {
+        alert('로그인 하고 접근해주세요')
+        this.props.history.push('/login')
+      }
+    });
   }
 
   tabClick(process) {

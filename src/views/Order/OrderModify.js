@@ -25,14 +25,18 @@ class OrderModify extends Component {
   getData(id) {
     fetch(process.env.REACT_APP_HOST+"/order/orderDetail/"+id, {
       method: 'GET',
-      credentials: 'include',
-      cache: 'no-cache',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
     })
     .then(response => {
-      return Promise.all([response.status, response.json()]);
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
     })
     .then(data => {
-      console.log(data)
       const status = data[0];
       if(status === 200) {
         data[1].productInfo.map(function (e,i) {
@@ -67,14 +71,17 @@ class OrderModify extends Component {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
       },
-      credentials: 'include',
-      cache: 'no-cache',
       body: JSON.stringify({orderInfo, productInfo})
     })
     .then(response => {
-      return Promise.all([response.status, response.json()]);
-    })
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+  })
     .then(data => {
       const status = data[0];
       if(status === 200) {

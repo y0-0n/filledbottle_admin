@@ -35,11 +35,16 @@ class Product extends Component {
     this.setState({set: true});
     fetch(process.env.REACT_APP_HOST+"/product", {
       method: 'GET',
-      credentials: 'include',
-      cache: 'no-cache',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
     })
       .then(response => {
-        return Promise.all([response.status, response.json()]);
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
       })
       .then(data => {
         let status = data[0];
@@ -56,21 +61,26 @@ class Product extends Component {
     this.setState({set: false});
     fetch(process.env.REACT_APP_HOST+"/product/unset", {
       method: 'GET',
-      credentials: 'include',
-      cache: 'no-cache',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
     })
-      .then(response => {
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
         return Promise.all([response.status, response.json()]);
-      })
-      .then(data => {
-        let status = data[0];
-        if(status === 200)
-          this.setState({data: data[1]});
-        else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-      })
+      }
+    })
+    .then(data => {
+      let status = data[0];
+      if(status === 200)
+        this.setState({data: data[1]});
+      else {
+        alert('로그인 하고 접근해주세요');
+        this.props.history.push('/login');
+      }
+    })
   }
 
 
@@ -82,9 +92,8 @@ class Product extends Component {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
         },
-        credentials: 'include',
-        cache: 'no-cache',
         body: JSON.stringify({
           id
         })
@@ -99,11 +108,10 @@ class Product extends Component {
     if (c) {
       fetch(process.env.REACT_APP_HOST+"/product", {
         method: 'PUT',
-        credentials: 'include',
-        cache: 'no-cache',  
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
         },
         body: JSON.stringify({
           id

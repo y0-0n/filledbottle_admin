@@ -12,11 +12,13 @@ class Transaction extends Component {
         orderInfo: [{}],
         productInfo: [{}]
       },
+      userInfo: {}
     };
   }
 
   componentWillMount() {
     this.getData(this.props.match.params.id);
+    this.getUserInfo();
   }
 
   numberWithCommas(x) {
@@ -28,16 +30,65 @@ class Transaction extends Component {
   }
 
   getData(id) {
-    fetch(process.env.REACT_APP_HOST+"/orderDetail/"+id, {
+    fetch(process.env.REACT_APP_HOST+"/order/orderDetail/"+id, {
       method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      }
     })
-      .then(response => response.json())
-      .then(data => {this.setState({data})});
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+      const status = data[0];
+      if(status === 200) {
+        this.setState({data: data[1]})
+      } else if(status === 401) {
+        alert('로그인 하고 접근해주세요')
+        this.props.history.push('/login')
+      } else if(status === 400) {
+        alert('존재하지 않는 주문입니다.');
+        this.props.history.push('/main/sales/list')
+      }
+    });
+  }
+
+  getUserInfo() {
+    fetch(process.env.REACT_APP_HOST+"/api/auth/info", {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      }
+    })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+      const status = data[0];
+      if(status === 200) {
+        this.setState({userInfo: data[1][0]})
+      } else if(status === 401) {
+        alert('로그인 하고 접근해주세요')
+        this.props.history.push('/login')
+      } else if(status === 400) {
+        alert('존재하지 않는 주문입니다.');
+        this.props.history.push('/main/sales/list')
+      }
+    });
   }
 
   render() {
     let {orderInfo, productInfo} = this.state.data;
     orderInfo = orderInfo[0];
+    let userInfo = this.state.userInfo;
     var total_price = 0 ;
     var total_num = 0;
     return (
@@ -58,9 +109,9 @@ class Transaction extends Component {
               </tr>
               <tr>
                 <td>상호(법인명)</td>
-                <td>채운 병</td>
+                <td>{userInfo.name}</td>
                 <td>상호(법인명)</td>
-                <td></td>
+                <td>{orderInfo.name}</td>
               </tr>
               <tr>
                 <td>주소</td>
@@ -70,13 +121,13 @@ class Transaction extends Component {
               </tr>
               <tr>
                 <td>연락처/FAX</td>
-                <td></td>
+                <td>{userInfo.phone} / </td>
                 <td>연락처/FAX</td>
-                <td>{orderInfo['telephone']}/{orderInfo['cellphone']}</td>
+                <td>{orderInfo['telephone']} / {orderInfo['cellphone']}</td>
               </tr>
               <tr>
                 <td>담당자/연락처</td>
-                <td>(배송)채윤병</td>
+                <td>채윤병</td>
                 <td>담당자/연락처</td>
                 <td>{orderInfo['name']}</td>
               </tr>
@@ -86,13 +137,13 @@ class Transaction extends Component {
               <tr>
                 <td width="50px">No.</td>
                 <td width="200px">상품명</td>
-                <td width="150px">규격(단위)</td>
-                <td width="120px">제조사<br></br>(원산지)</td>
+                <td width="150px">무게</td>
+                {/*<td width="120px">제조사<br></br>(원산지)</td>*/}
                 <td width="50px">수량</td>
                 <td width="50px">단가</td>
-                <td width="80px">공급가액</td>
-                <td width="50px">부가세</td>
-                <td width="50px">총액</td>
+                <td width="100px">공급가액</td>
+                <td width="100px">부가세</td>
+                <td width="100px">총액</td>
               </tr>              
               {productInfo.map((e, i) => {
                 total_price += e['price'];
@@ -100,8 +151,8 @@ class Transaction extends Component {
                 return(<tr key={i}>
                   <td>{i+1}</td>
                   <td>{e['name']}</td>
-                  <td>{e['tel']}</td>
-                  <td>{e['tel']}</td>
+                  <td>{e['weight']}</td>
+                  {/*<td>{e['tel']}</td>*/}
                   <td>{e['quantity']}</td>
                   <td>{this.numberWithCommas(e['price']/e['quantity'])}</td>
                   <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price'] * 10 / 11 : e['price']))}</td>

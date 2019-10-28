@@ -34,17 +34,6 @@ class CreateOrder extends Component {
     };
   }
   componentWillMount() {
-    this.findProduct();
-  }
-
-  findProduct() {
-    fetch(process.env.REACT_APP_HOST+"/product", {
-      method: 'GET',
-      credentials: 'include',
-      cache: 'no-cache',
-    })
-      .then(response => response.json())
-      .then(product => {this.setState({product})})
   }
 
   convertDateFormat(date) {
@@ -63,13 +52,16 @@ class CreateOrder extends Component {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
       },
-      cache: 'no-cache',
-      credentials: 'include',
       body: JSON.stringify({date, sCustomer, sProduct, cellphone, telephone, address, comment, orderDate})
     })
     .then(response => {
-      return Promise.all([response.status, response.json()]);
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
     })
     .then(data => {
       const status = data[0];
