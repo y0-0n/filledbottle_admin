@@ -115,7 +115,7 @@ class Transaction extends Component {
               </tr>
               <tr>
                 <td>주소</td>
-                <td>서울 성북구 정릉로</td>
+                <td>{userInfo.address}</td>
                 <td>주소</td>
                 <td>{orderInfo['address']}</td>
               </tr>
@@ -127,7 +127,7 @@ class Transaction extends Component {
               </tr>
               <tr>
                 <td>담당자/연락처</td>
-                <td>채윤병</td>
+                <td></td>
                 <td>담당자/연락처</td>
                 <td>{orderInfo['name']}</td>
               </tr>
