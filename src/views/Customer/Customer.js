@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Input, CardImg, CardTitle, CardSubtitle } from 'reactstrap';
-
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Input, CardImg, CardTitle, CardSubtitle, Table } from 'reactstrap';
 /*
 
   GET /customer/state
@@ -23,6 +22,7 @@ class Customer extends Component {
       data: [],
       sdata: [],
       search: false,
+      show: true,
     };
     this.form = {
 
@@ -118,6 +118,8 @@ class Customer extends Component {
     }
   }
 
+  
+
   activateCustomer(id) {
     let c = window.confirm('위 고객을 활성화하시겠습니까?')
     if (c) {
@@ -157,6 +159,11 @@ class Customer extends Component {
     this.setState({sdata: result, search: true});
   }
 
+  changeShow(){
+    if(this.state.show === true) this.setState({show: false});
+    else this.setState({show: true});
+  }
+
   render() {
     var data = this.state.search ? this.state.sdata : this.state.data;
     return (
@@ -180,48 +187,94 @@ class Customer extends Component {
                 <Button block color="primary" onClick={()=> {this.getCustomer()}}>활성화 고객 보기</Button>
               </Col> 
             }
+            {this.state.show ?
+              <Col md="2" xs="3 " sm="3">
+                <Button block color="primary" onClick={()=> {this.changeShow()}}>카드로 보기</Button>
+              </Col> :
+              <Col md="2" xs="3 " sm="3">
+                <Button block color="primary" onClick={()=> {this.changeShow()}}>리스트로 보기</Button>
+              </Col> 
+            }
         </Row>
 
-        <Row className="mb-5">
-        {
-          data.map(function (e) {
-          return (
-            <Col key={e.name}  lg="4" md="6" xs="12" sm="12">
+        {this.state.show ?
+          <Row>
+            <Col>
               <Card>
                 <CardHeader>
-                  {e.name}
-                </CardHeader>
-                <CardImg top width="100%" src={e.file_name ? "http://211.62.225.216:4000/static/"+e.file_name : '318x180.svg'} alt="Card image cap"/>
+                  고객 보기
+            </CardHeader>
                 <CardBody>
-                  <CardTitle><h3>고객명 : {e.name}</h3></CardTitle>
-                  <CardSubtitle><h4>전화번호 : {e.telephone}</h4></CardSubtitle>
-                  <CardSubtitle><h4>HP : {e.cellphone}</h4></CardSubtitle>
-                  <CardSubtitle><h4>주소 : {e.address}</h4></CardSubtitle>
-                  <Button block outline color="primary" onClick={() =>
-                    this.props.history.push({
-                      pathname: '/main/sales/list',
-                      state: {name: e.name}
-                    })}
-                  >주문 조회</Button>
-                  <Button block outline color="primary" onClick={() => alert('준비중입니다.')}>고객 분석</Button>
+                  <div style={{ overflow: 'scroll' }}>
+                    <Table style={{ minWidth: 600 }} hover>
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>고객명</th>
+                          <th>전화번호</th>
+                          <th>HP</th>
+                          <th>주소</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {data.map((e, i) => {
+                          return (<tr style={{ cursor: 'pointer' }} key={e.id} onClick={() => { this.props.history.push(`/main/sales/order/${e.id}`) }}>
+                            <td>{e.id}</td>
+                            <td>{e.name}</td>
+                            <td>{e.telephone}</td>
+                            <td>{e.cellphone}</td>
+                            <td>{e.address}</td>
+                          </tr>)
+                        })}
+                      </tbody>
+                    </Table>
+                  </div>
                 </CardBody>
-                {this.state.set ?
-                <CardFooter>
-                  <Button block color="ghost-danger" onClick={() => this.deleteCustomer(e.id)}>고객 비활성화</Button>
-                </CardFooter> :
-                <CardFooter>
-                  <Button block color="ghost-danger" onClick={() => this.activateCustomer(e.id)}>고객 활성화</Button>
-                </CardFooter>
-              }  
               </Card>
-            </Col>)
-          }.bind(this))
+            </Col>
+          </Row>
+          :
+          <Row className="mb-5">
+            {data.map(function (e) {
+                return (
+                  <Col key={e.name} lg="4" md="6" xs="12" sm="12">
+                    <Card>
+                      <CardHeader>
+                        {e.name}
+                      </CardHeader>
+                      <CardImg top width="100%" src={e.file_name ? "http://211.62.225.216:4000/static/" + e.file_name : '318x180.svg'} alt="Card image cap" />
+                      <CardBody>
+                        <CardTitle><h3>고객명 : {e.name}</h3></CardTitle>
+                        <CardSubtitle><h4>전화번호 : {e.telephone}</h4></CardSubtitle>
+                        <CardSubtitle><h4>HP : {e.cellphone}</h4></CardSubtitle>
+                        <CardSubtitle><h4>주소 : {e.address}</h4></CardSubtitle>
+                        <Button block outline color="primary" onClick={() =>
+                          this.props.history.push({
+                            pathname: '/main/sales/list',
+                            state: { name: e.name }
+                          })}
+                        >주문 조회</Button>
+                        <Button block outline color="primary" onClick={() => alert('준비중입니다.')}>고객 분석</Button>
+                      </CardBody>
+                      {this.state.set ?
+                        <CardFooter>
+                          <Button block color="ghost-danger" onClick={() => this.deleteCustomer(e.id)}>고객 비활성화</Button>
+                        </CardFooter> :
+                        <CardFooter>
+                          <Button block color="ghost-danger" onClick={() => this.activateCustomer(e.id)}>고객 활성화</Button>
+                        </CardFooter>
+                      }
+                    </Card>
+                  </Col>)
+              }.bind(this))
+            }
+          </Row>
         }
-        </Row>
-
       </div>
     )
   }
 }
+
+
 
 export default Customer;

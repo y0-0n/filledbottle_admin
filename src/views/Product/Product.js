@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, CardTitle, CardSubtitle } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, CardTitle, CardSubtitle, Table } from 'reactstrap';
 
 /*
 
@@ -22,6 +22,7 @@ class Product extends Component {
       data: [],
       sData: [],
       keyword: '',
+      show: true,
     };
     this.form = {
 
@@ -128,6 +129,10 @@ class Product extends Component {
     this.setState({sdata: result, search: true});
   }
 
+  changeShow(){
+    if(this.state.show === true) this.setState({show: false});
+    else this.setState({show: true});
+  }
 
   render() {
     var data = this.state.search ? this.state.sdata : this.state.data;
@@ -152,39 +157,83 @@ class Product extends Component {
                 <Button block color="primary" onClick={()=> {this.getProduct()}}>활성화 상품 보기</Button>
               </Col> 
             }
+            {this.state.show ?
+              <Col md="2" xs="3 " sm="3">
+                <Button block color="primary" onClick={()=> {this.changeShow()}}>카드로 보기</Button>
+              </Col> :
+              <Col md="2" xs="3 " sm="3">
+                <Button block color="primary" onClick={()=> {this.changeShow()}}>리스트로 보기</Button>
+              </Col> 
+            }
         </Row>
 
-        <Row>
-        {
-          data.map(function (e) {
-            return (
-              <Col key={e.id} lg="4" md="6" xs="12" sm="12">
-                <Card>
-                  <CardHeader>
-                    {e.name}
-                  </CardHeader>
-                  <CardImg top width="100%" src={e.file_name ? "http://211.62.225.216:4000/static/"+e.file_name : '318x180.svg'} alt="Card image cap"/>
-                  <CardBody>
-                    <CardTitle><h3>상품명 : {e.name}</h3></CardTitle>
-                    <CardSubtitle><h4>등급 : {e.grade}</h4></CardSubtitle>
-                    <CardSubtitle><h4>무게 : {e.weight}</h4></CardSubtitle>
-                    <CardSubtitle><h4>단가 : {e['price_shipping']}</h4></CardSubtitle>
-                    <Button block outline color="primary" onClick={() => alert('준비중입니다.')}>상품 분석</Button>
-                  </CardBody>
-                  {this.state.set ?
-                <CardFooter>
-                  <Button block color="ghost-danger" onClick={() => this.deleteProduct(e.id)}>상품 비활성화</Button>
-                </CardFooter> :
-                <CardFooter>
-                  <Button block color="ghost-danger" onClick={() => this.activateProduct(e.id)}>상품 활성화</Button>
-                </CardFooter>
-              }
-                </Card>
-              </Col>)
-          }.bind(this))
+        {this.state.show ?
+          <Row>
+            <Col>
+              <Card>
+                <CardHeader>
+                  상품 보기
+              </CardHeader>
+                <CardBody>
+                  <div style={{ overflow: 'scroll' }}>
+                    <Table style={{ minWidth: 600 }} hover>
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>상품명</th>
+                          <th>등급</th>
+                          <th>무게</th>
+                          <th>단가</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {data.map((e, i) => {
+                          return (<tr style={{ cursor: 'pointer' }} key={e.id} onClick={() => { this.props.history.push(`/main/sales/order/${e.id}`) }}>
+                            <td>{e.id}</td>
+                            <td>{e.name}</td>
+                            <td>{e.grade}</td>
+                            <td>{e.weight}</td>
+                            <td>{e['price_shipping']}</td>
+                          </tr>)
+                        })}
+                      </tbody>
+                    </Table>
+                  </div>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+          :
+          <Row>
+            {data.map(function (e) {
+                return (
+                  <Col key={e.id} lg="4" md="6" xs="12" sm="12">
+                    <Card>
+                      <CardHeader>
+                        {e.name}
+                      </CardHeader>
+                      <CardImg top width="100%" src={e.file_name ? "http://211.62.225.216:4000/static/" + e.file_name : '318x180.svg'} alt="Card image cap" />
+                      <CardBody>
+                        <CardTitle><h3>상품명 : {e.name}</h3></CardTitle>
+                        <CardSubtitle><h4>등급 : {e.grade}</h4></CardSubtitle>
+                        <CardSubtitle><h4>무게 : {e.weight}</h4></CardSubtitle>
+                        <CardSubtitle><h4>단가 : {e['price_shipping']}</h4></CardSubtitle>
+                        <Button block outline color="primary" onClick={() => alert('준비중입니다.')}>상품 분석</Button>
+                      </CardBody>
+                      {this.state.set ?
+                        <CardFooter>
+                          <Button block color="ghost-danger" onClick={() => this.deleteProduct(e.id)}>상품 비활성화</Button>
+                        </CardFooter> :
+                        <CardFooter>
+                          <Button block color="ghost-danger" onClick={() => this.activateProduct(e.id)}>상품 활성화</Button>
+                        </CardFooter>
+                      }
+                    </Card>
+                  </Col>)
+              }.bind(this))
+            }
+          </Row>
         }
-        </Row>
-
       </div>
     )
   }
