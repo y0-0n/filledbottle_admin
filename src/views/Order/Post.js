@@ -90,51 +90,54 @@ class Post extends Component {
         <CardBody>
           <div id="post" ref={el => (this.componentRef = el)}>
             <table>
-              <tr>
-                <td colspan="7">우체국 택배</td>
-              </tr>
-              <tr>
-                <td rowspan="4" className="stylecenter">보내는 분</td>
-                <td className="stylecenter widthnar">성명</td>
-                <td className="widthlong">{userInfo.name}</td>
-                <td className="stylecenter widthnar">내용물</td>
-                <td colspan="3" className="styleright widthlong">
-                  {productInfo[0].name} {productInfo.length-1 === 0 ? null : "외" + (productInfo.length-1) + "건"}
-                </td>
-              </tr>
-              <tr>
-                <td className="stylecenter widthnar">전화</td>
-                <td className="widthlong">{userInfo.phone}</td>
-                <td colspan="4" id="notice">안심소포로 접수한 경우에는 표기하신 내용물 가액의 범위에서 (300만원 이내) 
+              <tbody>
+                <tr>
+                  <td colSpan="7">우체국 택배</td>
+                </tr>
+                <tr>
+                  <td rowSpan="4" className="stylecenter">보내는 분</td>
+                  <td className="stylecenter widthnar">성명</td>
+                  <td className="widthlong">{userInfo.name}</td>
+                  <td className="stylecenter widthnar">내용물</td>
+                  <td colSpan="3" className="styleright widthlong">
+                    {productInfo[0].name} {productInfo.length - 1 === 0 ? null : "외" + (productInfo.length - 1) + "건"}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="stylecenter widthnar">전화</td>
+                  <td className="widthlong">{userInfo.phone}</td>
+                  <td colSpan="4" id="notice">안심소포로 접수한 경우에는 표기하신 내용물 가액의 범위에서 (300만원 이내)
                 실 손해액을 배상받으실 수 있습니다. (우편법 제38조)</td>
-              </tr>
-              <tr>
-                <td rowspan="2" className="stylecenter widthnar">주소</td>
-                <td rowspan="2">{userInfo.address}</td>
-                <td className="stylecenter widthnar">착불소포</td>
-                <td className="styleright widthnar">원</td>
-                <td className="stylecenter widthnar">안심</td>
-                <td className="styleright widthnar">만원</td>
-              </tr>
-              <tr>
-                <td className="stylecenter">파손주의</td>
-                <td className="stylecenter">취급주의</td>
-                <td className="stylecenter">대금교환</td>
-                <td className="stylecenter styleright">만원</td>
-              </tr>
-              <tr>
-                <td rowspan="3" className="stylecenter">받는 분</td>
-                <td className="stylecenter widthnar">성명</td>
-                <td colspan="5" className="widthlong">{orderInfo.name}</td>
-              </tr>
-              <tr>
-                <td className="stylecenter widthnar">전화</td>
-                <td colspan="5" className="widthlong">{orderInfo['telephone']} / {orderInfo['cellphone']}</td>
-              </tr>
-              <tr>
-                <td className="stylecenter widthnar">주소</td>
-                <td colspan="5" className="widthlong">{orderInfo['address']}</td>
-              </tr>
+                </tr>
+                <tr>
+                  <td rowSpan="2" className="stylecenter widthnar">주소</td>
+                  <td rowSpan="2">{userInfo.address}</td>
+                  <td className="stylecenter widthnar">착불소포</td>
+                  <td className="styleright widthnar">원</td>
+                  <td className="stylecenter widthnar">안심</td>
+                  <td className="styleright widthnar">만원</td>
+                </tr>
+                <tr>
+                  <td className="stylecenter">파손주의</td>
+                  <td className="stylecenter">취급주의</td>
+                  <td className="stylecenter">대금교환</td>
+                  <td className="stylecenter styleright">만원</td>
+                </tr>
+                <tr>
+                  <td rowSpan="3" className="stylecenter">받는 분</td>
+                  <td className="stylecenter widthnar">성명</td>
+                  <td colSpan="5" className="widthlong">{orderInfo.name}</td>
+                </tr>
+                <tr>
+                  <td className="stylecenter widthnar">전화</td>
+                  <td colSpan="5" className="widthlong">{orderInfo['telephone']} / {orderInfo['cellphone']}</td>
+                </tr>
+                <tr>
+                  <td className="stylecenter widthnar">주소</td>
+                  <td colSpan="5" className="widthlong">{orderInfo['address']}</td>
+                </tr>
+              </tbody>
+
             </table>
           </div>
         </CardBody>

@@ -184,16 +184,28 @@ class Product extends Component {
                           <th>등급</th>
                           <th>무게</th>
                           <th>단가</th>
+                          {this.state.set ?
+                            <th>상품 비활성화</th> :
+                            <th>상품 활성화</th>
+                          }
                         </tr>
                       </thead>
                       <tbody>
                         {data.map((e, i) => {
-                          return (<tr style={{ cursor: 'pointer' }} key={e.id} onClick={() => { this.props.history.push(`/main/sales/order/${e.id}`) }}>
+                          return (<tr style={{ cursor: 'pointer' }} key={e.id}>
                             <td>{e.id}</td>
                             <td>{e.name}</td>
                             <td>{e.grade}</td>
                             <td>{e.weight}</td>
                             <td>{e['price_shipping']}</td>
+                            {this.state.set ?
+                              <td>
+                                <Button block style={{width:120}} color="ghost-danger" onClick={() => this.deleteProduct(e.id)}>상품 비활성화</Button>
+                              </td> :
+                              <td>
+                                <Button block style={{width:100 }}color="ghost-primary" onClick={() => this.activateProduct(e.id)}>상품 활성화</Button>
+                              </td>
+                            }
                           </tr>)
                         })}
                       </tbody>

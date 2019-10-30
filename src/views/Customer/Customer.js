@@ -214,16 +214,28 @@ class Customer extends Component {
                           <th>전화번호</th>
                           <th>HP</th>
                           <th>주소</th>
+                          {this.state.set ?
+                            <th>고객 비활성화</th> :
+                            <th>고객 활성화</th>
+                          }
                         </tr>
                       </thead>
                       <tbody>
                         {data.map((e, i) => {
-                          return (<tr style={{ cursor: 'pointer' }} key={e.id} onClick={() => { this.props.history.push(`/main/sales/order/${e.id}`) }}>
+                          return (<tr style={{ cursor: 'pointer' }} key={e.id}>
                             <td>{e.id}</td>
                             <td>{e.name}</td>
                             <td>{e.telephone}</td>
                             <td>{e.cellphone}</td>
                             <td>{e.address}</td>
+                            {this.state.set ?
+                              <td>
+                                <Button block style={{width:120}} color="ghost-danger" onClick={() => this.deleteCustomer(e.id)}>고객 비활성화</Button>
+                              </td> :
+                              <td>
+                                <Button block style={{width:100 }}color="ghost-primary" onClick={() => this.activateCustomer(e.id)}>고객 활성화</Button>
+                              </td>
+                            }
                           </tr>)
                         })}
                       </tbody>
@@ -235,9 +247,9 @@ class Customer extends Component {
           </Row>
           :
           <Row className="mb-5">
-            {data.map(function (e) {
+            {data.map(function (e, i) {
                 return (
-                  <Col key={e.name} lg="4" md="6" xs="12" sm="12">
+                  <Col key={i} lg="4" md="6" xs="12" sm="12">
                     <Card>
                       <CardHeader>
                         {e.name}
