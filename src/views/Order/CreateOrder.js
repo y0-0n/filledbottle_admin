@@ -226,8 +226,8 @@ class CreateOrder extends Component {
                                           />}
                                 </Popup>}
                             </td>
-                            <td>
-                              <Input name='quantity' style={{width: 100, display: 'inline-block'}} value={this.state.sProduct[i].quantity} onChange={(e)=> {
+                            <td style={{width : 200}}>
+                              <Input name='quantity' style={{width: 50, display: 'inline-block'}} value={this.state.sProduct[i].quantity} onChange={(e)=> {
                               let {sProduct} = this.state;
                               sProduct[i].quantity > 0 ? sProduct[i].quantity = e.target.value :  sProduct[i].quantity= Math.abs(e.target.value)
                               //sProduct[i].quantity = e.target.value;
@@ -253,7 +253,7 @@ class CreateOrder extends Component {
                               <input name='tax' type='checkbox' checked={this.state.sProduct[i].tax} onClick={() => {
                               let {sProduct} = this.state;
                               sProduct[i].tax = !sProduct[i].tax;
-                              this.setState({sProduct})}}/>
+                              this.setState({sProduct})}} readOnly/>
                             </td>
                             <td><Input name='sum' value={this.state.sProduct[i].price * this.state.sProduct[i].quantity} readOnly/></td>
                             <td>

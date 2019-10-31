@@ -78,7 +78,7 @@ class CreateProduct extends Component {
       <div className="animated fadeIn">
         <Row className="mb-5">
           <Col md="12" xs="12" sm="12">
-            <form enctype="multipart/form-data" onSubmit={this.handlePost.bind(this)}>
+            <form encType="multipart/form-data" onSubmit={this.handlePost.bind(this)}>
               <FormGroup>
                 <Card>
                   <CardHeader>
