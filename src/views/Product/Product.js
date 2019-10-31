@@ -32,7 +32,7 @@ class Product extends Component {
   }
 
   getProduct() {
-    this.setState({set: true});
+    this.setState({search: false, set: true});
     fetch(process.env.REACT_APP_HOST+"/product", {
       method: 'GET',
       headers: {
@@ -58,7 +58,7 @@ class Product extends Component {
   }
 
   getUnsetProduct() {
-    this.setState({set: false});
+    this.setState({search: false, set: false});
     fetch(process.env.REACT_APP_HOST+"/product/unset", {
       method: 'GET',
       headers: {

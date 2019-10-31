@@ -34,7 +34,7 @@ class Customer extends Component {
   }
 
   getCustomer() {
-    this.setState({set: true});
+    this.setState({search: false, set: true});
     fetch(process.env.REACT_APP_HOST+"/customer", {
       method: 'GET',
       headers: {
@@ -60,7 +60,7 @@ class Customer extends Component {
   }
 
   getUnsetCustomer() {
-    this.setState({set: false});
+    this.setState({search: false, set: false});
     fetch(process.env.REACT_APP_HOST+"/customer/unset", {
       method: 'GET',
       headers: {
@@ -159,6 +159,7 @@ class Customer extends Component {
 
   render() {
     var data = this.state.search ? this.state.sdata : this.state.data;
+    console.warn(data)
     return (
       <div className="animated fadeIn">
         
@@ -184,9 +185,9 @@ class Customer extends Component {
 
         <Row className="mb-5">
         {
-          data.map(function (e) {
+          data.map(function (e, i) {
           return (
-            <Col key={e.name}  lg="4" md="6" xs="12" sm="12">
+            <Col key={i}  lg="4" md="6" xs="12" sm="12">
               <Card>
                 <CardHeader>
                   {e.name}
