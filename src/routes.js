@@ -54,6 +54,8 @@ const OrderDetail = React.lazy(() => import('./views/Order/OrderDetail'));
 const OrderModify = React.lazy(() => import('./views/Order/OrderModify'));
 const Transaction = React.lazy(() => import('./views/Order/Transaction'));
 const Post = React.lazy(() => import('./views/Order/Post'));
+const Suggestions = React.lazy(() => import('./views/Suggestions/Suggestions'));
+const SuggestionWrite = React.lazy(() => import('./views/Suggestions/SuggestionWrite'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -73,6 +75,8 @@ const routes = [
   { path: '/main/order/edit/:id', exact: true,  name: '주문 수정', component: OrderModify},
   { path: '/main/order/transaction/:id', exact: true,  name: '거래 명세서', component: Transaction},
   { path: '/main/order/post/:id', exact: true,  name: '택배 송장', component: Post},
+  { path: '/main/suggestions', exact: true,  name: '건의 사항', component: Suggestions},
+  { path: '/main/suggestions/write', exact: true,  name: '글쓰기', component: SuggestionWrite},
 
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },

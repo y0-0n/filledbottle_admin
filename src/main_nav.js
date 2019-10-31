@@ -50,5 +50,10 @@ export default {
         },*/
       ]
     },
+    {
+      name: '건의사항',
+      url: '/main/suggestions',
+      icon: 'icon-speedometer',
+    },
   ],
 };
