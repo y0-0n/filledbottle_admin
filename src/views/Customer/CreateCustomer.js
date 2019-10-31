@@ -108,7 +108,7 @@ class CreateCustomer extends Component {
                         <th>사진</th>
                         <td colspan="3" className="TableRight">
                           <img alt="고객 사진" style={{height: 500, width: 500}} src={this.state.image} /> <br></br>
-                        <input ref="file" type="file" name="file" onChange={e =>{this.handleFileInput(e);}}/> 
+                        <input ref="file" type="file" name="file" accept=".jpg" onChange={e =>{this.handleFileInput(e);}}/> 
                         </td>
                       </tr>
                     </tbody>
