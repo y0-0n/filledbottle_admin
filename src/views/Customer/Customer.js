@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Input, CardImg, CardTitle, CardSubtitle, Table } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Input, CardImg, CardTitle, CardSubtitle, Table, TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
+import Switch from "./Switch";
+
 /*
 
   GET /customer/state
@@ -164,12 +166,16 @@ class Customer extends Component {
     else this.setState({show: true});
   }
 
+  /*setToggle(){
+    if(this.state.value === true) this.setState({value: false});
+    else this.setState({value: true});
+  }*/
+
   render() {
     var data = this.state.search ? this.state.sdata : this.state.data;
     console.warn(data)
     return (
-      <div className="animated fadeIn">
-        
+      <div className="animated fadeIn">        
         <Row className="mb-5">
             <Col md="8" xs="6" sm="6">
               <Input onChange={(e)=> {this.setState({keyword: e.target.value})}}/>
@@ -197,14 +203,15 @@ class Customer extends Component {
               </Col> 
             }
         </Row>
-
         {this.state.show ?
           <Row>
             <Col>
               <Card>
                 <CardHeader>
                   고객 보기
-            </CardHeader>
+                  <Switch
+                  />
+                </CardHeader>
                 <CardBody>
                   <div style={{ overflow: 'scroll' }}>
                     <Table style={{ minWidth: 600 }} hover>
