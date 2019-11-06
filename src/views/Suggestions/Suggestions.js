@@ -30,12 +30,12 @@ class Suggestions extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr style={{ cursor: 'pointer' }}>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                <tr style={{ cursor: 'pointer' }} onClick={()=> {this.props.history.push('/main/suggestions/${e.id}')}}>
+                                    <td>1</td>
+                                    <td>테스트</td>
+                                    <td>테스트</td>
+                                    <td>테스트</td>
+                                    <td><Badge color="primary">답변완료</Badge></td>
                                 </tr>
                             </tbody>
                         </Table>

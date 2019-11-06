@@ -234,6 +234,7 @@ class Customer extends Component {
                 <CardHeader>
                   <Row>
                     <Col>고객 보기</Col>
+                    <Col></Col><Col></Col>
                     <Col>
                       {this.state.set ?
                       "비활성화 고객 보기":
@@ -243,8 +244,16 @@ class Customer extends Component {
                       <Switch handleToggle={this.getUnsetCustomer.bind(this)}/>:
                       <Switch handleToggle={this.getCustomer.bind(this)}/>
                       }
-                      사진으로 보기
-                      <Switch handleToggle={this.changeShow.bind(this)}/>
+                    </Col>
+                    <Col>
+                      {this.state.show ?
+                        "카드으로 보기":
+                        "리스트로 보기"
+                        }
+                      {this.state.show ?
+                        <Switch handleToggle={this.changeShow.bind(this)}/>:
+                        <Switch handleToggle={this.changeShow.bind(this)}/>
+                        }
                     </Col>
                   </Row>                  
                 </CardHeader>
@@ -296,8 +305,26 @@ class Customer extends Component {
                 <CardHeader>
                   <Row>
                     <Col>고객 보기</Col>
+                    <Col></Col><Col></Col>
                     <Col>
-                      <Switch handleToggle={this.changeShow.bind(this)} />
+                      {this.state.set ?
+                      "비활성화 고객 보기":
+                      "활성화 고객 보기"
+                      }
+                      {this.state.set ?
+                      <Switch handleToggle={this.getUnsetCustomer.bind(this)}/>:
+                      <Switch handleToggle={this.getCustomer.bind(this)}/>
+                      }
+                    </Col>
+                    <Col>
+                      {this.state.show ?
+                        "카드으로 보기":
+                        "리스트로 보기"
+                        }
+                      {this.state.show ?
+                        <Switch handleToggle={this.changeShow.bind(this)}/>:
+                        <Switch handleToggle={this.changeShow.bind(this)}/>
+                        }
                     </Col>
                   </Row>                  
                 </CardHeader>
