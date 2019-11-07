@@ -70,7 +70,7 @@ class Suggestions extends Component {
               <tbody>
                 {data.map((d) => {
                   return (
-                    <tr key={d.id} style={{ cursor: 'pointer' }} onClick={()=> {this.props.history.push('/main/suggestions/${e.id}')}}>
+                    <tr key={d.id} style={{ cursor: 'pointer' }} onClick={()=> {this.props.history.push(`/main/suggestions/${d.id}`)}}>
                       <td>{d.id}</td>
                       <td>{d.title}</td>
                       <td>{d.name}</td>

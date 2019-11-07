@@ -16,7 +16,6 @@ class CreateSuggestions extends Component {
 
   submit(e) {
     e.preventDefault();
-    console.log(this.form)
     fetch(process.env.REACT_APP_HOST+"/api/suggestion", {
       method: 'POST',
       headers: {
@@ -37,7 +36,7 @@ class CreateSuggestions extends Component {
       let status = data[0];
       if(status === 200) {
         alert('등록됐습니다.');
-        this.props.history.push('/main/suggestion');
+        this.props.history.push('/main/suggestions');
       } else {
         alert('등록에 실패했습니다.');
       }
