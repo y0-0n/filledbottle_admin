@@ -204,9 +204,9 @@ class Sales extends Component {
                         <td>{e.name}</td>
                         <td>{this.numberWithCommas(e.price)}</td>
                         <td>
+                          {this.state.process == 'refund' ? <h3><Badge color="danger">{stateKor['refund']}</Badge></h3> : null}
                           {e.state === 'order' ? <h3><Badge color="primary">{stateKor[e.state]}</Badge></h3>: null}
-                          {e.state === 'shipping' ? <h3><Badge color="secondary">{stateKor[e.state]}</Badge></h3>: null}
-                          {e.state === 'refund' ? <h3><Badge color="danger">{stateKor[e.state]}</Badge></h3>: null}
+                          {e.state === 'shipping' && this.state.process !== 'refund' ? <h3><Badge color="secondary">{stateKor[e.state]}</Badge></h3>: null}
                           {e.state === 'cancel' ? <h3><Badge color="danger">{stateKor[e.state]}</Badge></h3>: null}
                         </td>
                         </tr>)
