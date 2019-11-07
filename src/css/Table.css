@@ -5,6 +5,11 @@
     height: 60px;
 }
 
+.ShowTable td{
+    border-right: 1px solid lightgray;
+    border-left: 1px solid lightgray;
+}
+
 .TableBottom {
     border-bottom: 1px solid lightgray;
 }
