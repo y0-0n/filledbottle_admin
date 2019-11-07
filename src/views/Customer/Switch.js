@@ -6,14 +6,16 @@ class Switch extends Component{
     return (
       <>
         <input
+          checked={this.props.isOn}
           onChange={this.props.handleToggle}
           className="react-switch-checkbox"
-          id={`react-switch-new`}
+          id={this.props.id}
           type="checkbox"
         />
         <label
+          style={{background: this.props.isOn && '#06D6A0'}}
           className="react-switch-label"
-          htmlFor={`react-switch-new`}
+          htmlFor={this.props.id}
         >
           <span className={`react-switch-button`} />
         </label>

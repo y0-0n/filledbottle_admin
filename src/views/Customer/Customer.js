@@ -169,7 +169,7 @@ class Customer extends Component {
 
   render() {
     var data = this.state.search ? this.state.sdata : this.state.data;
-    console.warn(data)
+
     return (
       <div className="animated fadeIn">        
         <Row className="mb-5">
@@ -241,8 +241,8 @@ class Customer extends Component {
                       "활성화 고객 보기"
                       }
                       {this.state.set ?
-                      <Switch handleToggle={this.getUnsetCustomer.bind(this)}/>:
-                      <Switch handleToggle={this.getCustomer.bind(this)}/>
+                      <Switch id='1' isOn={this.state.set} handleToggle={this.getUnsetCustomer.bind(this)}/>:
+                      <Switch id='1' isOn={this.state.set} handleToggle={this.getCustomer.bind(this)}/>
                       }
                     </Col>
                     <Col>
@@ -250,10 +250,7 @@ class Customer extends Component {
                         "카드으로 보기":
                         "리스트로 보기"
                         }
-                      {this.state.show ?
-                        <Switch handleToggle={this.changeShow.bind(this)}/>:
-                        <Switch handleToggle={this.changeShow.bind(this)}/>
-                        }
+                        <Switch id='2' isOn={this.state.show} handleToggle={() => this.changeShow()}/>
                     </Col>
                   </Row>                  
                 </CardHeader>
@@ -312,8 +309,8 @@ class Customer extends Component {
                       "활성화 고객 보기"
                       }
                       {this.state.set ?
-                      <Switch handleToggle={this.getUnsetCustomer.bind(this)}/>:
-                      <Switch handleToggle={this.getCustomer.bind(this)}/>
+                      <Switch id='1' isOn={this.state.set} handleToggle={this.getUnsetCustomer.bind(this)}/>:
+                      <Switch id='1' isOn={this.state.set} handleToggle={this.getCustomer.bind(this)}/>
                       }
                     </Col>
                     <Col>
@@ -321,10 +318,7 @@ class Customer extends Component {
                         "카드으로 보기":
                         "리스트로 보기"
                         }
-                      {this.state.show ?
-                        <Switch handleToggle={this.changeShow.bind(this)}/>:
-                        <Switch handleToggle={this.changeShow.bind(this)}/>
-                        }
+                        <Switch id='2' isOn={this.state.show} handleToggle={this.changeShow.bind(this)}/>
                     </Col>
                   </Row>                  
                 </CardHeader>
