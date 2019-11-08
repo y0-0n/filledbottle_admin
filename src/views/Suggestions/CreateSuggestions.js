@@ -51,8 +51,6 @@ class CreateSuggestions extends Component {
       <div className="animated fadeIn">
         <Row className="mb-5">
           <Col md="12" xs="12" sm="12">
-            <form onSubmit={this.submit.bind(this)}>
-              <FormGroup>
                 <Card>
                   <CardHeader>
                     글쓰기
@@ -69,18 +67,20 @@ class CreateSuggestions extends Component {
                       <tr className="TableBottom">
                         <th>글</th>
                         <td>
-                          <Input onChange={(e) => {this.form.content = e.target.value}} />
+                          <form>
+                            <textarea onChange={(e) => {this.form.content = e.target.value}} rows ="20" cols="80" name="suggestions_content">
+
+                            </textarea>
+                          </form>
                         </td>
                       </tr>
                     </tbody>
                     </Table>
                   </CardBody>
                   <CardFooter>
-                    <Button block outline color="primary">추가하기</Button>
+                    <Button block outline color="primary" onClick={this.submit.bind(this)}>추가하기</Button>
                   </CardFooter>
                 </Card>
-              </FormGroup>
-            </form>
           </Col>
         </Row>
       </div>

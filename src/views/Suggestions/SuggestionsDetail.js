@@ -75,7 +75,9 @@ class CreateSuggestions extends Component {
                             </tr>
                             <tr className="TableBottom">
                               <td colSpan="4">
-                                {data.content}
+                                <pre>
+                                  {data.content}
+                                </pre>
                                 {data.answer !== null ? <Card style={{marginTop: "50px"}}>
                                   <CardHeader>ㄴ A. 답변</CardHeader>
                                   <CardBody>
