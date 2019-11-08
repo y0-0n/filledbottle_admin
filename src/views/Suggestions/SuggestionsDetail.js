@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Badge, Table,} from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Badge, Table} from 'reactstrap';
 import '../../css/Table.css';
 
 class CreateSuggestions extends Component {
@@ -81,7 +81,8 @@ class CreateSuggestions extends Component {
                                 {data.answer !== null ? <Card style={{marginTop: "50px"}}>
                                   <CardHeader>ㄴ A. 답변</CardHeader>
                                   <CardBody>
-                                    {data.answer}
+                                    <pre>{data.answer}</pre>
+                                    
                                   </CardBody>
                                 </Card> : null}
                               </td>                                
