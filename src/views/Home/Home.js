@@ -120,7 +120,7 @@ class Home extends Component {
           <Col>
             <Card style={{height: 200}}>
               <CardHeader>
-                최근 고객
+                이번달 매출
               </CardHeader>
               <CardBody>
               </CardBody>
