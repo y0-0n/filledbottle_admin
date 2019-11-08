@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';                                                                                                                           
-import { Card, CardBody, CardHeader } from 'reactstrap';
+import { Card, CardBody, CardHeader, Row, Col } from 'reactstrap';
 import moment from 'moment';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "moment/locale/ko";
@@ -40,6 +40,57 @@ class Home extends Component {
 
   componentWillMount() {
     this.getOrder();
+    this.getIncome();
+  }
+
+  getIncome() {
+    fetch(process.env.REACT_APP_HOST+"/order/income/"+((new Date()).getMonth()+1), {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+      let status = data[0];
+      if(status === 200) {
+        let this_income = data[1][0].sum;
+        this.setState({this_income});
+      } else {
+        alert('로그인 하고 접근해주세요')
+        this.props.history.push('/login')
+      }
+    })
+
+    fetch(process.env.REACT_APP_HOST+"/order/income/"+(new Date()).getMonth(), {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+      let status = data[0];
+      if(status === 200) {
+        let last_income = data[1][0].sum;
+        this.setState({last_income});
+      } else {
+        alert('로그인 하고 접근해주세요')
+        this.props.history.push('/login')
+      }
+    })
   }
 
   getOrder() {
@@ -47,7 +98,7 @@ class Home extends Component {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      }
+      },
     })
       .then(response => {
         if(response.status === 401) {
@@ -107,9 +158,9 @@ class Home extends Component {
             </div>
           </CardBody>
         </Card>
-        {/*<Row>
+        <Row>
           <Col>
-            <Card style={{height: 200}}>
+            <Card>
               <CardHeader>
                 최근 주문
               </CardHeader>
@@ -118,15 +169,22 @@ class Home extends Component {
             </Card>
           </Col>
           <Col>
-            <Card style={{height: 200}}>
+            <Card>
               <CardHeader>
-                최근 고객
+                이번 달 매출
               </CardHeader>
               <CardBody>
+                {this.state.this_income === null ? 0 : this.state.this_income} 원
+              </CardBody>
+              <CardHeader>
+                저번 달 매출
+              </CardHeader>
+              <CardBody>
+                {this.state.last_income}원
               </CardBody>
             </Card>
           </Col>
-        </Row>*/}
+        </Row>
       </div>
     )
   }
