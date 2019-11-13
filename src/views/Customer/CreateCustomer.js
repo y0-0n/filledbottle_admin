@@ -10,6 +10,7 @@ class CreateCustomer extends Component {
       telephone: '',
       cellphone: '',
       address: '',
+      crNumber:'',
     }
     this.state = {
       image: null,
@@ -102,6 +103,12 @@ class CreateCustomer extends Component {
                         <th>주소</th>
                         <td className="TableRight">
                           <Input onChange={(e) => this.form.address=e.target.value}/>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>사업자등록번호</th>
+                        <td colSpan="3">
+                          <Input onChange={(e) => this.form.crNumber=e.target.value}/>
                         </td>
                       </tr>
                       <tr className="TableBottom">

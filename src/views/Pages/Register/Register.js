@@ -9,7 +9,8 @@ class Register extends Component {
       email: '',
       password: '',
       phone: '',
-      address: ''
+      address: '',
+      crNumber:'',
     }
   }
 
@@ -100,6 +101,12 @@ class Register extends Component {
                         </InputGroupText>
                       </InputGroupAddon>
                       <Input type="password" onChange={(e) => this.passwordCheck=e.target.value} placeholder="비밀번호 반복" autoComplete="new-password" />
+                    </InputGroup>
+                    <InputGroup className="mb-3">
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>@</InputGroupText>
+                      </InputGroupAddon>
+                      <Input type="text" onChange={(e) => this.form.crNumber=e.target.value} placeholder="사업자등록번호" autoComplete="crNumber" />
                     </InputGroup>
                     <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">

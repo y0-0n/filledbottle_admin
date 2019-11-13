@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table } from 'reactstrap';
+import { Table, Col, Row, Button, Input } from 'reactstrap';
 
 class Modal extends Component {
   constructor(props) {
@@ -80,7 +80,15 @@ class Modal extends Component {
       <div className="animated fadeIn">
         <div className="card">
           <div className="card-header">
-            <i className="icon-drop">상품 검색</i>
+          <Row>
+              <Col><i className="icon-drop">상품 검색</i></Col>
+              <Col>
+                <Input onChange={(e)=> {this.setState({keyword: e.target.value})}}z/>
+              </Col>
+              <Col xs lg='2'>
+                <Button block color="primary" onClick={()=> {this.searchProduct()}}>검색</Button>
+              </Col>
+            </Row>
           </div>
           <div className="card-body" style={{height: 500, overflow: 'scroll'}} >
           <Table hover>

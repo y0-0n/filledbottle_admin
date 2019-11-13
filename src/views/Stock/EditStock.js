@@ -95,7 +95,7 @@ class EditStock extends Component {
                     <tbody>
                       {data.map((d) => {
                         return (
-                          <tr key={d.id}>
+                          <tr style={{cursor: 'pointer'}} key={d.id} onClick={() => {this.props.history.push(`/main/stock/${d.id}`)}}>
                             <td>{d.name}</td>
                             <td>{d.grade}</td>
                             <td>{d.weight}</td>
