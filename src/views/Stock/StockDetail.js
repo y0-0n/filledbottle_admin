@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader, Col, Row, Table, Button, Input } from 'reactstrap';
+import { Card, CardBody, CardHeader, Col, Row, Table, } from 'reactstrap';
 
 class StockDetail extends Component {
   constructor(props) {
@@ -43,6 +43,13 @@ class StockDetail extends Component {
                           </tr>
                         )
                       })}
+
+                    <tr>
+                      <td>2019-11-8</td>
+                      <td>test</td>
+                      <td>+ 500</td>
+                      <td>1300</td>
+                    </tr>
                     </tbody>
                   </Table>
                 </CardBody>
