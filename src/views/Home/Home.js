@@ -218,7 +218,7 @@ class Home extends Component {
           borderWidth: 1,
           hoverBackgroundColor: 'rgba(255,99,132,0.4)',
           hoverBorderColor: 'rgba(255,99,132,1)',
-          data: [this.state.last_income, this.state.this_income, 0],
+          data: [this.state.last_income, this.state.this_income],
         },
       ],
     };

@@ -55,5 +55,10 @@ export default {
       url: '/main/suggestions',
       icon: 'icon-speedometer',
     },
+    {
+      name: '제조',
+      url: '/main/manufacture',
+      icon: 'icon-speedometer',
+    },
   ],
 };
