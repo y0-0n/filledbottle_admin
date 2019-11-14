@@ -4,6 +4,8 @@ import { Card, CardBody, CardHeader, Row, Col } from 'reactstrap';
 import moment from 'moment';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "moment/locale/ko";
+import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
+import { Bar } from 'react-chartjs-2';
 
 const localizer = momentLocalizer(moment);
 
@@ -61,6 +63,7 @@ class Home extends Component {
       let status = data[0];
       if(status === 200) {
         let this_income = data[1][0].sum;
+        if(this_income === null) this_income = 0;
         this.setState({this_income});
       } else {
         alert('로그인 하고 접근해주세요')
@@ -85,6 +88,7 @@ class Home extends Component {
       let status = data[0];
       if(status === 200) {
         let last_income = data[1][0].sum;
+        if(last_income === null) last_income = 0;
         this.setState({last_income});
       } else {
         alert('로그인 하고 접근해주세요')
@@ -136,6 +140,30 @@ class Home extends Component {
   }
 
   render() {
+    this.bar = {
+      labels: ['저번 달', '이번 달'],
+      datasets: [
+        {
+          label: '매출',
+          backgroundColor: 'rgba(255,99,132,0.2)',
+          borderColor: 'rgba(255,99,132,1)',
+          borderWidth: 1,
+          hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+          hoverBorderColor: 'rgba(255,99,132,1)',
+          data: [this.state.last_income, this.state.this_income],
+        },
+      ],
+    };
+    
+    this.options = {
+      tooltips: {
+        enabled: false,
+        custom: CustomTooltips
+      },
+      maintainAspectRatio: false
+    }
+
+    var data = this.state.search ? this.state.sdata : this.state.orderData;
     return (
       <div className="animated fadeIn">
         <Card>
@@ -171,16 +199,12 @@ class Home extends Component {
           <Col>
             <Card>
               <CardHeader>
-                이번 달 매출
+                매출
               </CardHeader>
               <CardBody>
-                {this.state.this_income === null ? 0 : this.state.this_income} 원
-              </CardBody>
-              <CardHeader>
-                저번 달 매출
-              </CardHeader>
-              <CardBody>
-              {this.state.last_income === null ? 0 : this.state.last_income} 원
+                <div className="chart-wrapper">
+                  <Bar data={this.bar} options={this.options} />
+                </div>
               </CardBody>
             </Card>
           </Col>
