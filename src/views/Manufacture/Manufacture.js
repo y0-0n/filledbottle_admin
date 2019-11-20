@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Input } from 'reactstrap';
 import Popup from "reactjs-popup";
 import ProductModal from '../Order/Modal';
-import CustomerModal from '../Order/Modal2';
-import DatePicker from "react-datepicker";
 import { registerLocale } from  "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ko from 'date-fns/locale/ko';
@@ -22,7 +20,8 @@ class CreateOrder extends Component {
 
     this.state = {
       product: [],
-      sProduct: [d],
+      sProduct1: [d],
+      sProduct2: [d],
       sCustomer: null, //선택된 거래처
       date: new Date(),
       manager: '',
@@ -38,16 +37,6 @@ class CreateOrder extends Component {
 
   convertDateFormat(date) {
     return date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-  }
-
-  vaild() {
-    let length = this.state.sProduct.length;
-    for(var i = 0; i < length; i++){
-      if(this.state.sProduct[i].b === '' || this.state.sProduct[i].c === ''){
-        return(true)
-      }
-    }
-    return(!this.state.manager)
   }
 
   countQuantity(){
@@ -66,10 +55,10 @@ class CreateOrder extends Component {
                   <Col md="2" xs="2" sm="2">
                     <Button block color="primary" 
                       onClick={()=> {
-                        let sProduct = this.state.sProduct;
-                        sProduct.push(d);
+                        let sProduct1 = this.state.sProduct1;
+                        sProduct1.push(d);
                         this.setState({
-                          sProduct
+                          sProduct1
                         })}}>
                       추가하기
                     </Button>
@@ -90,18 +79,18 @@ class CreateOrder extends Component {
                   </thead>
                   <tbody>
                     {
-                      this.state.sProduct.map(function (e, i) {
+                      this.state.sProduct1.map(function (e, i) {
                         return (
                           <tr key={i}>
                             <td>
                               {<Popup
-                                trigger={<Input name='name' value={this.state.sProduct[i].name} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}} readOnly/>}
+                                trigger={<Input name='name' value={this.state.sProduct1[i].name} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}} readOnly/>}
                                 modal>
                                 {close => <ProductModal index={i} close={close}
                                             selectProduct={(data) => {
-                                              let {sProduct} = this.state;
+                                              let {sProduct1} = this.state;
 
-                                              let val = Object.assign({}, sProduct[i]);
+                                              let val = Object.assign({}, sProduct1[i]);
                                           
                                               /* set, for instance, comment[1] to "some text"*/
                                               val['id'] = data['id'];
@@ -110,25 +99,25 @@ class CreateOrder extends Component {
                                               val['grade'] = data['grade'];
                                               val['weight'] = data['weight'];
 
-                                              sProduct[i] = val;
+                                              sProduct1[i] = val;
                                                          
                                               /* set the state to the new variable */
-                                              this.setState({sProduct});
+                                              this.setState({sProduct1});
                                             }}
                                           />}
                                 </Popup>}
                             </td>
-                            <td><Input name='grade' value={this.state.sProduct[i].grade} readOnly/></td>
-                            <td><Input name='weight' value={this.state.sProduct[i].weight} readOnly/></td>
-                            <td><Input name='price' value={this.state.sProduct[i].price} readOnly/></td>
+                            <td><Input name='grade' value={this.state.sProduct1[i].grade} readOnly/></td>
+                            <td><Input name='weight' value={this.state.sProduct1[i].weight} readOnly/></td>
+                            <td><Input name='price' value={this.state.sProduct1[i].price} readOnly/></td>
                             <td><Input name='consume'/></td>
                             <td>
                               <Button block color="danger" 
                                 onClick={()=> {
-                                  let {sProduct} = this.state;
-                                  sProduct.splice(i, 1);
+                                  let {sProduct1} = this.state;
+                                  sProduct1.splice(i, 1);
                                   this.setState({
-                                    sProduct
+                                    sProduct1
                                   })
                                 }}>
                                 X
@@ -153,10 +142,10 @@ class CreateOrder extends Component {
                   <Col md="2" xs="2" sm="2">
                     <Button block color="primary" 
                       onClick={()=> {
-                        let sProduct = this.state.sProduct;
-                        sProduct.push(d);
+                        let sProduct2 = this.state.sProduct2;
+                        sProduct2.push(d);
                         this.setState({
-                          sProduct
+                          sProduct2
                         })}}>
                       추가하기
                     </Button>
@@ -177,18 +166,18 @@ class CreateOrder extends Component {
                   </thead>
                   <tbody>
                     {
-                      this.state.sProduct.map(function (e, i) {
+                      this.state.sProduct2.map(function (e, i) {
                         return (
                           <tr key={i}>
                             <td>
                               {<Popup
-                                trigger={<Input name='name' value={this.state.sProduct[i].name} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}} readOnly/>}
+                                trigger={<Input name='name' value={this.state.sProduct2[i].name} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}} readOnly/>}
                                 modal>
                                 {close => <ProductModal index={i} close={close}
                                             selectProduct={(data) => {
-                                              let {sProduct} = this.state;
+                                              let {sProduct2} = this.state;
 
-                                              let val = Object.assign({}, sProduct[i]);
+                                              let val = Object.assign({}, sProduct2[i]);
                                           
                                               /* set, for instance, comment[1] to "some text"*/
                                               val['id'] = data['id'];
@@ -197,25 +186,25 @@ class CreateOrder extends Component {
                                               val['grade'] = data['grade'];
                                               val['weight'] = data['weight'];
 
-                                              sProduct[i] = val;
+                                              sProduct2[i] = val;
                                                          
                                               /* set the state to the new variable */
-                                              this.setState({sProduct});
+                                              this.setState({sProduct2});
                                             }}
                                           />}
                                 </Popup>}
                             </td>
-                            <td><Input name='grade' value={this.state.sProduct[i].grade} readOnly/></td>
-                            <td><Input name='weight' value={this.state.sProduct[i].weight} readOnly/></td>
-                            <td><Input name='price' value={this.state.sProduct[i].price} readOnly/></td>
+                            <td><Input name='grade' value={this.state.sProduct2[i].grade} readOnly/></td>
+                            <td><Input name='weight' value={this.state.sProduct2[i].weight} readOnly/></td>
+                            <td><Input name='price' value={this.state.sProduct2[i].price} readOnly/></td>
                             <td><Input name='consume'/></td>
                             <td>
                               <Button block color="danger" 
                                 onClick={()=> {
-                                  let {sProduct} = this.state;
-                                  sProduct.splice(i, 1);
+                                  let {sProduct2} = this.state;
+                                  sProduct2.splice(i, 1);
                                   this.setState({
-                                    sProduct
+                                    sProduct2
                                   })
                                 }}>
                                 X
