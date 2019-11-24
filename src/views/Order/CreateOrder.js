@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Input } from 'reactstrap';
 import Popup from "reactjs-popup";
-import ProductModal from './Modal';
-import CustomerModal from './Modal2';
+import ProductModal from './ProductModal';
+import CustomerModal from './CustomerModal';
 import DatePicker from "react-datepicker";
 import { registerLocale } from  "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";

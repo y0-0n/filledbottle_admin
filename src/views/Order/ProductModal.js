@@ -40,7 +40,7 @@ class Modal extends Component {
       })
   }
   searchProduct(props) {
-    let {keyword} = props;
+    let {keyword} = this.state;
     fetch(process.env.REACT_APP_HOST+`/product/search/${keyword}`, {
       method: 'GET',
       headers: {
