@@ -24,6 +24,7 @@ class Customer extends Component {
       sdata: [],
       search: false,
       show: true,
+      check: false,
     };
     this.form = {
 
@@ -204,6 +205,9 @@ class Customer extends Component {
                       "리스트로 보기"
                     }<Switch id='2' isOn={this.state.show} handleToggle={() => this.changeShow()} />
                   </Col>
+                  <Col>
+                    <Button onClick={() => { this.props.history.push('/main/message'); }}>카카오톡 보내기</Button>
+                  </Col>
                 </Row>
               </CardHeader>
               {this.state.show ?
@@ -217,10 +221,7 @@ class Customer extends Component {
                           <th>전화번호</th>
                           <th>HP</th>
                           <th>주소</th>
-                          {this.state.set ?
-                            <th>고객 비활성화</th> :
-                            <th>고객 활성화</th>
-                          }
+                          <th>선택</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -231,14 +232,10 @@ class Customer extends Component {
                             <td>{e.telephone}</td>
                             <td>{e.cellphone}</td>
                             <td>{e.address}</td>
-                            {this.state.set ?
-                              <td>
-                                <Button block style={{ width: 120 }} color="ghost-danger" onClick={() => this.deleteCustomer(e.id)}>고객 비활성화</Button>
-                              </td> :
-                              <td>
-                                <Button block style={{ width: 100 }} color="ghost-primary" onClick={() => this.activateCustomer(e.id)}>고객 활성화</Button>
-                              </td>
-                            }
+                            <td><input name='selection' type='checkbox' checked={this.state.data[i].check} onClick={() => {
+                              let {data} = this.state;
+                              data[i].check = !data[i].check;
+                              this.setState({data})}}/></td>
                           </tr>)
                         })}
                       </tbody>

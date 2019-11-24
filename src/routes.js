@@ -59,6 +59,8 @@ const Suggestions = React.lazy(() => import('./views/Suggestions/Suggestions'));
 const CreateSuggestions = React.lazy(() => import('./views/Suggestions/CreateSuggestions'));
 const SuggestionsDetail = React.lazy(() => import('./views/Suggestions/SuggestionsDetail'));
 const Manufacture = React.lazy(() => import('./views/Manufacture/Manufacture'));
+const Produce = React.lazy(() => import('./views/Produce/Produce'));
+const Message = React.lazy(() => import('./views/Message/Message'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -83,6 +85,8 @@ const routes = [
   { path: '/main/suggestions/write', exact: true,  name: '글쓰기', component: CreateSuggestions},
   { path: '/main/suggestions/:id', exact: true,  name: '건의 내용', component: SuggestionsDetail},
   { path: '/main/manufacture', exact: true,  name: '제조', component: Manufacture},
+  { path: '/main/produce', exact: true,  name: '생산', component: Produce},
+  { path: '/main/message', exact: true,  name: '메세지', component: Message},
 
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },

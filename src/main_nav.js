@@ -60,5 +60,10 @@ export default {
       url: '/main/manufacture',
       icon: 'icon-speedometer',
     },
+    {
+      name: '생산',
+      url: '/main/produce',
+      icon: 'icon-speedometer',
+    },
   ],
 };
