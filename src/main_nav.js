@@ -65,5 +65,10 @@ export default {
       url: '/main/produce',
       icon: 'icon-speedometer',
     },
+    {
+      name: '관광',
+      url: '/main/activity',
+      icon: 'icon-speedometer',
+    },
   ],
 };
