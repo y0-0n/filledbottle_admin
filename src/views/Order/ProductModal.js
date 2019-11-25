@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table, Col, Row, Button, Input } from 'reactstrap';
 
-class Modal extends Component {
+class ProductModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -40,7 +40,7 @@ class Modal extends Component {
       })
   }
   searchProduct(props) {
-    let {keyword} = props;
+    let {keyword} = this.state;
     fetch(process.env.REACT_APP_HOST+`/product/search/${keyword}`, {
       method: 'GET',
       headers: {
@@ -123,4 +123,4 @@ class Modal extends Component {
   }
 }
 
-export default Modal;
+export default ProductModal;

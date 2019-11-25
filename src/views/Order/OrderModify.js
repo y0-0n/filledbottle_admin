@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Input, Card, CardBody, CardHeader, CardFooter, Col, Row, Table } from 'reactstrap';
-import ProductModal from './Modal';
+import ProductModal from './ProductModal';
 import Popup from "reactjs-popup";
 import '../../css/Table.css';
 

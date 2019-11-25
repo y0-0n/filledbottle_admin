@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Input } from 'reactstrap';
 import Popup from "reactjs-popup";
-import ProductModal from './Modal';
-import CustomerModal from './Modal2';
+import ProductModal from './ProductModal';
+import CustomerModal from './CustomerModal';
 import DatePicker from "react-datepicker";
 import { registerLocale } from  "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -251,9 +251,14 @@ class CreateOrder extends Component {
                             <td><Input name='vat' value={this.state.sProduct[i].tax ? Math.round(this.state.sProduct[i].price * this.state.sProduct[i].quantity * 1 / 11) : 0} readOnly/></td>
                             <td>
                               <input name='tax' type='checkbox' checked={this.state.sProduct[i].tax} onClick={() => {
-                              let {sProduct} = this.state;
-                              sProduct[i].tax = !sProduct[i].tax;
-                              this.setState({sProduct})}} readOnly/>
+                                let {sProduct} = this.state;
+
+                                let val = Object.assign({}, sProduct[i]);
+
+                                val.tax = !val.tax;
+                                sProduct[i] = val;
+                                this.setState({sProduct})
+                              }}/>
                             </td>
                             <td><Input name='sum' value={this.state.sProduct[i].price * this.state.sProduct[i].quantity} readOnly/></td>
                             <td>
