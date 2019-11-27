@@ -1,20 +1,50 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Input, Table,} from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Table,} from 'reactstrap';
 import '../../css/Table.css';
+//import customer from '../Customer/Customer'
 
 class Message extends Component {
   constructor(props) {
     super(props);
     this.form = {
-        title: '',
-        content: ''
+        name:'',
+        content: '',
       }
       this.state = {
-        form: {}
+        data : [],
+        image:'',
       };
   }
 
   componentWillMount() {
+    this.getCustomer();
+    console.log(this.props.location.state);
+  }
+  
+  getCustomer() {
+    this.setState({ search: false, set: true });
+    fetch(process.env.REACT_APP_HOST + "/customer", {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if (status === 200)
+          this.setState({ data: data[1] });
+        else {
+          alert('로그인 하고 접근해주세요')
+          this.props.history.push('/login')
+        }
+      })
   }
 
   handleFileInput(e){
@@ -33,7 +63,9 @@ class Message extends Component {
     this.setState({img});
   }
 
+
   render() {
+    var data = this.props.location.state;
     return (
       <div className="animated fadeIn">
         <Row className="mb-5">
@@ -47,12 +79,20 @@ class Message extends Component {
                   <CardBody>
                     <Table className="ShowTable">
                     <tbody>
-                      <tr>
-                        <th>받는사람</th>
-                        <td>
-                          <Input onChange={(e) => this.form.name=e.target.value}/>
-                        </td>
-                      </tr>
+                        <tr>
+                          <th>받는사람</th>
+                          <td>
+                          {data != undefined ? 
+                          data.map((e, i) => {
+                            return (
+                              <p>
+                                {e.name}/{e.cellphone}
+                              </p>
+                            )})
+                             : 
+                             this.props.history.push('/main/customer/list')}
+                          </td>
+                        </tr>
                       <tr>
                         <th>첨부파일</th>
                         <td>

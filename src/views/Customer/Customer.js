@@ -22,9 +22,10 @@ class Customer extends Component {
     this.state = {
       data: [],
       sdata: [],
+      checkdata: [],
       search: false,
       show: true,
-      check: false,
+      checks: [],
     };
     this.form = {
 
@@ -168,7 +169,7 @@ class Customer extends Component {
 
   render() {
     var data = this.state.search ? this.state.sdata : this.state.data;
-
+    var checks = data.map((e, i) => {this.state.checks[i] = false});
     return (
       <div className="animated fadeIn">
         <Row className="mb-5">
@@ -206,7 +207,18 @@ class Customer extends Component {
                     }<Switch id='2' isOn={this.state.show} handleToggle={() => this.changeShow()} />
                   </Col>
                   <Col>
-                    <Button onClick={() => { this.props.history.push('/main/message'); }}>카카오톡 보내기</Button>
+                    <Button onClick={() => {
+                      let {checkdata} = this.state;
+                      for(var i = 0; i < this.state.checks.length; i++){
+                        if(this.state.checks[i] == true){
+                          checkdata[i] = data[i];
+                        }
+                      }
+                      this.props.history.push({
+                        pathname: '/main/message',
+                        state: checkdata
+                      }); 
+                    }}>카카오톡 보내기</Button>
                   </Col>
                 </Row>
               </CardHeader>
@@ -232,10 +244,11 @@ class Customer extends Component {
                             <td>{e.telephone}</td>
                             <td>{e.cellphone}</td>
                             <td>{e.address}</td>
-                            <td><input name='selection' type='checkbox' checked={this.state.data[i].check} onClick={() => {
-                              let {data} = this.state;
-                              data[i].check = !data[i].check;
-                              this.setState({data})}}/></td>
+                            <td><input name='selection' type='checkbox' onClick={() => {
+                              let {checks} = this.state;
+                              checks[i] = !checks[i];
+                              console.log(checks);
+                            }}/></td>
                           </tr>)
                         })}
                       </tbody>
