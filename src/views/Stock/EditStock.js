@@ -39,7 +39,7 @@ class EditStock extends Component {
   }
 
   modifyStock(id, quantity) {
-    fetch(process.env.REACT_APP_HOST+`/stock/`, {
+    fetch(process.env.REACT_APP_HOST+`/api/stock/`+id, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
@@ -48,8 +48,7 @@ class EditStock extends Component {
       },
       body: JSON.stringify(
         {
-          quantity,
-          id
+          quantity
         }
       )
     })
@@ -100,7 +99,7 @@ class EditStock extends Component {
                             <td>{d.grade}</td>
                             <td>{d.weight}</td>
                             <td style={{width: 200}}><Input defaultValue={d.quantity} onChange={(e) => {d.quantity = e.target.value;}}/></td>
-                            <td><Button onClick={()=>{this.modifyStock(d.id, d.quantity)}} color="primary" >수정</Button></td>
+                            <td><Button onClick={()=>{this.modifyStock(d.product_id, d.quantity)}} color="primary" >수정</Button></td>
                           </tr>
                         )
                       })}
