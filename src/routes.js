@@ -59,7 +59,11 @@ const Suggestions = React.lazy(() => import('./views/Suggestions/Suggestions'));
 const CreateSuggestions = React.lazy(() => import('./views/Suggestions/CreateSuggestions'));
 const SuggestionsDetail = React.lazy(() => import('./views/Suggestions/SuggestionsDetail'));
 const Manufacture = React.lazy(() => import('./views/Manufacture/Manufacture'));
+const CreateManufacture = React.lazy(() => import('./views/Manufacture/CreateManufacture'));
+const ManufactureDetail = React.lazy(() => import('./views/Manufacture/ManufactureDetail'));
 const Produce = React.lazy(() => import('./views/Produce/Produce'));
+const CreateProduce = React.lazy(() => import('./views/Produce/CreateProduce'));
+const ProduceDetail = React.lazy(() => import('./views/Produce/ProduceDetail'));
 const Message = React.lazy(() => import('./views/Message/Message'));
 const Activity = React.lazy(() => import('./views/Activity/Activity'));
 
@@ -86,7 +90,11 @@ const routes = [
   { path: '/main/suggestions/write', exact: true,  name: '글쓰기', component: CreateSuggestions},
   { path: '/main/suggestions/:id', exact: true,  name: '건의 내용', component: SuggestionsDetail},
   { path: '/main/manufacture', exact: true,  name: '제조', component: Manufacture},
+  { path: '/manufacture/create', exact: true,  name: '제조 등록', component: CreateManufacture},
+  { path: '/main/manufacture/:id', exact: true,  name: '제조 상세', component: ManufactureDetail},
   { path: '/main/produce', exact: true,  name: '생산', component: Produce},
+  { path: '/produce/create', exact: true,  name: '생산 등록', component: CreateProduce},
+  { path: '/main/produce/:id', exact: true,  name: '생산 상세', component: ProduceDetail},
   { path: '/main/message', exact: true,  name: '메세지', component: Message},
   { path: '/main/activity', exact: true,  name: '관광', component: Activity},
 
