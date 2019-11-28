@@ -10,7 +10,7 @@ registerLocale('ko', ko)
 
 //vos = value of supply (공급가액)
 //vat = value added tax (부가세))
-let d = {id: '', name: '', grade:'', weight:'', price: 0};
+let d = {id: '', name: '', grade:'', weight:'', price: 0, quantity: 0};
 
 class CreateOrder extends Component {
   constructor(props) {
@@ -19,28 +19,44 @@ class CreateOrder extends Component {
     this.customer = [];
 
     this.state = {
-      product: [],
-      sProduct1: [d],
-      sProduct2: [d],
-      sCustomer: null, //선택된 거래처
-      date: new Date(),
-      manager: '',
-      address: '',
-      cellphone: '',
-      telephone: '',
-      customerName: '',
-      comment: '',
+      sProduct1: [d],//소모 상품
+      sProduct2: [d],//생산 상품
     };
   }
+
   componentWillMount() {
   }
 
-  convertDateFormat(date) {
-    return date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-  }
-
-  countQuantity(){
-    this.setState({refund: false});
+  produceProduct() {
+    const {sProduct1, sProduct2} = this.state;
+    //console.warn(sProduct1, sProduct2)
+    fetch(process.env.REACT_APP_HOST+"/api/produce", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+      body: JSON.stringify({sProduct1, sProduct2})
+    })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+      const status = data[0];
+      if(status === 200) {
+        this.props.history.push('/main/manufacture');
+      } else if(status === 401) {
+        alert('로그인 하고 접근해주세요.')
+        this.props.history.push('/login')
+      } else {
+        alert('에러로 인해 등록에 실패했습니다.')
+      }
+    });
   }
 
   render() {
@@ -110,7 +126,14 @@ class CreateOrder extends Component {
                             <td><Input name='grade' value={this.state.sProduct1[i].grade} readOnly/></td>
                             <td><Input name='weight' value={this.state.sProduct1[i].weight} readOnly/></td>
                             <td><Input name='price' value={this.state.sProduct1[i].price} readOnly/></td>
-                            <td><Input name='consume'/></td>
+                            <td>
+                              <Input name='quantity' onChange={(e) => {
+                                let {sProduct1} = this.state;
+                                sProduct1[i] = Object.assign({}, sProduct1[i]);
+                                sProduct1[i].quantity = e.target.value;
+                                this.setState({sProduct1})
+                              }} />
+                            </td>
                             <td>
                               <Button block color="danger" 
                                 onClick={()=> {
@@ -197,7 +220,15 @@ class CreateOrder extends Component {
                             <td><Input name='grade' value={this.state.sProduct2[i].grade} readOnly/></td>
                             <td><Input name='weight' value={this.state.sProduct2[i].weight} readOnly/></td>
                             <td><Input name='price' value={this.state.sProduct2[i].price} readOnly/></td>
-                            <td><Input name='consume'/></td>
+                            <td>
+                              <Input name='quantity' onChange={(e) => {
+                                let {sProduct2} = this.state;
+                                sProduct2[i] = Object.assign({}, sProduct2[i]);
+                                sProduct2[i].quantity = e.target.value;
+                                this.setState({sProduct2})
+                                }
+                              } />
+                            </td>
                             <td>
                               <Button block color="danger" 
                                 onClick={()=> {
@@ -223,6 +254,7 @@ class CreateOrder extends Component {
           </Col>
         </Row>
         <Button block color="primary" onClick={() => {
+          this.produceProduct();
         }}>제조 추가하기</Button>
       </div>
     )

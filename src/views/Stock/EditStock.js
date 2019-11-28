@@ -14,7 +14,7 @@ class EditStock extends Component {
   }
 
   getStock() {
-    fetch(process.env.REACT_APP_HOST+"/stock", {
+    fetch(process.env.REACT_APP_HOST+"/api/stock", {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -35,11 +35,11 @@ class EditStock extends Component {
         alert('로그인 하고 접근해주세요');
         this.props.history.push('/login');
       }
-    })
+    });
   }
 
   modifyStock(id, quantity) {
-    fetch(process.env.REACT_APP_HOST+`/stock/`, {
+    fetch(process.env.REACT_APP_HOST+`/api/stock/`+id, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
@@ -48,8 +48,7 @@ class EditStock extends Component {
       },
       body: JSON.stringify(
         {
-          quantity,
-          id
+          quantity
         }
       )
     })
@@ -95,12 +94,12 @@ class EditStock extends Component {
                     <tbody>
                       {data.map((d) => {
                         return (
-                          <tr style={{cursor: 'pointer'}} key={d.id} onClick={() => {this.props.history.push(`/main/stock/${d.id}`)}}>
+                          <tr style={{cursor: 'pointer'}} key={d.id} onClick={() => {this.props.history.push(`/main/stock/${d.product_id}`)}}>
                             <td>{d.name}</td>
                             <td>{d.grade}</td>
                             <td>{d.weight}</td>
                             <td style={{width: 200}}><Input defaultValue={d.quantity} onChange={(e) => {d.quantity = e.target.value;}}/></td>
-                            <td><Button onClick={()=>{this.modifyStock(d.id, d.quantity)}} color="primary" >수정</Button></td>
+                            <td><Button onClick={()=>{this.modifyStock(d.product_id, d.quantity)}} color="primary" >수정</Button></td>
                           </tr>
                         )
                       })}
