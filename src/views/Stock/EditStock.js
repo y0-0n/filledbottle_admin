@@ -73,7 +73,6 @@ class EditStock extends Component {
 
   render() {
     let {data} = this.state;
-    console.log(data)
     return (
       <div className="animated fadeIn">
         <Row>
@@ -96,7 +95,7 @@ class EditStock extends Component {
                     <tbody>
                       {data.map((d) => {
                         return (
-                          <tr style={{cursor: 'pointer'}} key={d.id} onClick={() => {this.props.history.push(`/main/stock/${d.id}`)}}>
+                          <tr style={{cursor: 'pointer'}} key={d.id} onClick={() => {this.props.history.push(`/main/stock/${d.product_id}`)}}>
                             <td>{d.name}</td>
                             <td>{d.grade}</td>
                             <td>{d.weight}</td>

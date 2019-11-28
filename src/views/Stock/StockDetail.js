@@ -8,8 +8,40 @@ class StockDetail extends Component {
       data: [],
     };
   }
-
   componentWillMount() {
+    this.getStockDetail(this.props.match.params.id);
+  }
+
+  getStockDetail(id) {
+    fetch(process.env.REACT_APP_HOST+"/api/stock/"+id, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+      let status = data[0];
+      if(status === 200)
+        this.setState({data: data[1]});
+      else {
+        alert('로그인 하고 접근해주세요');
+        this.props.history.push('/login');
+      }
+    });
+  }
+
+  getDate(dateInput) {
+    var d = new Date(dateInput);
+    var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
+
+    return year + "년 " + month + "월 " + date + "일";
   }
 
   render() {
@@ -20,14 +52,13 @@ class StockDetail extends Component {
           <Col md="12" xs="12" sm="12">
             <Card>
               <CardHeader>
-                재고 내역
+                {data[0] !== undefined ? data[0].name : null} 재고 내역
               </CardHeader>
               <CardBody className="card-body">
                 <Table striped>
                     <thead>
                       <tr>
                         <th>날짜</th>
-                        <th>제품명</th>
                         <th>수정</th>
                         <th>수량</th>
                       </tr>
@@ -36,20 +67,12 @@ class StockDetail extends Component {
                       {data.map((d) => {
                         return (
                           <tr key={d.id}>
-                            <td>{d.date}</td>
-                            <td>{d.name}</td>
-                            <td>{d.modifyNum}</td>
-                            <td>{d.totalNum}</td>
+                            <td>{this.getDate(d.date)}</td>
+                            <td>{d.change}</td>
+                            <td>{d.quantity}</td>
                           </tr>
                         )
                       })}
-
-                    <tr>
-                      <td>2019-11-8</td>
-                      <td>test</td>
-                      <td>+ 500</td>
-                      <td>1300</td>
-                    </tr>
                     </tbody>
                   </Table>
                 </CardBody>
