@@ -14,7 +14,7 @@ class EditStock extends Component {
   }
 
   getStock() {
-    fetch(process.env.REACT_APP_HOST+"/stock", {
+    fetch(process.env.REACT_APP_HOST+"/api/stock", {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -35,7 +35,7 @@ class EditStock extends Component {
         alert('로그인 하고 접근해주세요');
         this.props.history.push('/login');
       }
-    })
+    });
   }
 
   modifyStock(id, quantity) {
@@ -73,6 +73,7 @@ class EditStock extends Component {
 
   render() {
     let {data} = this.state;
+    console.log(data)
     return (
       <div className="animated fadeIn">
         <Row>
