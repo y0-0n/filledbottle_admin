@@ -91,6 +91,9 @@ class CreateProduce extends Component {
                     </tbody>
                     </Table>
               </CardBody>
+              <CardFooter>
+                  <Button onClick={() => {this.props.history.push(`/main/produce/edit/:id`)}}>수정</Button>
+              </CardFooter>
             </Card>
             <Card>
               <CardHeader>

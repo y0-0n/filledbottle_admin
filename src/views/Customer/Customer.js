@@ -233,6 +233,7 @@ class Customer extends Component {
                           <th>전화번호</th>
                           <th>HP</th>
                           <th>주소</th>
+                          <th>수정</th>
                           <th>선택</th>
                         </tr>
                       </thead>
@@ -244,6 +245,7 @@ class Customer extends Component {
                             <td>{e.telephone}</td>
                             <td>{e.cellphone}</td>
                             <td>{e.address}</td>
+                            <td><Button onClick={() => {this.props.history.push(`/main/customer/edit/:id}`)}}>수정</Button></td>
                             <td><input name='selection' type='checkbox' onClick={() => {
                               let {checks} = this.state;
                               checks[i] = !checks[i];

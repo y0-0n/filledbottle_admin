@@ -190,6 +190,7 @@ class Product extends Component {
                             <th>상품 비활성화</th> :
                             <th>상품 활성화</th>
                           }
+                          <th>수정</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -208,6 +209,7 @@ class Product extends Component {
                                 <Button block style={{ width: 100 }} color="ghost-primary" onClick={() => this.activateProduct(e.id)}>상품 활성화</Button>
                               </td>
                             }
+                            <td><Button  onClick={() => {this.props.history.push(`/main/product/edit/:id`)}}>수정</Button></td>
                           </tr>)
                         })}
                       </tbody>

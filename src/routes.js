@@ -43,9 +43,11 @@ const Sales = React.lazy(() => import('./views/Order/Order'));
 const Customer = React.lazy(() => import('./views/Customer/Customer'));
 const CreateCustomer = React.lazy(() => import('./views/Customer/CreateCustomer'));
 const CustomerDetail = React.lazy(() => import('./views/Customer/CustomerDetail'));
+const CustomerModify = React.lazy(() => import('./views/Customer/CustomerModify'));
 const Product = React.lazy(() => import('./views/Product/Product'));
 const CreateProduct = React.lazy(() => import('./views/Product/CreateProduct'));
 const ProductDetail = React.lazy(() => import('./views/Product/ProductDetail'));
+const ProductModify = React.lazy(() => import('./views/Product/ProductModify'));
 const Plant = React.lazy(() => import('./views/Plant/Plant'));
 const CreateOrder = React.lazy(() => import('./views/Order/CreateOrder'));
 //const Stock = React.lazy(() => import('./views/Stock/Stock'));
@@ -61,9 +63,11 @@ const SuggestionsDetail = React.lazy(() => import('./views/Suggestions/Suggestio
 const Manufacture = React.lazy(() => import('./views/Manufacture/Manufacture'));
 const CreateManufacture = React.lazy(() => import('./views/Manufacture/CreateManufacture'));
 const ManufactureDetail = React.lazy(() => import('./views/Manufacture/ManufactureDetail'));
+const ManufactureModify = React.lazy(() => import('./views/Manufacture/ManufactureModify'));
 const Produce = React.lazy(() => import('./views/Produce/Produce'));
 const CreateProduce = React.lazy(() => import('./views/Produce/CreateProduce'));
 const ProduceDetail = React.lazy(() => import('./views/Produce/ProduceDetail'));
+const ProduceModify = React.lazy(() => import('./views/Produce/ProduceModify'));
 const Message = React.lazy(() => import('./views/Message/Message'));
 const Activity = React.lazy(() => import('./views/Activity/Activity'));
 
@@ -75,8 +79,10 @@ const routes = [
   { path: '/main/customer/list', exact: true,  name: '고객 목록', component: Customer},
   { path: '/customer/create', exact: true,  name: '고객 등록', component: CreateCustomer},
   { path: '/main/customer/:id', exact: true,  name: '고객 상세정보', component: CustomerDetail},
+  { path: '/main/customer/edit/:id', exact: true,  name: '고객 수정', component: CustomerModify},
   { path: '/main/product/list', exact: true,  name: '상품 목록', component: Product},
   { path: '/main/product/:id', exact: true,  name: '상품 상세정보', component: ProductDetail},
+  { path: '/main/product/edit/:id', exact: true,  name: '상품 수정', component: ProductModify},
   { path: '/product/create', exact: true,  name: '상품 등록', component: CreateProduct},
   { path: '/main/plant', exact: true,  name: '공장', component: Plant},
   { path: '/sales/order', exact: true,  name: '주문', component: CreateOrder},
@@ -92,9 +98,11 @@ const routes = [
   { path: '/main/manufacture', exact: true,  name: '제조', component: Manufacture},
   { path: '/manufacture/create', exact: true,  name: '제조 등록', component: CreateManufacture},
   { path: '/main/manufacture/:id', exact: true,  name: '제조 상세', component: ManufactureDetail},
+  { path: '/main/manufacture/edit/:id', exact: true,  name: '제조 수정', component: ManufactureModify},
   { path: '/main/produce', exact: true,  name: '생산', component: Produce},
   { path: '/produce/create', exact: true,  name: '생산 등록', component: CreateProduce},
   { path: '/main/produce/:id', exact: true,  name: '생산 상세', component: ProduceDetail},
+  { path: '/main/produce/edit/:id', exact: true,  name: '생산 수정', component: ProduceModify},
   { path: '/main/message', exact: true,  name: '메세지', component: Message},
   { path: '/main/activity', exact: true,  name: '관광', component: Activity},
 
