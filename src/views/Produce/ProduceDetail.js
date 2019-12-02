@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Input, } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, } from 'reactstrap';
 import { registerLocale } from  "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ko from 'date-fns/locale/ko';
@@ -92,7 +92,8 @@ class CreateProduce extends Component {
                     </Table>
               </CardBody>
               <CardFooter>
-                  <Button onClick={() => {this.props.history.push(`/main/produce/edit/:id`)}}>수정</Button>
+                  <Button onClick={() => {this.props.history.push(`/main/produce/edit/:id`)}} style={{marginLeft : '10px'}}>수정</Button>
+                  <Button onClick={() => {}} style={{marginLeft : '10px'}}>생산 취소</Button>
               </CardFooter>
             </Card>
             <Card>

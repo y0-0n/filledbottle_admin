@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Button, Badge, Card, CardBody, CardHeader, CardFooter, Col, Row, Table } from 'reactstrap';
+import { Button, Badge, Card, CardBody, CardHeader, Table } from 'reactstrap';
 
 
 class Suggestions extends Component {

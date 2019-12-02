@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Input, } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, Col, Row, Table, Input, } from 'reactstrap';
 import Popup from "reactjs-popup";
 import { registerLocale } from  "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -110,14 +110,14 @@ class ProduceModify extends Component {
                         <th>강수량</th>
                         <td>
                             <Row>
-                                <Col xs="10"><Input onChange={(e) => this.state.precipitation=e.target.value}/></Col>
+                                <Col xs="10"><Input onChange={(e) => {this.setState({precipitation: e.target.value})}}/></Col>
                                 <Col xs="2">mm</Col>
                             </Row>                          
                         </td>
                         <th>적설량</th>
                         <td>
                             <Row>
-                                <Col xs="10"><Input onChange={(e) => this.state.snowfall=e.target.value}/></Col>
+                                <Col xs="10"><Input onChange={(e) => {this.setState({snowfall: e.target.value})}}/></Col>
                                 <Col xs="2">cm</Col>
                             </Row>
                         </td>
@@ -126,21 +126,21 @@ class ProduceModify extends Component {
                         <th>기온</th>
                         <td>
                             <Row>
-                                <Col xs="10"><Input onChange={(e) => this.state.temperatures=e.target.value}/></Col>
+                                <Col xs="10"><Input onChange={(e) => {this.setState({temperatures: e.target.value})}}/></Col>
                                 <Col xs="2">°C</Col>
                             </Row>
                         </td>
                         <th>최저 기온</th>
                         <td>
                             <Row>
-                                <Col xs="10"><Input onChange={(e) => this.state.minTemperatures=e.target.value}/></Col>
+                                <Col xs="10"><Input onChange={(e) => {this.setState({minTemperatures: e.target.value})}}/></Col>
                                 <Col xs="2">°C</Col>
                             </Row>
                         </td>
                         <th>최고 기온</th>
                         <td>
                             <Row>
-                                <Col xs="10"><Input onChange={(e) => this.state.maxTemperatures=e.target.value}/></Col>
+                                <Col xs="10"><Input onChange={(e) => {this.setState({maxTemperatures: e.target.value})}}/></Col>
                                 <Col xs="2">°C</Col>
                             </Row>
                         </td>
@@ -190,7 +190,7 @@ class ProduceModify extends Component {
                             </td>
                             <th>영농과정</th>
                             <td>
-                              <Input onChange={(e) => this.state.precipitation=e.target.value}/>                      
+                              <Input/>                      
                             </td>
                           </tr>
                             )
@@ -199,11 +199,11 @@ class ProduceModify extends Component {
                           <tr>
                             <th>작업명</th>
                             <td>
-                              <Input onChange={(e) => this.state.precipitation=e.target.value}/>
+                              <Input/>
                             </td>
                             <th>작업내용</th>
                             <td>
-                              <Input onChange={(e) => this.state.precipitation=e.target.value}/>
+                              <Input/>
                             </td>
                           </tr>
                           <tr>

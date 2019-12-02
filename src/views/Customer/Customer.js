@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Input, CardImg, CardTitle, CardSubtitle, Table, Badge } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Input, CardImg, CardTitle, CardSubtitle, Table } from 'reactstrap';
 import Switch from "../Switch/Switch";
 /*
 
@@ -169,7 +169,7 @@ class Customer extends Component {
 
   render() {
     var data = this.state.search ? this.state.sdata : this.state.data;
-    var checks = data.map((e, i) => {this.state.checks[i] = false});
+    data.map((e, i) => {this.state.checks[i] = false});
     return (
       <div className="animated fadeIn">
         <Row className="mb-5">
@@ -210,7 +210,7 @@ class Customer extends Component {
                     <Button onClick={() => {
                       let {checkdata} = this.state;
                       for(var i = 0; i < this.state.checks.length; i++){
-                        if(this.state.checks[i] == true){
+                        if(this.state.checks[i] === true){
                           checkdata[i] = data[i];
                         }
                       }

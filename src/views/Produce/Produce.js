@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader, Col, Row, Table, Button, Input } from 'reactstrap';
+import { Card, CardBody, CardHeader, Col, Row, Table, Button} from 'reactstrap';
 
 class Produce extends Component {
   constructor(props) {
@@ -41,12 +41,14 @@ class Produce extends Component {
                       <tr>
                         <th>날짜</th>
                         <th>작업명</th>
+                        <th>상태</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr style={{cursor: 'pointer'}} onClick={() => { this.props.history.push('/main/produce/:id'); }}>
                         <td>2019.00.00</td>
                         <td>test</td>
+                        <td></td>
                       </tr>
                     </tbody>
                   </Table>

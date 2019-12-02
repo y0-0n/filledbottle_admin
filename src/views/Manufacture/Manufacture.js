@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader, Col, Row, Table, Button, Input } from 'reactstrap';
+import { Card, CardBody, CardHeader, Col, Row, Table, Button, } from 'reactstrap';
 
 class Manufacture extends Component {
   constructor(props) {
@@ -42,6 +42,7 @@ class Manufacture extends Component {
                         <th>날짜</th>
                         <th>제조 제품명</th>
                         <th>제조 수량</th>
+                        <th>상태</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -49,6 +50,7 @@ class Manufacture extends Component {
                         <td>2019.00.00</td>
                         <td>test</td>
                         <td>test</td>
+                        <td></td>
                       </tr>
                     </tbody>
                   </Table>

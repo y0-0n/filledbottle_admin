@@ -82,7 +82,7 @@ class Message extends Component {
                         <tr>
                           <th>받는사람</th>
                           <td>
-                          {data != undefined ? 
+                          {data !== undefined ? 
                           data.map((e, i) => {
                             return (
                               <p>

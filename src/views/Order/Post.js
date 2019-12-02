@@ -81,7 +81,6 @@ class Post extends Component {
     let {orderInfo, productInfo} = this.state.data;
     orderInfo = orderInfo[0];
     let userInfo = this.state.userInfo;
-    var total_i = 0;
     return (
       <Card>
         <CardHeader>
