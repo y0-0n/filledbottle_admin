@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Input, CardImg, CardTitle, CardSubtitle, Table } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Input, CardImg, CardTitle, CardSubtitle, Table, Badge, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import Switch from "../Switch/Switch";
 /*
 
@@ -15,15 +15,18 @@ import Switch from "../Switch/Switch";
   이미지
 
 */
+const listCount = 5;
 
 class Customer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
-      sdata: [],
+      page: 1,
+      number: 1,
+      keyword: 'a',
+      set: true,
       checkdata: [],
-      search: false,
       show: true,
       checks: [],
     };
@@ -36,9 +39,33 @@ class Customer extends Component {
     this.getCustomer();
   }
 
+  getTotal() {
+    fetch(process.env.REACT_APP_HOST+"/customer/total/"+(this.state.set ? '' : 'unset/')+this.state.keyword, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      }
+      })
+      .then(response => {
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        const status = data[0];
+        if(status === 200) {
+          this.setState({total: Math.ceil(data[1][0].total/listCount)})
+        } else {
+          alert('로그인 하고 접근해주세요')
+          this.props.history.push('/login')
+        }
+      });
+  }
+
   getCustomer() {
-    this.setState({ search: false, set: true });
-    fetch(process.env.REACT_APP_HOST + "/customer", {
+    fetch(process.env.REACT_APP_HOST+"/customer/"+(this.state.set ? '' : 'unset/')+this.state.number+'/'+this.state.keyword, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -59,33 +86,17 @@ class Customer extends Component {
           alert('로그인 하고 접근해주세요')
           this.props.history.push('/login')
         }
+        this.getTotal();
       })
   }
 
-  getUnsetCustomer() {
-    this.setState({ search: false, set: false });
-    fetch(process.env.REACT_APP_HOST + "/customer/unset", {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-    })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-        let status = data[0];
-        if (status === 200)
-          this.setState({ data: data[1] });
-        else {
-          alert('로그인 하고 접근해주세요')
-          this.props.history.push('/login')
-        }
-      })
+
+  countPageNumber(x){
+    this.setState({
+      number: x,
+    }, () => {
+      this.getCustomer();
+    });
   }
 
   deleteCustomer(id) {
@@ -157,19 +168,25 @@ class Customer extends Component {
   }
 
   searchCustomer() {
-    let result = this.state.data.filter(word => word.name.indexOf(this.state.keyword) !== -1)
-
-    this.setState({ sdata: result, search: true });
+    this.getCustomer();
   }
 
   changeShow() {
-    if (this.state.show === true) this.setState({ show: false });
-    else this.setState({ show: true });
+    this.setState({show: !this.state.show})
+  }
+
+  changeSet() {
+    this.setState({set: !this.state.set}, () => {
+      this.getCustomer();
+    });
   }
 
   render() {
-    var data = this.state.search ? this.state.sdata : this.state.data;
-    data.map((e, i) => {this.state.checks[i] = false});
+    var data = this.state.data;
+    const arr = [-2, -1, 0, 1, 2];
+    const arr1 = [];
+
+    var checks = data.map((e, i) => {this.state.checks[i] = false});
     return (
       <div className="animated fadeIn">
         <Row className="mb-5">
@@ -196,8 +213,8 @@ class Customer extends Component {
                       "비활성화 고객 보기" :
                       "활성화 고객 보기"
                     }{this.state.set ?
-                      <Switch id='1' isOn={this.state.set} handleToggle={this.getUnsetCustomer.bind(this)} /> :
-                      <Switch id='1' isOn={this.state.set} handleToggle={this.getCustomer.bind(this)} />
+                      <Switch id='1' isOn={this.state.set} handleToggle={this.changeSet.bind(this)} /> :
+                      <Switch id='1' isOn={this.state.set} handleToggle={this.changeSet.bind(this)} />
                     }
                   </Col>
                   <Col>
@@ -222,8 +239,8 @@ class Customer extends Component {
                   </Col>
                 </Row>
               </CardHeader>
+              <CardBody>
               {this.state.show ?
-                <CardBody>
                   <div style={{ overflow: 'scroll' }}>
                     <Table style={{ minWidth: 600 }} hover>
                       <thead>
@@ -256,9 +273,7 @@ class Customer extends Component {
                       </tbody>
                     </Table>
                   </div>
-                </CardBody>
                 :
-                <CardBody>
                   <Row>
                     {data.map(function (e, i) {
                       return (
@@ -294,8 +309,30 @@ class Customer extends Component {
                     }.bind(this))
                     }
                   </Row>
-                </CardBody>
               }
+              </CardBody>
+              <CardFooter>
+                <Pagination>
+                  <PaginationItem>
+                    <PaginationLink previous onClick={() => {this.countPageNumber(this.state.number-1)}}/>
+                  </PaginationItem>
+                  {this.state.number === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
+                  {this.state.number === 2 ? arr.forEach(x => arr1.push(x+1)) : null}   
+                  {this.state.number !== 1 && this.state.number!== 2 ? arr.forEach(x => arr1.push(x)) :null }    
+                  {arr1.map((e, i) => {
+                    if(this.state.total >= this.state.number+e)
+                    return (<PaginationItem key={i} active={this.state.number === this.state.number+e}>
+                      <PaginationLink onClick={() => {this.countPageNumber(this.state.number+e)}}>
+                      {this.state.number+e}
+                      </PaginationLink>
+                    </PaginationItem>)
+                    return null;
+                  })}
+                  <PaginationItem>
+                    <PaginationLink next onClick={() => {this.countPageNumber(this.state.number+1)}}/>
+                  </PaginationItem>
+                </Pagination>
+              </CardFooter>
             </Card>
           </Col>
         </Row>

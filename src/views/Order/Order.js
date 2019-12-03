@@ -32,8 +32,6 @@ class Sales extends Component {
       process: "all",
       orderData: [],
       page: 1,
-      sdata: [],
-      search: false,
       number : 1,
       total: 0,
       keyword: 'a'
@@ -138,7 +136,7 @@ class Sales extends Component {
   }
 
   render() {
-    var data = this.state.search ? this.state.sdata : this.state.orderData;
+    var data = this.state.orderData;
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, CardTitle, CardSubtitle, Table } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import Switch from "../Switch/Switch";
 
 /*
@@ -16,14 +16,18 @@ import Switch from "../Switch/Switch";
 
 */
 
+const listCount = 5;
+
 class Product extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
-      sData: [],
-      keyword: '',
+      productData: [],
+      page: 1,
+      number: 1,
+      keyword: 'a',
       show: true,
+      set: true
     };
     this.form = {
 
@@ -33,9 +37,34 @@ class Product extends Component {
     this.getProduct();
   }
 
+  getTotal() {
+    fetch(process.env.REACT_APP_HOST+"/product/total/"+(this.state.set ? '' : 'unset/')+this.state.keyword, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      }
+      })
+      .then(response => {
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        const status = data[0];
+        if(status === 200) {
+          this.setState({total: Math.ceil(data[1][0].total/listCount)})
+        } else {
+          alert('로그인 하고 접근해주세요')
+          this.props.history.push('/login')
+        }
+      });
+  }
+
   getProduct() {
-    this.setState({ search: false, set: true });
-    fetch(process.env.REACT_APP_HOST + "/product", {
+    this.setState({ set: true });
+    fetch(process.env.REACT_APP_HOST+"/product/"+this.state.number+'/'+this.state.keyword, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -51,17 +80,18 @@ class Product extends Component {
       .then(data => {
         let status = data[0];
         if (status === 200)
-          this.setState({ data: data[1] });
+          this.setState({ productData: data[1] });
         else {
           alert('로그인 하고 접근해주세요');
           this.props.history.push('/login');
         }
+        this.getTotal();
       })
   }
 
   getUnsetProduct() {
-    this.setState({ search: false, set: false });
-    fetch(process.env.REACT_APP_HOST + "/product/unset", {
+    this.setState({ set: false });
+    fetch(process.env.REACT_APP_HOST + "/product/unset/"+this.state.number+'/'+this.state.keyword, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -77,11 +107,12 @@ class Product extends Component {
       .then(data => {
         let status = data[0];
         if (status === 200)
-          this.setState({ data: data[1] });
+          this.setState({ productData: data[1] });
         else {
           alert('로그인 하고 접근해주세요');
           this.props.history.push('/login');
         }
+        this.getTotal();
       })
   }
 
@@ -101,7 +132,9 @@ class Product extends Component {
         })
       })
         .then(response => response.json())
-        .then(data => { this.getProduct() });
+        .then(data => {
+          this.getProduct();
+        });
     }
   }
 
@@ -120,14 +153,15 @@ class Product extends Component {
         })
       })
         .then(response => response.json())
-        .then(data => { console.warn(data); this.getUnsetProduct() });
+        .then(data => { this.getUnsetProduct() });
     }
   }
 
   searchProduct() {
-    let result = this.state.data.filter(word => word.name.indexOf(this.state.keyword) !== -1)
-
-    this.setState({ sdata: result, search: true });
+    if(this.state.set)
+      this.getProduct();
+    else
+      this.getUnsetProduct();
   }
 
   changeShow() {
@@ -135,8 +169,19 @@ class Product extends Component {
     else this.setState({ show: true });
   }
 
+  countPageNumber(x){
+    this.setState({
+      number: x,
+    }, () => {
+      this.getProduct();
+    });
+  }
+
   render() {
-    var data = this.state.search ? this.state.sdata : this.state.data;
+    var data = this.state.productData;
+    const arr = [-2, -1, 0, 1, 2];
+    const arr1 = [];
+
     return (
       <div className="animated fadeIn">
 
@@ -175,8 +220,8 @@ class Product extends Component {
                   </Col>
                 </Row>
               </CardHeader>
+              <CardBody>
               {this.state.show ?
-                <CardBody>
                   <div style={{ overflow: 'scroll' }}>
                     <Table style={{ minWidth: 600 }} hover>
                       <thead>
@@ -215,9 +260,7 @@ class Product extends Component {
                       </tbody>
                     </Table>
                   </div>
-                </CardBody>
                 :
-                <CardBody>
                   <Row>
                     {data.map(function (e) {
                       return (
@@ -247,10 +290,30 @@ class Product extends Component {
                     }.bind(this))
                     }
                   </Row>
-                </CardBody>
-
               }
-
+              </CardBody>
+              <CardFooter>
+                <Pagination>
+                  <PaginationItem>
+                    <PaginationLink previous onClick={() => {this.countPageNumber(this.state.number-1)}}/>
+                  </PaginationItem>
+                  {this.state.number === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
+                  {this.state.number === 2 ? arr.forEach(x => arr1.push(x+1)) : null}   
+                  {this.state.number !== 1 && this.state.number!== 2 ? arr.forEach(x => arr1.push(x)) :null }    
+                  {arr1.map((e, i) => {
+                    if(this.state.total >= this.state.number+e)
+                    return (<PaginationItem key={i} active={this.state.number === this.state.number+e}>
+                      <PaginationLink onClick={() => {this.countPageNumber(this.state.number+e)}}>
+                      {this.state.number+e}
+                      </PaginationLink>
+                    </PaginationItem>)
+                    return null;
+                  })}
+                  <PaginationItem>
+                    <PaginationLink next onClick={() => {this.countPageNumber(this.state.number+1)}}/>
+                  </PaginationItem>
+                </Pagination>
+              </CardFooter>
             </Card>
           </Col>
         </Row>
