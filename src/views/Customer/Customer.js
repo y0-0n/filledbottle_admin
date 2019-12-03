@@ -31,7 +31,6 @@ class Customer extends Component {
       checks: [],
     };
     this.form = {
-
     }
   }
 
@@ -132,8 +131,6 @@ class Customer extends Component {
     }
   }
 
-
-
   activateCustomer(id) {
     let c = window.confirm('위 고객을 활성화하시겠습니까?')
     if (c) {
@@ -176,7 +173,7 @@ class Customer extends Component {
   }
 
   changeSet() {
-    this.setState({set: !this.state.set}, () => {
+    this.setState({set: !this.state.set, number: 1}, () => {
       this.getCustomer();
     });
   }
