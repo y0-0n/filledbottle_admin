@@ -59,8 +59,8 @@ class StockDetail extends Component {
                     <thead>
                       <tr>
                         <th>날짜</th>
-                        <th>수정</th>
-                        <th>수량</th>
+                        <th>수정 수량</th>
+                        <th>현재 수량</th>
                       </tr>
                     </thead>
                     <tbody>

@@ -185,8 +185,7 @@ class Customer extends Component {
     var data = this.state.data;
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
-
-    var checks = data.map((e, i) => {this.state.checks[i] = false});
+    data.map((e, i) => {this.state.checks[i] = false});
     return (
       <div className="animated fadeIn">
         <Row className="mb-5">
@@ -212,10 +211,8 @@ class Customer extends Component {
                     {this.state.set ?
                       "비활성화 고객 보기" :
                       "활성화 고객 보기"
-                    }{this.state.set ?
-                      <Switch id='1' isOn={this.state.set} handleToggle={this.changeSet.bind(this)} /> :
-                      <Switch id='1' isOn={this.state.set} handleToggle={this.changeSet.bind(this)} />
                     }
+                    <Switch id='1' isOn={this.state.set} handleToggle={this.changeSet.bind(this)} />
                   </Col>
                   <Col>
                     {this.state.show ?

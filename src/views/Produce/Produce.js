@@ -40,6 +40,8 @@ class Produce extends Component {
                     <thead>
                       <tr>
                         <th>날짜</th>
+                        <th>생산품</th>
+                        <th>생산수량</th>
                         <th>작업명</th>
                         <th>상태</th>
                       </tr>
@@ -47,6 +49,8 @@ class Produce extends Component {
                     <tbody>
                       <tr style={{cursor: 'pointer'}} onClick={() => { this.props.history.push('/main/produce/:id'); }}>
                         <td>2019.00.00</td>
+                        <td></td>
+                        <td></td>
                         <td>test</td>
                         <td></td>
                       </tr>

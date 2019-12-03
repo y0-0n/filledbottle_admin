@@ -22,7 +22,7 @@ class Product extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      productData: [],
+      data: [],
       page: 1,
       number: 1,
       keyword: 'a',
@@ -63,8 +63,7 @@ class Product extends Component {
   }
 
   getProduct() {
-    this.setState({ set: true });
-    fetch(process.env.REACT_APP_HOST+"/product/"+this.state.number+'/'+this.state.keyword, {
+    fetch(process.env.REACT_APP_HOST+"/product/"+(this.state.set ? '' : 'unset/')+this.state.number+'/'+this.state.keyword, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -80,7 +79,7 @@ class Product extends Component {
       .then(data => {
         let status = data[0];
         if (status === 200)
-          this.setState({ productData: data[1] });
+          this.setState({ data: data[1] });
         else {
           alert('로그인 하고 접근해주세요');
           this.props.history.push('/login');
@@ -88,34 +87,6 @@ class Product extends Component {
         this.getTotal();
       })
   }
-
-  getUnsetProduct() {
-    this.setState({ set: false });
-    fetch(process.env.REACT_APP_HOST + "/product/unset/"+this.state.number+'/'+this.state.keyword, {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-    })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-        let status = data[0];
-        if (status === 200)
-          this.setState({ productData: data[1] });
-        else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-        this.getTotal();
-      })
-  }
-
 
   deleteProduct(id) {
     let c = window.confirm('이 상품을 비활성화하시겠습니까?')
@@ -131,10 +102,22 @@ class Product extends Component {
           id
         })
       })
-        .then(response => response.json())
-        .then(data => {
-          this.getProduct();
-        });
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if (status === 200)
+          this.getCustomer()
+        else {
+          alert('로그인 하고 접근해주세요')
+          this.props.history.push('/login')
+        }
+      });
     }
   }
 
@@ -152,21 +135,37 @@ class Product extends Component {
           id
         })
       })
-        .then(response => response.json())
-        .then(data => { this.getUnsetProduct() });
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if (status === 200)
+          this.getUnsetCustomer()
+        else {
+          alert('로그인 하고 접근해주세요')
+          this.props.history.push('/login')
+        }
+      });
     }
   }
 
   searchProduct() {
-    if(this.state.set)
-      this.getProduct();
-    else
-      this.getUnsetProduct();
+    this.getProduct();
   }
 
   changeShow() {
-    if (this.state.show === true) this.setState({ show: false });
-    else this.setState({ show: true });
+    this.setState({show: !this.state.show})
+  }
+
+  changeSet() {
+    this.setState({set: !this.state.set}, () => {
+      this.getProduct();
+    });
   }
 
   countPageNumber(x){
@@ -178,7 +177,7 @@ class Product extends Component {
   }
 
   render() {
-    var data = this.state.productData;
+    var data = this.state.data;
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
 
@@ -207,10 +206,8 @@ class Product extends Component {
                     {this.state.set ?
                       "비활성화 상품 보기" :
                       "활성화 상품 보기"
-                    }{this.state.set ?
-                      <Switch id='1' isOn={this.state.set} handleToggle={this.getUnsetProduct.bind(this)} /> :
-                      <Switch id='1' isOn={this.state.set} handleToggle={this.getProduct.bind(this)} />
                     }
+                      <Switch id='1' isOn={this.state.set} handleToggle={this.changeSet.bind(this)} />
                   </Col>
                   <Col>
                     {this.state.show ?
