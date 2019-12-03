@@ -117,9 +117,10 @@ class Sales extends Component {
 
   searchCustomer() {
     let {keyword} = this;
-    this.setState({keyword})
-    this.getOrder();
-    this.getTotal();
+    this.setState({keyword}, () => {
+      this.getOrder();
+      this.getTotal();
+    })
   }
 
   getDate(dateInput) {

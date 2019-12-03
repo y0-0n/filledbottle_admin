@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
-import { Table, Col, Row, Button, Input } from 'reactstrap';
+import { Table, Col, Row, Button, Input, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+
+const listCount = 5;
 
 class ProductModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: []
+      data: [],
+      keyword: 'a',
+      page: 1,
+      number: 1,
     };
   }
 
@@ -15,8 +20,33 @@ class ProductModal extends Component {
     this.selectProduct = this.selectProduct.bind(this);
   }
 
+  getTotal() {
+    fetch(process.env.REACT_APP_HOST+"/product/total/"+this.state.keyword, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      }
+      })
+      .then(response => {
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        const status = data[0];
+        if(status === 200) {
+          this.setState({total: Math.ceil(data[1][0].total/listCount)})
+        } else {
+          alert('로그인 하고 접근해주세요')
+          this.props.history.push('/login')
+        }
+      });
+  }
+
   getProduct() {
-    fetch(process.env.REACT_APP_HOST+`/product`, {
+    fetch(process.env.REACT_APP_HOST+`/product/`+this.state.number+'/'+this.state.keyword, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -37,36 +67,14 @@ class ProductModal extends Component {
           alert('로그인 하고 접근해주세요')
           this.props.history.push('/login')  
         }
+        this.getTotal();
       })
   }
-  searchProduct(props) {
-    let {keyword} = this.state;
-    fetch(process.env.REACT_APP_HOST+`/product/search/${keyword}`, {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-    })
-    .then(response => {
-      if(response.status === 401) {
-        return Promise.all([401])
-      } else {
-        return Promise.all([response.status, response.json()]);
-      }  
-    })
-    .then(data => {
-      const status = data[0];
-      if(status === 200) {
-        if(data.length === 0) {
-          alert('제품을 찾을 수 없습니다');
-          props.close();
-        }
-        else
-          this.setState({data: data[1]});
-      } else {
-        alert('로그인 하고 접근해주세요')
-        this.props.history.push('/login')  
-      }
+  searchProduct() {
+    let {keyword} = this;
+    //let keyword = this.keyword
+    this.setState({keyword}, () => {
+      this.getProduct();
     })
   }
 
@@ -75,7 +83,17 @@ class ProductModal extends Component {
     this.props.close();
   }
 
+  countPageNumber(x){
+    this.setState({
+      number: x,
+    }, () => {
+      this.getProduct();
+    });
+  }
+
   render() {
+    const arr = [-2, -1, 0, 1, 2];
+    const arr1 = [];
     return (
       <div className="animated fadeIn">
         <div className="card">
@@ -83,7 +101,7 @@ class ProductModal extends Component {
           <Row>
               <Col><i className="icon-drop">상품 검색</i></Col>
               <Col>
-                <Input onChange={(e)=> {this.setState({keyword: e.target.value})}}z/>
+                <Input onChange={(e)=> {this.keyword = e.target.value}}z/>
               </Col>
               <Col xs lg='2'>
                 <Button block color="primary" onClick={()=> {this.searchProduct()}}>검색</Button>
@@ -109,13 +127,35 @@ class ProductModal extends Component {
                             <td>{e.name}</td>
                             <td>{e.grade}</td>
                             <td>{e.weight}</td>
-                            <td>{e.price_shipping}</td>
+                            <td>{e['price_shipping']}</td>
                           </tr>
                         )
                       }, this)
                     }
                   </tbody>
                 </Table>
+          </div>
+          <div>
+            <Pagination>
+              <PaginationItem>
+                <PaginationLink previous onClick={() => { this.countPageNumber(this.state.number - 1) }} />
+              </PaginationItem>
+              {this.state.number === 1 ? arr.forEach(x => arr1.push(x + 2)) : null}
+              {this.state.number === 2 ? arr.forEach(x => arr1.push(x + 1)) : null}
+              {this.state.number !== 1 && this.state.number !== 2 ? arr.forEach(x => arr1.push(x)) : null}
+              {arr1.map((e, i) => {
+                if (this.state.total >= this.state.number + e)
+                  return (<PaginationItem key={i} active={this.state.number === this.state.number + e}>
+                    <PaginationLink onClick={() => { this.countPageNumber(this.state.number + e) }}>
+                      {this.state.number + e}
+                    </PaginationLink>
+                  </PaginationItem>)
+                return null;
+              })}
+              <PaginationItem>
+                <PaginationLink next onClick={() => { this.countPageNumber(this.state.number + 1) }} />
+              </PaginationItem>
+            </Pagination>
           </div>
         </div>
       </div>

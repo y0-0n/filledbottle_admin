@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
-import { Table, Col, Row, Button, Input } from 'reactstrap';
+import { Table, Col, Row, Button, Input, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+
+const listCount = 5;
 
 class CustomerModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: []
+      data: [],
+      page: 1,
+      number: 1,
+      keyword: 'a',
     };
   }
 
@@ -15,8 +20,33 @@ class CustomerModal extends Component {
     this.selectCustomer = this.selectCustomer.bind(this);
   }
 
+  getTotal() {
+    fetch(process.env.REACT_APP_HOST+"/customer/total/"+this.state.keyword, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      }
+      })
+      .then(response => {
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        const status = data[0];
+        if(status === 200) {
+          this.setState({total: Math.ceil(data[1][0].total/listCount)})
+        } else {
+          alert('로그인 하고 접근해주세요')
+          this.props.history.push('/login')
+        }
+      });
+  }
+
   getCustomer() {
-    fetch(process.env.REACT_APP_HOST+`/customer`, {
+    fetch(process.env.REACT_APP_HOST+`/customer/`+this.state.number+'/'+this.state.keyword, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -37,6 +67,7 @@ class CustomerModal extends Component {
         alert('로그인 하고 접근해주세요')
         this.props.history.push('/login')  
       }
+      this.getTotal();
     })
   }
 
@@ -76,7 +107,24 @@ class CustomerModal extends Component {
     this.props.close();
   }
 
+  searchCustomer() {
+    let {keyword} = this;
+    this.setState({keyword}, () => {
+      this.getCustomer();
+    })
+  }
+
+  countPageNumber(x){
+    this.setState({
+      number: x,
+    }, () => {
+      this.getCustomer();
+    });
+  }
+
   render() {
+    const arr = [-2, -1, 0, 1, 2];
+    const arr1 = [];
     return (
       <div className="animated fadeIn">
         <div className="card">
@@ -84,7 +132,7 @@ class CustomerModal extends Component {
             <Row>
               <Col><i className="icon-drop">고객 검색</i></Col>
               <Col>
-                <Input onChange={(e)=> {this.setState({keyword: e.target.value})}}z/>
+                <Input onChange={(e)=> {this.keyword = e.target.value}}z/>
               </Col>
               <Col xs lg='2'>
                 <Button block color="primary" onClick={()=> {this.searchCustomer()}}>검색</Button>
@@ -117,6 +165,28 @@ class CustomerModal extends Component {
                     }
                   </tbody>
                 </Table>
+          </div>
+          <div>
+            <Pagination>
+              <PaginationItem>
+                <PaginationLink previous onClick={() => { this.countPageNumber(this.state.number - 1) }} />
+              </PaginationItem>
+              {this.state.number === 1 ? arr.forEach(x => arr1.push(x + 2)) : null}
+              {this.state.number === 2 ? arr.forEach(x => arr1.push(x + 1)) : null}
+              {this.state.number !== 1 && this.state.number !== 2 ? arr.forEach(x => arr1.push(x)) : null}
+              {arr1.map((e, i) => {
+                if (this.state.total >= this.state.number + e)
+                  return (<PaginationItem key={i} active={this.state.number === this.state.number + e}>
+                    <PaginationLink onClick={() => { this.countPageNumber(this.state.number + e) }}>
+                      {this.state.number + e}
+                    </PaginationLink>
+                  </PaginationItem>)
+                return null;
+              })}
+              <PaginationItem>
+                <PaginationLink next onClick={() => { this.countPageNumber(this.state.number + 1) }} />
+              </PaginationItem>
+            </Pagination>
           </div>
         </div>
       </div>

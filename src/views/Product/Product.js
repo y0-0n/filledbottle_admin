@@ -112,7 +112,7 @@ class Product extends Component {
       .then(data => {
         let status = data[0];
         if (status === 200)
-          this.getCustomer()
+          this.getProduct()
         else {
           alert('로그인 하고 접근해주세요')
           this.props.history.push('/login')
@@ -145,7 +145,7 @@ class Product extends Component {
       .then(data => {
         let status = data[0];
         if (status === 200)
-          this.getUnsetCustomer()
+          this.getProduct()
         else {
           alert('로그인 하고 접근해주세요')
           this.props.history.push('/login')
@@ -157,8 +157,9 @@ class Product extends Component {
   searchProduct() {
     let {keyword} = this;
     //let keyword = this.keyword
-    this.setState({keyword})
-    this.getProduct();
+    this.setState({keyword}, () => {
+      this.getProduct();
+    })
   }
 
   changeShow() {
