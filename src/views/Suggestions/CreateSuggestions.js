@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Input, Table,} from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Input, Table,} from 'reactstrap';
 import '../../css/Table.css';
 
 class CreateSuggestions extends Component {

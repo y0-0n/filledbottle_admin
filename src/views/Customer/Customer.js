@@ -227,7 +227,7 @@ class Customer extends Component {
                     <Button onClick={() => {
                       let {checkdata} = this.state;
                       for(var i = 0; i < this.state.checks.length; i++){
-                        if(this.state.checks[i] == true){
+                        if(this.state.checks[i] === true){
                           checkdata[i] = data[i];
                         }
                       }
