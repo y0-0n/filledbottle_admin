@@ -155,6 +155,9 @@ class Product extends Component {
   }
 
   searchProduct() {
+    let {keyword} = this;
+    //let keyword = this.keyword
+    this.setState({keyword})
     this.getProduct();
   }
 
@@ -186,7 +189,7 @@ class Product extends Component {
 
         <Row className="mb-5">
           <Col md="8" xs="6" sm="6">
-            <Input onChange={(e) => { this.setState({ keyword: e.target.value }) }} />
+            <Input onChange={(e) => { this.keyword = e.target.value }} />
           </Col>
           <Col md="2" xs="3" sm="3">
             <Button block color="primary" onClick={() => { this.searchProduct() }}>상품 검색</Button>

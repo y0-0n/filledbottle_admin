@@ -116,6 +116,8 @@ class Sales extends Component {
   }
 
   searchCustomer() {
+    let {keyword} = this;
+    this.setState({keyword})
     this.getOrder();
     this.getTotal();
   }
@@ -144,7 +146,7 @@ class Sales extends Component {
       <div className="animated fadeIn">
         <Row className="mb-5">
           <Col md="8" xs="6" sm="6">
-            <Input onChange={(e)=> {this.setState({keyword: e.target.value})}}z/>
+            <Input onChange={(e)=> { this.keyword = e.target.value }}/>
           </Col>
           <Col md="2" xs="3" sm="3">
             <Button block color="primary" onClick={()=> {this.searchCustomer()}}>고객 검색</Button>
