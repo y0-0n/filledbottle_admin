@@ -90,7 +90,7 @@ class ManufactureModify extends Component {
                         <th>무게</th>
                         <th>단가</th>
                         <th>소모재고</th>
-                        <th>삭제</th>
+                        <th style={{width : 70}}>삭제</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -185,7 +185,7 @@ class ManufactureModify extends Component {
                         <th>무게</th>
                         <th>단가</th>
                         <th>생산재고</th>
-                        <th>삭제</th>
+                        <th style={{width : 70}}>삭제</th>
                     </tr>
                   </thead>
                   <tbody>

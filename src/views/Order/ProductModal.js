@@ -40,7 +40,7 @@ class ProductModal extends Component {
           this.setState({total: Math.ceil(data[1][0].total/listCount)})
         } else {
           alert('로그인 하고 접근해주세요')
-          this.props.history.push('/login')
+          this.props.login();
         }
       });
   }
@@ -64,8 +64,8 @@ class ProductModal extends Component {
         if(status === 200) {
           this.setState({data: data[1]});
         } else {
-          alert('로그인 하고 접근해주세요')
-          this.props.history.push('/login')  
+          alert('로그인 하고 접근해주세요');
+          this.props.login();
         }
         this.getTotal();
       })
@@ -103,8 +103,11 @@ class ProductModal extends Component {
               <Col>
                 <Input onChange={(e)=> {this.keyword = e.target.value}}z/>
               </Col>
-              <Col xs lg='2'>
+              <Col xs='2'>
                 <Button block color="primary" onClick={()=> {this.searchProduct()}}>검색</Button>
+              </Col>
+              <Col xs='2'>
+                <Button block color="success" onClick={()=> {this.props.createProduct();}}>신규</Button>
               </Col>
             </Row>
           </div>

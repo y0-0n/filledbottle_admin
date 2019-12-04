@@ -119,7 +119,7 @@ class CreateOrder extends Component {
                     {<Popup
                       trigger={<Input value={this.state.customerName} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}} readOnly/>}
                       modal>
-                      {close => <CustomerModal close={close}
+                      {close => <CustomerModal close={close} login={()=>{this.props.history.push('/login')}} createCustomer={() => {this.props.history.push('/customer/create')}}
                       selectCustomer={(data) => {
                         let {address, cellphone, name, id, telephone} = data;
                         this.setState({
@@ -207,7 +207,7 @@ class CreateOrder extends Component {
                               {<Popup
                                 trigger={<Input name='name' value={this.state.sProduct[i].name} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}} readOnly/>}
                                 modal>
-                                {close => <ProductModal index={i} close={close}
+                                {close => <ProductModal index={i} close={close} login={()=>{this.props.history.push('/login')}} createProduct={() => {this.props.history.push('/product/create')}}
                                             selectProduct={(data) => {
                                               let {sProduct} = this.state;
 
@@ -226,7 +226,7 @@ class CreateOrder extends Component {
                                           />}
                                 </Popup>}
                             </td>
-                            <td style={{width : 200}}>
+                            <td style={{width : 150}}>
                               <Input name='quantity' style={{width: 50, display: 'inline-block'}} value={this.state.sProduct[i].quantity} onChange={(e)=> {
                               let {sProduct} = this.state;
                               sProduct[i].quantity > 0 ? sProduct[i].quantity = e.target.value :  sProduct[i].quantity= Math.abs(e.target.value)
@@ -249,7 +249,7 @@ class CreateOrder extends Component {
                             <td><Input name='price' value={this.state.sProduct[i].price} readOnly/></td>
                             <td><Input name='vos' value={this.state.sProduct[i].tax ? Math.round(this.state.sProduct[i].price * this.state.sProduct[i].quantity * 10 / 11) : Math.round(this.state.sProduct[i].price * this.state.sProduct[i].quantity)} readOnly/></td>
                             <td><Input name='vat' value={this.state.sProduct[i].tax ? Math.round(this.state.sProduct[i].price * this.state.sProduct[i].quantity * 1 / 11) : 0} readOnly/></td>
-                            <td>
+                            <td style={{width : 80}}>
                               <input name='tax' type='checkbox' checked={this.state.sProduct[i].tax} onClick={() => {
                                 let {sProduct} = this.state;
 
@@ -261,7 +261,7 @@ class CreateOrder extends Component {
                               }}/>
                             </td>
                             <td><Input name='sum' value={this.state.sProduct[i].price * this.state.sProduct[i].quantity} readOnly/></td>
-                            <td>
+                            <td style={{width : 70}}>
                               <Button block color="danger" 
                                 onClick={()=> {
                                   let {sProduct} = this.state;

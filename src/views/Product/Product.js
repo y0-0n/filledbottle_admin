@@ -233,8 +233,8 @@ class Product extends Component {
                           <th>무게</th>
                           <th>단가</th>
                           {this.state.set ?
-                            <th>상품 비활성화</th> :
-                            <th>상품 활성화</th>
+                            <th style={{width : 300}}>상품 비활성화</th> :
+                            <th style={{width : 300}}>상품 활성화</th>
                           }
                           <th>수정</th>
                         </tr>

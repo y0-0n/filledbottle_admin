@@ -40,7 +40,7 @@ class CustomerModal extends Component {
           this.setState({total: Math.ceil(data[1][0].total/listCount)})
         } else {
           alert('로그인 하고 접근해주세요')
-          this.props.history.push('/login')
+          this.props.login();
         }
       });
   }
@@ -65,7 +65,7 @@ class CustomerModal extends Component {
         this.setState({data: data[1]});
       } else {
         alert('로그인 하고 접근해주세요')
-        this.props.history.push('/login')  
+        this.props.login();
       }
       this.getTotal();
     })
@@ -136,6 +136,9 @@ class CustomerModal extends Component {
               </Col>
               <Col xs lg='2'>
                 <Button block color="primary" onClick={()=> {this.searchCustomer()}}>검색</Button>
+              </Col>
+              <Col xs='2'>
+                <Button block color="success" onClick={()=> {this.props.createCustomer();}}>신규</Button>
               </Col>
             </Row>
           </div>
