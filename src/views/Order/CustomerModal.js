@@ -166,11 +166,13 @@ class CustomerModal extends Component {
                   </tbody>
                 </Table>
           </div>
-          <div>
+          <div style={{margin : 'auto'}}>
             <Pagination>
-              <PaginationItem>
-                <PaginationLink previous onClick={() => { this.countPageNumber(this.state.number - 1) }} />
-              </PaginationItem>
+                  {this.state.number === 1 ? '' : 
+                  <PaginationItem>
+                    <PaginationLink previous onClick={() => {this.countPageNumber(this.state.number-1)}}/>
+                  </PaginationItem>
+                  }
               {this.state.number === 1 ? arr.forEach(x => arr1.push(x + 2)) : null}
               {this.state.number === 2 ? arr.forEach(x => arr1.push(x + 1)) : null}
               {this.state.number !== 1 && this.state.number !== 2 ? arr.forEach(x => arr1.push(x)) : null}
@@ -183,9 +185,10 @@ class CustomerModal extends Component {
                   </PaginationItem>)
                 return null;
               })}
+              {this.state.number === this.state.total ? '' : 
               <PaginationItem>
-                <PaginationLink next onClick={() => { this.countPageNumber(this.state.number + 1) }} />
-              </PaginationItem>
+                <PaginationLink next onClick={() => {this.countPageNumber(this.state.number+1)}}/>
+              </PaginationItem>}
             </Pagination>
           </div>
         </div>

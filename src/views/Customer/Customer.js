@@ -313,9 +313,11 @@ class Customer extends Component {
               </CardBody>
               <CardFooter>
                 <Pagination>
+                  {this.state.number === 1 ? '' : 
                   <PaginationItem>
                     <PaginationLink previous onClick={() => {this.countPageNumber(this.state.number-1)}}/>
                   </PaginationItem>
+                  }
                   {this.state.number === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
                   {this.state.number === 2 ? arr.forEach(x => arr1.push(x+1)) : null}   
                   {this.state.number !== 1 && this.state.number!== 2 ? arr.forEach(x => arr1.push(x)) :null }    
@@ -326,11 +328,13 @@ class Customer extends Component {
                       {this.state.number+e}
                       </PaginationLink>
                     </PaginationItem>)
+                    console.log(data);
                     return null;
                   })}
+                  {this.state.number === this.state.total ? '' : 
                   <PaginationItem>
                     <PaginationLink next onClick={() => {this.countPageNumber(this.state.number+1)}}/>
-                  </PaginationItem>
+                  </PaginationItem>}     
                 </Pagination>
               </CardFooter>
             </Card>
