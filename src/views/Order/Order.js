@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import DatePicker from "react-datepicker";
 import { Button, Badge, Card, CardBody, CardHeader, CardFooter, Col, Row, NavItem, Nav, NavLink, Table, Input, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
 /*
@@ -34,7 +34,8 @@ class Sales extends Component {
       page: 1,
       number : 1,
       total: 0,
-      keyword: 'a'
+      keyword: 'a',
+      date: new Date(),
     };
   }
 
@@ -145,16 +146,49 @@ class Sales extends Component {
 
     return (
       <div className="animated fadeIn">
-        <Row className="mb-5">
-          <Col md="8" xs="6" sm="6">
-            <Input onChange={(e)=> { this.keyword = e.target.value }}/>
-          </Col>
-          <Col md="2" xs="3" sm="3">
-            <Button block color="primary" onClick={()=> {this.searchCustomer()}}>고객 검색</Button>
-          </Col>
-          <Col md="2" xs="2" sm="2">
-            <Button block color="primary" onClick={()=> {this.props.history.push('/sales/order');}}>주문 추가</Button>
-          </Col>
+        <Row className="">
+          <Col>
+            <Card>
+              <CardHeader>
+                <Row>
+                  <Col>주문 상세 검색</Col>
+                  <Col md="2" xs="3" sm="3">
+                    <Button block color="primary" onClick={() => { this.props.history.push('/sales/order'); }}>주문 추가</Button>
+                  </Col>
+                </Row>
+              </CardHeader>
+              <CardBody>
+                <Table>
+                  <tbody>
+                    <tr>
+                      <th>날짜</th>
+                      <td>
+                        <div style={{ pointer: 'cursor' }}>
+                          <DatePicker
+                            dateFormat="yyyy년 MM월 dd일"
+                            locale="ko"
+                            selected={this.state.date}
+                            onChange={(date) => { this.setState({ date }) }}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>고객명</th>
+                      <td><Input onChange={(e) => { this.keyword = e.target.value }} /></td>
+                    </tr>
+                  </tbody>
+                </Table>
+                <Row>
+                  <Col md="2" xs="3" sm="3">
+                  </Col>
+                </Row>
+              </CardBody>
+              <CardFooter>
+                <Button block color="primary" onClick={() => { this.searchCustomer() }}>고객 검색</Button>
+              </CardFooter>
+            </Card>
+          </Col>          
         </Row>
         
         <Row>
