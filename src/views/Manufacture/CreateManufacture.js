@@ -30,7 +30,7 @@ class CreateManufacture extends Component {
   produceProduct() {
     const {sProduct1, sProduct2} = this.state;
     console.warn(sProduct1, sProduct2)
-    fetch(process.env.REACT_APP_HOST+"/api/produce", {
+    fetch(process.env.REACT_APP_HOST+"/api/manufacture", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -51,8 +51,8 @@ class CreateManufacture extends Component {
       if(status === 200) {
         this.props.history.push('/main/manufacture');
       } else if(status === 401) {
-        alert('로그인 하고 접근해주세요.')
-        this.props.history.push('/login')
+        alert('로그인 하고 접근해주세요.');
+        this.props.history.push('/login');
       } else {
         alert('에러로 인해 등록에 실패했습니다.')
       }

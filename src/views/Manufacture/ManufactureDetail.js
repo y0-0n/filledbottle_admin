@@ -23,9 +23,36 @@ class ManufactureDetail extends Component {
   }
 
   componentWillMount() {
+    this.getList();
+  }
+
+  getList() {
+    fetch(process.env.REACT_APP_HOST+"/api/manufacture/"+this.props.match.params.id, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if (status === 200)
+          this.setState({ sProduct1: data[1].consume, sProduct2: data[1].produce, });
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })
   }
 
   render() {
+    console.log(this.state)
     return (
       <div className="animated fadeIn">
         <Row>
@@ -52,11 +79,11 @@ class ManufactureDetail extends Component {
                       this.state.sProduct1.map(function (e, i) {
                         return (
                           <tr key={i}>
-                            <td>{this.state.sProduct1[i].name}</td>
+                            <td>{e.name}</td>
                             <td>{this.state.sProduct1[i].grade}</td>
                             <td>{this.state.sProduct1[i].weight}</td>
-                            <td>{this.state.sProduct1[i].price}</td>
-                            <td>{this.state.sProduct1[i].quantity}</td>
+                            <td>{this.state.sProduct1[i].price_shipping}</td>
+                            <td>{this.state.sProduct1[i].change}</td>
                           </tr>
                         )
                       }, this)
@@ -96,8 +123,8 @@ class ManufactureDetail extends Component {
                             <td>{this.state.sProduct2[i].name}</td>
                             <td>{this.state.sProduct2[i].grade}</td>
                             <td>{this.state.sProduct2[i].weight}</td>
-                            <td>{this.state.sProduct2[i].price}</td>
-                            <td>{this.state.sProduct2[i].quantity}</td>
+                            <td>{this.state.sProduct2[i].price_shipping}</td>
+                            <td>{this.state.sProduct2[i].change}</td>
                           </tr>
                         )
                       }, this)

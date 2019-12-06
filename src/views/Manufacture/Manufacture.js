@@ -5,11 +5,12 @@ class Manufacture extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: []
+      manufactureData: [],
     };
   }
 
   componentWillMount() {
+    this.getList();
   }
 
   getDate(dateInput) {
@@ -19,9 +20,33 @@ class Manufacture extends Component {
     return year + "년 " + month + "월 " + date + "일";
   }
 
-  
+  getList() {
+    fetch(process.env.REACT_APP_HOST+"/api/manufacture", {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if (status === 200)
+          this.setState({ manufactureData: data[1] });
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })
+  }
 
   render() {
+    console.log(this.state.manufactureData);
     return (
       <div className="animated fadeIn">
         <Row>
@@ -46,12 +71,14 @@ class Manufacture extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr style={{cursor: 'pointer'}} onClick={() => { this.props.history.push('/main/manufacture/:id'); }}>
-                        <td>2019.00.00</td>
-                        <td>test</td>
-                        <td>test</td>
-                        <td></td>
-                      </tr>
+                      {this.state.manufactureData.map((e,i) => {
+                        return <tr style={{cursor: 'pointer'}} onClick={() => { this.props.history.push('/main/manufacture/'+e.id); }}>
+                          <td>{e.date}</td>
+                          <td>{e.title}</td>
+                          <td>{e.total}</td>
+                          <td></td>
+                        </tr>
+                      })}
                     </tbody>
                   </Table>
                 </CardBody>
