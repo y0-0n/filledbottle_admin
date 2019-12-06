@@ -30,6 +30,21 @@ export default {
       icon: 'icon-speedometer',
     },
     {
+      name: '제조',
+      url: '/main/manufacture',
+      icon: 'icon-speedometer',
+    },
+    {
+      name: '생산',
+      url: '/main/produce',
+      icon: 'icon-speedometer',
+    },
+    {
+      name: '관광',
+      url: '/main/activity',
+      icon: 'icon-speedometer',
+    },
+    {
       name: '분석',
       url: '/main/analysis',
       icon: 'icon-speedometer',
@@ -53,21 +68,6 @@ export default {
     {
       name: '건의사항',
       url: '/main/suggestions',
-      icon: 'icon-speedometer',
-    },
-    {
-      name: '제조',
-      url: '/main/manufacture',
-      icon: 'icon-speedometer',
-    },
-    {
-      name: '생산',
-      url: '/main/produce',
-      icon: 'icon-speedometer',
-    },
-    {
-      name: '관광',
-      url: '/main/activity',
       icon: 'icon-speedometer',
     },
   ],

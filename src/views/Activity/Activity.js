@@ -22,7 +22,7 @@ class Activity extends Component {
         <Button block color="primary" onClick={() => {}}>참가자 검색</Button>
       </Col>
       <Col md="2" xs="3 " sm="3">
-        <Button block color="primary" onClick={() => { this.props.history.push(''); }}>참가자 등록하기</Button>
+        <Button block color="primary" onClick={() => { this.props.history.push('/activity/create'); }}>참가자 등록하기</Button>
       </Col>
     </Row>
 
