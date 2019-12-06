@@ -69,7 +69,7 @@ class CreateSuggestions extends Component {
                             </tr>
                             <tr className="TableBottom">
                                 <th>답변 처리 현황</th>
-                                <td><Badge color="primary">답변완료</Badge></td>
+                                <td>{data.answer !== null ? <Badge color="success">답변 완료</Badge> : <Badge color="secondary">답변 준비중</Badge>}</td>
                                 <th style={{width : "20%"}}>등록일</th>
                                 <td>{this.getDate(data.created_date)}</td>
                             </tr>

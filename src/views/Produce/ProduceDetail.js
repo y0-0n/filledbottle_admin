@@ -43,8 +43,8 @@ class CreateProduce extends Component {
               <Table className="ShowTable">
                     <tbody>
                       <tr>
-                        <th>날씨</th>
-                        <td>
+                        <th style={{width : 150}}>날씨</th>
+                        <td style={{width : 300}}>
                             <select name="weather">
                                 <option value="맑음">맑음</option>
                                 <option value="구름조금">구름조금</option>
@@ -55,14 +55,14 @@ class CreateProduce extends Component {
                                 <option value="비/눈">비/눈</option>
                             </select>
                         </td>
-                        <th>강수량</th>
-                        <td>
+                        <th style={{width : 150}}>강수량</th>
+                        <td style={{width : 300}}>
                             <Row>
                                 <Col xs="10">{this.state.precipitation}</Col>
                             </Row>                          
                         </td>
-                        <th>적설량</th>
-                        <td>
+                        <th style={{width : 150}}>적설량</th>
+                        <td style={{width : 300}}>
                             <Row>
                                 <Col xs="10">{this.state.snowfall}</Col>
                             </Row> 
@@ -106,10 +106,10 @@ class CreateProduce extends Component {
               <Table className="ShowTable">
                     <tbody>
                         <tr>
-                            <th>품목</th>
+                            <th style={{width : 150}}>품목</th>
                             <td>
                             </td>
-                            <th>영농과정</th>
+                            <th style={{width : 150}}>영농과정</th>
                             <td>
                             </td>
                           </tr>

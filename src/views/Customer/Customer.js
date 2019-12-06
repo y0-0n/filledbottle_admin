@@ -155,7 +155,7 @@ class Customer extends Component {
         .then(data => {
           let status = data[0];
           if (status === 200)
-            this.getUnsetCustomer()
+            this.getCustomer()
           else {
             alert('로그인 하고 접근해주세요')
             this.props.history.push('/login')
@@ -165,7 +165,10 @@ class Customer extends Component {
   }
 
   searchCustomer() {
-    this.getCustomer();
+    let {keyword} = this;
+    this.setState({keyword}, () => {
+      this.getCustomer();
+    })
   }
 
   changeShow() {
@@ -182,13 +185,12 @@ class Customer extends Component {
     var data = this.state.data;
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
-
-    var checks = data.map((e, i) => {this.state.checks[i] = false});
+    data.map((e, i) => {this.state.checks[i] = false});
     return (
       <div className="animated fadeIn">
         <Row className="mb-5">
           <Col md="8" xs="6" sm="6">
-            <Input onChange={(e) => { this.setState({ keyword: e.target.value }) }} />
+            <Input onChange={(e) => { this.keyword = e.target.value }} />
           </Col>
           <Col md="2" xs="3" sm="3">
             <Button block color="primary" onClick={() => { this.searchCustomer() }}>고객 검색</Button>
@@ -209,10 +211,8 @@ class Customer extends Component {
                     {this.state.set ?
                       "비활성화 고객 보기" :
                       "활성화 고객 보기"
-                    }{this.state.set ?
-                      <Switch id='1' isOn={this.state.set} handleToggle={this.changeSet.bind(this)} /> :
-                      <Switch id='1' isOn={this.state.set} handleToggle={this.changeSet.bind(this)} />
                     }
+                    <Switch id='1' isOn={this.state.set} handleToggle={this.changeSet.bind(this)} />
                   </Col>
                   <Col>
                     {this.state.show ?
@@ -310,9 +310,11 @@ class Customer extends Component {
               </CardBody>
               <CardFooter>
                 <Pagination>
+                  {this.state.number === 1 ? '' : 
                   <PaginationItem>
                     <PaginationLink previous onClick={() => {this.countPageNumber(this.state.number-1)}}/>
                   </PaginationItem>
+                  }
                   {this.state.number === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
                   {this.state.number === 2 ? arr.forEach(x => arr1.push(x+1)) : null}   
                   {this.state.number !== 1 && this.state.number!== 2 ? arr.forEach(x => arr1.push(x)) :null }    
@@ -323,11 +325,13 @@ class Customer extends Component {
                       {this.state.number+e}
                       </PaginationLink>
                     </PaginationItem>)
+                    console.log(data);
                     return null;
                   })}
+                  {this.state.number === this.state.total ? '' : 
                   <PaginationItem>
                     <PaginationLink next onClick={() => {this.countPageNumber(this.state.number+1)}}/>
-                  </PaginationItem>
+                  </PaginationItem>}     
                 </Pagination>
               </CardFooter>
             </Card>
