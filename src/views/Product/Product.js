@@ -275,7 +275,7 @@ class Product extends Component {
                               <CardTitle><h3>상품명 : {e.name}</h3></CardTitle>
                               <CardSubtitle><h4>등급 : {e.grade}</h4></CardSubtitle>
                               <CardSubtitle><h4>무게 : {e.weight}</h4></CardSubtitle>
-                              <CardSubtitle><h4>단가 : {e['price_shipping']}</h4></CardSubtitle>
+                              <CardSubtitle><h4>판매 단가 : {e['price_shipping']}</h4></CardSubtitle>
                               <Button block outline color="primary" onClick={() => alert('준비중입니다.')}>상품 분석</Button>
                             </CardBody>
                             {this.state.set ?

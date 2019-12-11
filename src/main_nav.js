@@ -1,7 +1,7 @@
 export default {
   items: [
     {
-      name: '홈',
+      name: '초기 화면',
       url: '/main/home',
       icon: 'icon-speedometer',
       badge: {
@@ -10,42 +10,42 @@ export default {
       },
     },
     {
-      name: '주문',
+      name: '주문 관리',
       url: '/main/sales/list',
       icon: 'icon-puzzle',
     },
     {
-      name: '고객',
+      name: '고객 관리',
       url: '/main/customer/list',
       icon: 'icon-puzzle',
     },
     {
-      name: '상품',
+      name: '제품 관리',
       url: '/main/product/list',
       icon: 'icon-puzzle',
     },
     {
-      name: '재고',
+      name: '재고 관리',
       url: '/main/stock',
       icon: 'icon-speedometer',
     },
     {
-      name: '제조',
+      name: '제조 관리',
       url: '/main/manufacture',
       icon: 'icon-speedometer',
     },
     {
-      name: '생산',
+      name: '영농 일지',
       url: '/main/produce',
       icon: 'icon-speedometer',
     },
     {
-      name: '관광',
+      name: '체험 관광',
       url: '/main/activity',
       icon: 'icon-speedometer',
     },
     {
-      name: '분석',
+      name: '경영 분석',
       url: '/main/analysis',
       icon: 'icon-speedometer',
       badge: {

@@ -190,7 +190,7 @@ class CreateOrder extends Component {
                     <tr>
                       <th>품목명</th>
                       <th>수량</th>
-                      <th>단가</th>
+                      <th>판매 단가</th>
                       <th>공급가액</th>
                       <th>부가세</th>
                       <th>과세</th>

@@ -45,6 +45,13 @@ class Manufacture extends Component {
       })
   }
 
+  getDate(dateInput) {
+    var d = new Date(dateInput);
+    var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
+
+    return year + "년 " + month + "월 " + date + "일";
+  }
+
   render() {
     console.log(this.state.manufactureData);
     return (
@@ -73,7 +80,7 @@ class Manufacture extends Component {
                     <tbody>
                       {this.state.manufactureData.map((e,i) => {
                         return <tr style={{cursor: 'pointer'}} onClick={() => { this.props.history.push('/main/manufacture/'+e.id); }}>
-                          <td>{e.date}</td>
+                          <td>{this.getDate(e.date)}</td>
                           <td>{e.title}</td>
                           <td>{e.total}</td>
                           <td></td>

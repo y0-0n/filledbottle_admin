@@ -153,7 +153,7 @@ class Sales extends Component {
                 <Row>
                   <Col>주문 상세 검색</Col>
                   <Col md="2" xs="3" sm="3">
-                    <Button block color="primary" onClick={() => { this.props.history.push('/sales/order'); }}>주문 추가</Button>
+                    <Button block color="primary" onClick={() => { this.props.history.push('/sales/order'); }}>주문 생성</Button>
                   </Col>
                 </Row>
               </CardHeader>
@@ -224,7 +224,7 @@ class Sales extends Component {
                       <tr>
                         <th>#</th>
                         <th>출하일</th>
-                        <th>등록일</th>
+                        <th>생성일</th>
                         <th>고객</th>
                         <th>총액</th>
                         <th>상태</th>

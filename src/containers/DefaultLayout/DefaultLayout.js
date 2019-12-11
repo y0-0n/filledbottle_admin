@@ -61,7 +61,7 @@ class DefaultLayout extends Component {
               <AppSidebarNav navConfig={main_nav} {...this.props} router={router}/>
             </Suspense>
             <AppSidebarFooter />
-            <AppSidebarMinimizer />
+            {/*<AppSidebarMinimizer />*/}
           </AppSidebar>
           <main className="main">
             <AppBreadcrumb appRoutes={routes} router={router}/>

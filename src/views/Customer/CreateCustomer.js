@@ -86,7 +86,7 @@ class CreateCustomer extends Component {
                     <Table className="ShowTable">
                     <tbody>
                       <tr>
-                        <th>고객명</th>
+                        <th>기업(고객)명</th>
                         <td>
                           <Input onChange={(e) => this.form.name=e.target.value}/>
                         </td>

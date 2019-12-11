@@ -118,7 +118,7 @@ class ProductModal extends Component {
                       <th>상품명</th>
                       <th>등급</th>
                       <th>무게</th>
-                      <th>단가</th>
+                      <th>판매 단가</th>
                     </tr>
                   </thead>
                   <tbody>

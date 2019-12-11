@@ -35,7 +35,7 @@ class DefaultHeader extends Component {
             <NavLink to="/main" className="nav-link" >메인 메뉴</NavLink>
           </NavItem>
           <NavItem className="px-3">
-            <NavLink to="/sales/order" className="nav-link" >주문 등록</NavLink>
+            <NavLink to="/sales/order" className="nav-link" >주문 생성</NavLink>
           </NavItem>
           <NavItem className="px-3">
             <NavLink to="/customer/create" className="nav-link" >고객 등록</NavLink>

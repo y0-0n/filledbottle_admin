@@ -19,8 +19,6 @@ class Produce extends Component {
     return year + "년 " + month + "월 " + date + "일";
   }
 
-  
-
   render() {
     return (
       <div className="animated fadeIn">
