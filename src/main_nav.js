@@ -25,11 +25,6 @@ export default {
       icon: 'icon-puzzle',
     },
     {
-      name: '재고 관리',
-      url: '/main/stock',
-      icon: 'icon-speedometer',
-    },
-    {
       name: '제조 관리',
       url: '/main/manufacture',
       icon: 'icon-speedometer',
@@ -45,7 +40,7 @@ export default {
       icon: 'icon-speedometer',
     },
     {
-      name: '경영 분석',
+      name: '분석',
       url: '/main/analysis',
       icon: 'icon-speedometer',
       badge: {
