@@ -16,7 +16,6 @@ class CreateProduct extends Component {
 
     this.state = {
       image : null,
-      selectedFile : null,
     };
   }
 

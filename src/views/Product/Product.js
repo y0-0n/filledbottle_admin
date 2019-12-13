@@ -22,7 +22,8 @@ class Product extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
+      productData: [],
+      stockData: [],
       page: 1,
       number: 1,
       keyword: 'a',
@@ -35,6 +36,7 @@ class Product extends Component {
   }
   componentWillMount() {
     this.getProduct();
+    this.getStock();
   }
 
   getTotal() {
@@ -79,7 +81,7 @@ class Product extends Component {
       .then(data => {
         let status = data[0];
         if (status === 200)
-          this.setState({ data: data[1] });
+          this.setState({ productData: data[1] });
         else {
           alert('로그인 하고 접근해주세요');
           this.props.history.push('/login');
@@ -88,44 +90,36 @@ class Product extends Component {
       })
   }
 
+  getStock() {
+    fetch(process.env.REACT_APP_HOST+"/api/stock/list/"+this.state.number, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+      let status = data[0];
+      if(status === 200)
+        this.setState({stockData: data[1]});
+      else {
+        alert('로그인 하고 접근해주세요');
+        this.props.history.push('/login');
+      }
+    });
+  }
+
   deleteProduct(id) {
     let c = window.confirm('이 상품을 비활성화하시겠습니까?')
     if (c) {
       fetch(process.env.REACT_APP_HOST + "/product", {
         method: 'DELETE',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage.getItem('token'),
-        },
-        body: JSON.stringify({
-          id
-        })
-      })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-        let status = data[0];
-        if (status === 200)
-          this.getProduct()
-        else {
-          alert('로그인 하고 접근해주세요')
-          this.props.history.push('/login')
-        }
-      });
-    }
-  }
-
-  activateProduct(id) {
-    let c = window.confirm('위 상품을 활성화하시겠습니까?')
-    if (c) {
-      fetch(process.env.REACT_APP_HOST + "/product", {
-        method: 'PUT',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
@@ -177,11 +171,12 @@ class Product extends Component {
       number: x,
     }, () => {
       this.getProduct();
+      this.getStock();
     });
   }
 
   render() {
-    var data = this.state.data;
+    var data = this.state.productData;
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
 
@@ -207,17 +202,18 @@ class Product extends Component {
                   <Col>상품 보기</Col>
                   <Col></Col><Col></Col>
                   <Col>
-                    {this.state.set ?
+                    {/*this.state.set ?
                       "비활성화 상품 보기" :
                       "활성화 상품 보기"
-                    }
-                      <Switch id='1' isOn={this.state.set} handleToggle={this.changeSet.bind(this)} />
+                    */}
+                    {/*<Switch id='1' isOn={this.state.set} handleToggle={this.changeSet.bind(this)} />*/}
                   </Col>
                   <Col>
-                    {this.state.show ?
+                    {/*this.state.show ?
                       "카드로 보기" :
                       "리스트로 보기"
-                    }<Switch id='2' isOn={this.state.show} handleToggle={() => this.changeShow()} />
+                    */}
+                    {/*<Switch id='2' isOn={this.state.show} handleToggle={() => this.changeShow()} />*/}
                   </Col>
                 </Row>
               </CardHeader>
@@ -227,35 +223,35 @@ class Product extends Component {
                     <Table style={{ minWidth: 600 }} hover>
                       <thead>
                         <tr>
-                          <th>#</th>
                           <th>상품명</th>
                           <th>등급</th>
                           <th>무게</th>
-                          <th>단가</th>
-                          {this.state.set ?
+                          <th>판매 단가</th>
+                          <td>재고</td>
+                          {/*this.state.set ?
                             <th style={{width : 300}}>상품 비활성화</th> :
                             <th style={{width : 300}}>상품 활성화</th>
-                          }
-                          <th>수정</th>
+                          */}
+                          {/*<th>수정</th>*/}
                         </tr>
                       </thead>
                       <tbody>
                         {data.map((e, i) => {
-                          return (<tr style={{ cursor: 'pointer' }} key={e.id}>
-                            <td>{e.id}</td>
-                            <td>{e.name}</td>
+                          return (<tr key={e.id}>
+                            <td style={{cursor: 'pointer'}} onClick={() => {this.props.history.push('/main/product/'+e.id)}}>{e.name}</td>
                             <td>{e.grade}</td>
                             <td>{e.weight}</td>
                             <td>{e['price_shipping']}</td>
-                            {this.state.set ?
+                            <td style={{ cursor: 'pointer' }} onClick={()=> {alert('재고 변경')}}>{this.state.stockData[i] !== undefined ? this.state.stockData[i].quantity : null}</td>
+                            {/*this.state.set ?
                               <td>
                                 <Button block style={{ width: 120 }} color="ghost-danger" onClick={() => this.deleteProduct(e.id)}>상품 비활성화</Button>
                               </td> :
                               <td>
                                 <Button block style={{ width: 100 }} color="ghost-primary" onClick={() => this.activateProduct(e.id)}>상품 활성화</Button>
                               </td>
-                            }
-                            <td><Button  onClick={() => {this.props.history.push(`/main/product/edit/:id`)}}>수정</Button></td>
+                            */}
+                            {/*<td><Button  onClick={() => {this.props.history.push(`/main/product/edit/:id`)}}>수정</Button></td>*/}
                           </tr>)
                         })}
                       </tbody>
