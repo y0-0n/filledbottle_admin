@@ -85,68 +85,68 @@ class CreateProduce extends Component {
       <div className="animated fadeIn">
         <Row>
           <Col md="12" xs="12" sm="12">
-          <Card>
+            <Card>
               <CardHeader>
                 <Row>
                   <Col md="10" xs="10" sm="10">날씨</Col>
                 </Row>
               </CardHeader>
               <CardBody>
-              <Table className="ShowTable">
-                    <tbody>
-                      <tr>
-                        <th>날씨</th>
-                        <td>
-                            <select name="weather">
-                                <option value="맑음">맑음</option>
-                                <option value="구름조금">구름조금</option>
-                                <option value="구름많음">구름많음</option>
-                                <option value="흐림">흐림</option>
-                                <option value="비">비</option>
-                                <option value="눈">눈</option>
-                                <option value="비/눈">비/눈</option>
-                            </select>
-                        </td>
-                        <th>강수량</th>
-                        <td>
-                            <Row>
-                                <Col xs="10"><Input onChange={(e) => {this.setState({precipitation: e.target.value})}}/></Col>
-                                <Col xs="2">mm</Col>
-                            </Row>                          
-                        </td>
-                        <th>적설량</th>
-                        <td>
-                            <Row>
-                                <Col xs="10"><Input onChange={(e) => {this.setState({snowfall: e.target.value})}}/></Col>
-                                <Col xs="2">cm</Col>
-                            </Row>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>기온</th>
-                        <td>
-                            <Row>
-                                <Col xs="10"><Input onChange={(e) => {this.setState({temperatures: e.target.value})}}/></Col>
-                                <Col xs="2">°C</Col>
-                            </Row>
-                        </td>
-                        <th>최저 기온</th>
-                        <td>
-                            <Row>
-                                <Col xs="10"><Input onChange={(e) => {this.setState({minTemperatures: e.target.value})}}/></Col>
-                                <Col xs="2">°C</Col>
-                            </Row>
-                        </td>
-                        <th>최고 기온</th>
-                        <td>
-                            <Row>
-                                <Col xs="10"><Input onChange={(e) => {this.setState({maxTemperatures: e.target.value})}}/></Col>
-                                <Col xs="2">°C</Col>
-                            </Row>
-                        </td>
-                      </tr>
-                    </tbody>
-                    </Table>
+                <Table className="ShowTable">
+                  <tbody>
+                    <tr>
+                      <th>날씨</th>
+                      <td>
+                        <select name="weather">
+                          <option value="맑음">맑음</option>
+                          <option value="구름조금">구름조금</option>
+                          <option value="구름많음">구름많음</option>
+                          <option value="흐림">흐림</option>
+                          <option value="비">비</option>
+                          <option value="눈">눈</option>
+                          <option value="비/눈">비/눈</option>
+                        </select>
+                      </td>
+                      <th>강수량</th>
+                      <td>
+                        <Row>
+                          <Col xs="10"><Input onChange={(e) => {this.setState({precipitation: e.target.value})}}/></Col>
+                          <Col xs="2">mm</Col>
+                        </Row>                          
+                      </td>
+                      <th>적설량</th>
+                      <td>
+                        <Row>
+                          <Col xs="10"><Input onChange={(e) => {this.setState({snowfall: e.target.value})}}/></Col>
+                          <Col xs="2">cm</Col>
+                        </Row>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>기온</th>
+                      <td>
+                        <Row>
+                          <Col xs="10"><Input onChange={(e) => {this.setState({temperatures: e.target.value})}}/></Col>
+                          <Col xs="2">°C</Col>
+                        </Row>
+                      </td>
+                      <th>최저 기온</th>
+                      <td>
+                        <Row>
+                          <Col xs="10"><Input onChange={(e) => {this.setState({minTemperatures: e.target.value})}}/></Col>
+                          <Col xs="2">°C</Col>
+                        </Row>
+                      </td>
+                      <th>최고 기온</th>
+                      <td>
+                        <Row>
+                          <Col xs="10"><Input onChange={(e) => {this.setState({maxTemperatures: e.target.value})}}/></Col>
+                          <Col xs="2">°C</Col>
+                        </Row>
+                      </td>
+                    </tr>
+                  </tbody>
+                </Table>
               </CardBody>
             </Card>
             <Card>
@@ -156,67 +156,181 @@ class CreateProduce extends Component {
                 </Row>
               </CardHeader>
               <CardBody>
-              <Table className="ShowTable">
-                    <tbody>
-                    {
-                      this.state.sProduct.map(function (e, i) {
-                        return (
-                          <tr key={i}>
-                            <th>품목</th>
-                            <td>
-                              <Row>                                
-                                {<Popup
-                                  trigger={
-                                    <Col sm="10">
-                                      <Input name='name' value={this.state.sProduct[i].name} style={{ cursor: 'pointer', backgroundColor: '#ffffff' }} readOnly />
-                                    </Col>
-                                  }
-                                  modal>
-                                  {close => <ProductModal i6ndex={i} close={close}
-                                    selectProduct={(data) => {
-                                      let { sProduct } = this.state;
+                <Table className="ShowTable">
+                  <tbody>
+                  {
+                    this.state.sProduct.map(function (e, i) {
+                      return (
+                        <tr key={i}>
+                          <th style={{width: '10%'}}>품목</th>
+                          <td style={{width: '40%'}}>
+                            <Row>                                
+                              {<Popup
+                                trigger={
+                                  <Col sm="10">
+                                    <Input name='name' value={this.state.sProduct[i].name} style={{ cursor: 'pointer', backgroundColor: '#ffffff' }} readOnly />
+                                  </Col>
+                                }
+                                modal>
+                                {close => <ProductModal i6ndex={i} close={close}
+                                  selectProduct={(data) => {
+                                    let { sProduct } = this.state;
 
-                                      let val = Object.assign({}, sProduct[i]);
-                                      val['id'] = data['id'];
-                                      val['name'] = data['name'];
+                                    let val = Object.assign({}, sProduct[i]);
+                                    val['id'] = data['id'];
+                                    val['name'] = data['name'];
 
-                                      sProduct[i] = val;
-                                      this.setState({ sProduct });
-                                    }}
-                                  />}
-                                </Popup>}
-                                <Col sm="2"><Button onClick={() => {this.props.history.push(`/product/create`)}}>신규</Button></Col>
-                              </Row>
-                            </td>
-                            <th>영농과정</th>
-                            <td>
-                              <Input/>                      
-                            </td>
-                          </tr>
-                            )
-                          }, this)
-                        }
-                          <tr>
-                            <th>작업명</th>
-                            <td>
-                              <Input/>
-                            </td>
-                            <th>작업내용</th>
-                            <td>
-                              <Input/>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th>작업사진</th>
-                            <td colSpan="3">
-                                <img alt="작업 사진" style={{height: 500, width: 500}} src={this.state.image} /> <br></br>
-                                <input ref="file" type="file" name="file"  accept="image/*" onChange={e =>{this.handleFileInput(e);}}/> 
-                            </td>
-                          </tr>
-                    </tbody>
-                    </Table>
+                                    sProduct[i] = val;
+                                    this.setState({ sProduct });
+                                  }}
+                                />}
+                              </Popup>}
+                              <Col sm="2"><Button onClick={() => {this.props.history.push(`/product/create`)}}>신규</Button></Col>
+                            </Row>
+                          </td>
+                          <th style={{width: '10%'}}>영농과정</th>
+                          <td style={{width: '40%'}}>
+                            <Input/>                      
+                          </td>
+                        </tr>
+                      )
+                    }, this)}
+                    <tr>
+                      <th>작업명</th>
+                      <td>
+                        <Input/>
+                      </td>
+                      <th>작업내용</th>
+                      <td>
+                        <Input/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>재배 면적</th>
+                      <td>
+                        <Input/>
+                      </td>
+                      <th>예상 생산량</th>
+                      <td>
+                        <Input/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>작업사진</th>
+                      <td colSpan="3">
+                        <img alt="작업 사진" style={{height: 500, width: 500}} src={this.state.image} /> <br></br>
+                        <input ref="file" type="file" name="file"  accept="image/*" onChange={e =>{this.handleFileInput(e);}}/> 
+                      </td>
+                    </tr>
+                  </tbody>
+                </Table>
               </CardBody>
             </Card>
+            
+            <Row>
+              <Col>
+                <Card>
+                  <CardHeader>
+                    <Row>
+                      <Col md="10" xs="10" sm="10">재작년 영농일지</Col>
+                    </Row>
+                  </CardHeader>
+                  <CardBody>
+                    <Table className="ShowTable">
+                      <tbody>
+                      {
+                        this.state.sProduct.map(function (e, i) {
+                          return (
+                            <tr key={i}>
+                              <th style={{width: '20%'}}>품목</th>
+                              <td style={{width: '30%'}}>
+                              </td>
+                              <th style={{width: '20%'}}>영농과정</th>
+                              <td style={{width: '30%'}}>
+                              </td>
+                            </tr>
+                          )
+                        }, this)
+                      }
+                        <tr>
+                          <th>작업명</th>
+                          <td>
+                          </td>
+                          <th>작업내용</th>
+                          <td>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>재배 면적</th>
+                          <td>
+                          </td>
+                          <th>예상 생산량</th>
+                          <td>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>작업사진</th>
+                          <td colSpan="3">
+                              <img alt="작업 사진" style={{height: 500, width: 500}} src={this.state.image} /> <br></br>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </CardBody>
+                </Card>
+              </Col>
+              <Col>
+                <Card>
+                  <CardHeader>
+                    <Row>
+                      <Col md="10" xs="10" sm="10">작년 영농일지</Col>
+                    </Row>
+                  </CardHeader>
+                  <CardBody>
+                    <Table className="ShowTable">
+                      <tbody>
+                      {
+                        this.state.sProduct.map(function (e, i) {
+                          return (
+                            <tr key={i}>
+                              <th style={{width: '20%'}}>품목</th>
+                              <td style={{width: '30%'}}>
+                              </td>
+                              <th style={{width: '20%'}}>영농과정</th>
+                              <td style={{width: '30%'}}>
+                              </td>
+                            </tr>
+                          )
+                        }, this)
+                      }
+                        <tr>
+                          <th>작업명</th>
+                          <td>
+                          </td>
+                          <th>작업내용</th>
+                          <td>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>재배 면적</th>
+                          <td>
+                          </td>
+                          <th>예상 생산량</th>
+                          <td>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>작업사진</th>
+                          <td colSpan="3">
+                              <img alt="작업 사진" style={{height: 500, width: 500}} src={this.state.image} /> <br></br>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
           </Col>
         </Row>
         <Button block color="primary" onClick={() => {

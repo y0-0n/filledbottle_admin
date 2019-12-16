@@ -162,10 +162,10 @@ class OrderDetail extends Component {
                 <Table className="ShowTable">
                 <tbody>
                   <tr>
-                    <th>고객명</th>
-                    <td>{orderInfo['name']}</td>
-                    <th>일자</th>
-                    <td className="TableRight">{year}년 {month}월 {date}일</td>
+                    <th style={{width: '10%'}}>고객명</th>
+                    <td style={{width: '40%'}}>{orderInfo['name']}</td>
+                    <th style={{width: '10%'}}>일자</th>
+                    <td style={{width: '40%'}} className="TableRight">{year}년 {month}월 {date}일</td>
                   </tr>
                   <tr>
                     <th>전화번호</th>
