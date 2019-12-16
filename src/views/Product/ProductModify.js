@@ -37,7 +37,7 @@ class ProductModify extends Component {
       });
   }
 
-  handleFileInput(e){
+  /*handleFileInput(e){
     var file = this.refs.file.files[0];
     var reader = new FileReader();
     reader.readAsDataURL(file);
@@ -51,7 +51,7 @@ class ProductModify extends Component {
     let img = e.target.files[0];
 
     this.setState({img});
-  }
+  }*/
 
   modifyProduct(e){
     e.preventDefault();
@@ -60,7 +60,7 @@ class ProductModify extends Component {
 
     if(c) {
       let formData = new FormData();
-      formData.append('file', this.state.img);
+      //formData.append('file', this.state.img);
       for (let [key, value] of Object.entries(this.form)) {
         formData.append(key, value);
       }
@@ -109,7 +109,7 @@ class ProductModify extends Component {
                       <tr>
                         <th style={{width: '10%'}}>사진</th>
                         <td style={{width: '40%'}}>
-                          <img alt="제품 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
+                          <img style={{width: '90%'}} alt="제품 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
                         </td>
                         <th style={{width: '10%'}} className="TableRight">상품명</th>
                         <td style={{width: '40%'}}>

@@ -97,7 +97,7 @@ class ProductDetail extends Component {
                   <tr>
                     <th style={{width: '10%'}}>사진</th>
                     <td style={{width: '40%'}}>
-                      <img alt="제품 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
+                      <img style={{width: '90%'}} alt="제품 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
                     </td>
                     <th style={{width: '10%'}} className="TableRight">상품명</th>
                     <td style={{width: '40%'}}>

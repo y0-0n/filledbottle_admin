@@ -86,31 +86,31 @@ class CreateProduct extends Component {
                   <CardBody>
                     <Table className="ShowTable">
                     <tbody>
-                      <tr>
-                        <th>상품명</th>
-                        <td>
+                      <tr className="TableBottom">
+                        <th style={{width: '10%'}}>사진</th>
+                        <td style={{width: '40%'}} className="TableRight">
+                        <img alt="제품 사진" style={{height: 500, width: '90%'}} src={this.state.image} /> <br></br>
+                        <input ref="file" type="file" name="file" onChange={e =>{this.handleFileInput(e);}}/> 
+                        </td>
+                        <th style={{width: '10%'}}>상품명</th>
+                        <td style={{width: '40%'}}>
                           <Input onChange={(e) => this.form.name=e.target.value} />
                         </td>
+                      </tr>
+                      <tr>
                         <th>등급</th>
                         <td className="TableRight">
                           <Input onChange={(e) => this.form.grade=e.target.value} />
                         </td>
-                      </tr>
-                      <tr>
                         <th>무게</th>
                         <td>
                           <Input onChange={(e) => this.form.weight=e.target.value} />
                         </td>
+                      </tr>
+                      <tr>
                         <th>단가</th>
                         <td className="TableRight">
                           <Input onChange={(e) => this.form.price=e.target.value} />
-                        </td>
-                      </tr>
-                      <tr className="TableBottom">
-                        <th>사진</th>
-                        <td colSpan="3" className="TableRight">
-                        <img alt="제품 사진" style={{height: 500, width: 500}} src={this.state.image} /> <br></br>
-                        <input ref="file" type="file" name="file" onChange={e =>{this.handleFileInput(e);}}/> 
                         </td>
                       </tr>
                     </tbody>
