@@ -35,7 +35,8 @@ class Sales extends Component {
       number : 1,
       total: 0,
       keyword: 'a',
-      date: new Date(),
+      first_date: new Date(),
+      last_date: new Date(),
     };
   }
 
@@ -161,14 +162,14 @@ class Sales extends Component {
                 <Table>
                   <tbody>
                     <tr>
-                      <th>날짜</th>
+                      <th style={{textAlign: "center"}}>날짜</th>
                       <td>
                         <div style={{ pointer: 'cursor', width : 140}}>
                           <DatePicker
                             dateFormat="yyyy년 MM월 dd일"
                             locale="ko"
-                            selected={this.state.date}
-                            onChange={(date) => { this.setState({ date }) }}
+                            selected={this.state.first_date}
+                            onChange={(first_date) => { this.setState({ first_date }) }}
                           />
                         </div>
                       </td>
@@ -178,14 +179,14 @@ class Sales extends Component {
                           <DatePicker
                             dateFormat="yyyy년 MM월 dd일"
                             locale="ko"
-                            selected={this.state.date}
-                            onChange={(date) => { this.setState({ date }) }}
+                            selected={this.state.last_date}
+                            onChange={(last_date) => { this.setState({ last_date }) }}
                           />
                         </div>
                       </td>
                     </tr>
                     <tr>
-                      <th>고객명</th>
+                      <th style={{textAlign: "center"}}>고객명</th>
                       <td colSpan="3"><Input onChange={(e) => { this.keyword = e.target.value }} /></td>
                     </tr>
                   </tbody>

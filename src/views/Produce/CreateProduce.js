@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, Col, Row, Table, Input, } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, Col, Row, Table, Input, FormGroup} from 'reactstrap';
 import Popup from "reactjs-popup";
 import { registerLocale } from  "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -97,7 +97,8 @@ class CreateProduce extends Component {
                       <tr>
                         <th>날씨</th>
                         <td>
-                            <select name="weather">
+                          <FormGroup>
+                            <Input type="select" name="weather">
                                 <option value="맑음">맑음</option>
                                 <option value="구름조금">구름조금</option>
                                 <option value="구름많음">구름많음</option>
@@ -105,7 +106,8 @@ class CreateProduce extends Component {
                                 <option value="비">비</option>
                                 <option value="눈">눈</option>
                                 <option value="비/눈">비/눈</option>
-                            </select>
+                            </Input>
+                          </FormGroup>
                         </td>
                         <th>강수량</th>
                         <td>
