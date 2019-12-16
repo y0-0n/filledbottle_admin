@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import DatePicker from "react-datepicker";
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Input, CardImg, CardTitle, CardSubtitle, Table, Badge, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import Switch from "../Switch/Switch";
 /*
@@ -188,25 +189,58 @@ class Customer extends Component {
     data.map((e, i) => {this.state.checks[i] = false});
     return (
       <div className="animated fadeIn">
-        <Row className="mb-5">
-          <Col md="8" xs="6" sm="6">
-            <Input onChange={(e) => { this.keyword = e.target.value }} />
-          </Col>
-          <Col md="2" xs="3" sm="3">
-            <Button block color="primary" onClick={() => { this.searchCustomer() }}>고객 검색</Button>
-          </Col>
-          <Col md="2" xs="3 " sm="3">
-            <Button block color="primary" onClick={() => { this.props.history.push('/customer/create'); }}>고객 등록하기</Button>
+        <Row>
+          <Col>
+          <Card>
+              <CardHeader>
+                <Row>
+                  <Col>고객 상세 검색</Col>
+                  <Col md="2" xs="3" sm="3">
+                    <Button block color="primary" onClick={() => { this.props.history.push('/customer/create'); }}>고객 등록</Button>
+                  </Col>
+                </Row>
+              </CardHeader>
+              <CardBody>
+                <Table>
+                  <tbody>
+                    <tr>
+                      <th>날짜</th>
+                      <td>
+                        <div style={{ pointer: 'cursor' }}>
+                          <DatePicker
+                            dateFormat="yyyy년 MM월 dd일"
+                            locale="ko"
+                            selected={this.state.date}
+                            onChange={(date) => { this.setState({ date }) }}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>고객명</th>
+                      <td><Input onChange={(e) => { this.keyword = e.target.value }} /></td>
+                    </tr>
+                  </tbody>
+                </Table>
+                <Row>
+                  <Col md="2" xs="3" sm="3">
+                  </Col>
+                </Row>
+              </CardBody>
+              <CardFooter>
+                <Button block color="primary" onClick={() => { this.searchCustomer() }}>고객 검색</Button>
+              </CardFooter>
+            </Card>
           </Col>
         </Row>
-
         <Row>
           <Col>
             <Card>
               <CardHeader>
                 <Row>
                   <Col>고객 보기</Col>
-                  <Col></Col><Col></Col>
+                  <Col></Col><Col></Col><Col></Col>
+                  {/*
                   <Col>
                     {this.state.set ?
                       "비활성화 고객 보기" :
@@ -219,7 +253,7 @@ class Customer extends Component {
                       "카드로 보기" :
                       "리스트로 보기"
                     }<Switch id='2' isOn={this.state.show} handleToggle={() => this.changeShow()} />
-                  </Col>
+                  </Col>*/}
                   <Col>
                     <Button onClick={() => {
                       let {checkdata} = this.state;
@@ -247,7 +281,8 @@ class Customer extends Component {
                           <th>전화번호</th>
                           <th>HP</th>
                           <th>주소</th>
-                          <th>수정</th>
+                          {//<th>수정</th>
+                          }
                           <th>선택</th>
                         </tr>
                       </thead>
@@ -259,7 +294,8 @@ class Customer extends Component {
                             <td>{e.telephone}</td>
                             <td>{e.cellphone}</td>
                             <td>{e.address}</td>
-                            <td><Button onClick={() => {this.props.history.push(`/main/customer/edit/:id}`)}}>수정</Button></td>
+                            {//<td><Button onClick={() => {this.props.history.push(`/main/customer/edit/:id}`)}}>수정</Button></td>
+                            }
                             <td><input name='selection' type='checkbox' onClick={() => {
                               let {checks} = this.state;
                               checks[i] = !checks[i];

@@ -102,7 +102,7 @@ class CreateManufacture extends Component {
                               {<Popup
                                 trigger={<Input name='name' value={this.state.sProduct1[i].name} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}} readOnly/>}
                                 modal>
-                                {close => <ProductModal index={i} close={close}
+                                {close => <ProductModal index={i} close={close} login={()=>{this.props.history.push('/login')}} createProduct={() => {this.props.history.push('/product/create')}}
                                             selectProduct={(data) => {
                                               let {sProduct1} = this.state;
 
@@ -197,7 +197,7 @@ class CreateManufacture extends Component {
                               {<Popup
                                 trigger={<Input name='name' value={this.state.sProduct2[i].name} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}} readOnly/>}
                                 modal>
-                                {close => <ProductModal index={i} close={close}
+                                {close => <ProductModal index={i} close={close} login={()=>{this.props.history.push('/login')}} createProduct={() => {this.props.history.push('/product/create')}}
                                             selectProduct={(data) => {
                                               let {sProduct2} = this.state;
 

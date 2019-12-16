@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import DatePicker from "react-datepicker";
 import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import Switch from "../Switch/Switch";
 
@@ -182,16 +183,48 @@ class Product extends Component {
 
     return (
       <div className="animated fadeIn">
-
-        <Row className="mb-5">
-          <Col md="8" xs="6" sm="6">
-            <Input onChange={(e) => { this.keyword = e.target.value }} />
-          </Col>
-          <Col md="2" xs="3" sm="3">
-            <Button block color="primary" onClick={() => { this.searchProduct() }}>상품 검색</Button>
-          </Col>
-          <Col md="2" xs="3" sm="3">
-            <Button block color="primary" onClick={() => { this.props.history.push('/product/create'); }}>상품 등록하기</Button>
+        <Row>
+          <Col>
+          <Card>
+              <CardHeader>
+                <Row>
+                  <Col>상품 상세 검색</Col>
+                  <Col md="2" xs="3" sm="3">
+                    <Button block color="primary" onClick={() => { this.props.history.push('/product/create'); }}>상품 등록</Button>
+                  </Col>
+                </Row>
+              </CardHeader>
+              <CardBody>
+                <Table>
+                  <tbody>
+                    <tr>
+                      <th>날짜</th>
+                      <td>
+                        <div style={{ pointer: 'cursor' }}>
+                          <DatePicker
+                            dateFormat="yyyy년 MM월 dd일"
+                            locale="ko"
+                            selected={this.state.date}
+                            onChange={(date) => { this.setState({ date }) }}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>상품명</th>
+                      <td><Input onChange={(e) => { this.keyword = e.target.value }} /></td>
+                    </tr>
+                  </tbody>
+                </Table>
+                <Row>
+                  <Col md="2" xs="3" sm="3">
+                  </Col>
+                </Row>
+              </CardBody>
+              <CardFooter>
+                <Button block color="primary" onClick={() => { this.searchProduct() }}>상품 검색</Button>
+              </CardFooter>
+            </Card>
           </Col>
         </Row>
         <Row>

@@ -163,6 +163,17 @@ class Sales extends Component {
                     <tr>
                       <th>날짜</th>
                       <td>
+                        <div style={{ pointer: 'cursor', width : 140}}>
+                          <DatePicker
+                            dateFormat="yyyy년 MM월 dd일"
+                            locale="ko"
+                            selected={this.state.date}
+                            onChange={(date) => { this.setState({ date }) }}
+                          />
+                        </div>
+                      </td>
+                      <td style={{ width : 30}}>~</td>
+                      <td>
                         <div style={{ pointer: 'cursor' }}>
                           <DatePicker
                             dateFormat="yyyy년 MM월 dd일"
@@ -175,7 +186,7 @@ class Sales extends Component {
                     </tr>
                     <tr>
                       <th>고객명</th>
-                      <td><Input onChange={(e) => { this.keyword = e.target.value }} /></td>
+                      <td colSpan="3"><Input onChange={(e) => { this.keyword = e.target.value }} /></td>
                     </tr>
                   </tbody>
                 </Table>
