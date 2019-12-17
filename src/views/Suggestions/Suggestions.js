@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 
 import { Button, Badge, Card, CardBody, CardHeader, CardFooter, Table, Pagination, PaginationItem, PaginationLink,  } from 'reactstrap';
 
+const listCount = 5;
 
 class Suggestions extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [{}]
+      data: [{}],
+      page: 1,
+      number: 1,
     }
   }
 
@@ -16,7 +19,7 @@ class Suggestions extends Component {
   }
 
   getSuggestion() {
-    fetch(process.env.REACT_APP_HOST + "/api/suggestion", {
+    fetch(process.env.REACT_APP_HOST + "/api/suggestion/"+this.state.number, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -37,7 +40,33 @@ class Suggestions extends Component {
           alert('로그인 하고 접근해주세요');
           this.props.history.push('/login');
         }
+        this.getTotal();
       })
+  }
+
+  getTotal() {
+    fetch(process.env.REACT_APP_HOST+"/api/suggestion/total/", {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      }
+    })
+      .then(response => {
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        const status = data[0];
+        if(status === 200) {
+          this.setState({total: Math.ceil(data[1][0].total/listCount)})
+        } else {
+          alert('로그인 하고 접근해주세요')
+          this.props.history.push('/login')
+        }
+      });
   }
 
   getDate(dateInput) {

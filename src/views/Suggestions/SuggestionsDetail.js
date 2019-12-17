@@ -24,7 +24,7 @@ class CreateSuggestions extends Component {
   }
 
   getSuggestion() {
-    fetch(process.env.REACT_APP_HOST+"/api/suggestion/"+this.props.match.params.id, {
+    fetch(process.env.REACT_APP_HOST+"/api/suggestion/detail/"+this.props.match.params.id, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
