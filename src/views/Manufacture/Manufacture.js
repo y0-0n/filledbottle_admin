@@ -11,6 +11,7 @@ class Manufacture extends Component {
       manufactureData: [],
       page: 1,
       number: 1,
+      keyword: 'a',
     };
   }
 
@@ -25,12 +26,12 @@ class Manufacture extends Component {
     return year + "년 " + month + "월 " + date + "일";
   }
   getTotal() {
-    fetch(process.env.REACT_APP_HOST+"/api/manufacture", {
+    fetch(process.env.REACT_APP_HOST+"/api/manufacture/total/"+this.state.keyword, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
       }
-      })
+    })
       .then(response => {
         if(response.status === 401) {
           return Promise.all([401])
@@ -50,7 +51,7 @@ class Manufacture extends Component {
   }
   
   getList() {
-    fetch(process.env.REACT_APP_HOST+"/api/manufacture", {
+    fetch(process.env.REACT_APP_HOST+"/api/manufacture/"+this.state.number+'/'+this.state.keyword, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
