@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import DatePicker from "react-datepicker";
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Input, CardImg, CardTitle, CardSubtitle, Table, Badge, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Input, CardImg, CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup } from 'reactstrap';
 import Switch from "../Switch/Switch";
 /*
 
@@ -204,21 +203,22 @@ class Customer extends Component {
                 <Table>
                   <tbody>
                     <tr>
-                      <th>날짜</th>
+                      <th style={{textAlign: "center"}}>그룹</th>
                       <td>
-                        <div style={{ pointer: 'cursor' }}>
-                          <DatePicker
-                            dateFormat="yyyy년 MM월 dd일"
-                            locale="ko"
-                            selected={this.state.date}
-                            onChange={(date) => { this.setState({ date }) }}
-                          />
-                        </div>
+                        <FormGroup>
+                          <Input type="select" name="group" id="groupSelect">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                          </Input>
+                        </FormGroup>
                       </td>
                     </tr>
                     <tr>
-                      <th>고객명</th>
-                      <td><Input onChange={(e) => { this.keyword = e.target.value }} /></td>
+                      <th style={{textAlign: "center"}}>고객명</th>
+                      <td colSpan="3"><Input onChange={(e) => { this.keyword = e.target.value }} /></td>
                     </tr>
                   </tbody>
                 </Table>
@@ -373,7 +373,6 @@ class Customer extends Component {
             </Card>
           </Col>
         </Row>
-
       </div>
     )
   }
