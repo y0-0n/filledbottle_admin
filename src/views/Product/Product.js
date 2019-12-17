@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import DatePicker from "react-datepicker";
 import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup } from 'reactstrap';
 import Switch from "../Switch/Switch";
 
@@ -29,7 +28,8 @@ class Product extends Component {
       number: 1,
       keyword: 'a',
       show: true,
-      set: true
+      set: true,
+      stockEdit : false,
     };
     this.form = {
 
@@ -149,6 +149,38 @@ class Product extends Component {
     }
   }
 
+  modifyStock(id, quantity) {
+    fetch(process.env.REACT_APP_HOST+`/api/stock/`+id, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+      body: JSON.stringify(
+        {
+          quantity
+        }
+      )
+    })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+      const status = data[0];
+      if(status === 200)
+        alert('등록됐습니다.');
+      else {
+        alert('로그인 하고 접근해주세요');
+        this.props.history.push('/login');
+      }
+    })
+  }
+
   searchProduct() {
     let {keyword} = this;
     //let keyword = this.keyword
@@ -159,6 +191,10 @@ class Product extends Component {
 
   changeShow() {
     this.setState({show: !this.state.show})
+  }
+
+  changeStockEdit() {
+    this.setState({stockEdit: !this.state.stockEdit})
   }
 
   changeSet() {
@@ -258,21 +294,27 @@ class Product extends Component {
               <CardHeader>
                 <Row>
                   <Col>상품 보기</Col>
-                  <Col></Col><Col></Col>
-                  <Col>
-                    {/*this.state.set ?
+                  <Col></Col><Col></Col><Col></Col><Col></Col>
+                  {/*<Col>
+                    {this.state.set ?
                       "비활성화 상품 보기" :
-                      "활성화 상품 보기"
-                    */}
-                    {/*<Switch id='1' isOn={this.state.set} handleToggle={this.changeSet.bind(this)} />*/}
+                      "활성화 상품 보기"}
+                    <Switch id='1' isOn={this.state.set} handleToggle={this.changeSet.bind(this)} />
                   </Col>
                   <Col>
-                    {/*this.state.show ?
+                    {this.state.show ?
                       "카드로 보기" :
                       "리스트로 보기"
-                    */}
-                    {/*<Switch id='2' isOn={this.state.show} handleToggle={() => this.changeShow()} />*/}
+                    }
+                    <Switch id='2' isOn={this.state.show} handleToggle={() => this.changeShow()} />
+                  </Col>*/}
+                  <Col>
+                    {this.state.stockEdit ?
+                    <Button block color="primary" onClick={() => this.changeStockEdit()}>수정 취소</Button> :
+                    <Button block color="primary" onClick={() => this.changeStockEdit()}>재고 수정</Button>}
+                    { console.log(this.state.stockEdit)}
                   </Col>
+                  
                 </Row>
               </CardHeader>
               <CardBody>
@@ -286,6 +328,8 @@ class Product extends Component {
                           <th>무게</th>
                           <th>판매 단가</th>
                           <th>재고</th>
+                          {this.state.stockEdit ? 
+                            <th style={{width : 100}}>수정</th>: ""}
                           {/*this.state.set ?
                             <th style={{width : 300}}>상품 비활성화</th> :
                             <th style={{width : 300}}>상품 활성화</th>
@@ -300,7 +344,12 @@ class Product extends Component {
                             <td>{e.grade}</td>
                             <td>{e.weight}</td>
                             <td>{e['price_shipping']}</td>
-                            <td style={{ cursor: 'pointer' }} onClick={()=> {this.props.history.push(`/main/stock/${e.id}`)}}>{this.state.stockData[i] !== undefined ? this.state.stockData[i].quantity : null}</td>
+                            {this.state.stockEdit ?
+                              <td style={{width: 250}}><Input defaultValue={this.state.stockData[i] !== undefined ? this.state.stockData[i].quantity : null} onChange={(e) => {this.state.stockData[i].quantity = e.target.value;}}/></td> :
+                              <td style={{ cursor: 'pointer' }} onClick={()=> {this.props.history.push(`/main/stock/${e.id}`)}}>{this.state.stockData[i] !== undefined ? this.state.stockData[i].quantity : null}</td>}
+                            {this.state.stockEdit ? 
+                              <Col><Button onClick={()=>{this.modifyStock(i.product_id, i.quantity)}} color="primary" >수정</Button></Col>:
+                              ""}
                             {/*this.state.set ?
                               <td>
                                 <Button block style={{ width: 120 }} color="ghost-danger" onClick={() => this.deleteProduct(e.id)}>상품 비활성화</Button>
