@@ -300,7 +300,7 @@ class Product extends Component {
                             <td>{e.grade}</td>
                             <td>{e.weight}</td>
                             <td>{e['price_shipping']}</td>
-                            <td style={{ cursor: 'pointer' }} onClick={()=> {alert('재고 변경')}}>{this.state.stockData[i] !== undefined ? this.state.stockData[i].quantity : null}</td>
+                            <td style={{ cursor: 'pointer' }} onClick={()=> {this.props.history.push(`/main/stock/${e.id}`)}}>{this.state.stockData[i] !== undefined ? this.state.stockData[i].quantity : null}</td>
                             {/*this.state.set ?
                               <td>
                                 <Button block style={{ width: 120 }} color="ghost-danger" onClick={() => this.deleteProduct(e.id)}>상품 비활성화</Button>
