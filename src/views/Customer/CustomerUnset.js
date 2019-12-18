@@ -17,7 +17,7 @@ import Switch from "../Switch/Switch";
 */
 const listCount = 5;
 
-class Customer extends Component {
+class CustomerUnset extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,6 +25,7 @@ class Customer extends Component {
       page: 1,
       number: 1,
       keyword: 'a',
+      //set: true,
       checkdata: [],
       checks: [],
     };
@@ -37,7 +38,7 @@ class Customer extends Component {
   }
 
   getTotal() {
-    fetch(process.env.REACT_APP_HOST+"/customer/total/"+this.state.keyword, {
+    fetch(process.env.REACT_APP_HOST+"/customer/total/unset/"+this.state.keyword, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -62,7 +63,7 @@ class Customer extends Component {
   }
 
   getCustomer() {
-    fetch(process.env.REACT_APP_HOST+"/customer/"+this.state.number+'/'+this.state.keyword, {
+    fetch(process.env.REACT_APP_HOST+"/customer/unset/"+this.state.number+'/'+this.state.keyword, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -96,7 +97,7 @@ class Customer extends Component {
     });
   }
 
-  deleteCustomer(id) {
+  /*deleteCustomer(id) {
     let c = window.confirm('위 고객을 비활성화하시겠습니까?')
     if (c) {
       fetch(process.env.REACT_APP_HOST + "/customer", {
@@ -160,7 +161,7 @@ class Customer extends Component {
           }
         });
     }
-  }
+  }*/
 
   searchCustomer() {
     let {keyword} = this;
@@ -248,7 +249,7 @@ class Customer extends Component {
                       "리스트로 보기"
                     }<Switch id='2' isOn={this.state.show} handleToggle={() => this.changeShow()} />
                   </Col>*/}
-                  <Col><Button block color="primary" onClick={() => {this.props.history.push('/main/customer/list/unset')}}>비활성화 고객 보기</Button></Col>
+                  <Col><Button block color="primary" onClick={() => {this.props.history.push('/main/customer/list/')}}>활성화 고객 보기</Button></Col>
                   <Col>
                     <Button block color="primary" onClick={() => {
                       let {checkdata} = this.state;
@@ -335,4 +336,4 @@ class Customer extends Component {
 
 
 
-export default Customer;
+export default CustomerUnset;

@@ -77,6 +77,9 @@ class DefaultHeader extends Component {
             <DropdownMenu right style={{ right: 'auto' }}>
               <DropdownItem>
                 <NavItem className="d-md-down-none">
+                  <NavLink to="/main/registerdetail" className="nav-link"><i className="icon-user"></i>회원정보</NavLink>
+                </NavItem>
+                <NavItem className="d-md-down-none">
                   <NavLink to="/login" className="nav-link"><i className="icon-lock"></i>로그아웃</NavLink>
                 </NavItem>
               </DropdownItem>
