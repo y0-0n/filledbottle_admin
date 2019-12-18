@@ -299,7 +299,6 @@ class Customer extends Component {
                             <td><input name='selection' type='checkbox' onClick={() => {
                               let {checks} = this.state;
                               checks[i] = !checks[i];
-                              console.log(checks);
                             }}/></td>
                           </tr>)
                         })}
