@@ -79,6 +79,8 @@ class DefaultHeader extends Component {
                 <NavItem className="d-md-down-none">
                   <NavLink to="/main/registerdetail" className="nav-link"><i className="icon-user"></i>회원정보</NavLink>
                 </NavItem>
+              </DropdownItem>
+              <DropdownItem>
                 <NavItem className="d-md-down-none">
                   <NavLink to="/login" className="nav-link"><i className="icon-lock"></i>로그아웃</NavLink>
                 </NavItem>
