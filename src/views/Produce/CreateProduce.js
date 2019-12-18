@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, Col, Row, Table, Input, FormGroup} from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, Col, Row, Table, Input, FormGroup, CardFooter} from 'reactstrap';
 import Popup from "reactjs-popup";
 import { registerLocale } from  "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -16,15 +16,25 @@ class CreateProduce extends Component {
 
     this.customer = [];
 
+    this.form = {
+      weather: '맑음',
+      rain : 0,
+      snow : 0,
+      temperatures : 0,
+      minTemp : 0,
+      maxTemp : 0,
+      product_id: 0,
+      process: '',
+      name: '',
+      content: '',
+      area: 0,
+      expected: 0
+    }
+
     this.state = {
         image: null,
-        sProduct: [d],
-        selectedFile : null,
-        precipitation : 0,
-        snowfall : 0,
-        temperatures : 0,
-        minTemperatures : 0,
-        maxTemperatures : 0,
+        selectedFile: null,
+        name: ''//제품명
     };
   }
   componentWillMount() {
@@ -49,12 +59,12 @@ class CreateProduce extends Component {
   handlePost(e) {
     e.preventDefault();
     let formData = new FormData();
-    formData.append('file', this.state.img);
+    /*formData.append('file', this.state.img);*/
     for (let [key, value] of Object.entries(this.form)) {
       formData.append(key, value);
     }
 
-    fetch(process.env.REACT_APP_HOST+"/customer", {
+    fetch(process.env.REACT_APP_HOST+"/api/produce", {
       method: 'POST',
       'Content-Type': 'multipart/form-data',
       headers: {
@@ -85,6 +95,7 @@ class CreateProduce extends Component {
       <div className="animated fadeIn">
         <Row>
           <Col md="12" xs="12" sm="12">
+            <form onSubmit={this.handlePost.bind(this)}>
             <Card>
               <CardHeader>
                 <Row>
@@ -97,7 +108,7 @@ class CreateProduce extends Component {
                     <tr>
                       <th>날씨</th>
                       <td>
-                        <Input type='select' name="weather">
+                        <Input defaultValue={this.form.weather} type='select' name="weather">
                           <option value="맑음">맑음</option>
                           <option value="구름조금">구름조금</option>
                           <option value="구름많음">구름많음</option>
@@ -110,14 +121,14 @@ class CreateProduce extends Component {
                       <th>강수량</th>
                       <td>
                         <Row>
-                          <Col xs="10"><Input onChange={(e) => {this.setState({precipitation: e.target.value})}}/></Col>
+                          <Col xs="10"><Input defaultValue={this.form.rain} onChange={(e) => {this.form.rain = e.target.value}}/></Col>
                           <Col xs="2">mm</Col>
                         </Row>                          
                       </td>
                       <th>적설량</th>
                       <td>
                         <Row>
-                          <Col xs="10"><Input onChange={(e) => {this.setState({snowfall: e.target.value})}}/></Col>
+                          <Col xs="10"><Input defaultValue={this.form.snow} onChange={(e) => {this.form.snow = e.target.value}}/></Col>
                           <Col xs="2">cm</Col>
                         </Row>
                       </td>
@@ -126,21 +137,21 @@ class CreateProduce extends Component {
                       <th>기온</th>
                       <td>
                         <Row>
-                          <Col xs="10"><Input onChange={(e) => {this.setState({temperatures: e.target.value})}}/></Col>
+                          <Col xs="10"><Input defaultValue={this.form.temperatures} onChange={(e) => {this.form.temperatures = e.target.value}}/></Col>
                           <Col xs="2">°C</Col>
                         </Row>
                       </td>
                       <th>최저 기온</th>
                       <td>
                         <Row>
-                          <Col xs="10"><Input onChange={(e) => {this.setState({minTemperatures: e.target.value})}}/></Col>
+                          <Col xs="10"><Input defaultValue={this.form.minTemp} onChange={(e) => {this.form.minTemp = e.target.value}}/></Col>
                           <Col xs="2">°C</Col>
                         </Row>
                       </td>
                       <th>최고 기온</th>
                       <td>
                         <Row>
-                          <Col xs="10"><Input onChange={(e) => {this.setState({maxTemperatures: e.target.value})}}/></Col>
+                          <Col xs="10"><Input defaultValue={this.form.maxTemp} onChange={(e) => {this.form.maxTemp = e.target.value}}/></Col>
                           <Col xs="2">°C</Col>
                         </Row>
                       </td>
@@ -158,61 +169,50 @@ class CreateProduce extends Component {
               <CardBody>
                 <Table className="ShowTable">
                   <tbody>
-                  {
-                    this.state.sProduct.map(function (e, i) {
-                      return (
-                        <tr key={i}>
-                          <th style={{width: '10%'}}>품목</th>
-                          <td style={{width: '40%'}}>
-                            <Row>                                
-                              {<Popup
-                                trigger={
-                                  <Col sm="10">
-                                    <Input name='name' value={this.state.sProduct[i].name} style={{ cursor: 'pointer', backgroundColor: '#ffffff' }} readOnly />
-                                  </Col>
-                                }
-                                modal>
-                                {close => <ProductModal i6ndex={i} close={close}
-                                  selectProduct={(data) => {
-                                    let { sProduct } = this.state;
-
-                                    let val = Object.assign({}, sProduct[i]);
-                                    val['id'] = data['id'];
-                                    val['name'] = data['name'];
-
-                                    sProduct[i] = val;
-                                    this.setState({ sProduct });
-                                  }}
-                                />}
-                              </Popup>}
-                              <Col sm="2"><Button onClick={() => {this.props.history.push(`/product/create`)}}>신규</Button></Col>
-                            </Row>
-                          </td>
-                          <th style={{width: '10%'}}>영농과정</th>
-                          <td style={{width: '40%'}}>
-                            <Input/>                      
-                          </td>
-                        </tr>
-                      )
-                    }, this)}
+                    <tr>
+                      <th style={{width: '10%'}}>품목</th>
+                      <td style={{width: '40%'}}>
+                        <Row>                                
+                          {<Popup
+                            trigger={
+                              <Col sm="10">
+                                <Input name='name' value={this.state.name} style={{ cursor: 'pointer', backgroundColor: '#ffffff' }} readOnly />
+                              </Col>
+                            }
+                            modal>
+                            {close => <ProductModal close={close}
+                              selectProduct={(data) => {
+                                this.form.product_id = data.id;
+                                this.setState({name: data.name});
+                              }}
+                            />}
+                          </Popup>}
+                          <Col sm="2"><Button onClick={() => {this.props.history.push(`/product/create`)}}>신규</Button></Col>
+                        </Row>
+                      </td>
+                      <th style={{width: '10%'}}>영농과정</th>
+                      <td style={{width: '40%'}}>
+                        <Input defaultValue={this.form.process} onChange={(e) => {this.form.process = e.target.value}}/>
+                      </td>
+                    </tr>
                     <tr>
                       <th>작업명</th>
                       <td>
-                        <Input/>
+                        <Input defaultValue={this.form.name} onChange={(e) => {this.form.name = e.target.value}}/>
                       </td>
                       <th>작업내용</th>
                       <td>
-                        <Input/>
+                        <Input defaultValue={this.form.content} onChange={(e) => {this.form.content = e.target.value}}/>
                       </td>
                     </tr>
                     <tr>
                       <th>재배 면적</th>
                       <td>
-                        <Input/>
+                        <Input defaultValue={this.form.area} onChange={(e) => {this.form.area = e.target.value}}/>
                       </td>
                       <th>예상 생산량</th>
                       <td>
-                        <Input/>
+                        <Input defaultValue={this.form.expected} onChange={(e) => {this.form.expected = e.target.value}}/>
                       </td>
                     </tr>
                     <tr>
@@ -225,8 +225,11 @@ class CreateProduce extends Component {
                   </tbody>
                 </Table>
               </CardBody>
+              <CardFooter>
+                <Button block outline color="primary">추가하기</Button>
+              </CardFooter>
             </Card>
-            
+            </form>
             <Row>
               <Col>
                 <Card>
@@ -238,20 +241,14 @@ class CreateProduce extends Component {
                   <CardBody>
                     <Table className="ShowTable">
                       <tbody>
-                      {
-                        this.state.sProduct.map(function (e, i) {
-                          return (
-                            <tr key={i}>
-                              <th style={{width: '20%'}}>품목</th>
-                              <td style={{width: '30%'}}>
-                              </td>
-                              <th style={{width: '20%'}}>영농과정</th>
-                              <td style={{width: '30%'}}>
-                              </td>
-                            </tr>
-                          )
-                        }, this)
-                      }
+                        <tr>
+                          <th style={{width: '20%'}}>품목</th>
+                          <td style={{width: '30%'}}>
+                          </td>
+                          <th style={{width: '20%'}}>영농과정</th>
+                          <td style={{width: '30%'}}>
+                          </td>
+                        </tr>
                         <tr>
                           <th>작업명</th>
                           <td>
@@ -289,20 +286,14 @@ class CreateProduce extends Component {
                   <CardBody>
                     <Table className="ShowTable">
                       <tbody>
-                      {
-                        this.state.sProduct.map(function (e, i) {
-                          return (
-                            <tr key={i}>
-                              <th style={{width: '20%'}}>품목</th>
-                              <td style={{width: '30%'}}>
-                              </td>
-                              <th style={{width: '20%'}}>영농과정</th>
-                              <td style={{width: '30%'}}>
-                              </td>
-                            </tr>
-                          )
-                        }, this)
-                      }
+                        <tr>
+                          <th style={{width: '20%'}}>품목</th>
+                          <td style={{width: '30%'}}>
+                          </td>
+                          <th style={{width: '20%'}}>영농과정</th>
+                          <td style={{width: '30%'}}>
+                          </td>
+                        </tr>
                         <tr>
                           <th>작업명</th>
                           <td>
