@@ -11,14 +11,16 @@ class Produce extends Component {
       data: [],
       page: 1,
       number: 1,
+      keyword: 'a',
     };
   }
 
   componentWillMount() {
+    this.getList();
   }
   
   getTotal() {
-    fetch(process.env.REACT_APP_HOST+"/api/manufacture", {
+    fetch(process.env.REACT_APP_HOST+"/api/produce/total/"+this.state.keyword, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -42,6 +44,32 @@ class Produce extends Component {
       });
   }
 
+  getList() {
+    fetch(process.env.REACT_APP_HOST+"/api/produce/list/"+this.state.number+'/'+this.state.keyword, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if (status === 200)
+          this.setState({ data: data[1] });
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+        this.getTotal();
+      })
+  }
+
   getDate(dateInput) {
     var d = new Date(dateInput);
     var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
@@ -52,6 +80,9 @@ class Produce extends Component {
   render() {
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
+    let {data} = this.state;
+
+    console.warn(this.state.data)
     return (
       <div className="animated fadeIn">
         <Row className="">
@@ -132,13 +163,15 @@ class Produce extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr style={{cursor: 'pointer'}} onClick={() => { this.props.history.push('/main/produce/:id'); }}>
-                        <td>2019.00.00</td>
-                        <td></td>
-                        <td></td>
-                        <td>test</td>
-                        <td></td>
-                      </tr>
+                      {data.map((e, i) => {
+                        return <tr style={{cursor: 'pointer'}} onClick={() => { this.props.history.push('/main/produce/:id'); }}>
+                          <td>{this.getDate(e.created_date)}</td>
+                          <td>{e.productName}</td>
+                          <td></td>
+                          <td>{e.name}</td>
+                          <td></td>
+                        </tr>
+                      })}
                     </tbody>
                   </Table>
                 </CardBody>
