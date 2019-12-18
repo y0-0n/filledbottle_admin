@@ -214,6 +214,7 @@ class Product extends Component {
 
   render() {
     var data = this.state.productData;
+    var stockData = this.state.stockData;
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
 
@@ -310,13 +311,13 @@ class Product extends Component {
                   </Col>*/}
                   <Col>
                     {this.state.stockEdit ?
-                    <Button block color="primary" onClick={() => this.changeStockEdit()}>수정 취소</Button> :
+                    <Button block color="primary" onClick={() => this.changeStockEdit()}>수정 완료</Button> :
                     <Button block color="primary" onClick={() => this.changeStockEdit()}>재고 수정</Button>}
-                    { console.log(this.state.stockEdit)}
                   </Col>
                   
                 </Row>
               </CardHeader>
+                    { console.log(this.state.stockData)}
               <CardBody>
               {this.state.show ?
                   <div style={{ overflow: 'scroll' }}>
@@ -348,7 +349,7 @@ class Product extends Component {
                               <td style={{width: 250}}><Input defaultValue={this.state.stockData[i] !== undefined ? this.state.stockData[i].quantity : null} onChange={(e) => {this.state.stockData[i].quantity = e.target.value;}}/></td> :
                               <td style={{ cursor: 'pointer' }} onClick={()=> {this.props.history.push(`/main/stock/${e.id}`)}}>{this.state.stockData[i] !== undefined ? this.state.stockData[i].quantity : null}</td>}
                             {this.state.stockEdit ? 
-                              <Col><Button onClick={()=>{this.modifyStock(i.product_id, i.quantity)}} color="primary" >수정</Button></Col>:
+                              <Col><Button onClick={()=>{this.modifyStock(this.state.stockData[i].product_id, this.state.stockData[i].quantity)}} color="primary" >수정</Button></Col>:
                               ""}
                             {/*this.state.set ?
                               <td>
