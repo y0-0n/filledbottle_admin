@@ -116,39 +116,6 @@ class Product extends Component {
     });
   }
 
-  deleteProduct(id) {
-    let c = window.confirm('이 상품을 비활성화하시겠습니까?')
-    if (c) {
-      fetch(process.env.REACT_APP_HOST + "/product", {
-        method: 'DELETE',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage.getItem('token'),
-        },
-        body: JSON.stringify({
-          id
-        })
-      })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-        let status = data[0];
-        if (status === 200)
-          this.getProduct()
-        else {
-          alert('로그인 하고 접근해주세요')
-          this.props.history.push('/login')
-        }
-      });
-    }
-  }
-
   modifyStock(id, quantity) {
     fetch(process.env.REACT_APP_HOST+`/api/stock/`+id, {
       method: 'PUT',
@@ -194,6 +161,7 @@ class Product extends Component {
   }
 
   changeStockEdit() {
+    this.getStock();
     this.setState({stockEdit: !this.state.stockEdit})
   }
 
@@ -345,8 +313,8 @@ class Product extends Component {
                             <td>{e.weight}</td>
                             <td>{e['price_shipping']}</td>
                             {this.state.stockEdit ?
-                              <td style={{width: 250}}><Input defaultValue={stockData[i] !== undefined ? stockData[i].quantity : null} onChange={(e) => {this.state.stockData[i].quantity = e.target.value;}}/></td> :
-                              <td style={{ cursor: 'pointer' }} onClick={()=> {this.props.history.push(`/main/stock/${e.id}`)}}>{stockData[i] !== undefined ? this.state.stockData[i].quantity : null}</td>}
+                              <td style={{width: 250}}><Input defaultValue={stockData[i] !== undefined ? stockData[i].quantity : null} onChange={(e) => {stockData[i].quantity = e.target.value;}}/></td> :
+                              <td style={{ cursor: 'pointer' }} onClick={()=> {this.props.history.push(`/main/stock/${e.id}`)}}>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>}
                             {this.state.stockEdit ? 
                               <Col><Button onClick={()=>{this.modifyStock(e.id, stockData[i].quantity)}} color="primary" >수정</Button></Col>:
                               ""}

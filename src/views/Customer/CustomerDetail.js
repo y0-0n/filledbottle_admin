@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader, CardFooter, Col, Row, Button, Table } from 'reactstrap';
+import { Card, CardBody, CardHeader, CardFooter, Col, Row, Button, Table, Badge } from 'reactstrap';
 
 class CustomerDetail extends Component {
   constructor(props) {
@@ -25,21 +25,55 @@ class CustomerDetail extends Component {
       .then(data => {this.setState({data: data[0]})});
   }
 
-  deleteCustomer(id) {
-    let c = window.confirm('Are you sure you wish to delete this item?')
+  deactivateCustomer(id) {
+    let c = window.confirm('이 고객을 비활성화하시겠습니까?')
     if (c) {
-      fetch(process.env.REACT_APP_HOST+"/customer", {
-        method: 'DELETE',
+      fetch(process.env.REACT_APP_HOST+"/customer/deactivate", {
+        method: 'PUT',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
         },
         body: JSON.stringify({
           id
         })
       })
         .then(response => response.json())
-        .then(_ => {this.findCustomer()});
+        .then(_ => {this.getCustomer()});
+    }
+  }
+
+  activateCustomer(id) {
+    let c = window.confirm('이 고객을 활성화하시겠습니까?')
+    if (c) {
+      fetch(process.env.REACT_APP_HOST + "/customer/activate", {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        },
+        body: JSON.stringify({
+          id
+        })
+      })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if (status === 200)
+          this.getCustomer()
+        else {
+          alert('로그인 하고 접근해주세요')
+          this.props.history.push('/login')
+        }
+      });
     }
   }
 
@@ -90,10 +124,23 @@ class CustomerDetail extends Component {
                       {data.address}
                     </td>
                   </tr>
+                  <tr>
+                    <th>상태</th>
+                    <td>{data.set ? <Badge color="primary">활성화</Badge> : <Badge color="danger">비활성화</Badge>}</td>
+                  </tr>
                 </tbody>
               </Table>
             </CardBody>
             <CardFooter>
+              <Row>
+                <Col>
+                {
+                  data.set ? 
+                  <Button block style={{ width: 120 }} color="ghost-danger" onClick={() => this.deactivateCustomer(this.props.match.params.id)}>고객 비활성화</Button> : 
+                  <Button block style={{ width: 100 }} color="ghost-primary" onClick={() => this.activateCustomer(this.props.match.params.id)}>고객 활성화</Button>
+                }
+                </Col>
+              </Row>
             </CardFooter>
           </Card>
         </Col>

@@ -76,7 +76,6 @@ class ProductDetail extends Component {
     }
   }
 
-
   render() {
     var data = this.state.data;
     return (
