@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Card, CardBody, CardHeader, CardFooter, Col, Row, Button, Table, Badge } from 'reactstrap';
+import '../../css/Table.css';
 
 class CustomerDetail extends Component {
   constructor(props) {

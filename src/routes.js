@@ -44,10 +44,12 @@ const Customer = React.lazy(() => import('./views/Customer/Customer'));
 const CreateCustomer = React.lazy(() => import('./views/Customer/CreateCustomer'));
 const CustomerDetail = React.lazy(() => import('./views/Customer/CustomerDetail'));
 const CustomerModify = React.lazy(() => import('./views/Customer/CustomerModify'));
+const CustomerUnset = React.lazy(() => import('./views/Customer/CustomerUnset'));
 const Product = React.lazy(() => import('./views/Product/Product'));
 const CreateProduct = React.lazy(() => import('./views/Product/CreateProduct'));
 const ProductDetail = React.lazy(() => import('./views/Product/ProductDetail'));
 const ProductModify = React.lazy(() => import('./views/Product/ProductModify'));
+const ProductUnset = React.lazy(() => import('./views/Product/ProductUnset'));
 const Plant = React.lazy(() => import('./views/Plant/Plant'));
 const CreateOrder = React.lazy(() => import('./views/Order/CreateOrder'));
 //const Stock = React.lazy(() => import('./views/Stock/Stock'));
@@ -70,6 +72,8 @@ const ProduceDetail = React.lazy(() => import('./views/Produce/ProduceDetail'));
 const ProduceModify = React.lazy(() => import('./views/Produce/ProduceModify'));
 const Message = React.lazy(() => import('./views/Message/Message'));
 const Activity = React.lazy(() => import('./views/Activity/Activity'));
+const RegisterDetail = React.lazy(() => import('./views/Pages/Register/RegisterDetail'));
+const RegisterModify = React.lazy(() => import('./views/Pages/Register/RegisterModify'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -80,10 +84,12 @@ const routes = [
   { path: '/customer/create', exact: true,  name: '고객 등록', component: CreateCustomer},
   { path: '/main/customer/:id', exact: true,  name: '고객 상세정보', component: CustomerDetail},
   { path: '/main/customer/edit/:id', exact: true,  name: '고객 수정', component: CustomerModify},
+  { path: '/main/customer/list/unset', exact: true,  name: '비활성화 고객 목록', component: CustomerUnset},
   { path: '/main/product/list', exact: true,  name: '상품 목록', component: Product},
   { path: '/main/product/:id', exact: true,  name: '상품 상세정보', component: ProductDetail},
   { path: '/main/product/edit/:id', exact: true,  name: '상품 수정', component: ProductModify},
   { path: '/product/create', exact: true,  name: '상품 등록', component: CreateProduct},
+  { path: '/main/product/list/unset', exact: true,  name: '상품 등록', component: ProductUnset},
   { path: '/main/plant', exact: true,  name: '공장', component: Plant},
   { path: '/sales/order', exact: true,  name: '주문', component: CreateOrder},
   { path: '/main/sales/order/:id', exact: true,  name: '주문 상세', component: OrderDetail},
@@ -105,6 +111,8 @@ const routes = [
   { path: '/main/produce/edit/:id', exact: true,  name: '생산 수정', component: ProduceModify},
   { path: '/main/message', exact: true,  name: '메세지', component: Message},
   { path: '/main/activity', exact: true,  name: '관광', component: Activity},
+  { path: '/main/registerdetail', exact: true,  name: '회원정보', component: RegisterDetail},
+  { path: '/main/register/edit', exact: true,  name: '회원정보수정', component: RegisterModify},
 
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },

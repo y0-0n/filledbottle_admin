@@ -176,7 +176,7 @@ class Manufacture extends Component {
                     </thead>
                     <tbody>
                       {this.state.manufactureData.map((e,i) => {
-                        return <tr style={{cursor: 'pointer'}} onClick={() => { this.props.history.push('/main/manufacture/'+e.id); }}>
+                        return <tr key={e.id}style={{cursor: 'pointer'}} onClick={() => { this.props.history.push('/main/manufacture/'+e.id); }}>
                           <td>{this.getDate(e.date)}</td>
                           <td>{e.title}</td>
                           <td>{e.total}</td>
