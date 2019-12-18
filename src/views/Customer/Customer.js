@@ -290,7 +290,7 @@ class Customer extends Component {
                         {data.map((e, i) => {
                           return (<tr style={{ cursor: 'pointer' }} key={e.id}>
                             <td>{e.id}</td>
-                            <td>{e.name}</td>
+                            <td onClick={() => {this.props.history.push(`/main/customer/${e.id}`)}}>{e.name}</td>
                             <td>{e.telephone}</td>
                             <td>{e.cellphone}</td>
                             <td>{e.address}</td>

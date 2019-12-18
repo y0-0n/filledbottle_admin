@@ -5,20 +5,37 @@ import '../../css/Table.css';
 class CustomerModify extends Component {
   constructor(props) {
     super(props);
-    this.form = {
-      name: '',
-      telephone: '',
-      cellphone: '',
-      address: '',
-      crNumber:'',
-    }
     this.state = {
       image: null,
       selectedFile : null,
+      data: [],
     };
   }
 
   componentWillMount() {
+    this.getCustomer();
+  }
+
+  getCustomer() {
+    fetch(process.env.REACT_APP_HOST+"/customer/"+this.props.match.params.id, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({data: data[0]});
+        this.form = {
+          name: data[0].name,
+          telephone: data[0].telephone,
+          cellphone: data[0].cellphone,
+          crNumber: data[0].crNumber,
+          address: data[0].address,
+        }    
+      });
   }
 
   handleFileInput(e){
@@ -39,39 +56,44 @@ class CustomerModify extends Component {
 
   handlePost(e) {
     e.preventDefault();
-    let formData = new FormData();
-    formData.append('file', this.state.img);
-    for (let [key, value] of Object.entries(this.form)) {
-      formData.append(key, value);
+    let c = window.confirm('이 상품을 수정하시겠습니까?')
+    if(c) {
+      let formData = new FormData();
+      /*formData.append('file', this.state.img);*/
+      for (let [key, value] of Object.entries(this.form)) {
+        formData.append(key, value);
+      }
+  
+      fetch(process.env.REACT_APP_HOST+"/customer/modify/"+this.props.match.params.id, {
+        method: 'PUT',
+        'Content-Type': 'multipart/form-data',
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        },
+        body: formData
+      })
+      .then(response => {
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if(status === 200) {
+          alert('등록됐습니다.');
+          this.props.history.push('/main/customer/'+this.props.match.params.id);
+        } else {
+          alert('등록에 실패했습니다.');
+        }
+      });  
     }
-
-    fetch(process.env.REACT_APP_HOST+"/customer", {
-      method: 'POST',
-      'Content-Type': 'multipart/form-data',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-      body: formData
-    })
-    .then(response => {
-      if(response.status === 401) {
-        return Promise.all([401])
-      } else {
-        return Promise.all([response.status, response.json()]);
-      }
-    })
-    .then(data => {
-      let status = data[0];
-      if(status === 200) {
-        alert('등록됐습니다.');
-        this.props.history.push('/main/customer/list');
-      } else {
-        alert('등록에 실패했습니다.');
-      }
-    });
   }
 
   render() {
+    let {data} = this.state;
+
     return (
       <div className="animated fadeIn">
         <Row className="mb-5">
@@ -84,41 +106,38 @@ class CustomerModify extends Component {
                   </CardHeader>
                   <CardBody>
                     <Table className="ShowTable">
-                    <tbody>
-                      <tr>
-                        <th>고객명</th>
-                        <td>
-                          <Input onChange={(e) => this.form.name=e.target.value}/>
-                        </td>
-                        <th>전화번호</th>
-                        <td>
-                          <Input onChange={(e) => this.form.telephone=e.target.value}/>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>핸드폰번호</th>
-                        <td>
-                          <Input onChange={(e) => this.form.cellphone=e.target.value}/>
-                        </td>
-                        <th>주소</th>
-                        <td>
-                          <Input onChange={(e) => this.form.address=e.target.value}/>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>사업자등록번호</th>
-                        <td colSpan="3">
-                          <Input onChange={(e) => this.form.crNumber=e.target.value}/>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>사진</th>
-                        <td colSpan="3">
-                          <img alt="고객 사진" style={{height: 500, width: 500}} src={this.state.image} /> <br></br>
-                          <input ref="file" type="file" name="file"  accept="image/*" onChange={e =>{this.handleFileInput(e);}}/> 
-                        </td>
-                      </tr>
-                    </tbody>
+                      <tbody>
+                        <tr>
+                          <th style={{width: '10%'}}>사진</th>
+                          <td style={{width: '40%'}}>
+                            <img style={{width: '90%'}} alt="제품 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
+                          </td>
+                          <th style={{width: '10%'}}>고객명</th>
+                          <td style={{width: '40%'}}>
+                            <Input defaultValue={data.name} onChange={(e) => this.form.name=e.target.value}/>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>핸드폰번호</th>
+                          <td>
+                            <Input defaultValue={data.telephone} onChange={(e) => this.form.cellphone=e.target.value}/>
+                          </td>
+                          <th>전화번호</th>
+                          <td>
+                            <Input defaultValue={data.cellphone} onChange={(e) => this.form.telephone=e.target.value}/>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th style={{width: '12%'}}>사업자등록번호</th>
+                          <td>
+                            <Input onChange={(e) => this.form.crNumber=e.target.value}/>
+                          </td>
+                          <th>주소</th>
+                          <td>
+                            <Input defaultValue={data.address} onChange={(e) => this.form.address=e.target.value}/>
+                          </td>
+                        </tr>
+                      </tbody>
                     </Table>
                   </CardBody>
                   <CardFooter>

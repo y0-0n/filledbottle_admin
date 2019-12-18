@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader, CardFooter, Col, Row, Label } from 'reactstrap';
+import { Card, CardBody, CardHeader, CardFooter, Col, Row, Button, Table } from 'reactstrap';
 
 class CustomerDetail extends Component {
   constructor(props) {
@@ -9,12 +9,17 @@ class CustomerDetail extends Component {
     };
   }
   componentWillMount() {
-    this.findCustomer();
+    this.getCustomer();
   }
 
-  findCustomer() {
+  getCustomer() {
     fetch(process.env.REACT_APP_HOST+"/customer/"+this.props.match.params.id, {
       method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
     })
       .then(response => response.json())
       .then(data => {this.setState({data: data[0]})});
@@ -39,32 +44,54 @@ class CustomerDetail extends Component {
   }
 
   render() {
-    //var data = this.state.data;
+    let {data} = this.state;
     return (
       <div className="animated fadeIn">
         <Row>
         <Col md="12" xs="12" sm="12">
           <Card>
             <CardHeader>
-              거래처 상세
+              <Row>
+                <Col>거래처 상세</Col>
+                <Col></Col><Col></Col>
+                <Col><Button  onClick={() => {this.props.history.push(`/main/customer/edit/${this.props.match.params.id}`)}}>수정</Button></Col>
+              </Row>
             </CardHeader>
             <CardBody>
-              <Row>
-                <Label>거래처명 :&nbsp;</Label>
-                <Label>{this.state.data.name}</Label>
-              </Row>
-              <Row>
-              <Label>전화번호 :&nbsp;</Label>
-              <Label>{this.state.data.telephone}</Label>
-              </Row>
-              <Row>
-              <Label>HP :&nbsp;</Label>
-              <Label>{this.state.data.cellphone}</Label>
-              </Row>
-              <Row>
-              <Label>주소 :&nbsp;</Label>
-              <Label>{this.state.data.address}</Label>
-              </Row>
+              <Table className="ShowTable">
+                <tbody>
+                  <tr>
+                    <th style={{width: '10%'}}>사진</th>
+                    <td style={{width: '40%'}}>
+                      <img style={{width: '90%'}} alt="제품 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
+                    </td>
+                    <th style={{width: '10%'}}>고객명</th>
+                    <td style={{width: '40%'}}>
+                      {data.name}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>핸드폰번호</th>
+                    <td>
+                      {data.cellphone}
+                    </td>
+                    <th>전화번호</th>
+                    <td>
+                      {data.telephone}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th style={{width: '12%'}}>사업자등록번호</th>
+                    <td>
+                      {data.address}
+                    </td>
+                    <th>주소</th>
+                    <td>
+                      {data.address}
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
             </CardBody>
             <CardFooter>
             </CardFooter>
