@@ -74,6 +74,7 @@ const Message = React.lazy(() => import('./views/Message/Message'));
 const Activity = React.lazy(() => import('./views/Activity/Activity'));
 const RegisterDetail = React.lazy(() => import('./views/Pages/Register/RegisterDetail'));
 const RegisterModify = React.lazy(() => import('./views/Pages/Register/RegisterModify'));
+const Setting = React.lazy(() => import('./views/Setting/Setting'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -113,6 +114,7 @@ const routes = [
   { path: '/main/activity', exact: true,  name: '관광', component: Activity},
   { path: '/main/registerdetail', exact: true,  name: '회원정보', component: RegisterDetail},
   { path: '/main/register/edit', exact: true,  name: '회원정보수정', component: RegisterModify},
+  { path: '/main/setting', exact: true,  name: '설정', component: Setting},
 
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup, InputGroup, InputGroupAddon, } from 'reactstrap';
 import Switch from "../Switch/Switch";
 
 /*
@@ -17,6 +17,7 @@ import Switch from "../Switch/Switch";
 */
 
 const listCount = 5;
+let pF = {sort : ''}
 
 class Product extends Component {
   constructor(props) {
@@ -29,6 +30,7 @@ class Product extends Component {
       keyword: 'a',
       //set: true,
       stockEdit: false,
+      productFamily : [pF],
     };
     this.form = {
 
@@ -238,6 +240,25 @@ class Product extends Component {
                     <tr>
                       <th style={{ textAlign: "center" }}>상품명</th>
                       <td colSpan="5"><Input onChange={(e) => { this.keyword = e.target.value }} /></td>
+                    </tr>
+                    <tr>
+                      <th style={{ textAlign: "center" }}>제품군</th>
+                      {this.state.productFamily.map((e, i) => {
+                        return(
+                          <td key={i}>
+                            <InputGroup>
+                              <Input style={{ width: 10 }} value={this.state.productFamily[i].sort} onChange={(e) => {
+                                let { productFamily } = this.state;
+                                productFamily[i].sort = e.target.value;
+                                this.setState({ productFamily })
+                              }} />
+                              <InputGroupAddon addonType="append">
+                                <Button outline color="success">+</Button>
+                              </InputGroupAddon>
+                            </InputGroup>
+                          </td>
+                        )
+                      })}
                     </tr>
                   </tbody>
                 </Table>
