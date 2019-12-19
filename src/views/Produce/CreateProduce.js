@@ -226,7 +226,7 @@ class CreateProduce extends Component {
                 </Table>
               </CardBody>
               <CardFooter>
-                <Button block outline color="primary">추가하기</Button>
+                <Button block color="primary">추가하기</Button>
               </CardFooter>
             </Card>
             </form>
@@ -324,8 +324,6 @@ class CreateProduce extends Component {
             </Row>
           </Col>
         </Row>
-        <Button block color="primary" onClick={() => {
-        }}>생산 추가하기</Button>
       </div>
     )
   }

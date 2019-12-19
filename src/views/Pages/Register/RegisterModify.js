@@ -5,19 +5,85 @@ import '../../../css/Table.css';
 class RegisterModify extends Component {
   constructor(props) {
     super(props);
-    this.form = {
-      name: '',
-      email: '',
-      password: '',
-      phone: '',      address: '',
-      crNumber:'',
+    this.state = {
+      data: [[]]
+    }
+  }
+
+  getDetail() {
+    fetch(process.env.REACT_APP_HOST+"/api/auth/info", {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if (status === 200){
+          this.setState({ data: data[1][0] });
+          this.form = {
+            name: data[1][0].name,
+            email: data[1][0].email,
+            phone: data[1][0].phone,
+            address: data[1][0].addreses,
+            crNumber: data[1][0].crNumber,
+          }      
+        }
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })
+  }
+
+  modifyInfo(e){
+    e.preventDefault();
+    
+    let c = window.confirm('회원정보를 수정하시겠습니까?')
+    console.log(this.form)
+    if(c) {
+      fetch(process.env.REACT_APP_HOST+"/api/auth/info", {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',  
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        },
+        body: JSON.stringify(this.form)
+      })
+      .then(response => {
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if(status === 200) {
+          alert('수정됐습니다.');
+          this.props.history.push('/main/registerdetail');
+        } else {
+          alert('수정에 실패했습니다.');
+        }
+      });
     }
   }
 
   componentWillMount() {
+    this.getDetail();
   }
   
   render() {
+    const data = this.state.data;
+
     return (
         <div className="animated fadeIn">
         <Row>
@@ -34,27 +100,27 @@ class RegisterModify extends Component {
                   <tr>
                     <th>이름</th>
                     <td>
-                        <Input/>
+                        <Input defaultValue={data.name} onChange={(e) => this.form.name=e.target.value}/>
                     </td>
                     <th>아이디</th>
                     <td>
-                        <Input/>
+                        <Input defaultValue={data.email} onChange={(e) => this.form.email=e.target.value}/>
                     </td>
                   </tr>
                   <tr>
                     <th>전화번호</th>
                     <td>
-                        <Input/>
+                      <Input defaultValue={data.phone} onChange={(e) => this.form.phone=e.target.value}/>
                     </td>
                     <th>사업자등록번호</th>
                     <td>
-                        <Input/>
+                      <Input defaultValue={data.crNumber} onChange={(e) => this.form.crNumber=e.target.value}/>
                     </td>
                   </tr>
                   <tr>
                     <th>주소</th>
                     <td colSpan="3">
-                        <Input/>
+                      <Input defaultValue={data.address} onChange={(e) => this.form.address=e.target.value}/>
                     </td>
                   </tr>
                 </tbody>
@@ -63,7 +129,7 @@ class RegisterModify extends Component {
             <CardFooter>
               <Row>
                 <Col>
-                    <Button block color="primary" onClick={() => {}}>수정하기</Button>
+                    <Button block color="primary" onClick={this.modifyInfo.bind(this)}>수정하기</Button>
                 </Col>
               </Row>
             </CardFooter>

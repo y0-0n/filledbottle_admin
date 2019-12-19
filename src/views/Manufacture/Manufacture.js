@@ -76,7 +76,6 @@ class Manufacture extends Component {
       })
   }
 
-
   getDate(dateInput) {
     var d = new Date(dateInput);
     var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();

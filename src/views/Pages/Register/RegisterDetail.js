@@ -5,19 +5,42 @@ import '../../../css/Table.css';
 class RegisterDetail extends Component {
   constructor(props) {
     super(props);
-    this.form = {
-      name: '',
-      email: '',
-      password: '',
-      phone: '',      address: '',
-      crNumber:'',
+    this.state = {
+      data: [[]]
     }
   }
 
+  getDetail() {
+    fetch(process.env.REACT_APP_HOST+"/api/auth/info", {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if (status === 200)
+          this.setState({ data: data[1] });
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })
+  }
+
   componentWillMount() {
+    this.getDetail();
   }
   
   render() {
+    const data = this.state.data[0];
     return (
         <div className="animated fadeIn">
         <Row>
@@ -36,22 +59,27 @@ class RegisterDetail extends Component {
                   <tr>
                     <th>이름</th>
                     <td>
+                      {data.name}
                     </td>
                     <th>아이디</th>
                     <td>
+                      {data.email}
                     </td>
                   </tr>
                   <tr>
                     <th>전화번호</th>
                     <td>
+                      {data.phone}
                     </td>
                     <th>사업자등록번호</th>
+                      {data.crNumber}
                     <td>
                     </td>
                   </tr>
                   <tr>
                     <th>주소</th>
                     <td colSpan="3">
+                      {data.address}
                     </td>
                   </tr>
                 </tbody>
