@@ -6,6 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import ko from 'date-fns/locale/ko';
 import '../../css/Table.css';
 import ProductModal from '../Order/ProductModal';
+import ProduceModal from './ProduceModal';
 registerLocale('ko', ko)
 
 let d = {id: '', name: '',};
@@ -83,7 +84,7 @@ class CreateProduce extends Component {
       let status = data[0];
       if(status === 200) {
         alert('등록됐습니다.');
-        this.props.history.push('/main/customer/list');
+        this.props.history.push('/mainclose/customer/list');
       } else {
         alert('등록에 실패했습니다.');
       }
@@ -164,6 +165,18 @@ class CreateProduce extends Component {
               <CardHeader>
                 <Row>
                   <Col md="10" xs="10" sm="10">영농일지</Col>
+                    <Col>
+                      {<Popup
+                        trigger={
+                          <Col sm="10">
+                            <Button block color="primary">불러오기</Button>
+                          </Col>
+                        }
+                        modal>
+                        {close => <ProduceModal close={close} login={()=>{this.props.history.push('/login')}}
+                        />}
+                      </Popup>}
+                    </Col>
                 </Row>
               </CardHeader>
               <CardBody>
@@ -172,23 +185,23 @@ class CreateProduce extends Component {
                     <tr>
                       <th style={{width: '10%'}}>품목</th>
                       <td style={{width: '40%'}}>
-                        <Row>                                
-                          {<Popup
-                            trigger={
-                              <Col sm="10">
-                                <Input name='name' value={this.state.name} style={{ cursor: 'pointer', backgroundColor: '#ffffff' }} readOnly />
-                              </Col>
-                            }
-                            modal>
-                            {close => <ProductModal close={close}
-                              selectProduct={(data) => {
-                                this.form.product_id = data.id;
-                                this.setState({name: data.name});
-                              }}
-                            />}
-                          </Popup>}
-                          <Col sm="2"><Button onClick={() => {this.props.history.push(`/product/create`)}}>신규</Button></Col>
-                        </Row>
+                          <Row>
+                            <Col sm="10">
+                              {<Popup
+                                trigger={
+                                  <Input name='name' value={this.state.name} style={{ cursor: 'pointer', backgroundColor: '#ffffff' }} readOnly />
+                                }
+                                modal>
+                                {close => <ProductModal  close={close} login={()=>{this.props.history.push('/login')}}
+                                  selectProduct={(data) => {
+                                    this.form.product_id = data.id;
+                                    this.setState({ name: data.name });
+                                  }}
+                                />}
+                              </Popup>}
+                            </Col>
+                            <Col sm="2"><Button onClick={() => { this.props.history.push(`/product/create`) }}>신규</Button></Col>
+                          </Row>
                       </td>
                       <th style={{width: '10%'}}>영농과정</th>
                       <td style={{width: '40%'}}>

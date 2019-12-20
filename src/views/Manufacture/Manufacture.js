@@ -158,9 +158,6 @@ class Manufacture extends Component {
               <CardHeader>
                 <Row>
                     <Col>제조관리</Col>
-                    <Col md="2" xs="3 " sm="3">
-                        <Button block color="primary" onClick={() => { this.props.history.push('/manufacture/create'); }}>제조 등록하기</Button>
-                    </Col>
                 </Row>
               </CardHeader>
               <CardBody className="card-body">
