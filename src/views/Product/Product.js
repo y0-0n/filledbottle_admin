@@ -17,7 +17,6 @@ import Switch from "../Switch/Switch";
 */
 
 const listCount = 5;
-let pF = {sort : ''}
 
 class Product extends Component {
   constructor(props) {
@@ -30,7 +29,7 @@ class Product extends Component {
       keyword: 'a',
       //set: true,
       stockEdit: false,
-      productFamily : [pF],
+      familyData: [],
     };
     this.form = {
 
@@ -39,6 +38,7 @@ class Product extends Component {
   componentWillMount() {
     this.getProduct();
     this.getStock();
+    this.getProductFamily();
   }
 
   getTotal() {
@@ -131,22 +131,6 @@ class Product extends Component {
         }
       )
     })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-        const status = data[0];
-        if (status === 200)
-          alert('등록됐습니다.');
-        else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-      })
   }
 
   searchProduct() {
@@ -177,9 +161,66 @@ class Product extends Component {
     });
   }
 
+  getProductFamily() {
+    fetch(process.env.REACT_APP_HOST + "/api/product/familyList", {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if (status === 200)
+          this.setState({ familyData: data[1] });
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })
+  }
+
+  addProductFamily() {
+    let {newFamily} = this.state;
+    fetch(process.env.REACT_APP_HOST + "/api/product/family", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+      body: JSON.stringify({newFamily})
+    })
+    .then(response => {
+      if (response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+      let status = data[0];
+      if (status === 200) {
+        this.getProductFamily();
+        this.setState({newFamily: ''})
+      }
+      else {
+        alert('로그인 하고 접근해주세요');
+        this.props.history.push('/login');
+      }
+    })
+}
+
   render() {
     var data = this.state.productData;
-    var stockData = this.state.stockData;
+    var {stockData} = this.state;
+    var {familyData} = this.state;
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
 
@@ -242,23 +283,21 @@ class Product extends Component {
                       <td colSpan="5"><Input onChange={(e) => { this.keyword = e.target.value }} /></td>
                     </tr>
                     <tr>
-                      <th style={{ textAlign: "center" }}>제품군</th>
-                      {this.state.productFamily.map((e, i) => {
-                        return(
-                          <td key={i}>
-                            <InputGroup>
-                              <Input style={{ width: 10 }} value={this.state.productFamily[i].sort} onChange={(e) => {
-                                let { productFamily } = this.state;
-                                productFamily[i].sort = e.target.value;
-                                this.setState({ productFamily })
-                              }} />
-                              <InputGroupAddon addonType="append">
-                                <Button outline color="success">+</Button>
-                              </InputGroupAddon>
-                            </InputGroup>
-                          </td>
-                        )
+                    <th style={{ textAlign: "center" }}>제품군</th>
+                      {familyData.map((e, i) => {
+                        return (<td>{e.name}</td>)
                       })}
+                      <td>
+                        <InputGroup>
+                          <Input style={{ width: 10 }} value={this.state.newFamily} onChange={(e) => {
+                            let newFamily = e.target.value;
+                            this.setState({ newFamily })
+                          }} />
+                          <InputGroupAddon addonType="append">
+                            <Button onClick={this.addProductFamily.bind(this)} outline color="success">+</Button>
+                          </InputGroupAddon>
+                        </InputGroup>
+                      </td>
                     </tr>
                   </tbody>
                 </Table>
