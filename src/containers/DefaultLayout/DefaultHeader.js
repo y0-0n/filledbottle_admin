@@ -17,10 +17,47 @@ const propTypes = {
 const defaultProps = {};
 
 class DefaultHeader extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      data: []
+    }
+  }
+
+  getDetail() {
+    fetch(process.env.REACT_APP_HOST+"/api/auth/info", {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if (status === 200)
+          this.setState({ data: data[1][0] });
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })
+  }
+
+  componentWillMount() {
+    this.getDetail();
+  }
+
   render() {
     // eslint-disable-next-line
     const { children, ...attributes } = this.props;
-
+    const { data } = this.state;
     return (
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
@@ -69,6 +106,7 @@ class DefaultHeader extends Component {
           <NavItem className="d-md-down-none">
             <NavLink to="#" className="nav-link"><i className="icon-location-pin"></i></NavLink>
           </NavItem>*/}
+          <h5>{data.name} 님</h5>
           <AppHeaderDropdown direction="down">
             <DropdownToggle nav>
               <i className="icon-user"></i>
