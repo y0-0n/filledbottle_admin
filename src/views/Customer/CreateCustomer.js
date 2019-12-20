@@ -12,35 +12,14 @@ class CreateCustomer extends Component {
       address: '',
       crNumber:'',
     }
-    this.state = {
-      image: null,
-      selectedFile : null,
-    };
   }
 
   componentWillMount() {
   }
 
-  handleFileInput(e){
-    var file = this.refs.file.files[0];
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    reader.onloadend = function (e) {
-      this.setState({
-        image : [reader.result],
-      });
-    }.bind(this);
-
-    let img = e.target.files[0];
-
-    this.setState({img});
-  }
-
   handlePost(e) {
     e.preventDefault();
     let formData = new FormData();
-    formData.append('file', this.state.img);
     for (let [key, value] of Object.entries(this.form)) {
       formData.append(key, value);
     }
@@ -109,13 +88,6 @@ class CreateCustomer extends Component {
                         <th>사업자등록번호</th>
                         <td colSpan="3">
                           <Input onChange={(e) => this.form.crNumber=e.target.value}/>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>사진</th>
-                        <td colSpan="3">
-                          <img alt="고객 사진" style={{height: 500, width: 500}} src={this.state.image} /> <br></br>
-                          <input ref="file" type="file" name="file"  accept="image/*" onChange={e =>{this.handleFileInput(e);}}/> 
                         </td>
                       </tr>
                     </tbody>

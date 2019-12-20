@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Input, Table,} from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Input, Table, Badge} from 'reactstrap';
 import '../../css/Table.css';
 
 class CustomerModify extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      image: null,
-      selectedFile : null,
       data: [],
     };
   }
@@ -38,28 +36,11 @@ class CustomerModify extends Component {
       });
   }
 
-  handleFileInput(e){
-    var file = this.refs.file.files[0];
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    reader.onloadend = function (e) {
-      this.setState({
-        image : [reader.result],
-      });
-    }.bind(this);
-
-    let img = e.target.files[0];
-
-    this.setState({img});
-  }
-
   handlePost(e) {
     e.preventDefault();
     let c = window.confirm('이 상품을 수정하시겠습니까?')
     if(c) {
       let formData = new FormData();
-      /*formData.append('file', this.state.img);*/
       for (let [key, value] of Object.entries(this.form)) {
         formData.append(key, value);
       }
@@ -108,14 +89,12 @@ class CustomerModify extends Component {
                     <Table className="ShowTable">
                       <tbody>
                         <tr>
-                          <th style={{width: '10%'}}>사진</th>
-                          <td style={{width: '40%'}}>
-                            <img style={{width: '90%'}} alt="제품 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
-                          </td>
                           <th style={{width: '10%'}}>고객명</th>
                           <td style={{width: '40%'}}>
                             <Input defaultValue={data.name} onChange={(e) => this.form.name=e.target.value}/>
                           </td>
+                          <th>상태</th>
+                          <td>{data.set ? <Badge color="primary">활성화</Badge> : <Badge color="danger">비활성화</Badge>}</td>
                         </tr>
                         <tr>
                           <th>핸드폰번호</th>
