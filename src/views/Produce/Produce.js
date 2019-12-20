@@ -147,7 +147,6 @@ class Produce extends Component {
                 <Row>
                     <Col>생산관리</Col>
                     <Col md="2" xs="3 " sm="3">
-                        <Button block color="primary" onClick={() => { this.props.history.push('/produce/create'); }}>생산 등록하기</Button>
                     </Col>
                 </Row>
               </CardHeader>
