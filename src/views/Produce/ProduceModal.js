@@ -84,15 +84,19 @@ class ProduceModal extends Component {
     });
   }
 
+  selectProduce(data) {
+    this.props.selectProduce(data);
+    this.props.close();
+  }
+
   render() {
-    console.log('AA')
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
     return (
       <div className="animated fadeIn">
         <div className="card">
           <div className="card-header">
-          <Row>
+            <Row>
               <Col><i className="icon-drop">영농일지 불러오기</i></Col>
               <Col>
                 <Input onChange={(e)=> {this.keyword = e.target.value}}/>
@@ -108,8 +112,9 @@ class ProduceModal extends Component {
                 <tr>
                   <th>날짜</th>
                   <th>생산품</th>
-                  <th>생산수량</th>
+                  <th>영농과정</th>
                   <th>작업명</th>
+                  <th>재배 면적</th>
                 </tr>
               </thead>
               <tbody>
@@ -117,11 +122,12 @@ class ProduceModal extends Component {
                   this.state.data.map(function (e, i) {
                     //console.warn(e);
                     return (
-                      <tr style={{ cursor: 'pointer' }} onClick={() => { }} key={i}>
+                      <tr style={{ cursor: 'pointer' }} onClick={() => { this.selectProduce(e) }} key={i}>
                         <td>{this.getDate(e.created_date)}</td>
                         <td>{e.productName}</td>
-                        <td></td>
+                        <td>{e.process}</td>
                         <td>{e.name}</td>
+                        <td>{e.area}</td>
                       </tr>
                     )
                   }, this)
@@ -131,11 +137,11 @@ class ProduceModal extends Component {
           </div>
           <div style={{margin : 'auto'}}>
             <Pagination>
-                  {this.state.number === 1 ? '' : 
-                  <PaginationItem>
-                    <PaginationLink previous onClick={() => {this.countPageNumber(this.state.number-1)}}/>
-                  </PaginationItem>
-                  }
+              {this.state.number === 1 ? '' : 
+                <PaginationItem>
+                  <PaginationLink previous onClick={() => {this.countPageNumber(this.state.number-1)}}/>
+                </PaginationItem>
+              }
               {this.state.number === 1 ? arr.forEach(x => arr1.push(x + 2)) : null}
               {this.state.number === 2 ? arr.forEach(x => arr1.push(x + 1)) : null}
               {this.state.number !== 1 && this.state.number !== 2 ? arr.forEach(x => arr1.push(x)) : null}
