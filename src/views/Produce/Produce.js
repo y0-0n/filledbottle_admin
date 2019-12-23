@@ -164,9 +164,9 @@ class Produce extends Component {
                       <tr>
                         <th>날짜</th>
                         <th>생산품</th>
-                        <th>생산수량</th>
+                        <th>영농과정</th>
                         <th>작업명</th>
-                        <th>상태</th>
+                        <th>재배 면적</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -174,9 +174,9 @@ class Produce extends Component {
                         return <tr style={{cursor: 'pointer'}} onClick={() => { this.props.history.push('/main/produce/:id'); }}>
                           <td>{this.getDate(e.created_date)}</td>
                           <td>{e.productName}</td>
-                          <td></td>
+                          <td>{e.process}</td>
                           <td>{e.name}</td>
-                          <td></td>
+                          <td>{e.area}</td>
                         </tr>
                       })}
                     </tbody>

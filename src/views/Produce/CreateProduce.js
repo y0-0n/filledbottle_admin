@@ -83,7 +83,7 @@ class CreateProduce extends Component {
       let status = data[0];
       if(status === 200) {
         alert('등록됐습니다.');
-        this.props.history.push('/main/customer/list');
+        this.props.history.push('/main/produce');
       } else {
         alert('등록에 실패했습니다.');
       }
@@ -108,7 +108,7 @@ class CreateProduce extends Component {
                     <tr>
                       <th>날씨</th>
                       <td>
-                        <Input defaultValue={this.form.weather} type='select' name="weather">
+                        <Input defaultValue={this.form.weather} onChange={(e) => {this.form.weather = e.target.value}} type='select' name="weather">
                           <option value="맑음">맑음</option>
                           <option value="구름조금">구름조금</option>
                           <option value="구름많음">구름많음</option>
