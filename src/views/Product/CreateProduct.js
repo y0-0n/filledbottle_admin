@@ -12,14 +12,17 @@ class CreateProduct extends Component {
       grade: '',
       weight: '',
       price: '',
+      productFamily: 'NULL'
     };
 
     this.state = {
       image : null,
+      familyData: []
     };
   }
 
   componentWillMount() {
+    this.getProductFamily();
   }
 
   handleFileInput(e){
@@ -71,6 +74,31 @@ class CreateProduct extends Component {
       }
     });
   }
+
+  getProductFamily() {
+    fetch(process.env.REACT_APP_HOST + "/api/product/familyList", {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if (status === 200)
+          this.setState({ familyData: data[1] });
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })
+  }
   
   render() {
     return (
@@ -89,12 +117,27 @@ class CreateProduct extends Component {
                       <tr className="TableBottom">
                         <th style={{width: '10%'}}>사진</th>
                         <td style={{width: '40%'}} className="TableRight">
-                        <img alt="제품 사진" style={{height: 500, width: '90%'}} src={this.state.image} /> <br></br>
-                        <input ref="file" type="file" name="file" onChange={e =>{this.handleFileInput(e);}}/> 
+                          <img alt="제품 사진" style={{height: 500, width: '90%'}} src={this.state.image} /> <br></br>
+                          <input ref="file" type="file" name="file" onChange={e =>{this.handleFileInput(e);}}/> 
                         </td>
-                        <th style={{width: '10%'}}>상품명</th>
+                        <th style={{width: '10%'}}>품목명</th>
                         <td style={{width: '40%'}}>
                           <Input onChange={(e) => this.form.name=e.target.value} />
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>품목군</th>
+                        <td className="TableRight">
+                          <Input defaultValue={this.form.productFamily} onChange={(e) => {this.form.productFamily = e.target.value; console.log(this.form)}} type='select' name="family">
+                            <option value='NULL'>품목군 없음</option>
+                            {this.state.familyData.map((e, i) => {
+                              return <option value={e.id}>{e.name}</option>
+                            })}
+                          </Input>
+                        </td>
+                        <th>단가</th>
+                        <td className="TableRight">
+                          <Input onChange={(e) => this.form.price=e.target.value} />
                         </td>
                       </tr>
                       <tr>
@@ -105,12 +148,6 @@ class CreateProduct extends Component {
                         <th>무게</th>
                         <td>
                           <Input onChange={(e) => this.form.weight=e.target.value} />
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>단가</th>
-                        <td className="TableRight">
-                          <Input onChange={(e) => this.form.price=e.target.value} />
                         </td>
                       </tr>
                     </tbody>
