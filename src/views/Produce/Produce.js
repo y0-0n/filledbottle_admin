@@ -169,7 +169,7 @@ class Produce extends Component {
                     </thead>
                     <tbody>
                       {data.map((e, i) => {
-                        return <tr style={{cursor: 'pointer'}} onClick={() => { this.props.history.push('/main/produce/:id'); }}>
+                        return <tr style={{cursor: 'pointer'}} onClick={() => { this.props.history.push('/main/produce/'+e.id); }}>
                           <td>{this.getDate(e.created_date)}</td>
                           <td>{e.productName}</td>
                           <td>{e.process}</td>
