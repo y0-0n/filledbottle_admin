@@ -154,8 +154,6 @@ class Produce extends Component {
               <CardHeader>
                 <Row>
                     <Col>생산관리</Col>
-                    <Col md="2" xs="3 " sm="3">
-                    </Col>
                 </Row>
               </CardHeader>
               <CardBody className="card-body">

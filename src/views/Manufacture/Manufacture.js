@@ -166,8 +166,6 @@ class Manufacture extends Component {
               <CardHeader>
                 <Row>
                     <Col>제조관리</Col>
-                    <Col md="2" xs="3 " sm="3">
-                    </Col>
                 </Row>
               </CardHeader>
               <CardBody className="card-body">
