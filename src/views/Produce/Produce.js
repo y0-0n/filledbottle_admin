@@ -44,6 +44,14 @@ class Produce extends Component {
       });
   }
 
+  search() {
+    let {keyword} = this;
+    this.setState({keyword}, () => {
+      this.getList();
+      this.getTotal();
+    })
+  }
+
   getList() {
     fetch(process.env.REACT_APP_HOST+"/api/produce/list/"+this.state.number+'/'+this.state.keyword, {
       method: 'GET',
@@ -135,7 +143,7 @@ class Produce extends Component {
                 </Row>
               </CardBody>
               <CardFooter>
-                <Button block color="primary" onClick={() => { }}>생산품 검색</Button>
+                <Button block color="primary" onClick={() => { this.search(); }}>생산품 검색</Button>
               </CardFooter>
             </Card>
           </Col>          
