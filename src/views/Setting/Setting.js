@@ -61,13 +61,10 @@ class Setting extends Component {
                                 </Table>
                             </td>
                         </tr>
-                        <tr>
-                            <th>메뉴 설정</th>
-                        </tr>   
                     </Table>
                   </CardBody>
                   <CardFooter>
-                    <Button block outline color="primary">설정 완료</Button>
+                    <Button block outline color="primary">설정 저장</Button>
                   </CardFooter>
                 </Card>
               </FormGroup>

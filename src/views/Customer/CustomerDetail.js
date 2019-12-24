@@ -96,14 +96,12 @@ class CustomerDetail extends Component {
               <Table className="ShowTable">
                 <tbody>
                   <tr>
-                    <th style={{width: '10%'}}>사진</th>
-                    <td style={{width: '40%'}}>
-                      <img style={{width: '90%'}} alt="제품 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
-                    </td>
                     <th style={{width: '10%'}}>고객명</th>
                     <td style={{width: '40%'}}>
                       {data.name}
                     </td>
+                    <th>상태</th>
+                    <td>{data.set ? <Badge color="primary">활성화</Badge> : <Badge color="danger">비활성화</Badge>}</td>
                   </tr>
                   <tr>
                     <th>핸드폰번호</th>
@@ -124,10 +122,6 @@ class CustomerDetail extends Component {
                     <td>
                       {data.address}
                     </td>
-                  </tr>
-                  <tr>
-                    <th>상태</th>
-                    <td>{data.set ? <Badge color="primary">활성화</Badge> : <Badge color="danger">비활성화</Badge>}</td>
                   </tr>
                 </tbody>
               </Table>

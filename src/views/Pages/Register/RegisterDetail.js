@@ -27,7 +27,7 @@ class RegisterDetail extends Component {
       .then(data => {
         let status = data[0];
         if (status === 200)
-          this.setState({ data: data[1] });
+          this.setState({ data: data[1][0] });
         else {
           alert('로그인 하고 접근해주세요');
           this.props.history.push('/login');
@@ -40,7 +40,7 @@ class RegisterDetail extends Component {
   }
   
   render() {
-    const data = this.state.data[0];
+    const data = this.state.data;
     return (
         <div className="animated fadeIn">
         <Row>
