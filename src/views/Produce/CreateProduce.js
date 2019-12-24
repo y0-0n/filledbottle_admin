@@ -205,8 +205,8 @@ class CreateProduce extends Component {
                               modal>
                               {close => <ProductModal  close={close} login={()=>{this.props.history.push('/login')}}
                                 selectProduct={(data) => {
-                                  const {product_id, name} = data;
-                                  this.form.product_id = product_id;
+                                  const {id, name} = data;
+                                  this.form.product_id = id;
                                   this.setState({ productName: name });
                                 }}
                               />}
