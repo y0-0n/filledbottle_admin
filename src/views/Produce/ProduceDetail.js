@@ -8,27 +8,46 @@ registerLocale('ko', ko)
 
 let d = {id: '', name: '',};
 
-class CreateProduce extends Component {
+class ProduceDetail extends Component {
   constructor(props) {
     super(props);
 
-    this.customer = [];
-
     this.state = {
-        image: null,
-        sProduct: [d],
-        selectedFile : null,
-        precipitation : 0,
-        snowfall : 0,
-        temperatures : 0,
-        minTemperatures : 0,
-        maxTemperatures : 0,
-    };
+      data: {}
+    }
   }
+
+  getDetail() {
+    fetch(process.env.REACT_APP_HOST+"/api/produce/"+this.props.match.params.id, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if (status === 200)
+          this.setState({ data: data[1][0] });
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })
+  }
+
   componentWillMount() {
+    this.getDetail();
   }
 
   render() {
+    const {data} = this.state
     return (
       <div className="animated fadeIn">
         <Row>
@@ -45,26 +64,18 @@ class CreateProduce extends Component {
                       <tr>
                         <th style={{width : 150}}>날씨</th>
                         <td style={{width : 300}}>
-                            <select name="weather">
-                                <option value="맑음">맑음</option>
-                                <option value="구름조금">구름조금</option>
-                                <option value="구름많음">구름많음</option>
-                                <option value="흐림">흐림</option>
-                                <option value="비">비</option>
-                                <option value="눈">눈</option>
-                                <option value="비/눈">비/눈</option>
-                            </select>
+                          {data.weather}
                         </td>
                         <th style={{width : 150}}>강수량</th>
                         <td style={{width : 300}}>
                             <Row>
-                                <Col xs="10">{this.state.precipitation}</Col>
+                                <Col xs="10">{data.rain}</Col>
                             </Row>                          
                         </td>
                         <th style={{width : 150}}>적설량</th>
                         <td style={{width : 300}}>
                             <Row>
-                                <Col xs="10">{this.state.snowfall}</Col>
+                                <Col xs="10">{data.snow}</Col>
                             </Row> 
                         </td>
                       </tr>
@@ -72,19 +83,19 @@ class CreateProduce extends Component {
                         <th>기온</th>
                         <td>
                             <Row>
-                                <Col xs="10">{this.state.temperatures}</Col>
+                                <Col xs="10">{data.temperatures}</Col>
                             </Row> 
                         </td>
                         <th>최저 기온</th>
                         <td>
                             <Row>
-                                <Col xs="10">{this.state.minTemperatures}</Col>
+                                <Col xs="10">{data.min_temp}</Col>
                             </Row> 
                         </td>
                         <th>최고 기온</th>
                         <td>
                             <Row>
-                                <Col xs="10">{this.state.maxTemperatures}</Col>
+                                <Col xs="10">{data.max_temp}</Col>
                             </Row> 
                         </td>
                       </tr>
@@ -108,23 +119,27 @@ class CreateProduce extends Component {
                         <tr>
                             <th style={{width : 150}}>품목</th>
                             <td>
+                              {data.productName}
                             </td>
                             <th style={{width : 150}}>영농과정</th>
                             <td>
+                              {data.process}
                             </td>
                           </tr>
                           <tr>
                             <th>작업명</th>
                             <td>
+                              {data.name}
                             </td>
                             <th>작업내용</th>
                             <td>
+                              {data.content}
                             </td>
                           </tr>
                           <tr>
                             <th>작업사진</th>
                             <td colSpan="3">
-                                <img alt="작업 사진" style={{height: 500, width: 500}} src={this.state.image} /> <br></br>
+                              <img alt="작업 사진" style={{height: 500, width: 500}} src={this.state.image} /> <br></br>
                             </td>
                           </tr>
                     </tbody>
@@ -138,4 +153,4 @@ class CreateProduce extends Component {
   }
 }
 
-export default CreateProduce;
+export default ProduceDetail;

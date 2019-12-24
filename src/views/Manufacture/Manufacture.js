@@ -76,6 +76,14 @@ class Manufacture extends Component {
       })
   }
 
+  searchManufacture() {
+    let {keyword} = this;
+    this.setState({keyword}, () => {
+      this.getList();
+      this.getTotal();
+    })
+  }
+
   getDate(dateInput) {
     var d = new Date(dateInput);
     var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
@@ -146,7 +154,7 @@ class Manufacture extends Component {
                 </Row>
               </CardBody>
               <CardFooter>
-                <Button block color="primary" onClick={() => { }}>제조품 검색</Button>
+                <Button block color="primary" onClick={() => { this.searchManufacture() }}>제조품 검색</Button>
               </CardFooter>
             </Card>
           </Col>          

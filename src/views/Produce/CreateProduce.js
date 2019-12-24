@@ -28,14 +28,13 @@ class CreateProduce extends Component {
       process: '',
       name: '',
       content: '',
-      area: 0,
-      expected: 0
+      previous_id: null,
     }
 
     this.state = {
         image: null,
         selectedFile: null,
-        name: ''//제품명
+        productName: '',//제품명
     };
   }
   componentWillMount() {
@@ -84,7 +83,7 @@ class CreateProduce extends Component {
       let status = data[0];
       if(status === 200) {
         alert('등록됐습니다.');
-        this.props.history.push('/mainclose/customer/list');
+        this.props.history.push('/main/produce');
       } else {
         alert('등록에 실패했습니다.');
       }
@@ -109,7 +108,7 @@ class CreateProduce extends Component {
                     <tr>
                       <th>날씨</th>
                       <td>
-                        <Input defaultValue={this.form.weather} type='select' name="weather">
+                        <Input defaultValue={this.form.weather} onChange={(e) => {this.form.weather = e.target.value}} type='select' name="weather">
                           <option value="맑음">맑음</option>
                           <option value="구름조금">구름조금</option>
                           <option value="구름많음">구름많음</option>
@@ -169,11 +168,23 @@ class CreateProduce extends Component {
                       {<Popup
                         trigger={
                           <Col sm="10">
-                            <Button block color="primary">불러오기</Button>
+                            <Button onClick={() => {}} block color="primary">불러오기</Button>
                           </Col>
                         }
                         modal>
                         {close => <ProduceModal close={close} login={()=>{this.props.history.push('/login')}}
+                          selectProduce={(data) => {
+                            const {name, process, productName, productId, area, expected, content} = data;
+                            console.log(data)
+                            this.form.previous_id = data.id;
+                            /*this.form.name = name;
+                            this.form.process = process;
+                            this.form.content = content;*/
+                            this.form.product_id = productId;
+                            this.form.area = area;
+                            this.form.expected = expected;
+                            this.setState({productName})
+                          }}
                         />}
                       </Popup>}
                     </Col>
@@ -185,23 +196,24 @@ class CreateProduce extends Component {
                     <tr>
                       <th style={{width: '10%'}}>품목</th>
                       <td style={{width: '40%'}}>
-                          <Row>
-                            <Col sm="10">
-                              {<Popup
-                                trigger={
-                                  <Input name='name' value={this.state.name} style={{ cursor: 'pointer', backgroundColor: '#ffffff' }} readOnly />
-                                }
-                                modal>
-                                {close => <ProductModal  close={close} login={()=>{this.props.history.push('/login')}}
-                                  selectProduct={(data) => {
-                                    this.form.product_id = data.id;
-                                    this.setState({ name: data.name });
-                                  }}
-                                />}
-                              </Popup>}
-                            </Col>
-                            <Col sm="2"><Button onClick={() => { this.props.history.push(`/product/create`) }}>신규</Button></Col>
-                          </Row>
+                        <Row>
+                          <Col sm="10">
+                            {<Popup
+                              trigger={
+                                <Input name='name' value={this.state.productName} style={{ cursor: 'pointer', backgroundColor: '#ffffff' }} readOnly />
+                              }
+                              modal>
+                              {close => <ProductModal  close={close} login={()=>{this.props.history.push('/login')}}
+                                selectProduct={(data) => {
+                                  const {product_id, name} = data;
+                                  this.form.product_id = product_id;
+                                  this.setState({ productName: name });
+                                }}
+                              />}
+                            </Popup>}
+                          </Col>
+                          <Col sm="2"><Button onClick={() => { this.props.history.push(`/product/create`) }}>신규</Button></Col>
+                        </Row>
                       </td>
                       <th style={{width: '10%'}}>영농과정</th>
                       <td style={{width: '40%'}}>

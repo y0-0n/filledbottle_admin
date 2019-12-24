@@ -44,6 +44,14 @@ class Produce extends Component {
       });
   }
 
+  search() {
+    let {keyword} = this;
+    this.setState({keyword}, () => {
+      this.getList();
+      this.getTotal();
+    })
+  }
+
   getList() {
     fetch(process.env.REACT_APP_HOST+"/api/produce/list/"+this.state.number+'/'+this.state.keyword, {
       method: 'GET',
@@ -135,7 +143,7 @@ class Produce extends Component {
                 </Row>
               </CardBody>
               <CardFooter>
-                <Button block color="primary" onClick={() => { }}>생산품 검색</Button>
+                <Button block color="primary" onClick={() => { this.search(); }}>생산품 검색</Button>
               </CardFooter>
             </Card>
           </Col>          
@@ -154,19 +162,19 @@ class Produce extends Component {
                       <tr>
                         <th>날짜</th>
                         <th>생산품</th>
-                        <th>생산수량</th>
+                        <th>영농과정</th>
                         <th>작업명</th>
-                        <th>상태</th>
+                        <th>재배 면적</th>
                       </tr>
                     </thead>
                     <tbody>
                       {data.map((e, i) => {
-                        return <tr style={{cursor: 'pointer'}} onClick={() => { this.props.history.push('/main/produce/:id'); }}>
+                        return <tr style={{cursor: 'pointer'}} onClick={() => { this.props.history.push('/main/produce/'+e.id); }}>
                           <td>{this.getDate(e.created_date)}</td>
                           <td>{e.productName}</td>
-                          <td></td>
+                          <td>{e.process}</td>
                           <td>{e.name}</td>
-                          <td></td>
+                          <td>{e.area}</td>
                         </tr>
                       })}
                     </tbody>
