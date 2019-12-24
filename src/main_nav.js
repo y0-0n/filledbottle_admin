@@ -20,7 +20,7 @@ export default {
       icon: 'icon-puzzle',
     },
     {
-      name: '제품 관리',
+      name: '품목 관리',
       url: '/main/product/list',
       icon: 'icon-puzzle',
     },
