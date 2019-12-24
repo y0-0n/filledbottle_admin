@@ -59,7 +59,7 @@ class CreateProduce extends Component {
   handlePost(e) {
     e.preventDefault();
     let formData = new FormData();
-    /*formData.append('file', this.state.img);*/
+    formData.append('file', this.state.img);
     for (let [key, value] of Object.entries(this.form)) {
       formData.append(key, value);
     }

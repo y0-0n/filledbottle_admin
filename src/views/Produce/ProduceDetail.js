@@ -116,42 +116,42 @@ class ProduceDetail extends Component {
               <CardBody>
               <Table className="ShowTable">
                     <tbody>
-                        <tr>
-                            <th style={{width : 150}}>품목</th>
-                            <td>
-                              {data.productName}
-                            </td>
-                            <th style={{width : 150}}>영농과정</th>
-                            <td>
-                              {data.process}
-                            </td>
-                          </tr>
-                          <tr>
-                            <th>작업명</th>
-                            <td>
-                              {data.name}
-                            </td>
-                            <th>작업내용</th>
-                            <td>
-                              {data.content}
-                            </td>
-                          </tr>
-                          <tr>
-                            <th>재배 면적</th>
-                            <td>
-                              {data.area}
-                            </td>
-                            <th>예상 생산량</th>
-                            <td>
-                              {data.expected_output}
-                            </td>
-                          </tr>
-                          <tr>
-                            <th>작업사진</th>
-                            <td colSpan="3">
-                              <img alt="작업 사진" style={{height: 500, width: 500}} src={this.state.image} /> <br></br>
-                            </td>
-                          </tr>
+                      <tr>
+                        <th style={{width : 150}}>품목</th>
+                        <td>
+                          {data.productName}
+                        </td>
+                        <th style={{width : 150}}>영농과정</th>
+                        <td>
+                          {data.process}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>작업명</th>
+                        <td>
+                          {data.name}
+                        </td>
+                        <th>작업내용</th>
+                        <td>
+                          {data.content}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>재배 면적</th>
+                        <td>
+                          {data.area}
+                        </td>
+                        <th>예상 생산량</th>
+                        <td>
+                          {data.expected_output}
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>작업사진</th>
+                        <td colSpan="3">
+                          <img style={{width: '90%'}} alt="작업 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
+                        </td>
+                      </tr>
                     </tbody>
                     </Table>
               </CardBody>
