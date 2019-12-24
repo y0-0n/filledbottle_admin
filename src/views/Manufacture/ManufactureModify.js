@@ -25,6 +25,32 @@ class ManufactureModify extends Component {
   }
 
   componentWillMount() {
+    this.getList();
+  }
+
+  getList() {
+    fetch(process.env.REACT_APP_HOST+"/api/manufacture/"+this.props.match.params.id, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if (status === 200)
+          this.setState({ sProduct1: data[1].consume, sProduct2: data[1].produce, });
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })
   }
 
   /*produceProduct() {
@@ -100,7 +126,7 @@ class ManufactureModify extends Component {
                           <tr key={i}>
                             <td>
                               {<Popup
-                                trigger={<Input name='name' value={this.state.sProduct1[i].name} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}} readOnly/>}
+                                trigger={<Input name='name' value={e.name} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}} readOnly/>}
                                 modal>
                                 {close => <ProductModal index={i} close={close}
                                             selectProduct={(data) => {
@@ -111,7 +137,7 @@ class ManufactureModify extends Component {
                                               /* set, for instance, comment[1] to "some text"*/
                                               val['id'] = data['id'];
                                               val['name'] = data['name'];
-                                              val['price'] = data['price_shipping'];
+                                              val['price_shipping'] = data['price_shipping'];
                                               val['grade'] = data['grade'];
                                               val['weight'] = data['weight'];
                                               //val['quantity'] = data['quantity'];
@@ -126,9 +152,9 @@ class ManufactureModify extends Component {
                             </td>
                             <td><Input name='grade' value={this.state.sProduct1[i].grade} readOnly/></td>
                             <td><Input name='weight' value={this.state.sProduct1[i].weight} readOnly/></td>
-                            <td><Input name='price' value={this.state.sProduct1[i].price} readOnly/></td>
+                            <td><Input name='price' value={this.state.sProduct1[i].price_shipping} readOnly/></td>
                             <td>
-                              <Input name='modifyQuantity' onChange={(e) => {
+                              <Input name='modifyQuantity' value={this.state.sProduct1[i].change} onChange={(e) => {
                                 let {sProduct1} = this.state;
                                 sProduct1[i] = Object.assign({}, sProduct1[i]);
                                 sProduct1[i].quantity = e.target.value;
@@ -206,7 +232,7 @@ class ManufactureModify extends Component {
                                               /* set, for instance, comment[1] to "some text"*/
                                               val['id'] = data['id'];
                                               val['name'] = data['name'];
-                                              val['price'] = data['price_shipping'];
+                                              val['price_shipping'] = data['price_shipping'];
                                               val['grade'] = data['grade'];
                                               val['weight'] = data['weight'];
 
@@ -220,9 +246,9 @@ class ManufactureModify extends Component {
                             </td>
                             <td><Input name='grade' value={this.state.sProduct2[i].grade} readOnly/></td>
                             <td><Input name='weight' value={this.state.sProduct2[i].weight} readOnly/></td>
-                            <td><Input name='price' value={this.state.sProduct2[i].price} readOnly/></td>
+                            <td><Input name='price' value={this.state.sProduct2[i].price_shipping} readOnly/></td>
                             <td>
-                              <Input name='quantity' onChange={(e) => {
+                              <Input name='quantity' value={this.state.sProduct2[i].change} onChange={(e) => {
                                 let {sProduct2} = this.state;
                                 sProduct2[i] = Object.assign({}, sProduct2[i]);
                                 sProduct2[i].quantity = e.target.value;
