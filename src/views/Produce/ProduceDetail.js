@@ -137,6 +137,16 @@ class ProduceDetail extends Component {
                             </td>
                           </tr>
                           <tr>
+                            <th>재배 면적</th>
+                            <td>
+                              {data.area}
+                            </td>
+                            <th>예상 생산량</th>
+                            <td>
+                              {data.expected_output}
+                            </td>
+                          </tr>
+                          <tr>
                             <th>작업사진</th>
                             <td colSpan="3">
                               <img alt="작업 사진" style={{height: 500, width: 500}} src={this.state.image} /> <br></br>
