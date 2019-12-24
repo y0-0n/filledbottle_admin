@@ -52,8 +52,8 @@ class Home extends Component {
   }
 
   componentWillMount() {
-    this.getOrder();
-    this.getOnlyOrder();
+    this.getOrder(moment().startOf('month')._d, moment().endOf('month')._d);
+    //this.getOnlyOrder();
     this.getIncome();
     this.chart();
   }
@@ -132,12 +132,17 @@ class Home extends Component {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
-  getOrder() {
-    fetch(process.env.REACT_APP_HOST+"/order/all/all/a", {
-      method: 'GET',
+  getOrder(first_date, last_date) {
+    const process_ = 'all', keyword = '', number = 'all';
+
+    fetch(process.env.REACT_APP_HOST+"/order/list", {
+      method: 'POST',
       headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
       },
+      body: JSON.stringify({first_date, last_date, number, process_, keyword})
     })
       .then(response => {
         if(response.status === 401) {
@@ -231,7 +236,7 @@ class Home extends Component {
       maintainAspectRatio: false
     }
 
-    var data = this.state.search ? this.state.sdata : this.state.orderData;
+    var data = this.state.orderData;
     return (
       <div className="animated fadeIn">
         <Card>
@@ -243,12 +248,13 @@ class Home extends Component {
             <Calendar
               selectable
               localizer={localizer}
-              startAccessor="start"
-              endAccessor="end"
-              style={{ height: 800, 'minWidth': 800 }}
+              startAccessor={'start'}
+              endAccessor={'end'}
+              style={{ height: 800, 'minWidth': 500 }}
               events={this.state.events}
               messages={this.messages}
               culture='ko'
+              onNavigate={(date) => {this.getOrder(moment(date).startOf('month'), moment(date).endOf('month'))}}
               onSelectEvent={(e, s) => this.props.history.push(`/main/sales/order/${e.resource}`)}
             />
             </div>
@@ -274,10 +280,10 @@ class Home extends Component {
                     <tbody>
                     {data.map((e, i) => {
                         return (<tr style={{cursor: 'pointer'}} key={e.id} onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>
-                        <td>{e.id}</td>
-                        <td>{this.getDate(e.date)}</td>
-                        <td>{e.name}</td>
-                        <td>{this.numberWithCommas(e.price)}</td>
+                          <td>{e.id}</td>
+                          <td>{this.getDate(e.date)}</td>
+                          <td>{e.name}</td>
+                          <td>{this.numberWithCommas(e.price)}</td>
                         </tr>)
                       })}
                     </tbody>

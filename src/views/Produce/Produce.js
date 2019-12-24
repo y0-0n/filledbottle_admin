@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import DatePicker from "react-datepicker";
 import { Card, CardBody, CardHeader, Col, Row, Table, Button, Input, CardFooter, Pagination, PaginationItem, PaginationLink,} from 'reactstrap';
+import "react-datepicker/dist/react-datepicker.css";
 
 const listCount = 5;
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import DatePicker from "react-datepicker";
 import { Button, Badge, Card, CardBody, CardHeader, CardFooter, Col, Row, NavItem, Nav, NavLink, Table, Input, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import "react-datepicker/dist/react-datepicker.css";
 
 /*
 
@@ -34,10 +35,11 @@ class Sales extends Component {
       page: 1,
       number : 1,
       total: 0,
-      keyword: 'a',
-      first_date: new Date(),
+      keyword: '',
+      first_date: new Date('2019-11-24'),
       last_date: new Date(),
     };
+    this.keyword = '';
   }
 
   componentWillMount() {
@@ -53,11 +55,17 @@ class Sales extends Component {
   }
 
   getTotal() {
-    fetch(process.env.REACT_APP_HOST+"/order/total/"+this.state.process+"/"+this.state.keyword, {
-      method: 'GET',
+    const {first_date, last_date, keyword} = this.state;
+    const process_ = this.state.process;
+
+    fetch(process.env.REACT_APP_HOST+"/order/total/"+(process_ === "refund" ? "refund" : ""), {
+      method: 'POST',
       headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      }
+      },
+      body: JSON.stringify({first_date, last_date, process_, keyword})
       })
       .then(response => {
         if(response.status === 401) {
@@ -78,11 +86,16 @@ class Sales extends Component {
   }
 
   getOrder() {
-    fetch(process.env.REACT_APP_HOST+"/order/"+this.state.number+"/"+this.state.process+"/"+this.state.keyword, {
-      method: 'GET',
+    const {first_date, last_date, number, keyword} = this.state;
+    const process_ = this.state.process;
+    fetch(process.env.REACT_APP_HOST+"/order/list"+(process_ === "refund" ? "/refund" : ""), {
+      method: 'POST',
       headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      }
+      },
+      body: JSON.stringify({first_date, last_date, number, process_, keyword})
     })
     .then(response => {
       if(response.status === 401) {
