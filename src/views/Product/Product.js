@@ -346,6 +346,7 @@ class Product extends Component {
                     <thead>
                       <tr>
                         <th>상품명</th>
+                        <th>품목군</th>
                         <th>등급</th>
                         <th>무게</th>
                         <th>판매 단가</th>
@@ -363,6 +364,7 @@ class Product extends Component {
                       {data.map((e, i) => {
                         return (<tr key={e.id}>
                           <td style={{ cursor: 'pointer' }} onClick={() => { this.props.history.push('/main/product/' + e.id) }}>{e.name}</td>
+                          <td>{e.familyName}</td>
                           <td>{e.grade}</td>
                           <td>{e.weight}</td>
                           <td>{e['price_shipping']}</td>
