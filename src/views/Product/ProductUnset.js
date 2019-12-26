@@ -9,7 +9,7 @@ import Switch from "../Switch/Switch";
   -> this.state.data
 
   id : 주문 번호
-  name : 상품명
+  name : 품목명
   grade : 등급
   weight : 무게
   price_shipping : 단가
@@ -188,9 +188,9 @@ class ProductUnset extends Component {
           <Card>
               <CardHeader>
                 <Row>
-                  <Col>상품 상세 검색</Col>
+                  <Col>품목 상세 검색</Col>
                   <Col md="2" xs="3" sm="3">
-                    <Button block color="primary" onClick={() => { this.props.history.push('/product/create'); }}>상품 등록</Button>
+                    <Button block color="primary" onClick={() => { this.props.history.push('/product/create'); }}>품목 등록</Button>
                   </Col>
                 </Row>
               </CardHeader>
@@ -236,7 +236,7 @@ class ProductUnset extends Component {
                       </td>
                     </tr>
                     <tr>
-                      <th style={{textAlign: "center"}}>상품명</th>
+                      <th style={{textAlign: "center"}}>품목명</th>
                       <td colSpan="5"><Input onChange={(e) => { this.keyword = e.target.value }} /></td>
                     </tr>
                   </tbody>
@@ -247,7 +247,7 @@ class ProductUnset extends Component {
                 </Row>
               </CardBody>
               <CardFooter>
-                <Button block color="primary" onClick={() => { this.searchProduct() }}>상품 검색</Button>
+                <Button block color="primary" onClick={() => { this.searchProduct() }}>품목 검색</Button>
               </CardFooter>
             </Card>
           </Col>
@@ -257,12 +257,12 @@ class ProductUnset extends Component {
             <Card>
               <CardHeader>
                 <Row>
-                  <Col>상품 보기</Col>
+                  <Col>품목 보기</Col>
                   <Col></Col><Col></Col><Col></Col>
                   {/*<Col>
                     {this.state.set ?
-                      "비활성화 상품 보기" :
-                      "활성화 상품 보기"}
+                      "비활성화 품목 보기" :
+                      "활성화 품목 보기"}
                     <Switch id='1' isOn={this.state.set} handleToggle={this.changeSet.bind(this)} />
                   </Col>
                   <Col>
@@ -272,7 +272,7 @@ class ProductUnset extends Component {
                     }
                     <Switch id='2' isOn={this.state.show} handleToggle={() => this.changeShow()} />
                   </Col>*/}
-                  <Col><Button block color="primary" onClick={() => {this.props.history.push('/main/product/list')}}>활성화 상품 보기</Button></Col>
+                  <Col><Button block color="primary" onClick={() => {this.props.history.push('/main/product/list')}}>활성화 품목 보기</Button></Col>
                   <Col>
                     {this.state.stockEdit ?
                     <Button block color="primary" onClick={() => this.changeStockEdit()}>수정 완료</Button> :
@@ -286,7 +286,7 @@ class ProductUnset extends Component {
                     <Table style={{ minWidth: 600 }} hover>
                       <thead>
                         <tr>
-                          <th>상품명</th>
+                          <th>품목명</th>
                           <th>등급</th>
                           <th>무게</th>
                           <th>판매 단가</th>
@@ -294,8 +294,8 @@ class ProductUnset extends Component {
                           {this.state.stockEdit ? 
                             <th style={{width : 100}}>수정</th>: ""}
                           {/*this.state.set ?
-                            <th style={{width : 300}}>상품 비활성화</th> :
-                            <th style={{width : 300}}>상품 활성화</th>
+                            <th style={{width : 300}}>품목 비활성화</th> :
+                            <th style={{width : 300}}>품목 활성화</th>
                           */}
                           {/*<th>수정</th>*/}
                         </tr>
@@ -315,10 +315,10 @@ class ProductUnset extends Component {
                               ""}
                             {/*this.state.set ?
                               <td>
-                                <Button block style={{ width: 120 }} color="ghost-danger" onClick={() => this.deleteProduct(e.id)}>상품 비활성화</Button>
+                                <Button block style={{ width: 120 }} color="ghost-danger" onClick={() => this.deleteProduct(e.id)}>품목 비활성화</Button>
                               </td> :
                               <td>
-                                <Button block style={{ width: 100 }} color="ghost-primary" onClick={() => this.activateProduct(e.id)}>상품 활성화</Button>
+                                <Button block style={{ width: 100 }} color="ghost-primary" onClick={() => this.activateProduct(e.id)}>품목 활성화</Button>
                               </td>
                             */}
                             {/*<td><Button  onClick={() => {this.props.history.push(`/main/product/edit/:id`)}}>수정</Button></td>*/}

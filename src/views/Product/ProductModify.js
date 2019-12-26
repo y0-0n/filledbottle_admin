@@ -10,7 +10,7 @@ class ProductModify extends Component {
 
     this.state = {
       data: [],
-      image : null,
+      image: null,
     };
   }
 
@@ -19,7 +19,7 @@ class ProductModify extends Component {
   }
 
   getProduct() {
-    fetch(process.env.REACT_APP_HOST+"/product/"+this.props.match.params.id, {
+    fetch(process.env.REACT_APP_HOST + "/product/" + this.props.match.params.id, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -27,7 +27,7 @@ class ProductModify extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        this.setState({data: data[0]})
+        this.setState({ data: data[0] })
         this.form = {
           name: data[0].name,
           grade: data[0].grade,
@@ -53,18 +53,18 @@ class ProductModify extends Component {
     this.setState({img});
   }*/
 
-  modifyProduct(e){
+  modifyProduct(e) {
     e.preventDefault();
-    
-    let c = window.confirm('이 상품을 수정하시겠습니까?')
 
-    if(c) {
+    let c = window.confirm('이 품목을 수정하시겠습니까?')
+
+    if (c) {
       let formData = new FormData();
       //formData.append('file', this.state.img);
       for (let [key, value] of Object.entries(this.form)) {
         formData.append(key, value);
       }
-      fetch(process.env.REACT_APP_HOST+"/product/modify/"+this.props.match.params.id, {
+      fetch(process.env.REACT_APP_HOST + "/product/modify/" + this.props.match.params.id, {
         method: 'PUT',
         'Content-Type': 'multipart/form-data',
         headers: {
@@ -72,25 +72,25 @@ class ProductModify extends Component {
         },
         body: formData
       })
-      .then(response => {
-        if(response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-        let status = data[0];
-        if(status === 200) {
-          alert('수정됐습니다.');
-          this.props.history.push('/main/product/'+this.props.match.params.id);
-        } else {
-          alert('수정에 실패했습니다.');
-        }
-      });
+        .then(response => {
+          if (response.status === 401) {
+            return Promise.all([401])
+          } else {
+            return Promise.all([response.status, response.json()]);
+          }
+        })
+        .then(data => {
+          let status = data[0];
+          if (status === 200) {
+            alert('수정됐습니다.');
+            this.props.history.push('/main/product/' + this.props.match.params.id);
+          } else {
+            alert('수정에 실패했습니다.');
+          }
+        });
     }
   }
-  
+
   render() {
     var data = this.state.data;
     return (
@@ -101,40 +101,46 @@ class ProductModify extends Component {
               <FormGroup>
                 <Card>
                   <CardHeader>
-                    상품 수정하기
+                    품목 수정하기
                   </CardHeader>
                   <CardBody>
                     <Table className="ShowTable">
-                    <tbody>
-                      <tr>
-                        <th style={{width: '10%'}}>사진</th>
-                        <td style={{width: '40%'}}>
-                          <img style={{width: '90%'}} alt="제품 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
-                        </td>
-                        <th style={{width: '10%'}} className="TableRight">상품명</th>
-                        <td style={{width: '40%'}}>
-                          <Input defaultValue={data.name} onChange={(e) => this.form.name=e.target.value} />
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>등급</th>
-                        <td className="TableRight">
-                          <Input defaultValue={data.grade} onChange={(e) => this.form.grade=e.target.value} />
-                        </td>
-                        <th>상태</th>
-                        <td>{data.set ? <Badge color="primary">활성화</Badge> : <Badge color="danger">비활성화</Badge>}</td>
-                      </tr>
-                      <tr>
-                        <th>무게</th>
-                        <td>
-                          <Input defaultValue={data.weight} onChange={(e) => this.form.weight=e.target.value} />
-                        </td>
-                        <th>판매 단가</th>
-                        <td className="TableRight">
-                          <Input defaultValue={data.price_shipping} onChange={(e) => this.form.price=e.target.value} />
-                        </td>
-                      </tr>
-                    </tbody>
+                      <tbody>
+                        <tr>
+                          <th style={{ width: '10%' }}>사진</th>
+                          <td style={{ width: '40%' }}>
+                            <img style={{ width: '90%' }} alt="품목 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
+                          </td>
+                          <th style={{ width: '10%' }} >품목명</th>
+                          <td style={{ width: '40%' }}>
+                            <Input defaultValue={data.name} onChange={(e) => this.form.name = e.target.value} />
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>등급</th>
+                          <td >
+                            <Input defaultValue={data.grade} onChange={(e) => this.form.grade = e.target.value} />
+                          </td>
+                          <th>상태</th>
+                          <td>{data.set ? <Badge color="primary">활성화</Badge> : <Badge color="danger">비활성화</Badge>}</td>
+                        </tr>
+                        <tr>
+                          <th>무게</th>
+                          <td>
+                            <Input defaultValue={data.weight} onChange={(e) => this.form.weight = e.target.value} />
+                          </td>
+                          <th>판매 단가</th>
+                          <td >
+                            <Input defaultValue={data.price_shipping} onChange={(e) => this.form.price = e.target.value} />
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>품목군</th>
+                          <td colSpan="3" >
+                            <Input defaultValue={data.productFamily} onChange={(e) => this.form.productFamily = e.target.value} />                            
+                          </td>
+                        </tr>
+                      </tbody>
                     </Table>
                   </CardBody>
                   <CardFooter>

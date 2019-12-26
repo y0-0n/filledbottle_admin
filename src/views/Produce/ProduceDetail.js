@@ -67,10 +67,10 @@ class ProduceDetail extends Component {
                           {data.weather}
                         </td>
                         <th style={{width : 150}}>강수량</th>
-                        <td style={{width : 300}}>
-                            <Row>
-                                <Col xs="10">{data.rain}</Col>
-                            </Row>                          
+                        <td style={{ width: 300 }}>
+                          <Row>
+                            <Col xs="10">{data.rain}</Col>
+                          </Row>
                         </td>
                         <th style={{width : 150}}>적설량</th>
                         <td style={{width : 300}}>
@@ -103,7 +103,7 @@ class ProduceDetail extends Component {
                     </Table>
               </CardBody>
               <CardFooter>
-                  <Button onClick={() => {this.props.history.push(`/main/produce/edit/:id`)}} style={{marginLeft : '10px'}}>수정</Button>
+                  <Button onClick={() => {this.props.history.push(`/main/produce/edit/`+this.props.match.params.id)}} style={{marginLeft : '10px'}}>수정</Button>
                   <Button onClick={() => {}} style={{marginLeft : '10px'}}>생산 취소</Button>
               </CardFooter>
             </Card>

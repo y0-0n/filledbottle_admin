@@ -109,7 +109,7 @@ class CreateProduct extends Component {
               <FormGroup>
                 <Card>
                   <CardHeader>
-                    상품 등록하기
+                    품목 등록하기
                   </CardHeader>
                   <CardBody>
                     <Table className="ShowTable">
@@ -117,7 +117,7 @@ class CreateProduct extends Component {
                       <tr className="TableBottom">
                         <th style={{width: '10%'}}>사진</th>
                         <td style={{width: '40%'}} className="TableRight">
-                          <img alt="제품 사진" style={{height: 500, width: '90%'}} src={this.state.image} /> <br></br>
+                          <img alt="품목 사진" style={{height: 500, width: '90%'}} src={this.state.image} /> <br></br>
                           <input ref="file" type="file" name="file" onChange={e =>{this.handleFileInput(e);}}/> 
                         </td>
                         <th style={{width: '10%'}}>품목명</th>
