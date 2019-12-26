@@ -80,6 +80,7 @@ class ProductDetail extends Component {
 
   render() {
     var data = this.state.data;
+    {console.log(data.familyName)}
     return (
       <div className="animated fadeIn">
         <Row>
@@ -126,7 +127,7 @@ class ProductDetail extends Component {
                     <tr>
                       <th>품목군</th>
                       <td colSpan="3" >
-                        {data.productFamily}
+                        {data.familyName}
                       </td>
                     </tr>
 

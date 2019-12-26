@@ -11,11 +11,13 @@ class ProductModify extends Component {
     this.state = {
       data: [],
       image: null,
+      familyData: []
     };
   }
 
   componentWillMount() {
     this.getProduct();
+    this.getProductFamily();
   }
 
   getProduct() {
@@ -91,6 +93,31 @@ class ProductModify extends Component {
     }
   }
 
+  getProductFamily() {
+    fetch(process.env.REACT_APP_HOST + "/api/product/familyList", {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if (status === 200)
+          this.setState({ familyData: data[1] });
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })
+  }
+
   render() {
     var data = this.state.data;
     return (
@@ -137,7 +164,12 @@ class ProductModify extends Component {
                         <tr>
                           <th>품목군</th>
                           <td colSpan="3" >
-                            <Input defaultValue={data.productFamily} onChange={(e) => this.form.productFamily = e.target.value} />                            
+                          <Input defaultValue={data.familyName} onChange={(e) => {this.form.productFamily = e.target.value; console.log(this.form)}} type='select' name="family">
+                            <option value='NULL'>{data.familyName}</option>
+                            {this.state.familyData.map((e, i) => {
+                              return <option value={e.id}>{e.name}</option>
+                            })}
+                          </Input>
                           </td>
                         </tr>
                       </tbody>
