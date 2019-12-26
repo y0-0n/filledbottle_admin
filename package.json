@@ -22,7 +22,7 @@
     "classnames": "^2.2.6",
     "core-js": "^2.6.5",
     "css-loader": "^3.2.0",
-    "date-fns": "^2.3.0",
+    "date-fns": "^2.8.1",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.13.0",
     "flag-icon-css": "^3.3.0",
@@ -45,7 +45,7 @@
     "reactjs-popup": "^1.4.2",
     "reactstrap": "^7.1.0",
     "simple-line-icons": "^2.4.1",
-    "style-loader": "^1.0.0"
+    "style-loader": "^1.1.2"
   },
   "devDependencies": {
     "react-scripts": "^3.0.1"
