@@ -25,8 +25,7 @@ class Product extends Component {
       productData: [],
       stockData: [],
       page: 1,
-      number: 1,
-      keyword: 'a',
+      name: '',
       //set: true,
       stockEdit: false,
       familyData: [],
@@ -42,11 +41,20 @@ class Product extends Component {
   }
 
   getTotal() {
-    fetch(process.env.REACT_APP_HOST + "/product/total/" + this.state.keyword, {
-      method: 'GET',
+    const {name, family} = this.state;
+
+    fetch(process.env.REACT_APP_HOST + "/product/total/" + this.state.name, {
+      method: 'POST',
       headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      }
+      },
+      body: JSON.stringify(
+        {
+          name, family
+        }
+      )
     })
       .then(response => {
         if (response.status === 401) {
@@ -67,11 +75,19 @@ class Product extends Component {
   }
 
   getProduct() {
-    fetch(process.env.REACT_APP_HOST + "/product/" + this.state.number + '/' + this.state.keyword, {
-      method: 'GET',
+    const {page, name, family} = this.state;
+    fetch(process.env.REACT_APP_HOST + "/product/list", {
+      method: 'POST',
       headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
       },
+      body: JSON.stringify(
+        {
+          page, name, family
+        }
+      )
     })
       .then(response => {
         if (response.status === 401) {
@@ -93,7 +109,7 @@ class Product extends Component {
   }
 
   getStock() {
-    fetch(process.env.REACT_APP_HOST + "/api/stock/list/" + this.state.number, {
+    fetch(process.env.REACT_APP_HOST + "/api/stock/list/" + this.state.page, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -134,9 +150,9 @@ class Product extends Component {
   }
 
   searchProduct() {
-    let { keyword } = this;
+    let { name } = this;
     //let keyword = this.keyword
-    this.setState({ keyword }, () => {
+    this.setState({ name }, () => {
       this.getProduct();
     })
   }
@@ -281,21 +297,15 @@ class Product extends Component {
                     </tr>
                     <tr>
                       <th style={{ textAlign: "center" }}>품목명</th>
-                      <td colSpan="5"><Input onChange={(e) => { this.keyword = e.target.value }} /></td>
+                      <td colSpan="5"><Input onChange={(e) => { this.name = e.target.value }} /></td>
                     </tr>
                     <tr>
                       <th style={{ textAlign: "center" }}>품목군</th>
-                      {/*
-                        familyData.map((e, i) => {
-                          return <tr>
-                            {e.map((e2, i2) => {
-                              return <td style={{width: '20%'}}>{e2.name}</td>
-                            })}
-                          </tr>
-                        })
-                      */}
                       <td colSpan="5">
                         <ul style={{display: 'flex', 'flex-wrap': 'wrap'}}>
+                          <li style={{width: 'calc((100% - 80px) / 5)'}}>
+                            전체
+                          </li>
                           {
                             familyData.map((e, i) => {
                               return <li style={{width: 'calc((100% - 80px) / 5)'}}>{e.name}</li>
@@ -361,7 +371,7 @@ class Product extends Component {
                   <Table style={{ minWidth: 600 }} hover>
                     <thead>
                       <tr>
-                        <th>상품명</th>
+                        <th>품목명</th>
                         <th>품목군</th>
                         <th>등급</th>
                         <th>무게</th>
@@ -407,26 +417,26 @@ class Product extends Component {
               </CardBody>
               <CardFooter>
                 <Pagination>
-                  {this.state.number === 1 ? '' :
+                  {this.state.page === 1 ? '' :
                     <PaginationItem>
-                      <PaginationLink previous onClick={() => { this.countPageNumber(this.state.number - 1) }} />
+                      <PaginationLink previous onClick={() => { this.countPageNumber(this.state.page - 1) }} />
                     </PaginationItem>
                   }
-                  {this.state.number === 1 ? arr.forEach(x => arr1.push(x + 2)) : null}
-                  {this.state.number === 2 ? arr.forEach(x => arr1.push(x + 1)) : null}
-                  {this.state.number !== 1 && this.state.number !== 2 ? arr.forEach(x => arr1.push(x)) : null}
+                  {this.state.page === 1 ? arr.forEach(x => arr1.push(x + 2)) : null}
+                  {this.state.page === 2 ? arr.forEach(x => arr1.push(x + 1)) : null}
+                  {this.state.page !== 1 && this.state.page !== 2 ? arr.forEach(x => arr1.push(x)) : null}
                   {arr1.map((e, i) => {
-                    if (this.state.total >= this.state.number + e)
-                      return (<PaginationItem key={i} active={this.state.number === this.state.number + e}>
-                        <PaginationLink onClick={() => { this.countPageNumber(this.state.number + e) }}>
-                          {this.state.number + e}
+                    if (this.state.total >= this.state.page + e)
+                      return (<PaginationItem key={i} active={this.state.page === this.state.page + e}>
+                        <PaginationLink onClick={() => { this.countPageNumber(this.state.page + e) }}>
+                          {this.state.page + e}
                         </PaginationLink>
                       </PaginationItem>)
                     return null;
                   })}
-                  {this.state.number === this.state.total ? '' :
+                  {this.state.page === this.state.total ? '' :
                     <PaginationItem>
-                      <PaginationLink next onClick={() => { this.countPageNumber(this.state.number + 1) }} />
+                      <PaginationLink next onClick={() => { this.countPageNumber(this.state.page + 1) }} />
                     </PaginationItem>}
                 </Pagination>
               </CardFooter>
