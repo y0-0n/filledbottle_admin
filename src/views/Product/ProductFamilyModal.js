@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Col, Row, Button, Input, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import { Table, Col, Row, Button, Input, Pagination, PaginationItem, PaginationLink, InputGroup, InputGroupAddon } from 'reactstrap';
 
 const listCount = 5;
 
@@ -84,6 +84,37 @@ class ProductFamilyModal extends Component {
         this.props.close();
     }
 
+    addProductFamily() {
+        let {newFamily} = this.state;
+        fetch(process.env.REACT_APP_HOST + "/api/product/family", {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+          },
+          body: JSON.stringify({newFamily})
+        })
+        .then(response => {
+          if (response.status === 401) {
+            return Promise.all([401])
+          } else {
+            return Promise.all([response.status, response.json()]);
+          }
+        })
+        .then(data => {
+          let status = data[0];
+          if (status === 200) {
+            this.getProductFamily();
+            this.setState({newFamily: ''})
+          }
+          else {
+            alert('로그인 하고 접근해주세요');
+            this.props.history.push('/login');
+          }
+        })
+    }
+
     render() {
         const arr = [-2, -1, 0, 1, 2];
         const arr1 = [];
@@ -97,10 +128,7 @@ class ProductFamilyModal extends Component {
                                 <Input onChange={(e) => { this.keyword = e.target.value }} z />
                             </Col>
                             <Col xs='2'>
-                                <Button block color="primary">검색</Button>
-                            </Col>
-                            <Col xs='2'>
-                                <Button block color="success">신규</Button>
+                                <Button block color="primary" onClick={() => console.log('a')}>검색</Button>
                             </Col>
                         </Row>
                     </div>
@@ -112,6 +140,19 @@ class ProductFamilyModal extends Component {
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr>
+                                    <td>
+                                        <InputGroup>
+                                            <Input value={this.state.newFamily} onChange={(e) => {
+                                                let newFamily = e.target.value;
+                                                this.setState({ newFamily })
+                                            }} />
+                                            <InputGroupAddon addonType="append">
+                                                <Button onClick={this.addProductFamily.bind(this)} outline color="success">추가하기</Button>
+                                            </InputGroupAddon>
+                                        </InputGroup>
+                                    </td>
+                                </tr>
                                 {this.state.familyData.map((e, i) => {
                                     return (
                                     <tr style={{ cursor: 'pointer' }} onClick={() => this.selectProductFamily(e)} key={i}>

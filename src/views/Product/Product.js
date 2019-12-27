@@ -154,7 +154,7 @@ class Product extends Component {
   searchProduct() {
     let { name } = this;
     //let keyword = this.keyword
-    this.setState({ name }, () => {
+    this.setState({ name, page: 1 }, () => {
       this.getProduct();
     })
   }
@@ -162,6 +162,10 @@ class Product extends Component {
   changeStockEdit() {
     this.getStock();
     this.setState({ stockEdit: !this.state.stockEdit })
+  }
+
+  numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
   /*changeSet() {
@@ -172,7 +176,7 @@ class Product extends Component {
 
   countPageNumber(x) {
     this.setState({
-      number: x,
+      page: x,
     }, () => {
       this.getProduct();
       this.getStock();
@@ -234,6 +238,12 @@ class Product extends Component {
         this.props.history.push('/login');
       }
     })
+  }
+
+changeFamily (family) {
+  this.setState({
+    family
+  })
 }
 
 changeFamily (family) {
@@ -401,7 +411,7 @@ changeFamily (family) {
                           <td>{e.familyName}</td>
                           <td>{e.grade}</td>
                           <td>{e.weight}</td>
-                          <td>{e['price_shipping']}</td>
+                          <td>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</td>
                           {this.state.stockEdit ?
                             <td style={{ width: 250 }}><Input defaultValue={stockData[i] !== undefined ? stockData[i].quantity : null} onChange={(e) => { stockData[i].quantity = e.target.value; }} /></td> :
                             <td style={{ cursor: 'pointer' }} onClick={() => { this.props.history.push(`/main/stock/${e.id}`) }}>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>}

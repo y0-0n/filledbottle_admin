@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup, InputGroup, InputGroupAddon } from 'reactstrap';
 import Switch from "../Switch/Switch";
 
 /*
@@ -25,11 +25,13 @@ class ProductUnset extends Component {
       productData: [],
       stockData: [],
       page: 1,
-      number: 1,
-      keyword: 'a',
+      name: '',
+      family: 0,
       //set: true,
       stockEdit : false,
+      familyData: [],
     };
+    this.name = '';
     this.form = {
 
     }
@@ -37,14 +39,24 @@ class ProductUnset extends Component {
   componentWillMount() {
     this.getProduct();
     this.getStock();
+    this.getProductFamily();
   }
 
   getTotal() {
-    fetch(process.env.REACT_APP_HOST+"/product/total/unset/"+this.state.keyword, {
-      method: 'GET',
+    const {name, family} = this.state;
+
+    fetch(process.env.REACT_APP_HOST + "/product/total/unset/", {
+      method: 'POST',
       headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      }
+      },
+      body: JSON.stringify(
+        {
+          name, family
+        }
+      )
       })
       .then(response => {
         if(response.status === 401) {
@@ -65,11 +77,20 @@ class ProductUnset extends Component {
   }
 
   getProduct() {
-    fetch(process.env.REACT_APP_HOST+"/product/unset/"+this.state.number+'/'+this.state.keyword, {
-      method: 'GET',
+    const {page, name, family} = this.state;
+    console.warn(page, name, family)
+    fetch(process.env.REACT_APP_HOST + "/product/list/unset/", {
+      method: 'POST',
       headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
       },
+      body: JSON.stringify(
+        {
+          page, name, family
+        }
+      )
     })
       .then(response => {
         if (response.status === 401) {
@@ -91,7 +112,7 @@ class ProductUnset extends Component {
   }
 
   getStock() {
-    fetch(process.env.REACT_APP_HOST+"/api/stock/list/"+this.state.number, {
+    fetch(process.env.REACT_APP_HOST+"/api/stock/list/"+this.state.page, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -147,10 +168,36 @@ class ProductUnset extends Component {
     })
   }
 
+  getProductFamily() {
+    fetch(process.env.REACT_APP_HOST + "/api/product/familyList", {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if (status === 200){
+          this.setState({ familyData: data[1] });
+        }
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })
+  }
+
   searchProduct() {
-    let {keyword} = this;
+    let {name} = this;
     //let keyword = this.keyword
-    this.setState({keyword}, () => {
+    this.setState({name}, () => {
       this.getProduct();
     })
   }
@@ -168,16 +215,54 @@ class ProductUnset extends Component {
 
   countPageNumber(x){
     this.setState({
-      number: x,
+      page: x,
     }, () => {
       this.getProduct();
       this.getStock();
     });
   }
 
+  addProductFamily() {
+    let {newFamily} = this.state;
+    fetch(process.env.REACT_APP_HOST + "/api/product/family", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+      body: JSON.stringify({newFamily})
+    })
+    .then(response => {
+      if (response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+      let status = data[0];
+      if (status === 200) {
+        this.getProductFamily();
+        this.setState({newFamily: ''})
+      }
+      else {
+        alert('로그인 하고 접근해주세요');
+        this.props.history.push('/login');
+      }
+    })
+  }
+
+  changeFamily (family) {
+    this.setState({
+      family
+    })
+  }
+
   render() {
     var data = this.state.productData;
     var stockData = this.state.stockData;
+    var {familyData} = this.state;
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
 
@@ -237,8 +322,43 @@ class ProductUnset extends Component {
                     </tr>
                     <tr>
                       <th style={{textAlign: "center"}}>품목명</th>
-                      <td colSpan="5"><Input onChange={(e) => { this.keyword = e.target.value }} /></td>
+                      <td colSpan="5"><Input onChange={(e) => { this.name = e.target.value }} /></td>
                     </tr>
+                    <tr>
+                      <th style={{ textAlign: "center" }}>품목군</th>
+                      {/*
+                        familyData.map((e, i) => {
+                          return <tr>
+                            {e.map((e2, i2) => {
+                              return <td style={{width: '20%'}}>{e2.name}</td>
+                            })}
+                          </tr>
+                        })
+                      */}
+                      <td colSpan="5">
+                        <ul style={{display: 'flex', 'flex-wrap': 'wrap'}}>
+                          <li style={{width: 'calc((100% - 80px) / 5)', color : this.state.family === 0? 'red' : 'black'}} onClick = {() => this.changeFamily(0)}>
+                            전체
+                          </li>
+                          {
+                            familyData.map((e, i) => {
+                              return <li style={{width: 'calc((100% - 80px) / 5)', color : this.state.family === e.id? 'red' : 'black'}}  onClick = {() => this.changeFamily(e.id)}>{e.name}</li>
+                            })
+                          }
+                          <li style={{width: 'calc((100% - 80px) / 5)'}}>
+                            <InputGroup>
+                              <Input style={{ width: 10 }} value={this.state.newFamily} onChange={(e) => {
+                                let newFamily = e.target.value;
+                                this.setState({ newFamily })
+                              }} />
+                              <InputGroupAddon addonType="append">
+                                <Button onClick={this.addProductFamily.bind(this)} outline color="success">+</Button>
+                              </InputGroupAddon>
+                            </InputGroup>
+                          </li>
+                        </ul>
+                      </td>
+                    </tr>                    
                   </tbody>
                 </Table>
                 <Row>
@@ -330,26 +450,26 @@ class ProductUnset extends Component {
               </CardBody>
               <CardFooter>
                 <Pagination>
-                  {this.state.number === 1 ? '' : 
+                  {this.state.page === 1 ? '' : 
                   <PaginationItem>
-                    <PaginationLink previous onClick={() => {this.countPageNumber(this.state.number-1)}}/>
+                    <PaginationLink previous onClick={() => {this.countPageNumber(this.state.page-1)}}/>
                   </PaginationItem>
                   }
-                  {this.state.number === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
-                  {this.state.number === 2 ? arr.forEach(x => arr1.push(x+1)) : null}   
-                  {this.state.number !== 1 && this.state.number!== 2 ? arr.forEach(x => arr1.push(x)) :null }    
+                  {this.state.page === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
+                  {this.state.page === 2 ? arr.forEach(x => arr1.push(x+1)) : null}   
+                  {this.state.page !== 1 && this.state.page!== 2 ? arr.forEach(x => arr1.push(x)) :null }    
                   {arr1.map((e, i) => {
-                    if(this.state.total >= this.state.number+e)
-                    return (<PaginationItem key={i} active={this.state.number === this.state.number+e}>
-                      <PaginationLink onClick={() => {this.countPageNumber(this.state.number+e)}}>
-                      {this.state.number+e}
+                    if(this.state.total >= this.state.page+e)
+                    return (<PaginationItem key={i} active={this.state.page === this.state.page+e}>
+                      <PaginationLink onClick={() => {this.countPageNumber(this.state.page+e)}}>
+                      {this.state.page+e}
                       </PaginationLink>
                     </PaginationItem>)
                     return null;
                   })}
-                  {this.state.number === this.state.total ? '' : 
+                  {this.state.page === this.state.total ? '' : 
                   <PaginationItem>
-                    <PaginationLink next onClick={() => {this.countPageNumber(this.state.number+1)}}/>
+                    <PaginationLink next onClick={() => {this.countPageNumber(this.state.page+1)}}/>
                   </PaginationItem>}
                 </Pagination>
               </CardFooter>
