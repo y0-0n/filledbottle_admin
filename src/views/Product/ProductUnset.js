@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup, InputGroup, InputGroupAddon } from 'reactstrap';
 import Switch from "../Switch/Switch";
 
 /*
@@ -29,6 +29,7 @@ class ProductUnset extends Component {
       keyword: 'a',
       //set: true,
       stockEdit : false,
+      familyData: [],
     };
     this.form = {
 
@@ -37,6 +38,7 @@ class ProductUnset extends Component {
   componentWillMount() {
     this.getProduct();
     this.getStock();
+    this.getProductFamily();
   }
 
   getTotal() {
@@ -147,6 +149,32 @@ class ProductUnset extends Component {
     })
   }
 
+  getProductFamily() {
+    fetch(process.env.REACT_APP_HOST + "/api/product/familyList", {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if (status === 200){
+          this.setState({ familyData: data[1] });
+        }
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })
+  }
+
   searchProduct() {
     let {keyword} = this;
     //let keyword = this.keyword
@@ -175,9 +203,41 @@ class ProductUnset extends Component {
     });
   }
 
+  addProductFamily() {
+    let {newFamily} = this.state;
+    fetch(process.env.REACT_APP_HOST + "/api/product/family", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+      body: JSON.stringify({newFamily})
+    })
+    .then(response => {
+      if (response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+      let status = data[0];
+      if (status === 200) {
+        this.getProductFamily();
+        this.setState({newFamily: ''})
+      }
+      else {
+        alert('로그인 하고 접근해주세요');
+        this.props.history.push('/login');
+      }
+    })
+  }
+
   render() {
     var data = this.state.productData;
     var stockData = this.state.stockData;
+    var {familyData} = this.state;
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
 
@@ -239,6 +299,38 @@ class ProductUnset extends Component {
                       <th style={{textAlign: "center"}}>품목명</th>
                       <td colSpan="5"><Input onChange={(e) => { this.keyword = e.target.value }} /></td>
                     </tr>
+                    <tr>
+                      <th style={{ textAlign: "center" }}>품목군</th>
+                      {/*
+                        familyData.map((e, i) => {
+                          return <tr>
+                            {e.map((e2, i2) => {
+                              return <td style={{width: '20%'}}>{e2.name}</td>
+                            })}
+                          </tr>
+                        })
+                      */}
+                      <td colSpan="5">
+                        <ul style={{display: 'flex', 'flex-wrap': 'wrap'}}>
+                          {
+                            familyData.map((e, i) => {
+                              return <li style={{width: 'calc((100% - 80px) / 5)'}}>{e.name}</li>
+                            })
+                          }
+                          <li style={{width: 'calc((100% - 80px) / 5)'}}>
+                            <InputGroup>
+                              <Input style={{ width: 10 }} value={this.state.newFamily} onChange={(e) => {
+                                let newFamily = e.target.value;
+                                this.setState({ newFamily })
+                              }} />
+                              <InputGroupAddon addonType="append">
+                                <Button onClick={this.addProductFamily.bind(this)} outline color="success">+</Button>
+                              </InputGroupAddon>
+                            </InputGroup>
+                          </li>
+                        </ul>
+                      </td>
+                    </tr>                    
                   </tbody>
                 </Table>
                 <Row>

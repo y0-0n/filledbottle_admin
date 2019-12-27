@@ -216,7 +216,7 @@ class Product extends Component {
         this.props.history.push('/login');
       }
     })
-}
+  }
 
   render() {
     var data = this.state.productData;
