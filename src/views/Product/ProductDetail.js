@@ -80,6 +80,7 @@ class ProductDetail extends Component {
 
   render() {
     var data = this.state.data;
+    {console.log(data.familyName)}
     return (
       <div className="animated fadeIn">
         <Row>
