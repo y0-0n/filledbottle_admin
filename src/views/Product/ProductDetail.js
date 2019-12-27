@@ -126,7 +126,7 @@ class ProductDetail extends Component {
                     <tr>
                       <th>품목군</th>
                       <td colSpan="3" >
-                        {data.productFamily}
+                        {data.familyName}
                       </td>
                     </tr>
 

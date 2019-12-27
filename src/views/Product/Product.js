@@ -177,8 +177,9 @@ class Product extends Component {
       })
       .then(data => {
         let status = data[0];
-        if (status === 200)
+        if (status === 200){
           this.setState({ familyData: data[1] });
+        }
         else {
           alert('로그인 하고 접근해주세요');
           this.props.history.push('/login');
@@ -283,11 +284,23 @@ class Product extends Component {
                       <td colSpan="5"><Input onChange={(e) => { this.keyword = e.target.value }} /></td>
                     </tr>
                     <tr>
-                    <th style={{ textAlign: "center" }}>품목군</th>
-                      {familyData.map((e, i) => {
-                        return (<td>{e.name}</td>)
-                      })}
-                      <td>
+                      <th style={{ textAlign: "center", rowspan: 2 }}>품목군</th>
+                      {/*
+                        familyData.map((e, i) => {
+                          return <tr>
+                            {e.map((e2, i2) => {
+                              return <td style={{width: '20%'}}>{e2.name}</td>
+                            })}
+                          </tr>
+                        })
+                      */}
+                      <ul style={{display: 'flex', 'flex-wrap': 'wrap'}}>
+                      {
+                        familyData.map((e, i) => {
+                          return <li style={{width: 'calc((100% - 80px) / 5)'}}>{e.name}</li>
+                        })
+                      }
+                      <li>
                         <InputGroup>
                           <Input style={{ width: 10 }} value={this.state.newFamily} onChange={(e) => {
                             let newFamily = e.target.value;
@@ -297,7 +310,8 @@ class Product extends Component {
                             <Button onClick={this.addProductFamily.bind(this)} outline color="success">+</Button>
                           </InputGroupAddon>
                         </InputGroup>
-                      </td>
+                      </li>
+                      </ul>
                     </tr>
                   </tbody>
                 </Table>
