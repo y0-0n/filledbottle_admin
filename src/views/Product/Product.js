@@ -45,7 +45,7 @@ class Product extends Component {
   getTotal() {
     const {name, family} = this.state;
 
-    fetch(process.env.REACT_APP_HOST + "/product/total/" + this.state.name, {
+    fetch(process.env.REACT_APP_HOST + "/product/total/", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -235,6 +235,12 @@ class Product extends Component {
       }
     })
   }
+
+changeFamily (family) {
+  this.setState({
+    family
+  })
+}
 
 changeFamily (family) {
   this.setState({
