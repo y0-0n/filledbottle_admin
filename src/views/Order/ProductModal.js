@@ -7,11 +7,12 @@ class ProductModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
-      keyword: 'a',
+      productData: [],
+      name: '',
       page: 1,
-      number: 1,
+      family: 0,
     };
+    this.name = '';
   }
 
   componentWillMount() {
@@ -46,30 +47,39 @@ class ProductModal extends Component {
   }
 
   getProduct() {
-    fetch(process.env.REACT_APP_HOST+`/product/`+this.state.number+'/'+this.state.keyword, {
-      method: 'GET',
+    const {page, name, family} = this.state;
+    fetch(process.env.REACT_APP_HOST + "/product/list", {
+      method: 'POST',
       headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
       },
+      body: JSON.stringify(
+        {
+          page, name, family
+        }
+      )
     })
       .then(response => {
-        if(response.status === 401) {
+        if (response.status === 401) {
           return Promise.all([401])
         } else {
           return Promise.all([response.status, response.json()]);
-        }  
+        }
       })
       .then(data => {
-        const status = data[0];
-        if(status === 200) {
-          this.setState({data: data[1]});
-        } else {
+        let status = data[0];
+        if (status === 200)
+          this.setState({ productData: data[1] });
+        else {
           alert('로그인 하고 접근해주세요');
-          this.props.login();
+          this.props.history.push('/login');
         }
         this.getTotal();
       })
   }
+
   searchProduct() {
     let {keyword} = this;
     //let keyword = this.keyword
@@ -123,7 +133,7 @@ class ProductModal extends Component {
                   </thead>
                   <tbody>
                     {
-                      this.state.data.map(function (e, i) {
+                      this.state.productData.map(function (e, i) {
                         //console.warn(e);
                         return (
                           <tr style={{cursor: 'pointer'}} onClick={() => this.selectProduct(e)} key={i}>
@@ -140,26 +150,26 @@ class ProductModal extends Component {
           </div>
           <div style={{margin : 'auto'}}>
             <Pagination>
-                  {this.state.number === 1 ? '' : 
+                  {this.state.page === 1 ? '' : 
                   <PaginationItem>
-                    <PaginationLink previous onClick={() => {this.countPageNumber(this.state.number-1)}}/>
+                    <PaginationLink previous onClick={() => {this.countPageNumber(this.state.page-1)}}/>
                   </PaginationItem>
                   }
-              {this.state.number === 1 ? arr.forEach(x => arr1.push(x + 2)) : null}
-              {this.state.number === 2 ? arr.forEach(x => arr1.push(x + 1)) : null}
-              {this.state.number !== 1 && this.state.number !== 2 ? arr.forEach(x => arr1.push(x)) : null}
+              {this.state.page === 1 ? arr.forEach(x => arr1.push(x + 2)) : null}
+              {this.state.page === 2 ? arr.forEach(x => arr1.push(x + 1)) : null}
+              {this.state.page !== 1 && this.state.page !== 2 ? arr.forEach(x => arr1.push(x)) : null}
               {arr1.map((e, i) => {
-                if (this.state.total >= this.state.number + e)
-                  return (<PaginationItem key={i} active={this.state.number === this.state.number + e}>
-                    <PaginationLink onClick={() => { this.countPageNumber(this.state.number + e) }}>
-                      {this.state.number + e}
+                if (this.state.total >= this.state.page + e)
+                  return (<PaginationItem key={i} active={this.state.page === this.state.page + e}>
+                    <PaginationLink onClick={() => { this.countPageNumber(this.state.page + e) }}>
+                      {this.state.page + e}
                     </PaginationLink>
                   </PaginationItem>)
                 return null;
               })}
-              {this.state.number === this.state.total ? '' : 
+              {this.state.page === this.state.total ? '' : 
               <PaginationItem>
-                <PaginationLink next onClick={() => {this.countPageNumber(this.state.number+1)}}/>
+                <PaginationLink next onClick={() => {this.countPageNumber(this.state.page+1)}}/>
               </PaginationItem>}
             </Pagination>
           </div>

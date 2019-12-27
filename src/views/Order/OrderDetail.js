@@ -26,31 +26,31 @@ class OrderDetail extends Component {
   }
 
   getData(id) {
-    fetch(process.env.REACT_APP_HOST+"/order/orderDetail/"+id, {
+    fetch(process.env.REACT_APP_HOST+"/order/detail/"+id, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
       }
-  })
-      .then(response => {
-        if(response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-        const status = data[0];
-        if(status === 200) {
-          this.setState({data: data[1]})
-        } else if(status === 401) {
-          alert('로그인 하고 접근해주세요')
-          this.props.history.push('/login')
-        } else if(status === 400) {
-          alert('존재하지 않는 주문입니다.');
-          this.props.history.push('/main/sales/list')
-        }
-      });
+    })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+      const status = data[0];
+      if(status === 200) {
+        this.setState({data: data[1]})
+      } else if(status === 401) {
+        alert('로그인 하고 접근해주세요')
+        this.props.history.push('/login')
+      } else if(status === 400) {
+        alert('존재하지 않는 주문입니다.');
+        this.props.history.push('/main/sales/list')
+      }
+    });
   }
 
   numberWithCommas(x) {
@@ -110,7 +110,7 @@ class OrderDetail extends Component {
       c = window.confirm('이 상품을 환불하시겠습니까?');
 
     if(c) {
-      fetch(process.env.REACT_APP_HOST+"/order/orderDetail/refund/"+id, {
+      fetch(process.env.REACT_APP_HOST+"/order/detail/refund/"+id, {
         method: 'PUT',
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem('token'),
