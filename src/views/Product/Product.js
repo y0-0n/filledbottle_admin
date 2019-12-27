@@ -284,7 +284,7 @@ class Product extends Component {
                       <td colSpan="5"><Input onChange={(e) => { this.keyword = e.target.value }} /></td>
                     </tr>
                     <tr>
-                      <th style={{ textAlign: "center", rowspan: 2 }}>품목군</th>
+                      <th style={{ textAlign: "center" }}>품목군</th>
                       {/*
                         familyData.map((e, i) => {
                           return <tr>
@@ -294,24 +294,26 @@ class Product extends Component {
                           </tr>
                         })
                       */}
-                      <ul style={{display: 'flex', 'flex-wrap': 'wrap'}}>
-                      {
-                        familyData.map((e, i) => {
-                          return <li style={{width: 'calc((100% - 80px) / 5)'}}>{e.name}</li>
-                        })
-                      }
-                      <li>
-                        <InputGroup>
-                          <Input style={{ width: 10 }} value={this.state.newFamily} onChange={(e) => {
-                            let newFamily = e.target.value;
-                            this.setState({ newFamily })
-                          }} />
-                          <InputGroupAddon addonType="append">
-                            <Button onClick={this.addProductFamily.bind(this)} outline color="success">+</Button>
-                          </InputGroupAddon>
-                        </InputGroup>
-                      </li>
-                      </ul>
+                      <td colSpan="5">
+                        <ul style={{display: 'flex', 'flex-wrap': 'wrap'}}>
+                          {
+                            familyData.map((e, i) => {
+                              return <li style={{width: 'calc((100% - 80px) / 5)'}}>{e.name}</li>
+                            })
+                          }
+                          <li style={{width: 'calc((100% - 80px) / 5)'}}>
+                            <InputGroup>
+                              <Input style={{ width: 10 }} value={this.state.newFamily} onChange={(e) => {
+                                let newFamily = e.target.value;
+                                this.setState({ newFamily })
+                              }} />
+                              <InputGroupAddon addonType="append">
+                                <Button onClick={this.addProductFamily.bind(this)} outline color="success">+</Button>
+                              </InputGroupAddon>
+                            </InputGroup>
+                          </li>
+                        </ul>
+                      </td>
                     </tr>
                   </tbody>
                 </Table>

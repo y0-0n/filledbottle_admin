@@ -72,8 +72,8 @@ class RegisterDetail extends Component {
                       {data.phone}
                     </td>
                     <th>사업자등록번호</th>
-                      {data.crNumber}
                     <td>
+                      {data.crNumber}
                     </td>
                   </tr>
                   <tr>
