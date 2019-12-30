@@ -10,7 +10,6 @@ class Manufacture extends Component {
     this.state = {
       manufactureData: [],
       page: 1,
-      number: 1,
       keyword: '',
       first_date: (new Date(new Date().getTime() - 60*60*24*1000*30)),
       last_date: new Date(),

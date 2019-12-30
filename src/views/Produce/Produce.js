@@ -12,8 +12,11 @@ class Produce extends Component {
       data: [],
       page: 1,
       number: 1,
-      keyword: 'a',
+      keyword: '',
+      first_date: (new Date(new Date().getTime() - 60*60*24*1000*30)),
+      last_date: new Date(),
     };
+    this.keyword = '';
   }
 
   componentWillMount() {
@@ -21,11 +24,18 @@ class Produce extends Component {
   }
   
   getTotal() {
-    fetch(process.env.REACT_APP_HOST+"/api/produce/total/"+this.state.keyword, {
-      method: 'GET',
+    let {keyword, first_date, last_date} = this.state;
+
+    fetch(process.env.REACT_APP_HOST+"/api/produce/total/", {
+      method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      }
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        keyword, first_date, last_date
+      })
       })
       .then(response => {
         if(response.status === 401) {
@@ -54,11 +64,18 @@ class Produce extends Component {
   }
 
   getList() {
-    fetch(process.env.REACT_APP_HOST+"/api/produce/list/"+this.state.number+'/'+this.state.keyword, {
-      method: 'GET',
+    let {page, keyword, first_date, last_date} = this.state;
+
+    fetch(process.env.REACT_APP_HOST+"/api/produce/list/", {
+      method: 'POST',
       headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
       },
+      body: JSON.stringify({
+        page, keyword, first_date, last_date
+      })
     })
       .then(response => {
         if (response.status === 401) {
