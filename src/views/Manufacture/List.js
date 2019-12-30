@@ -4,15 +4,17 @@ import { Card, CardBody, CardHeader, Col, Row, Table, Button, CardFooter, Pagina
 
 const listCount = 5;
 
-class List extends Component {
+class Manufacture extends Component {
   constructor(props) {
     super(props);
     this.state = {
       manufactureData: [],
       page: 1,
-      number: 1,
-      keyword: 'a',
+      keyword: '',
+      first_date: (new Date(new Date().getTime() - 60*60*24*1000*30)),
+      last_date: new Date(),
     };
+    this.keyword = '';
   }
 
   componentWillMount() {
@@ -21,16 +23,24 @@ class List extends Component {
 
   getDate(dateInput) {
     var d = new Date(dateInput);
-    var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
+    var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate(), ho = d.getHours(), min = d.getMinutes(), sec = d.getSeconds();
 
-    return year + "년 " + month + "월 " + date + "일";
+    return year + "년 " + month + "월 " + date + "일 " + ho + ":" + min + ":" + sec;
   }
+
   getTotal() {
-    fetch(process.env.REACT_APP_HOST+"/api/manufacture/total/"+this.state.keyword, {
-      method: 'GET',
+    let {keyword, first_date, last_date} = this.state;
+
+    fetch(process.env.REACT_APP_HOST+"/api/manufacture/total/", {
+      method: 'POST',
       headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      }
+      },
+      body: JSON.stringify({
+        keyword, first_date, last_date
+      })
     })
       .then(response => {
         if(response.status === 401) {
@@ -51,11 +61,17 @@ class List extends Component {
   }
   
   getList() {
-    fetch(process.env.REACT_APP_HOST+"/api/manufacture/"+this.state.number+'/'+this.state.keyword, {
-      method: 'GET',
+    let {page, keyword, first_date, last_date} = this.state;
+    fetch(process.env.REACT_APP_HOST+"/api/manufacture/list", {
+      method: 'POST',
       headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
       },
+      body: JSON.stringify({
+        page, keyword, first_date, last_date
+      })
     })
       .then(response => {
         if (response.status === 401) {
@@ -78,7 +94,7 @@ class List extends Component {
 
   searchManufacture() {
     let {keyword} = this;
-    this.setState({keyword}, () => {
+    this.setState({keyword, page: 1}, () => {
       this.getList();
       this.getTotal();
     })
@@ -93,7 +109,7 @@ class List extends Component {
 
   countPageNumber(x){
     this.setState({
-      number: x,
+      page: x,
     }, () => {
       this.getList();
     });
@@ -192,26 +208,26 @@ class List extends Component {
                 </CardBody>
                 <CardFooter>
                   <Pagination>
-                    {this.state.number === 1 ? '' :
+                    {this.state.page === 1 ? '' :
                       <PaginationItem>
-                        <PaginationLink previous onClick={() => { this.countPageNumber(this.state.number - 1) }} />
+                        <PaginationLink previous onClick={() => { this.countPageNumber(this.state.page - 1) }} />
                       </PaginationItem>
                     }
-                    {this.state.number === 1 ? arr.forEach(x => arr1.push(x + 2)) : null}
-                    {this.state.number === 2 ? arr.forEach(x => arr1.push(x + 1)) : null}
-                    {this.state.number !== 1 && this.state.number !== 2 ? arr.forEach(x => arr1.push(x)) : null}
+                    {this.state.page === 1 ? arr.forEach(x => arr1.push(x + 2)) : null}
+                    {this.state.page === 2 ? arr.forEach(x => arr1.push(x + 1)) : null}
+                    {this.state.page !== 1 && this.state.page !== 2 ? arr.forEach(x => arr1.push(x)) : null}
                     {arr1.map((e, i) => {
-                      if (this.state.total >= this.state.number + e)
-                        return (<PaginationItem key={i} active={this.state.number === this.state.number + e}>
-                          <PaginationLink onClick={() => { this.countPageNumber(this.state.number + e) }}>
-                            {this.state.number + e}
+                      if (this.state.total >= this.state.page + e)
+                        return (<PaginationItem key={i} active={this.state.page === this.state.page + e}>
+                          <PaginationLink onClick={() => { this.countPageNumber(this.state.page + e) }}>
+                            {this.state.page + e}
                           </PaginationLink>
                         </PaginationItem>)
                       return null;
                     })}
-                    {this.state.number === this.state.total ? '' :
+                    {this.state.page === this.state.total ? '' :
                       <PaginationItem>
-                        <PaginationLink next onClick={() => { this.countPageNumber(this.state.number + 1) }} />
+                        <PaginationLink next onClick={() => { this.countPageNumber(this.state.page + 1) }} />
                       </PaginationItem>}
                   </Pagination>
                 </CardFooter>
@@ -223,4 +239,4 @@ class List extends Component {
   }
 }
 
-export default List;
+export default Manufacture;

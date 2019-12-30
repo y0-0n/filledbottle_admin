@@ -11,7 +11,6 @@ class Produce extends Component {
     this.state = {
       data: [],
       page: 1,
-      number: 1,
       keyword: '',
       first_date: (new Date(new Date().getTime() - 60*60*24*1000*30)),
       last_date: new Date(),
@@ -103,12 +102,19 @@ class Produce extends Component {
     return year + "년 " + month + "월 " + date + "일";
   }
 
+  countPageNumber(x){
+    this.setState({
+      page: x,
+    }, () => {
+      this.getList();
+    });
+  }
+
   render() {
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
     let {data} = this.state;
 
-    console.warn(this.state.data)
     return (
       <div className="animated fadeIn">
         <Row className="">
@@ -200,26 +206,26 @@ class Produce extends Component {
                 </CardBody>
                 <CardFooter>
                   <Pagination>
-                    {this.state.number === 1 ? '' :
+                    {this.state.page === 1 ? '' :
                       <PaginationItem>
-                        <PaginationLink previous onClick={() => { this.countPageNumber(this.state.number - 1) }} />
+                        <PaginationLink previous onClick={() => { this.countPageNumber(this.state.page - 1) }} />
                       </PaginationItem>
                     }
-                    {this.state.number === 1 ? arr.forEach(x => arr1.push(x + 2)) : null}
-                    {this.state.number === 2 ? arr.forEach(x => arr1.push(x + 1)) : null}
-                    {this.state.number !== 1 && this.state.number !== 2 ? arr.forEach(x => arr1.push(x)) : null}
+                    {this.state.page === 1 ? arr.forEach(x => arr1.push(x + 2)) : null}
+                    {this.state.page === 2 ? arr.forEach(x => arr1.push(x + 1)) : null}
+                    {this.state.page !== 1 && this.state.page !== 2 ? arr.forEach(x => arr1.push(x)) : null}
                     {arr1.map((e, i) => {
-                      if (this.state.total >= this.state.number + e)
-                        return (<PaginationItem key={i} active={this.state.number === this.state.number + e}>
-                          <PaginationLink onClick={() => { this.countPageNumber(this.state.number + e) }}>
-                            {this.state.number + e}
+                      if (this.state.total >= this.state.page + e)
+                        return (<PaginationItem key={i} active={this.state.page === this.state.page + e}>
+                          <PaginationLink onClick={() => { this.countPageNumber(this.state.page + e) }}>
+                            {this.state.page + e}
                           </PaginationLink>
                         </PaginationItem>)
                       return null;
                     })}
-                    {this.state.number === this.state.total ? '' :
+                    {this.state.page === this.state.total ? '' :
                       <PaginationItem>
-                        <PaginationLink next onClick={() => { this.countPageNumber(this.state.number + 1) }} />
+                        <PaginationLink next onClick={() => { this.countPageNumber(this.state.page + 1) }} />
                       </PaginationItem>}
                   </Pagination>
                 </CardFooter>
