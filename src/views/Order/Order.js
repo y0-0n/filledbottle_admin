@@ -35,7 +35,7 @@ class Sales extends Component {
       page: 1,
       total: 0,
       keyword: '',
-      first_date: new Date('2019-11-24'),
+      first_date: (new Date(new Date().getTime() - 60*60*24*1000*30)),
       last_date: new Date(),
     };
     this.keyword = '';
