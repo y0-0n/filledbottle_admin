@@ -9,7 +9,7 @@ const stateKor = {
   cancel: '취소'
 }
 
-class OrderDetail extends Component {
+class Detail extends Component {
   constructor(props) {
     super(props);
 
@@ -273,4 +273,4 @@ class OrderDetail extends Component {
   }
 }
 
-export default OrderDetail;
+export default Detail;

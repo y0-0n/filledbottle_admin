@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, CardBody, CardHeader, Col, Row, Table, } from 'reactstrap';
 
-class StockDetail extends Component {
+class Detail extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -84,4 +84,4 @@ class StockDetail extends Component {
   }
 }
 
-export default StockDetail;
+export default Detail;

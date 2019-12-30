@@ -22,14 +22,23 @@ class ProductModal extends Component {
   }
 
   getTotal() {
-    fetch(process.env.REACT_APP_HOST+"/product/total/"+this.state.keyword, {
-      method: 'GET',
+    const {name, family} = this.state;
+
+    fetch(process.env.REACT_APP_HOST + "/product/total/", {
+      method: 'POST',
       headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      }
-      })
+      },
+      body: JSON.stringify(
+        {
+          name, family
+        }
+      )
+    })
       .then(response => {
-        if(response.status === 401) {
+        if (response.status === 401) {
           return Promise.all([401])
         } else {
           return Promise.all([response.status, response.json()]);
@@ -37,11 +46,11 @@ class ProductModal extends Component {
       })
       .then(data => {
         const status = data[0];
-        if(status === 200) {
-          this.setState({total: Math.ceil(data[1][0].total/listCount)})
+        if (status === 200) {
+          this.setState({ total: Math.ceil(data[1][0].total / listCount) })
         } else {
           alert('로그인 하고 접근해주세요')
-          this.props.login();
+          this.props.history.push('/login')
         }
       });
   }
@@ -81,9 +90,9 @@ class ProductModal extends Component {
   }
 
   searchProduct() {
-    let {keyword} = this;
+    let {name} = this;
     //let keyword = this.keyword
-    this.setState({keyword}, () => {
+    this.setState({name}, () => {
       this.getProduct();
     })
   }
@@ -95,9 +104,10 @@ class ProductModal extends Component {
 
   countPageNumber(x){
     this.setState({
-      number: x,
+      page: x,
     }, () => {
       this.getProduct();
+      this.getTotal();
     });
   }
 
@@ -111,7 +121,7 @@ class ProductModal extends Component {
           <Row>
               <Col><i className="icon-drop">상품 검색</i></Col>
               <Col>
-                <Input onChange={(e)=> {this.keyword = e.target.value}}z/>
+                <Input onChange={(e)=> {this.name = e.target.value}}z/>
               </Col>
               <Col xs='2'>
                 <Button block color="primary" onClick={()=> {this.searchProduct()}}>검색</Button>

@@ -3,7 +3,7 @@ import { Card, CardBody, CardHeader, CardFooter, Col, Row, Button, Table, Badge,
 import '../../css/Table.css';
 
 
-class ProductDetail extends Component {
+class Detail extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -153,4 +153,4 @@ class ProductDetail extends Component {
   }
 }
 
-export default ProductDetail;
+export default Detail;

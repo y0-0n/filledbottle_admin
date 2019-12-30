@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Input, Table,} from 'reactstrap';
 import '../../css/Table.css';
 
-class CreateCustomer extends Component {
+class Create extends Component {
   constructor(props) {
     super(props);
     this.form = {
@@ -107,5 +107,5 @@ class CreateCustomer extends Component {
   }
 }
 
-export default CreateCustomer;
+export default Create;
 

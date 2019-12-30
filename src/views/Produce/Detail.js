@@ -8,7 +8,7 @@ registerLocale('ko', ko)
 
 let d = {id: '', name: '',};
 
-class ProduceDetail extends Component {
+class Detail extends Component {
   constructor(props) {
     super(props);
 
@@ -163,4 +163,4 @@ class ProduceDetail extends Component {
   }
 }
 
-export default ProduceDetail;
+export default Detail;

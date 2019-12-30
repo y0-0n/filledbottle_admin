@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup, InputGroup, InputGroupAddon, } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup, InputGroup, InputGroupAddon } from 'reactstrap';
 import Switch from "../Switch/Switch";
 
 /*
@@ -18,7 +18,7 @@ import Switch from "../Switch/Switch";
 
 const listCount = 5;
 
-class Product extends Component {
+class Unset extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,7 +28,7 @@ class Product extends Component {
       name: '',
       family: 0,
       //set: true,
-      stockEdit: false,
+      stockEdit : false,
       familyData: [],
     };
     this.name = '';
@@ -45,7 +45,7 @@ class Product extends Component {
   getTotal() {
     const {name, family} = this.state;
 
-    fetch(process.env.REACT_APP_HOST + "/product/total/", {
+    fetch(process.env.REACT_APP_HOST + "/product/total/unset/", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -57,9 +57,9 @@ class Product extends Component {
           name, family
         }
       )
-    })
+      })
       .then(response => {
-        if (response.status === 401) {
+        if(response.status === 401) {
           return Promise.all([401])
         } else {
           return Promise.all([response.status, response.json()]);
@@ -67,8 +67,8 @@ class Product extends Component {
       })
       .then(data => {
         const status = data[0];
-        if (status === 200) {
-          this.setState({ total: Math.ceil(data[1][0].total / listCount) })
+        if(status === 200) {
+          this.setState({total: Math.ceil(data[1][0].total/listCount)})
         } else {
           alert('로그인 하고 접근해주세요')
           this.props.history.push('/login')
@@ -78,7 +78,8 @@ class Product extends Component {
 
   getProduct() {
     const {page, name, family} = this.state;
-    fetch(process.env.REACT_APP_HOST + "/product/list", {
+    console.warn(page, name, family)
+    fetch(process.env.REACT_APP_HOST + "/product/list/unset/", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -111,32 +112,32 @@ class Product extends Component {
   }
 
   getStock() {
-    fetch(process.env.REACT_APP_HOST + "/api/stock/list/" + this.state.page, {
+    fetch(process.env.REACT_APP_HOST+"/api/stock/list/"+this.state.page, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
       },
     })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-        let status = data[0];
-        if (status === 200)
-          this.setState({ stockData: data[1] });
-        else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-      });
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+      let status = data[0];
+      if(status === 200)
+        this.setState({stockData: data[1]});
+      else {
+        alert('로그인 하고 접근해주세요');
+        this.props.history.push('/login');
+      }
+    });
   }
 
   modifyStock(id, quantity) {
-    fetch(process.env.REACT_APP_HOST + `/api/stock/` + id, {
+    fetch(process.env.REACT_APP_HOST+`/api/stock/`+id, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
@@ -149,38 +150,22 @@ class Product extends Component {
         }
       )
     })
-  }
-
-  searchProduct() {
-    let { name } = this;
-    //let keyword = this.keyword
-    this.setState({ name, page: 1 }, () => {
-      this.getProduct();
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
     })
-  }
-
-  changeStockEdit() {
-    this.getStock();
-    this.setState({ stockEdit: !this.state.stockEdit })
-  }
-
-  numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
-
-  /*changeSet() {
-    this.setState({set: !this.state.set}, () => {
-      this.getProduct();
-    });
-  }*/
-
-  countPageNumber(x) {
-    this.setState({
-      page: x,
-    }, () => {
-      this.getProduct();
-      this.getStock();
-    });
+    .then(data => {
+      const status = data[0];
+      if(status === 200)
+        alert('등록됐습니다.');
+      else {
+        alert('로그인 하고 접근해주세요');
+        this.props.history.push('/login');
+      }
+    })
   }
 
   getProductFamily() {
@@ -207,6 +192,34 @@ class Product extends Component {
           this.props.history.push('/login');
         }
       })
+  }
+
+  searchProduct() {
+    let {name} = this;
+    //let keyword = this.keyword
+    this.setState({name}, () => {
+      this.getProduct();
+    })
+  }
+
+  changeStockEdit() {
+    this.getStock();
+    this.setState({stockEdit: !this.state.stockEdit})
+  }
+
+  /*changeSet() {
+    this.setState({set: !this.state.set}, () => {
+      this.getProduct();
+    });
+  }*/
+
+  countPageNumber(x){
+    this.setState({
+      page: x,
+    }, () => {
+      this.getProduct();
+      this.getStock();
+    });
   }
 
   addProductFamily() {
@@ -240,21 +253,15 @@ class Product extends Component {
     })
   }
 
-changeFamily (family) {
-  this.setState({
-    family
-  })
-}
-
-changeFamily (family) {
-  this.setState({
-    family
-  })
-}
+  changeFamily (family) {
+    this.setState({
+      family
+    })
+  }
 
   render() {
     var data = this.state.productData;
-    var {stockData} = this.state;
+    var stockData = this.state.stockData;
     var {familyData} = this.state;
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
@@ -263,7 +270,7 @@ changeFamily (family) {
       <div className="animated fadeIn">
         <Row>
           <Col>
-            <Card>
+          <Card>
               <CardHeader>
                 <Row>
                   <Col>품목 상세 검색</Col>
@@ -276,7 +283,7 @@ changeFamily (family) {
                 <Table>
                   <tbody>
                     <tr>
-                      <th style={{ textAlign: "center" }}>등급</th>
+                      <th style={{textAlign: "center"}}>등급</th>
                       <td>
                         <FormGroup>
                           <Input type="select" name="group" id="groupSelect">
@@ -288,7 +295,7 @@ changeFamily (family) {
                           </Input>
                         </FormGroup>
                       </td>
-                      <th style={{ textAlign: "center" }}>무게</th>
+                      <th style={{textAlign: "center"}}>무게</th>
                       <td>
                         <FormGroup>
                           <Input type="select" name="group" id="groupSelect">
@@ -300,7 +307,7 @@ changeFamily (family) {
                           </Input>
                         </FormGroup>
                       </td>
-                      <th style={{ textAlign: "center" }}>단가</th>
+                      <th style={{textAlign: "center"}}>단가</th>
                       <td>
                         <FormGroup>
                           <Input type="select" name="group" id="groupSelect">
@@ -314,11 +321,20 @@ changeFamily (family) {
                       </td>
                     </tr>
                     <tr>
-                      <th style={{ textAlign: "center" }}>품목명</th>
+                      <th style={{textAlign: "center"}}>품목명</th>
                       <td colSpan="5"><Input onChange={(e) => { this.name = e.target.value }} /></td>
                     </tr>
                     <tr>
                       <th style={{ textAlign: "center" }}>품목군</th>
+                      {/*
+                        familyData.map((e, i) => {
+                          return <tr>
+                            {e.map((e2, i2) => {
+                              return <td style={{width: '20%'}}>{e2.name}</td>
+                            })}
+                          </tr>
+                        })
+                      */}
                       <td colSpan="5">
                         <ul style={{display: 'flex', 'flex-wrap': 'wrap'}}>
                           <li style={{width: 'calc((100% - 80px) / 5)', color : this.state.family === 0? 'red' : 'black'}} onClick = {() => this.changeFamily(0)}>
@@ -342,7 +358,7 @@ changeFamily (family) {
                           </li>
                         </ul>
                       </td>
-                    </tr>
+                    </tr>                    
                   </tbody>
                 </Table>
                 <Row>
@@ -376,49 +392,48 @@ changeFamily (family) {
                     }
                     <Switch id='2' isOn={this.state.show} handleToggle={() => this.changeShow()} />
                   </Col>*/}
-                  <Col><Button block color="primary" onClick={() => { this.props.history.push('/main/product/list/unset') }}>비활성화 품목 보기</Button></Col>
+                  <Col><Button block color="primary" onClick={() => {this.props.history.push('/main/product/list')}}>활성화 품목 보기</Button></Col>
                   <Col>
                     {this.state.stockEdit ?
-                      <Button block color="primary" onClick={() => this.changeStockEdit()}>수정 완료</Button> :
-                      <Button block color="primary" onClick={() => this.changeStockEdit()}>재고 수정</Button>}
+                    <Button block color="primary" onClick={() => this.changeStockEdit()}>수정 완료</Button> :
+                    <Button block color="primary" onClick={() => this.changeStockEdit()}>재고 수정</Button>}
                   </Col>
+                  
                 </Row>
               </CardHeader>
               <CardBody>
                 <div style={{ overflow: 'scroll' }}>
-                  <Table style={{ minWidth: 600 }} hover>
-                    <thead>
-                      <tr>
-                        <th>품목명</th>
-                        <th>품목군</th>
-                        <th>등급</th>
-                        <th>무게</th>
-                        <th>판매 단가</th>
-                        <th>재고</th>
-                        {this.state.stockEdit ?
-                          <th style={{ width: 100 }}>수정</th> : ""}
-                        {/*this.state.set ?
+                    <Table style={{ minWidth: 600 }} hover>
+                      <thead>
+                        <tr>
+                          <th>품목명</th>
+                          <th>등급</th>
+                          <th>무게</th>
+                          <th>판매 단가</th>
+                          <th>재고</th>
+                          {this.state.stockEdit ? 
+                            <th style={{width : 100}}>수정</th>: ""}
+                          {/*this.state.set ?
                             <th style={{width : 300}}>품목 비활성화</th> :
                             <th style={{width : 300}}>품목 활성화</th>
                           */}
-                        {/*<th>수정</th>*/}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {data.map((e, i) => {
-                        return (<tr key={e.id}>
-                          <td style={{ cursor: 'pointer' }} onClick={() => { this.props.history.push('/main/product/' + e.id) }}>{e.name}</td>
-                          <td>{e.familyName}</td>
-                          <td>{e.grade}</td>
-                          <td>{e.weight}</td>
-                          <td>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</td>
-                          {this.state.stockEdit ?
-                            <td style={{ width: 250 }}><Input defaultValue={stockData[i] !== undefined ? stockData[i].quantity : null} onChange={(e) => { stockData[i].quantity = e.target.value; }} /></td> :
-                            <td style={{ cursor: 'pointer' }} onClick={() => { this.props.history.push(`/main/stock/${e.id}`) }}>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>}
-                          {this.state.stockEdit ?
-                            <Col><Button onClick={() => { this.modifyStock(e.id, stockData[i].quantity) }} color="primary" >수정</Button></Col> :
-                            ""}
-                          {/*this.state.set ?
+                          {/*<th>수정</th>*/}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {data.map((e, i) => {
+                          return (<tr key={e.id}>
+                            <td style={{cursor: 'pointer'}} onClick={() => {this.props.history.push('/main/product/'+e.id)}}>{e.name}</td>
+                            <td>{e.grade}</td>
+                            <td>{e.weight}</td>
+                            <td>{e['price_shipping']}</td>
+                            {this.state.stockEdit ?
+                              <td style={{width: 250}}><Input defaultValue={stockData[i] !== undefined ? stockData[i].quantity : null} onChange={(e) => {stockData[i].quantity = e.target.value;}}/></td> :
+                              <td style={{ cursor: 'pointer' }} onClick={()=> {this.props.history.push(`/main/stock/${e.id}`)}}>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>}
+                            {this.state.stockEdit ? 
+                              <Col><Button onClick={()=>{this.modifyStock(e.id, stockData[i].quantity)}} color="primary" >수정</Button></Col>:
+                              ""}
+                            {/*this.state.set ?
                               <td>
                                 <Button block style={{ width: 120 }} color="ghost-danger" onClick={() => this.deleteProduct(e.id)}>품목 비활성화</Button>
                               </td> :
@@ -426,36 +441,36 @@ changeFamily (family) {
                                 <Button block style={{ width: 100 }} color="ghost-primary" onClick={() => this.activateProduct(e.id)}>품목 활성화</Button>
                               </td>
                             */}
-                          {/*<td><Button  onClick={() => {this.props.history.push(`/main/product/edit/:id`)}}>수정</Button></td>*/}
-                        </tr>)
-                      })}
-                    </tbody>
-                  </Table>
-                </div>
+                            {/*<td><Button  onClick={() => {this.props.history.push(`/main/product/edit/:id`)}}>수정</Button></td>*/}
+                          </tr>)
+                        })}
+                      </tbody>
+                    </Table>
+                  </div>
               </CardBody>
               <CardFooter>
                 <Pagination>
-                  {this.state.page === 1 ? '' :
-                    <PaginationItem>
-                      <PaginationLink previous onClick={() => { this.countPageNumber(this.state.page - 1) }} />
-                    </PaginationItem>
+                  {this.state.page === 1 ? '' : 
+                  <PaginationItem>
+                    <PaginationLink previous onClick={() => {this.countPageNumber(this.state.page-1)}}/>
+                  </PaginationItem>
                   }
-                  {this.state.page === 1 ? arr.forEach(x => arr1.push(x + 2)) : null}
-                  {this.state.page === 2 ? arr.forEach(x => arr1.push(x + 1)) : null}
-                  {this.state.page !== 1 && this.state.page !== 2 ? arr.forEach(x => arr1.push(x)) : null}
+                  {this.state.page === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
+                  {this.state.page === 2 ? arr.forEach(x => arr1.push(x+1)) : null}   
+                  {this.state.page !== 1 && this.state.page!== 2 ? arr.forEach(x => arr1.push(x)) :null }    
                   {arr1.map((e, i) => {
-                    if (this.state.total >= this.state.page + e)
-                      return (<PaginationItem key={i} active={this.state.page === this.state.page + e}>
-                        <PaginationLink onClick={() => { this.countPageNumber(this.state.page + e) }}>
-                          {this.state.page + e}
-                        </PaginationLink>
-                      </PaginationItem>)
+                    if(this.state.total >= this.state.page+e)
+                    return (<PaginationItem key={i} active={this.state.page === this.state.page+e}>
+                      <PaginationLink onClick={() => {this.countPageNumber(this.state.page+e)}}>
+                      {this.state.page+e}
+                      </PaginationLink>
+                    </PaginationItem>)
                     return null;
                   })}
-                  {this.state.page === this.state.total ? '' :
-                    <PaginationItem>
-                      <PaginationLink next onClick={() => { this.countPageNumber(this.state.page + 1) }} />
-                    </PaginationItem>}
+                  {this.state.page === this.state.total ? '' : 
+                  <PaginationItem>
+                    <PaginationLink next onClick={() => {this.countPageNumber(this.state.page+1)}}/>
+                  </PaginationItem>}
                 </Pagination>
               </CardFooter>
             </Card>
@@ -466,4 +481,4 @@ changeFamily (family) {
   }
 }
 
-export default Product;
+export default Unset;

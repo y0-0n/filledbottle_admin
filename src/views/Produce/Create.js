@@ -5,13 +5,13 @@ import { registerLocale } from  "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ko from 'date-fns/locale/ko';
 import '../../css/Table.css';
-import ProductModal from '../Order/ProductModal';
+import ProductModal from '../Modal/ProductModal';
 import ProduceModal from './ProduceModal';
 registerLocale('ko', ko)
 
 let d = {id: '', name: '',};
 
-class CreateProduce extends Component {
+class Create extends Component {
   constructor(props) {
     super(props);
 
@@ -354,4 +354,4 @@ class CreateProduce extends Component {
   }
 }
 
-export default CreateProduce;
+export default Create;

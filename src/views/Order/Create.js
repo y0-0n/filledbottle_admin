@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Input } from 'reactstrap';
 import Popup from "reactjs-popup";
-import ProductModal from './ProductModal';
-import CustomerModal from './CustomerModal';
+import ProductModal from '../Modal/ProductModal';
+import CustomerModal from '../Modal/CustomerModal';
 import DatePicker from "react-datepicker";
 import { registerLocale } from  "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -14,7 +14,7 @@ registerLocale('ko', ko)
 //vat = value added tax (부가세))
 let d = {id: '', name: '', quantity: 0, price: 0, vos: 0, vat: 0, tax: false, sum: 0};
 
-class CreateOrder extends Component {
+class Create extends Component {
   constructor(props) {
     super(props);
 
@@ -115,7 +115,7 @@ class CreateOrder extends Component {
                       </div>
                     </td>
                     <th>고객</th>
-                    <td className="TableRight">
+                    <td >
                     {<Popup
                       trigger={<Input value={this.state.customerName} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}} readOnly/>}
                       modal>
@@ -140,17 +140,17 @@ class CreateOrder extends Component {
                       <Input value={this.state.telephone} type="tel" onChange={(e) => {this.setState({telephone: e.target.value})}} />
                     </td>
                     <th>HP</th>
-                    <td className="TableRight">
+                    <td >
                       <Input value={this.state.cellphone} type="tel" onChange={(e) => {this.setState({cellphone: e.target.value})}} />
                     </td>
                   </tr>
-                  <tr className="TableBottom">
+                  <tr >
                     <th>주소</th>
                     <td>
                       <Input value={this.state.address} onChange={(e) => {this.setState({address: e.target.value})}} />
                     </td>
                     <th>요청사항</th>
-                    <td className="TableRight">
+                    <td >
                       <Input value={this.state.comment} onChange={(e) => {
                         this.setState({
                           comment: e.target.value
@@ -293,4 +293,4 @@ class CreateOrder extends Component {
   }
 }
 
-export default CreateOrder;
+export default Create;

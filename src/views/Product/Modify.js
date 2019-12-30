@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Input, Table, Badge } from 'reactstrap';
 import '../../css/Table.css';
 
-class ProductModify extends Component {
+class Modify extends Component {
   constructor(props) {
     super(props);
 
@@ -188,5 +188,5 @@ class ProductModify extends Component {
   }
 }
 
-export default ProductModify;
+export default Modify;
 

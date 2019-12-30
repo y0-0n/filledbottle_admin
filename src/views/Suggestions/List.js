@@ -4,7 +4,7 @@ import { Button, Badge, Card, CardBody, CardHeader, CardFooter, Table, Paginatio
 
 const listCount = 5;
 
-class Suggestions extends Component {
+class List extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -154,4 +154,4 @@ class Suggestions extends Component {
   }
 }
 
-export default Suggestions;
+export default List;

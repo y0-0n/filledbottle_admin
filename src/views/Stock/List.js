@@ -22,7 +22,7 @@ const options = {
   }  
 }
   
-class Stock extends Component {
+class List extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -117,4 +117,4 @@ class Stock extends Component {
   }
 }
 
-export default Stock;
+export default List;

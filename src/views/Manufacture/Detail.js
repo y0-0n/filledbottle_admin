@@ -10,7 +10,7 @@ registerLocale('ko', ko)
 //vat = value added tax (부가세))
 let d = {id: '', name: '', grade:'', weight:'', price: 0, quantity: 0};
 
-class ManufactureDetail extends Component {
+class Detail extends Component {
   constructor(props) {
     super(props);
 
@@ -142,4 +142,4 @@ class ManufactureDetail extends Component {
   }
 }
 
-export default ManufactureDetail;
+export default Detail;

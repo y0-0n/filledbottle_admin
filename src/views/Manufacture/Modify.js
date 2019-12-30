@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Input } from 'reactstrap';
 import Popup from "reactjs-popup";
-import ProductModal from '../Order/ProductModal';
+import ProductModal from '../Modal/ProductModal';
 import { registerLocale } from  "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ko from 'date-fns/locale/ko';
@@ -12,7 +12,7 @@ registerLocale('ko', ko)
 //vat = value added tax (부가세))
 let d = {id: '', name: '', grade:'', weight:'', price: 0, quantity: 0};
 
-class ManufactureModify extends Component {
+class Modify extends Component {
   constructor(props) {
     super(props);
 
@@ -287,4 +287,4 @@ class ManufactureModify extends Component {
   }
 }
 
-export default ManufactureModify;
+export default Modify;
