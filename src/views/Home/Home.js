@@ -133,7 +133,7 @@ class Home extends Component {
   }
 
   getOrder(first_date, last_date) {
-    const process_ = 'all', keyword = '', number = 'all';
+    const process_ = 'all', keyword = '', page = 'all';
 
     fetch(process.env.REACT_APP_HOST+"/order/list", {
       method: 'POST',
@@ -142,7 +142,7 @@ class Home extends Component {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
       },
-      body: JSON.stringify({first_date, last_date, number, process_, keyword})
+      body: JSON.stringify({first_date, last_date, page, process_, keyword})
     })
       .then(response => {
         if(response.status === 401) {
