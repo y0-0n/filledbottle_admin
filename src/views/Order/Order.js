@@ -141,7 +141,7 @@ class Sales extends Component {
     var d = new Date(dateInput);
     var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate(), ho = d.getHours(), min = d.getMinutes(), sec = d.getSeconds();
 
-    return year + "년 " + month + "월 " + date + "일 " + ho + ":" + min + ":" + sec;
+    return year + "년 " + month + "월 " + date + "일 ";
   }
   
   countPageNumber(x){

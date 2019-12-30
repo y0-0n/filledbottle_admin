@@ -23,8 +23,7 @@ class Customer extends Component {
     this.state = {
       data: [],
       page: 1,
-      number: 1,
-      keyword: 'a',
+      keyword: '',
       checkdata: [],
       checks: [],
     };
@@ -37,60 +36,70 @@ class Customer extends Component {
   }
 
   getTotal() {
-    fetch(process.env.REACT_APP_HOST+"/customer/total/"+this.state.keyword, {
-      method: 'GET',
+    const {keyword} = this.state;
+
+    fetch(process.env.REACT_APP_HOST+"/customer/total", {
+      method: 'POST',
       headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+      body: JSON.stringify({keyword})
+    })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
       }
-      })
-      .then(response => {
-        if(response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-        const status = data[0];
-        if(status === 200) {
-          this.setState({total: Math.ceil(data[1][0].total/listCount)})
-        } else {
-          alert('로그인 하고 접근해주세요')
-          this.props.history.push('/login')
-        }
-      });
+    })
+    .then(data => {
+      const status = data[0];
+      if(status === 200) {
+        this.setState({total: Math.ceil(data[1][0].total/listCount)})
+      } else {
+        alert('로그인 하고 접근해주세요')
+        this.props.history.push('/login')
+      }
+    });
   }
 
   getCustomer() {
-    fetch(process.env.REACT_APP_HOST+"/customer/"+this.state.number+'/'+this.state.keyword, {
-      method: 'GET',
+    const {page, keyword} = this.state;
+
+    fetch(process.env.REACT_APP_HOST+"/customer/list", {
+      method: 'POST',
       headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
       },
+      body: JSON.stringify({page, keyword})
     })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-        let status = data[0];
-        if (status === 200)
-          this.setState({ data: data[1] });
-        else {
-          alert('로그인 하고 접근해주세요')
-          this.props.history.push('/login')
-        }
-        this.getTotal();
-      })
+    .then(response => {
+      if (response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+      let status = data[0];
+      if (status === 200)
+        this.setState({ data: data[1] });
+      else {
+        alert('로그인 하고 접근해주세요')
+        this.props.history.push('/login')
+      }
+      this.getTotal();
+    })
   }
 
 
   countPageNumber(x){
     this.setState({
-      number: x,
+      page: x,
     }, () => {
       this.getCustomer();
     });
@@ -164,7 +173,7 @@ class Customer extends Component {
 
   searchCustomer() {
     let {keyword} = this;
-    this.setState({keyword}, () => {
+    this.setState({keyword, page: 1}, () => {
       this.getCustomer();
     })
   }
@@ -302,26 +311,26 @@ class Customer extends Component {
               </CardBody>
               <CardFooter>
                 <Pagination>
-                  {this.state.number === 1 ? '' : 
+                  {this.state.page === 1 ? '' : 
                   <PaginationItem>
-                    <PaginationLink previous onClick={() => {this.countPageNumber(this.state.number-1)}}/>
+                    <PaginationLink previous onClick={() => {this.countPageNumber(this.state.page-1)}}/>
                   </PaginationItem>
                   }
-                  {this.state.number === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
-                  {this.state.number === 2 ? arr.forEach(x => arr1.push(x+1)) : null}   
-                  {this.state.number !== 1 && this.state.number!== 2 ? arr.forEach(x => arr1.push(x)) :null }    
+                  {this.state.page === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
+                  {this.state.page === 2 ? arr.forEach(x => arr1.push(x+1)) : null}   
+                  {this.state.page !== 1 && this.state.page!== 2 ? arr.forEach(x => arr1.push(x)) :null }    
                   {arr1.map((e, i) => {
-                    if(this.state.total >= this.state.number+e)
-                    return (<PaginationItem key={i} active={this.state.number === this.state.number+e}>
-                      <PaginationLink onClick={() => {this.countPageNumber(this.state.number+e)}}>
-                      {this.state.number+e}
+                    if(this.state.total >= this.state.page+e)
+                    return (<PaginationItem key={i} active={this.state.page === this.state.page+e}>
+                      <PaginationLink onClick={() => {this.countPageNumber(this.state.page+e)}}>
+                      {this.state.page+e}
                       </PaginationLink>
                     </PaginationItem>)
                     return null;
                   })}
-                  {this.state.number === this.state.total ? '' : 
+                  {this.state.page === this.state.total ? '' : 
                   <PaginationItem>
-                    <PaginationLink next onClick={() => {this.countPageNumber(this.state.number+1)}}/>
+                    <PaginationLink next onClick={() => {this.countPageNumber(this.state.page+1)}}/>
                   </PaginationItem>}     
                 </Pagination>
               </CardFooter>
