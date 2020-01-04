@@ -61,6 +61,7 @@ class Detail extends Component {
                         <th>날짜</th>
                         <th>수정 수량</th>
                         <th>현재 수량</th>
+												<th>기록</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -70,6 +71,7 @@ class Detail extends Component {
                             <td>{this.getDate(d.date)}</td>
                             <td>{d.change}</td>
                             <td>{d.quantity}</td>
+														<td>{d.memo}</td>
                           </tr>
                         )
                       })}
