@@ -61,17 +61,21 @@ class Detail extends Component {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
-  changeState(s) {
+  changeState(prev, next) {
     let c;
     c = window.confirm('이 주문을 변경하시겠습니까?');
 
     if(c) {
-      fetch(process.env.REACT_APP_HOST+"/order/changeState/"+this.props.match.params.id+"/"+s, {
-        method: 'PUT',
-        headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem('token'),
-        }
-        })
+			const id = this.props.match.params.id;
+      fetch(process.env.REACT_APP_HOST+"/order/changeState/", {
+				method: 'POST',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + localStorage.getItem('token'),
+				},
+				body: JSON.stringify({id, next, prev})
+			})
       .then(response => {
         if(response.status === 401) {
           return Promise.all([401])
@@ -146,7 +150,6 @@ class Detail extends Component {
     var total_price = 0 ;
     var total_supply = 0;
     var total_vat = 0;
-
     return (
       <div className="animated fadeIn">
         <Row>
@@ -191,8 +194,8 @@ class Detail extends Component {
                 </Table>
               </CardBody>
               <CardFooter>
-                {orderInfo['state'] === "order" ? <Button onClick={() => this.changeState('shipping')} style={{marginLeft : '10px'}}>출하 완료</Button> : null}
-                {orderInfo['state'] === "shipping" ? <Button onClick={() => this.changeState('order')} style={{marginLeft : '10px'}} >출하 취소</Button> : null}
+                {orderInfo['state'] === "order" ? <Button onClick={() => this.changeState(orderInfo.state, 'shipping')} style={{marginLeft : '10px'}}>출하 완료</Button> : null}
+                {orderInfo['state'] === "shipping" ? <Button onClick={() => this.changeState(orderInfo.state, 'order')} style={{marginLeft : '10px'}} >출하 취소</Button> : null}
                 <Button onClick={() => {this.props.history.push(`/main/order/edit/`+this.props.match.params.id)}} style={{marginLeft : '10px'}}>수정</Button>
                 <Button onClick={() => {this.props.history.push(`/main/order/transaction/`+this.props.match.params.id)}} style={{marginLeft : '10px'}}>거래명세서</Button>
                 <Button onClick={() => {this.props.history.push(`/main/order/post/`+this.props.match.params.id)}} style={{marginLeft : '10px'}}>택배송장</Button>
@@ -207,7 +210,7 @@ class Detail extends Component {
               <Row>
                 <Col md="10" xs="10" sm="10">품목</Col>
                 <Col>
-                  {orderInfo['state'] === "order" ? <Button onClick={() => {this.changeState('cancel')}}> 주문 취소</Button> : null}
+                  {orderInfo['state'] === "order" ? <Button onClick={() => {this.changeState(orderInfo.state, 'cancel')}}> 주문 취소</Button> : null}
                   {orderInfo['state'] === "shipping" ?
                     this.state.refund ? <Button onClick={() => {this.handleRefund()}}>환불 완료</Button>
                     : <Button onClick={() => {this.handleRefund()}}>환불 하기</Button>
