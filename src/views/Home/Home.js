@@ -37,6 +37,7 @@ class Home extends Component {
     super(props);
     this.state = {
       orderData: [],
+      orderData2: [],
       events: [],
       bar:{},
     };
@@ -53,7 +54,7 @@ class Home extends Component {
 
   componentWillMount() {
     this.getOrder(moment().startOf('month')._d, moment().endOf('month')._d);
-    //this.getOnlyOrder();
+    this.getOnlyOrder(moment().startOf('month')._d, moment().endOf('month')._d);
     this.getIncome();
     this.chart();
   }
@@ -179,12 +180,17 @@ class Home extends Component {
       });
   }
 
-  getOnlyOrder() {
-    fetch(process.env.REACT_APP_HOST+"/order/1/order/a", {
-      method: 'GET',
+  getOnlyOrder(first_date, last_date) {
+    const process_ = 'order', keyword = '', page = 'all';
+
+    fetch(process.env.REACT_APP_HOST+"/order/list", {
+      method: 'POST',
       headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      }
+      },
+      body: JSON.stringify({first_date, last_date, page, process_, keyword})
     })
     .then(response => {
       if(response.status === 401) {
@@ -196,8 +202,8 @@ class Home extends Component {
     .then(data => {
       let status = data[0];
       if(status === 200) {
-        let orderData = data[1];
-        this.setState({orderData})
+        let orderData2 = data[1];
+        this.setState({orderData2})
       } else {
         alert('로그인 하고 접근해주세요')
         this.props.history.push('/login')
@@ -278,7 +284,7 @@ class Home extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                    {data.map((e, i) => {
+                    {this.state.orderData2.map((e, i) => {
                         return (<tr style={{cursor: 'pointer'}} key={e.id} onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>
                           <td>{e.id}</td>
                           <td>{this.getDate(e.date)}</td>
