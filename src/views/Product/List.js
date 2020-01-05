@@ -111,11 +111,20 @@ class List extends Component {
   }
 
   getStock() {
-    fetch(process.env.REACT_APP_HOST + "/api/stock/list/" + this.state.page, {
-      method: 'GET',
+		const {page, name, family} = this.state;
+
+    fetch(process.env.REACT_APP_HOST + "/api/stock/list/", {
+      method: 'POST',
       headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
       },
+      body: JSON.stringify(
+        {
+          page, name, family
+        }
+      )
     })
       .then(response => {
         if (response.status === 401) {
