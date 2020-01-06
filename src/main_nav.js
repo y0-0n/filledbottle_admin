@@ -25,20 +25,20 @@ export default {
       icon: 'icon-puzzle',
     },
     {
-      name: '제조 관리',
-      url: '/main/manufacture',
-      icon: 'icon-speedometer',
-    },
-    {
       name: '영농 일지',
       url: '/main/produce',
       icon: 'icon-speedometer',
     },
     {
+      name: '제조 관리',
+      url: '/main/manufacture',
+      icon: 'icon-speedometer',
+    },
+    /*{
       name: '체험 관광',
       url: '/main/activity',
       icon: 'icon-speedometer',
-    },
+    },*/
     {
       name: '분석',
       url: '/main/analysis',
