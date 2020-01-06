@@ -116,7 +116,7 @@ class Detail extends Component {
                   <tr>
                     <th style={{width: '12%'}}>사업자등록번호</th>
                     <td>
-                      {data.address}
+                      {data.crNumber}
                     </td>
                     <th>주소</th>
                     <td>
