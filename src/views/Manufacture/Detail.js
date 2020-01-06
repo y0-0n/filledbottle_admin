@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Button } from 'reactstrap';
+import { Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Button, Badge } from 'reactstrap';
 import { registerLocale } from  "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ko from 'date-fns/locale/ko';
@@ -17,16 +17,17 @@ class Detail extends Component {
     this.customer = [];
 
     this.state = {
+			info: [],
       sProduct1: [d],//소모 상품
-      sProduct2: [d],//생산 상품
+			sProduct2: [d],//생산 상품
     };
   }
 
   componentWillMount() {
-    this.getList();
+    this.getDetail();
   }
 
-  getList() {
+  getDetail() {
     fetch(process.env.REACT_APP_HOST+"/api/manufacture/"+this.props.match.params.id, {
       method: 'GET',
       headers: {
@@ -43,19 +44,88 @@ class Detail extends Component {
       .then(data => {
         let status = data[0];
         if (status === 200)
-          this.setState({ sProduct1: data[1].consume, sProduct2: data[1].produce, });
+          this.setState({ sProduct1: data[1].consume, sProduct2: data[1].produce, info: data[1].info[0]});
         else {
           alert('로그인 하고 접근해주세요');
           this.props.history.push('/login');
         }
       })
+	}
+
+	cancel() {
+		const {sProduct1, sProduct2} = this.state;
+
+		fetch(process.env.REACT_APP_HOST+"/api/manufacture/cancel/"+this.props.match.params.id, {
+      method: 'PUT',
+      headers: {
+				'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+			},
+			body: JSON.stringify({sProduct1, sProduct2})
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+				if (status === 200)
+					alert('취소됐습니다.')
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })
+	}
+	
+  getDate(dateInput) {
+    var d = new Date(dateInput);
+    var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
+
+    return year + "년 " + month + "월 " + date + "일";
   }
 
   render() {
-    console.log(this.state)
+		const {info} = this.state
+		console.warn(this.state.sProduct1, this.state.sProduct2);
     return (
       <div className="animated fadeIn">
         <Row>
+				<Col md="12" xs="12" sm="12">
+          <Card>
+              <CardHeader>
+                <Row>
+                  <Col md="10" xs="10" sm="10">제조 정보</Col>
+                </Row>
+              </CardHeader>
+              <CardBody>
+								<Table className="ShowTable">
+									<tbody>
+										<tr>
+											<th style={{width: '10%'}}>제품명</th>
+											<td style={{width: '40%'}}>{info.title}</td>
+											<th style={{width: '10%'}}>일자</th>
+											<td style={{width: '40%'}} className="TableRight">{this.getDate(info.date)}</td>
+										</tr>
+										<tr>
+											<th>총 생산량</th>
+											<td>{info.total}</td>
+											<th>상태</th>
+											<td className="TableRight">{info.set ? <Badge color="primary">처리</Badge> : <Badge color="danger">취소</Badge>}</td>
+										</tr>
+									</tbody>
+                </Table>
+              </CardBody>
+              <CardFooter>
+                  {/*<Button onClick={() => {this.props.history.push(`/main/manufacture/edit/`+this.props.match.params.id)}} style={{marginLeft : '10px'}}>수정</Button>*/}
+                  {info.set ? <Button onClick={() => {this.cancel()}} style={{marginLeft : '10px'}}>제조 취소</Button> : null}
+              </CardFooter>
+            </Card>
+          </Col>
           <Col md="12" xs="12" sm="12">
           <Card>
               <CardHeader>
@@ -92,8 +162,6 @@ class Detail extends Component {
                 </Table>
               </CardBody>
               <CardFooter>
-                  <Button onClick={() => {this.props.history.push(`/main/manufacture/edit/`+this.props.match.params.id)}} style={{marginLeft : '10px'}}>수정</Button>
-                  <Button onClick={() => {}} style={{marginLeft : '10px'}}>제조 취소</Button>
               </CardFooter>
             </Card>
           </Col>
