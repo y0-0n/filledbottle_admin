@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup, InputGroup, InputGroupAddon, } from 'reactstrap';
 import Switch from "../Switch/Switch";
+import ImageModal from '../Modal/ImageModal';
+import Popup from "reactjs-popup";
 
 /*
 
@@ -17,7 +19,7 @@ import Switch from "../Switch/Switch";
 */
 
 const listCount = 5;
-
+ 
 class List extends Component {
   constructor(props) {
     super(props);
@@ -402,6 +404,7 @@ changeFamily (family) {
                             <th style={{width : 300}}>품목 활성화</th>
                           */}
                         {/*<th>수정</th>*/}
+                        <th>사진</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -427,6 +430,16 @@ changeFamily (family) {
                               </td>
                             */}
                           {/*<td><Button  onClick={() => {this.props.history.push(`/main/product/edit/:id`)}}>수정</Button></td>*/}
+                          <td>
+                            {<Popup
+                              trigger={<Button>사진</Button>}
+                              modal>
+                              {close => <ImageModal close={close} login={() => { this.props.history.push('/login') }}
+                                selectCustomer={(data) => {
+                                  /* set, for instance, comment[1] to "some text"*/
+                                }} />}
+                            </Popup>}
+                          </td>
                         </tr>)
                       })}
                     </tbody>

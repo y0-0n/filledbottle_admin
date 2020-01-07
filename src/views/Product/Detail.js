@@ -13,6 +13,7 @@ class Detail extends Component {
 
   componentWillMount() {
     this.getProduct();
+    console.log(this.props.match.params.id)
   }
 
   getProduct() {
