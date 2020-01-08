@@ -164,7 +164,8 @@ class List extends Component {
     let { name } = this;
     //let keyword = this.keyword
     this.setState({ name, page: 1 }, () => {
-      this.getProduct();
+			this.getProduct();
+			this.getStock();
     })
   }
 
@@ -249,17 +250,11 @@ class List extends Component {
     })
   }
 
-changeFamily (family) {
-  this.setState({
-    family
-  })
-}
-
-changeFamily (family) {
-  this.setState({
-    family
-  })
-}
+	changeFamily (family) {
+		this.setState({
+			family
+		})
+	}
 
   render() {
     var data = this.state.productData;

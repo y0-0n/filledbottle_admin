@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import DatePicker from "react-datepicker";
-import { Card, CardBody, CardHeader, Col, Row, Table, Button, CardFooter, Pagination, PaginationItem, PaginationLink, Input } from 'reactstrap';
+import { Card, CardBody, CardHeader, Col, Row, Table, Button, CardFooter, Pagination, PaginationItem, PaginationLink, Input, Badge } from 'reactstrap';
 
 const listCount = 5;
 
@@ -200,7 +200,7 @@ class Manufacture extends Component {
                           <td>{this.getDate(e.date)}</td>
                           <td>{e.title}</td>
                           <td>{e.total}</td>
-                          <td></td>
+													<td>{e.set ? <Badge color="primary">처리</Badge> : <Badge color="danger">취소</Badge>}</td>
                         </tr>
                       })}
                     </tbody>
