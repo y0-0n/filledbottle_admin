@@ -37,8 +37,18 @@ class List extends Component {
     }
   }
   componentWillMount() {
-    this.getProduct();
-    this.getStock();
+    if(this.props.location.state) {
+      const {page, name, family} = this.props.location.state
+      this.setState({
+        page, name, family
+      }, () => {
+        this.getProduct();
+        this.getStock();    
+      })
+    } else {
+      this.getProduct();
+      this.getStock();  
+    }
     this.getProductFamily();
   }
 
@@ -411,7 +421,12 @@ class List extends Component {
                     <tbody>
                       {data.map((e, i) => {
                         return (<tr key={e.id}>
-                          <td style={{ cursor: 'pointer' }} onClick={() => { this.props.history.push('/main/product/' + e.id) }}>{e.name}</td>
+                          <td style={{ cursor: 'pointer' }} onClick={() => {
+                            this.props.history.push({
+                              pathname: '/main/product/' + e.id,
+                              state: {name: this.state.name, family: this.state.family, page: this.state.page}
+                            })
+                          }}>{e.name}</td>
                           <td>{e.familyName}</td>
                           <td>{e.grade}</td>
                           <td>{e.weight}</td>

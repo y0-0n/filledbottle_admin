@@ -80,7 +80,6 @@ class Detail extends Component {
 
   render() {
     var data = this.state.data;
-    {console.log(data.familyName)}
     return (
       <div className="animated fadeIn">
         <Row>
@@ -91,6 +90,7 @@ class Detail extends Component {
                   <Col>품목 상세</Col>
                   <Col></Col><Col></Col>
                   <Col><Button onClick={() => { this.props.history.push(`/main/product/edit/${this.props.match.params.id}`) }}>수정</Button></Col>
+                  <Col><Button onClick={() => { this.props.history.push({pathname: `/main/product/list`, state: this.props.location.state}) }}>뒤로가기</Button></Col>
                 </Row>
               </CardHeader>
               <CardBody>
