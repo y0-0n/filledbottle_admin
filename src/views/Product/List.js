@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup, InputGroup, InputGroupAddon, } from 'reactstrap';
 import Switch from "../Switch/Switch";
+import ImageModal from '../Modal/ImageModal';
+import Popup from "reactjs-popup";
 
 /*
 
@@ -17,7 +19,7 @@ import Switch from "../Switch/Switch";
 */
 
 const listCount = 5;
-
+ 
 class List extends Component {
   constructor(props) {
     super(props);
@@ -32,6 +34,7 @@ class List extends Component {
       familyData: [],
     };
     this.name = '';
+    this.family = 0;
     this.form = {
 
     }
@@ -171,9 +174,9 @@ class List extends Component {
   }
 
   searchProduct() {
-    let { name } = this;
+    let { name,family } = this;
     //let keyword = this.keyword
-    this.setState({ name, page: 1 }, () => {
+    this.setState({ name, family, page: 1 }, () => {
 			this.getProduct();
 			this.getStock();
     })
@@ -260,11 +263,10 @@ class List extends Component {
     })
   }
 
-	changeFamily (family) {
-		this.setState({
-			family
-		})
-	}
+changeFamily (family) {
+  this.family = family;
+  this.forceUpdate();
+}
 
   render() {
     var data = this.state.productData;
@@ -335,12 +337,12 @@ class List extends Component {
                       <th style={{ textAlign: "center" }}>품목군</th>
                       <td colSpan="5">
                         <ul style={{display: 'flex', 'flex-wrap': 'wrap'}}>
-                          <li style={{width: 'calc((100% - 80px) / 5)', color : this.state.family === 0? 'red' : 'black'}} onClick = {() => this.changeFamily(0)}>
+                          <li style={{width: 'calc((100% - 80px) / 5)', color : this.family === 0? 'red' : 'black'}} onClick = {() => this.changeFamily(0)}>
                             전체
                           </li>
                           {
                             familyData.map((e, i) => {
-                              return <li style={{width: 'calc((100% - 80px) / 5)', color : this.state.family === e.id? 'red' : 'black'}}  onClick = {() => this.changeFamily(e.id)}>{e.name}</li>
+                              return <li style={{width: 'calc((100% - 80px) / 5)', color : this.family === e.id? 'red' : 'black'}}  onClick = {() => this.changeFamily(e.id)}>{e.name}</li>
                             })
                           }
                           <li style={{width: 'calc((100% - 80px) / 5)'}}>
@@ -416,6 +418,7 @@ class List extends Component {
                             <th style={{width : 300}}>품목 활성화</th>
                           */}
                         {/*<th>수정</th>*/}
+                        <th>사진</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -446,6 +449,16 @@ class List extends Component {
                               </td>
                             */}
                           {/*<td><Button  onClick={() => {this.props.history.push(`/main/product/edit/:id`)}}>수정</Button></td>*/}
+                          <td>
+                            {<Popup
+                              trigger={<Button>사진</Button>}
+                              modal>
+                              {close => <ImageModal close={close} login={() => { this.props.history.push('/login') }}
+                                selectCustomer={(data) => {
+                                  /* set, for instance, comment[1] to "some text"*/
+                                }} />}
+                            </Popup>}
+                          </td>
                         </tr>)
                       })}
                     </tbody>

@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import ko from 'date-fns/locale/ko';
 import '../../css/Table.css';
 import ProductModal from '../Modal/ProductModal';
-import ProduceModal from './ProduceModal';
+import ProduceModal from '../Modal/ProduceModal';
 registerLocale('ko', ko)
 
 let d = {id: '', name: '',};

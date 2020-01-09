@@ -17,7 +17,7 @@ import Switch from "../Switch/Switch";
 */
 const listCount = 5;
 
-class CustomerUnset extends Component {
+class Unset extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -273,4 +273,4 @@ class CustomerUnset extends Component {
 
 
 
-export default CustomerUnset;
+export default Unset;

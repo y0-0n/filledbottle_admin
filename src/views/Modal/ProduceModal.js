@@ -17,7 +17,7 @@ class ProduceModal extends Component {
   componentWillMount() {
     this.getList();
   }
-  
+
   getTotal() {
     fetch(process.env.REACT_APP_HOST+"/api/produce/total/"+this.state.keyword, {
       method: 'GET',
