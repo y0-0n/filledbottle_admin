@@ -14,7 +14,7 @@ class ImageModal extends Component {
   }
 
   getProduct() {
-    fetch(process.env.REACT_APP_HOST + "/product/", {
+    fetch(process.env.REACT_APP_HOST + "/product/" + this.props.product_id, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),

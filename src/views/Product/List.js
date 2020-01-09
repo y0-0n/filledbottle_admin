@@ -453,10 +453,7 @@ changeFamily (family) {
                             {<Popup
                               trigger={<Button>사진</Button>}
                               modal>
-                              {close => <ImageModal close={close} login={() => { this.props.history.push('/login') }}
-                                selectCustomer={(data) => {
-                                  /* set, for instance, comment[1] to "some text"*/
-                                }} />}
+                              {close => <ImageModal close={close} product_id={e.id} login={() => { this.props.history.push('/login') }} />}
                             </Popup>}
                           </td>
                         </tr>)
