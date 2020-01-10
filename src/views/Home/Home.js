@@ -159,12 +159,13 @@ class Home extends Component {
           this.setState({orderData}, () => {
             let events = [];
             this.state.orderData.map((e, i) => {
-              let {name, date, id} = this.state.orderData[i];
+              let {name, date, id} = e;
               let event = {
                 start: date,
                 end: date,
                 allDay: true,
                 title: name + "님 주문",
+                state : e.state,
                 resource: id
               };
               events.push(event);
@@ -218,6 +219,24 @@ class Home extends Component {
     return year + "년 " + month + "월 " + date + "일";
   }
 
+  eventStyleGetter(event, start, end, isSelected) {
+    let backgroundColor = '#3174ad';
+    if(event.state == 'shipping')
+      backgroundColor = 'red'
+    var style = {
+      backgroundColor,
+      borderRadius: '0px',
+      opacity: 0.8,
+      color: 'white',
+      border: '0px',
+      display: 'block'
+    };
+
+    return {
+      style
+    }
+  }
+
   render() {
     this.bar = {
       labels: ['저번 달', '이번 달'],
@@ -258,6 +277,7 @@ class Home extends Component {
               endAccessor={'end'}
               style={{ height: 800, 'minWidth': 500 }}
               events={this.state.events}
+              eventPropGetter={(this.eventStyleGetter)}
               messages={this.messages}
               culture='ko'
               onNavigate={(date) => {this.getOrder(moment(date).startOf('month'), moment(date).endOf('month'))}}
