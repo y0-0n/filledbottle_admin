@@ -357,8 +357,9 @@ changeFamily (family) {
                   <Table style={{ minWidth: 600 }} hover>
                     <thead>
                       <tr>
+                        <th style={{ width: 150 }}>사진</th>
                         <th>품목명</th>
-                        <th>품목군</th>
+                        <th style={{ width: 250 }}>품목군</th>
                         <th>판매 단가</th>
                         <th>재고</th>
                         {this.state.stockEdit ?
@@ -368,13 +369,15 @@ changeFamily (family) {
                             <th style={{width : 300}}>품목 활성화</th>
                           */}
                         {/*<th>수정</th>*/}
-                        <th>사진</th>
                       </tr>
                     </thead>
                     <tbody>
                       {data.map((e, i) => {
                         return (<tr key={e.id}>
-                          <td style={{ cursor: 'pointer' }} onClick={() => {
+                          <td>
+                            <img style={{ width: '90%' }} alt="품목 사진" src={e.file_name ? "http://211.62.225.216:4000/static/" + e.file_name : '318x180.svg'} />
+                          </td>
+                          <td style={{ cursor: 'pointer'}} onClick={() => {
                             this.props.history.push({
                               pathname: '/main/product/' + e.id,
                               state: {name: this.state.name, family: this.state.family, page: this.state.page}
@@ -397,13 +400,13 @@ changeFamily (family) {
                               </td>
                             */}
                           {/*<td><Button  onClick={() => {this.props.history.push(`/main/product/edit/:id`)}}>수정</Button></td>*/}
-                          <td>
+                          {/*<td>
                             {<Popup
                               trigger={<Button>사진</Button>}
                               modal>
                               {close => <ImageModal close={close} product_id={e.id} login={() => { this.props.history.push('/login') }} />}
                             </Popup>}
-                          </td>
+                          </td>*/}
                         </tr>)
                       })}
                     </tbody>
