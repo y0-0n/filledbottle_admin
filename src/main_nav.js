@@ -15,31 +15,43 @@ export default {
       icon: 'icon-puzzle',
     },
     {
-      name: '고객 관리',
-      url: '/main/customer/list',
+      name: '품목 관리',
+      url: '/main/product/list',
       icon: 'icon-puzzle',
     },
     {
-      name: '품목 관리',
-      url: '/main/product/list',
+      name: '고객 관리',
+      url: '/main/customer/list',
       icon: 'icon-puzzle',
     },
     {
       name: '영농 일지',
       url: '/main/produce',
       icon: 'icon-speedometer',
+      badge: {
+        variant: 'info',
+        text: '1차',
+      },
     },
     {
       name: '제조 관리',
       url: '/main/manufacture',
       icon: 'icon-speedometer',
+      badge: {
+        variant: 'info',
+        text: '2차',
+      },
     },
     /*{
       name: '체험 관광',
       url: '/main/activity',
       icon: 'icon-speedometer',
+      badge: {
+        variant: 'info',
+        text: '3차',
+      },
     },*/
-    {
+    /*{
       name: '분석',
       url: '/main/analysis',
       icon: 'icon-speedometer',
@@ -48,7 +60,7 @@ export default {
         text: '준비중',
       },
       children: [
-        /*{
+        {
           name: '분석 1',
           url: '/main/analysis/1',
           icon: 'icon-puzzle',
@@ -57,9 +69,9 @@ export default {
           name: '분석 2',
           url: '/main/analysis/2',
           icon: 'icon-puzzle',
-        },*/
+        },
       ]
-    },
+    },*/
     {
       name: '건의사항',
       url: '/main/suggestions',
