@@ -69,9 +69,6 @@ class DefaultHeader extends Component {
 
         <Nav className="d-md-down-none" navbar>
           <NavItem className="px-3">
-            <NavLink to="/main" className="nav-link" >메인 메뉴</NavLink>
-          </NavItem>
-          <NavItem className="px-3">
             <NavLink to="/sales/order" className="nav-link" >주문 생성</NavLink>
           </NavItem>
           <NavItem className="px-3">
