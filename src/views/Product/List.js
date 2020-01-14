@@ -296,38 +296,29 @@ changeFamily (family) {
               </CardHeader>
               <CardBody>
                 <Row>
-                <Table>
-                  <tbody>
-                    <tr>
-                      <th style={{ textAlign: "center" }}>품목군</th>
-                      <td colSpan="5">
-                        <ul style={{display: 'flex', 'flex-wrap': 'wrap'}}>
-                          <li style={{width: 'calc((100% - 80px) / 5)', color : this.state.family === 0? 'red' : 'black'}} onClick = {() => this.changeFamily(0)}>
-                            전체
-                          </li>
-                          {
-                            familyData.map((e, i) => {
-                              return <li style={{width: 'calc((100% - 80px) / 5)', color : this.state.family === e.id? 'red' : 'black'}}  onClick = {() => this.changeFamily(e.id)}>{e.name}</li>
-                            })
-                          }
-                          <li style={{width: 'calc((100% - 80px) / 5)'}}>
-                            <InputGroup>
-                              <Input style={{ width: 10 }} value={this.state.newFamily} onChange={(e) => {
-                                let newFamily = e.target.value;
-                                this.setState({ newFamily })
-                              }} />
-                              <InputGroupAddon addonType="append">
-                                <Button onClick={this.addProductFamily.bind(this)} outline color="success">+</Button>
-                              </InputGroupAddon>
-                            </InputGroup>
-                          </li>
-                        </ul>
-                      </td>
-                    </tr>
-                  </tbody>
-                </Table>
+                  <ul style={{width: '100%', display: 'flex', 'flex-wrap': 'wrap'}}>
+                    <li style={{width: 'calc((100% - 80px) / 5)', color : this.state.family === 0? 'red' : 'black'}} onClick = {() => this.changeFamily(0)}>
+                      전체
+                    </li>
+                    {
+                      familyData.map((e, i) => {
+                        return <li style={{width: 'calc((100% - 80px) / 5)', color : this.state.family === e.id? 'red' : 'black'}}  onClick = {() => this.changeFamily(e.id)}>{e.name}</li>
+                      })
+                    }
+                    <li style={{width: 'calc((100% - 80px) / 5)'}}>
+                      <InputGroup>
+                        <Input style={{ width: 10 }} value={this.state.newFamily} onChange={(e) => {
+                          let newFamily = e.target.value;
+                          this.setState({ newFamily })
+                        }} />
+                        <InputGroupAddon addonType="append">
+                          <Button onClick={this.addProductFamily.bind(this)} outline color="success">+</Button>
+                        </InputGroupAddon>
+                      </InputGroup>
+                    </li>
+                  </ul>
                 </Row>
-                <Row>
+                <Row style={{marginBottom: 15}}>
                   <Col></Col>
                   <Col></Col><Col></Col><Col></Col>
                   {/*<Col>
