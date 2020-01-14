@@ -24,7 +24,7 @@ const stateKor = {
   refund: '환불',
   cancel: '취소'
 }
-const listCount = 5;
+const listCount = 15;
 
 class List extends Component {
   constructor(props) {
@@ -129,7 +129,7 @@ class List extends Component {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
-  searchCustomer() {
+  searchOrder() {
     let {keyword} = this;
     this.setState({keyword, page: 1}, () => {
       this.getOrder();
@@ -159,69 +159,47 @@ class List extends Component {
 
     return (
       <div className="animated fadeIn">
-        <Row className="">
+        <Row>
           <Col>
             <Card>
               <CardHeader>
+              <Row>
+                  <Col>주문 보기</Col>
+                  <Col md="2" xs="3" sm="3">
+                    <div style={{ pointer: 'cursor', width : 140}}>
+                      <DatePicker
+                        dateFormat="yyyy년 MM월 dd일"
+                        locale="ko"
+                        selected={this.state.first_date}
+                        onChange={(first_date) => { this.setState({ first_date }) }}
+                      />
+                    </div>
+                  </Col>
+                  ~
+                  <Col md="2" xs="3" sm="3">
+                    <DatePicker
+                      dateFormat="yyyy년 MM월 dd일"
+                      locale="ko"
+                      selected={this.state.last_date}
+                      onChange={(last_date) => { this.setState({ last_date }) }}
+                    />
+                  </Col>
+                  <Col md="2" xs="3" sm="3">
+                    <Input onChange={(e) => { this.keyword = e.target.value }} />
+                  </Col>
+                  <Col md="2" xs="3" sm="3">
+                    <Button block color="primary" onClick={() => { this.searchOrder() }}>검색</Button>
+                  </Col>
+                </Row>
+              </CardHeader>
+              <CardBody>
                 <Row>
                   <Col>주문 상세 검색</Col>
                   <Col md="2" xs="3" sm="3">
                     <Button block color="primary" onClick={() => { this.props.history.push('/sales/order'); }}>주문 생성</Button>
                   </Col>
                 </Row>
-              </CardHeader>
-              <CardBody>
-                <Table>
-                  <tbody>
-                    <tr>
-                      <th style={{textAlign: "center"}}>날짜</th>
-                      <td>
-                        <div style={{ pointer: 'cursor', width : 140}}>
-                          <DatePicker
-                            dateFormat="yyyy년 MM월 dd일"
-                            locale="ko"
-                            selected={this.state.first_date}
-                            onChange={(first_date) => { this.setState({ first_date }) }}
-                          />
-                        </div>
-                      </td>
-                      <td style={{ width : 30}}>~</td>
-                      <td>
-                        <div style={{ pointer: 'cursor' }}>
-                          <DatePicker
-                            dateFormat="yyyy년 MM월 dd일"
-                            locale="ko"
-                            selected={this.state.last_date}
-                            onChange={(last_date) => { this.setState({ last_date }) }}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th style={{textAlign: "center"}}>고객명</th>
-                      <td colSpan="3"><Input onChange={(e) => { this.keyword = e.target.value }} /></td>
-                    </tr>
-                  </tbody>
-                </Table>
-                <Row>
-                  <Col md="2" xs="3" sm="3">
-                  </Col>
-                </Row>
-              </CardBody>
-              <CardFooter>
-                <Button block color="primary" onClick={() => { this.searchCustomer() }}>고객 검색</Button>
-              </CardFooter>
-            </Card>
-          </Col>          
-        </Row>
-        
-        <Row>
-          <Col>
-            <Card>
-              <CardHeader>
-                주문 보기
-              </CardHeader>
-              <CardBody>
+
                 <Nav tabs>
                   <NavItem>
                     <NavLink active={this.state.process === "all"} onClick={() => this.tabClick("all")} href="#">전체</NavLink>
