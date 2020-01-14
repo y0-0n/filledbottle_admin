@@ -18,7 +18,7 @@ import Popup from "reactjs-popup";
 
 */
 
-const listCount = 5;
+const listCount = 15;
  
 class List extends Component {
   constructor(props) {
@@ -174,9 +174,9 @@ class List extends Component {
   }
 
   searchProduct() {
-    let { name,family } = this;
+    let { name } = this;
     //let keyword = this.keyword
-    this.setState({ name, family, page: 1 }, () => {
+    this.setState({ name, page: 1 }, () => {
 			this.getProduct();
 			this.getStock();
     })
@@ -264,8 +264,11 @@ class List extends Component {
   }
 
 changeFamily (family) {
-  this.family = family;
-  this.forceUpdate();
+  //let keyword = this.keyword
+  this.setState({ name: '', family, page: 1 }, () => {
+    this.getProduct();
+    this.getStock();
+  })
 }
 
   render() {
@@ -284,65 +287,27 @@ changeFamily (family) {
                 <Row>
                   <Col>품목 상세 검색</Col>
                   <Col md="2" xs="3" sm="3">
-                    <Button block color="primary" onClick={() => { this.props.history.push('/product/create'); }}>품목 등록</Button>
+                    <Input onChange={(e) => { this.name = e.target.value }} />
+                  </Col>
+                  <Col md="2" xs="3" sm="3">
+                    <Button block color="primary" onClick={() => { this.searchProduct() }}>품목 검색</Button>
                   </Col>
                 </Row>
               </CardHeader>
               <CardBody>
+                <Row>
                 <Table>
                   <tbody>
-                    <tr>
-                      <th style={{ textAlign: "center" }}>등급</th>
-                      <td>
-                        <FormGroup>
-                          <Input type="select" name="group" id="groupSelect">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                          </Input>
-                        </FormGroup>
-                      </td>
-                      <th style={{ textAlign: "center" }}>무게</th>
-                      <td>
-                        <FormGroup>
-                          <Input type="select" name="group" id="groupSelect">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                          </Input>
-                        </FormGroup>
-                      </td>
-                      <th style={{ textAlign: "center" }}>단가</th>
-                      <td>
-                        <FormGroup>
-                          <Input type="select" name="group" id="groupSelect">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                          </Input>
-                        </FormGroup>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th style={{ textAlign: "center" }}>품목명</th>
-                      <td colSpan="5"><Input onChange={(e) => { this.name = e.target.value }} /></td>
-                    </tr>
                     <tr>
                       <th style={{ textAlign: "center" }}>품목군</th>
                       <td colSpan="5">
                         <ul style={{display: 'flex', 'flex-wrap': 'wrap'}}>
-                          <li style={{width: 'calc((100% - 80px) / 5)', color : this.family === 0? 'red' : 'black'}} onClick = {() => this.changeFamily(0)}>
+                          <li style={{width: 'calc((100% - 80px) / 5)', color : this.state.family === 0? 'red' : 'black'}} onClick = {() => this.changeFamily(0)}>
                             전체
                           </li>
                           {
                             familyData.map((e, i) => {
-                              return <li style={{width: 'calc((100% - 80px) / 5)', color : this.family === e.id? 'red' : 'black'}}  onClick = {() => this.changeFamily(e.id)}>{e.name}</li>
+                              return <li style={{width: 'calc((100% - 80px) / 5)', color : this.state.family === e.id? 'red' : 'black'}}  onClick = {() => this.changeFamily(e.id)}>{e.name}</li>
                             })
                           }
                           <li style={{width: 'calc((100% - 80px) / 5)'}}>
@@ -361,23 +326,9 @@ changeFamily (family) {
                     </tr>
                   </tbody>
                 </Table>
-                <Row>
-                  <Col md="2" xs="3" sm="3">
-                  </Col>
                 </Row>
-              </CardBody>
-              <CardFooter>
-                <Button block color="primary" onClick={() => { this.searchProduct() }}>품목 검색</Button>
-              </CardFooter>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Card>
-              <CardHeader>
                 <Row>
-                  <Col>품목 보기</Col>
+                  <Col></Col>
                   <Col></Col><Col></Col><Col></Col>
                   {/*<Col>
                     {this.state.set ?
@@ -398,17 +349,16 @@ changeFamily (family) {
                       <Button block color="primary" onClick={() => this.changeStockEdit()}>수정 완료</Button> :
                       <Button block color="primary" onClick={() => this.changeStockEdit()}>재고 수정</Button>}
                   </Col>
+                  <Col>
+                    <Button block color="primary" onClick={() => { this.props.history.push('/product/create'); }}>품목 등록</Button>
+                  </Col>
                 </Row>
-              </CardHeader>
-              <CardBody>
-                <div style={{ overflow: 'scroll' }}>
+                <Row>
                   <Table style={{ minWidth: 600 }} hover>
                     <thead>
                       <tr>
                         <th>품목명</th>
                         <th>품목군</th>
-                        <th>등급</th>
-                        <th>무게</th>
                         <th>판매 단가</th>
                         <th>재고</th>
                         {this.state.stockEdit ?
@@ -429,10 +379,8 @@ changeFamily (family) {
                               pathname: '/main/product/' + e.id,
                               state: {name: this.state.name, family: this.state.family, page: this.state.page}
                             })
-                          }}>{e.name}</td>
+                          }}>{e.name + ' ' + e.grade + ' ' + e.weight}</td>
                           <td>{e.familyName}</td>
-                          <td>{e.grade}</td>
-                          <td>{e.weight}</td>
                           <td>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</td>
                           {this.state.stockEdit ?
                             <td style={{ width: 250 }}><Input defaultValue={stockData[i] !== undefined ? stockData[i].quantity : null} onChange={(e) => { stockData[i].quantity = e.target.value; }} /></td> :
@@ -460,7 +408,7 @@ changeFamily (family) {
                       })}
                     </tbody>
                   </Table>
-                </div>
+                </Row>
               </CardBody>
               <CardFooter>
                 <Pagination>
