@@ -182,7 +182,7 @@ class Home extends Component {
   }
 
   getOnlyOrder(first_date, last_date) {
-    const process_ = 'order', keyword = '', page = 'all';
+    const process_ = 'order', keyword = '', page = '1', limit = 5;
 
     fetch(process.env.REACT_APP_HOST+"/order/list", {
       method: 'POST',
@@ -191,7 +191,7 @@ class Home extends Component {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
       },
-      body: JSON.stringify({first_date, last_date, page, process_, keyword})
+      body: JSON.stringify({first_date, last_date, page, process_, keyword, limit})
     })
     .then(response => {
       if(response.status === 401) {
