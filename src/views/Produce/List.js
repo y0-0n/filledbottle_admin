@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 import { Card, CardBody, CardHeader, Col, Row, Table, Button, Input, CardFooter, Pagination, PaginationItem, PaginationLink,} from 'reactstrap';
 import "react-datepicker/dist/react-datepicker.css";
 
-const listCount = 5;
+const listCount = 15;
 
 class Produce extends Component {
   constructor(props) {
@@ -117,70 +117,46 @@ class Produce extends Component {
 
     return (
       <div className="animated fadeIn">
-        <Row className="">
-          <Col>
-            <Card>
-              <CardHeader>
-                <Row>
-                  <Col>생산 상세 검색</Col>
-                  <Col md="2" xs="3" sm="3">
-                    <Button block color="primary" onClick={() => { this.props.history.push('/produce/create'); }}>생산 등록</Button>
-                  </Col>
-                </Row>
-              </CardHeader>
-              <CardBody>
-                <Table>
-                  <tbody>
-                    <tr>
-                      <th style={{textAlign: "center"}}>날짜</th>
-                      <td>
-                        <div style={{ pointer: 'cursor', width : 140}}>
-                          <DatePicker
-                            dateFormat="yyyy년 MM월 dd일"
-                            locale="ko"
-                            selected={this.state.first_date}
-                            onChange={(first_date) => { this.setState({ first_date }) }}
-                          />
-                        </div>
-                      </td>
-                      <td style={{ width : 30}}>~</td>
-                      <td>
-                        <div style={{ pointer: 'cursor' }}>
-                          <DatePicker
-                            dateFormat="yyyy년 MM월 dd일"
-                            locale="ko"
-                            selected={this.state.last_date}
-                            onChange={(last_date) => { this.setState({ last_date }) }}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th style={{textAlign: "center"}}>생산제품명</th>
-                      <td colSpan="3"><Input onChange={(e) => { this.keyword = e.target.value }} /></td>
-                    </tr>
-                  </tbody>
-                </Table>
-                <Row>
-                  <Col md="2" xs="3" sm="3">
-                  </Col>
-                </Row>
-              </CardBody>
-              <CardFooter>
-                <Button block color="primary" onClick={() => { this.search(); }}>생산품 검색</Button>
-              </CardFooter>
-            </Card>
-          </Col>          
-        </Row>
         <Row>
           <Col md="12" xs="12" sm="12">
             <Card>
               <CardHeader>
                 <Row>
                     <Col>생산관리</Col>
+                    <Col md="2" xs="3" sm="3">
+                    <div style={{ pointer: 'cursor', width : 140}}>
+                      <DatePicker
+                        dateFormat="yyyy년 MM월 dd일"
+                        locale="ko"
+                        selected={this.state.first_date}
+                        onChange={(first_date) => { this.setState({ first_date }) }}
+                      />
+                    </div>
+                  </Col>
+                  ~
+                  <Col md="2" xs="3" sm="3">
+                    <DatePicker
+                      dateFormat="yyyy년 MM월 dd일"
+                      locale="ko"
+                      selected={this.state.last_date}
+                      onChange={(last_date) => { this.setState({ last_date }) }}
+                    />
+                  </Col>
+                  <Col md="2" xs="3" sm="3">
+                    <Input onChange={(e) => { this.keyword = e.target.value }} />
+                  </Col>
+                  <Col md="2" xs="3" sm="3">
+                    <Button block color="primary" onClick={() => { this.search() }}>검색</Button>
+                  </Col>
                 </Row>
               </CardHeader>
               <CardBody className="card-body">
+                <Row>
+                  <Col></Col>
+                  <Col md="2" xs="3" sm="3">
+                    <Button block color="primary" onClick={() => { this.props.history.push('/produce/create'); }}>생산 등록</Button>
+                  </Col>
+                </Row>
                 <Table striped>
                     <thead>
                       <tr>
