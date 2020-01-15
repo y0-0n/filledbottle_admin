@@ -194,7 +194,7 @@ class List extends Component {
               </CardHeader>
               <CardBody>
                 <Row>
-                  <Col>주문 상세 검색</Col>
+                  <Col></Col>
                   <Col md="2" xs="3" sm="3">
                     <Button block color="primary" onClick={() => { this.props.history.push('/sales/order'); }}>주문 생성</Button>
                   </Col>
