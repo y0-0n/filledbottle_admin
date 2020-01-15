@@ -6,6 +6,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import "moment/locale/ko";
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { Bar } from 'react-chartjs-2';
+import '../../css/Table.css';
 
 const localizer = momentLocalizer(moment);
 
@@ -325,9 +326,33 @@ class Home extends Component {
                 매출
               </CardHeader>
               <CardBody>
-                <div className="chart-wrapper">
+                <Table className="ShowTable">
+                  <tbody>
+                    <tr>
+                      <th></th>
+                      <th>매출</th>
+                      <th>주문량</th>
+                    </tr>
+                    <tr>
+                      <th>전월</th>
+                      <td style={{textAlign : "right"}}>{this.state.last_income} 원</td>
+                      <td style={{textAlign : "right"}}>{}건</td>
+                    </tr>
+                    <tr>
+                      <th>당월</th>
+                      <td style={{textAlign : "right"}}>{this.state.this_income} 원</td>
+                      <td style={{textAlign : "right"}}>{}건</td>
+                    </tr>
+                    <tr>
+                      <th>누적</th>
+                      <td style={{textAlign : "right"}}>{}원</td>
+                      <td style={{textAlign : "right"}}>{}건</td>
+                    </tr>
+                  </tbody>
+                </Table>
+                {/*<div className="chart-wrapper">
                   <Bar data={this.bar} options={this.options} />
-                </div>
+                    </div>*/}
               </CardBody>
             </Card>
           </Col>
