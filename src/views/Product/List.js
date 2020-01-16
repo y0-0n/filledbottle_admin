@@ -3,6 +3,7 @@ import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Inpu
 import Switch from "../Switch/Switch";
 import ImageModal from '../Modal/ImageModal';
 import Popup from "reactjs-popup";
+import '../../css/Table.css';
 
 /*
 
@@ -293,27 +294,39 @@ class List extends Component {
       <div className="animated fadeIn">
         <Row>
           <Col>
+            <Table className="ShowTable" style={{backgroundColor: '#fff', marginTop: '20px', textAlign:'center'}}>
+              <tbody>
+                <tr>
+                  <td>농산품</td>
+                  <td>수산품</td>
+                  <td>축산품</td>
+                  <td>차/음료</td>
+                </tr>
+              </tbody>
+            </Table>
             <Card>
               <CardHeader>
                 <Row>
                   <Col>품목 상세 검색</Col>
-                  <Col md="2" xs="3" sm="3">
-                    <Input onChange={(e) => { this.name = e.target.value }} />
-                  </Col>
-                  <Col md="2" xs="3" sm="3">
-                    <Button block color="primary" onClick={() => { this.searchProduct() }}>품목 검색</Button>
+                  <Col md="3" xs="3" sm="3">
+                    <InputGroup>
+                      <Input onChange={(e) => { this.name = e.target.value }} />
+                      <InputGroupAddon addonType="append">
+                        <Button block color="primary" onClick={() => { this.searchProduct() }}><i class="fa fa-search"></i></Button>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </Col>
                 </Row>
               </CardHeader>
               <CardBody>
                 <Row>
-                  <ul style={{width: '100%', display: 'flex', 'flex-wrap': 'wrap'}}>
-                    <li style={{width: 'calc((100% - 80px) / 5)', color : this.state.family === 0? 'red' : 'black'}} onClick = {() => this.changeFamily(0)}>
+                  <ul style={{width: '100%', display: 'flex', 'flex-wrap': 'wrap', listStyleType: 'none', cursor: 'pointer'}}>
+                    <li style={{width: 'calc((100% - 80px) / 8)', backgroundColor: this.state.family === 0? '#F16B6F' : 'transparent', border: this.state.family === 0? '0px' : '1px solid #c9d6de', borderRadius: '10px', padding: '5px', marginRight: '10px', marginBottom: '10px', textAlign: 'center', color: this.state.family === 0? '#fff' : '#52616a', fontWeight: this.state.family === 0? 'bold' : 'normal', fontSize: this.state.family === 0? '1.1em' : '1em'}} onClick = {() => this.changeFamily(0)}>
                       전체
                     </li>
                     {
                       familyData.map((e, i) => {
-                        return <li style={{width: 'calc((100% - 80px) / 5)', color : this.state.family === e.id? 'red' : 'black'}}  onClick = {() => this.changeFamily(e.id)}>{e.name}</li>
+                        return <li style={{width: 'calc((100% - 80px) / 8)', backgroundColor: this.state.family === e.id? '#F16B6F' : 'transparent', border: this.state.family === e.id? '0px' : '1px solid #c9d6de', borderRadius: '10px', padding: '5px', marginRight: '10px', marginBottom: '10px', textAlign: 'center', color: this.state.family === e.id? '#fff' : '#52616a', fontWeight: this.state.family === e.id? 'bold' : 'normal', fontSize: this.state.family === e.id? '1.1em' : '1em'}}  onClick = {() => this.changeFamily(e.id)}>{e.name}</li>
                       })
                     }
                     <li style={{width: 'calc((100% - 80px) / 5)'}}>
