@@ -32,7 +32,7 @@ class List extends Component {
       //set: true,
       stockEdit: false,
       familyData: [],
-      show: false,
+      show: true,
     };
     this.name = '';
     this.family = 0;
@@ -272,8 +272,13 @@ class List extends Component {
     })
   }
 
-  changeShow() {
-    this.setState({ show: !this.state.show })
+  changeShowFalse() {
+    this.setState({ show : false })
+    console.log(this.state.show)
+  }
+
+  changeShowTrue() {
+    this.setState({ show : true })
     console.log(this.state.show)
   }
 
@@ -350,9 +355,9 @@ class List extends Component {
                     <Button block color="primary" onClick={() => { this.props.history.push('/product/create'); }}>품목 등록</Button>
                   </Col>
                   <div>
-                    <a style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px"}} onClick={() => {this.changeShow()}}><i className="fa fa-th-list" style={{display: "block"}}></i>
+                    <a style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === true ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowTrue()}}><i className="fa fa-th-list" style={{display: "block"}}></i>
                     </a>
-                    <a style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px"}} onClick={() => {this.setState(this.state.show === false)}}><i className="fa fa-th" style={{display: "block"}}></i></a>
+                    <a style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === false ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowFalse()}}><i className="fa fa-th" style={{display: "block"}}></i></a>
                   </div>
                 </Row>
                 {this.state.show ?
@@ -392,7 +397,7 @@ class List extends Component {
                             <td style={{ width: 250 }}><Input defaultValue={stockData[i] !== undefined ? stockData[i].quantity : null} onChange={(e) => { stockData[i].quantity = e.target.value; }} /></td> :
                             <td style={{ cursor: 'pointer' }} onClick={() => { this.props.history.push(`/main/stock/${e.id}`) }}>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>}
                           {this.state.stockEdit ?
-                            <Col><Button onClick={() => { this.modifyStock(e.id, stockData[i].quantity) }} color="primary" >수정</Button></Col> :
+                            <td><Button onClick={() => { this.modifyStock(e.id, stockData[i].quantity) }} color="primary" >수정</Button></td>:
                             ""}
                           {/*this.state.set ?
                               <td>
@@ -421,7 +426,12 @@ class List extends Component {
                     return (
                       <Col key={i} style={{width: '20%', textAlign: 'left'}}>
                         <li style={{listStyleType : 'none'}}>
-                          <a style={{textAlign: 'center'}}>
+                          <a style={{textAlign: 'center', cursor: 'pointer'}} onClick={() => {
+                            this.props.history.push({
+                              pathname: '/main/product/' + e.id,
+                              state: {name: this.state.name, family: this.state.family, page: this.state.page}
+                            })
+                          }}>
                             <p><CardImg top style={{display: 'inline-block', width:"285px", height:"285px"}} src={e.file_name ? "http://211.62.225.216:4000/static/" + e.file_name : '318x180.svg'} alt="Card image cap" /></p>
                             <p style={{fontWeight: 'bold'}}>{e.name + ' ' + e.grade + ' ' + e.weight}</p>
                             <p>{e.familyName}</p>
