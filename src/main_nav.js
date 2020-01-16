@@ -34,7 +34,7 @@ export default {
       },
     },
     {
-      name: '제조 관리',
+      name: '식품 가공',
       url: '/main/manufacture',
       icon: 'icon-speedometer',
       badge: {
