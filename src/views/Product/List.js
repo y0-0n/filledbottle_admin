@@ -32,6 +32,7 @@ class List extends Component {
       //set: true,
       stockEdit: false,
       familyData: [],
+      show: true,
     };
     this.name = '';
     this.family = 0;
@@ -263,13 +264,23 @@ class List extends Component {
     })
   }
 
-changeFamily (family) {
-  //let keyword = this.keyword
-  this.setState({ name: '', family, page: 1 }, () => {
-    this.getProduct();
-    this.getStock();
-  })
-}
+  changeFamily (family) {
+    //let keyword = this.keyword
+    this.setState({ name: '', family, page: 1 }, () => {
+      this.getProduct();
+      this.getStock();
+    })
+  }
+
+  changeShowFalse() {
+    this.setState({ show : false })
+    console.log(this.state.show)
+  }
+
+  changeShowTrue() {
+    this.setState({ show : true })
+    console.log(this.state.show)
+  }
 
   render() {
     var data = this.state.productData;
@@ -340,10 +351,16 @@ changeFamily (family) {
                       <Button block color="primary" onClick={() => this.changeStockEdit()}>수정 완료</Button> :
                       <Button block color="primary" onClick={() => this.changeStockEdit()}>재고 수정</Button>}
                   </Col>
-                  <Col>
+                  <Col> 
                     <Button block color="primary" onClick={() => { this.props.history.push('/product/create'); }}>품목 등록</Button>
                   </Col>
+                  <div>
+                    <a style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === true ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowTrue()}}><i className="fa fa-th-list" style={{display: "block"}}></i>
+                    </a>
+                    <a style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === false ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowFalse()}}><i className="fa fa-th" style={{display: "block"}}></i></a>
+                  </div>
                 </Row>
+                {this.state.show ?
                 <Row>
                   <Table style={{ minWidth: 600 }} hover>
                     <thead>
@@ -380,7 +397,7 @@ changeFamily (family) {
                             <td style={{ width: 250 }}><Input defaultValue={stockData[i] !== undefined ? stockData[i].quantity : null} onChange={(e) => { stockData[i].quantity = e.target.value; }} /></td> :
                             <td style={{ cursor: 'pointer' }} onClick={() => { this.props.history.push(`/main/stock/${e.id}`) }}>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>}
                           {this.state.stockEdit ?
-                            <Col><Button onClick={() => { this.modifyStock(e.id, stockData[i].quantity) }} color="primary" >수정</Button></Col> :
+                            <td><Button onClick={() => { this.modifyStock(e.id, stockData[i].quantity) }} color="primary" >수정</Button></td>:
                             ""}
                           {/*this.state.set ?
                               <td>
@@ -403,6 +420,38 @@ changeFamily (family) {
                     </tbody>
                   </Table>
                 </Row>
+                :
+                <Row>
+                  {data.map(function (e, i) {
+                    return (
+                      <Col key={i} style={{width: '20%', textAlign: 'left'}}>
+                        <li style={{listStyleType : 'none'}}>
+                          <a style={{textAlign: 'center', cursor: 'pointer'}} onClick={() => {
+                            this.props.history.push({
+                              pathname: '/main/product/' + e.id,
+                              state: {name: this.state.name, family: this.state.family, page: this.state.page}
+                            })
+                          }}>
+                            <p><CardImg top style={{display: 'inline-block', width:"285px", height:"285px"}} src={e.file_name ? "http://211.62.225.216:4000/static/" + e.file_name : '318x180.svg'} alt="Card image cap" /></p>
+                            <p style={{fontWeight: 'bold'}}>{e.name + ' ' + e.grade + ' ' + e.weight}</p>
+                            <p>{e.familyName}</p>
+                            <p>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</p>
+                          </a>
+                        </li>
+                        {/*<Card>
+                          <CardImg top width="100%" src={e.file_name ? "http://211.62.225.216:4000/static/" + e.file_name : '318x180.svg'} alt="Card image cap" />
+                          <CardBody>
+                            <CardTitle><h3>품목명 : {e.name + ' ' + e.grade + ' ' + e.weight}</h3></CardTitle>
+                            <CardSubtitle><h4>품목군 : {e.familyName}</h4></CardSubtitle>
+                            <CardSubtitle><h4>판매단가 : {this.numberWithCommas(e['price_shipping'])}&nbsp;원</h4></CardSubtitle>
+                            <CardSubtitle><h4>재고 : {e.address}</h4></CardSubtitle>
+                          </CardBody>
+                        </Card>*/}
+                      </Col>)
+                  }.bind(this))
+                  }
+                </Row>
+            }
               </CardBody>
               <CardFooter>
                 <Pagination>
