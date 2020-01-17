@@ -398,19 +398,19 @@ class List extends Component {
                           <td>
                             <img style={{ width: '90%' }} alt="품목 사진" src={e.file_name ? "http://211.62.225.216:4000/static/" + e.file_name : '318x180.svg'} />
                           </td>
-                          <td style={{ cursor: 'pointer'}} onClick={() => {
+                          <td style={{ cursor: 'pointer', verticalAlign: 'middle'}} onClick={() => {
                             this.props.history.push({
                               pathname: '/main/product/' + e.id,
                               state: {name: this.state.name, family: this.state.family, page: this.state.page}
                             })
                           }}>{e.name + ' ' + e.grade + ' ' + e.weight}</td>
-                          <td>{e.familyName}</td>
-                          <td>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</td>
+                          <td style={{ cursor: 'pointer', verticalAlign: 'middle'}}>{e.familyName}</td>
+                          <td style={{ cursor: 'pointer', verticalAlign: 'middle'}}>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</td>
                           {this.state.stockEdit ?
-                            <td style={{ width: 250 }}><Input defaultValue={stockData[i] !== undefined ? stockData[i].quantity : null} onChange={(e) => { stockData[i].quantity = e.target.value; }} /></td> :
-                            <td style={{ cursor: 'pointer' }} onClick={() => { this.props.history.push(`/main/stock/${e.id}`) }}>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>}
+                            <td style={{ width: 250, verticalAlign: 'middle' }}><Input defaultValue={stockData[i] !== undefined ? stockData[i].quantity : null} onChange={(e) => { stockData[i].quantity = e.target.value; }} /></td> :
+                            <td style={{ cursor: 'pointer', verticalAlign: 'middle' }} onClick={() => { this.props.history.push(`/main/stock/${e.id}`) }}>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>}
                           {this.state.stockEdit ?
-                            <td><Button onClick={() => { this.modifyStock(e.id, stockData[i].quantity) }} color="primary" >수정</Button></td>:
+                            <td style={{ verticalAlign: 'middle' }}><Button onClick={() => { this.modifyStock(e.id, stockData[i].quantity) }} color="primary" >수정</Button></td>:
                             ""}
                           {/*this.state.set ?
                               <td>
@@ -437,7 +437,7 @@ class List extends Component {
                 <Row>
                   {data.map(function (e, i) {
                     return (
-                      <Col key={i} style={{width: '20%', textAlign: 'left'}}>
+                      <div key={i} style={{width: '20%', float: 'left', positon: 'relative'}}>
                         <li style={{listStyleType : 'none'}}>
                           <a style={{textAlign: 'center', cursor: 'pointer'}} onClick={() => {
                             this.props.history.push({
@@ -460,7 +460,7 @@ class List extends Component {
                             <CardSubtitle><h4>재고 : {e.address}</h4></CardSubtitle>
                           </CardBody>
                         </Card>*/}
-                      </Col>)
+                      </div>)
                   }.bind(this))
                   }
                 </Row>
