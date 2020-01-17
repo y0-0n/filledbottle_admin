@@ -319,6 +319,7 @@ class List extends Component {
                 </Row>
               </CardHeader>
               <CardBody>
+                <hr></hr>
                 <Row>
                   <ul style={{width: '100%', display: 'flex', 'flex-wrap': 'wrap', listStyleType: 'none', cursor: 'pointer'}}>
                     <li style={{width: 'calc((100% - 80px) / 8)', backgroundColor: this.state.family === 0? '#F16B6F' : 'transparent', border: this.state.family === 0? '0px' : '1px solid #c9d6de', borderRadius: '10px', padding: '5px', marginRight: '10px', marginBottom: '10px', textAlign: 'center', color: this.state.family === 0? '#fff' : '#52616a', fontWeight: this.state.family === 0? 'bold' : 'normal', fontSize: this.state.family === 0? '1.1em' : '1em'}} onClick = {() => this.changeFamily(0)}>
@@ -342,6 +343,7 @@ class List extends Component {
                     </li>
                   </ul>
                 </Row>
+                <hr></hr>
                 <Row style={{marginBottom: 15}}>
                   <Col></Col>
                   <Col></Col><Col></Col><Col></Col>
