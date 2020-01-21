@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Input, Table, InputGroupAddon, InputGroup} from 'reactstrap';
 import '../../css/Table.css';
-import '../../css/Media.css';
 
 
 class Create extends Component {
