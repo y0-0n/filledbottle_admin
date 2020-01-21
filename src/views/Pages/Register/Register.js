@@ -163,37 +163,23 @@ class Register extends Component {
                       </InputGroupAddon>
                       <Input type="text" onChange={(e) => this.form.phone=e.target.value} placeholder="전화번호" autoComplete="phone" />
                     </InputGroup>
-                    <InputGroup className="mb-4">
-                      <Row style={{ marginBottom: '10px' }}>
-                        <Col>
-                          <InputGroup>
-                            <Input type="text" id="sample6_postcode" placeholder="우편번호" />
-                            <InputGroupAddon addonType="append">
-                              <Button block color="primary" onClick={() => { this.sample6_execDaumPostcode() }}>우편번호찾기</Button>
-                            </InputGroupAddon>
-                          </InputGroup>
-                        </Col>
-                      </Row>
-                      <Row style={{ marginBottom: '10px' }}>
-                        <Col>
-                          <Input type="text" id="sample6_address" placeholder="주소" />
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col style={{ paddingRight: '0px' }}>
-                          <Input type="text" id="sample6_detailAddress" placeholder="상세주소" />
-                        </Col>
-                        <Col>
-                          <Input type="text" id="sample6_extraAddress" placeholder="참고항목" />
-                        </Col>
-                      </Row>
-                      {/*<InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                          <i className="icon-home"></i>
-                        </InputGroupText>
-                        </InputGroupAddon>
-                      <Input type="text" onChange={(e) => this.form.address=e.target.value} placeholder="주소" autoComplete="address" />*/}
-                    </InputGroup>
+										<InputGroup style={{width: '60%'}} className="mb-3">
+											<Input type="text" id="sample6_postcode" placeholder="우편번호" />
+											<InputGroupAddon addonType="append">
+												<Button block color="primary" onClick={() => { this.sample6_execDaumPostcode() }}>우편번호찾기</Button>
+											</InputGroupAddon>
+										</InputGroup>
+										<InputGroup className="mb-3">
+											<Input className="mr-2" type="text" id="sample6_address" placeholder="주소" />
+											<Input type="text" id="sample6_detailAddress" placeholder="상세주소" />
+										</InputGroup>
+
+										{/*<InputGroupAddon addonType="prepend">
+											<InputGroupText>
+												<i className="icon-home"></i>
+											</InputGroupText>
+											</InputGroupAddon>
+										<Input type="text" onChange={(e) => this.form.address=e.target.value} placeholder="주소" autoComplete="address" />*/}
                     <Button color="success" onClick={this.signup.bind(this)} block>가입하기</Button>
                   </Form>
                 </CardBody>
