@@ -3,8 +3,8 @@ import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Inpu
 import Switch from "../Switch/Switch";
 import ImageModal from '../Modal/ImageModal';
 import Popup from "reactjs-popup";
+import ProductFamilyModal from '../Modal/ProductFamilyModal';
 import '../../css/Table.css';
-
 /*
 
   GET /product/state
@@ -33,7 +33,7 @@ class List extends Component {
       //set: true,
       stockEdit: false,
       familyData: [],
-      show: true,
+      show: false,
     };
     this.name = '';
     this.family = 0;
@@ -294,7 +294,7 @@ class List extends Component {
       <div className="animated fadeIn">
         <Row>
           <Col>
-            <Table className="ShowTable" style={{backgroundColor: '#fff', marginTop: '20px', textAlign:'center'}}>
+            <Table className="ShowTable category-top">
               <tbody>
                 <tr>
                   <td>농산품</td>
@@ -307,8 +307,8 @@ class List extends Component {
             <Card>
               <CardHeader>
                 <Row>
-                  <Col>품목 상세 검색</Col>
-                  <Col md="3" xs="3" sm="3">
+                  <Col>품목 상세 검색</ Col>
+                  <Col md="3" xs="6" sm="6">
                     <InputGroup>
                       <Input onChange={(e) => { this.name = e.target.value }} />
                       <InputGroupAddon addonType="append">
@@ -321,32 +321,36 @@ class List extends Component {
               <CardBody>
                 <hr></hr>
                 <Row>
-                  <ul style={{width: '100%', display: 'flex', 'flex-wrap': 'wrap', listStyleType: 'none', cursor: 'pointer'}}>
-                    <li style={{width: 'calc((100% - 80px) / 8)', backgroundColor: this.state.family === 0? '#F16B6F' : 'transparent', border: this.state.family === 0? '0px' : '1px solid #c9d6de', borderRadius: '10px', padding: '5px', marginRight: '10px', marginBottom: '10px', textAlign: 'center', color: this.state.family === 0? '#fff' : '#52616a', fontWeight: this.state.family === 0? 'bold' : 'normal', fontSize: this.state.family === 0? '1.1em' : '1em'}} onClick = {() => this.changeFamily(0)}>
+                  <Col>
+                  <ul className="list-productfamily-ul" style={{width: '100%', display: 'flex', 'flex-wrap': 'wrap', listStyleType: 'none', cursor: 'pointer'}}>
+                    <li className="list-productfamily" style={{backgroundColor: this.state.family === 0? '#F16B6F' : 'transparent', border: this.state.family === 0? '0px' : '1px solid #c9d6de',color: this.state.family === 0? '#fff' : '#52616a', fontWeight: this.state.family === 0? 'bold' : 'normal', fontSize: this.state.family === 0? '1.1em' : '1em'}}onClick = {() => this.changeFamily(0)}>
                       전체
                     </li>
                     {
                       familyData.map((e, i) => {
-                        return <li style={{width: 'calc((100% - 80px) / 8)', backgroundColor: this.state.family === e.id? '#F16B6F' : 'transparent', border: this.state.family === e.id? '0px' : '1px solid #c9d6de', borderRadius: '10px', padding: '5px', marginRight: '10px', marginBottom: '10px', textAlign: 'center', color: this.state.family === e.id? '#fff' : '#52616a', fontWeight: this.state.family === e.id? 'bold' : 'normal', fontSize: this.state.family === e.id? '1.1em' : '1em'}}  onClick = {() => this.changeFamily(e.id)}>{e.name}</li>
+                        return <li className="list-productfamily" style={{backgroundColor: this.state.family === e.id? '#F16B6F' : 'transparent', border: this.state.family === e.id? '0px' : '1px solid #c9d6de', color: this.state.family === e.id? '#fff' : '#52616a', fontWeight: this.state.family === e.id? 'bold' : 'normal', fontSize: this.state.family === e.id? '1.1em' : '1em'}}  onClick = {() => this.changeFamily(e.id)}>{e.name}</li>
                       })
                     }
-                    <li style={{width: 'calc((100% - 80px) / 5)'}}>
-                      <InputGroup>
-                        <Input style={{ width: 10 }} value={this.state.newFamily} onChange={(e) => {
+                    {<Popup
+                          trigger={<li className="list-productfamily" style={{border: '1px solid #c9d6de', color: 'lightgreen',}}>+</li>}
+                          modal>
+                          {close => <ProductFamilyModal close={close} login={() => { this.props.history.push('/login') }}
+                          />}
+                    </Popup>}
+                      {/*<InputGroup>
+                        <Input value={this.state.newFamily} onChange={(e) => {
                           let newFamily = e.target.value;
                           this.setState({ newFamily })
                         }} />
                         <InputGroupAddon addonType="append">
                           <Button onClick={this.addProductFamily.bind(this)} outline color="success">+</Button>
                         </InputGroupAddon>
-                      </InputGroup>
-                    </li>
+                      </InputGroup>*/}
                   </ul>
+                  </Col>
                 </Row>
                 <hr></hr>
                 <Row style={{marginBottom: 15}}>
-                  <Col></Col>
-                  <Col></Col><Col></Col><Col></Col>
                   {/*<Col>
                     {this.state.set ?
                       "비활성화 품목 보기" :
@@ -360,19 +364,19 @@ class List extends Component {
                     }
                     <Switch id='2' isOn={this.state.show} handleToggle={() => this.changeShow()} />
                   </Col>*/}
-                  <Col><Button block color="primary" onClick={() => { this.props.history.push('/main/product/list/unset') }}>비활성화 품목 보기</Button></Col>
+                  <Col><Button block color="primary" className="button-product" onClick={() => { this.props.history.push('/main/product/list/unset') }}>비활성화</Button></Col>
                   <Col>
                     {this.state.stockEdit ?
-                      <Button block color="primary" onClick={() => this.changeStockEdit()}>수정 완료</Button> :
-                      <Button block color="primary" onClick={() => this.changeStockEdit()}>재고 수정</Button>}
+                      <Button block color="primary" className="button-product" onClick={() => this.changeStockEdit()}>수정 완료</Button> :
+                      <Button block color="primary" className="button-product" onClick={() => this.changeStockEdit()}>재고 수정</Button>}
                   </Col>
                   <Col> 
-                    <Button block color="primary" onClick={() => { this.props.history.push('/product/create'); }}>품목 등록</Button>
+                    <Button block color="primary" className="button-product" onClick={() => { this.props.history.push('/product/create'); }}>품목 등록</Button>
                   </Col>
                   <div>
-                    <a style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === true ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowTrue()}}><i className="fa fa-th-list" style={{display: "block"}}></i>
+                    <a className="button-list" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === false ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowFalse()}}><i className="fa fa-th" style={{display: "block"}}></i></a>
+                    <a className="button-card" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === true ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowTrue()}}><i className="fa fa-th-list" style={{display: "block"}}></i>
                     </a>
-                    <a style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === false ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowFalse()}}><i className="fa fa-th" style={{display: "block"}}></i></a>
                   </div>
                 </Row>
                 {this.state.show ?
@@ -385,8 +389,6 @@ class List extends Component {
                         <th style={{ width: 250 }}>품목군</th>
                         <th>판매 단가</th>
                         <th>재고</th>
-                        {this.state.stockEdit ?
-                          <th style={{ width: 100 }}>수정</th> : ""}
                         {/*this.state.set ?
                             <th style={{width : 300}}>품목 비활성화</th> :
                             <th style={{width : 300}}>품목 활성화</th>
@@ -409,11 +411,15 @@ class List extends Component {
                           <td style={{ cursor: 'pointer', verticalAlign: 'middle'}}>{e.familyName}</td>
                           <td style={{ cursor: 'pointer', verticalAlign: 'middle'}}>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</td>
                           {this.state.stockEdit ?
-                            <td style={{ width: 250, verticalAlign: 'middle' }}><Input defaultValue={stockData[i] !== undefined ? stockData[i].quantity : null} onChange={(e) => { stockData[i].quantity = e.target.value; }} /></td> :
+                            <td style={{ width: 250, verticalAlign: 'middle' }}>
+                              <InputGroup>
+                                <Input defaultValue={stockData[i] !== undefined ? stockData[i].quantity : null} onChange={(e) => { stockData[i].quantity = e.target.value; }} />
+                                <InputGroupAddon addonType="append">
+                                <Button onClick={() => { this.modifyStock(e.id, stockData[i].quantity) }} color="primary" >수정</Button>
+                                </InputGroupAddon>
+                              </InputGroup>
+                            </td> :
                             <td style={{ cursor: 'pointer', verticalAlign: 'middle' }} onClick={() => { this.props.history.push(`/main/stock/${e.id}`) }}>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>}
-                          {this.state.stockEdit ?
-                            <td style={{ verticalAlign: 'middle' }}><Button onClick={() => { this.modifyStock(e.id, stockData[i].quantity) }} color="primary" >수정</Button></td>:
-                            ""}
                           {/*this.state.set ?
                               <td>
                                 <Button block style={{ width: 120 }} color="ghost-danger" onClick={() => this.deleteProduct(e.id)}>품목 비활성화</Button>
@@ -439,7 +445,7 @@ class List extends Component {
                 <Row>
                   {data.map(function (e, i) {
                     return (
-                      <div key={i} style={{width: '20%', float: 'left', positon: 'relative'}}>
+                      <div className="card-product" key={i} style={{width: '20%', float: 'left', positon: 'relative'}}>
                         <li style={{listStyleType : 'none'}}>
                           <a style={{textAlign: 'center', cursor: 'pointer'}} onClick={() => {
                             this.props.history.push({
@@ -447,9 +453,22 @@ class List extends Component {
                               state: {name: this.state.name, family: this.state.family, page: this.state.page}
                             })
                           }}>
-                            <p><CardImg top style={{display: 'inline-block', width:"285px", height:"285px"}} src={e.file_name ? "http://211.62.225.216:4000/static/" + e.file_name : '318x180.svg'} alt="Card image cap" /></p>
+                            <div className="img-product" ><CardImg top style={{display: 'inline-block', width:"90%", overflow: "hidden"}} src={e.file_name ? "http://211.62.225.216:4000/static/" + e.file_name : '318x180.svg'} alt="Card image cap" /></div>
                             <p style={{fontWeight: 'bold'}}>{e.name + ' ' + e.grade + ' ' + e.weight}</p>
                             <p>{e.familyName}</p>
+                            {this.state.stockEdit ?
+                            <div>
+                              <span>재고 : </span>
+                              <div style={{display: 'inline-block', width: 100}}>
+                                <InputGroup style={{}}>
+                                  <Input defaultValue={stockData[i] !== undefined ? stockData[i].quantity : null} onChange={(e) => { stockData[i].quantity = e.target.value; }} />
+                                  <InputGroupAddon addonType="append">
+                                  <Button onClick={() => { this.modifyStock(e.id, stockData[i].quantity) }} color="primary" >수정</Button>
+                                  </InputGroupAddon>
+                                </InputGroup>
+                              </div>
+                            </div> :
+                            <p>재고 : {stockData[i] !== undefined ? stockData[i].quantity : null}</p>}
                             <p>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</p>
                           </a>
                         </li>
