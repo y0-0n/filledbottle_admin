@@ -181,7 +181,7 @@ class Produce extends Component {
                   </Table>
                 </CardBody>
                 <CardFooter>
-                  <Pagination>
+                  <Pagination style={{justifyContent: 'center'}}>
                     {this.state.page === 1 ? '' :
                       <PaginationItem>
                         <PaginationLink previous onClick={() => { this.countPageNumber(this.state.page - 1) }} />

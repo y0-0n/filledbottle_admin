@@ -124,7 +124,7 @@ class List extends Component {
           </div>
         </CardBody>
         <CardFooter>
-          <Pagination>
+          <Pagination style={{justifyContent: 'center'}}>
             {this.state.number === 1 ? '' :
               <PaginationItem>
                 <PaginationLink previous onClick={() => { this.countPageNumber(this.state.number - 1) }} />
