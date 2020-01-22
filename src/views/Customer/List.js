@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Input, CardImg, CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Input, CardImg, CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup, InputGroup, InputGroupAddon } from 'reactstrap';
 import Switch from "../Switch/Switch";
 /*
 
@@ -197,11 +197,13 @@ class List extends Component {
               <CardHeader>
                 <Row>
                   <Col>고객 상세 검색</Col>
-                  <Col md="2" xs="3" sm="3">
-                    <Input onChange={(e) => { this.keyword = e.target.value }} />
-                  </Col>
-                  <Col md="2" xs="3" sm="3">
-                    <Button block color="primary" onClick={() => { this.searchCustomer() }}>고객 검색</Button>
+                  <Col md="3" xs="6" sm="6">
+                    <InputGroup>
+                      <Input onChange={(e) => { this.keyword = e.target.value }} />
+                      <InputGroupAddon addonType="append">
+                        <Button block color="primary" onClick={() => { this.searchCustomer() }}><i class="fa fa-search"></i></Button>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </Col>
                 </Row>
               </CardHeader>
