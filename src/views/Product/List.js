@@ -364,20 +364,23 @@ class List extends Component {
                     }
                     <Switch id='2' isOn={this.state.show} handleToggle={() => this.changeShow()} />
                   </Col>*/}
-                  <Col><Button block color="primary" className="button-product" onClick={() => { this.props.history.push('/main/product/list/unset') }}>비활성화</Button></Col>
                   <Col>
-                    {this.state.stockEdit ?
-                      <Button block color="primary" className="button-product" onClick={() => this.changeStockEdit()}>수정 완료</Button> :
-                      <Button block color="primary" className="button-product" onClick={() => this.changeStockEdit()}>재고 수정</Button>}
-                  </Col>
-                  <Col> 
-                    <Button block color="primary" className="button-product" onClick={() => { this.props.history.push('/product/create'); }}>품목 등록</Button>
-                  </Col>
-                  <div>
-                    <a className="button-list" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === false ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowFalse()}}><i className="fa fa-th" style={{display: "block"}}></i></a>
+                  <div style={{float: "right"}}>
+                    <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === true ? 'lightgray' : 'transparent'}} onClick={() => { this.props.history.push('/main/product/list/unset') }}><i className="fa fa-toggle-on" style={{display: "block"}}></i>
+                    </a>
+                    {this.state.stockEdit? 
+                    <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === true ? 'lightgray' : 'transparent'}} onClick={() => this.changeStockEdit()}><i className="fa fa-check" style={{display: "block"}}></i>
+                    </a> : 
+                    <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === true ? 'lightgray' : 'transparent'}} onClick={() => this.changeStockEdit()}><i className="fa fa-edit" style={{display: "block"}}></i>
+                    </a>}                    
+                    <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === true ? 'lightgray' : 'transparent'}} onClick={() => { this.props.history.push('/product/create'); }}><i className="fa fa-plus" style={{display: "block"}}></i>
+                    </a>
+                    <a className="button-list" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === false ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowFalse()}}><i className="fa fa-th" style={{display: "block"}}></i>
+                    </a>
                     <a className="button-card" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === true ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowTrue()}}><i className="fa fa-th-list" style={{display: "block"}}></i>
                     </a>
                   </div>
+                  </Col>
                 </Row>
                 {this.state.show ?
                 <Row>
