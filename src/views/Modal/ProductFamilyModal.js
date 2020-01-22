@@ -11,7 +11,8 @@ class ProductFamilyModal extends Component {
             keyword: 'a',
             page: 1,
             number: 1,
-            familyData: []
+            familyData: [],
+            productFamilyEdit: false,
         };
     }
 
@@ -115,6 +116,11 @@ class ProductFamilyModal extends Component {
         })
     }
 
+    changeProductFamilyEdit() {
+        this.setState({ productFamilyEdit: !this.state.productFamilyEdit });
+        console.log(this.state.productFamilyEdit)
+    }
+
     render() {
         const arr = [-2, -1, 0, 1, 2];
         const arr1 = [];
@@ -125,10 +131,12 @@ class ProductFamilyModal extends Component {
                         <Row>
                             <Col><i className="icon-drop">상품 검색</i></Col>
                             <Col>
-                                <Input onChange={(e) => { this.keyword = e.target.value }} z />
-                            </Col>
-                            <Col xs='2'>
-                                <Button block color="primary" onClick={() => console.log('a')}>검색</Button>
+                                <InputGroup>
+                                    <Input onChange={(e) => { this.keyword = e.target.value }} />
+                                    <InputGroupAddon addonType="append">
+                                        <Button block color="primary" onClick={() => { console.log('a') }}><i class="fa fa-search"></i></Button>
+                                    </InputGroupAddon>
+                                </InputGroup>
                             </Col>
                         </Row>
                     </div>
@@ -136,13 +144,14 @@ class ProductFamilyModal extends Component {
                         <Table hover>
                             <thead>
                                 <tr>
-                                    <th>품목군</th>
+                                    <th>품목군</th>                                    
+                                    <th><Button block color="primary" onClick={() => {this.changeProductFamilyEdit()}}>편집</Button></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>
-                                        <InputGroup>
+                                        <InputGroup style={{width: '70%'}}>
                                             <Input value={this.state.newFamily} onChange={(e) => {
                                                 let newFamily = e.target.value;
                                                 this.setState({ newFamily })
@@ -155,8 +164,9 @@ class ProductFamilyModal extends Component {
                                 </tr>
                                 {this.state.familyData.map((e, i) => {
                                     return (
-                                    <tr style={{ cursor: 'pointer' }} onClick={() => this.selectProductFamily(e)} key={i}>
-                                        <td>{e.name}</td>
+                                    <tr key={i}>
+                                        <td style={{ cursor: 'pointer' }} onClick={() => this.selectProductFamily(e)}>{e.name}</td>
+                                        {this.state.productFamilyEdit ? <td><Button block color="danger" >X</Button></td> : <td></td>}
                                     </tr>
                                     )
                                 })}
