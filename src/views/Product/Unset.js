@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup, InputGroup, InputGroupAddon } from 'reactstrap';
 import Switch from "../Switch/Switch";
+import Popup from "reactjs-popup";
+import ProductFamilyModal from '../Modal/ProductFamilyModal';
 
 /*
 
@@ -16,7 +18,7 @@ import Switch from "../Switch/Switch";
 
 */
 
-const listCount = 5;
+const listCount = 15;
 
 class Unset extends Component {
   constructor(props) {
@@ -30,15 +32,27 @@ class Unset extends Component {
       //set: true,
       stockEdit : false,
       familyData: [],
+      show: false,
     };
     this.name = '';
+    this.family = 0;
     this.form = {
 
     }
   }
   componentWillMount() {
-    this.getProduct();
-    this.getStock();
+    if(this.props.location.state) {
+      const {page, name, family} = this.props.location.state
+      this.setState({
+        page, name, family
+      }, () => {
+        this.getProduct();
+        this.getStock();    
+      })
+    } else {
+      this.getProduct();
+      this.getStock();  
+    }
     this.getProductFamily();
   }
 
@@ -197,8 +211,9 @@ class Unset extends Component {
   searchProduct() {
     let {name} = this;
     //let keyword = this.keyword
-    this.setState({name}, () => {
+    this.setState({name, page: 1}, () => {
       this.getProduct();
+			this.getStock();
     })
   }
 
@@ -253,10 +268,25 @@ class Unset extends Component {
     })
   }
 
+  numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   changeFamily (family) {
-    this.setState({
-      family
+    this.setState({ name: '', family, page: 1 }, () => {
+      this.getProduct();
+      this.getStock();
     })
+  }
+
+  changeShowFalse() {
+    this.setState({ show : false })
+    console.log(this.state.show)
+  }
+
+  changeShowTrue() {
+    this.setState({ show : true })
+    console.log(this.state.show)
   }
 
   render() {
@@ -270,115 +300,63 @@ class Unset extends Component {
       <div className="animated fadeIn">
         <Row>
           <Col>
-          <Card>
+            <Table className="ShowTable category-top">
+              <tbody>
+                <tr>
+                  <td>농산품</td>
+                  <td>수산품</td>
+                  <td>축산품</td>
+                  <td>차/음료</td>
+                </tr>
+              </tbody>
+            </Table>
+            <Card>
               <CardHeader>
                 <Row>
-                  <Col>품목 상세 검색</Col>
-                  <Col md="2" xs="3" sm="3">
-                    <Button block color="primary" onClick={() => { this.props.history.push('/product/create'); }}>품목 등록</Button>
+                  <Col>품목 상세 검색</ Col>
+                  <Col md="3" xs="6" sm="6">
+                    <InputGroup>
+                      <Input onChange={(e) => { this.name = e.target.value }} />
+                      <InputGroupAddon addonType="append">
+                        <Button block color="primary" onClick={() => { this.searchProduct() }}><i class="fa fa-search"></i></Button>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </Col>
                 </Row>
               </CardHeader>
               <CardBody>
-                <Table>
-                  <tbody>
-                    <tr>
-                      <th style={{textAlign: "center"}}>등급</th>
-                      <td>
-                        <FormGroup>
-                          <Input type="select" name="group" id="groupSelect">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                          </Input>
-                        </FormGroup>
-                      </td>
-                      <th style={{textAlign: "center"}}>무게</th>
-                      <td>
-                        <FormGroup>
-                          <Input type="select" name="group" id="groupSelect">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                          </Input>
-                        </FormGroup>
-                      </td>
-                      <th style={{textAlign: "center"}}>단가</th>
-                      <td>
-                        <FormGroup>
-                          <Input type="select" name="group" id="groupSelect">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                          </Input>
-                        </FormGroup>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th style={{textAlign: "center"}}>품목명</th>
-                      <td colSpan="5"><Input onChange={(e) => { this.name = e.target.value }} /></td>
-                    </tr>
-                    <tr>
-                      <th style={{ textAlign: "center" }}>품목군</th>
-                      {/*
-                        familyData.map((e, i) => {
-                          return <tr>
-                            {e.map((e2, i2) => {
-                              return <td style={{width: '20%'}}>{e2.name}</td>
-                            })}
-                          </tr>
-                        })
-                      */}
-                      <td colSpan="5">
-                        <ul style={{display: 'flex', 'flex-wrap': 'wrap'}}>
-                          <li style={{width: 'calc((100% - 80px) / 5)', color : this.state.family === 0? 'red' : 'black'}} onClick = {() => this.changeFamily(0)}>
-                            전체
-                          </li>
-                          {
-                            familyData.map((e, i) => {
-                              return <li style={{width: 'calc((100% - 80px) / 5)', color : this.state.family === e.id? 'red' : 'black'}}  onClick = {() => this.changeFamily(e.id)}>{e.name}</li>
-                            })
-                          }
-                          <li style={{width: 'calc((100% - 80px) / 5)'}}>
-                            <InputGroup>
-                              <Input style={{ width: 10 }} value={this.state.newFamily} onChange={(e) => {
-                                let newFamily = e.target.value;
-                                this.setState({ newFamily })
-                              }} />
-                              <InputGroupAddon addonType="append">
-                                <Button onClick={this.addProductFamily.bind(this)} outline color="success">+</Button>
-                              </InputGroupAddon>
-                            </InputGroup>
-                          </li>
-                        </ul>
-                      </td>
-                    </tr>                    
-                  </tbody>
-                </Table>
+                <hr></hr>
                 <Row>
-                  <Col md="2" xs="3" sm="3">
+                  <Col>
+                  <ul className="list-productfamily-ul" style={{width: '100%', display: 'flex', 'flex-wrap': 'wrap', listStyleType: 'none', cursor: 'pointer'}}>
+                    <li className="list-productfamily" style={{backgroundColor: this.state.family === 0? '#F16B6F' : 'transparent', border: this.state.family === 0? '0px' : '1px solid #c9d6de',color: this.state.family === 0? '#fff' : '#52616a', fontWeight: this.state.family === 0? 'bold' : 'normal', fontSize: this.state.family === 0? '1.1em' : '1em'}}onClick = {() => this.changeFamily(0)}>
+                      전체
+                    </li>
+                    {
+                      familyData.map((e, i) => {
+                        return <li className="list-productfamily" style={{backgroundColor: this.state.family === e.id? '#F16B6F' : 'transparent', border: this.state.family === e.id? '0px' : '1px solid #c9d6de', color: this.state.family === e.id? '#fff' : '#52616a', fontWeight: this.state.family === e.id? 'bold' : 'normal', fontSize: this.state.family === e.id? '1.1em' : '1em'}}  onClick = {() => this.changeFamily(e.id)}>{e.name}</li>
+                      })
+                    }
+                    {<Popup
+                          trigger={<li className="list-productfamily" style={{border: '1px solid #c9d6de', color: 'lightgreen',}}>+</li>}
+                          modal>
+                          {close => <ProductFamilyModal close={close} login={() => { this.props.history.push('/login') }}
+                          />}
+                    </Popup>}
+                      {/*<InputGroup>
+                        <Input value={this.state.newFamily} onChange={(e) => {
+                          let newFamily = e.target.value;
+                          this.setState({ newFamily })
+                        }} />
+                        <InputGroupAddon addonType="append">
+                          <Button onClick={this.addProductFamily.bind(this)} outline color="success">+</Button>
+                        </InputGroupAddon>
+                      </InputGroup>*/}
+                  </ul>
                   </Col>
                 </Row>
-              </CardBody>
-              <CardFooter>
-                <Button block color="primary" onClick={() => { this.searchProduct() }}>품목 검색</Button>
-              </CardFooter>
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Card>
-              <CardHeader>
-                <Row>
-                  <Col>품목 보기</Col>
-                  <Col></Col><Col></Col><Col></Col>
+                <hr></hr>
+                <Row style={{marginBottom: 15}}>
                   {/*<Col>
                     {this.state.set ?
                       "비활성화 품목 보기" :
@@ -392,48 +370,66 @@ class Unset extends Component {
                     }
                     <Switch id='2' isOn={this.state.show} handleToggle={() => this.changeShow()} />
                   </Col>*/}
-                  <Col><Button block color="primary" onClick={() => {this.props.history.push('/main/product/list')}}>활성화 품목 보기</Button></Col>
                   <Col>
-                    {this.state.stockEdit ?
-                    <Button block color="primary" onClick={() => this.changeStockEdit()}>수정 완료</Button> :
-                    <Button block color="primary" onClick={() => this.changeStockEdit()}>재고 수정</Button>}
+                  <div style={{float: "right"}}>
+                    <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px"}} onClick={() => { this.props.history.push('/main/product/list') }}><i className="fa fa-toggle-off" style={{display: "block"}}></i>
+                    </a>
+                    {this.state.stockEdit? 
+                    <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px"}} onClick={() => this.changeStockEdit()}><i className="fa fa-check" style={{display: "block"}}></i>
+                    </a> : 
+                    <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px"}} onClick={() => this.changeStockEdit()}><i className="fa fa-edit" style={{display: "block"}}></i>
+                    </a>}                    
+                    <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px"}} onClick={() => { this.props.history.push('/product/create'); }}><i className="fa fa-plus" style={{display: "block"}}></i>
+                    </a>
+                    <a className="button-list" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === false ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowFalse()}}><i className="fa fa-th" style={{display: "block"}}></i>
+                    </a>
+                    <a className="button-card" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === true ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowTrue()}}><i className="fa fa-th-list" style={{display: "block"}}></i>
+                    </a>
+                  </div>
                   </Col>
-                  
                 </Row>
-              </CardHeader>
-              <CardBody>
-                <div style={{ overflow: 'scroll' }}>
-                    <Table style={{ minWidth: 600 }} hover>
-                      <thead>
-                        <tr>
-                          <th>품목명</th>
-                          <th>등급</th>
-                          <th>무게</th>
-                          <th>판매 단가</th>
-                          <th>재고</th>
-                          {this.state.stockEdit ? 
-                            <th style={{width : 100}}>수정</th>: ""}
-                          {/*this.state.set ?
+                {this.state.show ?
+                <Row>
+                  <Table style={{ minWidth: 600 }} hover>
+                    <thead>
+                      <tr>
+                        <th style={{ width: 150 }}>사진</th>
+                        <th>품목명</th>
+                        <th style={{ width: 250 }}>품목군</th>
+                        <th>판매 단가</th>
+                        <th>재고</th>
+                        {/*this.state.set ?
                             <th style={{width : 300}}>품목 비활성화</th> :
                             <th style={{width : 300}}>품목 활성화</th>
                           */}
-                          {/*<th>수정</th>*/}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {data.map((e, i) => {
-                          return (<tr key={e.id}>
-                            <td style={{cursor: 'pointer'}} onClick={() => {this.props.history.push('/main/product/'+e.id)}}>{e.name}</td>
-                            <td>{e.grade}</td>
-                            <td>{e.weight}</td>
-                            <td>{e['price_shipping']}</td>
-                            {this.state.stockEdit ?
-                              <td style={{width: 250}}><Input defaultValue={stockData[i] !== undefined ? stockData[i].quantity : null} onChange={(e) => {stockData[i].quantity = e.target.value;}}/></td> :
-                              <td style={{ cursor: 'pointer' }} onClick={()=> {this.props.history.push(`/main/stock/${e.id}`)}}>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>}
-                            {this.state.stockEdit ? 
-                              <Col><Button onClick={()=>{this.modifyStock(e.id, stockData[i].quantity)}} color="primary" >수정</Button></Col>:
-                              ""}
-                            {/*this.state.set ?
+                        {/*<th>수정</th>*/}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {data.map((e, i) => {
+                        return (<tr key={e.id}>
+                          <td>
+                            <img style={{ width: '90%' }} alt="품목 사진" src={e.file_name ? "http://211.62.225.216:4000/static/" + e.file_name : '318x180.svg'} />
+                          </td>
+                          <td style={{ cursor: 'pointer', verticalAlign: 'middle'}} onClick={() => {
+                            this.props.history.push({
+                              pathname: '/main/product/' + e.id,
+                              state: {name: this.state.name, family: this.state.family, page: this.state.page}
+                            })
+                          }}>{e.name + ' ' + e.grade + ' ' + e.weight}</td>
+                          <td style={{ cursor: 'pointer', verticalAlign: 'middle'}}>{e.familyName}</td>
+                          <td style={{ cursor: 'pointer', verticalAlign: 'middle'}}>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</td>
+                          {this.state.stockEdit ?
+                            <td style={{ width: 250, verticalAlign: 'middle' }}>
+                              <InputGroup>
+                                <Input defaultValue={stockData[i] !== undefined ? stockData[i].quantity : null} onChange={(e) => { stockData[i].quantity = e.target.value; }} />
+                                <InputGroupAddon addonType="append">
+                                <Button onClick={() => { this.modifyStock(e.id, stockData[i].quantity) }} color="primary" >수정</Button>
+                                </InputGroupAddon>
+                              </InputGroup>
+                            </td> :
+                            <td style={{ cursor: 'pointer', verticalAlign: 'middle' }} onClick={() => { this.props.history.push(`/main/stock/${e.id}`) }}>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>}
+                          {/*this.state.set ?
                               <td>
                                 <Button block style={{ width: 120 }} color="ghost-danger" onClick={() => this.deleteProduct(e.id)}>품목 비활성화</Button>
                               </td> :
@@ -441,36 +437,88 @@ class Unset extends Component {
                                 <Button block style={{ width: 100 }} color="ghost-primary" onClick={() => this.activateProduct(e.id)}>품목 활성화</Button>
                               </td>
                             */}
-                            {/*<td><Button  onClick={() => {this.props.history.push(`/main/product/edit/:id`)}}>수정</Button></td>*/}
-                          </tr>)
-                        })}
-                      </tbody>
-                    </Table>
-                  </div>
+                          {/*<td><Button  onClick={() => {this.props.history.push(`/main/product/edit/:id`)}}>수정</Button></td>*/}
+                          {/*<td>
+                            {<Popup
+                              trigger={<Button>사진</Button>}
+                              modal>
+                              {close => <ImageModal close={close} product_id={e.id} login={() => { this.props.history.push('/login') }} />}
+                            </Popup>}
+                          </td>*/}
+                        </tr>)
+                      })}
+                    </tbody>
+                  </Table>
+                </Row>
+                :
+                <Row>
+                  {data.map(function (e, i) {
+                    return (
+                      <div className="card-product" key={i} style={{width: '20%', float: 'left', positon: 'relative'}}>
+                        <li style={{listStyleType : 'none'}}>
+                          <a style={{textAlign: 'center', cursor: 'pointer'}} onClick={() => {
+                            this.props.history.push({
+                              pathname: '/main/product/' + e.id,
+                              state: {name: this.state.name, family: this.state.family, page: this.state.page}
+                            })
+                          }}>
+                            <div className="img-product" ><CardImg top style={{display: 'inline-block', width:"90%", overflow: "hidden"}} src={e.file_name ? "http://211.62.225.216:4000/static/" + e.file_name : '318x180.svg'} alt="Card image cap" /></div>
+                            <p style={{fontWeight: 'bold'}}>{e.name + ' ' + e.grade + ' ' + e.weight}</p>
+                            <p>{e.familyName}</p>
+                            {this.state.stockEdit ?
+                            <div>
+                              <span>재고 : </span>
+                              <div style={{display: 'inline-block', width: 100}}>
+                                <InputGroup style={{}}>
+                                  <Input defaultValue={stockData[i] !== undefined ? stockData[i].quantity : null} onChange={(e) => { stockData[i].quantity = e.target.value; }} />
+                                  <InputGroupAddon addonType="append">
+                                  <Button onClick={() => { this.modifyStock(e.id, stockData[i].quantity) }} color="primary" >수정</Button>
+                                  </InputGroupAddon>
+                                </InputGroup>
+                              </div>
+                            </div> :
+                            <p>재고 : {stockData[i] !== undefined ? stockData[i].quantity : null}</p>}
+                            <p>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</p>
+                          </a>
+                        </li>
+                        {/*<Card>
+                          <CardImg top width="100%" src={e.file_name ? "http://211.62.225.216:4000/static/" + e.file_name : '318x180.svg'} alt="Card image cap" />
+                          <CardBody>
+                            <CardTitle><h3>품목명 : {e.name + ' ' + e.grade + ' ' + e.weight}</h3></CardTitle>
+                            <CardSubtitle><h4>품목군 : {e.familyName}</h4></CardSubtitle>
+                            <CardSubtitle><h4>판매단가 : {this.numberWithCommas(e['price_shipping'])}&nbsp;원</h4></CardSubtitle>
+                            <CardSubtitle><h4>재고 : {e.address}</h4></CardSubtitle>
+                          </CardBody>
+                        </Card>*/}
+                      </div>)
+                  }.bind(this))
+                  }
+                </Row>
+            }
               </CardBody>
               <CardFooter>
                 <Pagination>
-                  {this.state.page === 1 ? '' : 
-                  <PaginationItem>
-                    <PaginationLink previous onClick={() => {this.countPageNumber(this.state.page-1)}}/>
-                  </PaginationItem>
+                  {this.state.page === 1 ? '' :
+                    <PaginationItem>
+                      <PaginationLink previous onClick={() => { this.countPageNumber(this.state.page - 1) }} />
+                    </PaginationItem>
                   }
-                  {this.state.page === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
-                  {this.state.page === 2 ? arr.forEach(x => arr1.push(x+1)) : null}   
-                  {this.state.page !== 1 && this.state.page!== 2 ? arr.forEach(x => arr1.push(x)) :null }    
+                  {this.state.page === 1 ? arr.forEach(x => arr1.push(x + 2)) : null}
+                  {this.state.page === 2 ? arr.forEach(x => arr1.push(x + 1)) : null}
+                  {this.state.page !== 1 && this.state.page !== 2 ? arr.forEach(x => arr1.push(x)) : null}
                   {arr1.map((e, i) => {
-                    if(this.state.total >= this.state.page+e)
-                    return (<PaginationItem key={i} active={this.state.page === this.state.page+e}>
-                      <PaginationLink onClick={() => {this.countPageNumber(this.state.page+e)}}>
-                      {this.state.page+e}
-                      </PaginationLink>
-                    </PaginationItem>)
+                    if (this.state.total >= this.state.page + e)
+                      return (<PaginationItem key={i} active={this.state.page === this.state.page + e}>
+                        <PaginationLink onClick={() => { this.countPageNumber(this.state.page + e) }}>
+                          {this.state.page + e}
+                        </PaginationLink>
+                      </PaginationItem>)
                     return null;
                   })}
-                  {this.state.page === this.state.total ? '' : 
-                  <PaginationItem>
-                    <PaginationLink next onClick={() => {this.countPageNumber(this.state.page+1)}}/>
-                  </PaginationItem>}
+                  {this.state.page === this.state.total ? '' :
+                    <PaginationItem>
+                      <PaginationLink next onClick={() => { this.countPageNumber(this.state.page + 1) }} />
+                    </PaginationItem>}
                 </Pagination>
               </CardFooter>
             </Card>

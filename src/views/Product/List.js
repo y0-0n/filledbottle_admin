@@ -366,14 +366,14 @@ class List extends Component {
                   </Col>*/}
                   <Col>
                   <div style={{float: "right"}}>
-                    <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === true ? 'lightgray' : 'transparent'}} onClick={() => { this.props.history.push('/main/product/list/unset') }}><i className="fa fa-toggle-on" style={{display: "block"}}></i>
+                    <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px"}} onClick={() => { this.props.history.push('/main/product/list/unset') }}><i className="fa fa-toggle-on" style={{display: "block"}}></i>
                     </a>
                     {this.state.stockEdit? 
-                    <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === true ? 'lightgray' : 'transparent'}} onClick={() => this.changeStockEdit()}><i className="fa fa-check" style={{display: "block"}}></i>
+                    <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px"}} onClick={() => this.changeStockEdit()}><i className="fa fa-check" style={{display: "block"}}></i>
                     </a> : 
-                    <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === true ? 'lightgray' : 'transparent'}} onClick={() => this.changeStockEdit()}><i className="fa fa-edit" style={{display: "block"}}></i>
+                    <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px"}} onClick={() => this.changeStockEdit()}><i className="fa fa-edit" style={{display: "block"}}></i>
                     </a>}                    
-                    <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === true ? 'lightgray' : 'transparent'}} onClick={() => { this.props.history.push('/product/create'); }}><i className="fa fa-plus" style={{display: "block"}}></i>
+                    <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px"}} onClick={() => { this.props.history.push('/product/create'); }}><i className="fa fa-plus" style={{display: "block"}}></i>
                     </a>
                     <a className="button-list" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === false ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowFalse()}}><i className="fa fa-th" style={{display: "block"}}></i>
                     </a>
