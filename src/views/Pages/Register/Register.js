@@ -115,8 +115,41 @@ class Register extends Component {
       <div className="app flex-row align-items-center">
         <Container>
           <Row className="justify-content-center">
+          <Col md="9" lg="7" xl="6">
+              <Card className="mx-4" style={{height: '700px'}}>
+                <CardBody className="p-4">
+                  <Form>
+                    <h1>약관</h1>
+                    <h4 className="text-muted">서비스 이용 약관</h4>
+                    <div style={{height: '120px', overflow: 'scroll'}}>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </div>
+                    <div style={{float: 'right'}}>
+                      <Input type='checkbox'></Input>
+                      <p>서비스 이용약관 동의하기</p>
+                    </div><br></br><hr></hr>
+                    <h4 className="text-muted">개인정보 취급방침</h4>
+                    <div style={{height: '120px', overflow: 'scroll'}}>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </div>
+                    <div style={{float: 'right'}}>
+                      <Input type='checkbox'></Input>
+                      <p>개인정보 취급방침 동의하기</p>
+                    </div><br></br><hr></hr>
+                    <h4 className="text-muted">전자금융거래 이용 약관</h4>
+                    <div style={{height: '120px', overflow: 'scroll'}}>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </div>
+                    <div style={{float: 'right'}}>
+                      <Input type='checkbox'></Input>
+                      <p>전자금융거래 이용약관 동의하기</p>
+                    </div><br></br>
+                  </Form>
+                </CardBody>
+              </Card>
+            </Col>
             <Col md="9" lg="7" xl="6">
-              <Card className="mx-4">
+              <Card className="mx-4" style={{height: '700px'}}>
                 <CardBody className="p-4">
                   <Form>
                     <h1>회원가입</h1>
