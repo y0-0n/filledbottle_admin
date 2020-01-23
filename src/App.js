@@ -3,7 +3,6 @@ import { HashRouter, Route, Switch } from 'react-router-dom';
 // import { renderRoutes } from 'react-router-config';
 import './App.scss';
 import './css/Font.css'
-import './css/Media.css';
 
 
 const loading = () => <div className="animated fadeIn pt-3 text-center">Loading...</div>;

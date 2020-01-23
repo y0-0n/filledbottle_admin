@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Input, CardImg, CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup, InputGroup, InputGroupAddon } from 'reactstrap';
 import Switch from "../Switch/Switch";
+import "../../css/Customer.css"
 /*
 
   GET /customer/state
@@ -245,14 +246,14 @@ class List extends Component {
                     <Button block color="primary" onClick={() => { this.props.history.push('/customer/create'); }}>고객 등록</Button>
                   </Col>
                 </Row>
-                <div style={{ overflow: 'scroll' }}>
-                  <Table style={{ minWidth: 600 }} hover>
+                <div>
+                  <Table hover>
                     <thead>
                       <tr>
-                        <th>#</th>
+                        <th className="list-hidden">#</th>
                         <th>고객명</th>
-                        <th>전화번호</th>
-                        <th>HP</th>
+                        <th className="list-hidden">전화번호</th>
+                        <th className="list-hidden">HP</th>
                         <th>주소</th>
                         {//<th>수정</th>
                         }
@@ -262,10 +263,10 @@ class List extends Component {
                     <tbody>
                       {data.map((e, i) => {
                         return (<tr style={{ cursor: 'pointer' }} key={e.id}>
-                          <td>{e.id}</td>
+                          <td className="list-hidden">{e.id}</td>
                           <td onClick={() => {this.props.history.push(`/main/customer/${e.id}`)}}>{e.name}</td>
-                          <td>{e.telephone}</td>
-                          <td>{e.cellphone}</td>
+                          <td className="list-hidden">{e.telephone}</td>
+                          <td className="list-hidden">{e.cellphone}</td>
                           <td>{e.address}</td>
                           {//<td><Button onClick={() => {this.props.history.push(`/main/customer/edit/:id}`)}}>수정</Button></td>
                           }

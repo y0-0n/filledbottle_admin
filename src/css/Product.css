@@ -4,6 +4,16 @@
     text-align:center;
 }
 
+.category-top th{
+  border: 1px solid lightgray;
+  text-align: center;
+  width: 160px;
+}
+
+.category-top td{
+  border: 1px solid lightgray;
+}
+
 .list-productfamily {
   width: calc((100% - 80px) / 8); 
   border-radius: 10px;
@@ -43,10 +53,6 @@
 
   .button-product{
     font-size: 0.8em;
-  }
-
-  .row{
-    
   }
 
   .list-productfamily:nth-child(5n) {

@@ -5,6 +5,7 @@ import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, In
 import '../../css/Table.css';
 import ProductFamilyModal from '../Modal/ProductFamilyModal';
 import Popup from "reactjs-popup";
+import '../../css/Product.css';
 
 class CreateProduct extends Component {
   constructor(props) {
@@ -117,14 +118,14 @@ class CreateProduct extends Component {
                   <CardBody>
                     <Table className="ShowTable">
                       <tbody>
-                        <tr className="TableBottom">
-                          <th style={{ width: '10%' }}>사진</th>
-                          <td style={{ width: '40%' }} >
-                            <img alt="품목 사진" style={{ height: 500, width: '90%' }} src={this.state.image} /> <br></br>
+                        <tr>
+                          <th>사진</th>
+                          <td>
+                            <img alt="품목 사진" style={{ height: 500 }} src={this.state.image} /> <br></br>
                             <input ref="file" type="file" name="file" onChange={e => { this.handleFileInput(e); }} />
                           </td>
-                          <th style={{ width: '10%' }}>품목명</th>
-                          <td style={{ width: '40%' }}>
+                          <th>품목명</th>
+                          <td>
                             <Input onChange={(e) => this.form.name = e.target.value} />
                           </td>
                         </tr>

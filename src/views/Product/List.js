@@ -5,6 +5,7 @@ import ImageModal from '../Modal/ImageModal';
 import Popup from "reactjs-popup";
 import ProductFamilyModal from '../Modal/ProductFamilyModal';
 import '../../css/Table.css';
+import '../../css/Product.css';
 /*
 
   GET /product/state
@@ -294,7 +295,7 @@ class List extends Component {
       <div className="animated fadeIn">
         <Row>
           <Col>
-            <Table className="ShowTable category-top">
+            <Table className="category-top">
               <tbody>
                 <tr>
                   <td>농산품</td>

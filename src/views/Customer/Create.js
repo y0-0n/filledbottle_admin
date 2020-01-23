@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Input, Table, InputGroupAddon, InputGroup} from 'reactstrap';
 import '../../css/Table.css';
+import '../../css/Customer.css';
 
 
 class Create extends Component {
@@ -91,9 +92,9 @@ class Create extends Component {
       <div className="animated fadeIn align-items-center">
         <Row className="mb-5 justify-content-center">
           <Col md="9" lg="9" xl="8">
-            <form onSubmit={this.handlePost.bind(this)}>
+            <form encType="multipart/form-data" onSubmit={this.handlePost.bind(this)}>
               <FormGroup>
-                <Card className="mx-4" >
+                <Card>
                   <CardHeader>
                     고객 정보
                   </CardHeader>

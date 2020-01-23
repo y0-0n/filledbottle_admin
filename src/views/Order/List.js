@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import DatePicker from "react-datepicker";
-import { Button, Badge, Card, CardBody, CardHeader, CardFooter, Col, Row, NavItem, Nav, NavLink, Table, Input, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import { Button, Badge, Card, CardBody, CardHeader, CardFooter, Col, Row, NavItem, Nav, NavLink, Table, Input, Pagination, PaginationItem, PaginationLink, InputGroupAddon, InputGroup } from 'reactstrap';
 import "react-datepicker/dist/react-datepicker.css";
-
+import "../../css/Order.css"
 /*
 
   GET /order/state
@@ -184,11 +184,13 @@ class List extends Component {
                       onChange={(last_date) => { this.setState({ last_date }) }}
                     />
                   </Col>
-                  <Col md="2" xs="3" sm="3">
-                    <Input onChange={(e) => { this.keyword = e.target.value }} />
-                  </Col>
-                  <Col md="2" xs="3" sm="3">
-                    <Button block color="primary" onClick={() => { this.searchOrder() }}>검색</Button>
+                  <Col md="3" xs="6" sm="6">
+                    <InputGroup>
+                      <Input onChange={(e) => { this.keyword = e.target.value }} />
+                      <InputGroupAddon addonType="append">
+                        <Button block color="primary" onClick={() => { this.searchOrder() }}><i class="fa fa-search"></i></Button>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </Col>
                 </Row>
               </CardHeader>
@@ -220,27 +222,27 @@ class List extends Component {
                     <NavLink active={this.state.process === "cancel"} onClick={() => this.tabClick("cancel")} href="#">취소</NavLink>
                   </NavItem>
                 </Nav>
-                <div style={{overflow: 'scroll'}}>
-                  <Table style={{minWidth: 600}} hover>
+                <div>
+                  <Table phover>
                     <thead>
                       <tr>
-                        <th>#</th>
+                        <th className="list-hidden">#</th>
                         <th>출하일</th>
-                        <th>생성일</th>
+                        <th className="list-hidden">생성일</th>
                         <th>고객</th>
                         <th>총액</th>
-                        <th>상태</th>
+                        <th className="list-hidden">상태</th>
                       </tr>
                     </thead>
                     <tbody>
                       {data.map((e, i) => {
                         return (<tr style={{cursor: 'pointer'}} key={e.id} onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>
-                        <td>{e.id}</td>
+                        <td className="list-hidden">{e.id}</td>
                         <td>{this.getDate(e.date)}</td>
-                        <td>{this.getDate(e.orderDate)}</td>
+                        <td className="list-hidden">{this.getDate(e.orderDate)}</td>
                         <td>{e.name}</td>
                         <td>{this.numberWithCommas(e.price)}</td>
-                        <td>
+                        <td className="list-hidden">
                           {this.state.process === 'refund' ? <h3><Badge color="danger">{stateKor['refund']}</Badge></h3> : null}
                           {e.state === 'order' ? <h3><Badge color="primary">{stateKor[e.state]}</Badge></h3>: null}
                           {e.state === 'shipping' && this.state.process !== 'refund' ? <h3><Badge color="secondary">{stateKor[e.state]}</Badge></h3>: null}
@@ -253,7 +255,6 @@ class List extends Component {
                 </div>
               </CardBody>
               <CardFooter>
-                <div>
                 <Pagination style={{justifyContent: 'center'}}>
                   {this.state.page === 1 ? '' : 
                   <PaginationItem>
@@ -277,7 +278,6 @@ class List extends Component {
                     <PaginationLink next onClick={() => {this.countPageNumber(this.state.page+1)}}/>
                   </PaginationItem>}
                 </Pagination>
-                </div>
               </CardFooter>
             </Card>
           </Col>
