@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup, InputGroup, InputGroupAddon, } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input,
+   CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup,
+   InputGroup, InputGroupAddon, UncontrolledButtonDropdown, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import Switch from "../Switch/Switch";
 import ImageModal from '../Modal/ImageModal';
 import Popup from "reactjs-popup";
 import ProductFamilyModal from '../Modal/ProductFamilyModal';
 import '../../css/Table.css';
-import '../../css/Product.css';
 /*
 
   GET /product/state
@@ -366,21 +367,35 @@ class List extends Component {
                     <Switch id='2' isOn={this.state.show} handleToggle={() => this.changeShow()} />
                   </Col>*/}
                   <Col>
-                  <div style={{float: "right"}}>
-                    <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px"}} onClick={() => { this.props.history.push('/main/product/list/unset') }}><i className="fa fa-toggle-on" style={{display: "block"}}></i>
-                    </a>
-                    {this.state.stockEdit? 
-                    <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px"}} onClick={() => this.changeStockEdit()}><i className="fa fa-check" style={{display: "block"}}></i>
-                    </a> : 
-                    <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px"}} onClick={() => this.changeStockEdit()}><i className="fa fa-edit" style={{display: "block"}}></i>
-                    </a>}                    
-                    <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px"}} onClick={() => { this.props.history.push('/product/create'); }}><i className="fa fa-plus" style={{display: "block"}}></i>
-                    </a>
-                    <a className="button-list" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === false ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowFalse()}}><i className="fa fa-th" style={{display: "block"}}></i>
-                    </a>
-                    <a className="button-card" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === true ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowTrue()}}><i className="fa fa-th-list" style={{display: "block"}}></i>
-                    </a>
-                  </div>
+                    <UncontrolledButtonDropdown>
+                      <DropdownToggle caret color="primary">
+                        더 보기
+                      </DropdownToggle>
+                      <DropdownMenu>
+                        <DropdownItem onClick={() => { this.props.history.push('/main/product/list/unset') }}>비활성화</DropdownItem>
+                        {this.state.stockEdit ?
+                        <DropdownItem onClick={() => this.changeStockEdit()}>수정완료</DropdownItem> :
+                        <DropdownItem onClick={() => this.changeStockEdit()}>재고수정</DropdownItem> }
+                        <DropdownItem onClick={() => { this.props.history.push('/product/create'); }}>품목추가</DropdownItem>
+                      </DropdownMenu>
+                    </UncontrolledButtonDropdown>
+                  </Col>
+                  <Col>
+                    <div style={{float: "right"}}>
+                      <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px"}} onClick={() => { this.props.history.push('/main/product/list/unset') }}><i className="fa fa-toggle-on" style={{display: "block"}}></i>
+                      </a>
+                      {this.state.stockEdit? 
+                      <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px"}} onClick={() => this.changeStockEdit()}><i className="fa fa-check" style={{display: "block"}}></i>
+                      </a> : 
+                      <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px"}} onClick={() => this.changeStockEdit()}><i className="fa fa-edit" style={{display: "block"}}></i>
+                      </a>}                    
+                      <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px"}} onClick={() => { this.props.history.push('/product/create'); }}><i className="fa fa-plus" style={{display: "block"}}></i>
+                      </a>
+                      <a className="button-list" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === false ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowFalse()}}><i className="fa fa-th" style={{display: "block"}}></i>
+                      </a>
+                      <a className="button-card" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === true ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowTrue()}}><i className="fa fa-th-list" style={{display: "block"}}></i>
+                      </a>
+                    </div>
                   </Col>
                 </Row>
                 {this.state.show ?
