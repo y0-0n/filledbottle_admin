@@ -7,7 +7,6 @@ import DatePicker from "react-datepicker";
 import { registerLocale } from  "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ko from 'date-fns/locale/ko';
-import '../../css/Table.css';
 registerLocale('ko', ko)
 
 //vos = value of supply (공급가액)
@@ -93,6 +92,8 @@ class Create extends Component {
   render() {
     return (
       <div className="animated fadeIn">
+        <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
+        <link rel="stylesheet" type="text/css" href="css/Order.css"></link>
         <Row>
           <Col md="12" xs="12" sm="12">
             <Card>

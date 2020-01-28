@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Input, Badge } from 'reactstrap';
-import '../../css/Table.css';
 
 const stateKor = {
   order: '주문',
@@ -152,6 +151,8 @@ class Detail extends Component {
     var total_vat = 0;
     return (
       <div className="animated fadeIn">
+      <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
+      <link rel="stylesheet" type="text/css" href="css/Order.css"></link>
         <Row>
           <Col md="12" xs="12" sm="12">
             <Card>

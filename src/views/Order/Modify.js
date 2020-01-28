@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Button, Input, Card, CardBody, CardHeader, CardFooter, Col, Row, Table } from 'reactstrap';
 import ProductModal from '../Modal/ProductModal';
 import Popup from "reactjs-popup";
-import '../../css/Table.css';
 
 let def = {id: '', name: '', quantity: 0, price: 0, tax: 0};
 
@@ -104,6 +103,8 @@ class OrderModify extends Component {
     
     return (
       <div className="animated fadeIn">
+      <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
+      <link rel="stylesheet" type="text/css" href="css/Order.css"></link>
         <Row>
           <Col md="12" xs="12" sm="12">
             <Card>

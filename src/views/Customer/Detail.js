@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Card, CardBody, CardHeader, CardFooter, Col, Row, Button, Table, Badge } from 'reactstrap';
-import '../../css/Table.css';
 
 class Detail extends Component {
   constructor(props) {
@@ -82,6 +81,8 @@ class Detail extends Component {
     let {data} = this.state;
     return (
       <div className="animated fadeIn">
+        <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
+        <link rel="stylesheet" type="text/css" href="css/Customer.css"></link>
         <Row>
         <Col md="12" xs="12" sm="12">
           <Card>

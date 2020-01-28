@@ -298,9 +298,11 @@ class Unset extends Component {
 
     return (
       <div className="animated fadeIn">
+      <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
+      <link rel="stylesheet" type="text/css" href="css/Product.css"></link>
         <Row>
           <Col>
-            <Table className="ShowTable category-top">
+            <Table className="category-top">
               <tbody>
                 <tr>
                   <td>농산품</td>

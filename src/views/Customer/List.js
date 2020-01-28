@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Input, CardImg, CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup, InputGroup, InputGroupAddon } from 'reactstrap';
 import Switch from "../Switch/Switch";
-import "../../css/Customer.css"
 /*
 
   GET /customer/state
@@ -192,6 +191,8 @@ class List extends Component {
     data.map((e, i) => {this.state.checks[i] = false});
     return (
       <div className="animated fadeIn">
+      <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
+      <link rel="stylesheet" type="text/css" href="css/Customer.css"></link>
         <Row>
           <Col>
           <Card>

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import DatePicker from "react-datepicker";
 import { Button, Badge, Card, CardBody, CardHeader, CardFooter, Col, Row, NavItem, Nav, NavLink, Table, Input, Pagination, PaginationItem, PaginationLink, InputGroupAddon, InputGroup } from 'reactstrap';
 import "react-datepicker/dist/react-datepicker.css";
-import "../../css/Order.css"
 /*
 
   GET /order/state
@@ -159,6 +158,7 @@ class List extends Component {
 
     return (
       <div className="animated fadeIn">
+      <link rel="stylesheet" type="text/css" href="css/Order.css"></link>
         <Row>
           <Col>
             <Card>

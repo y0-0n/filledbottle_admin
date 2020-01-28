@@ -6,7 +6,6 @@ import Switch from "../Switch/Switch";
 import ImageModal from '../Modal/ImageModal';
 import Popup from "reactjs-popup";
 import ProductFamilyModal from '../Modal/ProductFamilyModal';
-import '../../css/Table.css';
 /*
 
   GET /product/state
@@ -294,6 +293,8 @@ class List extends Component {
 
     return (
       <div className="animated fadeIn">
+        <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
+        <link rel="stylesheet" type="text/css" href="css/Product.css"></link>
         <Row>
           <Col>
             <Table className="category-top">

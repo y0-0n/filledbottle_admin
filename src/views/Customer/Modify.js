@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Input, Table, Badge} from 'reactstrap';
-import '../../css/Table.css';
 
 class Modify extends Component {
   constructor(props) {
@@ -77,6 +76,8 @@ class Modify extends Component {
 
     return (
       <div className="animated fadeIn">
+      <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
+      <link rel="stylesheet" type="text/css" href="css/Customer.css"></link>
         <Row className="mb-5">
           <Col md="12" xs="12" sm="12">
             <form onSubmit={this.handlePost.bind(this)}>
