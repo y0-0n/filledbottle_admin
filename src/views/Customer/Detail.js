@@ -82,23 +82,26 @@ class Detail extends Component {
     return (
       <div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
-        <link rel="stylesheet" type="text/css" href="css/Customer.css"></link>
+        <link rel="stylesheet" type="text/css" href="css/CustomerDetail.css"></link>
         <Row>
         <Col md="12" xs="12" sm="12">
           <Card>
             <CardHeader>
               <Row>
                 <Col>거래처 상세</Col>
-                <Col></Col><Col></Col>
-                <Col><Button  onClick={() => {this.props.history.push(`/main/customer/edit/${this.props.match.params.id}`)}}>수정</Button></Col>
+                <Col>
+                  <div style={{float: "right"}}>
+                    <Button color="primary" onClick={() => {this.props.history.push(`/main/customer/edit/${this.props.match.params.id}`)}}>수정</Button>
+                  </div>
+                </Col>
               </Row>
             </CardHeader>
             <CardBody>
               <Table className="ShowTable">
                 <tbody>
                   <tr>
-                    <th style={{width: '10%'}}>고객명</th>
-                    <td style={{width: '40%'}}>
+                    <th>고객명</th>
+                    <td>
                       {data.name}
                     </td>
                     <th>상태</th>
@@ -115,7 +118,7 @@ class Detail extends Component {
                     </td>
                   </tr>
                   <tr>
-                    <th style={{width: '12%'}}>사업자등록번호</th>
+                    <th>사업자등록번호</th>
                     <td>
                       {data.crNumber}
                     </td>

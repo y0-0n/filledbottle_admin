@@ -77,7 +77,7 @@ class Modify extends Component {
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
-      <link rel="stylesheet" type="text/css" href="css/Customer.css"></link>
+      <link rel="stylesheet" type="text/css" href="css/CustomerDetail.css"></link>
         <Row className="mb-5">
           <Col md="12" xs="12" sm="12">
             <form onSubmit={this.handlePost.bind(this)}>
@@ -90,8 +90,8 @@ class Modify extends Component {
                     <Table className="ShowTable">
                       <tbody>
                         <tr>
-                          <th style={{width: '10%'}}>고객명</th>
-                          <td style={{width: '40%'}}>
+                          <th>고객명</th>
+                          <td>
                             <Input defaultValue={data.name} onChange={(e) => this.form.name=e.target.value}/>
                           </td>
                           <th>상태</th>
@@ -108,7 +108,7 @@ class Modify extends Component {
                           </td>
                         </tr>
                         <tr>
-                          <th style={{width: '12%'}}>사업자등록번호</th>
+                          <th>사업자등록번호</th>
                           <td>
                             <Input onChange={(e) => this.form.crNumber=e.target.value}/>
                           </td>
