@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter} from 'reactstrap';
-import '../../css/Transaction.css'
 import ReactToPrint from "react-to-print";
 
 class Transaction extends Component {
@@ -93,6 +92,7 @@ class Transaction extends Component {
     var total_num = 0;
     return (
       <Card>
+      <link rel="stylesheet" type="text/css" href="css/Transaction.css"></link>
         <CardHeader>
           인쇄 화면
         </CardHeader>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Input, CardImg, CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup, InputGroupAddon, InputGroup } from 'reactstrap';
-import Switch from "../Switch/Switch";
+import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input,
+  CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup,
+  InputGroup, InputGroupAddon, UncontrolledButtonDropdown, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 /*
 
   GET /customer/state
@@ -120,6 +121,8 @@ class Unset extends Component {
     data.map((e, i) => {this.state.checks[i] = false});
     return (
       <div className="animated fadeIn">
+      <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
+      <link rel="stylesheet" type="text/css" href="css/Customer.css"></link>
         <Row>
           <Col>
           <Card>
@@ -138,7 +141,6 @@ class Unset extends Component {
               </CardHeader>
               <CardBody>
                 <Row>
-                  <Col></Col>
                   {/*
                   <Col>
                     {this.state.set ?
@@ -153,35 +155,39 @@ class Unset extends Component {
                       "리스트로 보기"
                     }<Switch id='2' isOn={this.state.show} handleToggle={() => this.changeShow()} />
                   </Col>*/}
-                  <Col md="2" xs="3" sm="3">
-                    <Button block color="primary" onClick={() => {this.props.history.push('/main/customer/list')}}>활성화 고객 보기</Button>
-                  </Col>
-                  <Col md="2" xs="3" sm="3">
-                    <Button block color="primary" onClick={() => {
-                      let {checkdata} = this.state;
-                      for(var i = 0; i < this.state.checks.length; i++){
-                        if(this.state.checks[i] === true){
-                          checkdata[i] = data[i];
-                        }
-                      }
-                      this.props.history.push({
-                        pathname: '/main/message',
-                        state: checkdata
-                      }); 
-                    }}>카카오톡 보내기</Button>
-                  </Col>
-                  <Col md="2" xs="3" sm="3">
-                    <Button block color="primary" onClick={() => { this.props.history.push('/customer/create'); }}>고객 등록</Button>
+                  <Col>
+                    <UncontrolledButtonDropdown>
+                      <DropdownToggle caret color="primary">
+                        더 보기
+                      </DropdownToggle>
+                      <DropdownMenu>
+                        <DropdownItem onClick={() => { this.props.history.push('/main/customer/list') }}>활성화</DropdownItem>
+                        <DropdownItem onClick={() => {
+                          let { checkdata } = this.state;
+                          for (var i = 0; i < this.state.checks.length; i++) {
+                            if (this.state.checks[i] === true) {
+                              checkdata[i] = data[i];
+                            }
+                          }
+                          this.props.history.push({
+                            pathname: '/main/message',
+                            state: checkdata
+                          });
+                        }}>카카오톡 보내기</DropdownItem>
+                        <DropdownItem onClick={() => { this.props.history.push('/customer/create'); }}>고객등록</DropdownItem>
+                      </DropdownMenu>
+                    </UncontrolledButtonDropdown>
                   </Col>
                 </Row>
-                <div style={{ overflow: 'scroll' }}>
-                  <Table style={{ minWidth: 600 }} hover>
+                <hr></hr>
+                <div>
+                  <Table hover>
                     <thead>
                       <tr>
-                        <th>#</th>
+                        <th className="list-hidden">#</th>
                         <th>고객명</th>
-                        <th>전화번호</th>
-                        <th>HP</th>
+                        <th className="list-hidden">전화번호</th>
+                        <th className="list-hidden">HP</th>
                         <th>주소</th>
                         {//<th>수정</th>
                         }
@@ -191,10 +197,10 @@ class Unset extends Component {
                     <tbody>
                       {data.map((e, i) => {
                         return (<tr style={{ cursor: 'pointer' }} key={e.id}>
-                          <td>{e.id}</td>
+                          <td className="list-hidden">{e.id}</td>
                           <td onClick={() => {this.props.history.push(`/main/customer/${e.id}`)}}>{e.name}</td>
-                          <td>{e.telephone}</td>
-                          <td>{e.cellphone}</td>
+                          <td className="list-hidden">{e.telephone}</td>
+                          <td className="list-hidden">{e.cellphone}</td>
                           <td>{e.address}</td>
                           {//<td><Button onClick={() => {this.props.history.push(`/main/customer/edit/:id}`)}}>수정</Button></td>
                           }

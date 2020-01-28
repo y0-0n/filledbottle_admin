@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import DatePicker from "react-datepicker";
 import { Button, Card, CardBody, CardHeader, Col, Row, Input, Table, CardFooter, Pagination, PaginationItem, PaginationLink, } from 'reactstrap';
-import '../../css/Table.css';
 
 const listCount = 5;
 
@@ -46,6 +45,7 @@ class List extends Component {
     const arr1 = [];
     return (
       <div className="animated fadeIn">
+      <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
         <Row className="">
           <Col>
             <Card>

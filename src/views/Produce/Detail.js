@@ -3,7 +3,6 @@ import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, } from
 import { registerLocale } from  "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ko from 'date-fns/locale/ko';
-import '../../css/Table.css';
 registerLocale('ko', ko)
 
 let d = {id: '', name: '',};
@@ -50,6 +49,7 @@ class Detail extends Component {
     const {data} = this.state
     return (
       <div className="animated fadeIn">
+        <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
         <Row>
           <Col md="12" xs="12" sm="12">
           <Card>

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup, InputGroup, InputGroupAddon } from 'reactstrap';
-import Switch from "../Switch/Switch";
+import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input,
+   CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup,
+   InputGroup, InputGroupAddon, UncontrolledButtonDropdown, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
+
 import Popup from "reactjs-popup";
 import ProductFamilyModal from '../Modal/ProductFamilyModal';
 
@@ -298,9 +300,11 @@ class Unset extends Component {
 
     return (
       <div className="animated fadeIn">
+      <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
+      <link rel="stylesheet" type="text/css" href="css/Product.css"></link>
         <Row>
           <Col>
-            <Table className="ShowTable category-top">
+            <Table className="category-top">
               <tbody>
                 <tr>
                   <td>농산품</td>
@@ -370,6 +374,20 @@ class Unset extends Component {
                     }
                     <Switch id='2' isOn={this.state.show} handleToggle={() => this.changeShow()} />
                   </Col>*/}
+                  <Col>
+                    <UncontrolledButtonDropdown>
+                      <DropdownToggle caret color="primary">
+                        더 보기
+                      </DropdownToggle>
+                      <DropdownMenu>
+                        <DropdownItem onClick={() => { this.props.history.push('/main/product/list') }}>활성화</DropdownItem>
+                        {this.state.stockEdit ?
+                        <DropdownItem onClick={() => this.changeStockEdit()}>수정완료</DropdownItem> :
+                        <DropdownItem onClick={() => this.changeStockEdit()}>재고수정</DropdownItem> }
+                        <DropdownItem onClick={() => { this.props.history.push('/product/create'); }}>품목추가</DropdownItem>
+                      </DropdownMenu>
+                    </UncontrolledButtonDropdown>
+                  </Col>
                   <Col>
                   <div style={{float: "right"}}>
                     <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px"}} onClick={() => { this.props.history.push('/main/product/list') }}><i className="fa fa-toggle-off" style={{display: "block"}}></i>

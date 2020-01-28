@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Badge, Table} from 'reactstrap';
-import '../../css/Table.css';
 
 class Detail extends Component {
   constructor(props) {
@@ -52,6 +51,8 @@ class Detail extends Component {
     const data = this.state.data[0];
     return (
       <div className="animated fadeIn">
+        <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
+        <link rel="stylesheet" type="text/css" href="css/SuggestionsDetail.css"></link>
         <Row className="mb-5">
           <Col md="12" xs="12" sm="12">
             <form>
@@ -64,13 +65,13 @@ class Detail extends Component {
                     <Table className="ShowTable">
                         <tbody>
                             <tr>
-                                <th style={{width : "20%"}}>제목</th>
+                                <th>제목</th>
                                 <td colSpan="3">{data.title}</td>
                             </tr>
                             <tr className="TableBottom">
                                 <th>답변 처리 현황</th>
                                 <td>{data.answer !== null ? <Badge color="success">답변 완료</Badge> : <Badge color="secondary">답변 준비중</Badge>}</td>
-                                <th style={{width : "20%"}}>등록일</th>
+                                <th>등록일</th>
                                 <td>{this.getDate(data.created_date)}</td>
                             </tr>
                             <tr className="TableBottom">

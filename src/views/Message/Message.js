@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Table,} from 'reactstrap';
-import '../../css/Table.css';
 //import customer from '../Customer/Customer'
 
 class Message extends Component {
@@ -68,6 +67,7 @@ class Message extends Component {
     var data = this.props.location.state;
     return (
       <div className="animated fadeIn">
+      <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
         <Row className="mb-5">
           <Col md="12" xs="12" sm="12">
             <form>

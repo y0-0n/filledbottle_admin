@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import DatePicker from "react-datepicker";
-import { Button, Badge, Card, CardBody, CardHeader, CardFooter, Col, Row, NavItem, Nav, NavLink, Table, Input, Pagination, PaginationItem, PaginationLink, InputGroupAddon, InputGroup } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, NavItem, Nav, NavLink,
+   CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup, Badge,
+   InputGroup, InputGroupAddon, UncontrolledButtonDropdown, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import "react-datepicker/dist/react-datepicker.css";
-import "../../css/Order.css"
 /*
 
   GET /order/state
@@ -159,6 +160,7 @@ class List extends Component {
 
     return (
       <div className="animated fadeIn">
+      <link rel="stylesheet" type="text/css" href="css/Order.css"></link>
         <Row>
           <Col>
             <Card>
@@ -196,12 +198,18 @@ class List extends Component {
               </CardHeader>
               <CardBody>
                 <Row>
-                  <Col></Col>
-                  <Col md="2" xs="3" sm="3">
-                    <Button block color="primary" onClick={() => { this.props.history.push('/sales/order'); }}>주문 생성</Button>
+                  <Col>
+                    <UncontrolledButtonDropdown>
+                      <DropdownToggle caret color="primary">
+                        더 보기
+                      </DropdownToggle>
+                      <DropdownMenu>
+                        <DropdownItem onClick={() => { this.props.history.push('/sales/order') }}>주문생성</DropdownItem>
+                      </DropdownMenu>
+                    </UncontrolledButtonDropdown>
                   </Col>
                 </Row>
-
+                <hr></hr>
                 <Nav tabs>
                   <NavItem>
                     <NavLink active={this.state.process === "all"} onClick={() => this.tabClick("all")} href="#">전체</NavLink>

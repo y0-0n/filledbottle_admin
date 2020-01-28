@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Input, Table, Badge } from 'reactstrap';
-import '../../css/Table.css';
 
 class Modify extends Component {
   constructor(props) {
@@ -122,6 +121,8 @@ class Modify extends Component {
     var data = this.state.data;
     return (
       <div className="animated fadeIn">
+      <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
+      <link rel="stylesheet" type="text/css" href="css/ProductDetail.css"></link>
         <Row className="mb-5">
           <Col md="12" xs="12" sm="12">
             <form encType="multipart/form-data" onSubmit={this.modifyProduct.bind(this)}>
@@ -134,12 +135,12 @@ class Modify extends Component {
                     <Table className="ShowTable">
                       <tbody>
                         <tr>
-                          <th style={{ width: '10%' }}>사진</th>
-                          <td style={{ width: '40%' }}>
+                          <th>사진</th>
+                          <td className="td-img-product">
                             <img style={{ width: '90%' }} alt="품목 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
                           </td>
-                          <th style={{ width: '10%' }} >품목명</th>
-                          <td style={{ width: '40%' }}>
+                          <th>품목명</th>
+                          <td>
                             <Input defaultValue={data.name} onChange={(e) => this.form.name = e.target.value} />
                           </td>
                         </tr>

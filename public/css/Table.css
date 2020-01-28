@@ -1,0 +1,12 @@
+.ShowTable th{
+    border: 1px solid lightgray;
+    text-align: center;
+    width: 160px;
+}
+
+.ShowTable td{
+    border: 1px solid lightgray;
+}
+
+@media (max-width: 768px) {
+}

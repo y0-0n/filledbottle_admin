@@ -1,0 +1,25 @@
+@media (max-width: 768px) {
+    .ShowTable tr,
+    .ShowTable td,
+    .ShowTable th {
+        display: block;
+        width: 100%;
+    }
+  
+    .ShowTable th {
+        text-align: left;
+    }
+
+    .animated{
+        font-size: 0.7em;
+    }
+
+    .list-hidden {
+        display: none;
+    }
+
+    .container-fluid {
+        padding: 0px !important; 
+    }
+
+}

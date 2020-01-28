@@ -4,7 +4,6 @@ import Popup from "reactjs-popup";
 import { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ko from 'date-fns/locale/ko';
-import '../../css/Table.css';
 import ProductModal from '../Modal/ProductModal';
 registerLocale('ko', ko)
 
@@ -123,6 +122,7 @@ class Modify extends Component {
     const { data } = this.state
     return (
       <div className="animated fadeIn">
+      <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
         <Row>
           <Col md="12" xs="12" sm="12">
             <Card>

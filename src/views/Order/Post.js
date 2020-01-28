@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter} from 'reactstrap';
-import '../../css/Post.css'
 import ReactToPrint from "react-to-print";
 
 class Post extends Component {
@@ -83,6 +82,7 @@ class Post extends Component {
     let userInfo = this.state.userInfo;
     return (
       <Card>
+        <link rel="stylesheet" type="text/css" href="css/Post.css"></link>
         <CardHeader>
           인쇄 화면
         </CardHeader>

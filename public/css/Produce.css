@@ -1,4 +1,16 @@
 @media (max-width: 768px) {
+    .ShowTable tr,
+    .ShowTable td,
+    .ShowTable th {
+      display: block;
+      width: 100%;
+      border: 0;
+    }
+
+    .ShowTable th {
+      text-align: left;
+    }
+    
     .animated{
         font-size: 0.7em;
     }

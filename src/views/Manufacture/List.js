@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import DatePicker from "react-datepicker";
-import { Card, CardBody, CardHeader, Col, Row, Table, Button, CardFooter, Pagination, PaginationItem, PaginationLink, Input, Badge } from 'reactstrap';
+import { Card, CardBody, CardHeader, Col, Row, Table, Button, CardFooter, Pagination, PaginationItem, PaginationLink, Input, Badge, InputGroupAddon, InputGroup } from 'reactstrap';
 
 const listCount = 5;
 
@@ -120,6 +120,7 @@ class Manufacture extends Component {
     const arr1 = [];
     return (
       <div className="animated fadeIn">
+        <link rel="stylesheet" type="text/css" href="css/Manufacture.css"></link>
         <Row>
           <Col md="12" xs="12" sm="12">
             <Card>
@@ -145,17 +146,19 @@ class Manufacture extends Component {
                         onChange={(last_date) => { this.setState({ last_date }) }}
                       />
                     </Col>
-                    <Col md="2" xs="3" sm="3">
-                      <Input onChange={(e) => { this.keyword = e.target.value }} />
-                    </Col>
-                    <Col md="2" xs="3" sm="3">
-                      <Button block color="primary" onClick={() => { this.searchManufacture() }}>검색</Button>
+                    <Col md="3" xs="6" sm="6">
+                      <InputGroup>
+                        <Input onChange={(e) => { this.keyword = e.target.value }} />
+                        <InputGroupAddon addonType="append">
+                          <Button block color="primary" onClick={() => { this.searchCustomer() }}><i class="fa fa-search"></i></Button>
+                        </InputGroupAddon>
+                      </InputGroup>
                     </Col>
                 </Row>
               </CardHeader>
               <CardBody className="card-body">
                 <Row>
-                  <Col>제조 상세 검색</Col>
+                  <Col></Col>
                   <Col md="2" xs="3" sm="3">
                     <Button block color="primary" onClick={() => { this.props.history.push('/manufacture/create'); }}>제조 등록</Button>
                   </Col>
@@ -164,8 +167,8 @@ class Manufacture extends Component {
                     <thead>
                       <tr>
                         <th>날짜</th>
-                        <th>제조 제품명</th>
-                        <th>제조 수량</th>
+                        <th>제조제품명</th>
+                        <th>제조수량</th>
                         <th>상태</th>
                       </tr>
                     </thead>
