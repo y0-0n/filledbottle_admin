@@ -49,6 +49,7 @@ class Create extends Component {
     return (
       <div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
+        <link rel="stylesheet" type="text/css" href="css/Suggestions.css"></link>
         <Row className="mb-5">
           <Col md="12" xs="12" sm="12">
                 <Card>
@@ -64,11 +65,11 @@ class Create extends Component {
                           <Input onChange={(e) => {this.form.title = e.target.value}} />
                         </td>
                       </tr>
-                      <tr className="TableBottom">
+                      <tr>
                         <th>글</th>
                         <td>
                           <form>
-                            <textarea onChange={(e) => {this.form.content = e.target.value}} rows ="20" cols="80" name="suggestions_content">
+                            <textarea onChange={(e) => {this.form.content = e.target.value}} rows ="10" cols="25" name="suggestions_content">
 
                             </textarea>
                           </form>

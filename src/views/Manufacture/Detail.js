@@ -96,6 +96,7 @@ class Detail extends Component {
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
+      <link rel="stylesheet" type="text/css" href="css/ManufactureDetail.css"></link>
         <Row>
 				<Col md="12" xs="12" sm="12">
           <Card>
@@ -108,10 +109,10 @@ class Detail extends Component {
 								<Table className="ShowTable">
 									<tbody>
 										<tr>
-											<th style={{width: '10%'}}>제품명</th>
-											<td style={{width: '40%'}}>{info.title}</td>
-											<th style={{width: '10%'}}>일자</th>
-											<td style={{width: '40%'}} className="TableRight">{this.getDate(info.date)}</td>
+											<th>제품명</th>
+											<td>{info.title}</td>
+											<th>일자</th>
+											<td className="TableRight">{this.getDate(info.date)}</td>
 										</tr>
 										<tr>
 											<th>총 생산량</th>

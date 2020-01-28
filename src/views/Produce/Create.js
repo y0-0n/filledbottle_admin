@@ -93,6 +93,7 @@ class Create extends Component {
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
+      <link rel="stylesheet" type="text/css" href="css/Produce.css"></link>
         <Row>
           <Col md="12" xs="12" sm="12">
             <form onSubmit={this.handlePost.bind(this)}>
@@ -121,15 +122,15 @@ class Create extends Component {
                       <th>강수량</th>
                       <td>
                         <Row>
-                          <Col xs="10"><Input defaultValue={this.form.rain} onChange={(e) => {this.form.rain = e.target.value}}/></Col>
-                          <Col xs="2">mm</Col>
+                          <Col xs="9"><Input defaultValue={this.form.rain} onChange={(e) => {this.form.rain = e.target.value}}/></Col>
+                          <Col xs="3">mm</Col>
                         </Row>                          
                       </td>
                       <th>적설량</th>
                       <td>
                         <Row>
-                          <Col xs="10"><Input defaultValue={this.form.snow} onChange={(e) => {this.form.snow = e.target.value}}/></Col>
-                          <Col xs="2">cm</Col>
+                          <Col xs="9"><Input defaultValue={this.form.snow} onChange={(e) => {this.form.snow = e.target.value}}/></Col>
+                          <Col xs="3">cm</Col>
                         </Row>
                       </td>
                     </tr>
@@ -137,22 +138,22 @@ class Create extends Component {
                       <th>기온</th>
                       <td>
                         <Row>
-                          <Col xs="10"><Input defaultValue={this.form.temperatures} onChange={(e) => {this.form.temperatures = e.target.value}}/></Col>
-                          <Col xs="2">°C</Col>
+                          <Col xs="9"><Input defaultValue={this.form.temperatures} onChange={(e) => {this.form.temperatures = e.target.value}}/></Col>
+                          <Col xs="3">°C</Col>
                         </Row>
                       </td>
                       <th>최저 기온</th>
                       <td>
                         <Row>
-                          <Col xs="10"><Input defaultValue={this.form.minTemp} onChange={(e) => {this.form.minTemp = e.target.value}}/></Col>
-                          <Col xs="2">°C</Col>
+                          <Col xs="9"><Input defaultValue={this.form.minTemp} onChange={(e) => {this.form.minTemp = e.target.value}}/></Col>
+                          <Col xs="3">°C</Col>
                         </Row>
                       </td>
                       <th>최고 기온</th>
                       <td>
                         <Row>
-                          <Col xs="10"><Input defaultValue={this.form.maxTemp} onChange={(e) => {this.form.maxTemp = e.target.value}}/></Col>
-                          <Col xs="2">°C</Col>
+                          <Col xs="9"><Input defaultValue={this.form.maxTemp} onChange={(e) => {this.form.maxTemp = e.target.value}}/></Col>
+                          <Col xs="3">°C</Col>
                         </Row>
                       </td>
                     </tr>
@@ -163,12 +164,14 @@ class Create extends Component {
             <Card>
               <CardHeader>
                 <Row>
-                  <Col md="10" xs="10" sm="10">영농일지</Col>
+                  <Col>영농일지</Col>
                     <Col>
                       {<Popup
                         trigger={
-                          <Col sm="10">
-                            <Button onClick={() => {}} block color="primary">불러오기</Button>
+                          <Col>
+                            <div style={{float: "right"}}>
+                              <Button onClick={() => {}} block color="primary">불러오기</Button>
+                            </div>
                           </Col>
                         }
                         modal>
@@ -194,10 +197,10 @@ class Create extends Component {
                 <Table className="ShowTable">
                   <tbody>
                     <tr>
-                      <th style={{width: '10%'}}>품목</th>
-                      <td style={{width: '40%'}}>
+                      <th>품목</th>
+                      <td>
                         <Row>
-                          <Col sm="10">
+                          <Col>
                             {<Popup
                               trigger={
                                 <Input name='name' value={this.state.productName} style={{ cursor: 'pointer', backgroundColor: '#ffffff' }} readOnly />
@@ -212,11 +215,10 @@ class Create extends Component {
                               />}
                             </Popup>}
                           </Col>
-                          <Col sm="2"><Button onClick={() => { this.props.history.push(`/product/create`) }}>신규</Button></Col>
                         </Row>
                       </td>
-                      <th style={{width: '10%'}}>영농과정</th>
-                      <td style={{width: '40%'}}>
+                      <th>영농과정</th>
+                      <td>
                         <Input defaultValue={this.form.process} onChange={(e) => {this.form.process = e.target.value}}/>
                       </td>
                     </tr>
@@ -267,11 +269,11 @@ class Create extends Component {
                     <Table className="ShowTable">
                       <tbody>
                         <tr>
-                          <th style={{width: '20%'}}>품목</th>
-                          <td style={{width: '30%'}}>
+                          <th>품목</th>
+                          <td>
                           </td>
-                          <th style={{width: '20%'}}>영농과정</th>
-                          <td style={{width: '30%'}}>
+                          <th>영농과정</th>
+                          <td>
                           </td>
                         </tr>
                         <tr>
@@ -312,11 +314,11 @@ class Create extends Component {
                     <Table className="ShowTable">
                       <tbody>
                         <tr>
-                          <th style={{width: '20%'}}>품목</th>
-                          <td style={{width: '30%'}}>
+                          <th>품목</th>
+                          <td>
                           </td>
-                          <th style={{width: '20%'}}>영농과정</th>
-                          <td style={{width: '30%'}}>
+                          <th>영농과정</th>
+                          <td>
                           </td>
                         </tr>
                         <tr>

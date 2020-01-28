@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import DatePicker from "react-datepicker";
-import { Card, CardBody, CardHeader, Col, Row, Table, Button, Input, CardFooter, Pagination, PaginationItem, PaginationLink,} from 'reactstrap';
+import { Card, CardBody, CardHeader, Col, Row, Table, Button, Input, CardFooter, Pagination, PaginationItem, PaginationLink, InputGroup, InputGroupAddon} from 'reactstrap';
 import "react-datepicker/dist/react-datepicker.css";
 
 const listCount = 15;
@@ -117,6 +117,7 @@ class Produce extends Component {
 
     return (
       <div className="animated fadeIn">
+      <link rel="stylesheet" type="text/css" href="css/Produce.css"></link>
         <Row>
           <Col md="12" xs="12" sm="12">
             <Card>
@@ -142,11 +143,13 @@ class Produce extends Component {
                       onChange={(last_date) => { this.setState({ last_date }) }}
                     />
                   </Col>
-                  <Col md="2" xs="3" sm="3">
-                    <Input onChange={(e) => { this.keyword = e.target.value }} />
-                  </Col>
-                  <Col md="2" xs="3" sm="3">
-                    <Button block color="primary" onClick={() => { this.search() }}>검색</Button>
+                  <Col md="3" xs="6" sm="6">
+                    <InputGroup>
+                      <Input onChange={(e) => { this.keyword = e.target.value }} />
+                      <InputGroupAddon addonType="append">
+                        <Button block color="primary" onClick={() => { this.search() }}><i class="fa fa-search"></i></Button>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </Col>
                 </Row>
               </CardHeader>
