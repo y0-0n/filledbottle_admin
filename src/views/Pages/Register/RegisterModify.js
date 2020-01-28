@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row,Table } from 'reactstrap';
-import '../../../css/Table.css';
+
 
 class RegisterModify extends Component {
   constructor(props) {
@@ -86,6 +86,7 @@ class RegisterModify extends Component {
 
     return (
         <div className="animated fadeIn">
+        <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
         <Row>
         <Col md="12" xs="12" sm="12">
           <Card>

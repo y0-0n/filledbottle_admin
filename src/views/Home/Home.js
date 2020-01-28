@@ -6,7 +6,6 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import "moment/locale/ko";
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { Bar } from 'react-chartjs-2';
-import '../../css/Table.css';
 
 const localizer = momentLocalizer(moment);
 
@@ -266,6 +265,7 @@ class Home extends Component {
     var data = this.state.orderData;
     return (
       <div className="animated fadeIn">
+      <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
         <Card>
           <CardHeader>
             일정
