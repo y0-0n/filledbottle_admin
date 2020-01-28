@@ -408,7 +408,6 @@ class List extends Component {
                         <th>품목명</th>
                         <th style={{ width: 250 }}>품목군</th>
                         <th>판매 단가</th>
-                        <th>재고</th>
                         {/*this.state.set ?
                             <th style={{width : 300}}>품목 비활성화</th> :
                             <th style={{width : 300}}>품목 활성화</th>
@@ -418,19 +417,19 @@ class List extends Component {
                     </thead>
                     <tbody>
                       {data.map((e, i) => {
-                        return (<tr key={e.id}>
+                        return (<tr key={e.id} onClick={() => {
+                          this.props.history.push({
+                            pathname: '/main/product/' + e.id,
+                            state: {name: this.state.name, family: this.state.family, page: this.state.page}
+                          })
+                        }}>
                           <td>
                             <img style={{ width: '90%' }} alt="품목 사진" src={e.file_name ? "http://211.62.225.216:4000/static/" + e.file_name : '318x180.svg'} />
                           </td>
-                          <td style={{ cursor: 'pointer', verticalAlign: 'middle'}} onClick={() => {
-                            this.props.history.push({
-                              pathname: '/main/product/' + e.id,
-                              state: {name: this.state.name, family: this.state.family, page: this.state.page}
-                            })
-                          }}>{e.name + ' ' + e.grade + ' ' + e.weight}</td>
+                          <td style={{ cursor: 'pointer', verticalAlign: 'middle'}}>{e.name + ' ' + e.grade + ' ' + e.weight}</td>
                           <td style={{ cursor: 'pointer', verticalAlign: 'middle'}}>{e.familyName}</td>
                           <td style={{ cursor: 'pointer', verticalAlign: 'middle'}}>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</td>
-                          {this.state.stockEdit ?
+                          {/*this.state.stockEdit ?
                             <td style={{ width: 250, verticalAlign: 'middle' }}>
                               <InputGroup>
                                 <Input defaultValue={stockData[i] !== undefined ? stockData[i].quantity : null} onChange={(e) => { stockData[i].quantity = e.target.value; }} />
@@ -439,7 +438,7 @@ class List extends Component {
                                 </InputGroupAddon>
                               </InputGroup>
                             </td> :
-                            <td style={{ cursor: 'pointer', verticalAlign: 'middle' }} onClick={() => { this.props.history.push(`/main/stock/${e.id}`) }}>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>}
+                          <td style={{ cursor: 'pointer', verticalAlign: 'middle' }} onClick={() => { this.props.history.push(`/main/stock/${e.id}`) }}>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>*/}
                           {/*this.state.set ?
                               <td>
                                 <Button block style={{ width: 120 }} color="ghost-danger" onClick={() => this.deleteProduct(e.id)}>품목 비활성화</Button>
@@ -476,7 +475,7 @@ class List extends Component {
                             <div className="img-product" ><CardImg top style={{display: 'inline-block', width:"90%", overflow: "hidden"}} src={e.file_name ? "http://211.62.225.216:4000/static/" + e.file_name : '318x180.svg'} alt="Card image cap" /></div>
                             <p style={{fontWeight: 'bold'}}>{e.name + ' ' + e.grade + ' ' + e.weight}</p>
                             <p>{e.familyName}</p>
-                            {this.state.stockEdit ?
+                            {/*this.state.stockEdit ?
                             <div>
                               <span>재고 : </span>
                               <div style={{display: 'inline-block', width: 100}}>
@@ -488,7 +487,7 @@ class List extends Component {
                                 </InputGroup>
                               </div>
                             </div> :
-                            <p>재고 : {stockData[i] !== undefined ? stockData[i].quantity : null}</p>}
+                            <p>재고 : {stockData[i] !== undefined ? stockData[i].quantity : null}</p>*/}
                             <p>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</p>
                           </a>
                         </li>
