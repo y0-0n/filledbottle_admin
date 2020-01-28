@@ -24,7 +24,12 @@ export default {
       url: '/main/customer/list',
       icon: 'icon-puzzle',
     },
-    {
+		{
+      name: '재고 관리',
+      url: '/main/stock',
+      icon: 'icon-speedometer',
+    },
+		{
       name: '영농 일지',
       url: '/main/produce',
       icon: 'icon-speedometer',
@@ -41,7 +46,7 @@ export default {
         variant: 'info',
         text: '2차',
       },
-    },
+		},
     /*{
       name: '체험 관광',
       url: '/main/activity',
@@ -71,7 +76,19 @@ export default {
           icon: 'icon-puzzle',
         },
       ]
-    },*/
+		},*/
+		{
+      name: '경영 관리',
+      url: '/main/manage',
+      icon: 'icon-speedometer',
+      children: [
+        {
+          name: '재고 관리 모듈',
+          url: '/main/manage/stock',
+          icon: 'icon-puzzle',
+        },
+      ]
+    },
     {
       name: '건의사항',
       url: '/main/suggestions',

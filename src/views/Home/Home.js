@@ -289,7 +289,7 @@ class Home extends Component {
           </CardBody>
         </Card>
         <Row>
-          <Col>
+          <Col sm="12" md="6">
             <Card>
               <CardHeader>
                 최근 주문
@@ -320,7 +320,7 @@ class Home extends Component {
               </CardBody>
             </Card>
           </Col>
-          <Col>          
+          <Col sm="12" md="6">          
             <Card>
               <CardHeader>
                 매출
