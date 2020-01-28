@@ -152,24 +152,29 @@ class Detail extends Component {
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
-      <link rel="stylesheet" type="text/css" href="css/Order.css"></link>
+      <link rel="stylesheet" type="text/css" href="css/OrderDetail.css"></link>
         <Row>
           <Col md="12" xs="12" sm="12">
             <Card>
               <CardHeader>
                 <Row>
-                  <Col md="10" xs="10" sm="10">{this.props.match.params.id}번 주문</Col>
-                  <Col><Button onClick={() => {this.props.history.push('/main/sales/list')}}>뒤로가기</Button></Col>
+                  <Col>{this.props.match.params.id}번 주문</Col>
+                  <Col>
+                    <div style={{float : 'right'}}>
+                      <Button color="primary" onClick={() => {this.props.history.push('/main/sales/list')}}>뒤로가기</Button>
+                      <Button color="primary" onClick={() => {this.props.history.push(`/main/order/edit/`+this.props.match.params.id)}} style={{marginLeft : '10px'}}>수정</Button>
+                    </div>
+                  </Col>
                 </Row>
               </CardHeader>
               <CardBody>
                 <Table className="ShowTable">
                 <tbody>
                   <tr>
-                    <th style={{width: '10%'}}>고객명</th>
-                    <td style={{width: '40%'}}>{orderInfo['name']}</td>
-                    <th style={{width: '10%'}}>일자</th>
-                    <td style={{width: '40%'}} className="TableRight">{year}년 {month}월 {date}일</td>
+                    <th>고객명</th>
+                    <td>{orderInfo['name']}</td>
+                    <th>일자</th>
+                    <td  className="TableRight">{year}년 {month}월 {date}일</td>
                   </tr>
                   <tr>
                     <th>전화번호</th>
@@ -197,7 +202,6 @@ class Detail extends Component {
               <CardFooter>
                 {orderInfo['state'] === "order" ? <Button onClick={() => this.changeState(orderInfo.state, 'shipping')} style={{marginLeft : '10px'}}>출하 완료</Button> : null}
                 {orderInfo['state'] === "shipping" ? <Button onClick={() => this.changeState(orderInfo.state, 'order')} style={{marginLeft : '10px'}} >출하 취소</Button> : null}
-                <Button onClick={() => {this.props.history.push(`/main/order/edit/`+this.props.match.params.id)}} style={{marginLeft : '10px'}}>수정</Button>
                 <Button onClick={() => {this.props.history.push(`/main/order/transaction/`+this.props.match.params.id)}} style={{marginLeft : '10px'}}>거래명세서</Button>
                 <Button onClick={() => {this.props.history.push(`/main/order/post/`+this.props.match.params.id)}} style={{marginLeft : '10px'}}>택배송장</Button>
               </CardFooter>
@@ -209,18 +213,21 @@ class Detail extends Component {
           <Card>
             <CardHeader>
               <Row>
-                <Col md="10" xs="10" sm="10">품목</Col>
+                <Col>품목</Col>
                 <Col>
-                  {orderInfo['state'] === "order" ? <Button onClick={() => {this.changeState(orderInfo.state, 'cancel')}}> 주문 취소</Button> : null}
-                  {orderInfo['state'] === "shipping" ?
-                    this.state.refund ? <Button onClick={() => {this.handleRefund()}}>환불 완료</Button>
-                    : <Button onClick={() => {this.handleRefund()}}>환불 하기</Button>
-                  : null}
+                  <div style={{float : 'right'}}>
+                    {orderInfo['state'] === "order" ? <Button onClick={() => {this.changeState(orderInfo.state, 'cancel')}}> 주문 취소</Button> : null}
+                    {orderInfo['state'] === "shipping" ?
+                      this.state.refund ? <Button onClick={() => {this.handleRefund()}}>환불 완료</Button>
+                      : <Button onClick={() => {this.handleRefund()}}>환불 하기</Button>
+                    : null}
+                  </div>
                 </Col>
               </Row>
             </CardHeader>
             <CardBody>
-            <Table>
+              <div style={{overflowX : "auto", whiteSpace: "nowrap"}}>
+                <Table>
                   <thead>
                     <tr>
                     <th>품목명</th>
@@ -244,13 +251,13 @@ class Detail extends Component {
                         <td>{this.numberWithCommas(e['price']/e['quantity'])}</td>
                         <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price'] * 10 / 11 : e['price']))}</td>
                         <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price'] * 1 / 11 : 0))}</td>
-                        <td><Input name='tax' type='checkbox' checked={e.tax} disabled/></td>
+                        <td style={{textAlign: 'center'}}><Input name='tax' type='checkbox' checked={e.tax} disabled/></td>
                         <td>{this.numberWithCommas(e['price'])}</td>
-                        <td>{
+                        {
                           this.state.refund === true ?
-                              !e.refund ? <Button onClick={() => this.changeRefundstate(e.orderProductId, e.refund)}>환불</Button>
-                              : <Button onClick={() => this.changeRefundstate(e.orderProductId, e.refund)}>환불 취소</Button>
-                          : null}</td>
+                              !e.refund ? <td><Button onClick={() => this.changeRefundstate(e.orderProductId, e.refund)}>환불</Button></td>
+                              : <td><Button onClick={() => this.changeRefundstate(e.orderProductId, e.refund)}>환불 취소</Button></td>
+                          : null}
                       </tr>
                       )
                     })}
@@ -267,7 +274,7 @@ class Detail extends Component {
                     </tr>
                   </tfoot>
                 </Table>
-
+              </div>
             </CardBody>
           </Card>
           </Col>
