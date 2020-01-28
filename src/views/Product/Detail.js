@@ -83,28 +83,31 @@ class Detail extends Component {
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
-      <link rel="stylesheet" type="text/css" href="css/Product.css"></link>
+      <link rel="stylesheet" type="text/css" href="css/ProductDetail.css"></link>
         <Row>
           <Col md="12" xs="12" sm="12">
             <Card>
               <CardHeader>
                 <Row>
                   <Col>품목 상세</Col>
-                  <Col></Col><Col></Col>
-                  <Col><Button onClick={() => { this.props.history.push(`/main/product/edit/${this.props.match.params.id}`) }}>수정</Button></Col>
-                  <Col><Button onClick={() => { this.props.history.push({pathname: `/main/product/list`, state: this.props.location.state}) }}>뒤로가기</Button></Col>
+                  <Col>
+                    <div style={{float : 'right'}}>
+                      <Button color="primary" onClick={() => { this.props.history.push(`/main/product/edit/${this.props.match.params.id}`) }}>수정</Button>
+                      <Button color="primary" onClick={() => { this.props.history.push({pathname: `/main/product/list`, state: this.props.location.state}) }}>뒤로가기</Button>
+                    </div>
+                  </Col>
                 </Row>
               </CardHeader>
               <CardBody>
                 <Table className="ShowTable">
                   <tbody>
                     <tr>
-                      <th style={{ width: '10%' }}>사진</th>
-                      <td style={{ width: '40%' }}>
-                        <img style={{ width: '90%' }} alt="품목 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
+                      <th>사진</th>
+                      <td className="td-img-product">
+                        <img style={{width : "90%"}} alt="품목 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
                       </td>
-                      <th style={{ width: '10%' }} >품목명</th>
-                      <td style={{ width: '40%' }}>
+                      <th>품목명</th>
+                      <td>
                         {data.name}
                       </td>
                     </tr>
