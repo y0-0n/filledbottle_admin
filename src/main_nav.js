@@ -83,7 +83,7 @@ export default {
       icon: 'icon-speedometer',
       children: [
         {
-          name: '재고 관리 모듈',
+          name: '재고',
           url: '/main/manage/stock',
           icon: 'icon-puzzle',
         },

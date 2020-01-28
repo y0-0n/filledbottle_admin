@@ -84,22 +84,24 @@ class Modify extends Component {
                 <Table striped>
                     <thead>
                       <tr>
+												<th style={{ width: 150 }}>사진</th>
                         <th>제품명</th>
                         <th>등급</th>
                         <th>무게</th>
                         <th>수량</th>
-                        <th style={{width: 100}}>업데이트</th>
                       </tr>
                     </thead>
                     <tbody>
                       {data.map((d) => {
                         return (
                           <tr style={{cursor: 'pointer'}} key={d.id}>
+														<td>
+															<img style={{ width: '90%' }} alt="품목 사진" src={d.file_name ? "http://211.62.225.216:4000/static/" + d.file_name : '318x180.svg'} />
+														</td>
                             <td onClick={() => {this.props.history.push(`/main/stock/${d.product_id}`)}}>{d.name}</td>
                             <td>{d.grade}</td>
                             <td>{d.weight}</td>
-                            <td style={{width: 200}}><Input defaultValue={d.quantity} onChange={(e) => {d.quantity = e.target.value;}}/></td>
-                            <td><Button onClick={()=>{this.modifyStock(d.product_id, d.quantity)}} color="primary" >수정</Button></td>
+                            <td style={{width: 200}}>{d.quantity}</td>
                           </tr>
                         )
                       })}

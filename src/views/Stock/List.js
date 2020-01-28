@@ -1,116 +1,101 @@
 import React, { Component } from 'react';
-import { Bar } from 'react-chartjs-2';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-import { Card, CardBody, CardHeader, Col, Row } from 'reactstrap';
+import { Card, CardBody, CardHeader, Col, Row, Input, InputGroupAddon, Button, Nav, NavItem, NavLink, Table, CardFooter, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import DatePicker from "react-datepicker";
 
-const options = {
-  legend: {
-    display: false,
-  },
-  tooltips: {
-    enabled: false,
-    custom: CustomTooltips
-  },
-  maintainAspectRatio: false,
-  scales: {
-    yAxes: [{
-      ticks: {
-        beginAtZero: true,
-        min: 0
-      }    
-    }]
-  }  
-}
-  
 class List extends Component {
   constructor(props) {
     super(props);
     this.state = {
       stockData: [],
-      orderData: [],
-      productData: {}
     };
-    this.classify = this.classify.bind(this);
   }
 
-  getStock() {
-    fetch(process.env.REACT_APP_HOST+"/stock", {
-      method: 'GET',
+	getHistory(){
+    const page = 1, limit = 15;
+
+    fetch(process.env.REACT_APP_HOST+"/api/stock/history", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+      body: JSON.stringify({page, limit})
     })
-      .then(response => response.json())
-      .then(stockData => {this.setState({stockData})})
-  }
-
-  getOrder(callback) {
-    fetch(process.env.REACT_APP_HOST+"/order_product", {
-      method: 'GET',
-    })
-      .then(response => response.json())
-      .then(orderData => {this.setState({orderData}, () => {
-        callback();
-      })});
-  }
-
-  classify() {
-    this.state.orderData.map((e, i) => {
-      let productData = this.state.productData;
-
-      if(this.state.productData[e['product_id']] === undefined) {
-        productData[e['product_id']] = e.quantity;
-        this.setState({
-          productData
-        })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
       } else {
-        productData[e['product_id']] += e.quantity;
-        this.setState({
-          productData
-        })
+        return Promise.all([response.status, response.json()]);
       }
-
-      return 0;
     })
+    .then(data => {
+      let status = data[0];
+      if(status === 200) {
+				let stockData = data[1];
+        this.setState({stockData})
+      } else {
+        alert('로그인 하고 접근해주세요')
+        this.props.history.push('/login')
+      }
+    });
   }
 
   componentWillMount() {
-    this.getStock();
-    this.getOrder(this.classify);
+    this.getHistory();
+	}
+	
+  getDate(dateInput) {
+    var d = new Date(dateInput);
+    var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
+
+    return year + "년 " + month + "월 " + date + "일";
   }
 
   render() {
     return (
       <div className="animated fadeIn">
         <Row>
-        {
-          this.state.stockData.map((e, i) => {
-            let bar = {
-              labels: ['주문', '재고', '생산 중', '생산 필요'],
-              datasets: [
-                {
-                  backgroundColor: 'rgba(255,99,132,0.2)',
-                  borderColor: 'rgba(255,99,132,1)',
-                  borderWidth: 1,
-                  hoverBackgroundColor: 'rgba(255,99,132,0.4)',
-                  hoverBorderColor: 'rgba(255,99,132,1)',
-                  data: [this.state.productData[e['product_id']], e.quantity, 0, this.state.productData[e['product_id']]-e.quantity > 0 ? this.state.productData[e['product_id']]-e.quantity : 0],// 주문 / 재고 / 생산 중 / 생산 필요
-                },
-              ],
-            };
-            return (
-              <Col key={i} md="6" xs="12" sm="12">
-                <Card>
-                  <CardHeader>
-                    {e.id}
-                  </CardHeader>
-                  <CardBody className="card-body">
-                    <div className="chart-wrapper">
-                      <Bar data={bar} options={options} />
-                    </div>
-                  </CardBody>
-                </Card>
-              </Col>
-            )
-          })                  
-        }
+          <Col md="12" xs="12" sm="12">
+            <Card>
+              <CardHeader>
+                재고 관리
+              </CardHeader>
+              <CardBody className="card-body">
+                <Table>
+									<thead>
+										<tr>
+											<th style={{ width: 150 }}>사진</th>
+											<th>날짜</th>
+											<th>제품명</th>
+											<th>등급</th>
+											<th>무게</th>
+											<th>변동</th>
+											<th style={{ width: 150 }}>재고</th>
+										</tr>
+									</thead>
+									<tbody>
+										{this.state.stockData.map((d) => {
+											return (
+												<tr style={{cursor: 'pointer'}} key={d.id} onClick={() => {this.props.history.push(`/main/stock/${d.product_id}`)}}>
+													<td>
+														<img style={{ width: '90%' }} alt="품목 사진" src={d.file_name ? "http://211.62.225.216:4000/static/" + d.file_name : '318x180.svg'} />
+													</td>
+													<td>{this.getDate(d.changeDate)}</td>
+													<td>{d.name}</td>
+													<td>{d.grade}</td>
+													<td>{d.weight}</td>
+													<td>{d.change}</td>
+													<td>{d.quantity - d.change} -> {d.quantity}</td>
+												</tr>
+											)
+										})}
+									</tbody>
+								</Table>
+							</CardBody>
+            </Card>
+          </Col>
         </Row>
       </div>
     )
