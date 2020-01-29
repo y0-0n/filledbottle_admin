@@ -60,7 +60,7 @@ class List extends Component {
           <Col md="12" xs="12" sm="12">
             <Card>
               <CardHeader>
-                재고 관리
+                재고 기록
               </CardHeader>
               <CardBody className="card-body">
                 <Table>

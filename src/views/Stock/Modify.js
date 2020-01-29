@@ -88,7 +88,7 @@ class Modify extends Component {
                         <th>제품명</th>
                         <th>등급</th>
                         <th>무게</th>
-                        <th>수량</th>
+                        <th>현 재고</th>
                       </tr>
                     </thead>
                     <tbody>
