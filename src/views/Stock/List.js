@@ -86,23 +86,23 @@ class List extends Component {
     return (
       <div className="animated fadeIn">
 				<link rel="stylesheet" type="text/css" href="css/Table.css"></link>
-				<link rel="stylesheet" type="text/css" href="css/Product.css"></link>
+				<link rel="stylesheet" type="text/css" href="css/Stock.css"></link>
 				<Row>
-					<Table className="category-top">
-						<tbody>
-							<tr>
-								<td>전체</td>
-								{
-									plantData.map((e,i) => {
-										return (
-											<td>{e.name}</td>
-										)
-									})
-								}
-							</tr>
-						</tbody>
-					</Table>
           <Col md="12" xs="12" sm="12">
+            <Table className="category-top">
+              <tbody>
+                <tr>
+                  <td>전체</td>
+                  {
+                    plantData.map((e,i) => {
+                      return (
+                        <td>{e.name}</td>
+                      )
+                    })
+                  }
+                </tr>
+              </tbody>
+            </Table>
             <Card>
               <CardHeader>
                 재고 기록

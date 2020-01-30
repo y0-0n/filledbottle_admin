@@ -133,7 +133,7 @@ class RegisterDetail extends Component {
     return (
 			<div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
-        <link rel="stylesheet" type="text/css" href="css/Register.css"></link>
+        <link rel="stylesheet" type="text/css" href="css/RegisterDetail.css"></link>
         <Row>
         <Col md="12" xs="12" sm="12">
           <Card>
