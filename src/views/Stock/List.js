@@ -146,23 +146,23 @@ class List extends Component {
     return (
       <div className="animated fadeIn">
 				<link rel="stylesheet" type="text/css" href="css/Table.css"></link>
-				<link rel="stylesheet" type="text/css" href="css/Product.css"></link>
+				<link rel="stylesheet" type="text/css" href="css/Stock.css"></link>
 				<Row>
-					<Table className="category-top">
-						<tbody>
-							<tr>
-								<td onClick={()=>{this.changePlant('all')}}>전체</td>
-								{
-									plantData.map((e,i) => {
-										return (
-											<td key={i} onClick={()=>{this.changePlant(e.id)}}>{e.name}</td>
-										)
-									})
-								}
-							</tr>
-						</tbody>
-					</Table>
           <Col md="12" xs="12" sm="12">
+            <Table className="category-top">
+              <tbody>
+                <tr>
+                  <td>전체</td>
+                  {
+                    plantData.map((e,i) => {
+                      return (
+                        <td>{e.name}</td>
+                      )
+                    })
+                  }
+                </tr>
+              </tbody>
+            </Table>
             <Card>
               <CardHeader>
                 재고 기록
@@ -171,25 +171,25 @@ class List extends Component {
                 <Table>
 									<thead>
 										<tr>
-											<th style={{ width: 150 }}>사진</th>
+											<th style={{ width: 150 }} className="list-hidden">사진</th>
 											<th>날짜</th>
 											<th>제품명</th>
 											<th>창고</th>
-											<th>변동</th>
-											<th style={{ width: 150 }}>재고</th>
+											<th className="list-hidden">변동</th>
+											<th>재고</th>
 										</tr>
 									</thead>
 									<tbody>
 										{stockData.map((d, i) => {
 											return (
 												<tr style={{cursor: 'pointer'}} key={i} onClick={() => {this.props.history.push(`/main/stock/${d.product_id}`)}}>
-													<td>
+													<td className="list-hidden">
 														<img style={{ width: '90%' }} alt="품목 사진" src={d.file_name ? "http://211.62.225.216:4000/static/" + d.file_name : '318x180.svg'} />
 													</td>
 													<td>{this.getDate(d.changeDate)}</td>
 													<td>{d.name+" "+d.grade+" "+d.weight}</td>
 													<td>{d.plantName}</td>
-													<td>{d.change}</td>
+													<td className="list-hidden">{d.change}</td>
 													<td>{d.quantity - d.change} -> {d.quantity}</td>
 												</tr>
 											)

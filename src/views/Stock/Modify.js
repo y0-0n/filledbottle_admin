@@ -74,6 +74,7 @@ class Modify extends Component {
     let {data} = this.state;
     return (
       <div className="animated fadeIn">
+      <link rel="stylesheet" type="text/css" href="css/Stock.css"></link>
         <Row>
           <Col md="12" xs="12" sm="12">
             <Card>
@@ -84,7 +85,7 @@ class Modify extends Component {
                 <Table striped>
                     <thead>
                       <tr>
-												<th style={{ width: 150 }}>사진</th>
+												<th style={{ width: 150 }} className="list-hidden">사진</th>
                         <th>제품명</th>
                         <th>등급</th>
                         <th>무게</th>
@@ -95,13 +96,13 @@ class Modify extends Component {
                       {data.map((d) => {
                         return (
                           <tr style={{cursor: 'pointer'}} key={d.id}>
-														<td>
+														<td className="list-hidden">
 															<img style={{ width: '90%' }} alt="품목 사진" src={d.file_name ? "http://211.62.225.216:4000/static/" + d.file_name : '318x180.svg'} />
 														</td>
                             <td onClick={() => {this.props.history.push(`/main/stock/${d.product_id}`)}}>{d.name}</td>
                             <td>{d.grade}</td>
                             <td>{d.weight}</td>
-                            <td style={{width: 200}}>{d.quantity}</td>
+                            <td>{d.quantity}</td>
                           </tr>
                         )
                       })}

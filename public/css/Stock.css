@@ -1,0 +1,30 @@
+.category-top {
+    background-color: #fff;
+    margin-top: 20px;
+    text-align:center;
+}
+
+.category-top th{
+  border: 1px solid lightgray;
+  text-align: center;
+  width: 160px;
+}
+
+.category-top td{
+  border: 1px solid lightgray;
+}
+
+@media (max-width: 768px) {
+
+    .animated{
+        font-size: 0.6em;
+    }
+
+    .list-hidden {
+        display: none;
+    }
+
+    .container-fluid {
+        padding: 0px !important; 
+    }
+}
