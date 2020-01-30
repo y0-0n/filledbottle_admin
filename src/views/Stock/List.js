@@ -8,12 +8,16 @@ class List extends Component {
     super(props);
     this.state = {
 			stockData: [],
-			plantData: []
+			plantData: [],
+			page: 1,
+			plant: 'all'
     };
   }
 
 	getHistory(){
-    const page = 1, limit = 15;
+		const {page, plant} = this.state;
+
+    const limit = 15;
 
     fetch(process.env.REACT_APP_HOST+"/api/stock/history", {
       method: 'POST',
@@ -22,7 +26,7 @@ class List extends Component {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
       },
-      body: JSON.stringify({page, limit})
+      body: JSON.stringify({page, limit, plant})
     })
     .then(response => {
       if(response.status === 401) {
@@ -32,7 +36,7 @@ class List extends Component {
       }
     })
     .then(data => {
-      let status = data[0];
+			let status = data[0];
       if(status === 200) {
 				let stockData = data[1];
         this.setState({stockData})
@@ -50,7 +54,7 @@ class List extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
+			},
     })
     .then(response => {
       if(response.status === 401) {
@@ -79,10 +83,19 @@ class List extends Component {
     var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
 
     return year + "년 " + month + "월 " + date + "일";
-  }
+	}
+	
+	changePlant(id) {
+		this.setState({
+			plant: id,
+			page: 1,
+		}, () => {
+			this.getHistory();
+		})
+	}
 
   render() {
-		const {plantData} = this.state;
+		const {plantData, stockData} = this.state;
     return (
       <div className="animated fadeIn">
 				<link rel="stylesheet" type="text/css" href="css/Table.css"></link>
@@ -114,23 +127,21 @@ class List extends Component {
 											<th style={{ width: 150 }}>사진</th>
 											<th>날짜</th>
 											<th>제품명</th>
-											<th>등급</th>
-											<th>무게</th>
+											<th>창고</th>
 											<th>변동</th>
 											<th style={{ width: 150 }}>재고</th>
 										</tr>
 									</thead>
 									<tbody>
-										{this.state.stockData.map((d) => {
+										{stockData.map((d, i) => {
 											return (
-												<tr style={{cursor: 'pointer'}} key={d.id} onClick={() => {this.props.history.push(`/main/stock/${d.product_id}`)}}>
+												<tr style={{cursor: 'pointer'}} key={i} onClick={() => {this.props.history.push(`/main/stock/${d.product_id}`)}}>
 													<td>
 														<img style={{ width: '90%' }} alt="품목 사진" src={d.file_name ? "http://211.62.225.216:4000/static/" + d.file_name : '318x180.svg'} />
 													</td>
 													<td>{this.getDate(d.changeDate)}</td>
-													<td>{d.name}</td>
-													<td>{d.grade}</td>
-													<td>{d.weight}</td>
+													<td>{d.name+" "+d.grade+" "+d.weight}</td>
+													<td>{d.plantName}</td>
 													<td>{d.change}</td>
 													<td>{d.quantity - d.change} -> {d.quantity}</td>
 												</tr>
@@ -143,7 +154,7 @@ class List extends Component {
           </Col>
         </Row>
       </div>
-    )
+		)
   }
 }
 
