@@ -5,7 +5,10 @@ class RegisterDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [[]]
+			data: [[]],
+			plantData: [],
+			allFamilyData: [],
+			familyData: []
     }
   }
 
@@ -32,16 +35,95 @@ class RegisterDetail extends Component {
           this.props.history.push('/login');
         }
       })
+	}
+	
+  getPlantList() {
+    fetch(process.env.REACT_APP_HOST+"/api/plant", {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+			let status = data[0];
+      if(status === 200)
+        this.setState({plantData: data[1]});
+      else {
+        alert('로그인 하고 접근해주세요');
+        this.props.history.push('/login');
+      }
+    });
+	}
+	
+  getAllFamily() {
+    fetch(process.env.REACT_APP_HOST+"/api/product/allFamily", {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+			let status = data[0];
+      if(status === 200)
+        this.setState({allFamilyData: data[1]});
+      else {
+        alert('로그인 하고 접근해주세요');
+        this.props.history.push('/login');
+      }
+    });
   }
 
+	getProductFamily() {
+    fetch(process.env.REACT_APP_HOST + "/api/product/familyList", {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+				let status = data[0];
+        if (status === 200){
+          this.setState({ familyData: data[1] });
+        }
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })
+	}
+	
   componentWillMount() {
-    this.getDetail();
+		this.getDetail();
+		this.getPlantList();
+		this.getAllFamily();
+		this.getProductFamily();
   }
   
   render() {
-    const data = this.state.data;
+    const {data, plantData, allFamilyData, familyData} = this.state;
     return (
-        <div className="animated fadeIn">
+			<div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
         <Row>
         <Col md="12" xs="12" sm="12">
@@ -87,6 +169,60 @@ class RegisterDetail extends Component {
             </CardBody>
           </Card>
         </Col>
+
+				<Col md="12" xs="12" sm="12">
+          <Card>
+            <CardHeader>
+              <Row>
+                <Col>창고</Col>
+              </Row>
+            </CardHeader>
+            <CardBody>
+              <Table className="ShowTable">
+                <thead>
+                  <tr>
+                    <th>이름</th>
+                  </tr>
+                </thead>
+								<tbody>
+									{plantData.map((e, i) => {
+										return (<tr>
+											<td>{e.name}</td>
+										</tr>)}
+									)}
+								</tbody>
+              </Table>
+            </CardBody>
+          </Card>
+        </Col>
+
+				<Col md="12" xs="12" sm="12">
+          <Card>
+            <CardHeader>
+              <Row>
+                <Col>카테고리</Col>
+              </Row>
+            </CardHeader>
+            <CardBody>
+              <Table className="ShowTable">
+                <thead>
+                  <tr>
+                    <th>이름</th>
+                  </tr>
+                </thead>
+								<tbody>
+									{allFamilyData.map((e, i) => {
+										const f = (element) => element.id === e.id
+										return (<tr>
+											<td style={{color: familyData.findIndex(f) === -1 ? 'black': 'red'}}>{e.name}</td>
+										</tr>)}
+									)}
+								</tbody>
+              </Table>
+            </CardBody>
+          </Card>
+        </Col>
+
         </Row>
       </div>
     );

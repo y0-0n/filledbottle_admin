@@ -7,7 +7,8 @@ class List extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      stockData: [],
+			stockData: [],
+			plantData: []
     };
   }
 
@@ -40,10 +41,37 @@ class List extends Component {
         this.props.history.push('/login')
       }
     });
+	}
+	
+	getPlant(){
+    fetch(process.env.REACT_APP_HOST+"/api/plant", {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+			let status = data[0];
+      if(status === 200)
+        this.setState({plantData: data[1]});
+      else {
+        alert('로그인 하고 접근해주세요');
+        this.props.history.push('/login');
+      }
+    });
   }
-
   componentWillMount() {
-    this.getHistory();
+		this.getHistory();
+		this.getPlant();
 	}
 	
   getDate(dateInput) {
@@ -54,9 +82,26 @@ class List extends Component {
   }
 
   render() {
+		const {plantData} = this.state;
     return (
       <div className="animated fadeIn">
-        <Row>
+				<link rel="stylesheet" type="text/css" href="css/Table.css"></link>
+				<link rel="stylesheet" type="text/css" href="css/Product.css"></link>
+				<Row>
+					<Table className="category-top">
+						<tbody>
+							<tr>
+								<td>전체</td>
+								{
+									plantData.map((e,i) => {
+										return (
+											<td>{e.name}</td>
+										)
+									})
+								}
+							</tr>
+						</tbody>
+					</Table>
           <Col md="12" xs="12" sm="12">
             <Card>
               <CardHeader>

@@ -12,57 +12,42 @@ class Plant extends Component {
     }
   }
   componentWillMount() {
-    this.findPlant();
-  }
-
-  findPlant() {
-    fetch(process.env.REACT_APP_HOST+"/plant", {
+    this.getList();
+	}
+	
+  getList() {
+    fetch(process.env.REACT_APP_HOST+"/api/plant", {
       method: 'GET',
-    })
-      .then(response => response.json())
-      .then(data => {this.setState({data})})
-  }
-
-  addPlant(form) {
-    const {name} = form;
-    fetch(process.env.REACT_APP_HOST+"/plant", {
-      method: 'POST',
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
       },
-      body: JSON.stringify({
-        name
-      })
     })
-      .then(response => response.json())
-      .then(data => {console.warn(data); this.findPlant()});
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+			console.log(data)
+      let status = data[0];
+      if(status === 200)
+        this.setState({data: data[1]});
+      else {
+        alert('로그인 하고 접근해주세요');
+        this.props.history.push('/login');
+      }
+    });
   }
 
-  deletePlant(id) {
-    let c = window.confirm('Are you sure you wish to delete this item?')
-    if (c) {
-      fetch(process.env.REACT_APP_HOST+"/plant", {
-        method: 'DELETE',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          id
-        })
-      })
-        .then(response => response.json())
-        .then(data => {this.findPlant()});
-    }
-  }
 
   render() {
     var data = this.state.data;
     return (
       <div className="animated fadeIn">
         <Row>
-        <Col md="4" xs="12" sm="6">
+        <Col md="12" xs="12" sm="12">
           <Form onSubmit={(e) => {e.preventDefault(); this.addPlant(this.form)}}>
             <FormGroup>
               <Card>
