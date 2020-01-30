@@ -18,11 +18,12 @@ class Setting extends Component {
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
+      <link rel="stylesheet" type="text/css" href="css/Setting.css"></link>
         <Row className="mb-5">
           <Col md="12" xs="12" sm="12">
             <form>
               <FormGroup>
-                <Card style={{width : '40%', margin : 'auto'}}>
+                <Card className="card-setting">
                   <CardHeader>
                       환경설정
                   </CardHeader>
@@ -35,28 +36,28 @@ class Setting extends Component {
                             <td>
                                 <Table className="ShowTable">
                                     <tr>
-                                        <td style={{borderRight: 'none'}}>주문 관리</td>
-                                        <td style={{width : 50, borderLeft: 'none'}}><Switch/></td>
+                                        <td style={{width : "80%", borderRight: 'none'}}>주문 관리</td>
+                                        <td style={{width : "20%", borderLeft: 'none'}}><Switch/></td>
                                     </tr>
                                     <tr>
                                         <td style={{borderRight: 'none'}}>고객 관리</td>
-                                        <td style={{width : 50, borderLeft: 'none'}}><Switch/></td>
+                                        <td style={{borderLeft: 'none'}}><Switch/></td>
                                     </tr>
                                     <tr>
                                         <td style={{borderRight: 'none'}}>제품 관리</td>
-                                        <td style={{width : 50, borderLeft: 'none'}}><Switch/></td>
+                                        <td style={{borderLeft: 'none'}}><Switch/></td>
                                     </tr>
                                     <tr>
                                         <td style={{borderRight: 'none'}}>제조 관리</td>
-                                        <td style={{width : 50, borderLeft: 'none'}}><Switch/></td>
+                                        <td style={{borderLeft: 'none'}}><Switch/></td>
                                     </tr>
                                     <tr>
                                         <td style={{borderRight: 'none'}}>영농 일지</td>
-                                        <td style={{width : 50, borderLeft: 'none'}}><Switch/></td>
+                                        <td style={{borderLeft: 'none'}}><Switch/></td>
                                     </tr>
                                     <tr>
                                         <td style={{borderRight: 'none'}}>체험 관광</td>
-                                        <td style={{width : 50, borderLeft: 'none'}}><Switch/></td>
+                                        <td style={{borderLeft: 'none'}}><Switch/></td>
                                     </tr>
                                 </Table>
                             </td>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row,Table } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row, Table, Nav, NavItem, NavLink } from 'reactstrap';
 
 class RegisterDetail extends Component {
   constructor(props) {
@@ -8,7 +8,8 @@ class RegisterDetail extends Component {
 			data: [[]],
 			plantData: [],
 			allFamilyData: [],
-			familyData: []
+      familyData: [],
+      topCategory : "fruit",
     }
   }
 
@@ -111,7 +112,14 @@ class RegisterDetail extends Component {
           this.props.history.push('/login');
         }
       })
-	}
+  }
+  
+  tabClick(topCategory) {
+    this.setState({
+      topCategory,
+    }, () => {
+    });
+  }
 	
   componentWillMount() {
 		this.getDetail();
@@ -125,14 +133,18 @@ class RegisterDetail extends Component {
     return (
 			<div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
+        <link rel="stylesheet" type="text/css" href="css/Register.css"></link>
         <Row>
         <Col md="12" xs="12" sm="12">
           <Card>
             <CardHeader>
               <Row>
                 <Col>회원 정보</Col>
-                <Col></Col><Col></Col><Col></Col>
-                <Col><Button block color="primary" onClick={() => {this.props.history.push(`/main/register/edit`)}}>회원정보수정</Button></Col>
+                <Col>
+                  <div style={{float : "right"}}>
+                    <Button block color="primary" onClick={() => {this.props.history.push(`/main/register/edit`)}}>회원정보수정</Button>
+                  </div>
+                </Col>
               </Row>
             </CardHeader>
             <CardBody>
@@ -204,21 +216,33 @@ class RegisterDetail extends Component {
               </Row>
             </CardHeader>
             <CardBody>
-              <Table className="ShowTable">
-                <thead>
-                  <tr>
-                    <th>이름</th>
-                  </tr>
-                </thead>
-								<tbody>
-									{allFamilyData.map((e, i) => {
-										const f = (element) => element.id === e.id
-										return (<tr>
-											<td style={{color: familyData.findIndex(f) === -1 ? 'black': 'red'}}>{e.name}</td>
-										</tr>)}
+              <Nav tabs>
+                <NavItem>
+                  <NavLink active={this.state.topCategory === "fruit"} onClick={() => this.tabClick("fruit")} href="#">과일</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink active={this.state.topCategory === "grocery"} onClick={() => this.tabClick("grocery")} href="#">채소</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink active={this.state.topCategory === "rice"} onClick={() => this.tabClick("rice")} href="#">쌀/잡곡</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink active={this.state.topCategory === "egg"} onClick={() => this.tabClick("egg")} href="#">계란/축산품</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink active={this.state.topCategory === "seafood"} onClick={() => this.tabClick("seafood")} href="#">수산물/해산물</NavLink>
+                </NavItem>
+              </Nav>
+              <div style={{justifyContent: "center"}}>
+                <ul className="ul-productFamily" style={{listStyleType: "none", display: "inline-block"}}>
+                  {allFamilyData.map((e, i) => {
+							  		const f = (element) => element.id === e.id
+										return (
+											<li className="list-productFamily" style={{color: familyData.findIndex(f) === -1 ? 'black': '#2E9AFE'}}>{e.name}</li>
+										)}
 									)}
-								</tbody>
-              </Table>
+                </ul>
+              </div>
             </CardBody>
           </Card>
         </Col>
