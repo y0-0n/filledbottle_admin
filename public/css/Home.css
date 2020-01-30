@@ -1,0 +1,13 @@
+@media (max-width: 768px) {
+    .animated{
+        font-size: 0.7em;
+    }
+
+    .container-fluid {
+        padding: 0px !important; 
+    }
+
+    .calendar {
+        display: none;
+    }
+}
