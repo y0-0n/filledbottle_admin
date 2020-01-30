@@ -111,17 +111,17 @@ class DefaultHeader extends Component {
             </DropdownToggle>
             <DropdownMenu right style={{ right: 'auto' }}>
               <DropdownItem>
-                <NavItem className="d-md-down-none">
+                <NavItem>
                   <NavLink to="/main/registerdetail" className="nav-link"><i className="icon-user"></i>회원정보</NavLink>
                 </NavItem>
               </DropdownItem>
               <DropdownItem>
-                <NavItem className="d-md-down-none">
+                <NavItem>
                   <NavLink to="/main/setting" className="nav-link"><i className="icon-puzzle"></i>환경설정</NavLink>
                 </NavItem>
               </DropdownItem>
               <DropdownItem>
-                <NavItem className="d-md-down-none">
+                <NavItem>
                   <NavLink to="/login" className="nav-link"><i className="icon-lock"></i>로그아웃</NavLink>
                 </NavItem>
               </DropdownItem>
