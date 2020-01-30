@@ -124,25 +124,25 @@ class List extends Component {
                 <Table>
 									<thead>
 										<tr>
-											<th style={{ width: 150 }}>사진</th>
+											<th style={{ width: 150 }} className="list-hidden">사진</th>
 											<th>날짜</th>
 											<th>제품명</th>
 											<th>창고</th>
-											<th>변동</th>
-											<th style={{ width: 150 }}>재고</th>
+											<th className="list-hidden">변동</th>
+											<th>재고</th>
 										</tr>
 									</thead>
 									<tbody>
 										{stockData.map((d, i) => {
 											return (
 												<tr style={{cursor: 'pointer'}} key={i} onClick={() => {this.props.history.push(`/main/stock/${d.product_id}`)}}>
-													<td>
+													<td className="list-hidden">
 														<img style={{ width: '90%' }} alt="품목 사진" src={d.file_name ? "http://211.62.225.216:4000/static/" + d.file_name : '318x180.svg'} />
 													</td>
 													<td>{this.getDate(d.changeDate)}</td>
 													<td>{d.name+" "+d.grade+" "+d.weight}</td>
 													<td>{d.plantName}</td>
-													<td>{d.change}</td>
+													<td className="list-hidden">{d.change}</td>
 													<td>{d.quantity - d.change} -> {d.quantity}</td>
 												</tr>
 											)
