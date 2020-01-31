@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader, Col, Row, Table, } from 'reactstrap';
+import { Card, CardBody, CardHeader, Col, Row, Table, Button} from 'reactstrap';
 
 class Detail extends Component {
   constructor(props) {
@@ -52,7 +52,9 @@ class Detail extends Component {
           <Col md="12" xs="12" sm="12">
             <Card>
               <CardHeader>
-                {data[0] !== undefined ? data[0].name : null} 재고 내역
+                <Row>
+                  <Col>{data[0] !== undefined ? data[0].name : null} 재고 내역</Col>
+                </Row>                
               </CardHeader>
               <CardBody className="card-body">
                 <Table striped>

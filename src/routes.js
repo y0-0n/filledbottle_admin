@@ -55,7 +55,8 @@ const CreateOrder = React.lazy(() => import('./views/Order/Create'));
 //const Stock = React.lazy(() => import('./views/Stock/Stock'));
 const StockDetail = React.lazy(() => import('./views/Stock/Detail'));
 const StockList = React.lazy(() => import('./views/Stock/List'));
-const ModifyStock = React.lazy(() => import('./views/Stock/Modify'));
+const Stock = React.lazy(() => import('./views/Stock/Stock'));
+const CreateStock = React.lazy(() => import('./views/Stock/Create'));
 const OrderDetail = React.lazy(() => import('./views/Order/Detail'));
 const OrderModify = React.lazy(() => import('./views/Order/Modify'));
 const Transaction = React.lazy(() => import('./views/Order/Transaction'));
@@ -116,7 +117,8 @@ const routes = [
   { path: '/main/registerdetail', exact: true,  name: '회원정보', component: RegisterDetail},
   { path: '/main/register/edit', exact: true,  name: '회원정보수정', component: RegisterModify},
 	{ path: '/main/setting', exact: true,  name: '설정', component: Setting},
-	{ path: '/main/manage/stock/', exact: true,  name: '재고 관리', component: ModifyStock},
+	{ path: '/main/manage/stock/', exact: true,  name: '재고 관리', component: Stock},
+	{ path: '/stock/create', exact: true,  name: '재고 등록', component: CreateStock},
 
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },

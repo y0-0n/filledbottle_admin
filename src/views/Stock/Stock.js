@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, CardBody, CardHeader, Col, Row, Table, Button, Input } from 'reactstrap';
 
-class Modify extends Component {
+class Stock extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -117,4 +117,4 @@ class Modify extends Component {
   }
 }
 
-export default Modify;
+export default Stock;

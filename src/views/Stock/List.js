@@ -165,7 +165,14 @@ class List extends Component {
             </Table>
             <Card>
               <CardHeader>
-                재고 기록
+                <Row>
+                  <Col>재고 기록</Col>
+                  <Col>
+                    <div style={{float: "right"}}>
+                      <Button color="primary" onClick={() => {this.props.history.push('/stock/create')}}>재고 등록</Button>
+                    </div>
+                  </Col>
+                </Row>
               </CardHeader>
               <CardBody className="card-body">
                 <Table>
