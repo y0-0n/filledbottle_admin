@@ -106,7 +106,7 @@ class CreateProduct extends Component {
       <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
       <link rel="stylesheet" type="text/css" href="css/Product.css"></link>
         <Row className="mb-5 justify-content-center">
-          <Col md="9" lg="9" xl="8">
+          <Col sm="12" md="12" lg="12" xl="8">
             <form encType="multipart/form-data" onSubmit={this.handlePost.bind(this)}>
               <FormGroup>
                 <Card>

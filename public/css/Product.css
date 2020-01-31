@@ -33,7 +33,7 @@
 		height: 180px;
 	}
 }
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
 	.ShowTable {
 		display: block
 	}
@@ -93,4 +93,8 @@
   .img-product {
     height: 200px;
   }
+
+  .input {
+    -webkit-appearance: none;
+    }
 }

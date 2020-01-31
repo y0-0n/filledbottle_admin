@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, CardBody, CardHeader, Col, Row, Table, Button, Input } from 'reactstrap';
 
-class Modify extends Component {
+class Stock extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -99,7 +99,7 @@ class Modify extends Component {
 														<td className="list-hidden">
 															<img style={{ width: '90%' }} alt="품목 사진" src={d.file_name ? "http://211.62.225.216:4000/static/" + d.file_name : '318x180.svg'} />
 														</td>
-                            <td onClick={() => {this.props.history.push(`/main/stock/${d.product_id}`)}}>{d.name}</td>
+                            <td onClick={() => {this.props.history.push(`/main/manage/stock/${d.product_id}`)}}>{d.name}</td>
                             <td>{d.grade}</td>
                             <td>{d.weight}</td>
                             <td>{d.quantity}</td>
@@ -117,4 +117,4 @@ class Modify extends Component {
   }
 }
 
-export default Modify;
+export default Stock;

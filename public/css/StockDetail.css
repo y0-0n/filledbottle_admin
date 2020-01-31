@@ -1,4 +1,4 @@
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
     .ShowTable tr,
     .ShowTable td,
     .ShowTable th {
@@ -12,10 +12,6 @@
 
     .animated{
         font-size: 0.7em;
-    }
-
-    .list-hidden {
-        display: none;
     }
 
     .container-fluid {

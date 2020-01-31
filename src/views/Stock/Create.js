@@ -3,7 +3,7 @@ import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, In
 import ProductFamilyModal from '../Modal/ProductFamilyModal';
 import Popup from "reactjs-popup";
 
-class Detail extends Component {
+class Create extends Component {
   constructor(props) {
     super(props);
     this.form = {
@@ -15,52 +15,24 @@ class Detail extends Component {
     };
 
     this.state = {
-        data: [],
     };
   }
 
   componentWillMount() {
-    this.getStockDetail(this.props.match.params.id);
-  }
-
-  getStockDetail(id) {
-    fetch(process.env.REACT_APP_HOST+"/api/stock/"+id, {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-    })
-    .then(response => {
-      if(response.status === 401) {
-        return Promise.all([401])
-      } else {
-        return Promise.all([response.status, response.json()]);
-      }
-    })
-    .then(data => {
-      let status = data[0];
-      if(status === 200)
-        this.setState({data: data[1]});
-      else {
-        alert('로그인 하고 접근해주세요');
-        this.props.history.push('/login');
-      }
-    });
   }
 
   render() {
-    let {data} = this.state;
     return (
       <div className="animated fadeIn align-items-center">
       <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
-      <link rel="stylesheet" type="text/css" href="css/StockDetail.css"></link>
+      <link rel="stylesheet" type="text/css" href="css/Stock.css"></link>
         <Row className="mb-5 justify-content-center">
           <Col md="9" lg="9" xl="8">
             <form>
               <FormGroup>
                 <Card>
                   <CardHeader>
-                      재고 상세
+                      재고 입고 등록하기
                   </CardHeader>
                   <CardBody>
                     <Table className="ShowTable">
@@ -68,27 +40,43 @@ class Detail extends Component {
                         <tr>
                           <th>품목명</th>
                           <td colSpan="3">
-                            {data[0] !== undefined ? data[0].name : null}
+                            <Input onChange={(e) => this.form.name = e.target.value} />
                           </td>
                         </tr>
                         <tr>
                           <th>창고</th>
-                          <td></td>
+                          <td>
+                            <Input defaultValue={this.form.plant} onChange={(e) => {this.form.plant = e.target.value}} type='select'>
+                              <option value="1">1번</option>
+                              <option value="2">2번</option>
+                              <option value="3">3번</option>
+                            </Input>
+                          </td>
                           <th>유형</th>
                           <td>
+                            <Input defaultValue={this.form.type} onChange={(e) => {this.form.type = e.target.value}} type='select'>
+                              <option value="외주생산">외주생산</option>
+                              <option value="자가생산">자가생산</option>
+                              <option value="상품매입">상품매입</option>
+                            </Input>
                           </td>
                         </tr>
                         <tr>
                           <th>입고수량</th>
                           <td >
+                            <Input onChange={(e) => this.form.quantity = e.target.value} />
                           </td>
                           <th>매입원가</th>
                           <td >
+                            <Input onChange={(e) => this.form.cost = e.target.value} />
                           </td>
                         </tr>
                       </tbody>
                     </Table>
                   </CardBody>
+                  <CardFooter>
+                    <Button block outline color="primary">추가하기</Button>
+                  </CardFooter>
                 </Card>
               </FormGroup>
             </form>
@@ -99,5 +87,5 @@ class Detail extends Component {
   }
 }
 
-export default Detail;
+export default Create;
 
