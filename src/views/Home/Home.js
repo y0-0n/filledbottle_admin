@@ -266,7 +266,8 @@ class Home extends Component {
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
-        <Card>
+      <link rel="stylesheet" type="text/css" href="css/Home.css"></link>
+        <Card className="calendar">
           <CardHeader>
             일정
           </CardHeader>
