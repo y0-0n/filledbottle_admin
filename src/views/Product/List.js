@@ -379,24 +379,15 @@ class List extends Component {
                       </DropdownToggle>
                       <DropdownMenu>
                         <DropdownItem onClick={() => { this.props.history.push('/main/product/list/unset') }}>비활성화</DropdownItem>
-                        {this.state.stockEdit ?
+                        {/*this.state.stockEdit ?
                         <DropdownItem onClick={() => this.changeStockEdit()}>수정완료</DropdownItem> :
-                        <DropdownItem onClick={() => this.changeStockEdit()}>재고수정</DropdownItem> }
+                        <DropdownItem onClick={() => this.changeStockEdit()}>재고수정</DropdownItem> */}
                         <DropdownItem onClick={() => { this.props.history.push('/product/create'); }}>품목추가</DropdownItem>
                       </DropdownMenu>
                     </UncontrolledButtonDropdown>
                   </Col>
                   <Col>
                     <div style={{float: "right"}}>
-                      <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px"}} onClick={() => { this.props.history.push('/main/product/list/unset') }}><i className="fa fa-toggle-on" style={{display: "block"}}></i>
-                      </a>
-                      {this.state.stockEdit? 
-                      <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px"}} onClick={() => this.changeStockEdit()}><i className="fa fa-check" style={{display: "block"}}></i>
-                      </a> : 
-                      <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px"}} onClick={() => this.changeStockEdit()}><i className="fa fa-edit" style={{display: "block"}}></i>
-                      </a>}                    
-                      <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px"}} onClick={() => { this.props.history.push('/product/create'); }}><i className="fa fa-plus" style={{display: "block"}}></i>
-                      </a>
                       <a className="button-list" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: global.show === false ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowFalse()}}><i className="fa fa-th" style={{display: "block"}}></i>
                       </a>
                       <a className="button-card" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: global.show === true ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowTrue()}}><i className="fa fa-th-list" style={{display: "block"}}></i>
@@ -418,6 +409,7 @@ class List extends Component {
                             <th style={{width : 300}}>품목 활성화</th>
                           */}
                         {/*<th>수정</th>*/}
+                        <th>재고</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -434,16 +426,7 @@ class List extends Component {
                           <td style={{ cursor: 'pointer', verticalAlign: 'middle'}}>{e.name + ' ' + e.grade + ' ' + e.weight}</td>
                           <td style={{ cursor: 'pointer', verticalAlign: 'middle'}}>{e.familyName}</td>
                           <td style={{ cursor: 'pointer', verticalAlign: 'middle'}}>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</td>
-                          {/*this.state.stockEdit ?
-                            <td style={{ width: 250, verticalAlign: 'middle' }}>
-                              <InputGroup>
-                                <Input defaultValue={stockData[i] !== undefined ? stockData[i].quantity : null} onChange={(e) => { stockData[i].quantity = e.target.value; }} />
-                                <InputGroupAddon addonType="append">
-                                <Button onClick={() => { this.modifyStock(e.id, stockData[i].quantity) }} color="primary" >수정</Button>
-                                </InputGroupAddon>
-                              </InputGroup>
-                            </td> :
-                          <td style={{ cursor: 'pointer', verticalAlign: 'middle' }} onClick={() => { this.props.history.push(`/main/stock/${e.id}`) }}>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>*/}
+                          <td style={{ cursor: 'pointer', verticalAlign: 'middle' }} onClick={() => { this.props.history.push(`/main/stock/${e.id}`) }}>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>
                           {/*this.state.set ?
                               <td>
                                 <Button block style={{ width: 120 }} color="ghost-danger" onClick={() => this.deleteProduct(e.id)}>품목 비활성화</Button>
@@ -480,7 +463,7 @@ class List extends Component {
                             <div className="img-product" ><CardImg top style={{display: 'inline-block', width:"90%", overflow: "hidden"}} src={e.file_name ? "http://211.62.225.216:4000/static/" + e.file_name : '318x180.svg'} alt="Card image cap" /></div>
                             <p style={{fontWeight: 'bold'}}>{e.name + ' ' + e.grade + ' ' + e.weight}</p>
                             <p>{e.familyName}</p>
-                            {/*this.state.stockEdit ?
+                            {this.state.stockEdit ?
                             <div>
                               <span>재고 : </span>
                               <div style={{display: 'inline-block', width: 100}}>
@@ -492,7 +475,7 @@ class List extends Component {
                                 </InputGroup>
                               </div>
                             </div> :
-                            <p>재고 : {stockData[i] !== undefined ? stockData[i].quantity : null}</p>*/}
+                            <p>재고 : {stockData[i] !== undefined ? stockData[i].quantity : null}</p>}
                             <p>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</p>
                           </a>
                         </li>
