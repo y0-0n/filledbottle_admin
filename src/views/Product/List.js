@@ -21,7 +21,8 @@ import ProductFamilyModal from '../Modal/ProductFamilyModal';
 */
 
 const listCount = 15;
- 
+global.show = true;
+
 class List extends Component {
   constructor(props) {
     super(props);
@@ -34,13 +35,15 @@ class List extends Component {
       //set: true,
       stockEdit: false,
       familyData: [],
-      show: false,
-    };
+		};
     this.name = '';
     this.family = 0;
     this.form = {
 
-    }
+		}
+		
+		this.changeShowFalse.bind(this);
+		this.changeShowTrue.bind(this);
   }
   componentWillMount() {
     if(this.props.location.state) {
@@ -275,12 +278,14 @@ class List extends Component {
   }
 
   changeShowFalse() {
-    this.setState({ show : false })
+		global.show = false;
+		this.forceUpdate();
     console.log(this.state.show)
   }
 
   changeShowTrue() {
-    this.setState({ show : true })
+    global.show = true;
+		this.forceUpdate();
     console.log(this.state.show)
   }
 
@@ -392,14 +397,14 @@ class List extends Component {
                       </a>}                    
                       <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px"}} onClick={() => { this.props.history.push('/product/create'); }}><i className="fa fa-plus" style={{display: "block"}}></i>
                       </a>
-                      <a className="button-list" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === false ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowFalse()}}><i className="fa fa-th" style={{display: "block"}}></i>
+                      <a className="button-list" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: global.show === false ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowFalse()}}><i className="fa fa-th" style={{display: "block"}}></i>
                       </a>
-                      <a className="button-card" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === true ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowTrue()}}><i className="fa fa-th-list" style={{display: "block"}}></i>
+                      <a className="button-card" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: global.show === true ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowTrue()}}><i className="fa fa-th-list" style={{display: "block"}}></i>
                       </a>
                     </div>
                   </Col>
                 </Row>
-                {this.state.show ?
+                {global.show ?
                 <Row>
                   <Table style={{ minWidth: 600 }} hover>
                     <thead>
