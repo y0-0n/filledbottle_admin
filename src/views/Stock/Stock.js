@@ -99,7 +99,7 @@ class Stock extends Component {
 														<td className="list-hidden">
 															<img style={{ width: '90%' }} alt="품목 사진" src={d.file_name ? "http://211.62.225.216:4000/static/" + d.file_name : '318x180.svg'} />
 														</td>
-                            <td onClick={() => {this.props.history.push(`/main/stock/${d.product_id}`)}}>{d.name}</td>
+                            <td onClick={() => {this.props.history.push(`/main/manage/stock/${d.product_id}`)}}>{d.name}</td>
                             <td>{d.grade}</td>
                             <td>{d.weight}</td>
                             <td>{d.quantity}</td>
