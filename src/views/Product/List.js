@@ -406,7 +406,7 @@ class List extends Component {
                 </Row>
                 {global.show ?
                 <Row>
-                  <Table style={{ minWidth: 600 }} hover>
+                  <Table className="ListTable" style={{ minWidth: 600 }} hover>
                     <thead>
                       <tr>
                         <th style={{ width: 150 }}>사진</th>
@@ -431,9 +431,9 @@ class List extends Component {
                           <td>
                             <img style={{ width: '90%' }} alt="품목 사진" src={e.file_name ? "http://211.62.225.216:4000/static/" + e.file_name : '318x180.svg'} />
                           </td>
-                          <td style={{ cursor: 'pointer', verticalAlign: 'middle'}}>{e.name + ' ' + e.grade + ' ' + e.weight}</td>
-                          <td style={{ cursor: 'pointer', verticalAlign: 'middle'}}>{e.familyName}</td>
-                          <td style={{ cursor: 'pointer', verticalAlign: 'middle'}}>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</td>
+                          <td>{e.name + ' ' + e.grade + ' ' + e.weight}</td>
+                          <td>{e.familyName}</td>
+                          <td>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</td>
                           {/*this.state.stockEdit ?
                             <td style={{ width: 250, verticalAlign: 'middle' }}>
                               <InputGroup>

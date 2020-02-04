@@ -5,7 +5,12 @@
 }
 
 .ShowTable td{
-    border: 1px solid lightgray;
+		border: 1px solid lightgray;
+}
+
+.ListTable td{
+	cursor: pointer;
+	vertical-align: middle
 }
 
 @media (max-width: 768px) {

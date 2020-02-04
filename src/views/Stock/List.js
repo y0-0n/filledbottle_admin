@@ -175,7 +175,7 @@ class List extends Component {
                 </Row>
               </CardHeader>
               <CardBody className="card-body">
-                <Table>
+                <Table className="ListTable">
 									<thead>
 										<tr>
 											<th style={{ width: 150 }} className="list-hidden">사진</th>
