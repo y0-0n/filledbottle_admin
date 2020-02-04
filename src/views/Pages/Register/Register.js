@@ -82,10 +82,7 @@ class Register extends Component {
                 if(extraAddr !== ''){
                     extraAddr = ' (' + extraAddr + ')';
                 }
-                document.getElementById("sample6_extraAddress").value = extraAddr;
             
-            } else {
-                document.getElementById("sample6_extraAddress").value = '';
             }
             document.getElementById('sample6_postcode').value = data.zonecode;
             document.getElementById("sample6_address").value = addr;
@@ -96,11 +93,12 @@ class Register extends Component {
 
   render() {
     return (
-      <div className="app flex-row align-items-center">
+      <div className="app align-items-center">
+      <link rel="stylesheet" type="text/css" href="css/Register.css"></link>
         <Container>
           <Row className="justify-content-center">
-          <Col md="9" lg="7" xl="6">
-              <Card className="mx-4" style={{height: '700px'}}>
+          <Col md="12" lg="7" xl="6">
+              <Card style={{height: '700px'}}>
                 <CardBody className="p-4">
                   <Form>
                     <h1>약관</h1>
@@ -132,8 +130,8 @@ class Register extends Component {
                 </CardBody>
               </Card>
             </Col>
-            <Col md="9" lg="7" xl="6">
-              <Card className="mx-4" style={{height: '700px'}}>
+            <Col md="12" lg="7" xl="6">
+              <Card style={{height: '700px'}}>
                 <CardBody className="p-4">
                   <Form>
                     <h1>회원가입</h1>
