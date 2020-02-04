@@ -34,6 +34,12 @@
 	}
 }
 @media (max-width: 1024px) {
+	.ShowTable {
+		display: block
+	}
+	.ShowTable tbody {
+		display: block;
+	}
   .ShowTable tr,
   .ShowTable td,
   .ShowTable th {

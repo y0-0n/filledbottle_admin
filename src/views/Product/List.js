@@ -397,7 +397,7 @@ class List extends Component {
                 </Row>
                 {global.show ?
                 <Row>
-                  <Table style={{ minWidth: 600 }} hover>
+                  <Table className="ListTable" style={{ minWidth: 600 }} hover>
                     <thead>
                       <tr>
                         <th style={{ width: 150 }}>사진</th>
@@ -423,10 +423,20 @@ class List extends Component {
                           <td>
                             <img style={{ width: '90%' }} alt="품목 사진" src={e.file_name ? "http://211.62.225.216:4000/static/" + e.file_name : '318x180.svg'} />
                           </td>
-                          <td style={{ cursor: 'pointer', verticalAlign: 'middle'}}>{e.name + ' ' + e.grade + ' ' + e.weight}</td>
-                          <td style={{ cursor: 'pointer', verticalAlign: 'middle'}}>{e.familyName}</td>
-                          <td style={{ cursor: 'pointer', verticalAlign: 'middle'}}>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</td>
-                          <td style={{ cursor: 'pointer', verticalAlign: 'middle' }} onClick={() => { this.props.history.push(`/main/stock/${e.id}`) }}>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>
+                          <td>{e.name + ' ' + e.grade + ' ' + e.weight}</td>
+                          <td>{e.familyName}</td>
+                          <td>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</td>
+													<td>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>
+                          {/*this.state.stockEdit ?
+                            <td style={{ width: 250, verticalAlign: 'middle' }}>
+                              <InputGroup>
+                                <Input defaultValue={stockData[i] !== undefined ? stockData[i].quantity : null} onChange={(e) => { stockData[i].quantity = e.target.value; }} />
+                                <InputGroupAddon addonType="append">
+                                <Button onClick={() => { this.modifyStock(e.id, stockData[i].quantity) }} color="primary" >수정</Button>
+                                </InputGroupAddon>
+                              </InputGroup>
+                            </td> :
+                          <td style={{ cursor: 'pointer', verticalAlign: 'middle' }} onClick={() => { this.props.history.push(`/main/stock/${e.id}`) }}>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>*/}
                           {/*this.state.set ?
                               <td>
                                 <Button block style={{ width: 120 }} color="ghost-danger" onClick={() => this.deleteProduct(e.id)}>품목 비활성화</Button>

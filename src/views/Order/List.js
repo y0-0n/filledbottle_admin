@@ -251,10 +251,10 @@ class List extends Component {
                         <td>{e.name}</td>
                         <td>{this.numberWithCommas(e.price)}</td>
                         <td className="list-hidden">
-                          {this.state.process === 'refund' ? <h3><Badge color="danger">{stateKor['refund']}</Badge></h3> : null}
-                          {e.state === 'order' ? <h3><Badge color="primary">{stateKor[e.state]}</Badge></h3>: null}
-                          {e.state === 'shipping' && this.state.process !== 'refund' ? <h3><Badge color="secondary">{stateKor[e.state]}</Badge></h3>: null}
-                          {e.state === 'cancel' ? <h3><Badge color="danger">{stateKor[e.state]}</Badge></h3>: null}
+                          {this.state.process === 'refund' ? <Badge color="danger">{stateKor['refund']}</Badge> : null}
+                          {e.state === 'order' ? <Badge color="primary">{stateKor[e.state]}</Badge>: null}
+                          {e.state === 'shipping' && this.state.process !== 'refund' ? <Badge color="secondary">{stateKor[e.state]}</Badge>: null}
+                          {e.state === 'cancel' ? <Badge color="danger">{stateKor[e.state]}</Badge>: null}
                         </td>
                         </tr>)
                       })}

@@ -75,6 +75,7 @@ class Stock extends Component {
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/Stock.css"></link>
+      <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
         <Row>
           <Col md="12" xs="12" sm="12">
             <Card>
@@ -82,7 +83,7 @@ class Stock extends Component {
                 재고 관리
               </CardHeader>
               <CardBody className="card-body">
-                <Table striped>
+                <Table className="ListTable" hover>
                     <thead>
                       <tr>
 												<th style={{ width: 150 }} className="list-hidden">사진</th>
