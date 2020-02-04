@@ -37,10 +37,10 @@ class Create extends Component {
                 if(extraAddr !== ''){
                     extraAddr = ' (' + extraAddr + ')';
                 }
-                document.getElementById("sample6_extraAddress").value = extraAddr;
-            
+                //document.getElementById("sample6_extraAddress").value = extraAddr;
+								addr += extraAddr;
             } else {
-                document.getElementById("sample6_extraAddress").value = '';
+                //document.getElementById("sample6_extraAddress").value = '';
             }
             document.getElementById('sample6_postcode').value = data.zonecode;
             document.getElementById("sample6_address").value = addr;
@@ -53,7 +53,9 @@ class Create extends Component {
 
   handlePost(e) {
     e.preventDefault();
-    let formData = new FormData();
+		let formData = new FormData();
+		this.form.address = document.getElementById("sample6_address").value+" "+document.getElementById("sample6_detailAddress").value;
+		this.form.postcode = document.getElementById("sample6_postcode").value;
     for (let [key, value] of Object.entries(this.form)) {
       formData.append(key, value);
     }
@@ -141,9 +143,6 @@ class Create extends Component {
                           <Row>
                             <Col lg="6" md="6" sm="6" style={{paddingRight: '0px'}}>
                               <Input type="text" id="sample6_detailAddress" placeholder="상세주소"/>
-                            </Col>
-                            <Col lg="6" md="6" sm="6">
-                              <Input type="text" id="sample6_extraAddress" placeholder="참고항목"/>
                             </Col>
                           </Row>
                           {/*<Input onChange={(e) => this.form.address=e.target.value}/>*/}
