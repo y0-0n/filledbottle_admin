@@ -152,11 +152,11 @@ class List extends Component {
             <Table className="category-top">
               <tbody>
                 <tr>
-                  <td>전체</td>
+                  <td onClick={() => {this.changePlant('all')}}>전체</td>
                   {
                     plantData.map((e,i) => {
                       return (
-                        <td>{e.name}</td>
+                        <td onClick={() => {this.changePlant(e.id)}}>{e.name}</td>
                       )
                     })
                   }

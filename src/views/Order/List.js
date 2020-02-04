@@ -190,7 +190,7 @@ class List extends Component {
                     <InputGroup>
                       <Input onChange={(e) => { this.keyword = e.target.value }} />
                       <InputGroupAddon addonType="append">
-                        <Button block color="primary" onClick={() => { this.searchOrder() }}><i class="fa fa-search"></i></Button>
+                        <Button block color="primary" onClick={() => { this.searchOrder() }}><i className="fa fa-search"></i></Button>
                       </InputGroupAddon>
                     </InputGroup>
                   </Col>
@@ -231,7 +231,7 @@ class List extends Component {
                   </NavItem>
                 </Nav>
                 <div>
-                  <Table phover>
+                  <Table hover>
                     <thead>
                       <tr>
                         <th className="list-hidden">#</th>
