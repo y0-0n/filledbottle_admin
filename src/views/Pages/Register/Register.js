@@ -23,6 +23,8 @@ class Register extends Component {
       alert('비밀번호와 비밀번호 반복이 일치하는지 확인해주세요');
       return;
     }
+    this.form.address = document.getElementById("sample6_address").value+" "+document.getElementById("sample6_detailAddress").value;
+		this.form.postcode = document.getElementById("sample6_postcode").value;
 
     fetch(process.env.REACT_APP_HOST+"/api/auth/signup", {
       method: 'POST',
@@ -82,7 +84,10 @@ class Register extends Component {
                 if(extraAddr !== ''){
                     extraAddr = ' (' + extraAddr + ')';
                 }
-            
+                //document.getElementById("sample6_extraAddress").value = extraAddr;
+								addr += extraAddr;
+            } else {
+                //document.getElementById("sample6_extraAddress").value = '';
             }
             document.getElementById('sample6_postcode').value = data.zonecode;
             document.getElementById("sample6_address").value = addr;
