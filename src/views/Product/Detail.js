@@ -112,18 +112,8 @@ class Detail extends Component {
                       </td>
                     </tr>
                     <tr>
-                      <th>등급</th>
-                      <td >
-                        {data.grade}
-                      </td>
                       <th>상태</th>
                       <td>{data.set ? <Badge color="primary">활성화</Badge> : <Badge color="danger">비활성화</Badge>}</td>
-                    </tr>
-                    <tr>
-                      <th>무게</th>
-                      <td>
-                        {data.weight}
-                      </td>
                       <th>판매 단가</th>
                       <td >
                         {data.price_shipping}

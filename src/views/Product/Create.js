@@ -148,7 +148,7 @@ class CreateProduct extends Component {
                             <Input onChange={(e) => this.form.price = e.target.value} />
                           </td>
                         </tr>
-                        <tr>
+                        {/*<tr>
                           <th>등급</th>
                           <td >
                             <Input onChange={(e) => this.form.grade = e.target.value} />
@@ -157,7 +157,7 @@ class CreateProduct extends Component {
                           <td>
                             <Input onChange={(e) => this.form.weight = e.target.value} />
                           </td>
-                        </tr>
+                        </tr>*/}
                       </tbody>
                     </Table>
                   </CardBody>
