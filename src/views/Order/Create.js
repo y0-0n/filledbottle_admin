@@ -118,7 +118,7 @@ class Create extends Component {
                     <th>고객</th>
                     <td >
                     {<Popup
-                      trigger={<Input value={this.state.customerName} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}} readOnly/>}
+                      trigger={<Input required value={this.state.customerName} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}} readOnly/>}
                       modal>
                       {close => <CustomerModal close={close} login={()=>{this.props.history.push('/login')}} createCustomer={() => {this.props.history.push('/customer/create')}}
                       selectCustomer={(data) => {
@@ -207,7 +207,7 @@ class Create extends Component {
                             <tr key={i}>
                               <td>
                                 {<Popup
-                                  trigger={<Input name='name' value={this.state.sProduct[i].name} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}} readOnly/>}
+                                  trigger={<Input required name='name' value={this.state.sProduct[i].name} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}} readOnly/>}
                                   modal>
                                   {close => <ProductModal index={i} close={close} login={()=>{this.props.history.push('/login')}} createProduct={() => {this.props.history.push('/product/create')}}
                                               selectProduct={(data) => {

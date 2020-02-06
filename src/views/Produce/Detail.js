@@ -50,6 +50,7 @@ class Detail extends Component {
     return (
       <div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
+         <link rel="stylesheet" type="text/css" href="css/ProduceDetail.css"></link>
         <Row>
           <Col md="12" xs="12" sm="12">
           <Card>
@@ -62,42 +63,22 @@ class Detail extends Component {
               <Table className="ShowTable">
                     <tbody>
                       <tr>
-                        <th style={{width : 150}}>날씨</th>
-                        <td style={{width : 300}}>
+                        <th>날씨</th>
+                        <td>
                           {data.weather}
                         </td>
-                        <th style={{width : 150}}>강수량</th>
-                        <td style={{ width: 300 }}>
-                          <Row>
-                            <Col xs="10">{data.rain}</Col>
-                          </Row>
-                        </td>
-                        <th style={{width : 150}}>적설량</th>
-                        <td style={{width : 300}}>
-                            <Row>
-                                <Col xs="10">{data.snow}</Col>
-                            </Row> 
-                        </td>
+                        <th>강수량</th>
+                        <td>{data.rain} mm</td>
+                        <th>적설량</th>
+                        <td>{data.snow} cm</td>
                       </tr>
                       <tr>
                         <th>기온</th>
-                        <td>
-                            <Row>
-                                <Col xs="10">{data.temperatures}</Col>
-                            </Row> 
-                        </td>
+                        <td>{data.temperatures} °C</td>
                         <th>최저 기온</th>
-                        <td>
-                            <Row>
-                                <Col xs="10">{data.min_temp}</Col>
-                            </Row> 
-                        </td>
+                        <td>{data.min_temp} °C</td>
                         <th>최고 기온</th>
-                        <td>
-                            <Row>
-                                <Col xs="10">{data.max_temp}</Col>
-                            </Row> 
-                        </td>
+                        <td>{data.max_temp} °C</td>
                       </tr>
                     </tbody>
                     </Table>
@@ -117,11 +98,11 @@ class Detail extends Component {
               <Table className="ShowTable">
                     <tbody>
                       <tr>
-                        <th style={{width : 150}}>품목</th>
+                        <th>품목</th>
                         <td>
                           {data.productName}
                         </td>
-                        <th style={{width : 150}}>영농과정</th>
+                        <th>영농과정</th>
                         <td>
                           {data.process}
                         </td>

@@ -124,7 +124,7 @@ class CreateProduct extends Component {
                           </td>
                           <th>품목명</th>
                           <td>
-                            <Input onChange={(e) => this.form.name = e.target.value} />
+                            <Input required onChange={(e) => this.form.name = e.target.value} />
                           </td>
                         </tr>
                         <tr>
@@ -145,7 +145,7 @@ class CreateProduct extends Component {
                           </td>
                           <th>단가</th>
                           <td>
-                            <Input onChange={(e) => this.form.price = e.target.value} />
+                            <Input required onChange={(e) => this.form.price = e.target.value} />
                           </td>
                         </tr>
                         {/*<tr>

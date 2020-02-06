@@ -31,6 +31,7 @@ class List extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      count : 1,
       process: "all",
       orderData: [],
       page: 1,
@@ -244,7 +245,8 @@ class List extends Component {
                     </thead>
                     <tbody>
                       {data.map((e, i) => {
-                        return (<tr style={{cursor: 'pointer'}} key={e.id} onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>
+                        this.state.count++
+                        return (<tr style={{cursor: 'pointer'}} key={this.state.count} onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>
                         <td className="list-hidden">{e.id}</td>
                         <td>{this.getDate(e.date)}</td>
                         <td className="list-hidden">{this.getDate(e.orderDate)}</td>

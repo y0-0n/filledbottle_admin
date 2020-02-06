@@ -10,7 +10,7 @@ class Create extends Component {
       telephone: '',
       cellphone: '',
       address: '',
-      crNumber:'',
+      crNumber: '',
     }
   }
 
@@ -105,17 +105,17 @@ class Create extends Component {
                       <tr>
                         <th>기업(고객)명</th>
                         <td>
-                          <Input onChange={(e) => this.form.name=e.target.value}/>
+                          <Input required onChange={(e) => this.form.name=e.target.value}/>
                         </td>
                         <th>전화번호</th>
                         <td>
-                          <Input onChange={(e) => this.form.telephone=e.target.value}/>
+                          <Input required onChange={(e) => this.form.telephone=e.target.value}/>
                         </td>
                       </tr>
                       <tr>
                         <th>핸드폰번호</th>
                         <td>
-                          <Input onChange={(e) => this.form.cellphone=e.target.value}/>
+                          <Input required onChange={(e) => this.form.cellphone=e.target.value}/>
                         </td>
                         <th>사업자등록번호</th>
                         <td>
@@ -127,7 +127,7 @@ class Create extends Component {
                         <td colSpan="3">
                           <Row style={{marginBottom: '10px'}}>
                             <Col lg="6" md="6" sm="6">
-                              <InputGroup>
+                              <InputGroup required>
                                 <Input type="text" id="sample6_postcode" placeholder="우편번호"/>                            
                                 <InputGroupAddon addonType="append">
                                   <Button block color="primary" onClick={() => {this.sample6_execDaumPostcode()}}>우편번호찾기</Button>

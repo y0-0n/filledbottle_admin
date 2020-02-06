@@ -31,9 +31,11 @@ class Create extends Component {
     }
 
     this.state = {
-        image: null,
-        selectedFile: null,
-        productName: '',//제품명
+      image_previous: null,
+      image_last: null,
+      image: null,
+      selectedFile: null,
+      productName: '',//제품명
     };
   }
   componentWillMount() {
@@ -96,7 +98,6 @@ class Create extends Component {
       <link rel="stylesheet" type="text/css" href="css/Produce.css"></link>
         <Row>
           <Col md="12" xs="12" sm="12">
-            <form onSubmit={this.handlePost.bind(this)}>
             <Card>
               <CardHeader>
                 <Row>
@@ -253,10 +254,9 @@ class Create extends Component {
                 </Table>
               </CardBody>
               <CardFooter>
-                <Button block color="primary">추가하기</Button>
+                <Button block color="primary" onClick={this.handlePost.bind(this)}>추가하기</Button>
               </CardFooter>
             </Card>
-            </form>
             <Row>
               <Col>
                 <Card>
@@ -295,7 +295,7 @@ class Create extends Component {
                         <tr>
                           <th>작업사진</th>
                           <td colSpan="3">
-                              <img alt="작업 사진" style={{height: 500, width: 500}} src={this.state.image} /> <br></br>
+                              <img alt="작업 사진" style={{height: 500, width: 500}} src={this.state.image_previous} /> <br></br>
                           </td>
                         </tr>
                       </tbody>
@@ -340,7 +340,7 @@ class Create extends Component {
                         <tr>
                           <th>작업사진</th>
                           <td colSpan="3">
-                              <img alt="작업 사진" style={{height: 500, width: 500}} src={this.state.image} /> <br></br>
+                              <img alt="작업 사진" style={{height: 500, width: 500}} src={this.state.image_last} /> <br></br>
                           </td>
                         </tr>
                       </tbody>
