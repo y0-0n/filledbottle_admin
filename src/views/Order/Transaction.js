@@ -101,10 +101,10 @@ class Transaction extends Component {
             <table className="detail">
               <tbody>
                 <tr>
-                  <td rowSpan="5" width="30px">공급자</td>
+                  <td rowSpan="5" width="30px" style={{backgroundColor : "#E6E6E6"}}>공급자</td>
                   <td width="170px">사업자등록번호</td>
                   <td width="200px"></td>
-                  <td rowSpan="5" width="30px">공급받는자</td>
+                  <td rowSpan="5" width="30px" style={{backgroundColor : "#E6E6E6"}}>공급받는자</td>
                   <td width="170px">사업자등록번호</td>
                   <td width="200px"></td>
                 </tr>
@@ -137,7 +137,7 @@ class Transaction extends Component {
 
             <table id="content">
               <tbody>
-                <tr>
+                <tr style={{backgroundColor : "#E6E6E6"}}>
                   <td width="50px">No.</td>
                   <td width="200px">상품명</td>
                   <td width="150px">무게</td>
@@ -169,12 +169,12 @@ class Transaction extends Component {
 
             <table id="pay">
               <tbody>
-                <tr colSpan="4">
+                <tr colSpan="4" style={{backgroundColor : "#E6E6E6"}}>
                   <td width="450px">결제수단 : 외상거래</td>
                   <td width="200px">총 주문수량 : {this.numberWithCommas(total_num)}</td>
                   <td width="150px">총 금액 : {this.numberWithCommas(total_price)}</td>
                 </tr>
-                <tr colSpan="4">
+                <tr colSpan="4" style={{backgroundColor : "#E6E6E6"}}>
                   <td colSpan="2">이전 잔액 : 0원 </td>
                   <td colSpan="2">총 잔액 : 0원</td>
                 </tr>
@@ -186,7 +186,7 @@ class Transaction extends Component {
                 <tr>
                   <td width="125px">입금 정보</td>
                   <td width="275px"></td>
-                  <td width="125px">배송 요청사항</td>
+                  <td width="125px">배송 <br></br> 요청사항</td>
                   <td width="275px"></td>
                 </tr>
               </tbody>

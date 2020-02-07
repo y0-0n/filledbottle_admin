@@ -235,11 +235,14 @@ class RegisterDetail extends Component {
               </Nav>
               <div style={{justifyContent: "center"}}>
                 <ul className="ul-productFamily" style={{listStyleType: "none", display: "inline-block"}}>
+                  {}
                   {allFamilyData.map((e, i) => {
+                    console.log(e)
 							  		const f = (element) => element.id === e.id
 										return (
 											<li className="list-productFamily" style={{color: familyData.findIndex(f) === -1 ? 'black': '#2E9AFE'}}>{e.name}</li>
-										)}
+                    )}
+                    
 									)}
                 </ul>
               </div>

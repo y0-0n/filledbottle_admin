@@ -122,9 +122,9 @@ class CreateProduct extends Component {
                             <img alt="품목 사진" style={{ width: '100%', height: 500}} src={this.state.image} /> <br></br>
                             <input ref="file" type="file" name="file" onChange={e => { this.handleFileInput(e); }} />
                           </td>
-                          <th>품목명</th>
+                          <th>품목명<span style={{color : "#FA5858"}}>*</span></th>
                           <td>
-                            <Input onChange={(e) => this.form.name = e.target.value} />
+                            <Input required onChange={(e) => this.form.name = e.target.value} />
                           </td>
                         </tr>
                         <tr>
@@ -143,12 +143,17 @@ class CreateProduct extends Component {
                                 }} />}
                             </Popup>}
                           </td>
-                          <th>단가</th>
+                          <th>단가<span style={{color : "#FA5858"}}>*</span></th>
                           <td>
-                            <Input onChange={(e) => this.form.price = e.target.value} />
+                            <Row>
+                              <Col xs="9">
+                                <Input type="number" required onChange={(e) => this.form.price = e.target.value} />
+                              </Col>
+                              <Col xs="3">원</Col>
+                            </Row>
                           </td>
                         </tr>
-                        <tr>
+                        {/*<tr>
                           <th>등급</th>
                           <td >
                             <Input onChange={(e) => this.form.grade = e.target.value} />
@@ -157,7 +162,7 @@ class CreateProduct extends Component {
                           <td>
                             <Input onChange={(e) => this.form.weight = e.target.value} />
                           </td>
-                        </tr>
+                        </tr>*/}
                       </tbody>
                     </Table>
                   </CardBody>

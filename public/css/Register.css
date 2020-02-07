@@ -1,0 +1,10 @@
+.app {
+    flex-direction: row;
+}
+
+@media (max-width: 768px) {
+
+    .container {
+        padding: 0px !important; 
+    }
+}

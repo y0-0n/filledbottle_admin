@@ -110,7 +110,7 @@ class Modify extends Component {
                         <tr>
                           <th>사업자등록번호</th>
                           <td>
-                            <Input onChange={(e) => this.form.crNumber=e.target.value}/>
+                            <Input defaultValue={data.crNumber} onChange={(e) => this.form.crNumber=e.target.value}/>
                           </td>
                           <th>주소</th>
                           <td>

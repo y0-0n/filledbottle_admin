@@ -115,10 +115,10 @@ class Create extends Component {
                         />
                       </div>
                     </td>
-                    <th>고객</th>
+                    <th>고객<span style={{color : "#FA5858"}}>*</span></th>
                     <td >
                     {<Popup
-                      trigger={<Input value={this.state.customerName} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}} readOnly/>}
+                      trigger={<Input required value={this.state.customerName} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}}/>}
                       modal>
                       {close => <CustomerModal close={close} login={()=>{this.props.history.push('/login')}} createCustomer={() => {this.props.history.push('/customer/create')}}
                       selectCustomer={(data) => {
@@ -190,7 +190,7 @@ class Create extends Component {
                   <Table>
                     <thead>
                       <tr>
-                        <th>품목명</th>
+                        <th>품목명<span style={{color : "#FA5858"}}>*</span></th>
                         <th>수량</th>
                         <th>판매 단가</th>
                         <th>공급가액</th>
@@ -207,7 +207,7 @@ class Create extends Component {
                             <tr key={i}>
                               <td>
                                 {<Popup
-                                  trigger={<Input name='name' value={this.state.sProduct[i].name} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}} readOnly/>}
+                                  trigger={<Input required name='name' value={this.state.sProduct[i].name} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}}/>}
                                   modal>
                                   {close => <ProductModal index={i} close={close} login={()=>{this.props.history.push('/login')}} createProduct={() => {this.props.history.push('/product/create')}}
                                               selectProduct={(data) => {

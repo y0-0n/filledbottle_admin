@@ -89,11 +89,11 @@ class Create extends Component {
                   <Table>
                     <thead>
                       <tr>
-                          <th>상품명</th>
+                          <th>상품명<span style={{color : "#FA5858"}}> *</span></th>
                           <th>등급</th>
                           <th>무게</th>
                           <th>단가</th>
-                          <th>소모재고</th>
+                          <th>소모재고<span style={{color : "#FA5858"}}> *</span></th>
                           <th>삭제</th>
                       </tr>
                     </thead>
@@ -188,11 +188,11 @@ class Create extends Component {
                   <Table>
                     <thead>
                       <tr>
-                          <th>상품명</th>
+                          <th>상품명<span style={{color : "#FA5858"}}> *</span></th>
                           <th>등급</th>
                           <th>무게</th>
                           <th>단가</th>
-                          <th>생산재고</th>
+                          <th>생산재고<span style={{color : "#FA5858"}}> *</span></th>
                           <th>삭제</th>
                       </tr>
                     </thead>

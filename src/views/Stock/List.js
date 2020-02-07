@@ -189,7 +189,7 @@ class List extends Component {
 									<tbody>
 										{stockData.map((d, i) => {
 											return (
-												<tr style={{cursor: 'pointer'}} key={i} onClick={() => {this.props.history.push(`/main/stock/${d.product_id}`)}}>
+												<tr style={{cursor: 'pointer', height : "150px"}} key={i} onClick={() => {this.props.history.push(`/main/stock/${d.product_id}`)}}>
 													<td className="list-hidden">
 														<img style={{ width: '90%' }} alt="품목 사진" src={d.file_name ? "http://211.62.225.216:4000/static/" + d.file_name : '318x180.svg'} />
 													</td>
