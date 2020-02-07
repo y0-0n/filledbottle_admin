@@ -100,7 +100,7 @@ class Create extends Component {
 									<tbody>
 										<tr>
 											<th>품목명</th>
-											<td colSpan="3">
+											<td>
 												{<Popup
 													trigger={<Input value={this.state.name} onChange={(e) => this.form.name = e.target.value} />}
 													modal>
@@ -112,8 +112,6 @@ class Create extends Component {
 													/>}
 												</Popup>}
 											</td>
-										</tr>
-										<tr>
 											<th>창고</th>
 											<td>
 												<Input onChange={(e) => {this.form.plant = e.target.value}} type='select'>
@@ -126,6 +124,10 @@ class Create extends Component {
 													}
 												</Input>
 											</td>
+										</tr>
+										<tr>
+                      <th>재고</th>
+                      <td><Input readOnly/></td>
 											<th>유형</th>
 											<td>
 												<Input defaultValue={this.form.type} onChange={(e) => {this.form.type = e.target.value}} type='select'>
