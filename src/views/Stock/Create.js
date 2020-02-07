@@ -102,7 +102,19 @@ class Create extends Component {
 										<tr>
 											<th>품목명</th>
 											<td colSpan="3">
-												<Input onChange={(e) => this.form.name = e.target.value} />
+												{<Popup
+													trigger={<Input value={this.state.sProduct.name} onChange={(e) => this.form.name = e.target.value} />}
+													modal>
+													{close => <ProductModal close={close} login={() => { this.props.history.push('/login') }} createProduct={() => { this.props.history.push('/product/create') }}
+														selectProduct={(data) => {
+															let { sProduct } = this.state;
+															let val = Object.assign({}, sProduct);
+															val['name'] = data['name'];
+															sProduct = val;
+															this.setState({ sProduct });
+														}}
+													/>}
+												</Popup>}
 											</td>
 										</tr>
 										<tr>
