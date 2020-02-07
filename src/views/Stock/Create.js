@@ -17,6 +17,7 @@ class Create extends Component {
 
     this.state = {
 			plantData: [],
+			current: 0
     };
   }
 
@@ -81,10 +82,41 @@ class Create extends Component {
         this.props.history.push('/login');
       }
     });
-  }
+	}
+	
+	getLastStock() {
+		fetch(process.env.REACT_APP_HOST+"/api/stock/last/", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+			},
+			body: JSON.stringify({plant: this.form.plant, productId: this.form.productId})
+    })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+			let status = data[0];
+      if(status === 200){
+				this.setState({current: data[1].current});
+				this.form.current = data[1].current;
+			}
+      else {
+        alert('로그인 하고 접근해주세요');
+        this.props.history.push('/login');
+      }
+    });
+	}
 
   render() {
 		const {plantData} = this.state;
+		console.log(this.state.current)
     return (
       <div className="animated fadeIn align-items-center">
       <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
@@ -108,13 +140,14 @@ class Create extends Component {
 														selectProduct={(data) => {
 															this.setState({name : data['name']})
 															this.form.productId = data['id'];;
+															this.getLastStock();
 														}}
 													/>}
 												</Popup>}
 											</td>
 											<th>창고</th>
 											<td>
-												<Input onChange={(e) => {this.form.plant = e.target.value}} type='select'>
+												<Input onChange={(e) => {this.form.plant = e.target.value;}} type='select'>
 													{
 														plantData.map((e,i) => {
 															return (
@@ -127,7 +160,7 @@ class Create extends Component {
 										</tr>
 										<tr>
                       <th>재고</th>
-                      <td><Input readOnly/></td>
+                      <td><Input value={this.state.current} readOnly/></td>
 											<th>유형</th>
 											<td>
 												<Input defaultValue={this.form.type} onChange={(e) => {this.form.type = e.target.value}} type='select'>
