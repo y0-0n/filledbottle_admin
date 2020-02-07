@@ -12,10 +12,17 @@ class Register extends Component {
       phone: '',
       address: '',
       crNumber: '',
+      checks : [],
+    }
+    this.state = {
     }
   }
 
   componentWillMount() {
+  }
+
+  componentDidMount() {
+    this.checkChecks()
   }
 
   signup() {
@@ -96,7 +103,19 @@ class Register extends Component {
     }).open();
   }
 
+  checkChecks(){
+    if(this.form.checks[0] === true && this.form.checks[1] === true && this.form.checks[2] === true){
+      this.enableBtn();
+    }
+    else document.getElementById('button_joinus').disabled = true;
+  }
+
+  enableBtn(){
+    document.getElementById('button_joinus').disabled = false;
+  }
+
   render() {
+    this.form.checks = [false,false,false];
     return (
       <div className="app align-items-center">
         <link rel="stylesheet" type="text/css" href="css/Register.css"></link>
@@ -112,7 +131,11 @@ class Register extends Component {
                       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                     </div>
                     <div style={{ float: 'right' }}>
-                      <Input required type='checkbox'></Input>
+                      <Input type='checkbox' onClick={() => {
+                            let {checks} = this.form;
+                            checks[0] = !checks[0];
+                            this.checkChecks();
+                        }}/>
                       <p>서비스 이용약관 동의하기</p>
                     </div><br></br><hr></hr>
                     <h4 className="text-muted">개인정보 취급방침</h4>
@@ -120,7 +143,11 @@ class Register extends Component {
                       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                     </div>
                     <div style={{ float: 'right' }}>
-                      <Input required type='checkbox'></Input>
+                      <Input type='checkbox' onClick={() => {
+                            let {checks} = this.form;
+                            checks[1] = !checks[1];
+                            this.checkChecks();
+                        }}/>
                       <p>개인정보 취급방침 동의하기</p>
                     </div><br></br><hr></hr>
                     <h4 className="text-muted">전자금융거래 이용 약관</h4>
@@ -128,7 +155,11 @@ class Register extends Component {
                       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                     </div>
                     <div style={{ float: 'right' }}>
-                      <Input required type='checkbox'></Input>
+                      <Input type='checkbox' onClick={() => {
+                            let {checks} = this.form;
+                            checks[2] = !checks[2];
+                            this.checkChecks();
+                        }}/>
                       <p>전자금융거래 이용약관 동의하기</p>
                     </div><br></br>
                   </CardBody>
@@ -198,7 +229,7 @@ class Register extends Component {
 											</InputGroupText>
 											</InputGroupAddon>
 										<Input type="text" onChange={(e) => this.form.address=e.target.value} placeholder="주소" autoComplete="address" />*/}
-                    <Button color="success" onClick={this.signup.bind(this)} block>가입하기</Button>
+                    <Button color="success" id="button_joinus" disabled ="" onClick={this.signup.bind(this)}block>가입하기</Button>
                   </CardBody>
                   <CardFooter className="p-4">
                     {/*<Row>

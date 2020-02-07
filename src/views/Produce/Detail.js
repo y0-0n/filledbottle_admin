@@ -84,8 +84,8 @@ class Detail extends Component {
                     </Table>
               </CardBody>
               <CardFooter>
-                  <Button onClick={() => {this.props.history.push(`/main/produce/edit/`+this.props.match.params.id)}} style={{marginLeft : '10px'}}>수정</Button>
-                  <Button onClick={() => {}} style={{marginLeft : '10px'}}>생산 취소</Button>
+                  <Button color="primary" onClick={() => {this.props.history.push(`/main/produce/edit/`+this.props.match.params.id)}} style={{marginLeft : '10px'}}>수정</Button>
+                  <Button color="primary" onClick={() => {}} style={{marginLeft : '10px'}}>생산 취소</Button>
               </CardFooter>
             </Card>
             <Card>

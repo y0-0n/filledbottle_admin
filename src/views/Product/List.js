@@ -414,7 +414,7 @@ class List extends Component {
                     </thead>
                     <tbody>
                       {data.map((e, i) => {
-                        return (<tr key={e.id} onClick={() => {
+                        return (<tr style={{height : "150px"}} key={e.id} onClick={() => {
                           this.props.history.push({
                             pathname: '/main/product/' + e.id,
                             state: {name: this.state.name, family: this.state.family, page: this.state.page}
