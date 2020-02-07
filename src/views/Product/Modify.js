@@ -33,7 +33,8 @@ class Modify extends Component {
           name: data[0].name,
           grade: data[0].grade,
           weight: data[0].weight,
-          price: data[0].price_shipping,
+					price: data[0].price_shipping,
+					productFamily: data[0].family,
         };
       });
   }
@@ -118,7 +119,8 @@ class Modify extends Component {
   }
 
   render() {
-    var data = this.state.data;
+		var data = this.state.data;
+		console.log(data)
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
@@ -165,10 +167,10 @@ class Modify extends Component {
                         <tr>
                           <th>품목군</th>
                           <td colSpan="3" >
-                          <Input defaultValue={data.familyName} onChange={(e) => {this.form.productFamily = e.target.value; console.log(this.form)}} type='select' name="family">
-                            <option value='NULL'>{data.familyName}</option>
+                          <Input onChange={(e) => {this.form.productFamily = e.target.value; console.log(this.form)}} type='select' name="family">
+                            <option value='NULL'>품목군 없음</option>
                             {this.state.familyData.map((e, i) => {
-                              return <option value={e.id}>{e.name}</option>
+                              return <option value={e.id} selected={e.id === data.family}>{e.name}</option>
                             })}
                           </Input>
                           </td>
