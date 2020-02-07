@@ -31,9 +31,11 @@ class Create extends Component {
     }
 
     this.state = {
-        image: null,
-        selectedFile: null,
-        productName: '',//제품명
+      image_previous: null,
+      image_last: null,
+      image: null,
+      selectedFile: null,
+      productName: '',//제품명
     };
   }
   componentWillMount() {
@@ -96,7 +98,6 @@ class Create extends Component {
       <link rel="stylesheet" type="text/css" href="css/Produce.css"></link>
         <Row>
           <Col md="12" xs="12" sm="12">
-            <form onSubmit={this.handlePost.bind(this)}>
             <Card>
               <CardHeader>
                 <Row>
@@ -197,7 +198,7 @@ class Create extends Component {
                 <Table className="ShowTable">
                   <tbody>
                     <tr>
-                      <th>품목</th>
+                      <th>품목<span style={{color : "#FA5858"}}> *</span></th>
                       <td>
                         <Row>
                           <Col>
@@ -217,27 +218,27 @@ class Create extends Component {
                           </Col>
                         </Row>
                       </td>
-                      <th>영농과정</th>
+                      <th>영농과정<span style={{color : "#FA5858"}}> *</span></th>
                       <td>
                         <Input defaultValue={this.form.process} onChange={(e) => {this.form.process = e.target.value}}/>
                       </td>
                     </tr>
                     <tr>
-                      <th>작업명</th>
+                      <th>작업명<span style={{color : "#FA5858"}}> *</span></th>
                       <td>
                         <Input defaultValue={this.form.name} onChange={(e) => {this.form.name = e.target.value}}/>
                       </td>
-                      <th>작업내용</th>
+                      <th>작업내용<span style={{color : "#FA5858"}}> *</span></th>
                       <td>
                         <Input defaultValue={this.form.content} onChange={(e) => {this.form.content = e.target.value}}/>
                       </td>
                     </tr>
                     <tr>
-                      <th>재배 면적</th>
+                      <th>재배 면적<span style={{color : "#FA5858"}}> *</span></th>
                       <td>
                         <Input defaultValue={this.form.area} onChange={(e) => {this.form.area = e.target.value}}/>
                       </td>
-                      <th>예상 생산량</th>
+                      <th>예상 생산량<span style={{color : "#FA5858"}}> *</span></th>
                       <td>
                         <Input defaultValue={this.form.expected} onChange={(e) => {this.form.expected = e.target.value}}/>
                       </td>
@@ -253,10 +254,9 @@ class Create extends Component {
                 </Table>
               </CardBody>
               <CardFooter>
-                <Button block color="primary">추가하기</Button>
+                <Button block color="primary" onClick={this.handlePost.bind(this)}>추가하기</Button>
               </CardFooter>
             </Card>
-            </form>
             <Row>
               <Col>
                 <Card>
@@ -295,7 +295,7 @@ class Create extends Component {
                         <tr>
                           <th>작업사진</th>
                           <td colSpan="3">
-                              <img alt="작업 사진" style={{height: 500, width: 500}} src={this.state.image} /> <br></br>
+                              <img alt="작업 사진" style={{height: 500, width: 500}} src={this.state.image_previous} /> <br></br>
                           </td>
                         </tr>
                       </tbody>
@@ -340,7 +340,7 @@ class Create extends Component {
                         <tr>
                           <th>작업사진</th>
                           <td colSpan="3">
-                              <img alt="작업 사진" style={{height: 500, width: 500}} src={this.state.image} /> <br></br>
+                              <img alt="작업 사진" style={{height: 500, width: 500}} src={this.state.image_last} /> <br></br>
                           </td>
                         </tr>
                       </tbody>

@@ -1,5 +1,5 @@
 
-.badge {
+.list-hidden > .badge {
 	font-size: 1.0em
 }
 @media (max-width: 1024px) {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table, Col, Row, Button, Input, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
-const listCount = 5;
+const listCount = 15;
 
 class ProductModal extends Component {
   constructor(props) {
