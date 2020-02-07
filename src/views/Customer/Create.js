@@ -103,19 +103,19 @@ class Create extends Component {
                     <Table className="ShowTable">
                     <tbody>
                       <tr>
-                        <th>기업(고객)명</th>
+                        <th>기업(고객)명<span style={{color : "#FA5858"}}>*</span></th>
                         <td>
                           <Input required onChange={(e) => this.form.name=e.target.value}/>
                         </td>
                         <th>전화번호</th>
                         <td>
-                          <Input required onChange={(e) => this.form.telephone=e.target.value}/>
+                          <Input type="tel" onChange={(e) => this.form.telephone=e.target.value}/>
                         </td>
                       </tr>
                       <tr>
-                        <th>핸드폰번호</th>
+                        <th>핸드폰번호<span style={{color : "#FA5858"}}>*</span></th>
                         <td>
-                          <Input required onChange={(e) => this.form.cellphone=e.target.value}/>
+                          <Input type="tel" pattern="[0-9]{11}" onChange={(e) => this.form.cellphone=e.target.value} required/>
                         </td>
                         <th>사업자등록번호</th>
                         <td>

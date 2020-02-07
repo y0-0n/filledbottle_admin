@@ -186,7 +186,7 @@ class Transaction extends Component {
                 <tr>
                   <td width="125px">입금 정보</td>
                   <td width="275px"></td>
-                  <td width="125px">배송 요청사항</td>
+                  <td width="125px">배송 <br></br> 요청사항</td>
                   <td width="275px"></td>
                 </tr>
               </tbody>

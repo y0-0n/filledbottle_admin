@@ -198,7 +198,7 @@ class Create extends Component {
                 <Table className="ShowTable">
                   <tbody>
                     <tr>
-                      <th>품목</th>
+                      <th>품목<span style={{color : "#FA5858"}}> *</span></th>
                       <td>
                         <Row>
                           <Col>
@@ -218,27 +218,27 @@ class Create extends Component {
                           </Col>
                         </Row>
                       </td>
-                      <th>영농과정</th>
+                      <th>영농과정<span style={{color : "#FA5858"}}> *</span></th>
                       <td>
                         <Input defaultValue={this.form.process} onChange={(e) => {this.form.process = e.target.value}}/>
                       </td>
                     </tr>
                     <tr>
-                      <th>작업명</th>
+                      <th>작업명<span style={{color : "#FA5858"}}> *</span></th>
                       <td>
                         <Input defaultValue={this.form.name} onChange={(e) => {this.form.name = e.target.value}}/>
                       </td>
-                      <th>작업내용</th>
+                      <th>작업내용<span style={{color : "#FA5858"}}> *</span></th>
                       <td>
                         <Input defaultValue={this.form.content} onChange={(e) => {this.form.content = e.target.value}}/>
                       </td>
                     </tr>
                     <tr>
-                      <th>재배 면적</th>
+                      <th>재배 면적<span style={{color : "#FA5858"}}> *</span></th>
                       <td>
                         <Input defaultValue={this.form.area} onChange={(e) => {this.form.area = e.target.value}}/>
                       </td>
-                      <th>예상 생산량</th>
+                      <th>예상 생산량<span style={{color : "#FA5858"}}> *</span></th>
                       <td>
                         <Input defaultValue={this.form.expected} onChange={(e) => {this.form.expected = e.target.value}}/>
                       </td>
