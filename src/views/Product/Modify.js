@@ -167,7 +167,7 @@ class Modify extends Component {
                         <tr>
                           <th>품목군</th>
                           <td colSpan="3" >
-                          <Input onChange={(e) => {this.form.productFamily = e.target.value; console.log(this.form)}} type='select' name="family">
+                          <Input onChange={(e) => {this.form.productFamily = e.target.value;}} type='select' name="family">
                             <option value='NULL'>품목군 없음</option>
                             {this.state.familyData.map((e, i) => {
                               return <option value={e.id} selected={e.id === data.family}>{e.name}</option>
