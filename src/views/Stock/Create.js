@@ -8,7 +8,7 @@ class Create extends Component {
   constructor(props) {
     super(props);
     this.form = {
-      name : '',
+      productId : '',
       plant : '',
       type : '외주생산',
       quantity: 0,
@@ -17,7 +17,6 @@ class Create extends Component {
 
     this.state = {
 			plantData: [],
-      sProduct : [],
     };
   }
 
@@ -103,15 +102,12 @@ class Create extends Component {
 											<th>품목명</th>
 											<td colSpan="3">
 												{<Popup
-													trigger={<Input value={this.state.sProduct.name} onChange={(e) => this.form.name = e.target.value} />}
+													trigger={<Input value={this.state.name} onChange={(e) => this.form.name = e.target.value} />}
 													modal>
 													{close => <ProductModal close={close} login={() => { this.props.history.push('/login') }} createProduct={() => { this.props.history.push('/product/create') }}
 														selectProduct={(data) => {
-															let { sProduct } = this.state;
-															let val = Object.assign({}, sProduct);
-															val['name'] = data['name'];
-															sProduct = val;
-															this.setState({ sProduct });
+															this.setState({name : data['name']})
+															this.form.productId = data['id'];;
 														}}
 													/>}
 												</Popup>}
