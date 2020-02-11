@@ -14,6 +14,10 @@
   border: 1px solid lightgray;
 }
 
+.plant-cardbody {
+    height: 500px;
+}
+
 @media (max-width: 768px) {
     .ShowTable tr,
     .ShowTable td,
@@ -38,5 +42,13 @@
 
     .container-fluid {
         padding: 0px !important; 
+    }
+
+    .popup-content {
+        width: 100% !important;
+    }
+
+    .plant-cardbody {
+        height: 400px;
     }
 }

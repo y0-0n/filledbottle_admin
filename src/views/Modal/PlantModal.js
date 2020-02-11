@@ -52,7 +52,7 @@ class PlantModal extends Component {
                             <Col><i className="icon-drop">창고이동</i></Col>
                         </Row>
                     </div>
-                    <div className="card-body" style={{ height: 500, overflow: 'scroll' }} >
+                    <div className="card-body plant-cardbody" style={{ overflow: 'scroll' }} >
                         <Table hover>
                             <tbody>
                                 <tr>

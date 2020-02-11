@@ -176,12 +176,11 @@ class List extends Component {
                       {<Popup
                         trigger={<Button color="primary" style={{ marginLeft: 10 }}>창고 이동</Button>}
                         modal>
-                        {close => <PlantModal close={close} login={() => { this.props.history.push('/login') }} createProduct={() => { this.props.history.push('/product/create') }}
+                        {close => <PlantModal close={close} login={() => { this.props.history.push('/login') }}
                           selectProduct={(data) => {
                           }}
                         />}
-                      </Popup>}
-                      
+                      </Popup>}                      
                     </div>
                   </Col>
                 </Row>

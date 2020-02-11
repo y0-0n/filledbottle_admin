@@ -22,4 +22,8 @@
         padding: 0px !important; 
     }
 
+    .popup-content {
+        width: 100% !important;
+    }
+
 }

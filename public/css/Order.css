@@ -1,9 +1,11 @@
+.customer-cardbody, .product-cardbody {
+    height: 500px;
+}
 
 .list-hidden > .badge {
 	font-size: 1.0em
 }
 @media (max-width: 1024px) {
-    .ShowTable tr,
     .ShowTable td,
     .ShowTable th {
       display: block;
@@ -15,11 +17,11 @@
       text-align: left;
     }
     .animated{
-        font-size: 0.7em;
+        font-size: 0.8em;
     }
 
     .list-hidden {
-        display: none;
+        display: none !important;
     }
 
     .container-fluid {
@@ -28,6 +30,34 @@
 
     .nav-tabs > .nav-item a {
         font-size: 15px !important;
-		}
-		
+    }
+    
+    .popup-content {
+        width: 100% !important;
+    }
+
+    .popup-content > .animated > .card {
+        margin-bottom: 0;
+    }
+
+    .customer-cardbody, .product-cardbody {
+        height: 400px;
+    }
+
+    .customer-modal {
+        display: inline-block;
+    }
+
+    .customer-modal th {
+        display: inline-block;
+        border-bottom: 1px solid lightgray;
+        width: 160px;
+        text-align: center;
+    }
+    
+    .customer-modal td {
+        display: inline-block;
+        text-align: center;
+        width: 160px;
+    }
 }

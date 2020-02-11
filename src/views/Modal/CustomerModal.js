@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Col, Row, Button, Input, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import { Table, Col, Row, Button, Input, Pagination, PaginationItem, PaginationLink, InputGroup, InputGroupAddon } from 'reactstrap';
 
 const listCount = 5;
 
@@ -136,28 +136,31 @@ class CustomerModal extends Component {
     const arr1 = [];
     return (
       <div className="animated fadeIn">
+      <link rel="stylesheet" type="text/css" href="css/Order.css"></link>
         <div className="card">
           <div className="card-header">
             <Row>
               <Col><i className="icon-drop">고객 검색</i></Col>
               <Col>
-                <Input onChange={(e)=> {this.keyword = e.target.value}}z/>
+                <InputGroup>
+                  <Input onChange={(e) => { this.keyword = e.target.value }} />
+                  <InputGroupAddon addonType="append">
+                    <Button block color="primary" onClick={() => { this.searchCustomer() }}><i className="fa fa-search"></i></Button>
+                  </InputGroupAddon>
+                </InputGroup>
               </Col>
-              <Col xs lg='2'>
-                <Button block color="primary" onClick={()=> {this.searchCustomer()}}>검색</Button>
-              </Col>
-              <Col xs='2'>
+              <Col>
                 <Button block color="success" onClick={()=> {this.props.createCustomer();}}>신규</Button>
               </Col>
             </Row>
           </div>
-          <div className="card-body" style={{height: 500, overflow: 'scroll'}} >
-          <Table hover>
+          <div className="card-body customer-cardbody" style={{overflow: 'scroll'}} >
+          <Table className="customer-modal" hover>
                   <thead>
                     <tr>
                       <th>고객명</th>
-                      <th>전화번호</th>
-                      <th>HP</th>
+                      <th className="list-hidden">전화번호</th>
+                      <th className="list-hidden">HP</th>
                       <th>주소</th>
                     </tr>
                   </thead>
@@ -168,8 +171,8 @@ class CustomerModal extends Component {
                         return (
                           <tr style={{cursor: 'pointer'}} onClick={() => this.selectCustomer(e)} key={i}>
                             <td>{e.name}</td>
-                            <td>{e.telephone}</td>
-                            <td>{e.cellphone}</td>
+                            <td className="list-hidden">{e.telephone}</td>
+                            <td className="list-hidden">{e.cellphone}</td>
                             <td>{e.address}</td>
                           </tr>
                         )
