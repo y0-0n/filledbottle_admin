@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Col, Row, Button, Input, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import { Table, Col, Row, Button, Input, Pagination, PaginationItem, PaginationLink, InputGroupAddon, InputGroup } from 'reactstrap';
 
 const listCount = 15;
 
@@ -121,23 +121,23 @@ class ProductModal extends Component {
           <Row>
               <Col><i className="icon-drop">상품 검색</i></Col>
               <Col>
-                <Input onChange={(e)=> {this.name = e.target.value}}z/>
+                <InputGroup>
+                  <Input onChange={(e) => { this.keyword = e.target.value }} />
+                  <InputGroupAddon addonType="append">
+                    <Button block color="primary" onClick={() => { this.searchProduct() }}><i className="fa fa-search"></i></Button>
+                  </InputGroupAddon>
+                </InputGroup>
               </Col>
-              <Col xs='2'>
-                <Button block color="primary" onClick={()=> {this.searchProduct()}}>검색</Button>
-              </Col>
-              <Col xs='2'>
+              <Col>
                 <Button block color="success" onClick={()=> {this.props.createProduct();}}>신규</Button>
               </Col>
             </Row>
           </div>
-          <div className="card-body" style={{height: 500, overflow: 'scroll'}} >
+          <div className="card-body product-cardbody" style={{overflow: 'scroll'}} >
           <Table hover>
                   <thead>
                     <tr>
                       <th>상품명</th>
-                      <th>등급</th>
-                      <th>무게</th>
                       <th>판매 단가</th>
                     </tr>
                   </thead>
@@ -147,9 +147,7 @@ class ProductModal extends Component {
                         //console.warn(e);
                         return (
                           <tr style={{cursor: 'pointer'}} onClick={() => this.selectProduct(e)} key={i}>
-                            <td>{e.name}</td>
-                            <td>{e.grade}</td>
-                            <td>{e.weight}</td>
+                            <td>{e.name} {e.grade} {e.weight}</td>
                             <td>{e['price_shipping']}</td>
                           </tr>
                         )
