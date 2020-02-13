@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Card, CardBody, CardHeader, Col, Row, Table, Button, Input } from 'reactstrap';
+import Popup from "reactjs-popup";
+import PlantModal from '../Modal/PlantModal';
 
 class Stock extends Component {
   constructor(props) {
@@ -144,7 +146,22 @@ class Stock extends Component {
             </Table>
             <Card>
               <CardHeader>
-                재고 관리
+								<Row>
+									<Col>재고 기록</Col>
+									<Col>
+										<div style={{ float: "right" }}>
+											<Button color="primary" onClick={() => { this.props.history.push('/stock/create') }}>재고 실사</Button>
+											{<Popup
+												trigger={<Button color="primary" style={{ marginLeft: 10 }}>창고 이동</Button>}
+												modal>
+												{close => <PlantModal close={close} login={() => { this.props.history.push('/login') }}
+													selectProduct={(data) => {
+													}}
+												/>}
+											</Popup>}                      
+										</div>
+									</Col>
+								</Row>
               </CardHeader>
               <CardBody className="card-body">
                 <Table className="ListTable" hover>

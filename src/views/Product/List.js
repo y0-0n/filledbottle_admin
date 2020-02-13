@@ -141,7 +141,7 @@ class List extends Component {
       },
       body: JSON.stringify(
         {
-          page, name, family
+          page, name, family, plant: 'all'
         }
       )
     })
