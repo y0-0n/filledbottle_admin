@@ -47,14 +47,13 @@ class Stock extends Component {
     })
     .then(data => {
       let status = data[0];
-      if(status === 200){
+      if(status === 200)
         this.setState({stockData: data[1]});
-        this.getTotal();
-      }
       else {
         alert('로그인 하고 접근해주세요');
         this.props.history.push('/login');
       }
+      this.getTotal();
     });
   }
 
@@ -194,43 +193,31 @@ class Stock extends Component {
             </Table>
             <Card>
               <CardHeader>
-								<Row>
-									<Col>재고 관리  </Col>
-									<Col>
-										<div style={{ float: "right" }}>
-											<Button color="primary" onClick={() => { this.props.history.push('/stock/edit') }}>재고 실사</Button>
-											{<Popup
-												trigger={<Button color="primary" style={{ marginLeft: 10 }}>창고 이동</Button>}
-												modal>
-												{close => <PlantModal close={close} login={() => { this.props.history.push('/login') }}
-													selectProduct={(data) => {
-													}}
-												/>}
-											</Popup>}                      
-										</div>
-									</Col>
-								</Row>
-              </CardHeader>
-              <CardBody className="card-body">
-                <Table className="ListTable" hover>
+                  <Row>
+                    <Col>재고 실사</Col>
+                    <Col>
+                      <div style={{float: "right"}}>
+                        <Button color="primary">완료</Button>
+                      </div>
+                    </Col>
+                  </Row>
+                </CardHeader>
+                <CardBody className="card-body">
+                  <Table className="ListTable">
                     <thead>
                       <tr>
-												<th style={{ width: 150 }} className="list-hidden">사진</th>
-                        <th>제품명</th>
-												<th>창고</th>
-                        <th>현 재고</th>
+                        <th width="800">품목명</th>
+                        <th>재고</th>
+                        <th>실제 재고</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {stockData.map((d) => {
+                      {stockData.map((d, i) => {
                         return (
-                          <tr style={{cursor: 'pointer'}} key={d.id}>
-														<td className="list-hidden">
-															<img style={{ width: '90%' }} alt="품목 사진" src={d.file_name ? "http://211.62.225.216:4000/static/" + d.file_name : '318x180.svg'} />
-														</td>
-                            <td onClick={() => {this.props.history.push(`/main/manage/stock/${d.product_id}`)}}>{d.name + " " + d.grade + " " + d.weight}</td>
-                            <td>{d.plantName}</td>
+                          <tr style={{ cursor: 'pointer', height: "150px" }} key={i}>
+                            <td onClick={() => { this.props.history.push(`/main/stock/${d.product_id}`) }}>{d.name + " " + d.grade + " " + d.weight}</td>
                             <td>{d.quantity}</td>
+                            <td><Input defaultValue={d.quantity} style={{width : "150px"}} ></Input></td>
                           </tr>
                         )
                       })}
