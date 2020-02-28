@@ -249,6 +249,11 @@ class List extends Component {
                       </DropdownMenu>
                     </UncontrolledButtonDropdown>
                   </Col>
+									<Col>
+										<div style={{float: "right"}}>
+											<Button onClick={() => { this.props.history.push('/customer/create'); }} color="primary">고객 등록</Button>
+                    </div>
+									</Col>
                 </Row>
                 <hr></hr>
                 <div>
