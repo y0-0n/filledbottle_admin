@@ -16,7 +16,8 @@ class CreateProduct extends Component {
 
     this.state = {
       image: null,
-      familyData: []
+			familyData: [],
+			data: [],
     };
   }
 
@@ -129,8 +130,8 @@ class CreateProduct extends Component {
                         </tr>
                         <tr>
                           <th>품목군</th>
-                          <td >
-                            {<Popup
+                          <td>
+                            {/*<Popup
                               trigger={<Input value={this.productFamily} style={{ cursor: 'pointer', backgroundColor: '#ffffff' }} onChange={() => { console.log('S') }} readOnly />}
                               modal>
                               {close => <ProductFamilyModal close={close} login={() => { this.props.history.push('/login') }}
@@ -139,11 +140,17 @@ class CreateProduct extends Component {
                                   this.productFamily = name;
                                   this.form.productFamily = id;
                                   this.forceUpdate();
-                                  /* set, for instance, comment[1] to "some text"*/
+                                  //set, for instance, comment[1] to "some text"
                                 }} />}
-                            </Popup>}
+                            </Popup>*/}
+														<Input onChange={(e) => {this.form.productFamily = e.target.value;}} type='select' name="family">
+															<option value='NULL'>품목군 없음</option>
+															{this.state.familyData.map((e, i) => {
+																return <option value={e.id}>{e.name}</option>
+															})}
+														</Input>
                           </td>
-                          <th>단가<span style={{color : "#FA5858"}}>*</span></th>
+                          <th>판매 단가<span style={{color : "#FA5858"}}>*</span></th>
                           <td>
                             <Row>
                               <Col xs="9">

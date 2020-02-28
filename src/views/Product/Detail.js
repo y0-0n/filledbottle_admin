@@ -112,18 +112,18 @@ class Detail extends Component {
                       </td>
                     </tr>
                     <tr>
-                      <th>상태</th>
-                      <td>{data.set ? <Badge color="primary">활성화</Badge> : <Badge color="danger">비활성화</Badge>}</td>
+											<th>품목군</th>
+                      <td>
+                        {data.familyName}
+                      </td>
                       <th>판매 단가</th>
                       <td >
                         {data.price_shipping}
                       </td>
                     </tr>
                     <tr>
-                      <th>품목군</th>
-                      <td colSpan="3" >
-                        {data.familyName}
-                      </td>
+											<th>상태</th>
+                      <td colSpan="3">{data.set ? <Badge color="primary">활성화</Badge> : <Badge color="danger">비활성화</Badge>}</td>
                     </tr>
 
                   </tbody>

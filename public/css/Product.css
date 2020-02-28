@@ -27,6 +27,15 @@
   overflow: hidden;
   height: 300px;
 }
+
+.ShowTable td {
+	width: 40%
+}
+
+.ShowTable th {
+	width: 10%
+}
+
 @media (min-width: 769px) and (max-width: 1024px) {
 	.img-product {
 		overflow: hidden;

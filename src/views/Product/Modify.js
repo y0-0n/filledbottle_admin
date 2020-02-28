@@ -120,7 +120,6 @@ class Modify extends Component {
 
   render() {
 		var data = this.state.data;
-		console.log(data)
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
@@ -147,33 +146,33 @@ class Modify extends Component {
                           </td>
                         </tr>
                         <tr>
-                          <th>등급</th>
-                          <td >
-                            <Input defaultValue={data.grade} onChange={(e) => this.form.grade = e.target.value} />
-                          </td>
-                          <th>상태</th>
-                          <td>{data.set ? <Badge color="primary">활성화</Badge> : <Badge color="danger">비활성화</Badge>}</td>
-                        </tr>
-                        <tr>
-                          <th>무게</th>
+													<th>품목군</th>
                           <td>
-                            <Input defaultValue={data.weight} onChange={(e) => this.form.weight = e.target.value} />
+														<Input onChange={(e) => {this.form.productFamily = e.target.value;}} type='select' name="family">
+															<option value='NULL'>품목군 없음</option>
+															{this.state.familyData.map((e, i) => {
+																return <option value={e.id} selected={e.id === data.family}>{e.name}</option>
+															})}
+														</Input>
                           </td>
-                          <th>판매 단가</th>
+													<th>판매 단가</th>
                           <td >
                             <Input defaultValue={data.price_shipping} onChange={(e) => this.form.price = e.target.value} />
                           </td>
                         </tr>
                         <tr>
-                          <th>품목군</th>
-                          <td colSpan="3" >
-                          <Input onChange={(e) => {this.form.productFamily = e.target.value;}} type='select' name="family">
-                            <option value='NULL'>품목군 없음</option>
-                            {this.state.familyData.map((e, i) => {
-                              return <option value={e.id} selected={e.id === data.family}>{e.name}</option>
-                            })}
-                          </Input>
-                          </td>
+													{/*<th>등급</th>
+                          <td >
+                            <Input defaultValue={data.grade} onChange={(e) => this.form.grade = e.target.value} />
+													</td>
+                          <th>무게</th>
+                          <td>
+                            <Input defaultValue={data.weight} onChange={(e) => this.form.weight = e.target.value} />
+                          </td>*/}
+                        </tr>
+                        <tr>
+													<th>상태</th>
+                          <td colSpan="3">{data.set ? <Badge color="primary">활성화</Badge> : <Badge color="danger">비활성화</Badge>}</td>
                         </tr>
                       </tbody>
                     </Table>
