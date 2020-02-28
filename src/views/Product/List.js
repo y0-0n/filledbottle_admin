@@ -132,7 +132,7 @@ class List extends Component {
   getStock() {
 		const {page, name, family} = this.state;
 
-    fetch(process.env.REACT_APP_HOST + "/api/stock/list/", {
+    fetch(process.env.REACT_APP_HOST + "/api/stock/sum", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -153,7 +153,8 @@ class List extends Component {
         }
       })
       .then(data => {
-        let status = data[0];
+				let status = data[0];
+				console.log(data[1])
         if (status === 200)
           this.setState({ stockData: data[1] });
         else {
@@ -400,6 +401,7 @@ class List extends Component {
                   <Table className="ListTable" style={{ minWidth: 600 }} hover>
                     <thead>
                       <tr>
+												<th>No.</th>
                         <th style={{ width: 150 }}>사진</th>
                         <th>품목명</th>
                         <th style={{ width: 250 }}>품목군</th>
@@ -420,6 +422,7 @@ class List extends Component {
                             state: {name: this.state.name, family: this.state.family, page: this.state.page}
                           })
                         }}>
+													<td>{e.id}</td>
                           <td>
                             <img style={{ width: '90%' }} alt="품목 사진" src={e.file_name ? "http://211.62.225.216:4000/static/" + e.file_name : '318x180.svg'} />
                           </td>
