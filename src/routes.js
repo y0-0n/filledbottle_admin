@@ -59,6 +59,7 @@ const Stock = React.lazy(() => import('./views/Stock/Stock'));
 const StockDetail = React.lazy(() => import('./views/Stock/StockDetail'));
 const StockModify = React.lazy(() => import('./views/Stock/Modify'));
 const CreateStock = React.lazy(() => import('./views/Stock/Create'));
+const StockTransport = React.lazy(() => import('./views/Stock/Transport'));
 const OrderDetail = React.lazy(() => import('./views/Order/Detail'));
 const OrderModify = React.lazy(() => import('./views/Order/Modify'));
 const Transaction = React.lazy(() => import('./views/Order/Transaction'));
@@ -123,6 +124,7 @@ const routes = [
 	{ path: '/stock/create', exact: true,  name: '재고 등록', component: CreateStock},
 	{ path: '/main/stock/:id', exact: true,  name: '재고 상세', component: StockListDetail},
 	{ path: '/stock/edit', exact: true,  name: '재고 수정', component: StockModify},
+	{ path: '/stock/transport', exact: true,  name: '재고 이동', component: StockTransport},
 
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },

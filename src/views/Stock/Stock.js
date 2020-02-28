@@ -199,14 +199,15 @@ class Stock extends Component {
 									<Col>
 										<div style={{ float: "right" }}>
 											<Button color="primary" onClick={() => { this.props.history.push('/stock/edit') }}>재고 실사</Button>
-											{<Popup
+											<Button color="primary" style={{ marginLeft: 10 }} onClick={() => { this.props.history.push('/stock/transport') }}>창고 이동</Button>
+											{/*<Popup
 												trigger={<Button color="primary" style={{ marginLeft: 10 }}>창고 이동</Button>}
 												modal>
 												{close => <PlantModal close={close} login={() => { this.props.history.push('/login') }}
 													selectProduct={(data) => {
 													}}
 												/>}
-											</Popup>}                      
+												</Popup>*/}                      
 										</div>
 									</Col>
 								</Row>
