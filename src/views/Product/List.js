@@ -425,7 +425,7 @@ class List extends Component {
                         }}>
 													<td>{e.id}</td>
                           <td>
-                            <img style={{ width: '90%' }} alt="품목 사진" src={e.file_name ? "http://211.62.225.216:4000/static/" + e.file_name : '318x180.svg'} />
+                            <img style={{ width: '90%' }} alt="품목 사진" src={e.file_name ? process.env.REACT_APP_HOST+"/static/" + e.file_name : '318x180.svg'} />
                           </td>
                           <td>{e.name + ' ' + e.grade + ' ' + e.weight}</td>
                           <td>{e.familyName}</td>
