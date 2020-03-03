@@ -92,7 +92,7 @@ class Create extends Component {
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
         <link rel="stylesheet" type="text/css" href="css/Customer.css"></link>
         <Row className="mb-5 justify-content-center">
-          <Col md="9" lg="9" xl="8">
+          <Col md="12" lg="12" xl="10">
             <form encType="multipart/form-data" onSubmit={this.handlePost.bind(this)}>
               <FormGroup>
                 <Card>
