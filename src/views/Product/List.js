@@ -154,7 +154,6 @@ class List extends Component {
       })
       .then(data => {
 				let status = data[0];
-				console.log(data[1])
         if (status === 200)
           this.setState({ stockData: data[1] });
         else {
@@ -296,7 +295,7 @@ class List extends Component {
     var {familyData} = this.state;
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
-
+		console.log(data, stockData)
     return (
       <div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
