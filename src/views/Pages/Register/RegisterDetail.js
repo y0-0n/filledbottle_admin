@@ -8,8 +8,9 @@ class RegisterDetail extends Component {
 			data: [[]],
 			plantData: [],
 			allFamilyData: [],
-      familyData: [],
-      topCategory : "fruit",
+			familyData: [],
+			categoryData: [],
+      category : 1,
     }
   }
 
@@ -64,7 +65,7 @@ class RegisterDetail extends Component {
 	}
 	
   getAllFamily() {
-    fetch(process.env.REACT_APP_HOST+"/api/product/allFamily", {
+    fetch(process.env.REACT_APP_HOST+"/api/product/allFamily/"+this.state.category, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -146,11 +147,38 @@ class RegisterDetail extends Component {
         }
       })
 	}
-  
-  tabClick(topCategory) {
+
+	getFamilyCategory() {
+		fetch(process.env.REACT_APP_HOST + "/api/product/familyCategory", {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+				let status = data[0];
+        if (status === 200){
+          this.setState({ categoryData: data[1] });
+        }
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })
+	}
+
+  tabClick(category) {
     this.setState({
-      topCategory,
+      category,
     }, () => {
+			this.getAllFamily();
     });
   }
 	
@@ -159,10 +187,11 @@ class RegisterDetail extends Component {
 		this.getPlantList();
 		this.getAllFamily();
 		this.getProductFamily();
+		this.getFamilyCategory();
   }
   
   render() {
-    const {data, plantData, allFamilyData, familyData} = this.state;
+		const {data, plantData, allFamilyData, familyData, categoryData} = this.state;
     return (
 			<div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
@@ -257,35 +286,24 @@ class RegisterDetail extends Component {
           <Card>
             <CardHeader>
               <Row>
-                <Col>카테고리</Col>
+                <Col>취급 품목</Col>
               </Row>
             </CardHeader>
             <CardBody>
               <Nav tabs>
-                <NavItem>
-                  <NavLink active={this.state.topCategory === "fruit"} onClick={() => this.tabClick("fruit")} href="#">과일</NavLink>
+                {categoryData.map((e,i) => {
+									return <NavItem>
+                  <NavLink active={this.state.category === e.id} onClick={() => this.tabClick(e.id)} href="#">{e.name}</NavLink>
                 </NavItem>
-                <NavItem>
-                  <NavLink active={this.state.topCategory === "grocery"} onClick={() => this.tabClick("grocery")} href="#">채소</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink active={this.state.topCategory === "rice"} onClick={() => this.tabClick("rice")} href="#">쌀/잡곡</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink active={this.state.topCategory === "egg"} onClick={() => this.tabClick("egg")} href="#">계란/축산품</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink active={this.state.topCategory === "seafood"} onClick={() => this.tabClick("seafood")} href="#">수산물/해산물</NavLink>
-                </NavItem>
+								})}
               </Nav>
               <div style={{justifyContent: "center"}}>
-                <ul className="ul-productFamily" style={{listStyleType: "none", display: "inline-block"}}>
+							<ul className="ul-productFamily" style={{listStyleType: "none", /*display: "inline-block"*/}}>
                   {allFamilyData.map((e, i) => {
 							  		const f = (element) => element.id === e.id
 										return (
 											<li className="list-productFamily" style={{color: familyData.findIndex(f) === -1 ? 'black': '#2E9AFE'}}>{e.name}</li>
                     )}
-                    
 									)}
                 </ul>
               </div>
