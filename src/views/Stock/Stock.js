@@ -181,7 +181,7 @@ class Stock extends Component {
 						<Table className="category-top">
               <tbody>
                 <tr>
-                  <td style={{cursor: "pointer", backgroundColor: this.state.plant==='all' ? '#E6E6E6' : '#fff'}} onClick={() => {this.changePlant('all')}}>전체</td>
+                  {/*<td style={{cursor: "pointer", backgroundColor: this.state.plant==='all' ? '#E6E6E6' : '#fff'}} onClick={() => {this.changePlant('all')}}>전체</td>*/}
                   {
                     plantData.map((e,i) => {
                       return (

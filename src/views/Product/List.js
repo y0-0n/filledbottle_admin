@@ -34,7 +34,8 @@ class List extends Component {
       family: 0,
       //set: true,
       stockEdit: false,
-      familyData: [],
+			familyData: [],
+			userCategoryData: [],
 		};
     this.name = '';
     this.family = 0;
@@ -51,14 +52,12 @@ class List extends Component {
       this.setState({
         page, name, family
       }, () => {
-        this.getProduct();
-        this.getStock();    
+				this.getUserFamilyCategory();
       })
     } else {
-      this.getProduct();
-      this.getStock();  
+      this.getUserFamilyCategory();
     }
-    this.getProductFamily();
+		
   }
 
   getTotal() {
@@ -93,9 +92,38 @@ class List extends Component {
           this.props.history.push('/login')
         }
       });
-  }
+	}
+	
+	getUserFamilyCategory() {
+		fetch(process.env.REACT_APP_HOST + "/api/product/userFamilyCategory", {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+				let status = data[0];
+        if (status === 200){
+					this.setState({ userCategoryData: data[1],
+					category: data[1][0].id }, () => {
+						this.getProductFamily();
+					});
+        }
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })
+	}
 
-  getProduct() {
+	getProduct() {
     const {page, name, family} = this.state;
     fetch(process.env.REACT_APP_HOST + "/product/list", {
       method: 'POST',
@@ -201,7 +229,16 @@ class List extends Component {
     this.setState({set: !this.state.set}, () => {
       this.getProduct();
     });
-  }*/
+	}*/
+	
+	changeCategory(id) {
+		this.setState({
+			category: id,
+			page: 1,
+		}, () => {
+			this.getProductFamily();
+		})
+  }
 
   countPageNumber(x) {
     this.setState({
@@ -213,7 +250,7 @@ class List extends Component {
   }
 
   getProductFamily() {
-    fetch(process.env.REACT_APP_HOST + "/api/product/familyList", {
+    fetch(process.env.REACT_APP_HOST + "/api/product/familyList/"+this.state.category, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -227,9 +264,12 @@ class List extends Component {
         }
       })
       .then(data => {
-        let status = data[0];
+				let status = data[0];
         if (status === 200){
-          this.setState({ familyData: data[1] });
+          this.setState({ familyData: data[1] }, () => {
+						this.getProduct();
+						this.getStock();
+					});
         }
         else {
           alert('로그인 하고 접근해주세요');
@@ -291,11 +331,9 @@ class List extends Component {
 
   render() {
     var data = this.state.productData;
-    var {stockData} = this.state;
-    var {familyData} = this.state;
+    var {stockData, familyData, userCategoryData} = this.state;
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
-		console.log(data, stockData)
     return (
       <div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
@@ -305,10 +343,11 @@ class List extends Component {
             <Table className="category-top">
               <tbody>
                 <tr>
-                  <td>농산품</td>
-                  <td>수산품</td>
-                  <td>축산품</td>
-                  <td>차/음료</td>
+									{
+										userCategoryData.map((e, i) => {
+											return <td key={i} style={{cursor: "pointer", backgroundColor: this.state.category===e.id ? '#E6E6E6' : '#fff'}} onClick={() => {this.changeCategory(e.id)}}>{e.name}</td>
+										})
+									}
                 </tr>
               </tbody>
             </Table>
