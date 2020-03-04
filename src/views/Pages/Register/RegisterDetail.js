@@ -112,7 +112,40 @@ class RegisterDetail extends Component {
           this.props.history.push('/login');
         }
       })
-  }
+	}
+	
+	addPlant() {
+		fetch(process.env.REACT_APP_HOST + "/api/plant/", {
+      method: 'POST',
+      headers: {
+				'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+			},
+			body: JSON.stringify(
+        {
+          plantName: this.newPlant
+        }
+      )
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+				let status = data[0];
+        if (status === 200){
+					this.getPlantList();
+        }
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })
+	}
   
   tabClick(topCategory) {
     this.setState({
@@ -186,14 +219,24 @@ class RegisterDetail extends Component {
           <Card>
             <CardHeader>
               <Row>
-                <Col>창고</Col>
+                <Col md="9" xs="6" sm="6">창고</Col>
+								<Col md="3" xs="6" sm="6">
+								<InputGroup>
+									<Input placeholder="새 창고명" onChange={(e) => { this.newPlant = e.target.value }} />
+									<InputGroupAddon addonType="append">
+										<Button block color="primary" onClick={() => { this.addPlant() }}>추가</Button>
+									</InputGroupAddon>
+								</InputGroup>
+								</Col>
               </Row>
             </CardHeader>
             <CardBody>
               <Table className="ShowTable">
                 <thead>
                   <tr>
-                    <th>이름</th>
+                    <th>창고명</th>
+										<th>저장 품목</th>
+										<th>저장량</th>
                   </tr>
                 </thead>
 								<tbody>
@@ -202,6 +245,8 @@ class RegisterDetail extends Component {
 											<td>{e.name}</td>
 										</tr>)}
 									)}
+									<tr>
+									</tr>
 								</tbody>
               </Table>
             </CardBody>
@@ -235,9 +280,7 @@ class RegisterDetail extends Component {
               </Nav>
               <div style={{justifyContent: "center"}}>
                 <ul className="ul-productFamily" style={{listStyleType: "none", display: "inline-block"}}>
-                  {}
                   {allFamilyData.map((e, i) => {
-                    console.log(e)
 							  		const f = (element) => element.id === e.id
 										return (
 											<li className="list-productFamily" style={{color: familyData.findIndex(f) === -1 ? 'black': '#2E9AFE'}}>{e.name}</li>
