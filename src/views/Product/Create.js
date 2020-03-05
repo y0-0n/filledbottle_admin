@@ -77,7 +77,7 @@ class CreateProduct extends Component {
   }
 
   getProductFamily() {
-    fetch(process.env.REACT_APP_HOST + "/api/product/familyList", {
+    fetch(process.env.REACT_APP_HOST + "/api/product/familyList/all", {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -147,7 +147,7 @@ class CreateProduct extends Component {
 														<Input onChange={(e) => {this.form.productFamily = e.target.value;}} type='select' name="family">
 															<option value='NULL'>품목군 없음</option>
 															{this.state.familyData.map((e, i) => {
-																return <option value={e.id}>{e.name}</option>
+																return <option key={i} value={e.id}>{e.name}</option>
 															})}
 														</Input>
                           </td>
