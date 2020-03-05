@@ -122,7 +122,7 @@ class CreateProduct extends Component {
                           <td>
                             <img alt="품목 사진" style={{ width: '60%', height: 200, display: this.state.image == null ? "none": "inline-block"}} src={this.state.image} />
                             <input ref="file" type="file" name="file" onChange={e => { this.handleFileInput(e); }} style={{display: "none"}} />
-														<img src='/assets/img/favicon.png' border='0' style={{width: '10%', marginLeft: 10}} onClick={() => document.all.file.click()}/>
+														<img src='/assets/img/upload.jpg' border='0' style={{width: '10%', marginLeft: 10}} onClick={() => document.all.file.click()}/>
                           </td>
                           <th>품목명<span style={{color : "#FA5858"}}>*</span></th>
                           <td>
