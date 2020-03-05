@@ -61,7 +61,7 @@ class List extends Component {
   }
 
   getTotal() {
-    const {name, family} = this.state;
+    const {name, family, category} = this.state;
 
     fetch(process.env.REACT_APP_HOST + "/product/total/", {
       method: 'POST',
@@ -72,7 +72,7 @@ class List extends Component {
       },
       body: JSON.stringify(
         {
-          name, family
+          name, family, category
         }
       )
     })
@@ -124,7 +124,7 @@ class List extends Component {
 	}
 
 	getProduct() {
-    const {page, name, family} = this.state;
+    const {page, name, family, category} = this.state;
     fetch(process.env.REACT_APP_HOST + "/product/list", {
       method: 'POST',
       headers: {
@@ -134,7 +134,7 @@ class List extends Component {
       },
       body: JSON.stringify(
         {
-          page, name, family
+          page, name, family, category
         }
       )
     })
@@ -235,6 +235,7 @@ class List extends Component {
 		this.setState({
 			category: id,
 			page: 1,
+			family: 0,
 		}, () => {
 			this.getProductFamily();
 		})
