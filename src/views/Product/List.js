@@ -111,10 +111,15 @@ class List extends Component {
       .then(data => {
 				let status = data[0];
         if (status === 200){
-					this.setState({ userCategoryData: data[1],
-					category: data[1][0].id }, () => {
-						this.getProductFamily();
-					});
+					if(data[1].length !== 0) {
+						this.setState({ userCategoryData: data[1],
+							category: data[1][0].id }, () => {
+								this.getProductFamily();
+							});
+					} else {
+						alert('없음')
+					}
+					
         }
         else {
           alert('로그인 하고 접근해주세요');
