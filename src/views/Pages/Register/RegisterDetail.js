@@ -80,8 +80,10 @@ class RegisterDetail extends Component {
     })
     .then(data => {
 			let status = data[0];
-      if(status === 200)
-        this.setState({allFamilyData: data[1]});
+      if(status === 200){
+				this.setState({allFamilyData: data[1]});
+				this.getProductFamily();
+			}
       else {
         alert('로그인 하고 접근해주세요');
         this.props.history.push('/login');
@@ -90,7 +92,7 @@ class RegisterDetail extends Component {
   }
 
 	getProductFamily() {
-    fetch(process.env.REACT_APP_HOST + "/api/product/familyList", {
+    fetch(process.env.REACT_APP_HOST + "/api/product/familyList/"+this.state.category, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -106,7 +108,7 @@ class RegisterDetail extends Component {
       .then(data => {
 				let status = data[0];
         if (status === 200){
-          this.setState({ familyData: data[1] });
+					this.setState({ familyData: data[1] });
         }
         else {
           alert('로그인 하고 접근해주세요');
@@ -186,7 +188,6 @@ class RegisterDetail extends Component {
 		this.getDetail();
 		this.getPlantList();
 		this.getAllFamily();
-		this.getProductFamily();
 		this.getFamilyCategory();
   }
   
@@ -270,7 +271,7 @@ class RegisterDetail extends Component {
                 </thead>
 								<tbody>
 									{plantData.map((e, i) => {
-										return (<tr>
+										return (<tr key={i}>
 											<td>{e.name}</td>
 										</tr>)}
 									)}
@@ -292,7 +293,7 @@ class RegisterDetail extends Component {
             <CardBody>
               <Nav tabs>
                 {categoryData.map((e,i) => {
-									return <NavItem>
+									return <NavItem key={i}>
                   <NavLink active={this.state.category === e.id} onClick={() => this.tabClick(e.id)} href="#">{e.name}</NavLink>
                 </NavItem>
 								})}
@@ -300,9 +301,9 @@ class RegisterDetail extends Component {
               <div style={{justifyContent: "center"}}>
 							<ul className="ul-productFamily" style={{listStyleType: "none", /*display: "inline-block"*/}}>
                   {allFamilyData.map((e, i) => {
-							  		const f = (element) => element.id === e.id
+										const f = (element) => element.id === e.id
 										return (
-											<li className="list-productFamily" style={{color: familyData.findIndex(f) === -1 ? 'black': '#2E9AFE'}}>{e.name}</li>
+											<li key={i} className="list-productFamily" style={{color: familyData.findIndex(f) === -1 ? 'black': '#2E9AFE'}}>{e.name}</li>
                     )}
 									)}
                 </ul>
