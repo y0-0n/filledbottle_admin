@@ -22,7 +22,7 @@ class ProductModal extends Component {
   }
 
   getTotal() {
-    const {name, family} = this.state;
+    const {name, family, category} = this.state;
 
     fetch(process.env.REACT_APP_HOST + "/product/total/", {
       method: 'POST',
@@ -33,7 +33,7 @@ class ProductModal extends Component {
       },
       body: JSON.stringify(
         {
-          name, family
+          name, family, category: 0
         }
       )
     })
@@ -53,10 +53,10 @@ class ProductModal extends Component {
           this.props.history.push('/login')
         }
       });
-  }
+	}
 
-  getProduct() {
-    const {page, name, family} = this.state;
+	getProduct() {
+    const {page, name, family, category} = this.state;
     fetch(process.env.REACT_APP_HOST + "/product/list", {
       method: 'POST',
       headers: {
@@ -66,7 +66,7 @@ class ProductModal extends Component {
       },
       body: JSON.stringify(
         {
-          page, name, family
+          page, name, family, category: 0
         }
       )
     })

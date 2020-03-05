@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table, Col, Row, Button, Input, Pagination, PaginationItem, PaginationLink, InputGroup, InputGroupAddon } from 'reactstrap';
 
-const listCount = 5;
+const listCount = 15;
 
 class CustomerModal extends Component {
   constructor(props) {
@@ -41,7 +41,7 @@ class CustomerModal extends Component {
     .then(data => {
       const status = data[0];
       if(status === 200) {
-        this.setState({total: Math.ceil(data[1][0].total/listCount)})
+				this.setState({total: Math.ceil(data[1][0].total/listCount)})
       } else {
         alert('로그인 하고 접근해주세요')
         this.props.history.push('/login')
