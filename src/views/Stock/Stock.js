@@ -14,12 +14,11 @@ class Stock extends Component {
 			page: 1,
 			family: 0,
 			name: '',
-			plant: 'all'
+			plant: 0
     };
   }
 
   componentWillMount() {
-		this.getStock();
 		this.getPlant();
   }
 
@@ -59,9 +58,9 @@ class Stock extends Component {
   }
 
   getTotal() {
-    const {name, family} = this.state;
+    const {name, family, plant} = this.state;
 
-    fetch(process.env.REACT_APP_HOST + "/product/total/", {
+    fetch(process.env.REACT_APP_HOST + "/api/stock/list/total/", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -70,7 +69,7 @@ class Stock extends Component {
       },
       body: JSON.stringify(
         {
-          name, family
+          name, family, plant
         }
       )
     })
@@ -142,8 +141,10 @@ class Stock extends Component {
     })
     .then(data => {
 			let status = data[0];
-      if(status === 200)
-        this.setState({plantData: data[1]});
+      if(status === 200){
+				this.setState({plantData: data[1], plant: data[1][0].id});
+				this.getStock();
+			}
       else {
         alert('로그인 하고 접근해주세요');
         this.props.history.push('/login');
