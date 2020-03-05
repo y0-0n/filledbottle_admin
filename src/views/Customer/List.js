@@ -257,7 +257,7 @@ class List extends Component {
                 </Row>
                 <hr></hr>
                 <div>
-                  <Table hover>
+                  <Table className="ListTable" hover>
                     <thead>
                       <tr>
                         <th className="list-hidden">#</th>

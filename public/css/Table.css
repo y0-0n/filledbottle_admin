@@ -1,6 +1,3 @@
-.ShowTable {
-	text-align: center;
-}
 .ShowTable th{
     border: 1px solid lightgray;
     text-align: center;
@@ -9,6 +6,10 @@
 
 .ShowTable td{
     border: 1px solid lightgray;
+}
+
+.ListTable {
+	text-align: center;
 }
 
 .ListTable td{

@@ -5,6 +5,28 @@
 .list-hidden > .badge {
 	font-size: 1.0em
 }
+
+.datepicker {
+	width: 200px;
+	cursor: pointer;
+	text-align: center;
+}
+
+.date {
+	float: right;
+	margin-right: 30px;
+}
+
+.search {
+	display: inline-block;
+	width: 30%;
+	float: right;
+}
+
+.card {
+	min-width: 1000px;
+}
+
 @media (max-width: 1024px) {
     .ShowTable td,
     .ShowTable th {

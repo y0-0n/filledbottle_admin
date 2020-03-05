@@ -21,5 +21,8 @@
 
     .ShowTable th {
       text-align: left;
-    }
+		}
+}
+.card {
+	min-width: 1000px;
 }

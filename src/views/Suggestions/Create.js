@@ -69,7 +69,7 @@ class Create extends Component {
                       <tr>
                         <th>글</th>
                         <td>
-                          <textarea required onChange={(e) => { this.form.content = e.target.value }} rows="10" cols="25" name="suggestions_content"></textarea>
+                          <textarea required onChange={(e) => { this.form.content = e.target.value }} rows="15" name="suggestions_content" style={{width: '100%'}}></textarea>
                         </td>
                       </tr>
                     </tbody>
