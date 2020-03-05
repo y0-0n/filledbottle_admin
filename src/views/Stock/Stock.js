@@ -186,7 +186,7 @@ class Stock extends Component {
                   {
                     plantData.map((e,i) => {
                       return (
-                        <td style={{cursor: "pointer", backgroundColor: this.state.plant===e.id ? '#E6E6E6' : '#fff'}} onClick={() => {this.changePlant(e.id)}}>{e.name}</td>
+                        <td key={i} style={{cursor: "pointer", backgroundColor: this.state.plant===e.id ? '#E6E6E6' : '#fff'}} onClick={() => {this.changePlant(e.id)}}>{e.name}</td>
                       )
                     })
                   }

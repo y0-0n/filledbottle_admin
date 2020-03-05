@@ -147,7 +147,7 @@ class Produce extends Component {
                     <InputGroup>
                       <Input onChange={(e) => { this.keyword = e.target.value }} />
                       <InputGroupAddon addonType="append">
-                        <Button block color="primary" onClick={() => { this.search() }}><i class="fa fa-search"></i></Button>
+                        <Button block color="primary" onClick={() => { this.search() }}><i className="fa fa-search"></i></Button>
                       </InputGroupAddon>
                     </InputGroup>
                   </Col>
