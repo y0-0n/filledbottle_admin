@@ -124,7 +124,7 @@ const routes = [
 	{ path: '/stock/create', exact: true,  name: '재고 등록', component: CreateStock},
 	{ path: '/main/stock/:id', exact: true,  name: '재고 상세', component: StockListDetail},
 	{ path: '/stock/edit', exact: true,  name: '재고 수정', component: StockModify},
-	{ path: '/stock/transport', exact: true,  name: '재고 이동', component: StockTransport},
+  { path: '/stock/transport', exact: true,  name: '재고 이동', component: StockTransport},
 
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },
