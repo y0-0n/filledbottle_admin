@@ -123,35 +123,35 @@ class Produce extends Component {
             <Card>
               <CardHeader>
                 <Row>
-                    <Col>생산관리</Col>
-                    <Col md="2" xs="3" sm="3">
-                    <div style={{ pointer: 'cursor', width : 140}}>
-                      <DatePicker
-                        dateFormat="yyyy년 MM월 dd일"
-                        locale="ko"
-                        selected={this.state.first_date}
-                        onChange={(first_date) => { this.setState({ first_date }) }}
-                      />
-                    </div>
-                  </Col>
-                  ~
-                  <Col md="2" xs="3" sm="3">
-                    <DatePicker
-                      dateFormat="yyyy년 MM월 dd일"
-                      locale="ko"
-                      selected={this.state.last_date}
-                      onChange={(last_date) => { this.setState({ last_date }) }}
-                    />
-                  </Col>
-                  <Col md="3" xs="6" sm="6">
-                    <InputGroup>
-                      <Input onChange={(e) => { this.keyword = e.target.value }} />
-                      <InputGroupAddon addonType="append">
-                        <Button block color="primary" onClick={() => { this.search() }}><i className="fa fa-search"></i></Button>
-                      </InputGroupAddon>
-                    </InputGroup>
-                  </Col>
-                </Row>
+                  <Col md="3" xs="2" sm="3">생산관리</Col>
+                    <Col md="9" xs="10" sm="9">
+										<span className="search">
+											<InputGroup>
+												<Input onChange={(e) => { this.keyword = e.target.value }} />
+												<InputGroupAddon addonType="append">
+													<Button block color="primary" onClick={() => { this.searchOrder() }}><i className="fa fa-search"></i></Button>
+												</InputGroupAddon>
+											</InputGroup>
+										</span>
+										<span className="date">
+											<DatePicker
+												className="datepicker"
+												dateFormat="yyyy년 MM월 dd일"
+												locale="ko"
+												selected={this.state.first_date}
+												onChange={(first_date) => { this.setState({ first_date }) }}
+											/>
+											&nbsp;~&nbsp;
+											<DatePicker
+												className="datepicker"
+												dateFormat="yyyy년 MM월 dd일"
+												locale="ko"
+												selected={this.state.last_date}
+												onChange={(last_date) => { this.setState({ last_date }) }}
+											/>
+										</span>
+									</Col>
+								</Row>
               </CardHeader>
               <CardBody className="card-body">
                 <Row>
