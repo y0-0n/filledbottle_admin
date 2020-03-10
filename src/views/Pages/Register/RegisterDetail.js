@@ -12,7 +12,8 @@ class RegisterDetail extends Component {
 			categoryData: [],
       category : 1,
       addFamilyList: [],
-      deleteFamilyList: [],
+			deleteFamilyList: [],
+			modify: false,//편집 모드 flag
     }
   }
 
@@ -225,12 +226,54 @@ class RegisterDetail extends Component {
   }
 
   addList(list, e) {
-    if(!list.includes(e)) list.push(e)
-    else list.splice(list.indexOf(e),1)
-    console.log(list.indexOf(e))
-    this.forceUpdate();
-  }
-  
+		if(this.state.modify){
+			if(!list.includes(e)) list.push(e)
+			else list.splice(list.indexOf(e),1)
+
+			this.forceUpdate();
+		} else {
+
+		}
+	}
+
+  modifyFamily() {
+		const {addFamilyList, deleteFamilyList} = this.state;
+		fetch(process.env.REACT_APP_HOST + "/api/product/modifyFamily", {
+      method: 'POST',
+      headers: {
+				'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+			},
+			body: JSON.stringify(
+        {
+          addFamilyList, deleteFamilyList
+        }
+      )    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+				let status = data[0];
+        if (status === 200){
+          this.getProductFamily();
+        }
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })
+		this.setState({
+			addFamilyList: [],
+			deleteFamilyList: [],
+			modify: false
+		})
+	}
+
   render() {
 		const {data, plantData, allFamilyData, familyData, categoryData} = this.state;
     return (
@@ -330,7 +373,7 @@ class RegisterDetail extends Component {
                 <Col>취급 품목</Col>
                 <Col>
                   <div style={{float : "right"}}>
-                    <Button block color="primary" onClick={() => {}}>편집하기</Button>
+                    {this.state.modify ? <Button block color="success" onClick={() => {this.modifyFamily()}}>저장하기</Button> : <Button block color="primary" onClick={() => {this.setState({modify: true})}}>편집하기</Button>}
                   </div>
                 </Col>
               </Row>
@@ -353,7 +396,7 @@ class RegisterDetail extends Component {
                         backgroundColor: familyData.findIndex(f) === -1 ? this.state.addFamilyList.findIndex(f) === -1 ? '#fff': '#2E9AFE': this.state.deleteFamilyList.findIndex(f) !== -1 ? '#fff': '#2E9AFE', 
                         borderColor: familyData.findIndex(f) === -1 ? this.state.addFamilyList.findIndex(f) === -1 ? 'lightgray': '': this.state.deleteFamilyList.findIndex(f) !== -1 ? 'lightgray': ''
                       }} 
-                      onClick={() => {familyData.findIndex(f) === -1 ? this.addList(this.state.addFamilyList, e) : this.addList(this.state.deleteFamilyList, e); console.log(familyData, this.state.deleteFamilyList, this.state.addFamilyList, familyData.findIndex(f));
+                      onClick={() => {familyData.findIndex(f) === -1 ? this.addList(this.state.addFamilyList, e) : this.addList(this.state.deleteFamilyList, e);
                       }
                       }>{e.name}</li>
                     )}
