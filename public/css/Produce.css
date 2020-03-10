@@ -1,3 +1,23 @@
+.datepicker {
+	width: 200px;
+	cursor: pointer;
+	text-align: center;
+}
+
+.date {
+	float: right;
+	margin-right: 30px;
+}
+
+.search {
+	display: inline-block;
+	width: 30%;
+	float: right;
+}
+
+.card {
+}
+
 @media (max-width: 768px) {
     .ShowTable tr,
     .ShowTable td,

@@ -143,6 +143,13 @@ class RegisterDetail extends Component {
 				let status = data[0];
         if (status === 200){
 					this.setState({ familyData: data[1] });
+					//이 부분 나중에 콜백으로 바꾸기
+					this.setState({
+						addFamilyList: [],
+						deleteFamilyList: [],
+						modify: false
+					}, () => {
+					});
         }
         else {
           alert('로그인 하고 접근해주세요');
@@ -260,18 +267,13 @@ class RegisterDetail extends Component {
       .then(data => {
 				let status = data[0];
         if (status === 200){
-          this.getProductFamily();
+					this.getProductFamily();
         }
         else {
           alert('로그인 하고 접근해주세요');
           this.props.history.push('/login');
         }
       })
-		this.setState({
-			addFamilyList: [],
-			deleteFamilyList: [],
-			modify: false
-		})
 	}
 
   render() {
