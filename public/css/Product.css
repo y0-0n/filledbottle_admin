@@ -33,7 +33,17 @@
 }
 
 .ShowTable th {
-	width: 10%
+  width: 10%;
+}
+
+.mb-5 {
+  display: inline-block;
+}
+
+@media (min-width:1200px) {
+  .col-xl-8 {
+    max-width: 100%
+  }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {

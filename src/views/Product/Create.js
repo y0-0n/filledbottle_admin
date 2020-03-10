@@ -15,7 +15,7 @@ class CreateProduct extends Component {
     };
 
     this.state = {
-      image: null,
+      image: '/assets/img/noimage.jpg',
 			familyData: [],
 			data: [],
     };
@@ -118,12 +118,6 @@ class CreateProduct extends Component {
                     <Table className="ShowTable">
                       <tbody>
                         <tr>
-                          <th>사진</th>
-                          <td>
-                            <img alt="품목 사진" style={{ width: '60%', height: 200, display: this.state.image == null ? "none": "inline-block"}} src={this.state.image} />
-                            <input ref="file" type="file" name="file" onChange={e => { this.handleFileInput(e); }} style={{display: "none"}} />
-														<img src='/assets/img/upload.jpg' border='0' style={{width: '10%', marginLeft: 10}} onClick={() => document.all.file.click()}/>
-                          </td>
                           <th>품목명<span style={{color : "#FA5858"}}>*</span></th>
                           <td>
                             <Input required onChange={(e) => this.form.name = e.target.value} />
@@ -151,6 +145,20 @@ class CreateProduct extends Component {
 															})}
 														</Input>
                           </td>
+                        </tr>
+                        <tr>
+                          <th>사진</th>
+                          <td>
+                            <div style={{paddingBottom: '10px'}}>
+                              <input ref="file" type="file" name="file" onChange={e => { this.handleFileInput(e); }} style={{display: "none"}} />
+														  <img src='/assets/img/upload.jpg' border='0' style={{width: '10%', marginLeft: 10}} onClick={() => document.all.file.click()}/>
+                            </div>
+                            <div>
+                              <img alt="품목 사진" style={{ width: '30%', height: 200, display: "inline-block", border: '1px', borderStyle: 'dashed', borderColor: '#c8ced3'}} src={this.state.image}/>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
                           <th>판매 단가<span style={{color : "#FA5858"}}>*</span></th>
                           <td>
                             <Row>
