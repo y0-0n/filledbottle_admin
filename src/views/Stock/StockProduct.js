@@ -12,8 +12,10 @@ class Detail extends Component {
       addFamilyList: [],
       deleteFamilyList: [],
       categoryData: [],
+      modify: false,
     };
   }
+  
   componentWillMount() {
     this.getUserFamilyCategory();
     this.getAllFamily();
@@ -98,6 +100,12 @@ class Detail extends Component {
 				let status = data[0];
         if (status === 200){
           this.setState({ familyData: data[1] });
+          this.setState({
+						addFamilyList: [],
+						deleteFamilyList: [],
+						modify: false
+					}, () => {
+					});
         }
         else {
           alert('로그인 하고 접근해주세요');
@@ -106,11 +114,56 @@ class Detail extends Component {
       })
   }
 
+  modifyFamily() {
+		const {addFamilyList, deleteFamilyList} = this.state;
+		fetch(process.env.REACT_APP_HOST + "/api/product/modifyFamily", {
+      method: 'POST',
+      headers: {
+				'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+			},
+			body: JSON.stringify(
+        {
+          addFamilyList, deleteFamilyList
+        }
+      )    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+				let status = data[0];
+        if (status === 200){
+					this.getProductFamily();
+        }
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })
+	}
+
+  tabClick(category) {
+    this.setState({
+      category,
+    }, () => {
+			this.getAllFamily();
+    });
+  }
 
   addList(list, e) {
-    if(!list.includes(e)) list.push(e)
-    else list.splice(list.indexOf(e),1)
-    this.forceUpdate();
+    if(this.state.modify){
+			if(!list.includes(e)) list.push(e)
+			else list.splice(list.indexOf(e),1)
+
+			this.forceUpdate();
+		} else {
+
+		}
   }
 
   render() {
@@ -123,13 +176,18 @@ class Detail extends Component {
               <CardHeader>
                 <Row>
                   <Col>취급 품목</Col>
+                  <Col>
+                  <div style={{float : "right"}}>
+                    {this.state.modify ? <Button block color="success" onClick={() => {this.modifyFamily()}}>저장하기</Button> : <Button block color="primary" onClick={() => {this.setState({modify: true})}}>편집하기</Button>}
+                  </div>
+                </Col>
                 </Row>
               </CardHeader>
               <CardBody>
                 <Nav tabs>
                   {userCategoryData.map((e, i) => {
                     return <NavItem key={i}>
-                      <NavLink href="#">{e.name}</NavLink>
+                      <NavLink href="#" onClick={() => this.tabClick(e.id)}>{e.name}</NavLink>
                     </NavItem>
                   })}
                 </Nav>
@@ -142,7 +200,7 @@ class Detail extends Component {
                         color: familyData.findIndex(f) === -1 ? this.state.addFamilyList.findIndex(f) === -1 ? 'black': '#fff': this.state.deleteFamilyList.findIndex(f) !== -1 ? 'black': '#fff',
                         backgroundColor: familyData.findIndex(f) === -1 ? this.state.addFamilyList.findIndex(f) === -1 ? '#fff': '#20A8D8': this.state.deleteFamilyList.findIndex(f) !== -1 ? '#fff': '#20A8D8', 
                         borderColor: familyData.findIndex(f) === -1 ? this.state.addFamilyList.findIndex(f) === -1 ? 'lightgray': '': this.state.deleteFamilyList.findIndex(f) !== -1 ? 'lightgray': '',
-                        float: "left", margin: "10px", width: "calc((100% - 20px) / 6)"
+                        float: "left", margin: "10px", width: "calc((100% - 20px) / 6)", border: "1px solid lightgray", borderRadius: "10px", padding: "5px", textAlign: "center"
                       }} 
                       onClick={() => {familyData.findIndex(f) === -1 ? this.addList(this.state.addFamilyList, e) : this.addList(this.state.deleteFamilyList, e);
                       }}>{e.name}</li>

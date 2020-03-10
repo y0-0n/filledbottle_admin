@@ -199,7 +199,8 @@ class Stock extends Component {
 									<Col>재고 관리</Col>
 									<Col>
 										<div style={{ float: "right" }}>
-											<Button color="primary" onClick={() => { 
+											<Button color="primary" onClick={() => { this.props.history.push('/stock/product/'+ this.state.plant) }}>품목 관리</Button>
+											<Button color="primary" style={{ marginLeft: 10 }} onClick={() => { 
 												this.props.history.push({
 													pathname: '/stock/edit/'+this.state.plant,
 												})}}>재고 실사</Button>
