@@ -19,7 +19,7 @@ class Stock extends Component {
   }
 
   componentWillMount() {
-		this.getPlant();
+    this.getPlant();
   }
 
   getStock() {
@@ -196,10 +196,11 @@ class Stock extends Component {
             <Card>
               <CardHeader>
 								<Row>
-									<Col>재고 관리  </Col>
+									<Col>재고 관리</Col>
 									<Col>
 										<div style={{ float: "right" }}>
-											<Button color="primary" onClick={() => { this.props.history.push('/stock/edit') }}>재고 실사</Button>
+											<Button color="primary" onClick={() => { this.props.history.push('/stock/product/'+ this.state.plant) }}>품목 관리</Button>
+											<Button color="primary" style={{ marginLeft: 10 }} onClick={() => { this.props.history.push('/stock/edit') }}>재고 실사</Button>
 											<Button color="primary" style={{ marginLeft: 10 }} onClick={() => { this.props.history.push('/stock/transport') }}>창고 이동</Button>
 											{/*<Popup
 												trigger={<Button color="primary" style={{ marginLeft: 10 }}>창고 이동</Button>}
