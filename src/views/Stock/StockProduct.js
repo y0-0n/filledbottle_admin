@@ -5,7 +5,7 @@ class Detail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-			allFamilyData: [],
+			//allFamilyData: [],
 			familyData: [],
       userCategoryData: [],
       category: 1,
@@ -18,7 +18,6 @@ class Detail extends Component {
   
   componentWillMount() {
     this.getUserFamilyCategory();
-    this.getAllFamily();
   }
 
   getUserFamilyCategory() {
@@ -41,7 +40,7 @@ class Detail extends Component {
 					if(data[1].length !== 0) {
 						this.setState({ userCategoryData: data[1],
 							category: data[1][0].id }, () => {
-								this.getAllFamily();
+								this.getProductFamily();
 							});
 					} else {
 						alert('없음')
@@ -55,7 +54,7 @@ class Detail extends Component {
       })
   }
 
-  getAllFamily() {
+  /*getAllFamily() {
     fetch(process.env.REACT_APP_HOST+"/api/product/allFamily/"+this.state.category, {
       method: 'GET',
       headers: {
@@ -80,7 +79,7 @@ class Detail extends Component {
         this.props.history.push('/login');
       }
     });
-  }
+  }*/
   
   getProductFamily() {
     fetch(process.env.REACT_APP_HOST + "/api/product/familyList/"+this.state.category, {
@@ -151,7 +150,7 @@ class Detail extends Component {
     this.setState({
       category,
     }, () => {
-			this.getAllFamily();
+			this.getProductFamily();
     });
   }
 
@@ -167,7 +166,7 @@ class Detail extends Component {
   }
 
   render() {
-    const { familyData, userCategoryData, allFamilyData, categoryData } = this.state;
+    const { familyData, userCategoryData, } = this.state;
     return (
       <div className="animated fadeIn">
         <Row>
@@ -193,7 +192,7 @@ class Detail extends Component {
                 </Nav>
                 <div>
                   <ul className="ul-productFamily" style={{ listStyleType: "none" }}>
-                    {allFamilyData.map((e, i) => {
+                    {familyData.map((e, i) => {
                     const f = (element) => element.id === e.id
 										return (
                       <li key={i} className="list-productFamily" style={{
