@@ -186,7 +186,7 @@ class Stock extends Component {
                   {
                     plantData.map((e,i) => {
                       return (
-                        <td key={i} style={{cursor: "pointer", backgroundColor: this.state.plant===e.id ? '#E6E6E6' : '#fff'}} onClick={() => {this.changePlant(e.id)}}>{e.name}</td>
+                        <td key={i} className='list-plant' style={{backgroundColor: this.state.plant===e.id ? '#E6E6E6' : '#fff'}} onClick={() => {this.changePlant(e.id)}}>{e.name}</td>
                       )
                     })
                   }
@@ -199,7 +199,10 @@ class Stock extends Component {
 									<Col>재고 관리  </Col>
 									<Col>
 										<div style={{ float: "right" }}>
-											<Button color="primary" onClick={() => { this.props.history.push('/stock/edit') }}>재고 실사</Button>
+											<Button color="primary" onClick={() => { 
+												this.props.history.push({
+													pathname: '/stock/edit/'+this.state.plant,
+												})}}>재고 실사</Button>
 											<Button color="primary" style={{ marginLeft: 10 }} onClick={() => { this.props.history.push('/stock/transport') }}>창고 이동</Button>
 											{/*<Popup
 												trigger={<Button color="primary" style={{ marginLeft: 10 }}>창고 이동</Button>}
@@ -226,7 +229,8 @@ class Stock extends Component {
                     <tbody>
                       {stockData.map((d) => {
                         return (
-                          <tr style={{cursor: 'pointer'}} key={d.id}>
+                          <tr style={{cursor: 'pointer'}} key={d.id}
+													>
 														<td className="list-hidden">
 															<img style={{ width: '90%' }} alt="품목 사진" src={d.file_name ? "http://211.62.225.216:4000/static/" + d.file_name : '318x180.svg'} />
 														</td>
