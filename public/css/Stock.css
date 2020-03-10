@@ -18,6 +18,15 @@
     height: 500px;
 }
 
+.list-plant {
+	cursor: pointer;
+	width: calc((100% - 20px) / 8)
+}
+
+.table {
+	table-layout: fixed;
+}
+
 @media (max-width: 768px) {
     .ShowTable tr,
     .ShowTable td,
