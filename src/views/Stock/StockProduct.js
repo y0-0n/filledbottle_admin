@@ -5,19 +5,21 @@ class Detail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-			//allFamilyData: [],
+			useFamilyData: [],
 			familyData: [],
       userCategoryData: [],
       category: 1,
       addFamilyList: [],
       deleteFamilyList: [],
-      categoryData: [],
+			categoryData: [],
+			plant: this.props.match.params.id,
       modify: false,
     };
   }
   
   componentWillMount() {
-    this.getUserFamilyCategory();
+		this.getUserFamilyCategory();
+		this.getUseFamily();
   }
 
   getUserFamilyCategory() {
@@ -54,8 +56,8 @@ class Detail extends Component {
       })
   }
 
-  /*getAllFamily() {
-    fetch(process.env.REACT_APP_HOST+"/api/product/allFamily/"+this.state.category, {
+  getUseFamily() {//취급 품목 불러오기
+    fetch(process.env.REACT_APP_HOST+"/api/product/familyInPlant/"+this.state.plant, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -71,15 +73,21 @@ class Detail extends Component {
     .then(data => {
 			let status = data[0];
       if(status === 200){
-				this.setState({allFamilyData: data[1]});
-				this.getProductFamily();
+				this.setState({useFamilyData: data[1]});
+				//이 부분 나중에 콜백으로 바꾸기
+				this.setState({
+					addFamilyList: [],
+					deleteFamilyList: [],
+					modify: false
+				}, () => {
+				});				
 			}
       else {
         alert('로그인 하고 접근해주세요');
         this.props.history.push('/login');
       }
     });
-  }*/
+  }
   
   getProductFamily() {
     fetch(process.env.REACT_APP_HOST + "/api/product/familyList/"+this.state.category, {
@@ -98,13 +106,7 @@ class Detail extends Component {
       .then(data => {
 				let status = data[0];
         if (status === 200){
-          this.setState({ familyData: data[1] });
-          this.setState({
-						addFamilyList: [],
-						deleteFamilyList: [],
-						modify: false
-					}, () => {
-					});
+					this.setState({ familyData: data[1] });
         }
         else {
           alert('로그인 하고 접근해주세요');
@@ -113,9 +115,9 @@ class Detail extends Component {
       })
   }
 
-  modifyFamily() {
-		const {addFamilyList, deleteFamilyList} = this.state;
-		fetch(process.env.REACT_APP_HOST + "/api/product/modifyFamily", {
+  modifyUseFamily() {
+		const {addFamilyList, deleteFamilyList, plant} = this.state;
+		fetch(process.env.REACT_APP_HOST + "/api/product/modifyFamilyInPlant", {
       method: 'POST',
       headers: {
 				'Accept': 'application/json',
@@ -124,7 +126,7 @@ class Detail extends Component {
 			},
 			body: JSON.stringify(
         {
-          addFamilyList, deleteFamilyList
+          addFamilyList, deleteFamilyList, plant
         }
       )    })
       .then(response => {
@@ -137,7 +139,7 @@ class Detail extends Component {
       .then(data => {
 				let status = data[0];
         if (status === 200){
-					this.getProductFamily();
+					this.getUseFamily();
         }
         else {
           alert('로그인 하고 접근해주세요');
@@ -158,7 +160,6 @@ class Detail extends Component {
     if(this.state.modify){
 			if(!list.includes(e)) list.push(e)
 			else list.splice(list.indexOf(e),1)
-
 			this.forceUpdate();
 		} else {
 
@@ -166,7 +167,7 @@ class Detail extends Component {
   }
 
   render() {
-    const { familyData, userCategoryData, } = this.state;
+		const { familyData, userCategoryData, useFamilyData} = this.state;
     return (
       <div className="animated fadeIn">
         <Row>
@@ -177,7 +178,7 @@ class Detail extends Component {
                   <Col>취급 품목</Col>
                   <Col>
                   <div style={{float : "right"}}>
-                    {this.state.modify ? <Button block color="success" onClick={() => {this.modifyFamily()}}>저장하기</Button> : <Button block color="primary" onClick={() => {this.setState({modify: true})}}>편집하기</Button>}
+                    {this.state.modify ? <Button block color="success" onClick={() => {this.modifyUseFamily()}}>저장하기</Button> : <Button block color="primary" onClick={() => {this.setState({modify: true})}}>편집하기</Button>}
                   </div>
                 </Col>
                 </Row>
@@ -193,15 +194,18 @@ class Detail extends Component {
                 <div>
                   <ul className="ul-productFamily" style={{ listStyleType: "none" }}>
                     {familyData.map((e, i) => {
-                    const f = (element) => element.id === e.id
+										
+										const f = (element) => element.family_id === e.familyUserId
+										const f2 = (element) => element.familyUserId === e.familyUserId
+										
 										return (
                       <li key={i} className="list-productFamily" style={{
-                        color: familyData.findIndex(f) === -1 ? this.state.addFamilyList.findIndex(f) === -1 ? 'black': '#fff': this.state.deleteFamilyList.findIndex(f) !== -1 ? 'black': '#fff',
-                        backgroundColor: familyData.findIndex(f) === -1 ? this.state.addFamilyList.findIndex(f) === -1 ? '#fff': '#20A8D8': this.state.deleteFamilyList.findIndex(f) !== -1 ? '#fff': '#20A8D8', 
-                        borderColor: familyData.findIndex(f) === -1 ? this.state.addFamilyList.findIndex(f) === -1 ? 'lightgray': '': this.state.deleteFamilyList.findIndex(f) !== -1 ? 'lightgray': '',
+                        color: useFamilyData.findIndex(f) === -1 ? this.state.addFamilyList.findIndex(f2) === -1 ? 'black': '#fff': this.state.deleteFamilyList.findIndex(f2) !== -1 ? 'black': '#fff',
+                        backgroundColor: useFamilyData.findIndex(f) === -1 ? this.state.addFamilyList.findIndex(f2) === -1 ? '#fff': '#20A8D8': this.state.deleteFamilyList.findIndex(f2) !== -1 ? '#fff': '#20A8D8', 
+                        borderColor: useFamilyData.findIndex(f) === -1 ? this.state.addFamilyList.findIndex(f2) === -1 ? 'lightgray': '': this.state.deleteFamilyList.findIndex(f2) !== -1 ? 'lightgray': '',
                         float: "left", margin: "10px", width: "calc((100% - 20px) / 6)", border: "1px solid lightgray", borderRadius: "10px", padding: "5px", textAlign: "center"
                       }} 
-                      onClick={() => {familyData.findIndex(f) === -1 ? this.addList(this.state.addFamilyList, e) : this.addList(this.state.deleteFamilyList, e);
+                      onClick={() => {useFamilyData.findIndex(f) === -1 ? this.addList(this.state.addFamilyList, e) : this.addList(this.state.deleteFamilyList, e);
                       }}>{e.name}</li>
                     )}
 									)}
