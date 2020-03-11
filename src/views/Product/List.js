@@ -163,7 +163,7 @@ class List extends Component {
   }
 
   getStock() {
-		const {page, name, family} = this.state;
+		const {page, name, family, category} = this.state;
 
     fetch(process.env.REACT_APP_HOST + "/api/stock/sum", {
       method: 'POST',
@@ -174,7 +174,7 @@ class List extends Component {
       },
       body: JSON.stringify(
         {
-          page, name, family, plant: 'all'
+          page, name, family, category
         }
       )
     })
@@ -194,22 +194,6 @@ class List extends Component {
           this.props.history.push('/login');
         }
       });
-  }
-
-  modifyStock(id, quantity) {
-    fetch(process.env.REACT_APP_HOST + `/api/stock/` + id, {
-      method: 'PUT',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-      body: JSON.stringify(
-        {
-          quantity
-        }
-      )
-    })
   }
 
   searchProduct() {
@@ -284,37 +268,6 @@ class List extends Component {
       })
   }
 
-  addProductFamily() {
-    let {newFamily} = this.state;
-    fetch(process.env.REACT_APP_HOST + "/api/product/family", {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-      body: JSON.stringify({newFamily})
-    })
-    .then(response => {
-      if (response.status === 401) {
-        return Promise.all([401])
-      } else {
-        return Promise.all([response.status, response.json()]);
-      }
-    })
-    .then(data => {
-      let status = data[0];
-      if (status === 200) {
-        this.getProductFamily();
-        this.setState({newFamily: ''})
-      }
-      else {
-        alert('로그인 하고 접근해주세요');
-        this.props.history.push('/login');
-      }
-    })
-  }
-
   changeFamily (family) {
     //let keyword = this.keyword
     this.setState({ name: '', family, page: 1 }, () => {
@@ -337,7 +290,8 @@ class List extends Component {
 
   render() {
     var data = this.state.productData;
-    var {stockData, familyData, userCategoryData} = this.state;
+		var {stockData, familyData, userCategoryData} = this.state;
+		console.warn(stockData, data)
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
     return (

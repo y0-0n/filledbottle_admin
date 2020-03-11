@@ -11,6 +11,7 @@ class Stock extends Component {
     this.state = {
 			stockData: [],
 			plantData: [],
+			useFamilyData: [],
 			page: 1,
 			family: 0,
 			name: '',
@@ -20,10 +21,38 @@ class Stock extends Component {
 
   componentWillMount() {
     this.getPlant();
-  }
-
+	}
+	
+  getUseFamily() {//취급 품목 불러오기
+    fetch(process.env.REACT_APP_HOST+"/api/product/familyInPlant/"+this.state.plant, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+			let status = data[0];
+      if(status === 200){
+				this.setState({useFamilyData: data[1]}, () => {
+					this.getStock();
+				});
+			}
+      else {
+        alert('로그인 하고 접근해주세요');
+        this.props.history.push('/login');
+      }
+    });
+	}
+	
   getStock() {
-		const {plant, page, family, name} = this.state;
+		const {plant, page, family, name, useFamilyData} = this.state;
     fetch(process.env.REACT_APP_HOST+"/api/stock/list", {
       method: 'POST',
       headers: {
@@ -33,7 +62,7 @@ class Stock extends Component {
       },
       body: JSON.stringify(
         {
-          plant, page, family, name
+          plant, page, family, name, useFamilyData
         }
       )
     })
@@ -91,38 +120,6 @@ class Stock extends Component {
       });
   }
 
-  modifyStock(id, quantity) {
-    fetch(process.env.REACT_APP_HOST+`/api/stock/`+id, {
-      method: 'PUT',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-      body: JSON.stringify(
-        {
-          quantity
-        }
-      )
-    })
-    .then(response => {
-      if(response.status === 401) {
-        return Promise.all([401])
-      } else {
-        return Promise.all([response.status, response.json()]);
-      }
-    })
-    .then(data => {
-      const status = data[0];
-      if(status === 200)
-        alert('등록됐습니다.');
-      else {
-        alert('로그인 하고 접근해주세요');
-        this.props.history.push('/login');
-      }
-    })
-	}
-	
 	getPlant(){
     fetch(process.env.REACT_APP_HOST+"/api/plant", {
       method: 'GET',
@@ -143,7 +140,7 @@ class Stock extends Component {
 			let status = data[0];
       if(status === 200){
 				this.setState({plantData: data[1], plant: data[1][0].id});
-				this.getStock();
+				this.getUseFamily();
 			}
       else {
         alert('로그인 하고 접근해주세요');
@@ -156,8 +153,9 @@ class Stock extends Component {
 		this.setState({
 			plant: id,
 			page: 1,
+			family: 0,
 		}, () => {
-			this.getStock();
+			this.getUseFamily();
 		})
   }
   
@@ -165,12 +163,20 @@ class Stock extends Component {
     this.setState({
       page: x,
     }, () => {
-      this.getStock();
+			this.getUseFamily();
     });
+	}
+	
+	changeFamily (family) {
+    //let keyword = this.keyword
+    this.setState({ family, page: 1 }, () => {
+			this.getStock();
+    })
   }
 
+
   render() {
-    let {stockData, plantData} = this.state;
+    let {stockData, plantData, useFamilyData} = this.state;
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
     return (
@@ -218,6 +224,34 @@ class Stock extends Component {
 								</Row>
               </CardHeader>
               <CardBody className="card-body">
+								<Col>
+                  <ul className="list-productfamily-ul" style={{width: '100%', display: 'flex', flexWrap: 'wrap', listStyleType: 'none', cursor: 'pointer'}}>
+                    <li className="list-productfamily" style={{backgroundColor: this.state.family === 0? '#F16B6F' : 'transparent', border: this.state.family === 0? '0px' : '1px solid #c9d6de',color: this.state.family === 0? '#fff' : '#52616a', fontWeight: this.state.family === 0? 'bold' : 'normal', fontSize: this.state.family === 0? '1.1em' : '1em'}}onClick = {() => this.changeFamily(0)}>
+                      전체
+                    </li>
+                    {
+                      useFamilyData.map((e, i) => {
+												console.warn(e)
+                        return <li key={i} className="list-productfamily" style={{backgroundColor: this.state.family === e.family? '#F16B6F' : 'transparent', border: this.state.family === e.family? '0px' : '1px solid #c9d6de', color: this.state.family === e.family? '#fff' : '#52616a', fontWeight: this.state.family === e.family? 'bold' : 'normal', fontSize: this.state.family === e.family? '1.1em' : '1em'}}  onClick = {() => this.changeFamily(e.family)}>{e.name}</li>
+                      })
+                    }
+                    {/*<Popup
+                          trigger={<li className="list-productfamily" style={{border: '1px solid #c9d6de', color: 'lightgreen',}}>+</li>}
+                          modal>
+                          {close => <ProductFamilyModal close={close} login={() => { this.props.history.push('/login') }}
+                    />}
+                    </Popup>*/}
+                      {/*<InputGroup>
+                        <Input value={this.state.newFamily} onChange={(e) => {
+                          let newFamily = e.target.value;
+                          this.setState({ newFamily })
+                        }} />
+                        <InputGroupAddon addonType="append">
+                          <Button onClick={this.addProductFamily.bind(this)} outline color="success">+</Button>
+                        </InputGroupAddon>
+                      </InputGroup>*/}
+                  </ul>
+                  </Col>
                 <Table className="ListTable" hover>
                     <thead>
                       <tr>
