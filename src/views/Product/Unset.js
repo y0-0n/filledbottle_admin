@@ -21,6 +21,7 @@ import ProductFamilyModal from '../Modal/ProductFamilyModal';
 */
 
 const listCount = 15;
+global.show = true;
 
 class Unset extends Component {
   constructor(props) {
@@ -34,13 +35,16 @@ class Unset extends Component {
       //set: true,
       stockEdit : false,
       familyData: [],
-      show: false,
+      userCategoryData: [],
     };
     this.name = '';
     this.family = 0;
     this.form = {
 
     }
+
+    this.changeShowFalse.bind(this);
+		this.changeShowTrue.bind(this);
   }
   componentWillMount() {
     if(this.props.location.state) {
@@ -48,18 +52,15 @@ class Unset extends Component {
       this.setState({
         page, name, family
       }, () => {
-        this.getProduct();
-        this.getStock();    
+        this.getUserFamilyCategory();
       })
     } else {
-      this.getProduct();
-      this.getStock();  
+      this.getUserFamilyCategory(); 
     }
-    this.getProductFamily();
   }
 
   getTotal() {
-    const {name, family} = this.state;
+    const {name, family, category} = this.state;
 
     fetch(process.env.REACT_APP_HOST + "/product/total/unset/", {
       method: 'POST',
@@ -70,7 +71,7 @@ class Unset extends Component {
       },
       body: JSON.stringify(
         {
-          name, family
+          name, family, category
         }
       )
       })
@@ -92,8 +93,42 @@ class Unset extends Component {
       });
   }
 
+  getUserFamilyCategory() {
+		fetch(process.env.REACT_APP_HOST + "/api/product/userFamilyCategory", {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+				let status = data[0];
+        if (status === 200){
+					if(data[1].length !== 0) {
+						this.setState({ userCategoryData: data[1],
+							category: data[1][0].id }, () => {
+								this.getProductFamily();
+							});
+					} else {
+						alert('없음')
+					}
+					
+        }
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })
+	}
+
   getProduct() {
-    const {page, name, family} = this.state;
+    const {page, name, family, category} = this.state;
     console.warn(page, name, family)
     fetch(process.env.REACT_APP_HOST + "/product/list/unset/", {
       method: 'POST',
@@ -104,7 +139,7 @@ class Unset extends Component {
       },
       body: JSON.stringify(
         {
-          page, name, family
+          page, name, family, category
         }
       )
     })
@@ -128,11 +163,20 @@ class Unset extends Component {
   }
 
   getStock() {
+    const {page, name, family} = this.state;
+
     fetch(process.env.REACT_APP_HOST+"/api/stock/list/"+this.state.page, {
-      method: 'GET',
+      method: 'POST',
       headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
       },
+      body: JSON.stringify(
+        {
+          page, name, family, plant: 'all'
+        }
+      )
     })
     .then(response => {
       if(response.status === 401) {
@@ -153,7 +197,7 @@ class Unset extends Component {
   }
 
   modifyStock(id, quantity) {
-    fetch(process.env.REACT_APP_HOST+`/api/stock/`+id, {
+    fetch(process.env.REACT_APP_HOST+`/api/stock/` + id, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
@@ -166,48 +210,6 @@ class Unset extends Component {
         }
       )
     })
-    .then(response => {
-      if(response.status === 401) {
-        return Promise.all([401])
-      } else {
-        return Promise.all([response.status, response.json()]);
-      }
-    })
-    .then(data => {
-      const status = data[0];
-      if(status === 200)
-        alert('등록됐습니다.');
-      else {
-        alert('로그인 하고 접근해주세요');
-        this.props.history.push('/login');
-      }
-    })
-  }
-
-  getProductFamily() {
-    fetch(process.env.REACT_APP_HOST + "/api/product/familyList", {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-    })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-        let status = data[0];
-        if (status === 200){
-          this.setState({ familyData: data[1] });
-        }
-        else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-      })
   }
 
   searchProduct() {
@@ -230,6 +232,20 @@ class Unset extends Component {
     });
   }*/
 
+  numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  changeCategory(id) {
+		this.setState({
+			category: id,
+			page: 1,
+			family: 0,
+		}, () => {
+			this.getProductFamily();
+		})
+  }
+
   countPageNumber(x){
     this.setState({
       page: x,
@@ -237,6 +253,35 @@ class Unset extends Component {
       this.getProduct();
       this.getStock();
     });
+  }
+
+  getProductFamily() {
+    fetch(process.env.REACT_APP_HOST + "/api/product/familyList"+this.state.category, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if (status === 200){
+          this.setState({ familyData: data[1] }, () => {
+						this.getProduct();
+            this.getStock();
+          })
+        }
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })
   }
 
   addProductFamily() {
@@ -269,11 +314,7 @@ class Unset extends Component {
       }
     })
   }
-
-  numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
-
+  
   changeFamily (family) {
     this.setState({ name: '', family, page: 1 }, () => {
       this.getProduct();
@@ -282,19 +323,20 @@ class Unset extends Component {
   }
 
   changeShowFalse() {
-    this.setState({ show : false })
+		global.show = false;
+		this.forceUpdate();
     console.log(this.state.show)
   }
 
   changeShowTrue() {
-    this.setState({ show : true })
+    global.show = true;
+		this.forceUpdate();
     console.log(this.state.show)
   }
 
   render() {
     var data = this.state.productData;
-    var stockData = this.state.stockData;
-    var {familyData} = this.state;
+    var {stockData, familyData, userCategoryData} = this.state;
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
 
@@ -307,10 +349,11 @@ class Unset extends Component {
             <Table className="category-top">
               <tbody>
                 <tr>
-                  <td>농산품</td>
-                  <td>수산품</td>
-                  <td>축산품</td>
-                  <td>차/음료</td>
+                  {
+                    userCategoryData.map((e, i) => {
+                      return <td key={i} style={{cursor: "pointer", backgroundColor: this.state.category===e.id ? '#E6E6E6' : '#fff'}} onClick={() => {this.changeCategory(e.id)}}>{e.name}</td>
+                    })
+                  }
                 </tr>
               </tbody>
             </Table>
@@ -333,7 +376,7 @@ class Unset extends Component {
                 <Row>
                   <Col>
                   <ul className="list-productfamily-ul" style={{width: '100%', display: 'flex', 'flex-wrap': 'wrap', listStyleType: 'none', cursor: 'pointer'}}>
-                    <li className="list-productfamily" style={{backgroundColor: this.state.family === 0? '#F16B6F' : 'transparent', border: this.state.family === 0? '0px' : '1px solid #c9d6de',color: this.state.family === 0? '#fff' : '#52616a', fontWeight: this.state.family === 0? 'bold' : 'normal', fontSize: this.state.family === 0? '1.1em' : '1em'}}onClick = {() => this.changeFamily(0)}>
+                    <li className="list-productfamily" style={{backgroundColor: this.state.family === 0? '#F16B6F' : 'transparent', border: this.state.family === 0? '0px' : '1px solid #c9d6de',color: this.state.family === 0? '#fff' : '#52616a', fontWeight: this.state.family === 0? 'bold' : 'normal', fontSize: this.state.family === 0? '1.1em' : '1em'}} onClick = {() => this.changeFamily(0)}>
                       전체
                     </li>
                     {
@@ -341,12 +384,12 @@ class Unset extends Component {
                         return <li className="list-productfamily" style={{backgroundColor: this.state.family === e.id? '#F16B6F' : 'transparent', border: this.state.family === e.id? '0px' : '1px solid #c9d6de', color: this.state.family === e.id? '#fff' : '#52616a', fontWeight: this.state.family === e.id? 'bold' : 'normal', fontSize: this.state.family === e.id? '1.1em' : '1em'}}  onClick = {() => this.changeFamily(e.id)}>{e.name}</li>
                       })
                     }
-                    {<Popup
+                    {/*<Popup
                           trigger={<li className="list-productfamily" style={{border: '1px solid #c9d6de', color: 'lightgreen',}}>+</li>}
                           modal>
                           {close => <ProductFamilyModal close={close} login={() => { this.props.history.push('/login') }}
                           />}
-                    </Popup>}
+                    </Popup>*/}
                       {/*<InputGroup>
                         <Input value={this.state.newFamily} onChange={(e) => {
                           let newFamily = e.target.value;
@@ -381,9 +424,9 @@ class Unset extends Component {
                       </DropdownToggle>
                       <DropdownMenu>
                         <DropdownItem onClick={() => { this.props.history.push('/main/product/list') }}>활성화</DropdownItem>
-                        {this.state.stockEdit ?
+                        {/*this.state.stockEdit ?
                         <DropdownItem onClick={() => this.changeStockEdit()}>수정완료</DropdownItem> :
-                        <DropdownItem onClick={() => this.changeStockEdit()}>재고수정</DropdownItem> }
+                        <DropdownItem onClick={() => this.changeStockEdit()}>재고수정</DropdownItem> */}
                         <DropdownItem onClick={() => { this.props.history.push('/product/create'); }}>품목추가</DropdownItem>
                       </DropdownMenu>
                     </UncontrolledButtonDropdown>
@@ -399,18 +442,19 @@ class Unset extends Component {
                     </a>}                    
                     <a className="button-product" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px"}} onClick={() => { this.props.history.push('/product/create'); }}><i className="fa fa-plus" style={{display: "block"}}></i>
                     </a>
-                    <a className="button-list" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === false ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowFalse()}}><i className="fa fa-th" style={{display: "block"}}></i>
+                    <a className="button-list" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: global.show === false ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowFalse()}}><i className="fa fa-th" style={{display: "block"}}></i>
                     </a>
-                    <a className="button-card" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: this.state.show === true ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowTrue()}}><i className="fa fa-th-list" style={{display: "block"}}></i>
+                    <a className="button-card" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: global.show === true ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowTrue()}}><i className="fa fa-th-list" style={{display: "block"}}></i>
                     </a>
                   </div>
                   </Col>
                 </Row>
-                {this.state.show ?
+                {global.show ?
                 <Row>
-                  <Table style={{ minWidth: 600 }} hover>
+                  <Table className="ListTable" style={{ minWidth: 600 }} hover>
                     <thead>
                       <tr>
+                        <th>No.</th>
                         <th style={{ width: 150 }}>사진</th>
                         <th>품목명</th>
                         <th style={{ width: 250 }}>품목군</th>
@@ -425,19 +469,21 @@ class Unset extends Component {
                     </thead>
                     <tbody>
                       {data.map((e, i) => {
-                        return (<tr key={e.id}>
+                        return (<tr style={{height : "150px"}} key={e.id} onClick={() => {
+                          this.props.history.push({
+                            pathname: '/main/product/' + e.id,
+                            state: {name: this.state.name, family: this.state.family, page: this.state.page}
+                          })
+                        }}>
+													<td>{e.id}</td>
                           <td>
                             <img style={{ width: '90%' }} alt="품목 사진" src={e.file_name ? "http://211.62.225.216:4000/static/" + e.file_name : '318x180.svg'} />
                           </td>
-                          <td style={{ cursor: 'pointer', verticalAlign: 'middle'}} onClick={() => {
-                            this.props.history.push({
-                              pathname: '/main/product/' + e.id,
-                              state: {name: this.state.name, family: this.state.family, page: this.state.page}
-                            })
-                          }}>{e.name + ' ' + e.grade + ' ' + e.weight}</td>
-                          <td style={{ cursor: 'pointer', verticalAlign: 'middle'}}>{e.familyName}</td>
-                          <td style={{ cursor: 'pointer', verticalAlign: 'middle'}}>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</td>
-                          {this.state.stockEdit ?
+                          <td>{e.name + ' ' + e.grade + ' ' + e.weight}</td>
+                          <td>{e.familyName}</td>
+                          <td>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</td>
+													<td>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>
+                          {/*this.state.stockEdit ?
                             <td style={{ width: 250, verticalAlign: 'middle' }}>
                               <InputGroup>
                                 <Input defaultValue={stockData[i] !== undefined ? stockData[i].quantity : null} onChange={(e) => { stockData[i].quantity = e.target.value; }} />
@@ -446,7 +492,7 @@ class Unset extends Component {
                                 </InputGroupAddon>
                               </InputGroup>
                             </td> :
-                            <td style={{ cursor: 'pointer', verticalAlign: 'middle' }} onClick={() => { this.props.history.push(`/main/stock/${e.id}`) }}>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>}
+                          <td style={{ cursor: 'pointer', verticalAlign: 'middle' }} onClick={() => { this.props.history.push(`/main/stock/${e.id}`) }}>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>*/}
                           {/*this.state.set ?
                               <td>
                                 <Button block style={{ width: 120 }} color="ghost-danger" onClick={() => this.deleteProduct(e.id)}>품목 비활성화</Button>
@@ -515,7 +561,7 @@ class Unset extends Component {
             }
               </CardBody>
               <CardFooter>
-                <Pagination>
+                <Pagination style={{justifyContent: 'center'}}>
                   {this.state.page === 1 ? '' :
                     <PaginationItem>
                       <PaginationLink previous onClick={() => { this.countPageNumber(this.state.page - 1) }} />
