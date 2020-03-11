@@ -238,7 +238,6 @@ class Home extends Component {
   }
 
   render() {
-    console.warn(this.state.this_income)
     this.bar = {
       labels: ['저번 달', '이번 달'],
       datasets: [

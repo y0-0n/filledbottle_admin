@@ -163,7 +163,7 @@ class List extends Component {
   }
 
   getStock() {
-		const {page, name, family} = this.state;
+		const {page, name, family, category} = this.state;
 
     fetch(process.env.REACT_APP_HOST + "/api/stock/sum", {
       method: 'POST',
@@ -174,7 +174,7 @@ class List extends Component {
       },
       body: JSON.stringify(
         {
-          page, name, family, plant: 'all'
+          page, name, family, category
         }
       )
     })
@@ -194,22 +194,6 @@ class List extends Component {
           this.props.history.push('/login');
         }
       });
-  }
-
-  modifyStock(id, quantity) {
-    fetch(process.env.REACT_APP_HOST + `/api/stock/` + id, {
-      method: 'PUT',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-      body: JSON.stringify(
-        {
-          quantity
-        }
-      )
-    })
   }
 
   searchProduct() {
@@ -284,37 +268,6 @@ class List extends Component {
       })
   }
 
-  addProductFamily() {
-    let {newFamily} = this.state;
-    fetch(process.env.REACT_APP_HOST + "/api/product/family", {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-      body: JSON.stringify({newFamily})
-    })
-    .then(response => {
-      if (response.status === 401) {
-        return Promise.all([401])
-      } else {
-        return Promise.all([response.status, response.json()]);
-      }
-    })
-    .then(data => {
-      let status = data[0];
-      if (status === 200) {
-        this.getProductFamily();
-        this.setState({newFamily: ''})
-      }
-      else {
-        alert('로그인 하고 접근해주세요');
-        this.props.history.push('/login');
-      }
-    })
-  }
-
   changeFamily (family) {
     //let keyword = this.keyword
     this.setState({ name: '', family, page: 1 }, () => {
@@ -337,7 +290,8 @@ class List extends Component {
 
   render() {
     var data = this.state.productData;
-    var {stockData, familyData, userCategoryData} = this.state;
+		var {stockData, familyData, userCategoryData} = this.state;
+		console.warn(stockData, data)
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
     return (
@@ -375,7 +329,7 @@ class List extends Component {
                 <hr></hr>
                 <Row>
                   <Col>
-                  <ul className="list-productfamily-ul" style={{width: '100%', display: 'flex', 'flex-wrap': 'wrap', listStyleType: 'none', cursor: 'pointer'}}>
+                  <ul className="list-productfamily-ul" style={{width: '100%', display: 'flex', flexWrap: 'wrap', listStyleType: 'none', cursor: 'pointer'}}>
                     <li className="list-productfamily" style={{backgroundColor: this.state.family === 0? '#F16B6F' : 'transparent', border: this.state.family === 0? '0px' : '1px solid #c9d6de',color: this.state.family === 0? '#fff' : '#52616a', fontWeight: this.state.family === 0? 'bold' : 'normal', fontSize: this.state.family === 0? '1.1em' : '1em'}}onClick = {() => this.changeFamily(0)}>
                       전체
                     </li>

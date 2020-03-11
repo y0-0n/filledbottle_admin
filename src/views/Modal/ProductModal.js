@@ -90,9 +90,9 @@ class ProductModal extends Component {
   }
 
   searchProduct() {
-    let {name} = this;
-    //let keyword = this.keyword
-    this.setState({name}, () => {
+		let {keyword} = this;
+		//let keyword = this.keyword
+    this.setState({name: keyword}, () => {
       this.getProduct();
     })
   }
@@ -107,7 +107,6 @@ class ProductModal extends Component {
       page: x,
     }, () => {
       this.getProduct();
-      this.getTotal();
     });
   }
 
