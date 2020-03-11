@@ -42,6 +42,12 @@ class CreateProduct extends Component {
     this.setState({ img });
   }
 
+  handleClick(e) {
+    this.setState({
+      image: '/assets/img/noimage.jpg'
+    });
+  }
+
   handlePost(e) {
     e.preventDefault();
     let formData = new FormData();
@@ -154,7 +160,7 @@ class CreateProduct extends Component {
 														  <img src='/assets/img/upload.jpg' border='0' style={{width: '10%', marginLeft: 10}} onClick={() => document.all.file.click()}/>
                             </div>
                             <div>
-                              <img alt="품목 사진" style={{ width: '30%', height: 200, display: "inline-block", border: '1px', borderStyle: 'dashed', borderColor: '#c8ced3'}} src={this.state.image}/>
+                              <img alt="품목 사진" style={{ width: '30%', height: '50%', display: "inline-block", border: '1px', borderStyle: 'dashed', borderColor: '#c8ced3'}} src={this.state.image}/>
                             </div>
                           </td>
                         </tr>
