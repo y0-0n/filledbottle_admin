@@ -13,7 +13,10 @@ class RegisterDetail extends Component {
       category : 1,
       addFamilyList: [],
 			deleteFamilyList: [],
-			modify: false,//편집 모드 flag
+      modify: false,//편집 모드 flag
+      family: 1,
+      productData: [],
+      prohibitDelete: false,
     }
   }
 
@@ -201,15 +204,26 @@ class RegisterDetail extends Component {
 		this.getFamilyCategory();
   }
 
-  addList(list, e) {
+  toggleList (list, e) {
 		if(this.state.modify){
-			if(!list.includes(e)) list.push(e)
-			else list.splice(list.indexOf(e),1)
-
-			this.forceUpdate();
+      if(list === this.state.deleteFamilyList) {
+        this.getProduct()
+        .then((result) => {
+          if(result){
+            if(!list.includes(e)) list.push(e)
+            else list.splice(list.indexOf(e),1)
+            this.forceUpdate();
+          }
+        })
+      }
+      else {
+        if(!list.includes(e)) list.push(e)
+        else list.splice(list.indexOf(e),1)
+        this.forceUpdate();
+      }
 		} else {
 
-		}
+    }
 	}
 
   modifyFamily() {
@@ -243,10 +257,54 @@ class RegisterDetail extends Component {
           this.props.history.push('/login');
         }
       })
-	}
+  }
+  
+  async getProduct() {
+    const {family, category} = this.state;
+    let result = false;
+    await fetch(process.env.REACT_APP_HOST + "/product/list", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+      body: JSON.stringify(
+        {
+          name: '', page: 'all', family, category
+        }
+      )
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if (status === 200)
+          this.setState({ productData: data[1] }, () => {
+            console.warn(this.state.productData.length)
+            if(this.state.productData.length){
+              alert("품목이 존재함으로 삭제할 수 없습니다.");
+              result = false;
+            }
+            else {
+              result = true;
+            }
+          });
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })
+    return result;
+  }
 
   render() {
-		const {data, plantData, allFamilyData, familyData, categoryData} = this.state;
+    const {data, plantData, allFamilyData, familyData, categoryData, productData} = this.state;
     return (
 			<div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
@@ -367,10 +425,14 @@ class RegisterDetail extends Component {
                         backgroundColor: familyData.findIndex(f) === -1 ? this.state.addFamilyList.findIndex(f) === -1 ? '#fff': '#20A8D8': this.state.deleteFamilyList.findIndex(f) !== -1 ? '#fff': '#20A8D8', 
                         borderColor: familyData.findIndex(f) === -1 ? this.state.addFamilyList.findIndex(f) === -1 ? 'lightgray': '': this.state.deleteFamilyList.findIndex(f) !== -1 ? 'lightgray': ''
                       }} 
-                      onClick={() => {familyData.findIndex(f) === -1 ? this.addList(this.state.addFamilyList, e) : this.addList(this.state.deleteFamilyList, e); console.log(familyData, this.state.deleteFamilyList, this.state.addFamilyList, familyData.findIndex(f));
+                      onClick={() => {
+                        this.setState({family: e.id}, () => {
+                          familyData.findIndex(f) === -1 ? this.toggleList(this.state.addFamilyList, e) : this.toggleList(this.state.deleteFamilyList, e);
+                        });
+                        
                       }}>{e.name}</li>
-                    )}
-									)}
+                      )}
+                      )}
                 </ul>
               </div>
             </CardBody>
