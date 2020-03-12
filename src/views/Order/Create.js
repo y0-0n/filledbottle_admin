@@ -9,6 +9,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import ko from 'date-fns/locale/ko';
 registerLocale('ko', ko)
 
+//TODO : 입력창에 placefolder 수정하기
+
 //vos = value of supply (공급가액)
 //vat = value added tax (부가세))
 let d = {id: '', name: '', quantity: 0, price: 0, vos: 0, vat: 0, tax: false, sum: 0};
@@ -138,21 +140,21 @@ class Create extends Component {
                   <tr>
                     <th>전화번호</th>
                     <td>
-                      <Input value={this.state.telephone} type="tel" onChange={(e) => {this.setState({telephone: e.target.value})}} />
+                      <Input value={this.state.telephone} type="tel" placeholder={ "집 전화번호가 있다면 적어주세요" } onChange={(e) => {this.setState({telephone: e.target.value})}} />
                     </td>
                     <th>HP</th>
                     <td >
-                      <Input value={this.state.cellphone} type="tel" onChange={(e) => {this.setState({cellphone: e.target.value})}} />
+                      <Input value={this.state.cellphone} type="tel" placeholder={ "000-0000-0000" }onChange={(e) => {this.setState({cellphone: e.target.value})}} />
                     </td>
                   </tr>
                   <tr >
                     <th>주소</th>
                     <td>
-                      <Input value={this.state.address} onChange={(e) => {this.setState({address: e.target.value})}} />
+                      <Input value={this.state.address} placeholder={ "ΟΟ 시/군 ΟΟ 구/면 ΟΟ 동/읍/리, 상세주소" } onChange={(e) => {this.setState({address: e.target.value})}} />
                     </td>
                     <th>요청사항</th>
                     <td >
-                      <Input value={this.state.comment} onChange={(e) => {
+                      <Input value={this.state.comment} placeholder={ "부재시 문 앞에 놔주세요/부재시 연락부탁드립니다 등" }onChange={(e) => {
                         this.setState({
                           comment: e.target.value
                         })
@@ -172,7 +174,7 @@ class Create extends Component {
                   <Col>품목을 입력하세요</Col>
                   <Col>
                   <div style={{float : "right"}}>
-                    <Button block color="primary" 
+                    <Button block color="primary"
                       onClick={()=> {
                         let sProduct = this.state.sProduct;
                         sProduct.push(d);
@@ -214,14 +216,14 @@ class Create extends Component {
                                                 let {sProduct} = this.state;
 
                                                 let val = Object.assign({}, sProduct[i]);
-                                            
+
                                                 /* set, for instance, comment[1] to "some text"*/
                                                 val['id'] = data['id'];
                                                 val['name'] = data['name'];
                                                 val['price'] = data['price_shipping'];
 
                                                 sProduct[i] = val;
-                                                          
+
                                                 /* set the state to the new variable */
                                                 this.setState({sProduct});
                                               }}
@@ -264,7 +266,7 @@ class Create extends Component {
                               </td>
                               <td><Input name='sum' value={this.state.sProduct[i].price * this.state.sProduct[i].quantity} readOnly/></td>
                               <td style={{width : 70}}>
-                                <Button block color="danger" 
+                                <Button block color="danger"
                                   onClick={()=> {
                                     let {sProduct} = this.state;
                                     sProduct.splice(i, 1);
