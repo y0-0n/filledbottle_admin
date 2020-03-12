@@ -129,7 +129,6 @@ class Unset extends Component {
 
   getProduct() {
     const {page, name, family, category} = this.state;
-    console.warn(page, name, family)
     fetch(process.env.REACT_APP_HOST + "/product/list/unset/", {
       method: 'POST',
       headers: {
@@ -162,7 +161,7 @@ class Unset extends Component {
       })
   }
 
-  getStock() {
+  /*getStock() {
     const {page, name, family} = this.state;
 
     fetch(process.env.REACT_APP_HOST+"/api/stock/list/"+this.state.page, {
@@ -194,7 +193,7 @@ class Unset extends Component {
         this.props.history.push('/login');
       }
     });
-  }
+  }*/
 
   modifyStock(id, quantity) {
     fetch(process.env.REACT_APP_HOST+`/api/stock/` + id, {
@@ -217,12 +216,12 @@ class Unset extends Component {
     //let keyword = this.keyword
     this.setState({name, page: 1}, () => {
       this.getProduct();
-			this.getStock();
+			//this.getStock();
     })
   }
 
   changeStockEdit() {
-    this.getStock();
+    //this.getStock();
     this.setState({stockEdit: !this.state.stockEdit})
   }
 
@@ -251,12 +250,12 @@ class Unset extends Component {
       page: x,
     }, () => {
       this.getProduct();
-      this.getStock();
+      //this.getStock();
     });
   }
 
   getProductFamily() {
-    fetch(process.env.REACT_APP_HOST + "/api/product/familyList"+this.state.category, {
+    fetch(process.env.REACT_APP_HOST + "/api/product/familyList/"+this.state.category, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -274,7 +273,7 @@ class Unset extends Component {
         if (status === 200){
           this.setState({ familyData: data[1] }, () => {
 						this.getProduct();
-            this.getStock();
+            //this.getStock();
           })
         }
         else {
@@ -318,7 +317,7 @@ class Unset extends Component {
   changeFamily (family) {
     this.setState({ name: '', family, page: 1 }, () => {
       this.getProduct();
-      this.getStock();
+      //this.getStock();
     })
   }
 
@@ -459,7 +458,6 @@ class Unset extends Component {
                         <th>품목명</th>
                         <th style={{ width: 250 }}>품목군</th>
                         <th>판매 단가</th>
-                        <th>재고</th>
                         {/*this.state.set ?
                             <th style={{width : 300}}>품목 비활성화</th> :
                             <th style={{width : 300}}>품목 활성화</th>
@@ -482,7 +480,6 @@ class Unset extends Component {
                           <td>{e.name + ' ' + e.grade + ' ' + e.weight}</td>
                           <td>{e.familyName}</td>
                           <td>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</td>
-													<td>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>
                           {/*this.state.stockEdit ?
                             <td style={{ width: 250, verticalAlign: 'middle' }}>
                               <InputGroup>
