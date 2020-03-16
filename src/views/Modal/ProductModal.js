@@ -115,6 +115,7 @@ class ProductModal extends Component {
     const arr1 = [];
     return (
       <div className="animated fadeIn">
+        <link rel="stylesheet" type="text/css" href="css/Modal.css"></link>
         <div className="card">
           <div className="card-header">
           <Row>
@@ -132,7 +133,7 @@ class ProductModal extends Component {
               </Col>
             </Row>
           </div>
-          <div className="card-body product-cardbody" style={{overflow: 'scroll'}} >
+          <div className="card-body product-cardbody" style={{overflow: 'scroll', height: 500}} >
           <Table hover>
                   <thead>
                     <tr>
@@ -147,7 +148,7 @@ class ProductModal extends Component {
                         return (
                           <tr style={{cursor: 'pointer'}} onClick={() => this.selectProduct(e)} key={i}>
                             <td>{e.name} {e.grade} {e.weight}</td>
-                            <td>{e['price_shipping']}</td>
+                            <td>{e['price_shipping']} 원</td>
                           </tr>
                         )
                       }, this)

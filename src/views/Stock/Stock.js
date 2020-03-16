@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Card, CardBody, CardHeader, Col, Row, Table, Button, Input, Pagination, PaginationItem, PaginationLink, CardFooter } from 'reactstrap';
 import Popup from "reactjs-popup";
-import PlantModal from '../Modal/PlantModal';
 
 const listCount = 15;
 
