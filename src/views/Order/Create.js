@@ -107,7 +107,8 @@ class Create extends Component {
                     <th>일자</th>
                     <td>
                       <div style={{pointer: 'cursor'}}>
-                        <DatePicker
+                        <DatePicker 
+                          className="datepicker"
                           dateFormat="yyyy년 MM월 dd일"
                           locale="ko"
                           selected={this.state.date}
