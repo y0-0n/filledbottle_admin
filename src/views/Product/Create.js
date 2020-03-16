@@ -16,8 +16,9 @@ class CreateProduct extends Component {
 
     this.state = {
       image: '/assets/img/noimage.jpg',
-			familyData: [],
-			data: [],
+      familyData: [],
+      data: [],
+      checkCategory: true,
     };
   }
 
@@ -96,11 +97,18 @@ class CreateProduct extends Component {
         }
       })
       .then(data => {
-        let status = data[0];
-        if (status === 200){
-					this.setState({ familyData: data[1] });
-					this.form.productFamily = data[1][0].id
-				}
+				let status = data[0];
+				
+        if (status === 200) {
+          if (data[1].length !== 0) {
+						this.setState({ familyData: data[1] });
+						this.form.productFamily = data[1][0].id
+          } else {
+            this.setState({
+              checkCategory: false
+            })
+          }
+        }
         else {
           alert('로그인 하고 접근해주세요');
           this.props.history.push('/login');
@@ -111,8 +119,8 @@ class CreateProduct extends Component {
   render() {
     return (
       <div className="animated fadeIn align-items-center">
-      <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
-      <link rel="stylesheet" type="text/css" href="css/Product.css"></link>
+        <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
+        <link rel="stylesheet" type="text/css" href="css/Product.css"></link>
         <Row className="mb-5 justify-content-center">
           <Col sm="12" md="12" lg="12" xl="8">
             <form encType="multipart/form-data" onSubmit={this.handlePost.bind(this)}>
@@ -125,7 +133,7 @@ class CreateProduct extends Component {
                     <Table className="ShowTable">
                       <tbody>
                         <tr>
-                          <th>품목명<span style={{color : "#FA5858"}}>*</span></th>
+                          <th>품목명<span style={{ color: "#FA5858" }}>*</span></th>
                           <td>
                             <Input required onChange={(e) => this.form.name = e.target.value} />
                           </td>
@@ -145,27 +153,42 @@ class CreateProduct extends Component {
                                   //set, for instance, comment[1] to "some text"
                                 }} />}
                             </Popup>*/}
-														<Input onChange={(e) => {this.form.productFamily = e.target.value;}} type='select' name="family">
-															{this.state.familyData.map((e, i) => {
-																return <option key={i} value={e.id}>{e.name}</option>
-															})}
-														</Input>
+                            {this.state.checkCategory ?
+                              <Input onChange={(e) => { this.form.productFamily = e.target.value; }} type='select' name="family">
+                                {this.state.familyData.map((e, i) => {
+                                  return <option key={i} value={e.id}>{e.name}</option>
+                                })}
+                              </Input>
+                              :
+                              <div style={{ textAlign: "left", padding: 10 }}>
+                                <div style={{ display: "table-cell" }}>
+                                  <i style={{ marginRight: 10 }} class="fa fa-exclamation-circle"></i>
+                                </div>
+                                <div style={{ display: "table-cell" }}>
+                                  품목군을 설정해서 품목 관리를 시작하세요. <br></br>
+                                  ( 우측상단의 회원정보 또는 품목군 추가하기 버튼을 통해 설정이 가능합니다. )
+                                </div>
+                                <div style={{ display: "table-cell", paddingLeft: 50, verticalAlign: "middle" }}>
+                                  <Button color="primary" onClick={() => { this.props.history.push('/main/registerdetail') }}>품목군 추가하기</Button>
+                                </div>
+                              </div>
+                            }
                           </td>
                         </tr>
                         <tr>
                           <th>사진</th>
                           <td>
-                            <div style={{paddingBottom: '10px'}}>
-                              <input ref="file" type="file" name="file" onChange={e => { this.handleFileInput(e); }} style={{display: "none"}} />
-														  <img src='/assets/img/upload.jpg' border='0' style={{width: '10%', marginLeft: 10}} onClick={() => document.all.file.click()}/>
+                            <div style={{ paddingBottom: '10px' }}>
+                              <input ref="file" type="file" name="file" onChange={e => { this.handleFileInput(e); }} style={{ display: "none" }} />
+                              <img src='/assets/img/upload.jpg' border='0' style={{ width: '10%', marginLeft: 10 }} onClick={() => document.all.file.click()} />
                             </div>
                             <div>
-                              <img alt="품목 사진" style={{ width: '30%', height: '50%', display: "inline-block", border: '1px', borderStyle: 'dashed', borderColor: '#c8ced3'}} src={this.state.image}/>
+                              <img alt="품목 사진" style={{ width: '30%', height: '50%', display: "inline-block", border: '1px', borderStyle: 'dashed', borderColor: '#c8ced3' }} src={this.state.image} />
                             </div>
                           </td>
                         </tr>
                         <tr>
-                          <th>판매 단가<span style={{color : "#FA5858"}}>*</span></th>
+                          <th>판매 단가<span style={{ color: "#FA5858" }}>*</span></th>
                           <td>
                             <Row>
                               <Col xs="9">
