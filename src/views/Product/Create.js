@@ -22,7 +22,6 @@ class CreateProduct extends Component {
   }
 
   componentWillMount() {
-    this.productFamily = '품목군 없음'
     this.getProductFamily();
   }
 
@@ -98,8 +97,10 @@ class CreateProduct extends Component {
       })
       .then(data => {
         let status = data[0];
-        if (status === 200)
-          this.setState({ familyData: data[1] });
+        if (status === 200){
+					this.setState({ familyData: data[1] });
+					this.form.productFamily = data[1][0].id
+				}
         else {
           alert('로그인 하고 접근해주세요');
           this.props.history.push('/login');
@@ -145,7 +146,6 @@ class CreateProduct extends Component {
                                 }} />}
                             </Popup>*/}
 														<Input onChange={(e) => {this.form.productFamily = e.target.value;}} type='select' name="family">
-															<option value='NULL'>품목군 없음</option>
 															{this.state.familyData.map((e, i) => {
 																return <option key={i} value={e.id}>{e.name}</option>
 															})}
