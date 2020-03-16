@@ -107,6 +107,8 @@ class CreateProduct extends Component {
             this.setState({
               checkCategory: false
             })
+            alert('품목군 추가를 해주세요');
+            this.props.history.push('/main/registerdetail')
           }
         }
         else {
