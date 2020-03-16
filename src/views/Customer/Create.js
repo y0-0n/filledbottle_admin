@@ -92,7 +92,7 @@ class Create extends Component {
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
         <link rel="stylesheet" type="text/css" href="css/Customer.css"></link>
         <Row className="mb-5 justify-content-center">
-          <Col md="12" lg="12" xl="10">
+          <Col md="12" lg="12" xl="12">
             <form encType="multipart/form-data" onSubmit={this.handlePost.bind(this)}>
               <FormGroup>
                 <Card>
@@ -107,6 +107,8 @@ class Create extends Component {
                         <td>
                           <Input required onChange={(e) => this.form.name=e.target.value}/>
                         </td>
+                      </tr>
+                      <tr>
                         <th>전화번호</th>
                         <td>
                           <Input type="tel" onChange={(e) => this.form.telephone=e.target.value}/>
@@ -117,6 +119,8 @@ class Create extends Component {
                         <td>
                           <Input type="tel" pattern="[0-9]{11}" onChange={(e) => this.form.cellphone=e.target.value} required/>
                         </td>
+                      </tr>
+                      <tr>
                         <th>사업자등록번호</th>
                         <td>
                           <Input onChange={(e) => this.form.crNumber=e.target.value}/>
@@ -128,7 +132,7 @@ class Create extends Component {
                           <Row style={{marginBottom: '10px'}}>
                             <Col lg="6" md="6" sm="6">
                               <InputGroup required>
-                                <Input type="text" id="sample6_postcode" placeholder="우편번호"/>                            
+                                <Input type="text" id="sample6_postcode" placeholder="우편번호" readOnly/>                            
                                 <InputGroupAddon addonType="append">
                                   <Button block color="primary" onClick={() => {this.sample6_execDaumPostcode()}}>우편번호찾기</Button>
                                 </InputGroupAddon>
@@ -137,7 +141,7 @@ class Create extends Component {
                           </Row>
                           <Row style={{marginBottom: '10px'}}>
                             <Col>
-                              <Input type="text" id="sample6_address" placeholder="주소"/>
+                              <Input type="text" id="sample6_address" placeholder="주소" readOnly/>
                             </Col>
                           </Row>
                           <Row>
