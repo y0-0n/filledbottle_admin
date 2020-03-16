@@ -13,7 +13,21 @@
      font-style: normal; 
     } 
 
-  body{
-    font-family:'ON-IGothic';
+    @font-face { font-family: 'BBTreeGL'; 
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_nine_@1.1/BBTreeGL.woff') format('woff'); 
+      font-weight: normal;
+      font-style: normal; 
+    }
+
+  
+    @font-face { font-family: 'JSDongkang-Regular'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/JSDongkang-RegularA1.woff') format('woff'); font-weight: normal; font-style: normal; }
+  
+    @font-face { font-family: 'locus_sangsang'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/locus_sangsang.woff') format('woff'); font-weight: normal; font-style: normal; }
+  
+
+    @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css); .nanumgothic * { font-family: 'Nanum Gothic', sans-serif;}
+    body{
+    font-family: 'Nanum Gothic', sans-serif;
     font-size: 1.2em;
+    font-weight: bolder;
   }
