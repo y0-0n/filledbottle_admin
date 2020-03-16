@@ -35,7 +35,8 @@ class List extends Component {
       //set: true,
       stockEdit: false,
 			familyData: [],
-			userCategoryData: [],
+      userCategoryData: [],
+      checkCategory: true,
 		};
     this.name = '';
     this.family = 0;
@@ -117,7 +118,9 @@ class List extends Component {
 								this.getProductFamily();
 							});
 					} else {
-						alert('없음')
+						this.setState({
+              checkCategory: false
+            })
 					}
 					
         }
@@ -300,13 +303,26 @@ class List extends Component {
         <link rel="stylesheet" type="text/css" href="css/Product.css"></link>
         <Row>
           <Col>
-            <Table className="category-top">
+            <Table className="category-top" >
               <tbody>
                 <tr>
-									{
+									{ this.state.checkCategory ?
 										userCategoryData.map((e, i) => {
 											return <td key={i} style={{cursor: "pointer", backgroundColor: this.state.category===e.id ? '#E6E6E6' : '#fff'}} onClick={() => {this.changeCategory(e.id)}}>{e.name}</td>
-										})
+                    })
+                    :
+                    <div style={{textAlign: "left", padding: 30}}>
+                      <div style={{ display: "table-cell" }}>
+                        <i style={{ marginRight: 10 }} class="fa fa-exclamation-circle"></i>
+                      </div>
+                      <div style={{ display: "table-cell" }}>
+                        현재 품목군이 존재하지 않습니다. <br></br>
+                        ( 우측상단의 회원정보 또는 품목군 추가하기 버튼을 통해 설정이 가능합니다. )
+                      </div>
+                      <div style={{ display: "table-cell", paddingLeft: 50, verticalAlign: "middle"}}>
+                        <Button color="primary" onClick={() => { this.props.history.push('/main/registerdetail') }}>품목군 추가하기</Button>
+                      </div>
+                    </div>
 									}
                 </tr>
               </tbody>
@@ -330,13 +346,23 @@ class List extends Component {
                 <Row>
                   <Col>
                   <ul className="list-productfamily-ul" style={{width: '100%', display: 'flex', flexWrap: 'wrap', listStyleType: 'none', cursor: 'pointer'}}>
-                    <li className="list-productfamily" style={{backgroundColor: this.state.family === 0? '#F16B6F' : 'transparent', border: this.state.family === 0? '0px' : '1px solid #c9d6de',color: this.state.family === 0? '#fff' : '#52616a', fontWeight: this.state.family === 0? 'bold' : 'normal', fontSize: this.state.family === 0? '1.1em' : '1em'}}onClick = {() => this.changeFamily(0)}>
-                      전체
-                    </li>
-                    {
+                    { this.state.checkCategory ?
+                      <li className="list-productfamily" style={{backgroundColor: this.state.family === 0? '#F16B6F' : 'transparent', border: this.state.family === 0? '0px' : '1px solid #c9d6de',color: this.state.family === 0? '#fff' : '#52616a', fontWeight: this.state.family === 0? 'bold' : 'normal', fontSize: this.state.family === 0? '1.1em' : '1em'}}onClick = {() => this.changeFamily(0)}>
+                        전체
+                      </li>
+                      :
+                      <li>
+                        
+                      </li>
+                    }
+                    { this.state.checkCategory ?
                       familyData.map((e, i) => {
                         return <li key={i} className="list-productfamily" style={{backgroundColor: this.state.family === e.id? '#F16B6F' : 'transparent', border: this.state.family === e.id? '0px' : '1px solid #c9d6de', color: this.state.family === e.id? '#fff' : '#52616a', fontWeight: this.state.family === e.id? 'bold' : 'normal', fontSize: this.state.family === e.id? '1.1em' : '1em'}}  onClick = {() => this.changeFamily(e.id)}>{e.name}</li>
                       })
+                      :
+                      <li>
+                        
+                      </li>
                     }
                     {/*<Popup
                           trigger={<li className="list-productfamily" style={{border: '1px solid #c9d6de', color: 'lightgreen',}}>+</li>}
