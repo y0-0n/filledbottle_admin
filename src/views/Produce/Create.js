@@ -29,6 +29,8 @@ class Create extends Component {
       name: '',
       content: '',
       previous_id: null,
+      area : 0,
+      expected : 0
     }
 
     this.state = {
@@ -67,31 +69,41 @@ class Create extends Component {
       formData.append(key, value);
     }
 
-    fetch(process.env.REACT_APP_HOST+"/api/produce", {
-      method: 'POST',
-      'Content-Type': 'multipart/form-data',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-      body: formData
-    })
-    .then(response => {
-      if(response.status === 401) {
-        return Promise.all([401])
-      } else {
-        return Promise.all([response.status, response.json()]);
-      }
-    })
-    .then(data => {
-      let status = data[0];
-      if(status === 200) {
-        alert('등록됐습니다.');
-        this.props.history.push('/main/produce');
-      } else {
-        alert('등록에 실패했습니다.');
-      }
-    });
+    console.log(typeof(this.form.area))
+
+    if ( this.form.product_id === 0 || this.form.process === '' ||
+          this.form.name === ''     || this.form.content === '' ||
+          this.form.area === 0      || this.form.expected === 0) {
+      alert("필수입력란(*)을 모두 입력해주세요")
+    }
+    else {
+      fetch(process.env.REACT_APP_HOST+"/api/produce", {
+        method: 'POST',
+        'Content-Type': 'multipart/form-data',
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        },
+        body: formData
+      })
+      .then(response => {
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if(status === 200) {
+          alert('등록됐습니다.');
+          this.props.history.push('/main/produce');
+        } else {
+          alert('등록에 실패했습니다.');
+        }
+      });
+    }
   }
+
 
   render() {
     return (
@@ -249,13 +261,13 @@ class Create extends Component {
                       </td>
                       <th>재배 면적<span style={{color : "#FA5858"}}> *</span></th>
                       <td>
-                        <Input defaultValue={this.form.area} placeholder="단위 : ha (1ha = 10,000㎡)"onChange={(e) => {this.form.area = e.target.value}}/>
+                        <Input type="number" defaultValue={this.form.area} placeholder="단위 : ha (1ha = 10,000㎡)"onChange={(e) => {this.form.area = e.target.value}}/>
                       </td>
                     </tr>
                     <tr>
                       <th>예상 생산량<span style={{color : "#FA5858"}}> *</span></th>
                       <td colSpan="3">
-                        <Input defaultValue={this.form.expected} placeholder="단위 : kg" onChange={(e) => {this.form.expected = e.target.value}}/>
+                        <Input type="number" defaultValue={this.form.expected} placeholder="단위 : kg" onChange={(e) => {this.form.expected = e.target.value}}/>
                       </td>
                     </tr>
                       <th>작업사진</th>
