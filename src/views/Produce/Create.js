@@ -127,7 +127,7 @@ class Create extends Component {
                         <Row>
                           <Col xs="9"><Input defaultValue={this.form.rain} onChange={(e) => {this.form.rain = e.target.value}}/></Col>
                           <Col xs="3">mm</Col>
-                        </Row>                          
+                        </Row>
                       </td>
                       <th>적설량</th>
                       <td>
@@ -235,7 +235,7 @@ class Create extends Component {
                     <tr>
                       <th>영농과정<span style={{color : "#FA5858"}}> *</span></th>
                       <td>
-                        <Input defaultValue={this.form.process} onChange={(e) => {this.form.process = e.target.value}}/>
+                        <Input defaultValue={this.form.process} placeholder="자유롭게 적어주세요" onChange={(e) => {this.form.process = e.target.value}}/>
                       </td>
                       <th>작업명<span style={{color : "#FA5858"}}> *</span></th>
                       <td>
@@ -249,19 +249,19 @@ class Create extends Component {
                       </td>
                       <th>재배 면적<span style={{color : "#FA5858"}}> *</span></th>
                       <td>
-                        <Input defaultValue={this.form.area} onChange={(e) => {this.form.area = e.target.value}}/>
+                        <Input defaultValue={this.form.area} placeholder="단위 : ha (1ha = 10,000㎡)"onChange={(e) => {this.form.area = e.target.value}}/>
                       </td>
                     </tr>
                     <tr>
                       <th>예상 생산량<span style={{color : "#FA5858"}}> *</span></th>
                       <td colSpan="3">
-                        <Input defaultValue={this.form.expected} onChange={(e) => {this.form.expected = e.target.value}}/>
+                        <Input defaultValue={this.form.expected} placeholder="단위 : kg" onChange={(e) => {this.form.expected = e.target.value}}/>
                       </td>
                     </tr>
                       <th>작업사진</th>
                       <td colSpan="3">
                         <img alt="작업 사진" style={{height: 500, width: 500}} src={this.state.image} /> <br></br>
-                        <input ref="file" type="file" name="file"  accept="image/*" onChange={e =>{this.handleFileInput(e);}}/> 
+                        <input ref="file" type="file" name="file"  accept="image/*" onChange={e =>{this.handleFileInput(e);}}/>
                       </td>
                     <tr>
                     </tr>
