@@ -272,7 +272,7 @@ class Create extends Component {
                 <Button block color="primary" onClick={this.handlePost.bind(this)}>추가하기</Button>
               </CardFooter>
             </Card>
-            <Row>
+            {/*<Row>
               <Col>
                 <Card>
                   <CardHeader>
@@ -363,9 +363,9 @@ class Create extends Component {
                   </CardBody>
                 </Card>
               </Col>
-            </Row>
+						</Row>*/}
           </Col>
-        </Row>
+				</Row>
       </div>
     )
   }
