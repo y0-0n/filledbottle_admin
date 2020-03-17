@@ -346,7 +346,7 @@ class List extends Component {
                   <Col>
                   <ul className="list-productfamily-ul" style={{width: '100%', display: 'flex', flexWrap: 'wrap', listStyleType: 'none', cursor: 'pointer'}}>
                     { this.state.checkCategory ?
-                      <li className="list-productfamily" style={{backgroundColor: this.state.family === 0? '#F16B6F' : 'transparent', border: this.state.family === 0? '0px' : '1px solid #c9d6de',color: this.state.family === 0? '#fff' : '#52616a', fontWeight: this.state.family === 0? 'bold' : 'normal', fontSize: this.state.family === 0? '1.1em' : '1em'}}onClick = {() => this.changeFamily(0)}>
+                      <li className="list-productfamily" style={{backgroundColor: this.state.family === 0? '#e872b1' : 'transparent', border: this.state.family === 0? '0px' : '1px solid #c9d6de',color: this.state.family === 0? '#fff' : '#52616a', fontWeight: this.state.family === 0? 'bold' : 'normal', fontSize: this.state.family === 0? '1.1em' : '1em'}}onClick = {() => this.changeFamily(0)}>
                         전체
                       </li>
                       :
@@ -356,7 +356,7 @@ class List extends Component {
                     }
                     { this.state.checkCategory ?
                       familyData.map((e, i) => {
-                        return <li key={i} className="list-productfamily" style={{backgroundColor: this.state.family === e.id? '#F16B6F' : 'transparent', border: this.state.family === e.id? '0px' : '1px solid #c9d6de', color: this.state.family === e.id? '#fff' : '#52616a', fontWeight: this.state.family === e.id? 'bold' : 'normal', fontSize: this.state.family === e.id? '1.1em' : '1em'}}  onClick = {() => this.changeFamily(e.id)}><p>{e.name}</p></li>
+                        return <li key={i} className="list-productfamily" style={{backgroundColor: this.state.family === e.id? '#e872b1' : 'transparent', border: this.state.family === e.id? '0px' : '1px solid #c9d6de', color: this.state.family === e.id? '#fff' : '#52616a', fontWeight: this.state.family === e.id? 'bold' : 'normal', fontSize: this.state.family === e.id? '1.1em' : '1em'}}  onClick = {() => this.changeFamily(e.id)}><p>{e.name}</p></li>
                       })
                       :
                       <li>
