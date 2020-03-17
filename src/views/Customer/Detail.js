@@ -135,6 +135,8 @@ class Detail extends Component {
                       <td>
                         {data.name}
                       </td>
+                    </tr>
+                    <tr>
                       <th>상태</th>
                       <td>{data.set ? <Badge color="primary">활성화</Badge> : <Badge color="danger">비활성화</Badge>}</td>
                     </tr>
@@ -143,6 +145,8 @@ class Detail extends Component {
                       <td>
                         {data.cellphone}
                       </td>
+                    </tr>
+                    <tr>
                       <th>전화번호</th>
                       <td>
                         {data.telephone}
@@ -153,6 +157,8 @@ class Detail extends Component {
                       <td>
                         {data.crNumber}
                       </td>
+                    </tr>
+                    <tr>
                       <th>주소</th>
                       <td>
                         {data.address}
