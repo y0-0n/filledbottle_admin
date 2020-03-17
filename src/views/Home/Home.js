@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import React, { Component, Children } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';                                                                                                                           
+=======
+import React, { Component } from 'react';
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+>>>>>>> f7dfd8f7d2cc37d226b8a330350b89f36f9f3b51
 import { Card, CardBody, CardHeader, Row, Col, Table } from 'reactstrap';
 import moment from 'moment';
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -116,7 +121,7 @@ class Home extends Component {
       }
     })
 	}
-	
+
 	getAmount() {
     fetch(process.env.REACT_APP_HOST+"/order/amount/"+((new Date()).getMonth()+1), {
       method: 'GET',
@@ -160,14 +165,13 @@ class Home extends Component {
       if(status === 200) {
         let last_amount = data[1][0].amount;
 				this.setState({last_amount});
-				console.warn(data[1])
       } else {
         alert('로그인 하고 접근해주세요')
         this.props.history.push('/login')
       }
     })
 	}
-	
+
   chart(){
     const bar = {
       labels: ['저번 달 매출', '이번 달 매출'],
@@ -280,6 +284,8 @@ class Home extends Component {
     let backgroundColor = '#3174ad';
     if(event.state == 'shipping')
       backgroundColor = 'gray'
+    else if (event.state == 'cancel')
+      backgroundColor = 'red'
     var style = {
       backgroundColor,
       borderRadius: '0px',
@@ -333,7 +339,7 @@ class Home extends Component {
         },
       ],
     };
-    
+
     this.options = {
       tooltips: {
         enabled: false,
@@ -347,6 +353,7 @@ class Home extends Component {
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
       <link rel="stylesheet" type="text/css" href="css/Home.css"></link>
+<<<<<<< HEAD
         <Card className="calendar">
           <CardHeader>
             일정
@@ -369,6 +376,35 @@ class Home extends Component {
             </div>
           </CardBody>
         </Card>
+=======
+			<Row>
+				<Col sm="12" md="12">
+					<Card className="calendar">
+						<CardHeader>
+							일정
+						</CardHeader>
+						<CardBody>
+							<div style={{overflow: 'scroll', height: 850}}>
+							<Calendar
+								selectable
+								localizer={localizer}
+								startAccessor={'start'}
+								endAccessor={'end'}
+								style={{ height: 800, 'minWidth': 500 }}
+								events={this.state.events}
+								eventPropGetter={(this.eventStyleGetter)}
+								messages={this.messages}
+								culture='ko'
+								onNavigate={(date) => {this.getOrder(moment(date).startOf('month'), moment(date).endOf('month'))}}
+								onSelectEvent={(e, s) => this.props.history.push(`/main/sales/order/${e.resource}`)}
+								views={['month']}
+							/>
+							</div>
+						</CardBody>
+					</Card>
+				</Col>
+				</Row>
+>>>>>>> f7dfd8f7d2cc37d226b8a330350b89f36f9f3b51
         <Row>
           <Col sm="12" md="6">
             <Card>
@@ -401,7 +437,7 @@ class Home extends Component {
               </CardBody>
             </Card>
           </Col>
-          <Col sm="12" md="6">          
+          {/*<Col sm="12" md="6">          
             <Card>
               <CardHeader>
                 매출
@@ -424,16 +460,58 @@ class Home extends Component {
                       <td style={{textAlign : "right"}}>{this.state.this_income} 원</td>
                       <td style={{textAlign : "right"}}>{this.state.this_amount} 건</td>
                     </tr>
-                    {/*<tr>
+                    <tr>
                       <th>누적</th>
                       <td style={{textAlign : "right"}}>{}원</td>
                       <td style={{textAlign : "right"}}>{}건</td>
-										</tr>*/}
+										</tr>
                   </tbody>
                 </Table>
-                {/*<div className="chart-wrapper">
+                <div className="chart-wrapper">
                   <Bar data={this.bar} options={this.options} />
-                    </div>*/}
+                    </div>
+              </CardBody>
+            </Card>
+					</Col>*/}
+					<Col sm="6" md="3">          
+            <Card>
+              <CardHeader>
+                매출
+              </CardHeader>
+              <CardBody>
+                <Table className="ShowTable">
+                  <tbody>
+                    <tr>
+                      <th>전월</th>
+                      <td style={{textAlign : "right"}}>{this.state.last_income} 원</td>
+                    </tr>
+                    <tr>
+                      <th>당월</th>
+                      <td style={{textAlign : "right"}}>{this.state.this_income} 원</td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </CardBody>
+            </Card>
+          </Col>
+					<Col sm="6" md="3">          
+            <Card>
+              <CardHeader>
+                거래량
+              </CardHeader>
+              <CardBody>
+                <Table className="ShowTable">
+                  <tbody>
+                    <tr>
+                      <th>전월</th>
+                      <td style={{textAlign : "right"}}>{this.state.last_amount} 건</td>
+                    </tr>
+                    <tr>
+                      <th>당월</th>
+                      <td style={{textAlign : "right"}}>{this.state.this_amount} 건</td>
+                    </tr>
+                  </tbody>
+                </Table>
               </CardBody>
             </Card>
           </Col>

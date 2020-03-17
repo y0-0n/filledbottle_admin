@@ -294,7 +294,6 @@ class List extends Component {
   render() {
     var data = this.state.productData;
 		var {stockData, familyData, userCategoryData} = this.state;
-		console.warn(stockData, data)
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
     return (
@@ -357,7 +356,7 @@ class List extends Component {
                     }
                     { this.state.checkCategory ?
                       familyData.map((e, i) => {
-                        return <li key={i} className="list-productfamily" style={{backgroundColor: this.state.family === e.id? '#F16B6F' : 'transparent', border: this.state.family === e.id? '0px' : '1px solid #c9d6de', color: this.state.family === e.id? '#fff' : '#52616a', fontWeight: this.state.family === e.id? 'bold' : 'normal', fontSize: this.state.family === e.id? '1.1em' : '1em'}}  onClick = {() => this.changeFamily(e.id)}>{e.name}</li>
+                        return <li key={i} className="list-productfamily" style={{backgroundColor: this.state.family === e.id? '#F16B6F' : 'transparent', border: this.state.family === e.id? '0px' : '1px solid #c9d6de', color: this.state.family === e.id? '#fff' : '#52616a', fontWeight: this.state.family === e.id? 'bold' : 'normal', fontSize: this.state.family === e.id? '1.1em' : '1em'}}  onClick = {() => this.changeFamily(e.id)}><p>{e.name}</p></li>
                       })
                       :
                       <li>
