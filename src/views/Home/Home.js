@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Calendar, momentLocalizer } from 'react-big-calendar';                                                                                                                           
+import { Calendar, momentLocalizer } from 'react-big-calendar';
 import { Card, CardBody, CardHeader, Row, Col, Table } from 'reactstrap';
 import moment from 'moment';
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -111,7 +111,7 @@ class Home extends Component {
       }
     })
 	}
-	
+
 	getAmount() {
     fetch(process.env.REACT_APP_HOST+"/order/amount/"+((new Date()).getMonth()+1), {
       method: 'GET',
@@ -162,7 +162,7 @@ class Home extends Component {
       }
     })
 	}
-	
+
   chart(){
     const bar = {
       labels: ['저번 달 매출', '이번 달 매출'],
@@ -275,6 +275,8 @@ class Home extends Component {
     let backgroundColor = '#3174ad';
     if(event.state == 'shipping')
       backgroundColor = 'gray'
+    else if (event.state == 'cancel')
+      backgroundColor = 'red'
     var style = {
       backgroundColor,
       borderRadius: '0px',
@@ -304,7 +306,7 @@ class Home extends Component {
         },
       ],
     };
-    
+
     this.options = {
       tooltips: {
         enabled: false,
@@ -372,7 +374,7 @@ class Home extends Component {
               </CardBody>
             </Card>
           </Col>
-          <Col sm="12" md="6">          
+          <Col sm="12" md="6">
             <Card>
               <CardHeader>
                 매출
