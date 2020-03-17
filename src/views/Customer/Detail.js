@@ -9,10 +9,11 @@ class Detail extends Component {
     };
   }
   componentWillMount() {
-    this.getCustomer();
+		this.getDetail();
+		this.getCustomerOrder();
   }
 
-  getCustomer() {
+  getDetail() {
     fetch(process.env.REACT_APP_HOST+"/customer/"+this.props.match.params.id, {
       method: 'GET',
       headers: {
@@ -42,7 +43,35 @@ class Detail extends Component {
         .then(response => response.json())
         .then(_ => {this.getCustomer()});
     }
-  }
+	}
+	
+	getCustomerOrder() {
+		fetch(process.env.REACT_APP_HOST+"/api/customer/getOrder", {
+			method: 'POST',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + localStorage.getItem('token'),
+			},
+			body: JSON.stringify({customer: this.props.match.params.id})
+		})
+		.then(response => {
+			if(response.status === 401) {
+				return Promise.all([401])
+			} else {
+				return Promise.all([response.status, response.json()]);
+			}
+		})
+		.then(data => {
+			const status = data[0];
+			if(status === 200) {
+				console.warn(data[1])
+			} else if(status === 401) {
+				alert('로그인 하고 접근해주세요')
+				this.props.history.push('/login')
+			}
+		});
+	}
 
   activateCustomer(id) {
     let c = window.confirm('이 고객을 활성화하시겠습니까?')
@@ -68,7 +97,7 @@ class Detail extends Component {
       .then(data => {
         let status = data[0];
         if (status === 200)
-          this.getCustomer()
+          this.getDetail()
         else {
           alert('로그인 하고 접근해주세요')
           this.props.history.push('/login')
