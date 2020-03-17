@@ -141,13 +141,13 @@ class Detail extends Component {
                       <td>{data.set ? <Badge color="primary">활성화</Badge> : <Badge color="danger">비활성화</Badge>}</td>
                     </tr>
                     <tr>
-                      <th>핸드폰번호</th>
+                      <th>연락처 1</th>
                       <td>
                         {data.cellphone}
                       </td>
                     </tr>
                     <tr>
-                      <th>전화번호</th>
+                      <th>연락처 2</th>
                       <td>
                         {data.telephone}
                       </td>

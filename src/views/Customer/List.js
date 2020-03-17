@@ -260,10 +260,9 @@ class List extends Component {
                   <Table className="ListTable" hover>
                     <thead>
                       <tr>
-                        <th className="list-hidden">#</th>
+                        <th className="list-hidden">no.</th>
                         <th>고객명</th>
-                        <th className="list-hidden">전화번호</th>
-                        <th className="list-hidden">HP</th>
+                        <th className="list-hidden">연락처</th>
                         <th>주소</th>
                         {//<th>수정</th>
                         }
@@ -272,10 +271,9 @@ class List extends Component {
                     </thead>
                     <tbody>
                       {data.map((e, i) => {
-                        return (<tr style={{ cursor: 'pointer' }} key={e.id}>
+                        return (<tr onClick={() => {this.props.history.push(`/main/customer/${e.id}`)}} style={{ cursor: 'pointer' }} key={e.id}>
                           <td className="list-hidden">{e.id}</td>
-                          <td onClick={() => {this.props.history.push(`/main/customer/${e.id}`)}}>{e.name}</td>
-                          <td className="list-hidden">{e.telephone}</td>
+                          <td>{e.name}</td>
                           <td className="list-hidden">{e.cellphone}</td>
                           <td>{e.address}</td>
                           {//<td><Button onClick={() => {this.props.history.push(`/main/customer/edit/:id}`)}}>수정</Button></td>

@@ -100,13 +100,13 @@ class Modify extends Component {
                           <td>{data.set ? <Badge color="primary">활성화</Badge> : <Badge color="danger">비활성화</Badge>}</td>
                         </tr>
                         <tr>
-                          <th>핸드폰번호</th>
+                          <th>연락처 1</th>
                           <td>
                             <Input defaultValue={data.telephone} onChange={(e) => this.form.cellphone=e.target.value}/>
                           </td>
                         </tr>
                         <tr>
-                          <th>전화번호</th>
+                          <th>연락처 2</th>
                           <td>
                             <Input defaultValue={data.cellphone} onChange={(e) => this.form.telephone=e.target.value}/>
                           </td>
