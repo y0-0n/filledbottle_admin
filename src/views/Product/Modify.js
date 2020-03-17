@@ -136,10 +136,6 @@ class Modify extends Component {
                     <Table className="ShowTable">
                       <tbody>
                         <tr>
-                          <th>사진</th>
-                          <td className="td-img-product">
-                            <img style={{ width: '90%' }} alt="품목 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
-                          </td>
                           <th>품목명</th>
                           <td>
                             <Input defaultValue={data.name} onChange={(e) => this.form.name = e.target.value} />
@@ -155,6 +151,8 @@ class Modify extends Component {
 															})}
 														</Input>
                           </td>
+                        </tr>
+                        <tr>
 													<th>판매 단가</th>
                           <td >
                             <Input defaultValue={data.price_shipping} onChange={(e) => this.form.price = e.target.value} />
@@ -163,16 +161,22 @@ class Modify extends Component {
                         <tr>
 													{/*<th>등급</th>
                           <td >
-                            <Input defaultValue={data.grade} onChange={(e) => this.form.grade = e.target.value} />
+                          <Input defaultValue={data.grade} onChange={(e) => this.form.grade = e.target.value} />
 													</td>
                           <th>무게</th>
                           <td>
-                            <Input defaultValue={data.weight} onChange={(e) => this.form.weight = e.target.value} />
-                          </td>*/}
+                          <Input defaultValue={data.weight} onChange={(e) => this.form.weight = e.target.value} />
+                        </td>*/}
                         </tr>
                         <tr>
 													<th>상태</th>
                           <td colSpan="3">{data.set ? <Badge color="primary">활성화</Badge> : <Badge color="danger">비활성화</Badge>}</td>
+                        </tr>
+                        <tr>
+                          <th>사진</th>
+                          <td>
+                            <img alt="품목 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
+                          </td>
                         </tr>
                       </tbody>
                     </Table>

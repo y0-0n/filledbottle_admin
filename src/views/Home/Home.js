@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-import React, { Component, Children } from 'react';
-import { Calendar, momentLocalizer } from 'react-big-calendar';                                                                                                                           
-=======
 import React, { Component } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
->>>>>>> f7dfd8f7d2cc37d226b8a330350b89f36f9f3b51
 import { Card, CardBody, CardHeader, Row, Col, Table } from 'reactstrap';
 import moment from 'moment';
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -353,7 +348,6 @@ class Home extends Component {
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
       <link rel="stylesheet" type="text/css" href="css/Home.css"></link>
-<<<<<<< HEAD
         <Card className="calendar">
           <CardHeader>
             일정
@@ -376,35 +370,6 @@ class Home extends Component {
             </div>
           </CardBody>
         </Card>
-=======
-			<Row>
-				<Col sm="12" md="12">
-					<Card className="calendar">
-						<CardHeader>
-							일정
-						</CardHeader>
-						<CardBody>
-							<div style={{overflow: 'scroll', height: 850}}>
-							<Calendar
-								selectable
-								localizer={localizer}
-								startAccessor={'start'}
-								endAccessor={'end'}
-								style={{ height: 800, 'minWidth': 500 }}
-								events={this.state.events}
-								eventPropGetter={(this.eventStyleGetter)}
-								messages={this.messages}
-								culture='ko'
-								onNavigate={(date) => {this.getOrder(moment(date).startOf('month'), moment(date).endOf('month'))}}
-								onSelectEvent={(e, s) => this.props.history.push(`/main/sales/order/${e.resource}`)}
-								views={['month']}
-							/>
-							</div>
-						</CardBody>
-					</Card>
-				</Col>
-				</Row>
->>>>>>> f7dfd8f7d2cc37d226b8a330350b89f36f9f3b51
         <Row>
           <Col sm="12" md="6">
             <Card>

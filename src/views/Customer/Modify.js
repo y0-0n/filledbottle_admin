@@ -94,6 +94,8 @@ class Modify extends Component {
                           <td>
                             <Input defaultValue={data.name} onChange={(e) => this.form.name=e.target.value}/>
                           </td>
+                        </tr>
+                        <tr>
                           <th>상태</th>
                           <td>{data.set ? <Badge color="primary">활성화</Badge> : <Badge color="danger">비활성화</Badge>}</td>
                         </tr>
@@ -102,6 +104,8 @@ class Modify extends Component {
                           <td>
                             <Input defaultValue={data.telephone} onChange={(e) => this.form.cellphone=e.target.value}/>
                           </td>
+                        </tr>
+                        <tr>
                           <th>전화번호</th>
                           <td>
                             <Input defaultValue={data.cellphone} onChange={(e) => this.form.telephone=e.target.value}/>
@@ -112,6 +116,8 @@ class Modify extends Component {
                           <td>
                             <Input defaultValue={data.crNumber} onChange={(e) => this.form.crNumber=e.target.value}/>
                           </td>
+                        </tr>
+                        <tr>
                           <th>주소</th>
                           <td>
                             <Input defaultValue={data.address} onChange={(e) => this.form.address=e.target.value}/>
