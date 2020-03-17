@@ -1,3 +1,11 @@
+.rbc-month-row {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
 @media (max-width: 768px) {
     .animated{
         font-size: 0.7em;
