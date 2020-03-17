@@ -23,6 +23,13 @@
   text-align: center;
 }
 
+.list-productfamily p {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	margin-bottom: 0;
+}
+
 .img-product {
   overflow: hidden;
   height: 300px;
