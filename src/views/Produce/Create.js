@@ -64,7 +64,9 @@ class Create extends Component {
   handlePost(e) {
     e.preventDefault();
     let formData = new FormData();
-    formData.append('file', this.state.img);
+    if (this.state.img != null) {
+      formData.append('file', this.state.img);
+    }
     for (let [key, value] of Object.entries(this.form)) {
       formData.append(key, value);
     }
@@ -73,7 +75,7 @@ class Create extends Component {
 
     if ( this.form.product_id === 0 || this.form.process === '' ||
           this.form.name === ''     || this.form.content === '' ||
-          this.form.area === 0      || this.form.expected === 0) {
+          this.form.area === 0      || this.form.expected === 0   ) {
       alert("필수입력란(*)을 모두 입력해주세요")
     }
     else {
