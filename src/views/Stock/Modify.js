@@ -19,11 +19,40 @@ class Stock extends Component {
   }
 
   componentWillMount() {
-		this.getStock();
-  }
-
+		this.getUseFamily();
+	}
+	
+  getUseFamily() {//취급 품목 불러오기
+    fetch(process.env.REACT_APP_HOST+"/api/product/familyInPlant/"+this.props.match.params.id, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+			let status = data[0];
+      if(status === 200){
+				this.setState({useFamilyData: data[1]}, () => {
+					this.getStock();
+				});
+			}
+      else {
+        alert('로그인 하고 접근해주세요');
+        this.props.history.push('/login');
+      }
+    });
+	}
+	
   getStock() {
-		const {plant, family, name} = this.state;
+		const {plant, family, name, useFamilyData} = this.state;
+		console.warn(this.state)
     fetch(process.env.REACT_APP_HOST+"/api/stock/list2", {
       method: 'POST',
       headers: {
@@ -33,7 +62,7 @@ class Stock extends Component {
       },
       body: JSON.stringify(
         {
-          plant, family, name
+          plant, family, name, useFamilyData
         }
       )
     })

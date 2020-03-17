@@ -87,7 +87,7 @@ class Stock extends Component {
   }
 
   getTotal() {
-    const {name, family, plant} = this.state;
+    const {name, family, plant, useFamilyData} = this.state;
 
     fetch(process.env.REACT_APP_HOST + "/api/stock/list/total/", {
       method: 'POST',
@@ -98,7 +98,7 @@ class Stock extends Component {
       },
       body: JSON.stringify(
         {
-          name, family, plant
+          name, family, plant, useFamilyData
         }
       )
     })
