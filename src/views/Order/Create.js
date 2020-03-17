@@ -13,15 +13,15 @@ registerLocale('ko', ko)
 
 //vos = value of supply (공급가액)
 //vat = value added tax (부가세))
-let d = {id: '', name: '', quantity: 0, price: 0, vos: 0, vat: 0, tax: false, sum: 0};
+let d = {id: '', name: '', plant: 0, quantity: 0, price: 0, vos: 0, vat: 0, tax: false, sum: 0};
 
 class Create extends Component {
   constructor(props) {
     super(props);
 
-    this.customer = [];
-
+		this.customer = [];
     this.state = {
+			plantData: [],
       product: [],
       sProduct: [d],
       sCustomer: null, //선택된 거래처
@@ -32,9 +32,10 @@ class Create extends Component {
       telephone: '',
       customerName: '',
       comment: '',
-    };
+		};
   }
   componentWillMount() {
+		this.getPlant();
   }
 
   convertDateFormat(date) {
@@ -75,7 +76,38 @@ class Create extends Component {
         alert('에러로 인해 등록에 실패했습니다.')
       }
     });
-  }
+	}
+	
+	getPlant(){
+    fetch(process.env.REACT_APP_HOST+"/api/plant", {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+			},
+    })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+			let status = data[0];
+      if(status === 200){
+				let {sProduct} = this.state;
+				sProduct[0].plant = data[1][0].id
+				this.setState({plantData: data[1], sProduct});
+				d.plant = data[1][0].id
+			}
+      else {
+        alert('로그인 하고 접근해주세요');
+        this.props.history.push('/login');
+      }
+    });
+	}
 
   vaild() {
     let length = this.state.sProduct.length;
@@ -92,6 +124,7 @@ class Create extends Component {
   }
 
   render() {
+		console.warn(this.state)
     return (
       <div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
@@ -109,7 +142,8 @@ class Create extends Component {
                     <th>일자</th>
                     <td>
                       <div style={{pointer: 'cursor'}}>
-                        <DatePicker
+                        <DatePicker 
+                          className="datepicker"
                           dateFormat="yyyy년 MM월 dd일"
                           locale="ko"
                           selected={this.state.date}
@@ -189,10 +223,11 @@ class Create extends Component {
               </CardHeader>
               <CardBody>
                 <div style={{overflowX : "auto", whiteSpace: "nowrap"}}>
-                  <Table>
+                  <Table className="ListTable">
                     <thead>
                       <tr>
-                        <th>품목명<span style={{color : "#FA5858"}}>*</span></th>
+                        <th>품목<span style={{color : "#FA5858"}}>*</span></th>
+												<th>창고<span style={{color : "#FA5858"}}>*</span></th>
                         <th>수량</th>
                         <th>판매 단가</th>
                         <th>공급가액</th>
@@ -230,7 +265,18 @@ class Create extends Component {
                                             />}
                                   </Popup>}
                               </td>
-                              <td style={{width : 150}}>
+															<td>
+																<Input value={this.state.sProduct[i].plant} onChange={(e) => {
+																	let {sProduct} = this.state;
+																	sProduct[i].plant = e.target.value;
+																	this.setState({sProduct})
+																}} type='select' name="plant">
+																	{this.state.plantData.map((e, i) => {
+																		return <option key={i} value={e.id} >{e.name}</option>
+																	})}
+																</Input>
+															</td>
+                              <td style={{width : 200}}>
                                 <Input name='quantity' style={{width: 50, display: 'inline-block'}} value={this.state.sProduct[i].quantity} onChange={(e)=> {
                                 let {sProduct} = this.state;
                                 sProduct[i].quantity > 0 ? sProduct[i].quantity = e.target.value :  sProduct[i].quantity= Math.abs(e.target.value)
@@ -254,7 +300,7 @@ class Create extends Component {
                               <td><Input name='vos' value={this.state.sProduct[i].tax ? Math.round(this.state.sProduct[i].price * this.state.sProduct[i].quantity * 10 / 11) : Math.round(this.state.sProduct[i].price * this.state.sProduct[i].quantity)} readOnly/></td>
                               <td><Input name='vat' value={this.state.sProduct[i].tax ? Math.round(this.state.sProduct[i].price * this.state.sProduct[i].quantity * 1 / 11) : 0} readOnly/></td>
                               <td style={{width : 80}}>
-                                <input name='tax' type='checkbox' checked={this.state.sProduct[i].tax} onClick={() => {
+                                <input name='tax' type='checkbox' defaultChecked={this.state.sProduct[i].tax} onClick={() => {
                                   let {sProduct} = this.state;
 
                                   let val = Object.assign({}, sProduct[i]);

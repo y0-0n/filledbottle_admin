@@ -21,11 +21,15 @@
   margin-right: 10px;
   margin-bottom: 10px;
   text-align: center;
-  } 
+}
 
 .img-product {
   overflow: hidden;
   height: 300px;
+}
+
+.category-top {
+	table-layout: fixed;
 }
 
 .ShowTable td {
@@ -33,7 +37,18 @@
 }
 
 .ShowTable th {
-	width: 10%
+  width: 10%;
+  vertical-align: middle;
+}
+
+.mb-5 {
+  display: inline-block;
+}
+
+@media (min-width:1200px) {
+  .col-xl-8 {
+    max-width: 100%
+  }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {

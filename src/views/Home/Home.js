@@ -55,7 +55,8 @@ class Home extends Component {
   componentWillMount() {
     this.getOrder(moment().startOf('month')._d, moment().endOf('month')._d);
     this.getOnlyOrder(moment().startOf('month')._d, moment().endOf('month')._d);
-    this.getIncome();
+		this.getIncome();
+		this.getAmount();
     this.chart();
   }
 
@@ -109,8 +110,59 @@ class Home extends Component {
         this.props.history.push('/login')
       }
     })
-  }
+	}
+	
+	getAmount() {
+    fetch(process.env.REACT_APP_HOST+"/order/amount/"+((new Date()).getMonth()+1), {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+      let status = data[0];
+      if(status === 200) {
+        let this_amount = data[1][0].amount;
+        this.setState({this_amount});
+      } else {
+        alert('로그인 하고 접근해주세요')
+        this.props.history.push('/login')
+      }
+    })
 
+    fetch(process.env.REACT_APP_HOST+"/order/amount/"+(new Date()).getMonth(), {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+      let status = data[0];
+      if(status === 200) {
+        let last_amount = data[1][0].amount;
+				this.setState({last_amount});
+				console.warn(data[1])
+      } else {
+        alert('로그인 하고 접근해주세요')
+        this.props.history.push('/login')
+      }
+    })
+	}
+	
   chart(){
     const bar = {
       labels: ['저번 달 매출', '이번 달 매출'],
@@ -336,18 +388,18 @@ class Home extends Component {
                     <tr>
                       <th>전월</th>
                       <td style={{textAlign : "right"}}>{this.state.last_income} 원</td>
-                      <td style={{textAlign : "right"}}>{}건</td>
+                      <td style={{textAlign : "right"}}>{this.state.last_amount} 건</td>
                     </tr>
                     <tr>
                       <th>당월</th>
                       <td style={{textAlign : "right"}}>{this.state.this_income} 원</td>
-                      <td style={{textAlign : "right"}}>{}건</td>
+                      <td style={{textAlign : "right"}}>{this.state.this_amount} 건</td>
                     </tr>
-                    <tr>
+                    {/*<tr>
                       <th>누적</th>
                       <td style={{textAlign : "right"}}>{}원</td>
                       <td style={{textAlign : "right"}}>{}건</td>
-                    </tr>
+										</tr>*/}
                   </tbody>
                 </Table>
                 {/*<div className="chart-wrapper">

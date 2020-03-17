@@ -4,6 +4,7 @@ import Popup from "reactjs-popup";
 import { registerLocale } from  "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ko from 'date-fns/locale/ko';
+import DatePicker from "react-datepicker";
 import ProductModal from '../Modal/ProductModal';
 import ProduceModal from '../Modal/ProduceModal';
 registerLocale('ko', ko)
@@ -36,6 +37,7 @@ class Create extends Component {
       image: null,
       selectedFile: null,
       productName: '',//제품명
+      date: new Date(),
     };
   }
   componentWillMount() {
@@ -198,6 +200,17 @@ class Create extends Component {
                 <Table className="ShowTable">
                   <tbody>
                     <tr>
+                      <th>날짜<span style={{color : "#FA5858"}}> *</span></th>
+                      <td>
+                        <div style={{pointer: 'cursor'}}>
+                          <DatePicker
+                            dateFormat="yyyy년 MM월 dd일"
+                            locale="ko"
+                            selected={this.state.date}
+                            onChange={(date) => {this.setState({date})}}
+                          />
+                        </div>
+                      </td>
                       <th>품목<span style={{color : "#FA5858"}}> *</span></th>
                       <td>
                         <Row>
@@ -218,37 +231,39 @@ class Create extends Component {
                           </Col>
                         </Row>
                       </td>
+                    </tr>
+                    <tr>
                       <th>영농과정<span style={{color : "#FA5858"}}> *</span></th>
                       <td>
                         <Input defaultValue={this.form.process} onChange={(e) => {this.form.process = e.target.value}}/>
                       </td>
-                    </tr>
-                    <tr>
                       <th>작업명<span style={{color : "#FA5858"}}> *</span></th>
                       <td>
                         <Input defaultValue={this.form.name} onChange={(e) => {this.form.name = e.target.value}}/>
                       </td>
+                    </tr>
+                    <tr>
                       <th>작업내용<span style={{color : "#FA5858"}}> *</span></th>
                       <td>
                         <Input defaultValue={this.form.content} onChange={(e) => {this.form.content = e.target.value}}/>
                       </td>
-                    </tr>
-                    <tr>
                       <th>재배 면적<span style={{color : "#FA5858"}}> *</span></th>
                       <td>
                         <Input defaultValue={this.form.area} onChange={(e) => {this.form.area = e.target.value}}/>
                       </td>
+                    </tr>
+                    <tr>
                       <th>예상 생산량<span style={{color : "#FA5858"}}> *</span></th>
-                      <td>
+                      <td colSpan="3">
                         <Input defaultValue={this.form.expected} onChange={(e) => {this.form.expected = e.target.value}}/>
                       </td>
                     </tr>
-                    <tr>
                       <th>작업사진</th>
                       <td colSpan="3">
                         <img alt="작업 사진" style={{height: 500, width: 500}} src={this.state.image} /> <br></br>
                         <input ref="file" type="file" name="file"  accept="image/*" onChange={e =>{this.handleFileInput(e);}}/> 
                       </td>
+                    <tr>
                     </tr>
                   </tbody>
                 </Table>
