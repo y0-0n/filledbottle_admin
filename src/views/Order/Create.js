@@ -49,35 +49,41 @@ class Create extends Component {
     date = this.convertDateFormat(date);
     const orderDate = this.convertDateFormat(new Date());
 
-    fetch(process.env.REACT_APP_HOST+"/order", {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-      body: JSON.stringify({date, sCustomer, sProduct, cellphone, telephone, address, comment, orderDate})
-    })
-    .then(response => {
-      if(response.status === 401) {
-        return Promise.all([401])
-      } else {
-        return Promise.all([response.status, response.json()]);
-      }
-    })
-    .then(data => {
-      const status = data[0];
-      if(status === 200) {
-        this.props.history.push('/sales/list');
-      } else if(status === 401) {
-        alert('로그인 하고 접근해주세요.')
-        this.props.history.push('/login')
-      } else {
-        alert('에러로 인해 등록에 실패했습니다.')
-      }
-    });
-	}
-	
+    if (this.state.sCustomer === null) {
+      alert("고객 아이디를 입력해주세요.");
+    }
+    else {
+      fetch(process.env.REACT_APP_HOST+"/order", {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        },
+        body: JSON.stringify({date, sCustomer, sProduct, cellphone, telephone, address, comment, orderDate})
+      })
+      .then(response => {
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        const status = data[0];
+        if(status === 200) {
+          this.props.history.push('/sales/list');
+        } else if(status === 401) {
+          alert('로그인 하고 접근해주세요.')
+          this.props.history.push('/login')
+        } else {
+          alert('에러로 인해 등록에 실패했습니다.')
+        }
+      });
+	  }
+  }
+
+
 	getPlant(){
     fetch(process.env.REACT_APP_HOST+"/api/plant", {
       method: 'GET',
@@ -142,7 +148,7 @@ class Create extends Component {
                     <th>일자</th>
                     <td>
                       <div style={{pointer: 'cursor'}}>
-                        <DatePicker 
+                        <DatePicker
                           className="datepicker"
                           dateFormat="yyyy년 MM월 dd일"
                           locale="ko"

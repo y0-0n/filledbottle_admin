@@ -29,6 +29,8 @@ class Create extends Component {
       name: '',
       content: '',
       previous_id: null,
+      area : 0,
+      expected : 0
     }
 
     this.state = {
@@ -62,36 +64,48 @@ class Create extends Component {
   handlePost(e) {
     e.preventDefault();
     let formData = new FormData();
-    formData.append('file', this.state.img);
+    if (this.state.img != null) {
+      formData.append('file', this.state.img);
+    }
     for (let [key, value] of Object.entries(this.form)) {
       formData.append(key, value);
     }
 
-    fetch(process.env.REACT_APP_HOST+"/api/produce", {
-      method: 'POST',
-      'Content-Type': 'multipart/form-data',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-      body: formData
-    })
-    .then(response => {
-      if(response.status === 401) {
-        return Promise.all([401])
-      } else {
-        return Promise.all([response.status, response.json()]);
-      }
-    })
-    .then(data => {
-      let status = data[0];
-      if(status === 200) {
-        alert('등록됐습니다.');
-        this.props.history.push('/main/produce');
-      } else {
-        alert('등록에 실패했습니다.');
-      }
-    });
+    console.log(typeof(this.form.area))
+
+    if ( this.form.product_id === 0 || this.form.process === '' ||
+          this.form.name === ''     || this.form.content === '' ||
+          this.form.area === 0      || this.form.expected === 0   ) {
+      alert("필수입력란(*)을 모두 입력해주세요")
+    }
+    else {
+      fetch(process.env.REACT_APP_HOST+"/api/produce", {
+        method: 'POST',
+        'Content-Type': 'multipart/form-data',
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        },
+        body: formData
+      })
+      .then(response => {
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if(status === 200) {
+          alert('등록됐습니다.');
+          this.props.history.push('/main/produce');
+        } else {
+          alert('등록에 실패했습니다.');
+        }
+      });
+    }
   }
+
 
   render() {
     return (
@@ -127,7 +141,7 @@ class Create extends Component {
                         <Row>
                           <Col xs="9"><Input defaultValue={this.form.rain} onChange={(e) => {this.form.rain = e.target.value}}/></Col>
                           <Col xs="3">mm</Col>
-                        </Row>                          
+                        </Row>
                       </td>
                       <th>적설량</th>
                       <td>
@@ -235,7 +249,7 @@ class Create extends Component {
                     <tr>
                       <th>영농과정<span style={{color : "#FA5858"}}> *</span></th>
                       <td>
-                        <Input defaultValue={this.form.process} onChange={(e) => {this.form.process = e.target.value}}/>
+                        <Input defaultValue={this.form.process} placeholder="자유롭게 적어주세요" onChange={(e) => {this.form.process = e.target.value}}/>
                       </td>
                       <th>작업명<span style={{color : "#FA5858"}}> *</span></th>
                       <td>
@@ -249,19 +263,19 @@ class Create extends Component {
                       </td>
                       <th>재배 면적<span style={{color : "#FA5858"}}> *</span></th>
                       <td>
-                        <Input defaultValue={this.form.area} onChange={(e) => {this.form.area = e.target.value}}/>
+                        <Input type="number" defaultValue={this.form.area} placeholder="단위 : ha (1ha = 10,000㎡)"onChange={(e) => {this.form.area = e.target.value}}/>
                       </td>
                     </tr>
                     <tr>
                       <th>예상 생산량<span style={{color : "#FA5858"}}> *</span></th>
                       <td colSpan="3">
-                        <Input defaultValue={this.form.expected} onChange={(e) => {this.form.expected = e.target.value}}/>
+                        <Input type="number" defaultValue={this.form.expected} placeholder="단위 : kg" onChange={(e) => {this.form.expected = e.target.value}}/>
                       </td>
                     </tr>
                       <th>작업사진</th>
                       <td colSpan="3">
                         <img alt="작업 사진" style={{height: 500, width: 500}} src={this.state.image} /> <br></br>
-                        <input ref="file" type="file" name="file"  accept="image/*" onChange={e =>{this.handleFileInput(e);}}/> 
+                        <input ref="file" type="file" name="file"  accept="image/*" onChange={e =>{this.handleFileInput(e);}}/>
                       </td>
                     <tr>
                     </tr>
