@@ -62,7 +62,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.changeWeek();
+    //this.changeWeek();
   }
 
   getIncome() {
@@ -368,7 +368,8 @@ class Home extends Component {
 								culture='ko'
 								onNavigate={(date) => {this.getOrder(moment(date).startOf('month'), moment(date).endOf('month'))}}
 								onSelectEvent={(e, s) => this.props.history.push(`/main/sales/order/${e.resource}`)}
-								views={['month']}
+								defaultView={'week'}
+								views={['week']}
 							/>
 							</div>
 						</CardBody>
