@@ -299,12 +299,12 @@ class Stock extends Component {
                     <tbody>
                       {stockData.map((d) => {
                         return (
-                          <tr style={{cursor: 'pointer'}} key={d.id}
+                          <tr onClick={() => {this.props.history.push(`/main/manage/stock/${this.state.plant}/${d.product_id}`)}} style={{cursor: 'pointer'}} key={d.id}
 													>
 														<td className="list-hidden">
 															<img style={{ width: '90%' }} alt="품목 사진" src={d.file_name ? "http://211.62.225.216:4000/static/" + d.file_name : '318x180.svg'} />
 														</td>
-                            <td onClick={() => {this.props.history.push(`/main/manage/stock/${d.product_id}`)}}>{d.name + " " + d.grade + " " + d.weight}</td>
+                            <td>{d.name + " " + d.grade + " " + d.weight}</td>
                             <td>{d.plantName}</td>
                             <td>{d.quantity}</td>
                           </tr>

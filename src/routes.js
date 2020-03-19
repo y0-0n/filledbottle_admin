@@ -120,7 +120,7 @@ const routes = [
   { path: '/main/register/edit', exact: true,  name: '회원정보수정', component: RegisterModify},
 	{ path: '/main/setting', exact: true,  name: '설정', component: Setting},
   { path: '/main/stock', exact: true,  name: '재고 관리', component: Stock},
-  { path: '/main/manage/stock/:id', exact: true,  name: '재고 내역', component: StockDetail},
+  { path: '/main/manage/stock/:plantId/:productId', exact: true,  name: '재고 내역', component: StockDetail},
 	{ path: '/main/manage/stock/', exact: true,  name: '재고 관리', component: StockList},
 	{ path: '/stock/create', exact: true,  name: '재고 등록', component: CreateStock},
 	{ path: '/main/stock/:id', exact: true,  name: '재고 상세', component: StockListDetail},
