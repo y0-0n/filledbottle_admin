@@ -4,12 +4,17 @@ import ProductModal from '../Modal/ProductModal';
 import Popup from "reactjs-popup";
 
 let def = {id: '', name: '', quantity: 0, price: 0, tax: 0};
+let d = {id: '', name: '', plant: 0, quantity: 0, price: 0, vos: 0, vat: 0, tax: false, sum: 0};
+let p = {id: '', name: ''};
+
 
 class OrderModify extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      plantData: [[p]],
+      product: [],
       data: {
         orderInfo: [{}],
         productInfo: [{}],
@@ -20,6 +25,68 @@ class OrderModify extends Component {
   componentWillMount() {
     this.getData(this.props.match.params.id);
   }
+
+
+  getPlant(i){
+    const {productFamily} = this.state;
+    fetch(process.env.REACT_APP_HOST+"/api/plant/searchPlant", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+      body: JSON.stringify({productFamily})
+    })
+      .then(response => {
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if(status === 200){
+          let {plantData} = this.state;
+          plantData[i] = data[1];
+          this.setState({plantData});
+        }
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      });
+  }
+
+  getFamilyId(id, i){
+    fetch(process.env.REACT_APP_HOST+"/api/product/familyId/"+id, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if(status === 200){
+          this.setState({productFamily: data[1][0].id}, () => {
+            this.getPlant(i)
+          })
+        }
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      });
+  }
+
 
   getData(id) {
     fetch(process.env.REACT_APP_HOST+"/order/detail/"+id, {
@@ -38,10 +105,12 @@ class OrderModify extends Component {
     .then(data => {
       const status = data[0];
       if(status === 200) {
-        data[1].productInfo.map(function (e,i) {
+        data[1].productInfo.map((e,i) => {
           e['price_shipping'] = e['price'] / e['quantity'];
+          this.getFamilyId(e.productId, i)
         })
         this.setState({data: data[1]})
+
       } else if(status === 401) {
         alert('로그인 하고 접근해주세요')
         this.props.history.push('/login')
@@ -100,7 +169,8 @@ class OrderModify extends Component {
     orderInfo = orderInfo[0];
     var d = new Date(orderInfo['date']);
     var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
-    
+
+    console.log(productInfo);
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
@@ -156,7 +226,7 @@ class OrderModify extends Component {
                 <Col>품목을 입력하세요</Col>
                 <Col>
                   <div style={{float : "right"}}>
-                    <Button block color="primary" 
+                    <Button block color="primary"
                       onClick={()=> {
                         let sProduct = productInfo;
                         sProduct.push(def);
@@ -166,7 +236,7 @@ class OrderModify extends Component {
                       추가하기
                     </Button>
                   </div>
-                </Col>  
+                </Col>
               </Row>
             </CardHeader>
             <CardBody>
@@ -175,6 +245,7 @@ class OrderModify extends Component {
                   <thead>
                     <tr>
                       <th>품목명</th>
+                      <th>창고</th>
                       <th>수량</th>
                       <th>판매 단가</th>
                       <th>공급가액</th>
@@ -186,6 +257,7 @@ class OrderModify extends Component {
                   </thead>
                   <tbody>
                     {productInfo.map((e, i) => {
+                      console.warn(e)
                       return ( <tr key={i}>
                         <td>
                           {<Popup
@@ -205,8 +277,22 @@ class OrderModify extends Component {
 
                                           /* set the state to the new variable */
                                           this.setState({productInfo: sProduct});
+                                          this.getFamilyId(data['id'], i)
                                         }}/>}
                           </Popup>}
+                        </td>
+                        <td>
+                          <Input value={e['plantId']} onChange={(e) => {
+                            let sProduct = productInfo;
+                            sProduct[i].plant = e.target.value;
+                            this.setState({productInfo : sProduct})
+                          }} type='select' name="plant">
+                            {
+                              this.state.plantData[i] !== undefined? this.state.plantData[i].map((e, i) => {
+                                return <option key={i} value={e.id} >{e.name}</option>
+                              }) : null
+                            }
+                          </Input>
                         </td>
                         <td>
                           <Input name='quantity' style={{width: 100, display: 'inline-block'}} value={productInfo[i].quantity || 0} onChange={(e)=> {
@@ -242,7 +328,7 @@ class OrderModify extends Component {
                         </td>
                         <td>{this.numberWithCommas(e['price'] = e['price_shipping'] * e['quantity'])}</td>
                         <td>
-                          <Button block color="danger" 
+                          <Button block color="danger"
                             onClick={()=> {
                               let sProduct = productInfo;
                               sProduct.splice(i, 1);
