@@ -157,8 +157,6 @@ class Create extends Component {
                       <tr>
                           <th>상품명<span style={{color : "#FA5858"}}> *</span></th>
                           <th>창고<span style={{color : "#FA5858"}}> *</span></th>
-                          <th>등급</th>
-                          <th>무게</th>
                           <th>단가</th>
                           <th>소모재고<span style={{color : "#FA5858"}}> *</span></th>
                           <th>삭제</th>
@@ -211,8 +209,6 @@ class Create extends Component {
                                 </Input>
                                 {console.log(this.state.sProduct1)}
                               </td>
-                              <td><Input name='grade' value={this.state.sProduct1[i].grade} readOnly/></td>
-                              <td><Input name='weight' value={this.state.sProduct1[i].weight} readOnly/></td>
                               <td><Input name='price' value={this.state.sProduct1[i].price} readOnly/></td>
                               <td>
                                 <Input name='modifyQuantity' onChange={(e) => {
@@ -260,8 +256,6 @@ class Create extends Component {
                       <tr>
                           <th>상품명<span style={{color : "#FA5858"}}> *</span></th>
                           <th>창고<span style={{ color : "#FA5858"}}> *</span></th>
-                          <th>등급</th>
-                          <th>무게</th>
                           <th>단가</th>
                           <th>생산재고<span style={{color : "#FA5858"}}> *</span></th>
                       </tr>
@@ -309,8 +303,6 @@ class Create extends Component {
                                   }
                                 </Input>
                               </td>
-                              <td><Input name='grade' value={this.state.sProduct2[i].grade} readOnly/></td>
-                              <td><Input name='weight' value={this.state.sProduct2[i].weight} readOnly/></td>
                               <td><Input name='price' value={this.state.sProduct2[i].price} readOnly/></td>
                               <td>
                                 <Input name='quantity' onChange={(e) => {
