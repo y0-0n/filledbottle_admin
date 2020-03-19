@@ -373,7 +373,7 @@ class Home extends Component {
 								eventPropGetter={(this.eventStyleGetter)}
 								messages={this.messages}
 								culture='ko'
-								onNavigate={(date) => {this.getOrder(moment(date).startOf('month'), moment(date).endOf('month'))}}
+								onNavigate={(date) => {this.getOrder(moment(date).startOf('week'), moment(date).endOf('week'))}}
 								onSelectEvent={(e, s) => this.props.history.push(`/main/sales/order/${e.resource}`)}
 								defaultView={'week'}
 								views={['week']}
