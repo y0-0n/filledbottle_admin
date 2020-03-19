@@ -66,7 +66,11 @@ class Home extends Component {
   }
 
   getIncome() {
-    fetch(process.env.REACT_APP_HOST+"/order/income/"+((new Date()).getMonth()+1), {
+		const this_date = new Date();
+		const firstDate = new Date(this_date.getFullYear(), this_date.getMonth(), 1)
+		const last_month = new Date(firstDate.setDate(firstDate.getDate() - 1));
+
+    fetch(process.env.REACT_APP_HOST+"/order/income/"+this_date.getFullYear()+"/"+(this_date.getMonth()+1), {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -91,7 +95,7 @@ class Home extends Component {
       }
     })
 
-    fetch(process.env.REACT_APP_HOST+"/order/income/"+(new Date()).getMonth(), {
+    fetch(process.env.REACT_APP_HOST+"/order/income/"+last_month.getFullYear()+"/"+(last_month.getMonth()+1), {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -118,7 +122,10 @@ class Home extends Component {
 	}
 
 	getAmount() {
-    fetch(process.env.REACT_APP_HOST+"/order/amount/"+((new Date()).getMonth()+1), {
+		const this_date = new Date();
+		const firstDate = new Date(this_date.getFullYear(), this_date.getMonth(), 1)
+		const last_month = new Date(firstDate.setDate(firstDate.getDate() - 1));
+    fetch(process.env.REACT_APP_HOST+"/order/amount/"+this_date.getFullYear()+"/"+(this_date.getMonth()+1), {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -142,7 +149,7 @@ class Home extends Component {
       }
     })
 
-    fetch(process.env.REACT_APP_HOST+"/order/amount/"+(new Date()).getMonth(), {
+    fetch(process.env.REACT_APP_HOST+"/order/amount/"+last_month.getFullYear()+"/"+(last_month.getMonth()+1), {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
