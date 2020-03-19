@@ -12,18 +12,20 @@ class Create extends Component {
       quantity: 0,
 			start: 0,
 			dest: 0,
-			quantity: 0
+			quantity: 0,
     };
 
     this.state = {
+			name: '',
 			plantData: [],
 			current1: 0,
-			current2: 0
+			current2: 0,
+			productFamily: 0
     };
   }
 
   componentWillMount() {
-		this.getPlant();
+		//this.getPlant();
 	}
 	
   createStock() {
@@ -57,13 +59,15 @@ class Create extends Component {
   }
 
 	getPlant(){
-    fetch(process.env.REACT_APP_HOST+"/api/plant", {
-      method: 'GET',
+		const {productFamily} = this.state;
+    fetch(process.env.REACT_APP_HOST+"/api/plant/searchPlant", {
+      method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
 			},
+      body: JSON.stringify({productFamily})
     })
     .then(response => {
       if(response.status === 401) {
@@ -78,6 +82,34 @@ class Create extends Component {
 				this.setState({plantData: data[1]});
 				this.form.start = data[1][0].id
 				this.form.dest = data[1][0].id
+			}
+      else {
+        alert('로그인 하고 접근해주세요');
+        this.props.history.push('/login');
+      }
+    });
+	}
+
+	getFamilyId(id){
+    fetch(process.env.REACT_APP_HOST+"/api/product/familyId/"+id, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+			},
+    })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+			let status = data[0];
+      if(status === 200){
+				this.setState({productFamily: data[1][0].id}, () => {
+					this.getPlant()
+				})
 			}
       else {
         alert('로그인 하고 접근해주세요');
@@ -166,6 +198,24 @@ class Create extends Component {
 								<Table className="ShowTable">
 									<tbody>
 										<tr>
+											<th>품목명</th>
+											<td>
+												{<Popup
+													trigger={<Input value={this.state.name} onChange={(e) => this.form.name = e.target.value} />}
+													modal>
+													{close => <ProductModal close={close} login={() => { this.props.history.push('/login') }} createProduct={() => { this.props.history.push('/product/create') }}
+														selectProduct={(data) => {
+															this.setState({name : data['name']})
+															this.form.productId = data['id'];;
+															this.getFamilyId(data['id'])
+															/*this.getLastStock(this.form.start, "start");
+															this.getLastStock(this.form.dest, "dest");*/
+														}}
+													/>}
+												</Popup>}
+											</td>
+										</tr>
+										<tr>
 											<th>현재 창고</th>
 											<td>
 												<Input onChange={(e) => {this.form.start = e.target.value; if(this.form.productId!==0) this.getLastStock(this.form.start, "start");}} type='select'>
@@ -202,27 +252,10 @@ class Create extends Component {
 											</td>
 										</tr>
 										<tr>
-											<th>품목명</th>
-											<td>
-												{<Popup
-													trigger={<Input value={this.state.name} onChange={(e) => this.form.name = e.target.value} />}
-													modal>
-													{close => <ProductModal close={close} login={() => { this.props.history.push('/login') }} createProduct={() => { this.props.history.push('/product/create') }}
-														selectProduct={(data) => {
-															this.setState({name : data['name']})
-															this.form.productId = data['id'];;
-															this.getLastStock(this.form.start, "start");
-															this.getLastStock(this.form.dest, "dest");
-														}}
-													/>}
-												</Popup>}
-											</td>
 											<th>이동량</th>
 											<td>
 												<Input onChange={(e) => this.form.quantity = e.target.value} />
 											</td>
-										</tr>
-										<tr>
 										</tr>
 									</tbody>
 								</Table>

@@ -102,10 +102,6 @@ class Detail extends Component {
                 <Table className="ShowTable">
                   <tbody>
                     <tr>
-                      <th>사진</th>
-                      <td className="td-img-product">
-                        <img style={{width : "90%"}} alt="품목 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
-                      </td>
                       <th>품목명</th>
                       <td>
                         {data.name}
@@ -116,6 +112,8 @@ class Detail extends Component {
                       <td>
                         {data.familyName}
                       </td>
+                    </tr>
+                    <tr>
                       <th>판매 단가</th>
                       <td >
                         {data.price_shipping}
@@ -123,7 +121,13 @@ class Detail extends Component {
                     </tr>
                     <tr>
 											<th>상태</th>
-                      <td colSpan="3">{data.set ? <Badge color="primary">활성화</Badge> : <Badge color="danger">비활성화</Badge>}</td>
+                      <td>{data.set ? <Badge color="primary">활성화</Badge> : <Badge color="danger">비활성화</Badge>}</td>
+                    </tr>
+                    <tr>
+                      <th>사진</th>
+                      <td>
+                        <img style={{}} alt="품목 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
+                      </td>
                     </tr>
 
                   </tbody>

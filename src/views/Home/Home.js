@@ -58,6 +58,11 @@ class Home extends Component {
 		this.getIncome();
 		this.getAmount();
     this.chart();
+    this.getToday();
+  }
+
+  componentDidMount() {
+    //this.changeWeek();
   }
 
   getIncome() {
@@ -289,6 +294,30 @@ class Home extends Component {
       style
     }
   }
+  
+  getToday() {
+    var date = new Date();
+    return date.getFullYear() + "-" + ("0"+(date.getMonth()+1)).slice(-2) + "-" + ("0"+date.getDate()).slice(-2);
+  }
+  
+  getWeekNo(v_date_str) {
+    var date = new Date();
+    if(v_date_str){
+      date = new Date(v_date_str);
+    }
+    return Math.ceil(date.getDate() / 7);
+  }
+
+  addClass(element, className) { 
+    element.className += " " + className; 
+  };
+
+
+  changeWeek() {
+    var a = this.getWeekNo(this.getToday());
+    var c = document.querySelector(`.rbc-month-view .rbc-month-row:nth-child(${a+1})`)
+    this.addClass(c, 'show')
+  }
 
   render() {
     this.bar = {
@@ -326,20 +355,21 @@ class Home extends Component {
 							일정
 						</CardHeader>
 						<CardBody>
-							<div style={{overflow: 'scroll', height: 850}}>
+							<div style={{overflow: 'scroll', height: 250}}>
 							<Calendar
 								selectable
 								localizer={localizer}
 								startAccessor={'start'}
 								endAccessor={'end'}
-								style={{ height: 800, 'minWidth': 500 }}
+								style={{ height: 230, 'minWidth': 800 }}
 								events={this.state.events}
 								eventPropGetter={(this.eventStyleGetter)}
 								messages={this.messages}
 								culture='ko'
 								onNavigate={(date) => {this.getOrder(moment(date).startOf('month'), moment(date).endOf('month'))}}
 								onSelectEvent={(e, s) => this.props.history.push(`/main/sales/order/${e.resource}`)}
-								views={['month']}
+								defaultView={'week'}
+								views={['week']}
 							/>
 							</div>
 						</CardBody>

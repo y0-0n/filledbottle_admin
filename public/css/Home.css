@@ -1,3 +1,19 @@
+.rbc-time-content {
+    display: none;
+}
+
+.rbc-time-header-gutter {
+	display: none;
+}
+
+.rbc-time-header {
+	height: 100%
+}
+
+.show {
+    display: block;
+}
+
 @media (max-width: 768px) {
     .animated{
         font-size: 0.7em;
@@ -7,7 +23,4 @@
         padding: 0px !important; 
     }
 
-    .calendar {
-        display: none;
-    }
 }
