@@ -263,11 +263,11 @@ class Detail extends Component {
                       </tr>
                       )
                     })}
-                    {console.log(productInfo)}
                   </tbody>
                   <tfoot>
                     <tr>
                       <th>총합</th>
+                      <th></th>
                       <th></th>
                       <th></th>
                       <th>{this.numberWithCommas(total_supply)}</th>
