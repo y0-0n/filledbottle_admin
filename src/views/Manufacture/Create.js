@@ -71,7 +71,7 @@ class Create extends Component {
                   <Col>소모 상품</Col>
                   <Col>
                     <div style={{float:"right"}}>
-                      <Button block color="primary" 
+                      <Button block color="primary"
                         onClick={()=> {
                           let sProduct1 = this.state.sProduct1;
                           sProduct1.push(d);
@@ -111,7 +111,7 @@ class Create extends Component {
                                                 let {sProduct1} = this.state;
 
                                                 let val = Object.assign({}, sProduct1[i]);
-                                            
+
                                                 /* set, for instance, comment[1] to "some text"*/
                                                 val['id'] = data['id'];
                                                 val['name'] = data['name'];
@@ -121,7 +121,7 @@ class Create extends Component {
                                                 //val['quantity'] = data['quantity'];
 
                                                 sProduct1[i] = val;
-                                                          
+
                                                 /* set the state to the new variable */
                                                 this.setState({sProduct1});
                                               }}
@@ -140,7 +140,7 @@ class Create extends Component {
                                 }} />
                               </td>
                               <td>
-                                <Button block color="danger" 
+                                <Button block color="danger"
                                   onClick={()=> {
                                     let {sProduct1} = this.state;
                                     sProduct1.splice(i, 1);
@@ -170,7 +170,7 @@ class Create extends Component {
                   <Col>생산 상품</Col>
                   <Col>
                     <div style={{float:"right"}}>
-                      <Button block color="primary" 
+                      <Button block color="primary"
                         onClick={()=> {
                           let sProduct2 = this.state.sProduct1;
                           sProduct2.push(d);
@@ -210,7 +210,7 @@ class Create extends Component {
                                                 let {sProduct2} = this.state;
 
                                                 let val = Object.assign({}, sProduct2[i]);
-                                            
+
                                                 /* set, for instance, comment[1] to "some text"*/
                                                 val['id'] = data['id'];
                                                 val['name'] = data['name'];
@@ -219,7 +219,7 @@ class Create extends Component {
                                                 val['weight'] = data['weight'];
 
                                                 sProduct2[i] = val;
-                                                          
+
                                                 /* set the state to the new variable */
                                                 this.setState({sProduct2});
                                               }}
@@ -239,7 +239,7 @@ class Create extends Component {
                                 } />
                               </td>
                               <td>
-                                <Button block color="danger" 
+                                <Button block color="danger"
                                   onClick={()=> {
                                     let {sProduct2} = this.state;
                                     sProduct2.splice(i, 1);

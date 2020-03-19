@@ -14,7 +14,6 @@ registerLocale('ko', ko)
 //vos = value of supply (공급가액)
 //vat = value added tax (부가세))
 let d = {id: '', name: '', plant: 0, quantity: 0, price: 0, vos: 0, vat: 0, tax: false, sum: 0};
-let p = {id: '', name: ''};
 
 class Create extends Component {
   constructor(props) {
@@ -22,7 +21,7 @@ class Create extends Component {
 
 		this.customer = [];
     this.state = {
-			plantData: [p],
+			plantData: [],
       product: [],
       sProduct: [d],
       sCustomer: null, //선택된 거래처
@@ -36,73 +35,12 @@ class Create extends Component {
 		};
   }
   componentWillMount() {
-		//this.getPlant();
+		this.getPlant();
   }
 
   convertDateFormat(date) {
     return date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-	}
-	
-	getPlant(i){
-		const {productFamily} = this.state;
-    fetch(process.env.REACT_APP_HOST+"/api/plant/searchPlant", {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-			},
-      body: JSON.stringify({productFamily})
-    })
-    .then(response => {
-      if(response.status === 401) {
-        return Promise.all([401])
-      } else {
-        return Promise.all([response.status, response.json()]);
-      }
-    })
-    .then(data => {
-			let status = data[0];
-      if(status === 200){
-				let {plantData, sProduct} = this.state;
-				plantData[i] = data[1][0];
-				sProduct[i].plant = data[1][0].id;
-				this.setState({plantData});
-			}
-      else {
-        alert('로그인 하고 접근해주세요');
-        this.props.history.push('/login');
-      }
-    });
-	}
-
-	getFamilyId(id, i){
-    fetch(process.env.REACT_APP_HOST+"/api/product/familyId/"+id, {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-			},
-    })
-    .then(response => {
-      if(response.status === 401) {
-        return Promise.all([401])
-      } else {
-        return Promise.all([response.status, response.json()]);
-      }
-    })
-    .then(data => {
-			let status = data[0];
-      if(status === 200){
-				this.setState({productFamily: data[1][0].id}, () => {
-					this.getPlant(i)
-				})
-			}
-      else {
-        alert('로그인 하고 접근해주세요');
-        this.props.history.push('/login');
-      }
-    });
-	}
+  }
 
   addOrder() {
     const {sCustomer, sProduct, cellphone, telephone, address, comment} = this.state;
@@ -146,7 +84,7 @@ class Create extends Component {
   }
 
 
-	/*getPlant(){
+	getPlant(){
     fetch(process.env.REACT_APP_HOST+"/api/plant", {
       method: 'GET',
       headers: {
@@ -175,7 +113,7 @@ class Create extends Component {
         this.props.history.push('/login');
       }
     });
-	}*/
+	}
 
   vaild() {
     let length = this.state.sProduct.length;
@@ -192,7 +130,7 @@ class Create extends Component {
   }
 
   render() {
-		console.warn(this.state.sProduct)
+		console.warn(this.state)
     return (
       <div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
@@ -240,13 +178,13 @@ class Create extends Component {
                     </td>
                   </tr>
                   <tr>
-										<th>연락처 1</th>
-                    <td >
-                      <Input value={this.state.cellphone} type="tel" placeholder={ "000-0000-0000" }onChange={(e) => {this.setState({cellphone: e.target.value})}} />
-                    </td>
-                    <th>연락처 2</th>
+                    <th>전화번호</th>
                     <td>
                       <Input value={this.state.telephone} type="tel" placeholder={ "집 전화번호가 있다면 적어주세요" } onChange={(e) => {this.setState({telephone: e.target.value})}} />
+                    </td>
+                    <th>HP</th>
+                    <td >
+                      <Input value={this.state.cellphone} type="tel" placeholder={ "000-0000-0000" }onChange={(e) => {this.setState({cellphone: e.target.value})}} />
                     </td>
                   </tr>
                   <tr >
@@ -278,12 +216,11 @@ class Create extends Component {
                   <div style={{float : "right"}}>
                     <Button block color="primary"
                       onClick={()=> {
-                        let {sProduct, plantData} = this.state;
-												sProduct.push(d);
-												plantData.push(p);
+                        let sProduct = this.state.sProduct;
+                        sProduct.push(d);
                         this.setState({
-                          sProduct, plantData
-												})}}>
+                          sProduct
+                        })}}>
                       추가하기
                     </Button>
                   </div>
@@ -329,8 +266,7 @@ class Create extends Component {
                                                 sProduct[i] = val;
 
                                                 /* set the state to the new variable */
-																								this.setState({sProduct});
-																								this.getFamilyId(data['id'], i)
+                                                this.setState({sProduct});
                                               }}
                                             />}
                                   </Popup>}
@@ -341,9 +277,9 @@ class Create extends Component {
 																	sProduct[i].plant = e.target.value;
 																	this.setState({sProduct})
 																}} type='select' name="plant">
-																	{
-																		<option key={i} value={this.state.plantData[i].id} >{this.state.plantData[i].name}</option>
-																	}
+																	{this.state.plantData.map((e, i) => {
+																		return <option key={i} value={e.id} >{e.name}</option>
+																	})}
 																</Input>
 															</td>
                               <td style={{width : 200}}>
