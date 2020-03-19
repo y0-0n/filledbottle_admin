@@ -280,7 +280,7 @@ class Create extends Component {
                       onClick={()=> {
                         let {sProduct, plantData} = this.state;
 												sProduct.push(d);
-												plantData.push(p);
+												plantData.push([p]);
                         this.setState({
                           sProduct, plantData
 												})}}>
