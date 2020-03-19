@@ -336,10 +336,10 @@ class Create extends Component {
                                   </Popup>}
                               </td>
 															<td>
-																<Input value={this.state.sProduct[i].plant} onChange={(e) => {
-																	let {sProduct} = this.state;
-																	sProduct[i].plant = e.target.value;
-																	this.setState({sProduct})
+																<Input style={{width : 100}} value={this.state.sProduct[i].plant} onChange={(e) => {
+																	//let {sProduct} = this.state;
+																	this.state.sProduct[i].plant = e.target.value;
+																	//this.setState({sProduct})
 																}} type='select' name="plant">
 																	{
 																		this.state.plantData[i].map((e, i) => {
