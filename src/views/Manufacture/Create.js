@@ -10,6 +10,7 @@ registerLocale('ko', ko)
 //vos = value of supply (공급가액)
 //vat = value added tax (부가세))
 let d = {id: '', name: '', grade:'', weight:'', price: 0, quantity: 0};
+let p = {id: '', name: ''};
 
 class Create extends Component {
   constructor(props) {
@@ -18,12 +19,77 @@ class Create extends Component {
     this.customer = [];
 
     this.state = {
+      plantData: [[p]],
       sProduct1: [d],//소모 상품
       sProduct2: [d],//생산 상품
     };
   }
 
   componentWillMount() {
+  }
+
+
+
+  getFamilyId(id, i){
+    fetch(process.env.REACT_APP_HOST+"/api/product/familyId/"+id, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if(status === 200){
+          this.setState({productFamily: data[1][0].id}, () => {
+            this.getPlant(i)
+          })
+        }
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      });
+  }
+
+  getPlant(i){
+    const {productFamily} = this.state;
+    fetch(process.env.REACT_APP_HOST+"/api/plant/searchPlant", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+      body: JSON.stringify({productFamily})
+    })
+      .then(response => {
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if(status === 200){
+          let {plantData, sProduct1, sProduct2} = this.state;
+          plantData[i] = data[1];
+          sProduct1[i].plant = data[1][0].id;
+          sProduct2[i].plant = data[1][0].id;
+          this.setState({plantData, sProduct1, sProduct2});
+        }
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      });
   }
 
   produceProduct() {
@@ -90,6 +156,7 @@ class Create extends Component {
                     <thead>
                       <tr>
                           <th>상품명<span style={{color : "#FA5858"}}> *</span></th>
+                          <th>창고<span style={{color : "#FA5858"}}> *</span></th>
                           <th>등급</th>
                           <th>무게</th>
                           <th>단가</th>
@@ -124,9 +191,25 @@ class Create extends Component {
 
                                                 /* set the state to the new variable */
                                                 this.setState({sProduct1});
+                                                this.getFamilyId(data['id'], i);
                                               }}
                                             />}
                                   </Popup>}
+                              </td>
+                              <td>
+                                <Input value={this.state.sProduct1[i].plant} onChange={(e) => {
+                                  let {sProduct1} = this.state;
+                                  sProduct1[i].plant = e.target.value;
+                                  this.setState({sProduct1})
+                                }} type='select' name="plant">
+                                  {
+                                    this.state.plantData[i].map((e, i) => {
+                                      return <option key={i} value={e.id} >{e.name}</option>
+                                    })
+                                  }
+                                  {console.log(this.state.plantData)}
+                                </Input>
+                                {console.log(this.state.sProduct1)}
                               </td>
                               <td><Input name='grade' value={this.state.sProduct1[i].grade} readOnly/></td>
                               <td><Input name='weight' value={this.state.sProduct1[i].weight} readOnly/></td>
@@ -176,6 +259,7 @@ class Create extends Component {
                     <thead>
                       <tr>
                           <th>상품명<span style={{color : "#FA5858"}}> *</span></th>
+                          <th>창고<span style={{ color : "#FA5858"}}> *</span></th>
                           <th>등급</th>
                           <th>무게</th>
                           <th>단가</th>
@@ -211,6 +295,19 @@ class Create extends Component {
                                               }}
                                             />}
                                   </Popup>}
+                              </td>
+                              <td>
+                                <Input value={this.state.sProduct2[i].plant} onChange={(e) => {
+                                  let {sProduct2} = this.state;
+                                  sProduct2[i].plant = e.target.value;
+                                  this.setState({sProduct2})
+                                }} type='select' name="plant">
+                                  {/*
+                                    this.state.plantData[i].map((e, i) => {
+                                      return <option key={i} value={e.id} >{e.name}</option>
+                                    })*/
+                                  }
+                                </Input>
                               </td>
                               <td><Input name='grade' value={this.state.sProduct2[i].grade} readOnly/></td>
                               <td><Input name='weight' value={this.state.sProduct2[i].weight} readOnly/></td>
