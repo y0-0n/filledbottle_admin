@@ -22,7 +22,7 @@ class Create extends Component {
 
 		this.customer = [];
     this.state = {
-			plantData: [p],
+			plantData: [[p]],
       product: [],
       sProduct: [d],
       sCustomer: null, //선택된 거래처
@@ -65,9 +65,9 @@ class Create extends Component {
 			let status = data[0];
       if(status === 200){
 				let {plantData, sProduct} = this.state;
-				plantData[i] = data[1][0];
+				plantData[i] = data[1];
 				sProduct[i].plant = data[1][0].id;
-				this.setState({plantData});
+				this.setState({plantData, sProduct});
 			}
       else {
         alert('로그인 하고 접근해주세요');
@@ -192,7 +192,7 @@ class Create extends Component {
   }
 
   render() {
-		console.warn(this.state.sProduct)
+		console.warn(this.state.plantData)
     return (
       <div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
@@ -280,7 +280,7 @@ class Create extends Component {
                       onClick={()=> {
                         let {sProduct, plantData} = this.state;
 												sProduct.push(d);
-												plantData.push(p);
+												plantData.push([p]);
                         this.setState({
                           sProduct, plantData
 												})}}>
@@ -342,7 +342,9 @@ class Create extends Component {
 																	this.setState({sProduct})
 																}} type='select' name="plant">
 																	{
-																		<option key={i} value={this.state.plantData[i].id} >{this.state.plantData[i].name}</option>
+																		this.state.plantData[i].map((e, i) => {
+																			return <option key={i} value={e.id} >{e.name}</option>
+																		})
 																	}
 																</Input>
 															</td>
