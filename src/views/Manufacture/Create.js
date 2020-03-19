@@ -168,19 +168,6 @@ class Create extends Component {
               <CardHeader>
                 <Row>
                   <Col>생산 상품</Col>
-                  <Col>
-                    <div style={{float:"right"}}>
-                      <Button block color="primary"
-                        onClick={()=> {
-                          let sProduct2 = this.state.sProduct1;
-                          sProduct2.push(d);
-                          this.setState({
-                            sProduct2
-                          })}}>
-                        추가하기
-                      </Button>
-                    </div>
-                  </Col>
                 </Row>
               </CardHeader>
               <CardBody>
@@ -193,7 +180,6 @@ class Create extends Component {
                           <th>무게</th>
                           <th>단가</th>
                           <th>생산재고<span style={{color : "#FA5858"}}> *</span></th>
-                          <th>삭제</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -237,18 +223,6 @@ class Create extends Component {
                                   this.setState({sProduct2})
                                   }
                                 } />
-                              </td>
-                              <td>
-                                <Button block color="danger"
-                                  onClick={()=> {
-                                    let {sProduct2} = this.state;
-                                    sProduct2.splice(i, 1);
-                                    this.setState({
-                                      sProduct2
-                                    })
-                                  }}>
-                                  X
-                                </Button>
                               </td>
                             </tr>
                           )
