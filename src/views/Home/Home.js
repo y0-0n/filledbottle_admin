@@ -362,13 +362,13 @@ class Home extends Component {
 							일정
 						</CardHeader>
 						<CardBody>
-							<div style={{overflow: 'scroll', height: 250}}>
+							<div style={{overflow: 'scroll'}}>
 							<Calendar
 								selectable
 								localizer={localizer}
 								startAccessor={'start'}
 								endAccessor={'end'}
-								style={{ height: 230, 'minWidth': 800 }}
+								style={{ 'minWidth': 800 }}
 								events={this.state.events}
 								eventPropGetter={(this.eventStyleGetter)}
 								messages={this.messages}
