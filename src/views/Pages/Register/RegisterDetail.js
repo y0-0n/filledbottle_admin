@@ -7,6 +7,7 @@ class RegisterDetail extends Component {
     this.state = {
 			data: [[]],
 			plantData: [],
+			familyInPlantData: [],
 			allFamilyData: [],
 			familyData: [],
 			categoryData: [],
@@ -61,8 +62,39 @@ class RegisterDetail extends Component {
     })
     .then(data => {
 			let status = data[0];
-      if(status === 200)
-        this.setState({plantData: data[1]});
+      if(status === 200){
+				this.setState({plantData: data[1]});
+				data[1].map((e, i) => {
+					this.getFamilyInPlant(e.id, i);
+				})
+			}
+      else {
+        alert('로그인 하고 접근해주세요');
+        this.props.history.push('/login');
+      }
+    });
+	}
+
+	getFamilyInPlant(plantId, i) {
+		fetch(process.env.REACT_APP_HOST+"/api/product/familyInPlant/"+plantId, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+			let status = data[0];
+      if(status === 200){
+				let {familyInPlantData} = this.state;
+				familyInPlantData[i] = data[1];
+        this.setState({familyInPlantData});}
       else {
         alert('로그인 하고 접근해주세요');
         this.props.history.push('/login');
@@ -377,14 +409,17 @@ class RegisterDetail extends Component {
                 <thead>
                   <tr>
                     <th>창고명</th>
-										<th>저장 품목</th>
-										<th>저장량</th>
+										<th>저장 품목군</th>
+										{/*<th>저장량</th>*/}
                   </tr>
                 </thead>
 								<tbody>
 									{plantData.map((e, i) => {
 										return (<tr key={i}>
 											<td>{e.name}</td>
+											<td>{this.state.familyInPlantData[i] !== undefined ? this.state.familyInPlantData[i].map((e, i) => {
+												return e.name
+											}) : null}</td>
 										</tr>)}
 									)}
 									<tr>
