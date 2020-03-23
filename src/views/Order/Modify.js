@@ -284,7 +284,7 @@ class OrderModify extends Component {
                         <td>
                           <Input value={e['plantId']} onChange={(e) => {
                             let sProduct = productInfo;
-                            sProduct[i].plant = e.target.value;
+                            sProduct[i].plantId = e.target.value;
                             this.setState({productInfo : sProduct})
                           }} type='select' name="plant">
                             {
