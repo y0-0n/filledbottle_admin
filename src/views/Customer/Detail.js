@@ -41,8 +41,22 @@ class Detail extends Component {
           id
         })
       })
-        .then(response => response.json())
-        .then(_ => { this.getCustomer() });
+				.then(response => {
+					if (response.status === 401) {
+						return Promise.all([401])
+					} else {
+						return Promise.all([response.status, response.json()]);
+					}
+				})
+				.then(data => {
+					let status = data[0];
+          if (status === 200)
+            this.getDetail()
+          else {
+            alert('로그인 하고 접근해주세요')
+            this.props.history.push('/login')
+          }
+				});
     }
   }
 
@@ -67,7 +81,6 @@ class Detail extends Component {
         const status = data[0];
         if (status === 200) {
           this.setState({ orderData: data[1] })
-          console.warn(data[1])
         } else if (status === 401) {
           alert('로그인 하고 접근해주세요')
           this.props.history.push('/login')
