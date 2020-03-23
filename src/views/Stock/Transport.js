@@ -80,8 +80,10 @@ class Create extends Component {
 			let status = data[0];
       if(status === 200){
 				this.setState({plantData: data[1]});
-				this.form.start = data[1][0].id
-				this.form.dest = data[1][0].id
+				this.form.start = data[1][0].id;
+				this.form.dest = data[1][0].id;
+				this.getLastStock(this.form.start, "start");
+				this.getLastStock(this.form.dest, "dest");
 			}
       else {
         alert('로그인 하고 접근해주세요');
@@ -108,7 +110,7 @@ class Create extends Component {
 			let status = data[0];
       if(status === 200){
 				this.setState({productFamily: data[1][0].id}, () => {
-					this.getPlant()
+					this.getPlant();
 				})
 			}
       else {
@@ -207,9 +209,7 @@ class Create extends Component {
 														selectProduct={(data) => {
 															this.setState({name : data['name']})
 															this.form.productId = data['id'];;
-															this.getFamilyId(data['id'])
-															/*this.getLastStock(this.form.start, "start");
-															this.getLastStock(this.form.dest, "dest");*/
+															this.getFamilyId(data['id']);
 														}}
 													/>}
 												</Popup>}
