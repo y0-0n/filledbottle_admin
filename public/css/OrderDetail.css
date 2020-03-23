@@ -1,3 +1,11 @@
+.ShowTable th {
+    width: 160px;
+}
+
+.ShowTable td {
+    width: 350px;
+}
+
 @media (max-width: 1024px) {
     .ShowTable tr,
     .ShowTable td,

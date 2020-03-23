@@ -169,34 +169,34 @@ class Detail extends Component {
               </CardHeader>
               <CardBody>
                 <Table className="ShowTable">
-                <tbody>
-                  <tr>
-                    <th>고객명</th>
-                    <td>{orderInfo['name']}</td>
-                    <th>일자</th>
-                    <td  className="TableRight">{year}년 {month}월 {date}일</td>
-                  </tr>
-                  <tr>
-                    <th>전화번호</th>
-                    <td>{orderInfo['telephone']}</td>
-                    <th>HP</th>
-                    <td className="TableRight">{orderInfo['cellphone']}</td>
-                  </tr>
-                  <tr>
-                    <th>배송지</th>
-                    <td>{orderInfo['address']}</td>
-                    <th>요청사항</th>
-                    <td className="TableRight">{orderInfo['comment']}</td>
-                  </tr>
-                  <tr className="TableBottom">
-                    <th>주문상태</th>
-                    <td colSpan='3'>
-                      {orderInfo['state'] === 'order' ? <h3><Badge color="primary">{stateKor[orderInfo['state']]}</Badge></h3>: null}
-                      {orderInfo['state'] === 'shipping' ? <h3><Badge color="secondary">{stateKor[orderInfo['state']]}</Badge></h3>: null}
-                      {orderInfo['state'] === 'refund' ? <h3><Badge color="danger">{stateKor[orderInfo['state']]}</Badge></h3>: null}
-                      {orderInfo['state'] === 'cancel' ? <h3><Badge color="danger">{stateKor[orderInfo['state']]}</Badge></h3>: null}</td>
-                  </tr>
-                </tbody>
+                  <tbody>
+                    <tr>
+                      <th>고객명</th>
+                      <td>{orderInfo['name']}</td>
+                      <th>일자</th>
+                      <td>{year}년 {month}월 {date}일</td>
+                    </tr>
+                    <tr>
+                      <th>전화번호</th>
+                      <td>{orderInfo['telephone']}</td>
+                      <th>HP</th>
+                      <td>{orderInfo['cellphone']}</td>
+                    </tr>
+                    <tr>
+                      <th>배송지</th>
+                      <td>{orderInfo['address']}</td>
+                      <th>요청사항</th>
+                      <td>{orderInfo['comment']}</td>
+                    </tr>
+                    <tr>
+                      <th>주문상태</th>
+                      <td colSpan='3'>
+                        {orderInfo['state'] === 'order' ? <h3><Badge color="primary">{stateKor[orderInfo['state']]}</Badge></h3>: null}
+                        {orderInfo['state'] === 'shipping' ? <h3><Badge color="secondary">{stateKor[orderInfo['state']]}</Badge></h3>: null}
+                        {orderInfo['state'] === 'refund' ? <h3><Badge color="danger">{stateKor[orderInfo['state']]}</Badge></h3>: null}
+                        {orderInfo['state'] === 'cancel' ? <h3><Badge color="danger">{stateKor[orderInfo['state']]}</Badge></h3>: null}</td>
+                    </tr>
+                  </tbody>
                 </Table>
               </CardBody>
               <CardFooter>
@@ -230,7 +230,8 @@ class Detail extends Component {
                 <Table>
                   <thead>
                     <tr>
-                    <th>품목명</th>
+                      <th>품목명</th>
+                      <th>창고</th>
                       <th>수량</th>
                       <th>판매 단가</th>
                       <th>공급가액</th>
@@ -247,6 +248,7 @@ class Detail extends Component {
                       total_vat += Math.round(e['tax'] ? e['price'] * 1 / 11 : 0);
                       return ( <tr key={i} style={{backgroundColor: e.refund ? 'orange' : null}}>
                         <td>{e['name']}</td>
+                        <td>{e['plant']}</td>
                         <td>{e['quantity']}</td>
                         <td>{this.numberWithCommas(e['price']/e['quantity'])}</td>
                         <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price'] * 10 / 11 : e['price']))}</td>
@@ -265,6 +267,7 @@ class Detail extends Component {
                   <tfoot>
                     <tr>
                       <th>총합</th>
+                      <th></th>
                       <th></th>
                       <th></th>
                       <th>{this.numberWithCommas(total_supply)}</th>

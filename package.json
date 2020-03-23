@@ -21,6 +21,7 @@
     "chart.js": "^2.9.2",
     "classnames": "^2.2.6",
     "core-js": "^2.6.5",
+    "create-react-app": "^3.4.0",
     "css-loader": "^3.2.0",
     "date-fns": "^2.8.1",
     "enzyme": "^3.9.0",
