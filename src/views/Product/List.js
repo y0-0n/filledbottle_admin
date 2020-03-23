@@ -530,6 +530,7 @@ class List extends Component {
                   }
                 </Row>
             }
+                <div style={{width: "100%", textAlign : "center"}}>{this.state.productData.length === 0 ? <span >"현재 품목 목록이 없습니다."</span> : null}</div>
               </CardBody>
               <CardFooter>
                 <Pagination style={{justifyContent: 'center'}}>

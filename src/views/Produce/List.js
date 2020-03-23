@@ -21,7 +21,7 @@ class Produce extends Component {
   componentWillMount() {
     this.getList();
   }
-  
+
   getTotal() {
     let {keyword, first_date, last_date} = this.state;
 
@@ -182,6 +182,7 @@ class Produce extends Component {
                       })}
                     </tbody>
                   </Table>
+                <div style={{width: "100%", textAlign : "center"}}>{this.state.data.length === 0 ? <span >"현재 작성된 영농일지가 없습니다."</span> : null}</div>
                 </CardBody>
                 <CardFooter>
                   <Pagination style={{justifyContent: 'center'}}>

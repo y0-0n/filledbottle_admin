@@ -22,7 +22,7 @@ class Stock extends Component {
   componentWillMount() {
     this.getPlant();
 	}
-	
+
   getUseFamily() {//취급 품목 불러오기
     fetch(process.env.REACT_APP_HOST+"/api/product/familyInPlant/"+this.state.plant, {
       method: 'GET',
@@ -50,7 +50,7 @@ class Stock extends Component {
       }
     });
 	}
-	
+
   getStock() {
 		const {plant, page, family, name, useFamilyData} = this.state;
     fetch(process.env.REACT_APP_HOST+"/api/stock/list", {
@@ -166,7 +166,7 @@ class Stock extends Component {
 			this.getUseFamily();
 		})
   }
-  
+
   countPageNumber(x) {
     this.setState({
       page: x,
@@ -174,7 +174,7 @@ class Stock extends Component {
 			this.getUseFamily();
     });
 	}
-	
+
 	changeFamily (family) {
     //let keyword = this.keyword
     this.setState({ family, page: 1 }, () => {
@@ -227,7 +227,7 @@ class Stock extends Component {
 									<Col>
 										<div style={{ float: "right" }}>
 											<Button color="primary" onClick={() => { this.props.history.push('/stock/product/'+ this.state.plant) }}>품목 관리</Button>
-											<Button color="primary" style={{ marginLeft: 10 }} onClick={() => { 
+											<Button color="primary" style={{ marginLeft: 10 }} onClick={() => {
 												this.props.history.push({
 													pathname: '/stock/edit/'+this.state.plant,
 												})}}>재고 실사</Button>
@@ -239,7 +239,7 @@ class Stock extends Component {
 													selectProduct={(data) => {
 													}}
 												/>}
-												</Popup>*/}                      
+												</Popup>*/}
 										</div>
 									</Col>
 								</Row>
@@ -265,7 +265,7 @@ class Stock extends Component {
                         })
                         :
                         <li>
-                          
+
                         </li>
                       }
                       {/*<Popup
@@ -312,6 +312,7 @@ class Stock extends Component {
                       })}
                     </tbody>
                   </Table>
+                <div style={{width: "100%", textAlign : "center"}}>{this.state.stockData.length === 0 ? <span >"현재 재고 목록이 없습니다."</span> : null}</div>
                 </CardBody>
                 <CardFooter>
                 <Pagination style={{ justifyContent: 'center' }}>
@@ -338,7 +339,7 @@ class Stock extends Component {
                     </PaginationItem>}
                 </Pagination>
               </CardFooter>
-                
+
             </Card>
           </Col>
         </Row>
