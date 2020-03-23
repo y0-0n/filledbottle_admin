@@ -18,6 +18,8 @@ class RegisterDetail extends Component {
       family: 1,
       productData: [],
       prohibitDelete: false,
+      plant : 1,
+      deletePlantList: [],
     }
   }
 
@@ -393,15 +395,17 @@ class RegisterDetail extends Component {
           <Card>
             <CardHeader>
               <Row>
-                <Col md="9" xs="6" sm="6">창고</Col>
-								<Col md="3" xs="6" sm="6">
-								<InputGroup>
-									<Input placeholder="새 창고명" onChange={(e) => { this.newPlant = e.target.value }} />
-									<InputGroupAddon addonType="append">
-										<Button block color="primary" onClick={() => { this.addPlant() }}>추가</Button>
-									</InputGroupAddon>
-								</InputGroup>
-								</Col>
+                <Col>창고</Col>
+                <div style={{float: "right"}}>
+                  <Col>
+                  <InputGroup>
+                    <Input placeholder="새 창고명" onChange={(e) => { this.newPlant = e.target.value }} />
+                    <InputGroupAddon addonType="append">
+                      <Button block color="primary" onClick={() => { this.addPlant() }}>추가</Button>
+                    </InputGroupAddon>
+                  </InputGroup>
+                  </Col>
+                </div>
               </Row>
             </CardHeader>
             <CardBody>
@@ -410,6 +414,7 @@ class RegisterDetail extends Component {
                   <tr>
                     <th>창고명</th>
 										<th>저장 품목군</th>
+                    <th style={{width : 35}}>삭제</th>
 										{/*<th>저장량</th>*/}
                   </tr>
                 </thead>
@@ -417,9 +422,17 @@ class RegisterDetail extends Component {
 									{plantData.map((e, i) => {
 										return (<tr key={i}>
 											<td>{e.name}</td>
-											<td>{this.state.familyInPlantData[i] !== undefined ? this.state.familyInPlantData[i].map((e, i) => {
+                      <td>
+                        {console.log(this.state.familyInPlantData[i])}
+                      {
+                      this.state.familyInPlantData[i] !== undefined ?
+                        this.state.familyInPlantData[i].map((e, i) => {
 												return e.name
-											}) : null}</td>
+                      }) : null}
+                      </td>
+                      <td style={{textAlign:"center"}}>{this.state.familyInPlantData[i] !== undefined && this.state.familyInPlantData[i].length === 0 ?
+                        <Button color="danger">X</Button> : <Button color="danger" disabled>X</Button>  
+                      }</td>
 										</tr>)}
 									)}
 									<tr>
