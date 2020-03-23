@@ -19,7 +19,8 @@ class Create extends Component {
     this.customer = [];
 
     this.state = {
-      plantData: [[p]],
+			plantData: [[p]],
+			plantData2: [[p]],
       sProduct1: [d],//소모 상품
       sProduct2: [d],//생산 상품
     };
@@ -30,7 +31,7 @@ class Create extends Component {
 
 
 
-  getFamilyId(id, i){
+  getFamilyId(id, i, flag){
     fetch(process.env.REACT_APP_HOST+"/api/product/familyId/"+id, {
       method: 'GET',
       headers: {
@@ -48,7 +49,7 @@ class Create extends Component {
         let status = data[0];
         if(status === 200){
           this.setState({productFamily: data[1][0].id}, () => {
-            this.getPlant(i)
+            this.getPlant(i, flag)
           })
         }
         else {
@@ -58,7 +59,7 @@ class Create extends Component {
       });
   }
 
-  getPlant(i){
+  getPlant(i, flag){
     const {productFamily} = this.state;
     fetch(process.env.REACT_APP_HOST+"/api/plant/searchPlant", {
       method: 'POST',
@@ -79,11 +80,16 @@ class Create extends Component {
       .then(data => {
         let status = data[0];
         if(status === 200){
-          let {plantData, sProduct1, sProduct2} = this.state;
-          plantData[i] = data[1];
-          sProduct1[i].plant = data[1][0].id;
-          sProduct2[i].plant = data[1][0].id;
-          this.setState({plantData, sProduct1, sProduct2});
+          let {plantData, plantData2, sProduct1, sProduct2} = this.state;
+					if(flag === 'consume') {
+						sProduct1[i].plant = data[1][0].id;
+						plantData[i] = data[1];
+					}
+					else {
+						sProduct2[i].plant = data[1][0].id;
+						plantData2[i] = data[1];
+					}
+          this.setState({plantData, plantData2, sProduct1, sProduct2});
         }
         else {
           alert('로그인 하고 접근해주세요');
@@ -189,7 +195,7 @@ class Create extends Component {
 
                                                 /* set the state to the new variable */
                                                 this.setState({sProduct1});
-                                                this.getFamilyId(data['id'], i);
+                                                this.getFamilyId(data['id'], i, 'consume');
                                               }}
                                             />}
                                   </Popup>}
@@ -257,7 +263,7 @@ class Create extends Component {
                           <th>상품명<span style={{color : "#FA5858"}}> *</span></th>
                           <th>창고<span style={{ color : "#FA5858"}}> *</span></th>
                           <th>단가</th>
-                          <th>생산재고<span style={{color : "#FA5858"}}> *</span></th>
+                          <th>제조량<span style={{color : "#FA5858"}}> *</span></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -285,7 +291,8 @@ class Create extends Component {
                                                 sProduct2[i] = val;
 
                                                 /* set the state to the new variable */
-                                                this.setState({sProduct2});
+																								this.setState({sProduct2});
+																								this.getFamilyId(data['id'], i, 'manufacture');
                                               }}
                                             />}
                                   </Popup>}
@@ -296,10 +303,10 @@ class Create extends Component {
                                   sProduct2[i].plant = e.target.value;
                                   this.setState({sProduct2})
                                 }} type='select' name="plant">
-                                  {/*
-                                    this.state.plantData[i].map((e, i) => {
+                                  {
+                                    this.state.plantData2[i].map((e, i) => {
                                       return <option key={i} value={e.id} >{e.name}</option>
-                                    })*/
+                                    })
                                   }
                                 </Input>
                               </td>
