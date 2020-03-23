@@ -66,8 +66,11 @@ class Create extends Component {
         if(status === 200){
           let {plantData, sProduct} = this.state;
           plantData[i] = data[1];
-          sProduct[i].plant = data[1][0].id;
-          this.setState({plantData, sProduct});
+          if(data[1][0] === undefined) alert("창고에서 품목을 취급하지 않습니다")
+          else {
+            sProduct[i].plant = data[1][0].id;
+            this.setState({plantData, sProduct});
+          }
         }
         else {
           alert('로그인 하고 접근해주세요');
@@ -327,6 +330,7 @@ class Create extends Component {
                                                           val['price'] = data['price_shipping'];
 
                                                           sProduct[i] = val;
+                                                          {}
 
                                                           /* set the state to the new variable */
                                                           this.setState({sProduct});
