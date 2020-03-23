@@ -161,7 +161,7 @@ class Detail extends Component {
                   <Col>{this.props.match.params.id}번 주문</Col>
                   <Col>
                     <div style={{float : 'right'}}>
-                      <Button color="primary" onClick={() => {this.props.history.push('/main/sales/list')}}>뒤로가기</Button>
+                      <Button color="primary" onClick={() => {this.props.history.goBack()}}>뒤로가기</Button>
                       <Button color="primary" onClick={() => {this.props.history.push(`/main/order/edit/`+this.props.match.params.id)}} style={{marginLeft : '10px'}}>수정</Button>
                     </div>
                   </Col>
