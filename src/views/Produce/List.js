@@ -160,6 +160,7 @@ class Produce extends Component {
                     <Button block color="primary" onClick={() => { this.props.history.push('/produce/create'); }}>생산 등록</Button>
                   </Col>
                 </Row>
+								<hr></hr>
                 <Table striped>
                     <thead>
                       <tr>

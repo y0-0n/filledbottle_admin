@@ -164,6 +164,7 @@ class Manufacture extends Component {
                     <Button block color="primary" onClick={() => { this.props.history.push('/manufacture/create'); }}>제조 등록</Button>
                   </Col>
                 </Row>
+								<hr></hr>
                 <Table striped>
                     <thead>
                       <tr>
