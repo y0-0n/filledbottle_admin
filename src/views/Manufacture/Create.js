@@ -81,9 +81,12 @@ class Create extends Component {
         if(status === 200){
           let {plantData, sProduct1, sProduct2} = this.state;
           plantData[i] = data[1];
-          sProduct1[i].plant = data[1][0].id;
-          sProduct2[i].plant = data[1][0].id;
-          this.setState({plantData, sProduct1, sProduct2});
+          if(data[1][0] === undefined) alert("창고에서 품목을 취급하지 않습니다")
+          else {
+            sProduct1[i].plant = data[1][0].id;
+            sProduct2[i].plant = data[1][0].id;
+            this.setState({plantData, sProduct1, sProduct2});
+          }
         }
         else {
           alert('로그인 하고 접근해주세요');

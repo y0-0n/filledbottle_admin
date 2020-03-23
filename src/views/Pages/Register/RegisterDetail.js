@@ -423,7 +423,6 @@ class RegisterDetail extends Component {
 										return (<tr key={i}>
 											<td>{e.name}</td>
                       <td>
-                        {console.log(this.state.familyInPlantData[i])}
                       {
                       this.state.familyInPlantData[i] !== undefined ?
                         this.state.familyInPlantData[i].map((e, i) => {
