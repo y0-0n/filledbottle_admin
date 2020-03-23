@@ -178,6 +178,9 @@ class Create extends Component {
     .then(data => {
 			let status = data[0];
       if(status === 200){
+				if(data[1].msg === 'same plant') {
+					alert("현재 위치한 창고로 이동할 수 없습니다.")
+				}
 				this.props.history.push('/main/stock')
 			}
       else {
