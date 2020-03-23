@@ -122,7 +122,8 @@ class Detail extends Component {
                   <Col>거래처 상세</Col>
                   <Col>
                     <div style={{ float: "right" }}>
-                      <Button color="primary" onClick={() => { this.props.history.push(`/main/customer/edit/${this.props.match.params.id}`) }}>수정</Button>
+                      <Button color="primary" onClick={() => { this.props.history.goBack() }}>뒤로가기</Button>
+                      <Button color="primary" onClick={() => { this.props.history.push(`/main/customer/edit/${this.props.match.params.id}`) }} style={{marginLeft : '10px'}}>수정</Button>
                     </div>
                   </Col>
                 </Row>
