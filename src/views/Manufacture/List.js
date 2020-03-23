@@ -60,7 +60,7 @@ class Manufacture extends Component {
         }
       });
   }
-  
+
   getList() {
     let {page, keyword, first_date, last_date} = this.state;
     fetch(process.env.REACT_APP_HOST+"/api/manufacture/list", {
@@ -184,6 +184,7 @@ class Manufacture extends Component {
                       })}
                     </tbody>
                   </Table>
+                <div style={{width: "100%", textAlign : "center"}}>{this.state.manufactureData.length === 0 ? <span >"현재 식품 가공 목록이 없습니다."</span> : null}</div>
                 </CardBody>
                 <CardFooter>
                   <Pagination style={{justifyContent: 'center'}}>
