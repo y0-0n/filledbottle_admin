@@ -145,8 +145,9 @@ class Create extends Component {
                     <div style={{float:"right"}}>
                       <Button block color="primary"
                         onClick={()=> {
-                          let sProduct1 = this.state.sProduct1;
-                          sProduct1.push(d);
+                          let {sProduct1, plantData} = this.state;
+													sProduct1.push(d);
+													plantData.push([p]);
                           this.setState({
                             sProduct1
                           })}}>
