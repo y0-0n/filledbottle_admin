@@ -10,6 +10,7 @@ import ProduceModal from '../Modal/ProduceModal';
 registerLocale('ko', ko)
 
 let d = {id: '', name: '',};
+const API_KEY = '894c0c1d03546d1843b5efd334d6e479';
 
 class Create extends Component {
   constructor(props) {
@@ -40,9 +41,35 @@ class Create extends Component {
       selectedFile: null,
       productName: '',//제품명
       date: new Date(),
+      loading: true,
+      weatherInfo: null,
     };
   }
   componentWillMount() {
+  }
+
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.log(position);
+        this._getWeather(position.coords); // 추가된 코드
+      }, 
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  _getWeather({latitude, longitude}) {
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`)
+    .then(response => response.json()) // 응답값을 json으로 변환
+    .then(json => {
+      console.log(json)
+      this.setState({
+        weatherInfo: json,
+        loading: false,
+      })
+    });
   }
 
   handleFileInput(e){
@@ -121,20 +148,15 @@ class Create extends Component {
                 </Row>
               </CardHeader>
               <CardBody>
+                {this.state.loading ? <div>현재 날씨 정보를 불러오는 중입니다.</div>
+                :
                 <Table className="ShowTable">
                   <tbody>
                     <tr>
                       <th>날씨</th>
                       <td>
-                        <Input defaultValue={this.form.weather} onChange={(e) => {this.form.weather = e.target.value}} type='select' name="weather">
-                          <option value="맑음">맑음</option>
-                          <option value="구름조금">구름조금</option>
-                          <option value="구름많음">구름많음</option>
-                          <option value="흐림">흐림</option>
-                          <option value="비">비</option>
-                          <option value="눈">눈</option>
-                          <option value="비/눈">비/눈</option>
-                        </Input>
+                        
+                        <Input defaultValue={this.state.weatherInfo.weather[0].main} onChange={(e) => {this.form.weather = e.target.value}} name="weather"></Input>
                       </td>
                       <th>강수량</th>
                       <td>
@@ -155,27 +177,28 @@ class Create extends Component {
                       <th>기온</th>
                       <td>
                         <Row>
-                          <Col xs="9"><Input defaultValue={this.form.temperatures} onChange={(e) => {this.form.temperatures = e.target.value}}/></Col>
+                          <Col xs="9"><Input defaultValue={Math.ceil(this.state.weatherInfo.main.temp - 273.15)} onChange={(e) => {this.form.temperatures = e.target.value}}/></Col>
                           <Col xs="3">°C</Col>
                         </Row>
                       </td>
                       <th>최저 기온</th>
                       <td>
                         <Row>
-                          <Col xs="9"><Input defaultValue={this.form.minTemp} onChange={(e) => {this.form.minTemp = e.target.value}}/></Col>
+                          <Col xs="9"><Input defaultValue={Math.ceil(this.state.weatherInfo.main.temp_min - 273.15)} onChange={(e) => {this.form.minTemp = e.target.value}}/></Col>
                           <Col xs="3">°C</Col>
                         </Row>
                       </td>
                       <th>최고 기온</th>
                       <td>
                         <Row>
-                          <Col xs="9"><Input defaultValue={this.form.maxTemp} onChange={(e) => {this.form.maxTemp = e.target.value}}/></Col>
+                          <Col xs="9"><Input defaultValue={Math.ceil(this.state.weatherInfo.main.temp_max - 273.15)} onChange={(e) => {this.form.maxTemp = e.target.value}}/></Col>
                           <Col xs="3">°C</Col>
                         </Row>
                       </td>
                     </tr>
                   </tbody>
                 </Table>
+                }
               </CardBody>
             </Card>
             <Card>
