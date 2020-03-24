@@ -72,6 +72,9 @@ class DefaultHeader extends Component {
 					<NavItem className="px-3">
             <NavLink to="/admin/product" className="nav-link" >품목 목록</NavLink>
           </NavItem>
+					<NavItem className="px-3">
+            <NavLink to="/admin/suggestion/list" className="nav-link" >건의 사항</NavLink>
+          </NavItem>
         </Nav>
 				<Nav className="ml-auto" navbar>
 				</Nav>
