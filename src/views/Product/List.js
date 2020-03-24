@@ -43,7 +43,7 @@ class List extends Component {
     this.form = {
 
 		}
-		
+
 		this.changeShowFalse.bind(this);
 		this.changeShowTrue.bind(this);
   }
@@ -58,7 +58,7 @@ class List extends Component {
     } else {
       this.getUserFamilyCategory();
     }
-		
+
   }
 
   getTotal() {
@@ -94,7 +94,7 @@ class List extends Component {
         }
       });
 	}
-	
+
 	getUserFamilyCategory() {
 		fetch(process.env.REACT_APP_HOST + "/api/product/userFamilyCategory", {
       method: 'GET',
@@ -122,7 +122,7 @@ class List extends Component {
               checkCategory: false
             })
 					}
-					
+
         }
         else {
           alert('로그인 하고 접근해주세요');
@@ -222,7 +222,7 @@ class List extends Component {
       this.getProduct();
     });
 	}*/
-	
+
 	changeCategory(id) {
 		this.setState({
 			category: id,
@@ -351,7 +351,7 @@ class List extends Component {
                       </li>
                       :
                       <li>
-                        
+
                       </li>
                     }
                     { this.state.checkCategory ?
@@ -360,7 +360,7 @@ class List extends Component {
                       })
                       :
                       <li>
-                        
+
                       </li>
                     }
                     {/*<Popup
@@ -530,6 +530,7 @@ class List extends Component {
                   }
                 </Row>
             }
+                <div style={{width: "100%", textAlign : "center"}}>{this.state.productData.length === 0 ? <span >"현재 품목 목록이 없습니다."</span> : null}</div>
               </CardBody>
               <CardFooter>
                 <Pagination style={{justifyContent: 'center'}}>

@@ -47,7 +47,7 @@ class List extends Component {
     if(this.props.location.state !== undefined) {
       this.setState({keyword: this.props.location.state.name}, () => {
         this.getOrder();
-        this.getTotal();  
+        this.getTotal();
       });
     } else {
       this.getOrder();
@@ -251,7 +251,7 @@ class List extends Component {
                       {data.map((e, i) => {
                         this.state.count++
                         return (<tr style={{cursor: 'pointer'}} key={this.state.count} onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>
-                        <td className="list-hidden">{e.id}</td>
+                          <td className="list-hidden">{e.id}</td>
                         <td>{this.getDate(e.date)}</td>
                         <td className="list-hidden">{this.getDate(e.orderDate)}</td>
                         <td>{e.name}</td>
@@ -262,22 +262,24 @@ class List extends Component {
                           {e.state === 'shipping' && this.state.process !== 'refund' ? <Badge color="secondary">{stateKor[e.state]}</Badge>: null}
                           {e.state === 'cancel' ? <Badge color="danger">{stateKor[e.state]}</Badge>: null}
                         </td>
-                        </tr>)
+                        </tr>
+                        )
                       })}
                     </tbody>
                   </Table>
+                  <div style={{width: "100%", textAlign : "center"}}>{this.state.orderData.length === 0 ? <span >"현재 주문 목록이 없습니다."</span> : null}</div>
                 </div>
               </CardBody>
               <CardFooter>
                 <Pagination style={{justifyContent: 'center'}}>
-                  {this.state.page === 1 ? '' : 
+                  {this.state.page === 1 ? '' :
                   <PaginationItem>
                     <PaginationLink previous onClick={() => {this.countPageNumber(this.state.page-1)}}/>
                   </PaginationItem>
                   }
                   {this.state.page === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
-                  {this.state.page === 2 ? arr.forEach(x => arr1.push(x+1)) : null}   
-                  {this.state.page !== 1 && this.state.page!== 2 ? arr.forEach(x => arr1.push(x)) :null }    
+                  {this.state.page === 2 ? arr.forEach(x => arr1.push(x+1)) : null}
+                  {this.state.page !== 1 && this.state.page!== 2 ? arr.forEach(x => arr1.push(x)) :null }
                   {arr1.map((e, i) => {
                     if(this.state.total >= this.state.page+e)
                     return (<PaginationItem key={i} active={this.state.page === this.state.page+e}>
@@ -287,7 +289,7 @@ class List extends Component {
                     </PaginationItem>)
                     return null;
                   })}
-                  {this.state.page === this.state.total ? '' : 
+                  {this.state.page === this.state.total ? '' :
                   <PaginationItem>
                     <PaginationLink next onClick={() => {this.countPageNumber(this.state.page+1)}}/>
                   </PaginationItem>}

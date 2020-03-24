@@ -286,18 +286,19 @@ class List extends Component {
                       })}
                     </tbody>
                   </Table>
+                  <div style={{width: "100%", textAlign : "center"}}>{this.state.data.length === 0? <span >"현재 고객 목록이 없습니다."</span> : null}</div>
                 </div>
               </CardBody>
               <CardFooter>
                 <Pagination style={{justifyContent: 'center'}}>
-                  {this.state.page === 1 ? '' : 
+                  {this.state.page === 1 ? '' :
                   <PaginationItem>
                     <PaginationLink previous onClick={() => {this.countPageNumber(this.state.page-1)}}/>
                   </PaginationItem>
                   }
                   {this.state.page === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
-                  {this.state.page === 2 ? arr.forEach(x => arr1.push(x+1)) : null}   
-                  {this.state.page !== 1 && this.state.page!== 2 ? arr.forEach(x => arr1.push(x)) :null }    
+                  {this.state.page === 2 ? arr.forEach(x => arr1.push(x+1)) : null}
+                  {this.state.page !== 1 && this.state.page!== 2 ? arr.forEach(x => arr1.push(x)) :null }
                   {arr1.map((e, i) => {
                     if(this.state.total >= this.state.page+e)
                     return (<PaginationItem key={i} active={this.state.page === this.state.page+e}>
@@ -307,10 +308,10 @@ class List extends Component {
                     </PaginationItem>)
                     return null;
                   })}
-                  {this.state.page === this.state.total ? '' : 
+                  {this.state.page === this.state.total ? '' :
                   <PaginationItem>
                     <PaginationLink next onClick={() => {this.countPageNumber(this.state.page+1)}}/>
-                  </PaginationItem>}     
+                  </PaginationItem>}
                 </Pagination>
               </CardFooter>
             </Card>

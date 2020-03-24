@@ -82,7 +82,7 @@ class Detail extends Component {
         }
       })
 	}
-	
+
   getDate(dateInput) {
     var d = new Date(dateInput);
     var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
@@ -141,8 +141,7 @@ class Detail extends Component {
                   <thead>
                     <tr>
                         <th>상품명</th>
-                        <th>등급</th>
-                        <th>무게</th>
+                        <th>창고</th>
                         <th>단가</th>
                         <th>소모재고</th>
                     </tr>
@@ -153,13 +152,13 @@ class Detail extends Component {
                         return (
                           <tr key={i}>
                             <td>{e.name}</td>
-                            <td>{this.state.sProduct1[i].grade}</td>
-                            <td>{this.state.sProduct1[i].weight}</td>
+                            <td>{this.state.sProduct1[i].plantName}</td>
                             <td>{this.state.sProduct1[i].price_shipping}</td>
                             <td>{this.state.sProduct1[i].change}</td>
                           </tr>
                         )
                       }, this)
+
                     }
                   </tbody>
                 </Table>
@@ -180,8 +179,7 @@ class Detail extends Component {
                   <thead>
                     <tr>
                         <th>상품명</th>
-                        <th>등급</th>
-                        <th>무게</th>
+                        <th>창고</th>
                         <th>단가</th>
                         <th>생산재고</th>
                     </tr>
@@ -192,8 +190,7 @@ class Detail extends Component {
                         return (
                           <tr key={i}>
                             <td>{this.state.sProduct2[i].name}</td>
-                            <td>{this.state.sProduct2[i].grade}</td>
-                            <td>{this.state.sProduct2[i].weight}</td>
+                            <td>{this.state.sProduct2[i].plantName}</td>
                             <td>{this.state.sProduct2[i].price_shipping}</td>
                             <td>{this.state.sProduct2[i].change}</td>
                           </tr>
