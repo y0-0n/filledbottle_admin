@@ -14,10 +14,10 @@ class List extends Component {
   }
 
   componentWillMount() {
-    this.getSuggestion();
+    this.getList();
   }
 
-  getSuggestion() {
+  getList() {
 		const {page} = this.state;
 		
     fetch(process.env.REACT_APP_HOST + "/api/admin/suggestion/list/", {
@@ -84,7 +84,7 @@ class List extends Component {
     this.setState({
       page: x,
     }, () => {
-      this.getSuggestion();
+      this.getList();
     });
   }
 
