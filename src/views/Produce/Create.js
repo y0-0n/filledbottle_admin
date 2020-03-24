@@ -10,7 +10,7 @@ import ProduceModal from '../Modal/ProduceModal';
 registerLocale('ko', ko)
 
 let d = {id: '', name: '',};
-const API_KEY = '894c0c1d03546d1843b5efd334d6e479';
+const API_KEY = 'f31d683f2713e2ac1404a885e2c23d0f';
 
 class Create extends Component {
   constructor(props) {
@@ -61,15 +61,20 @@ class Create extends Component {
   }
 
   _getWeather({latitude, longitude}) {
-    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`)
+    fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${API_KEY}/${latitude},${longitude}`,
+    {
+      method: 'GET',
+      headers: {
+      },
+    })
     .then(response => response.json()) // 응답값을 json으로 변환
-    .then(json => {
-      console.log(json)
+    .then(data => {
+      console.warn(data)
       this.setState({
-        weatherInfo: json,
-        loading: false,
+        weatherInfo : data,
+        loading: false
       })
-    });
+    })
   }
 
   handleFileInput(e){
@@ -156,20 +161,20 @@ class Create extends Component {
                       <th>날씨</th>
                       <td>
                         
-                        <Input defaultValue={this.state.weatherInfo.weather[0].main} onChange={(e) => {this.form.weather = e.target.value}} name="weather"></Input>
+                        <Input defaultValue={this.state.weatherInfo.currently.summary} onChange={(e) => {this.form.weather = e.target.value}} name="weather"></Input>
                       </td>
                       <th>강수량</th>
                       <td>
                         <Row>
-                          <Col xs="9"><Input defaultValue={this.form.rain} onChange={(e) => {this.form.rain = e.target.value}}/></Col>
-                          <Col xs="3">mm</Col>
+                          <Col xs="8"><Input defaultValue={this.state.weatherInfo.currently.precipIntensity} onChange={(e) => {this.form.rain = e.target.value}}/></Col>
+                          <Col xs="4">mm</Col>
                         </Row>
                       </td>
                       <th>적설량</th>
                       <td>
                         <Row>
-                          <Col xs="9"><Input defaultValue={this.form.snow} onChange={(e) => {this.form.snow = e.target.value}}/></Col>
-                          <Col xs="3">cm</Col>
+                          <Col xs="8"><Input defaultValue={this.form.snow} onChange={(e) => {this.form.snow = e.target.value}}/></Col>
+                          <Col xs="4">cm</Col>
                         </Row>
                       </td>
                     </tr>
@@ -177,21 +182,21 @@ class Create extends Component {
                       <th>기온</th>
                       <td>
                         <Row>
-                          <Col xs="9"><Input defaultValue={Math.ceil(this.state.weatherInfo.main.temp - 273.15)} onChange={(e) => {this.form.temperatures = e.target.value}}/></Col>
+                          <Col xs="9"><Input defaultValue={Math.ceil((this.state.weatherInfo.currently.temperature - 32)/1.8)} onChange={(e) => {this.form.temperatures = e.target.value}}/></Col>
                           <Col xs="3">°C</Col>
                         </Row>
                       </td>
                       <th>최저 기온</th>
                       <td>
                         <Row>
-                          <Col xs="9"><Input defaultValue={Math.ceil(this.state.weatherInfo.main.temp_min - 273.15)} onChange={(e) => {this.form.minTemp = e.target.value}}/></Col>
+                          <Col xs="9"><Input onChange={(e) => {this.form.minTemp = e.target.value}}/></Col>
                           <Col xs="3">°C</Col>
                         </Row>
                       </td>
                       <th>최고 기온</th>
                       <td>
                         <Row>
-                          <Col xs="9"><Input defaultValue={Math.ceil(this.state.weatherInfo.main.temp_max - 273.15)} onChange={(e) => {this.form.maxTemp = e.target.value}}/></Col>
+                          <Col xs="9"><Input onChange={(e) => {this.form.maxTemp = e.target.value}}/></Col>
                           <Col xs="3">°C</Col>
                         </Row>
                       </td>
