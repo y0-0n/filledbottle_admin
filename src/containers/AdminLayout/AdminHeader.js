@@ -61,16 +61,16 @@ class DefaultHeader extends Component {
     return (
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
-        <AppNavbarBrand
+        <AppNavbarBrand href={"#/admin/main/home"}
           full={{ src: logo, width: 89, alt: 'BNBN Logo' }}
           minimized={{ src: sygnet, width: 30, height: 30, alt: 'CoreUI Logo' }}
         />
         <Nav className="d-md-down-none" navbar>
           <NavItem className="px-3">
-            <NavLink to="/admin/users" className="nav-link" >회원 목록</NavLink>
+            <NavLink to="/admin/users/list" className="nav-link" >회원 목록</NavLink>
           </NavItem>
 					<NavItem className="px-3">
-            <NavLink to="/admin/product" className="nav-link" >품목 목록</NavLink>
+            <NavLink to="/admin/product/list" className="nav-link" >품목 목록</NavLink>
           </NavItem>
         </Nav>
 				<Nav className="ml-auto" navbar>
