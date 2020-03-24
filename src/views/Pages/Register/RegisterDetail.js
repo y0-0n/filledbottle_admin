@@ -197,6 +197,31 @@ class RegisterDetail extends Component {
       })
 	}
 
+	deactivatePlant(plant) {
+		fetch(process.env.REACT_APP_HOST + "/api/plant/deactivate/"+plant.id, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+			},
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+				let status = data[0];
+        if (status === 200){
+					this.getPlantList();
+        }
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })	}
+
 	getFamilyCategory() {
 		fetch(process.env.REACT_APP_HOST + "/api/product/familyCategory", {
       method: 'GET',
@@ -430,7 +455,10 @@ class RegisterDetail extends Component {
                       }) : null}
                       </td>
                       <td style={{textAlign:"center"}}>{this.state.familyInPlantData[i] !== undefined && this.state.familyInPlantData[i].length === 0 ?
-                        <Button color="danger">X</Button> : <Button color="danger" disabled>X</Button>  
+                        <Button color="danger" onClick={() => {
+													this.deactivatePlant(e)
+												}}>X</Button> :
+												<Button color="danger" disabled>X</Button>  
                       }</td>
 										</tr>)}
 									)}
