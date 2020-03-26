@@ -10,12 +10,42 @@ class UserListDetail extends Component {
       familyData: [],
     }
   }
-  
   initMap() {
+    var contentString = [
+      '<div class="iw_inner" style="padding: 10px;">',
+      `<h4>${this.state.roadAddress}</h4>`,
+      `<div>> ${this.state.jibunAddress}</div>`,
+      '</div>'
+    ].join('');
+
     let map = new naver.maps.Map('map', {
-        center: new naver.maps.LatLng(this.state.y, this.state.x),
-        zoom: 18
+      center: new naver.maps.LatLng(this.state.y, this.state.x),
+      zoom: 18
     });
+
+    let marker = new naver.maps.Marker({
+      map: map,
+      position: new naver.maps.LatLng(this.state.y, this.state.x),
+    });
+
+    var infowindow = new naver.maps.InfoWindow({
+      content: contentString,
+      //maxWidth: 140,
+      borderColor: "lightgrey",
+      borderWidth: 2,
+      anchorSize: new naver.maps.Size(20, 20),
+      anchorSkew: true,
+      pixelOffset: new naver.maps.Point(20, -20),
+    });  
+
+    naver.maps.Event.addListener(marker, "click", function (e) {
+      if (infowindow.getMap()) {
+        infowindow.close();
+      } else {
+        infowindow.open(map, marker);
+      }
+    });
+
   }
 
   getCoord() {
@@ -28,7 +58,8 @@ class UserListDetail extends Component {
       },
     })
       .then(response => response.json())
-      .then(data => {this.setState({x: data.addresses[0].x, y: data.addresses[0].y}, () => {
+      .then(data => {
+        this.setState({x: data.addresses[0].x, y: data.addresses[0].y, roadAddress: data.addresses[0].roadAddress, jibunAddress: data.addresses[0].jibunAddress}, () => {
         this.initMap();
       })})
   }
