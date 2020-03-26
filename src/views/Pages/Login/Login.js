@@ -33,8 +33,11 @@ class Login extends Component {
     .then(data => {
       let status = data[0], token = data[1].token;
       if(status === 200) {
-        localStorage.setItem('token', token);
-        this.props.history.push('/');
+				localStorage.setItem('token', token);
+				if(data[1].user.role === 5)
+					this.props.history.push('/admin');
+				else
+        	this.props.history.push('/');
       } else {
         alert('아이디 혹은 비밀번호가 잘못됐습니다.');
       }

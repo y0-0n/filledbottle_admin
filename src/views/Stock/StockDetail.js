@@ -68,9 +68,9 @@ class Detail extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {data.map((d) => {
+                      {data.map((d, i) => {
                         return (
-                          <tr key={d.id}>
+                          <tr key={i}>
                             <td>{this.getDate(d.date)}</td>
                             <td>{d.change}</td>
                             <td>{d.quantity}</td>

@@ -18,6 +18,8 @@ class RegisterDetail extends Component {
       family: 1,
       productData: [],
       prohibitDelete: false,
+      plant : 1,
+      deletePlantList: [],
     }
   }
 
@@ -194,6 +196,31 @@ class RegisterDetail extends Component {
         }
       })
 	}
+
+	deactivatePlant(plant) {
+		fetch(process.env.REACT_APP_HOST + "/api/plant/deactivate/"+plant.id, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+			},
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+				let status = data[0];
+        if (status === 200){
+					this.getPlantList();
+        }
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })	}
 
 	getFamilyCategory() {
 		fetch(process.env.REACT_APP_HOST + "/api/product/familyCategory", {
@@ -393,15 +420,17 @@ class RegisterDetail extends Component {
           <Card>
             <CardHeader>
               <Row>
-                <Col md="9" xs="6" sm="6">창고</Col>
-								<Col md="3" xs="6" sm="6">
-								<InputGroup>
-									<Input placeholder="새 창고명" onChange={(e) => { this.newPlant = e.target.value }} />
-									<InputGroupAddon addonType="append">
-										<Button block color="primary" onClick={() => { this.addPlant() }}>추가</Button>
-									</InputGroupAddon>
-								</InputGroup>
-								</Col>
+                <Col>창고</Col>
+                <div style={{float: "right"}}>
+                  <Col>
+                  <InputGroup>
+                    <Input placeholder="새 창고명" onChange={(e) => { this.newPlant = e.target.value }} />
+                    <InputGroupAddon addonType="append">
+                      <Button block color="primary" onClick={() => { this.addPlant() }}>추가</Button>
+                    </InputGroupAddon>
+                  </InputGroup>
+                  </Col>
+                </div>
               </Row>
             </CardHeader>
             <CardBody>
@@ -410,6 +439,7 @@ class RegisterDetail extends Component {
                   <tr>
                     <th>창고명</th>
 										<th>저장 품목군</th>
+                    <th style={{width : 35}}>삭제</th>
 										{/*<th>저장량</th>*/}
                   </tr>
                 </thead>
@@ -417,9 +447,19 @@ class RegisterDetail extends Component {
 									{plantData.map((e, i) => {
 										return (<tr key={i}>
 											<td>{e.name}</td>
-											<td>{this.state.familyInPlantData[i] !== undefined ? this.state.familyInPlantData[i].map((e, i) => {
+                      <td>
+                      {
+                      this.state.familyInPlantData[i] !== undefined ?
+                        this.state.familyInPlantData[i].map((e, i) => {
 												return e.name
-											}) : null}</td>
+                      }) : null}
+                      </td>
+                      <td style={{textAlign:"center"}}>{this.state.familyInPlantData[i] !== undefined && this.state.familyInPlantData[i].length === 0 ?
+                        <Button color="danger" onClick={() => {
+													this.deactivatePlant(e)
+												}}>X</Button> :
+												<Button color="danger" disabled>X</Button>  
+                      }</td>
 										</tr>)}
 									)}
 									<tr>

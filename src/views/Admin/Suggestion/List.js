@@ -10,20 +10,24 @@ class List extends Component {
     this.state = {
       data: [{}],
       page: 1,
-      number: 1,
     }
   }
 
   componentWillMount() {
-    this.getSuggestion();
+    this.getList();
   }
 
-  getSuggestion() {
-    fetch(process.env.REACT_APP_HOST + "/api/suggestion/" + this.state.number, {
-      method: 'GET',
+  getList() {
+		const {page} = this.state;
+		
+    fetch(process.env.REACT_APP_HOST + "/api/admin/suggestion/list/", {
+      method: 'POST',
       headers: {
+				'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
+			},
+			body: JSON.stringify({page})
     })
       .then(response => {
         if (response.status === 401) {
@@ -45,7 +49,7 @@ class List extends Component {
   }
 
   getTotal() {
-    fetch(process.env.REACT_APP_HOST + "/api/suggestion/total/", {
+    fetch(process.env.REACT_APP_HOST + "/api/admin/suggestion/total/", {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -78,9 +82,9 @@ class List extends Component {
 
   countPageNumber(x) {
     this.setState({
-      number: x,
+      page: x,
     }, () => {
-      this.getSuggestion();
+      this.getList();
     });
   }
 
@@ -95,11 +99,6 @@ class List extends Component {
           <CardHeader>
             <Row>
               <Col>건의사항</Col>
-              <Col>
-                <div style={{float : "right"}}>
-                  <Button color="primary" onClick={() => { this.props.history.push('/main/suggestions/write'); }}>글쓰기</Button>
-                </div>
-              </Col>
             </Row>
           </CardHeader>
           <CardBody>
@@ -117,7 +116,7 @@ class List extends Component {
                 <tbody>
                   {data.map((d) => {
                     return (
-                      <tr key={d.id} style={{ cursor: 'pointer' }} onClick={() => { this.props.history.push(`/main/suggestions/${d.id}`) }}>
+                      <tr key={d.id} style={{ cursor: 'pointer' }} onClick={() => { this.props.history.push(`/admin/suggestion/detail/${d.id}`) }}>
                         <td className="list-hidden">{d.id}</td>
                         <td>{d.title}</td>
                         <td>{d.name}</td>
@@ -133,26 +132,26 @@ class List extends Component {
           </CardBody>
           <CardFooter>
             <Pagination style={{ justifyContent: 'center' }}>
-              {this.state.number === 1 ? '' :
+              {this.state.page === 1 ? '' :
                 <PaginationItem>
-                  <PaginationLink previous onClick={() => { this.countPageNumber(this.state.number - 1) }} />
+                  <PaginationLink previous onClick={() => { this.countPageNumber(this.state.page - 1) }} />
                 </PaginationItem>
               }
-              {this.state.number === 1 ? arr.forEach(x => arr1.push(x + 2)) : null}
-              {this.state.number === 2 ? arr.forEach(x => arr1.push(x + 1)) : null}
-              {this.state.number !== 1 && this.state.number !== 2 ? arr.forEach(x => arr1.push(x)) : null}
+              {this.state.page === 1 ? arr.forEach(x => arr1.push(x + 2)) : null}
+              {this.state.page === 2 ? arr.forEach(x => arr1.push(x + 1)) : null}
+              {this.state.page !== 1 && this.state.page !== 2 ? arr.forEach(x => arr1.push(x)) : null}
               {arr1.map((e, i) => {
-                if (this.state.total >= this.state.number + e)
-                  return (<PaginationItem key={i} active={this.state.number === this.state.number + e}>
-                    <PaginationLink onClick={() => { this.countPageNumber(this.state.number + e) }}>
-                      {this.state.number + e}
+                if (this.state.total >= this.state.page + e)
+                  return (<PaginationItem key={i} active={this.state.page === this.state.page + e}>
+                    <PaginationLink onClick={() => { this.countPageNumber(this.state.page + e) }}>
+                      {this.state.page + e}
                     </PaginationLink>
                   </PaginationItem>)
                 return null;
               })}
-              {this.state.number === this.state.total ? '' :
+              {this.state.page === this.state.total ? '' :
                 <PaginationItem>
-                  <PaginationLink next onClick={() => { this.countPageNumber(this.state.number + 1) }} />
+                  <PaginationLink next onClick={() => { this.countPageNumber(this.state.page + 1) }} />
                 </PaginationItem>}
             </Pagination>
           </CardFooter>

@@ -260,7 +260,6 @@ class Stock extends Component {
                       }
                       { this.state.checkCategory ?
                         useFamilyData.map((e, i) => {
-                          console.warn(e)
                           return <li key={i} className="list-productfamily" style={{backgroundColor: this.state.family === e.family? '#F16B6F' : 'transparent', border: this.state.family === e.family? '0px' : '1px solid #c9d6de', color: this.state.family === e.family? '#fff' : '#52616a', fontWeight: this.state.family === e.family? 'bold' : 'normal', fontSize: this.state.family === e.family? '1.1em' : '1em'}}  onClick = {() => this.changeFamily(e.family)}>{e.name}</li>
                         })
                         :

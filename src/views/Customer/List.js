@@ -233,7 +233,7 @@ class List extends Component {
                       </DropdownToggle>
                       <DropdownMenu>
                         <DropdownItem onClick={() => { this.props.history.push('/main/customer/list/unset') }}>비활성화</DropdownItem>
-                        {/*<DropdownItem onClick={() => {
+                        <DropdownItem onClick={() => {
                           let { checkdata } = this.state;
                           for (var i = 0; i < this.state.checks.length; i++) {
                             if (this.state.checks[i] === true) {
@@ -244,7 +244,7 @@ class List extends Component {
                             pathname: '/main/message',
                             state: checkdata
                           });
-                        }}>카카오톡 보내기</DropdownItem>*/}
+                        }}>카카오톡 보내기</DropdownItem>
                         <DropdownItem onClick={() => { this.props.history.push('/customer/create'); }}>고객등록</DropdownItem>
                       </DropdownMenu>
                     </UncontrolledButtonDropdown>

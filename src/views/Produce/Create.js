@@ -181,7 +181,8 @@ class Create extends Component {
             <Card>
               <CardHeader>
                 <Row>
-                  <Col>영농일지</Col>
+									<Col>영농일지</Col>
+                  {/*
                     <Col>
                       {<Popup
                         trigger={
@@ -197,17 +198,17 @@ class Create extends Component {
                             const {name, process, productName, productId, area, expected, content} = data;
                             console.log(data)
                             this.form.previous_id = data.id;
-                            /*this.form.name = name;
-                            this.form.process = process;
-                            this.form.content = content;*/
+                            /this.form.name = name;
+                            //this.form.process = process;
+                            //this.form.content = content;
                             this.form.product_id = productId;
                             this.form.area = area;
                             this.form.expected = expected;
                             this.setState({productName})
                           }}
                         />}
-                      </Popup>}
-                    </Col>
+                      </Popup>
+                    </Col>*/}
                 </Row>
               </CardHeader>
               <CardBody>
@@ -239,7 +240,8 @@ class Create extends Component {
                                   const {id, name} = data;
                                   this.form.product_id = id;
                                   this.setState({ productName: name });
-                                }}
+																}}
+																createProduct={() => {this.props.history.push('/product/create')}}
                               />}
                             </Popup>}
                           </Col>
