@@ -59,7 +59,33 @@ class UserListDetail extends Component {
           this.props.history.push('/login');
         }
       });
-  }
+	}
+	
+	getCoord() {
+    fetch(process.env.REACT_APP_HOST + "/api/geocode/?query=Test", {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if (status === 200) {
+          console.warn(data)
+        }
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      });
+	}
 
   tabClick(category) {
     this.setState({
@@ -72,6 +98,7 @@ class UserListDetail extends Component {
   componentWillMount() {
 		this.getDetail();
 		this.getProductFamily();
+		this.getCoord()
   }
 
   render() {
