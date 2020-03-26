@@ -61,7 +61,7 @@ class Create extends Component {
   }
 
   _getWeather({latitude, longitude}) {
-    fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${API_KEY}/${latitude},${longitude}`,
+    fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${API_KEY}/${latitude},${longitude}?lang=ko`,
     {
       method: 'GET',
       headers: {
@@ -166,7 +166,7 @@ class Create extends Component {
                       <th>강수량</th>
                       <td>
                         <Row>
-                          <Col xs="8"><Input defaultValue={this.state.weatherInfo.currently.precipIntensity} onChange={(e) => {this.form.rain = e.target.value}}/></Col>
+                          <Col xs="8"><Input defaultValue={this.state.weatherInfo.daily.data[0].precipIntensity} onChange={(e) => {this.form.rain = e.target.value}}/></Col>
                           <Col xs="4">mm</Col>
                         </Row>
                       </td>
