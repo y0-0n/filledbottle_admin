@@ -189,14 +189,14 @@ class Create extends Component {
                       <th>최저 기온</th>
                       <td>
                         <Row>
-                          <Col xs="9"><Input onChange={(e) => {this.form.minTemp = e.target.value}}/></Col>
+                          <Col xs="9"><Input defaultValue={Math.ceil((this.state.weatherInfo.daily.data[0].temperatureMin - 32)/1.8)} onChange={(e) => {this.form.minTemp = e.target.value}}/></Col>
                           <Col xs="3">°C</Col>
                         </Row>
                       </td>
                       <th>최고 기온</th>
                       <td>
                         <Row>
-                          <Col xs="9"><Input onChange={(e) => {this.form.maxTemp = e.target.value}}/></Col>
+                          <Col xs="9"><Input defaultValue={Math.ceil((this.state.weatherInfo.daily.data[0].temperatureMax - 32)/1.8)} onChange={(e) => {this.form.maxTemp = e.target.value}}/></Col>
                           <Col xs="3">°C</Col>
                         </Row>
                       </td>
