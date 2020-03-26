@@ -299,6 +299,17 @@ class UserListDetail extends Component {
             </Card>
           </Col>
 
+          <Col>
+            <Card>
+              <CardHeader>
+                지도
+              </CardHeader>
+              <CardBody>
+                <div id="map" style={{width:"100%", height:"400px"}}></div>
+              </CardBody>
+            </Card>
+          </Col>
+
           <Col md="12" xs="12" sm="12">
             <Card>
               <CardHeader>

@@ -24,6 +24,17 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=u8482r04pp&callback=initMap"></script>
+    <script type="text/javascript">
+      var map = null;
+
+      function initMap() {
+          map = new naver.maps.Map('map', {
+              center: new naver.maps.LatLng(37.3595704, 127.105399),
+              zoom: 13
+          });
+      }
+    </script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-118965717-3"></script>
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
