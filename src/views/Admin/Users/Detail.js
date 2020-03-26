@@ -1,3 +1,4 @@
+/* global naver */
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row, Table, Nav, NavItem, NavLink } from 'reactstrap';
 
@@ -9,9 +10,16 @@ class UserListDetail extends Component {
       familyData: [],
     }
   }
+  
+  initMap() {
+    let map = new naver.maps.Map('map', {
+        center: new naver.maps.LatLng(this.state.y, this.state.x),
+        zoom: 18
+    });
+  }
 
   getDetail() {
-    fetch(process.env.REACT_APP_HOST + "/api/admin/users/detail/"+this.props.match.params.id, {
+    fetch(process.env.REACT_APP_HOST +"/api/admin/users/detail/"+this.props.match.params.id, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -26,8 +34,10 @@ class UserListDetail extends Component {
       })
       .then(data => {
         let status = data[0];
-        if (status === 200)
+        if (status === 200){
           this.setState({ data: data[1][0] });
+          this.getCoord();  
+          }
         else {
           alert('로그인 하고 접근해주세요');
           this.props.history.push('/login');
@@ -62,7 +72,7 @@ class UserListDetail extends Component {
 	}
 	
 	getCoord() {
-    fetch(process.env.REACT_APP_HOST + "/api/geocode/?query=Test", {
+    fetch(process.env.REACT_APP_HOST + `/api/geocode/?query=${this.state.data.address}`, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -76,10 +86,13 @@ class UserListDetail extends Component {
         }
       })
       .then(data => {
-        let status = data[0];
+				let status = data[0];
+				console.warn(data[1])
         if (status === 200) {
-          console.warn(data)
-        }
+					this.setState({x: data[1].addresses[0].x, y: data[1].addresses[0].y}, () => {
+						this.initMap();
+					});
+				}
         else {
           alert('로그인 하고 접근해주세요');
           this.props.history.push('/login');
@@ -96,14 +109,12 @@ class UserListDetail extends Component {
   }
 
   componentWillMount() {
-		this.getDetail();
-		this.getProductFamily();
-		this.getCoord()
+    this.getDetail();
+    this.getProductFamily();
   }
 
   render() {
-		const { data, familyData } = this.state;
-		console.warn(familyData)
+    const { data, familyData, } = this.state;
     return (
       <div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
@@ -147,6 +158,17 @@ class UserListDetail extends Component {
                     </tr>
                   </tbody>
                 </Table>
+              </CardBody>
+            </Card>
+          </Col>
+
+          <Col>
+            <Card>
+              <CardHeader>
+                지도
+              </CardHeader>
+              <CardBody>
+                <div id="map" style={{width:"100%", height:"400px"}}></div>
               </CardBody>
             </Card>
           </Col>

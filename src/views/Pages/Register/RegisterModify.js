@@ -10,6 +10,38 @@ class RegisterModify extends Component {
     }
   }
 
+  sample6_execDaumPostcode() {
+    new window.daum.Postcode({
+        oncomplete: function(data) {
+            var addr = ''; // 주소 변수
+            var extraAddr = ''; // 참고항목 변수
+            if (data.userSelectedType === 'R') {
+                addr = data.roadAddress;
+            } else {
+                addr = data.jibunAddress;
+            }
+            if(data.userSelectedType === 'R'){
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraAddr += data.bname;
+                }
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                if(extraAddr !== ''){
+                    extraAddr = ' (' + extraAddr + ')';
+                }
+                //document.getElementById("sample6_extraAddress").value = extraAddr;
+								addr += extraAddr;
+            } else {
+                //document.getElementById("sample6_extraAddress").value = '';
+            }
+            document.getElementById('sample6_postcode').value = data.zonecode;
+            document.getElementById("sample6_address").value = addr;
+            document.getElementById("sample6_detailAddress").focus();
+        }
+    }).open();
+  }
+
   getDetail() {
     fetch(process.env.REACT_APP_HOST+"/api/auth/info", {
       method: 'GET',
@@ -45,6 +77,8 @@ class RegisterModify extends Component {
 
   modifyInfo(e){
     e.preventDefault();
+		this.form.address = document.getElementById("sample6_address").value+" "+document.getElementById("sample6_detailAddress").value;
+		this.form.postcode = document.getElementById("sample6_postcode").value;
     
     let c = window.confirm('회원정보를 수정하시겠습니까?')
     console.log(this.form)
@@ -122,7 +156,27 @@ class RegisterModify extends Component {
                   <tr>
                     <th>주소</th>
                     <td colSpan="3">
-                      <Input defaultValue={data.address} onChange={(e) => this.form.address=e.target.value}/>
+                      <Row style={{marginBottom: '10px'}}>
+                        <Col lg="6" md="6" sm="6">
+                          <InputGroup required>
+                            <Input type="text" id="sample6_postcode" placeholder="우편번호" readOnly/>                            
+                            <InputGroupAddon addonType="append">
+                              <Button block color="primary" onClick={() => {this.sample6_execDaumPostcode()}}>우편번호찾기</Button>
+                            </InputGroupAddon>
+                          </InputGroup>
+                        </Col>
+                      </Row>
+                      <Row style={{marginBottom: '10px'}}>
+                        <Col>
+                          <Input type="text" id="sample6_address" placeholder="주소" readOnly/>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col lg="6" md="6" sm="6" style={{paddingRight: '0px'}}>
+                          <Input type="text" id="sample6_detailAddress" placeholder="상세주소"/>
+                        </Col>
+                      </Row>
+                      {/* <Input defaultValue={data.address} onChange={(e) => this.form.address=e.target.value}/> */}
                     </td>
                   </tr>
                 </tbody>
