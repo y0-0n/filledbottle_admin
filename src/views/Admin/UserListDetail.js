@@ -1,3 +1,4 @@
+/* global naver */
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row, Table, Nav, NavItem, NavLink } from 'reactstrap';
 
@@ -21,6 +22,30 @@ class UserListDetail extends Component {
       deletePlantList: [],
     }
   }
+  initMap() {
+    let map = new naver.maps.Map('map', {
+        center: new naver.maps.LatLng(this.state.y, this.state.x),
+        zoom: 15
+    });
+  }
+  componentDidMount() {
+    console.log(this.state.data)
+  }
+
+  getCoord() {
+    fetch(`https://cors-anywhere.herokuapp.com/https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=${this.state.data.address}`, {
+      method: 'GET',
+      headers: {
+        'X-NCP-APIGW-API-KEY-ID': 'u8482r04pp', 
+        'X-NCP-APIGW-API-KEY' : 'dCM0upCu5ZoYVKjinbLMgaF98o9vgOhOiM9dsAbX',
+        Accept: 'application/json'
+      },
+    })
+      .then(response => response.json())
+      .then(data => {this.setState({x: data.addresses[0].x, y: data.addresses[0].y}, () => {
+        this.initMap();
+      })})
+  }
 
   getDetail() {
     fetch(process.env.REACT_APP_HOST + "/api/auth/info", {
@@ -38,8 +63,10 @@ class UserListDetail extends Component {
       })
       .then(data => {
         let status = data[0];
-        if (status === 200)
+        if (status === 200){
           this.setState({ data: data[1][0] });
+          this.getCoord();  
+          }
         else {
           alert('로그인 하고 접근해주세요');
           this.props.history.push('/login');
