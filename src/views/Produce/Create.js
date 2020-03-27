@@ -45,27 +45,53 @@ class Create extends Component {
   componentWillMount() {
   }
 
-  handleFileInput(e){
+  handleFileInput() {
     var file = this.refs.file.files[0];
+    var canvasImg = document.createElement("img");
     var reader = new FileReader();
     reader.readAsDataURL(file);
 
-    reader.onloadend = function (e) {
-      this.setState({
-        image : [reader.result],
-      });
+    // img resize
+    reader.onload = function (e) {
+      var canvas = document.createElement("canvas");
+      var ctx = canvas.getContext("2d");
+      var url = e.target.result;
+      var img = new Image();
+      img.onload = function() {
+        ctx.drawImage(img, 0, 0,300,300);
+        var dataurl = canvas.toDataURL('image/png');
+        this.setState({
+          image: dataurl
+        });
+        console.log(dataurl)
+      }.bind(this);
+      img.src = url;
+
+      canvas.width = 300;
+      canvas.height = 300;
+
     }.bind(this);
-
-    let img = e.target.files[0];
-
-    this.setState({img});
+    this.setState({image : this.state.image})
   }
 
   handlePost(e) {
     e.preventDefault();
     let formData = new FormData();
+
+    // base64 -> file object 변환
+    // reference -> https://helloinyong.tistory.com/233
+    var arr = this.state.image.split(','),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+
+    while(n--){
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+
     if (this.state.img != null) {
-      formData.append('file', this.state.img);
+      formData.append('file', new File([u8arr], this.state.image.name, {type : mime}));
     }
     for (let [key, value] of Object.entries(this.form)) {
       formData.append(key, value);
@@ -276,11 +302,22 @@ class Create extends Component {
                     </tr>
                       <th>작업사진</th>
                       <td colSpan="3">
-                        <img alt="작업 사진" style={{height: 500, width: 500}} src={this.state.image} /> <br></br>
-                        <input ref="file" type="file" name="file"  accept="image/*" onChange={e =>{this.handleFileInput(e);}}/>
+                        <div style={{paddingBottom: '10px'}}>
+                          <input ref="file" type="file" name="file" onChange={e => {
+                            this.handleFileInput(e);
+                          }} style={{display: "none"}}/>
+                          <img src='/assets/img/upload.jpg' border='0' style={{width: '10%', marginLeft: 10}}
+                               onClick={() => document.all.file.click()}/>
+                        </div>
+                        <div>
+                          <img id = "imageFile" alt="작업사진" style={{
+                            display: "inline-block",
+                            border: '1px',
+                            borderStyle: 'dashed',
+                            borderColor: '#c8ced3'
+                          }} src ={this.state.image}/>
+                        </div>
                       </td>
-                    <tr>
-                    </tr>
                   </tbody>
                 </Table>
               </CardBody>
