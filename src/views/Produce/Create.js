@@ -12,6 +12,13 @@ registerLocale('ko', ko)
 let d = {id: '', name: '',};
 const API_KEY = 'f31d683f2713e2ac1404a885e2c23d0f';
 
+const publicIp = require('public-ip');
+ 
+(async () => {
+    console.log(await publicIp.v4());
+})();
+
+
 class Create extends Component {
   constructor(props) {
     super(props);
