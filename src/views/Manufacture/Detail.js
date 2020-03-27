@@ -111,12 +111,16 @@ class Detail extends Component {
 										<tr>
 											<th>제품명</th>
 											<td>{info.title}</td>
-											<th>일자</th>
+											<th>총 생산량</th>
+											<td>{info.total}</td>
+										</tr>
+										<tr>
+											<th>입고 창고</th>
+											<td style={{color: !this.state.sProduct2[0]['plantSet'] ? 'red' : ''}}>{this.state.sProduct2[0].plantName}</td>
+											<th>제조 일자</th>
 											<td className="TableRight">{this.getDate(info.date)}</td>
 										</tr>
 										<tr>
-											<th>총 생산량</th>
-											<td>{info.total}</td>
 											<th>상태</th>
 											<td className="TableRight">{info.set ? <Badge color="primary">처리</Badge> : <Badge color="danger">취소</Badge>}</td>
 										</tr>
@@ -152,7 +156,7 @@ class Detail extends Component {
                         return (
                           <tr key={i}>
                             <td>{e.name}</td>
-                            <td>{this.state.sProduct1[i].plantName}</td>
+                            <td style={{color: !e.plantSet ? 'red' : ''}}>{this.state.sProduct1[i].plantName}</td>
                             <td>{this.state.sProduct1[i].price_shipping}</td>
                             <td>{this.state.sProduct1[i].change}</td>
                           </tr>
@@ -167,7 +171,7 @@ class Detail extends Component {
               </CardFooter>
             </Card>
           </Col>
-          <Col md="12" xs="12" sm="12">
+          {/*<Col md="12" xs="12" sm="12">
             <Card>
               <CardHeader>
                 <Row>
@@ -203,7 +207,7 @@ class Detail extends Component {
               <CardFooter>
               </CardFooter>
             </Card>
-          </Col>
+					</Col>*/}
         </Row>
       </div>
     )
