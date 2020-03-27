@@ -129,7 +129,7 @@ class Detail extends Component {
                       </tr>
                       <tr>
                         <th>작업사진</th>
-                        <td colSpan="3">
+                        <td colSpan="3" style={ {textAlign : "center"} }>
                           <img style={{width: '90%'}} alt="작업 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
                         </td>
                       </tr>
