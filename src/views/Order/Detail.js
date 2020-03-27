@@ -148,7 +148,7 @@ class Detail extends Component {
     var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
     var total_price = 0 ;
     var total_supply = 0;
-    var total_vat = 0;
+		var total_vat = 0;
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
@@ -250,12 +250,12 @@ class Detail extends Component {
                       total_vat += Math.round(e['tax'] ? e['price'] * 1 / 11 : 0);
                       return ( <tr key={i} style={{backgroundColor: e.refund ? 'orange' : null}}>
                         <td>{e['name']}</td>
-                        <td>{e['plant']}</td>
+                        <td style={{color: !e['plantSet'] ? 'red' : ''}}>{e['plant']}</td>
                         <td>{e['quantity']}</td>
                         <td>{this.numberWithCommas(e['price']/e['quantity'])}</td>
                         <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price'] * 10 / 11 : e['price']))}</td>
                         <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price'] * 1 / 11 : 0))}</td>
-                        <td style={{textAlign: 'center'}}><Input name='tax' type='checkbox' checked={e.tax} disabled/></td>
+                        <td style={{textAlign: 'center'}}><Input name='tax' type='checkbox' checked={e.tax || false} disabled/></td>
                         <td>{this.numberWithCommas(e['price'])}</td>
                         {
                           this.state.refund === true ?

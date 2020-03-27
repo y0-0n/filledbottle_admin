@@ -48,22 +48,6 @@ class UserListDetail extends Component {
 
   }
 
-  getCoord() {
-    fetch(`https://cors-anywhere.herokuapp.com/https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=${this.state.data.address}`, {
-      method: 'GET',
-      headers: {
-        'X-NCP-APIGW-API-KEY-ID': 'u8482r04pp', 
-        'X-NCP-APIGW-API-KEY' : 'dCM0upCu5ZoYVKjinbLMgaF98o9vgOhOiM9dsAbX',
-        Accept: 'application/json'
-      },
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({x: data.addresses[0].x, y: data.addresses[0].y, roadAddress: data.addresses[0].roadAddress, jibunAddress: data.addresses[0].jibunAddress}, () => {
-        this.initMap();
-      })})
-  }
-
   getDetail() {
     fetch(process.env.REACT_APP_HOST +"/api/admin/users/detail/"+this.props.match.params.id, {
       method: 'GET',
@@ -115,7 +99,36 @@ class UserListDetail extends Component {
           this.props.history.push('/login');
         }
       });
-  }
+	}
+	
+	getCoord() {
+    fetch(process.env.REACT_APP_HOST + `/api/geocode/?query=${this.state.data.address}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+				let status = data[0];
+				console.warn(data[1])
+        if (status === 200) {
+					this.setState({x: data[1].addresses[0].x, y: data[1].addresses[0].y}, () => {
+						this.initMap();
+					});
+				}
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      });
+	}
 
   tabClick(category) {
     this.setState({
