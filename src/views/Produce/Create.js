@@ -90,9 +90,7 @@ class Create extends Component {
       u8arr[n] = bstr.charCodeAt(n);
     }
 
-    if (this.state.img != null) {
-      formData.append('file', new File([u8arr], this.state.image.name, {type : mime}));
-    }
+    formData.append('file', new File([u8arr], this.state.image.name, {type : mime}));
     for (let [key, value] of Object.entries(this.form)) {
       formData.append(key, value);
     }
