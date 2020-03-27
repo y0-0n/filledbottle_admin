@@ -26,14 +26,14 @@ class CreateProduct extends Component {
     this.getProductFamily();
   }
 
-  handleFileInput(e) {
+  handleFileInput() {
     var file = this.refs.file.files[0];
     var canvasImg = document.createElement("img");
     var reader = new FileReader();
+    reader.readAsDataURL(file);
 
     // img resize
     reader.onload = function (e) {
-
         var canvas = document.createElement("canvas");
         var ctx = canvas.getContext("2d");
         var url = e.target.result;
@@ -41,32 +41,38 @@ class CreateProduct extends Component {
         img.onload = function() {
           ctx.drawImage(img, 0, 0,300,300);
           var dataurl = canvas.toDataURL('image/png');
-          console.log(dataurl);
           this.setState({
-            image: dataurl,
+            image: dataurl
           });
+          console.log(dataurl)
         }.bind(this);
         img.src = url;
 
         canvas.width = 300;
         canvas.height = 300;
 
-  }.bind(this)
-
-    reader.readAsDataURL(file);
-
-  }
-
-  handleClick(e) {
-    this.setState({
-      image: '/assets/img/noimage.jpg'
-    });
-  }
+  }.bind(this);
+    this.setState({image : this.state.image})
+   }
 
   handlePost(e) {
     e.preventDefault();
     let formData = new FormData();
-    formData.append('file', this.state.img);
+
+    // base64 -> file object 변환
+    // reference -> https://helloinyong.tistory.com/233
+    var arr = this.state.image.split(','),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+
+    while(n--){
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    // upload 준비
+    formData.append('file', new File([u8arr], this.state.image.name, {type : mime}));
     for (let [key, value] of Object.entries(this.form)) {
       formData.append(key, value);
     }
@@ -96,6 +102,8 @@ class CreateProduct extends Component {
         }
       });
   }
+
+
 
   getProductFamily() {
     fetch(process.env.REACT_APP_HOST + "/api/product/familyList/all", {
