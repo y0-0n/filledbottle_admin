@@ -42,23 +42,42 @@ class Create extends Component {
       productName: '',//제품명
       date: new Date(),
       loading: true,
-      weatherInfo: null,
+			weatherInfo: null,
+			ip: '211.62.225.216'
     };
   }
   componentWillMount() {
-  }
+		this.getCoord();
+	}
 
-  componentDidMount() {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        console.log(position);
-        this._getWeather(position.coords); // 추가된 코드
-      }, 
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
+	componentDidMount() {
+	}
+	
+	getCoord() {
+    fetch(process.env.REACT_APP_HOST + `/api/geolocation/?ip=${this.state.ip}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+				let status = data[0];
+        if (status === 200) {
+					console.warn(data)
+				}
+        else {
+					console.warn(data[0]);
+          alert('위치정보 받아오기 오류');
+        }
+      });
+	}
 
   _getWeather({latitude, longitude}) {
     fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${API_KEY}/${latitude},${longitude}`,
