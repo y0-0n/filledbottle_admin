@@ -12,11 +12,7 @@ registerLocale('ko', ko)
 let d = {id: '', name: '',};
 const API_KEY = 'f31d683f2713e2ac1404a885e2c23d0f';
 
-const publicIp = require('public-ip');
- 
-(async () => {
-    console.log(await publicIp.v4());
-})();
+
 
 
 class Create extends Component {
@@ -54,10 +50,16 @@ class Create extends Component {
     };
   }
   componentWillMount() {
-		this.getCoord();
+    const publicIp = require('public-ip');
+ 
+    (async () => {
+      this.setState({ ip : await publicIp.v4()})
+      this.getCoord();
+    })();
 	}
 
 	componentDidMount() {
+    
 	}
 	
 	getCoord() {
@@ -77,7 +79,8 @@ class Create extends Component {
       .then(data => {
 				let status = data[0];
         if (status === 200) {
-					console.warn(data)
+          this._getWeather(data[1].geoLocation.lat,data[1].geoLocation.long)
+          
 				}
         else {
 					console.warn(data[0]);
@@ -86,7 +89,7 @@ class Create extends Component {
       });
 	}
 
-  _getWeather({latitude, longitude}) {
+  _getWeather(latitude,longitude) {
     fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${API_KEY}/${latitude},${longitude}?lang=ko`,
     {
       method: 'GET',
@@ -229,7 +232,7 @@ class Create extends Component {
                       </td>
                     </tr>
                     <tr>
-                      <th>기온</th>
+                      <th>현재 기온</th>
                       <td>
                         <Row>
                           <Col xs="9"><Input defaultValue={Math.ceil((this.state.weatherInfo.currently.temperature - 32)/1.8)} onChange={(e) => {this.form.temperatures = e.target.value}}/></Col>
