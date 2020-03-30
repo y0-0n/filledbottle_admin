@@ -12,6 +12,13 @@ registerLocale('ko', ko)
 let d = {id: '', name: '',};
 const API_KEY = 'f31d683f2713e2ac1404a885e2c23d0f';
 
+const publicIp = require('public-ip');
+ 
+(async () => {
+    console.log(await publicIp.v4());
+})();
+
+
 class Create extends Component {
   constructor(props) {
     super(props);
@@ -80,7 +87,7 @@ class Create extends Component {
 	}
 
   _getWeather({latitude, longitude}) {
-    fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${API_KEY}/${latitude},${longitude}`,
+    fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${API_KEY}/${latitude},${longitude}?lang=ko`,
     {
       method: 'GET',
       headers: {
@@ -185,7 +192,7 @@ class Create extends Component {
                       <th>강수량</th>
                       <td>
                         <Row>
-                          <Col xs="8"><Input defaultValue={this.state.weatherInfo.currently.precipIntensity} onChange={(e) => {this.form.rain = e.target.value}}/></Col>
+                          <Col xs="8"><Input defaultValue={this.state.weatherInfo.daily.data[0].precipIntensity} onChange={(e) => {this.form.rain = e.target.value}}/></Col>
                           <Col xs="4">mm</Col>
                         </Row>
                       </td>
@@ -208,14 +215,14 @@ class Create extends Component {
                       <th>최저 기온</th>
                       <td>
                         <Row>
-                          <Col xs="9"><Input onChange={(e) => {this.form.minTemp = e.target.value}}/></Col>
+                          <Col xs="9"><Input defaultValue={Math.ceil((this.state.weatherInfo.daily.data[0].temperatureMin - 32)/1.8)} onChange={(e) => {this.form.minTemp = e.target.value}}/></Col>
                           <Col xs="3">°C</Col>
                         </Row>
                       </td>
                       <th>최고 기온</th>
                       <td>
                         <Row>
-                          <Col xs="9"><Input onChange={(e) => {this.form.maxTemp = e.target.value}}/></Col>
+                          <Col xs="9"><Input defaultValue={Math.ceil((this.state.weatherInfo.daily.data[0].temperatureMax - 32)/1.8)} onChange={(e) => {this.form.maxTemp = e.target.value}}/></Col>
                           <Col xs="3">°C</Col>
                         </Row>
                       </td>
