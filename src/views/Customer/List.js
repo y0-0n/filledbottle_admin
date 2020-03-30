@@ -177,7 +177,35 @@ class List extends Component {
     this.setState({keyword, page: 1}, () => {
       this.getCustomer();
     })
-  }
+	}
+	
+	sendMessage() {
+    fetch(process.env.REACT_APP_HOST + `/api/kakao/`, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+
+				console.warn(response)
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+				let status = data[0];
+        if (status === 200) {
+					console.warn("성공")
+				}
+        else {
+					console.warn(data[0]);
+          alert(' 오류');
+        }
+      });
+	}
 
   /*changeSet() {
     this.setState({set: !this.state.set, number: 1}, () => {
@@ -204,7 +232,7 @@ class List extends Component {
                     <InputGroup>
                       <Input onChange={(e) => { this.keyword = e.target.value }} />
                       <InputGroupAddon addonType="append">
-                        <Button block color="primary" onClick={() => { this.searchCustomer() }}><i class="fa fa-search"></i></Button>
+                        <Button block color="primary" onClick={() => { this.searchCustomer() }}><i className="fa fa-search"></i></Button>
                       </InputGroupAddon>
                     </InputGroup>
                   </Col>
@@ -234,7 +262,7 @@ class List extends Component {
                       <DropdownMenu>
                         <DropdownItem onClick={() => { this.props.history.push('/main/customer/list/unset') }}>비활성화</DropdownItem>
                         <DropdownItem onClick={() => {
-                          let { checkdata } = this.state;
+                          /*let { checkdata } = this.state;
                           for (var i = 0; i < this.state.checks.length; i++) {
                             if (this.state.checks[i] === true) {
                               checkdata[i] = data[i];
@@ -243,7 +271,9 @@ class List extends Component {
                           this.props.history.push({
                             pathname: '/main/message',
                             state: checkdata
-                          });
+													});*/
+													alert('A')
+													this.sendMessage();
                         }}>카카오톡 보내기</DropdownItem>
                         <DropdownItem onClick={() => { this.props.history.push('/customer/create'); }}>고객등록</DropdownItem>
                       </DropdownMenu>
