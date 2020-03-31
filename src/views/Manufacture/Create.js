@@ -105,7 +105,8 @@ class Create extends Component {
 
   produceProduct() {
 		const {sProduct1, sProduct2} = this.state;
-		const date = this.convertDateFormat(this.state.date)
+    const date = this.convertDateFormat(this.state.date)
+    console.log(sProduct1, sProduct2)
     fetch(process.env.REACT_APP_HOST+"/api/manufacture", {
       method: 'POST',
       headers: {
@@ -144,8 +145,9 @@ class Create extends Component {
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
       <link rel="stylesheet" type="text/css" href="css/Manufacture.css"></link>
-			<Row>
-				<Col md="12" xs="12" sm="12">
+      <form>
+			  <Row>
+				  <Col md="12" xs="12" sm="12">
             <Card>
               <CardHeader>
                 <Row>
@@ -181,7 +183,7 @@ class Create extends Component {
                             <tr key={i}>
                               <td>
                                 {<Popup
-                                  trigger={<Input name='name' value={this.state.sProduct2[i].name} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}} readOnly/>}
+                                  trigger={<Input required name='name' value={this.state.sProduct2[i].name} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}} readOnly/>}
                                   modal>
                                   {close => <ProductModal index={i} close={close} login={()=>{this.props.history.push('/login')}} createProduct={() => {this.props.history.push('/product/create')}}
                                               selectProduct={(data) => {
@@ -206,7 +208,7 @@ class Create extends Component {
                                   </Popup>}
                               </td>
                               <td>
-                                <Input value={this.state.sProduct2[i].plant} onChange={(e) => {
+                                <Input required value={this.state.sProduct2[i].plant} onChange={(e) => {
                                   let {sProduct2} = this.state;
                                   sProduct2[i].plant = e.target.value;
                                   this.setState({sProduct2})
@@ -220,7 +222,7 @@ class Create extends Component {
                               </td>
                               <td><Input name='price' value={this.state.sProduct2[i].price} readOnly/></td>
                               <td>
-                                <Input name='quantity' onChange={(e) => {
+                                <Input required name='quantity' onChange={(e) => {
                                   let {sProduct2} = this.state;
                                   sProduct2[i] = Object.assign({}, sProduct2[i]);
                                   sProduct2[i].quantity = e.target.value;
@@ -280,7 +282,7 @@ class Create extends Component {
                             <tr key={i}>
                               <td>
                                 {<Popup
-                                  trigger={<Input name='name' value={this.state.sProduct1[i].name} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}} readOnly/>}
+                                  trigger={<Input required name='name' value={this.state.sProduct1[i].name} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}} readOnly/>}
                                   modal>
                                   {close => <ProductModal index={i} close={close} login={()=>{this.props.history.push('/login')}} createProduct={() => {this.props.history.push('/product/create')}}
                                               selectProduct={(data) => {
@@ -306,7 +308,7 @@ class Create extends Component {
                                   </Popup>}
                               </td>
                               <td>
-                                <Input value={this.state.sProduct1[i].plant} onChange={(e) => {
+                                <Input required value={this.state.sProduct1[i].plant} onChange={(e) => {
                                   let {sProduct1} = this.state;
                                   sProduct1[i].plant = e.target.value;
                                   this.setState({sProduct1})
@@ -316,13 +318,11 @@ class Create extends Component {
                                       return <option key={i} value={e.id} >{e.name}</option>
                                     })
                                   }
-                                  {console.log(this.state.plantData)}
                                 </Input>
-                                {console.log(this.state.sProduct1)}
                               </td>
                               <td><Input name='price' value={this.state.sProduct1[i].price} readOnly/></td>
                               <td>
-                                <Input name='modifyQuantity' onChange={(e) => {
+                                <Input required name='modifyQuantity' onChange={(e) => {
                                   let {sProduct1} = this.state;
                                   sProduct1[i] = Object.assign({}, sProduct1[i]);
                                   sProduct1[i].quantity = e.target.value;
@@ -354,9 +354,8 @@ class Create extends Component {
             </Card>
           </Col>
         </Row>
-        <Button block color="primary" onClick={() => {
-          this.produceProduct();
-        }}>제조 추가하기</Button>
+        <Button block color="primary">제조 추가하기</Button>
+      </form>
       </div>
     )
   }
