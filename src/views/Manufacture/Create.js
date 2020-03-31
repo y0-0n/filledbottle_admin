@@ -83,7 +83,6 @@ class Create extends Component {
         let status = data[0];
         if(status === 200){
           let {plantData, plantData2, sProduct1, sProduct2} = this.state;
-          plantData[i] = data[1];
           if(data[1][0] === undefined) alert("창고에서 품목을 취급하지 않습니다")
           else {
 						if(flag === 'consume') {
