@@ -29,7 +29,8 @@ class Register extends Component {
     if (this.form.password !== this.passwordCheck) {
       alert('비밀번호와 비밀번호 반복이 일치하는지 확인해주세요');
       return;
-    }
+		}
+		//주소 띄어쓰기 생기는 부분
     this.form.address = document.getElementById("sample6_address").value + " " + document.getElementById("sample6_detailAddress").value;
     this.form.postcode = document.getElementById("sample6_postcode").value;
 

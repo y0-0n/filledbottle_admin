@@ -64,9 +64,10 @@ class UserListDetail extends Component {
       .then(data => {
         let status = data[0];
         if (status === 200){
-          this.setState({ data: data[1][0] });
-          this.getCoord();  
-          }
+					this.setState({ data: data[1][0] });
+					if(data[1][0].address !== " ")//주소 띄어쓰기는 회원가입 페이지에서 '주소 띄어쓰기 생기는 부분' 참고 
+						this.getCoord();
+				}
         else {
           alert('로그인 하고 접근해주세요');
           this.props.history.push('/login');
