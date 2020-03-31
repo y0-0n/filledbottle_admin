@@ -141,53 +141,58 @@ class Create extends Component {
 
     // base64 -> file object 변환
     // reference -> https://helloinyong.tistory.com/233
-    var arr = this.state.image.split(','),
-      mime = arr[0].match(/:(.*?);/)[1],
-      bstr = atob(arr[1]),
-      n = bstr.length,
-      u8arr = new Uint8Array(n);
+    if(this.state.image !== null) {
+      var arr = this.state.image.split(','),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
 
-    while(n--){
-      u8arr[n] = bstr.charCodeAt(n);
-    }
+      while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+      }
 
-    formData.append('file', new File([u8arr], this.state.image.name, {type : mime}));
-    for (let [key, value] of Object.entries(this.form)) {
-      formData.append(key, value);
-    }
+      formData.append('file', new File([u8arr], this.state.image.name, {type : mime}));
+      for (let [key, value] of Object.entries(this.form)) {
+        formData.append(key, value);
+      }
+    
+      console.log(typeof(this.form.area))
 
-    console.log(typeof(this.form.area))
-
-    if ( this.form.product_id === 0 || this.form.process === '' ||
-          this.form.name === ''     || this.form.content === '' ||
-          this.form.area === 0      || this.form.expected === 0   ) {
-      alert("필수입력란(*)을 모두 입력해주세요")
+      if ( this.form.product_id === 0 || this.form.process === '' ||
+            this.form.name === ''     || this.form.content === '' ||
+            this.form.area === 0      || this.form.expected === 0   ) {
+        alert("필수입력란(*)을 모두 입력해주세요")
+      }
+      else {
+        fetch(process.env.REACT_APP_HOST+"/api/produce", {
+          method: 'POST',
+          'Content-Type': 'multipart/form-data',
+          headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+          },
+          body: formData
+        })
+        .then(response => {
+          if(response.status === 401) {
+            return Promise.all([401])
+          } else {
+            return Promise.all([response.status, response.json()]);
+          }
+        })
+        .then(data => {
+          let status = data[0];
+          if(status === 200) {
+            alert('등록됐습니다.');
+            this.props.history.push('/main/produce');
+          } else {
+            alert('등록에 실패했습니다.');
+          }
+        });
+      }
     }
     else {
-      fetch(process.env.REACT_APP_HOST+"/api/produce", {
-        method: 'POST',
-        'Content-Type': 'multipart/form-data',
-        headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem('token'),
-        },
-        body: formData
-      })
-      .then(response => {
-        if(response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-        let status = data[0];
-        if(status === 200) {
-          alert('등록됐습니다.');
-          this.props.history.push('/main/produce');
-        } else {
-          alert('등록에 실패했습니다.');
-        }
-      });
+      alert("사진을 등록해주세요.")
     }
   }
 

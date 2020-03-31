@@ -26,13 +26,19 @@ class Register extends Component {
   }
 
   signup() {
-    if (this.form.password !== this.passwordCheck) {
-      alert('비밀번호와 비밀번호 반복이 일치하는지 확인해주세요');
-      return;
-		}
+
 		//주소 띄어쓰기 생기는 부분
     this.form.address = document.getElementById("sample6_address").value + " " + document.getElementById("sample6_detailAddress").value;
     this.form.postcode = document.getElementById("sample6_postcode").value;
+
+    if (this.form.password !== this.passwordCheck) {
+      alert('비밀번호와 비밀번호 반복이 일치하는지 확인해주세요');
+      return;
+    }
+    if(this.form.address === '' || this.form.postcode === '') {
+      alert('주소를 확인해주세요');
+      return;
+    }
 
     fetch(process.env.REACT_APP_HOST + "/api/auth/signup", {
       method: 'POST',
@@ -214,13 +220,13 @@ class Register extends Component {
                       <Input type="text" onChange={(e) => this.form.phone = e.target.value} placeholder="전화번호" autoComplete="phone" />
                     </InputGroup>
                     <InputGroup style={{ width: '60%' }} className="mb-3">
-                      <Input type="text" id="sample6_postcode" placeholder="우편번호" />
+                      <Input type="text" id="sample6_postcode" placeholder="우편번호" readOnly/>
                       <InputGroupAddon addonType="append">
                         <Button block color="primary" onClick={() => { this.sample6_execDaumPostcode() }}>우편번호찾기</Button>
                       </InputGroupAddon>
                     </InputGroup>
                     <InputGroup className="mb-3">
-                      <Input className="mr-2" type="text" id="sample6_address" placeholder="주소" />
+                      <Input className="mr-2" type="text" id="sample6_address" placeholder="주소" readOnly/>
                       <Input type="text" id="sample6_detailAddress" placeholder="상세주소" />
                     </InputGroup>
 
