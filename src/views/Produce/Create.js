@@ -113,7 +113,7 @@ class Create extends Component {
 
     // base64 -> file object 변환
     // reference -> https://helloinyong.tistory.com/233
-    if (this.state.image != '/assets/img/noimage.jpg') {
+    if (this.state.image !== '/assets/img/noimage.jpg') {
       var arr = this.state.image.split(','),
         mime = arr[0].match(/:(.*?);/)[1],
         bstr = atob(arr[1]),
@@ -123,7 +123,6 @@ class Create extends Component {
       while (n--) {
         u8arr[n] = bstr.charCodeAt(n);
       }
-
 
       formData.append('file', new File([u8arr], this.state.image.name, {type: mime}));
       for (let [key, value] of Object.entries(this.form)) {
