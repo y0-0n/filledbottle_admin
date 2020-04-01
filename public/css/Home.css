@@ -6,6 +6,10 @@
 	display: none;
 }
 
+.rbc-row-content {
+	min-height: 100px;
+}
+
 @media (max-width: 768px) {
     .animated{
         font-size: 0.7em;
