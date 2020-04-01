@@ -10,7 +10,6 @@ class Stock extends Component {
     super(props);
     this.state = {
 			stockData: [],
-			plantData: [],
 			page: 1,
 			family: 0,
 			name: '',
@@ -85,19 +84,17 @@ class Stock extends Component {
     });
   }
 
-  modifyStock(id, quantity) {
-    /*fetch(process.env.REACT_APP_HOST+`/api/stock/`+id, {
+  modifyStock() {
+    let {quantity} = this.state.stockData;
+    let {id} = this.state.plant;
+    fetch(process.env.REACT_APP_HOST+`/api/stock/`+id, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
       },
-      body: JSON.stringify(
-        {
-          quantity
-        }
-      )
+      body: JSON.stringify({quantity})
     })
     .then(response => {
       if(response.status === 401) {
@@ -108,13 +105,14 @@ class Stock extends Component {
     })
     .then(data => {
       const status = data[0];
-      if(status === 200)
+      if(status === 200) { 
         alert('등록됐습니다.');
-      else {
+        this.props.history.push('/main/stock');
+      } else {
         alert('로그인 하고 접근해주세요');
         this.props.history.push('/login');
       }
-		})*/
+		})
 		console.warn(this.state.stockData)
 		/*this.props.history.push('/main/stock');*/
 	}
@@ -133,7 +131,7 @@ class Stock extends Component {
                     <Col>재고 실사</Col>
                     <Col>
                       <div style={{float: "right"}}>
-                        <Button color="primary" onClick={() => {this.modifyStock();}}>완료</Button>
+                        <Button color="primary" onClick={() => {this.modifyStock()}}>완료</Button>
                       </div>
                     </Col>
                   </Row>
@@ -153,8 +151,7 @@ class Stock extends Component {
                           <tr key={i}>
                             <td>{d.name + " " + d.grade + " " + d.weight}</td>
                             <td>{d.quantity}</td>
-                            <td><Input value={d.quantity} onChange={(e) => {
-														}} style={{width : "150px"}} ></Input></td>
+                            <td><Input defaultValue={d.quantity} onChange={(e) => { d.quantity = e.target.value}} style={{width : "150px"}} ></Input></td>
                           </tr>
                         )
                       })}
