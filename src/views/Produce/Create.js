@@ -37,7 +37,7 @@ class Create extends Component {
     this.state = {
       image_previous: null,
       image_last: null,
-      image: null,
+      image: '/assets/img/noimage.jpg',
       selectedFile: null,
       productName: '',//제품명
       date: new Date(),
