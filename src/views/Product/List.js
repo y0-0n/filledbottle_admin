@@ -58,7 +58,7 @@ class List extends Component {
     } else {
       this.getUserFamilyCategory();
     }
-
+		//this.excel();
   }
 
   getTotal() {
@@ -197,7 +197,35 @@ class List extends Component {
           this.props.history.push('/login');
         }
       });
+	}
+	
+  excel() {
+
+    fetch(process.env.REACT_APP_HOST + "/api/product/excel", {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+				let status = data[0];
+        if (status === 200){
+					//this.setState({ stockData: data[1] });
+				}
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      });
   }
+
 
   searchProduct() {
     let { name } = this;
