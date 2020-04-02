@@ -3,10 +3,6 @@ import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Input 
 import Popup from "reactjs-popup";
 import ProductModal from '../Modal/ProductModal';
 import DatePicker from "react-datepicker";
-import { registerLocale } from  "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import ko from 'date-fns/locale/ko';
-registerLocale('ko', ko)
 
 //vos = value of supply (공급가액)
 //vat = value added tax (부가세))

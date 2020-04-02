@@ -1,14 +1,10 @@
 import React, {Component} from 'react';
 import {Button, Card, CardBody, CardHeader, Col, Row, Table, Input, FormGroup, CardFooter} from 'reactstrap';
 import Popup from "reactjs-popup";
-import {registerLocale} from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import ko from 'date-fns/locale/ko';
 import DatePicker from "react-datepicker";
 import ProductModal from '../Modal/ProductModal';
 import ProduceModal from '../Modal/ProduceModal';
 
-registerLocale('ko', ko)
 
 let d = {id: '', name: '',};
 const API_KEY = 'f31d683f2713e2ac1404a885e2c23d0f';
