@@ -1,8 +1,8 @@
 {
-  "name": "@coreui/coreui-free-react-admin-template",
+  "name": "BunongBunong",
   "version": "2.5.0",
   "description": "CoreUI React Open Source Bootstrap 4 Admin Template",
-  "author": "Łukasz Holeczek",
+  "author": "L5vD5",
   "homepage": "https://l5vd5.github.io/filledbottle_admin",
   "copyright": "Copyright 2017-2019 creativeLabs Łukasz Holeczek",
   "license": "MIT",
@@ -53,7 +53,7 @@
     "react-scripts": "^3.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "export PORT=8080 && react-scripts start",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "build": "react-scripts build",
