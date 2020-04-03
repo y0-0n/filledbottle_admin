@@ -53,8 +53,8 @@ class Home extends Component {
   }
 
   componentWillMount() {
-    this.getOrder(moment().startOf('month')._d, moment().endOf('month')._d);
-    this.getOnlyOrder(moment().startOf('month')._d, moment().endOf('month')._d);
+		this.getOrder(moment().startOf('week'), moment().endOf('week'))
+		this.getOnlyOrder(moment().startOf('month')._d, moment().endOf('month')._d);
 		this.getIncome();
 		this.getAmount();
     this.chart();
