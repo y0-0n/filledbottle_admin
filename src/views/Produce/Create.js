@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, Col, Row, Table, Input, FormGroup, CardFooter} from 'reactstrap';
+import React, {Component} from 'react';
+import {Button, Card, CardBody, CardHeader, Col, Row, Table, Input, FormGroup, CardFooter} from 'reactstrap';
 import Popup from "reactjs-popup";
-import { registerLocale } from  "react-datepicker";
+import {registerLocale} from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ko from 'date-fns/locale/ko';
 import DatePicker from "react-datepicker";
 import ProductModal from '../Modal/ProductModal';
 import ProduceModal from '../Modal/ProduceModal';
+
 registerLocale('ko', ko)
 
 let d = {id: '', name: '',};
@@ -23,24 +24,24 @@ class Create extends Component {
 
     this.form = {
       weather: '맑음',
-      rain : 0,
-      snow : 0,
-      temperatures : 0,
-      minTemp : 0,
-      maxTemp : 0,
+      rain: 0,
+      snow: 0,
+      temperatures: 0,
+      minTemp: 0,
+      maxTemp: 0,
       product_id: 0,
       process: '',
       name: '',
       content: '',
       previous_id: null,
-      area : 0,
-      expected : 0
+      area: 0,
+      expected: 0
     }
 
     this.state = {
       image_previous: null,
       image_last: null,
-      image: null,
+      image: '/assets/img/noimage.jpg',
       selectedFile: null,
       productName: '',//제품명
       date: new Date(),
@@ -49,6 +50,7 @@ class Create extends Component {
 			ip: ''
     };
   }
+
   componentWillMount() {
     const publicIp = require('public-ip');
  
@@ -89,21 +91,20 @@ class Create extends Component {
       });
 	}
 
-  _getWeather(latitude,longitude) {
-    fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${API_KEY}/${latitude},${longitude}?lang=ko`,
-    {
-      method: 'GET',
-      headers: {
-      },
-    })
-    .then(response => response.json()) // 응답값을 json으로 변환
-    .then(data => {
-      console.warn(data)
-      this.setState({
-        weatherInfo : data,
-        loading: false
+  _getWeather(latitude, longitude) {
+    fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${API_KEY}/${latitude},${longitude}`,
+      {
+        method: 'GET',
+        headers: {},
       })
-    })
+      .then(response => response.json()) // 응답값을 json으로 변환
+      .then(data => {
+        console.warn(data)
+        this.setState({
+          weatherInfo: data,
+          loading: false
+        })
+      })
   }
 
   handleFileInput() {
@@ -118,8 +119,8 @@ class Create extends Component {
       var ctx = canvas.getContext("2d");
       var url = e.target.result;
       var img = new Image();
-      img.onload = function() {
-        ctx.drawImage(img, 0, 0,300,300);
+      img.onload = function () {
+        ctx.drawImage(img, 0, 0, 300, 300);
         var dataurl = canvas.toDataURL('image/png');
         this.setState({
           image: dataurl
@@ -132,7 +133,7 @@ class Create extends Component {
       canvas.height = 300;
 
     }.bind(this);
-    this.setState({image : this.state.image})
+    this.setState({image: this.state.image})
   }
 
   handlePost(e) {
@@ -141,83 +142,74 @@ class Create extends Component {
 
     // base64 -> file object 변환
     // reference -> https://helloinyong.tistory.com/233
-    if(this.state.image !== null) {
+    if (this.state.image !== '/assets/img/noimage.jpg') {
       var arr = this.state.image.split(','),
         mime = arr[0].match(/:(.*?);/)[1],
         bstr = atob(arr[1]),
         n = bstr.length,
         u8arr = new Uint8Array(n);
 
-      while(n--){
+      while (n--) {
         u8arr[n] = bstr.charCodeAt(n);
       }
-
-      formData.append('file', new File([u8arr], this.state.image.name, {type : mime}));
-      for (let [key, value] of Object.entries(this.form)) {
-        formData.append(key, value);
-      }
-    
-      console.log(typeof(this.form.area))
-
-      if ( this.form.product_id === 0 || this.form.process === '' ||
-            this.form.name === ''     || this.form.content === '' ||
-            this.form.area === 0      || this.form.expected === 0   ) {
-        alert("필수입력란(*)을 모두 입력해주세요")
-      }
-      else {
-        fetch(process.env.REACT_APP_HOST+"/api/produce", {
-          method: 'POST',
-          'Content-Type': 'multipart/form-data',
-          headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('token'),
-          },
-          body: formData
-        })
-        .then(response => {
-          if(response.status === 401) {
-            return Promise.all([401])
-          } else {
-            return Promise.all([response.status, response.json()]);
-          }
-        })
-        .then(data => {
-          let status = data[0];
-          if(status === 200) {
-            alert('등록됐습니다.');
-            this.props.history.push('/main/produce');
-          } else {
-            alert('등록에 실패했습니다.');
-          }
-        });
-      }
+      formData.append('file', new File([u8arr], this.state.image.name, {type: mime}));
+    } else {
+      formData.append('file', this.state.image);
     }
-    else {
-      alert("사진을 등록해주세요.")
+    for (let [key, value] of Object.entries(this.form)) {
+      formData.append(key, value);
     }
+
+    fetch(process.env.REACT_APP_HOST + "/api/produce", {
+      method: 'POST',
+      'Content-Type': 'multipart/form-data',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+      body: formData
+    }).then(response => {
+      if (response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    }).then(data => {
+      let status = data[0];
+      if (status === 200) {
+        alert('등록됐습니다.');
+        this.props.history.push('/main/produce');
+      } else {
+        alert('등록에 실패했습니다.');
+      }
+    });
   }
 
 
-  render() {
-    return (
-      <div className="animated fadeIn">
+
+render()
+{
+  return (
+    <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
       <link rel="stylesheet" type="text/css" href="css/Produce.css"></link>
-        <Row>
-          <Col md="12" xs="12" sm="12">
-            <Card>
-              <CardHeader>
-                <Row>
-                  <Col md="10" xs="10" sm="10">날씨</Col>
-                </Row>
-              </CardHeader>
-              <CardBody>
-                {this.state.loading ? <div>현재 날씨 정보를 불러오는 중입니다.</div>
-                :
-                <Table className="ShowTable">
-                  <tbody>
-                    <tr>
-                      <th>날씨</th>
-                      <td>
+      <Row>
+        <Col md="12" xs="12" sm="12">
+          <form encType="multipart/form-data" onSubmit={this.handlePost.bind(this)}>
+            <FormGroup>
+              <Card>
+                <CardHeader>
+                  <Row>
+                    <Col md="10" xs="10" sm="10">날씨</Col>
+                  </Row>
+                </CardHeader>
+                <CardBody>
+                  {this.state.loading ? <div>현재 날씨 정보를 불러오는 중입니다.</div>
+                    :
+                    <Table className="ShowTable">
+                      <tbody>
+                      <tr>
+                        <th>날씨</th>
+                        <td>
 
                         <Input defaultValue={this.state.weatherInfo.currently.summary} onChange={(e) => {this.form.weather = e.target.value}} name="weather"></Input>
                       </td>
@@ -269,6 +261,71 @@ class Create extends Component {
                 <Row>
 									<Col>영농일지</Col>
                   {/*
+                          <Input defaultValue={this.state.weatherInfo.currently.summary} onChange={(e) => {
+                            this.form.weather = e.target.value
+                          }} name="weather"></Input>
+                        </td>
+                        <th>강수량</th>
+                        <td>
+                          <Row>
+                            <Col xs="8"><Input defaultValue={this.state.weatherInfo.currently.precipIntensity}
+                                               onChange={(e) => {
+                                                 this.form.rain = e.target.value
+                                               }}/></Col>
+                            <Col xs="4">mm</Col>
+                          </Row>
+                        </td>
+                        <th>적설량</th>
+                        <td>
+                          <Row>
+                            <Col xs="8"><Input defaultValue={this.form.snow} onChange={(e) => {
+                              this.form.snow = e.target.value
+                            }}/></Col>
+                            <Col xs="4">cm</Col>
+                          </Row>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>기온</th>
+                        <td>
+                          <Row>
+                            <Col xs="9"><Input
+                              defaultValue={Math.ceil((this.state.weatherInfo.currently.temperature - 32) / 1.8)}
+                              onChange={(e) => {
+                                this.form.temperatures = e.target.value
+                              }}/></Col>
+                            <Col xs="3">°C</Col>
+                          </Row>
+                        </td>
+                        <th>최저 기온</th>
+                        <td>
+                          <Row>
+                            <Col xs="9"><Input onChange={(e) => {
+                              this.form.minTemp = e.target.value
+                            }}/></Col>
+                            <Col xs="3">°C</Col>
+                          </Row>
+                        </td>
+                        <th>최고 기온</th>
+                        <td>
+                          <Row>
+                            <Col xs="9"><Input onChange={(e) => {
+                              this.form.maxTemp = e.target.value
+                            }}/></Col>
+                            <Col xs="3">°C</Col>
+                          </Row>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </Table>
+                  }
+                </CardBody>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <Row>
+                    <Col>영농일지</Col>
+                    {/*
                     <Col>
                       {<Popup
                         trigger={
@@ -295,39 +352,46 @@ class Create extends Component {
                         />}
                       </Popup>
                     </Col>*/}
-                </Row>
-              </CardHeader>
-              <CardBody>
-                <Table className="ShowTable">
-                  <tbody>
+                  </Row>
+                </CardHeader>
+                <CardBody>
+                  <Table className="ShowTable">
+                    <tbody>
                     <tr>
-                      <th>날짜<span style={{color : "#FA5858"}}> *</span></th>
+                      <th>날짜<span style={{color: "#FA5858"}}> *</span></th>
                       <td>
                         <div style={{pointer: 'cursor'}}>
                           <DatePicker
                             dateFormat="yyyy년 MM월 dd일"
                             locale="ko"
                             selected={this.state.date}
-                            onChange={(date) => {this.setState({date})}}
+                            onChange={(date) => {
+                              this.setState({date})
+                            }}
                           />
                         </div>
                       </td>
-                      <th>품목<span style={{color : "#FA5858"}}> *</span></th>
+                      <th>품목<span style={{color: "#FA5858"}}> *</span></th>
                       <td>
                         <Row>
                           <Col>
                             {<Popup
                               trigger={
-                                <Input name='name' value={this.state.productName} style={{ cursor: 'pointer', backgroundColor: '#ffffff' }} readOnly />
+                                <Input required name='name' value={this.state.productName}
+                                       style={{cursor: 'pointer', backgroundColor: '#ffffff'}} readOnly/>
                               }
                               modal>
-                              {close => <ProductModal  close={close} login={()=>{this.props.history.push('/login')}}
-                                selectProduct={(data) => {
-                                  const {id, name} = data;
-                                  this.form.product_id = id;
-                                  this.setState({ productName: name });
-																}}
-																createProduct={() => {this.props.history.push('/product/create')}}
+                              {close => <ProductModal close={close} login={() => {
+                                this.props.history.push('/login')
+                              }}
+                                                      selectProduct={(data) => {
+                                                        const {id, name} = data;
+                                                        this.form.product_id = id;
+                                                        this.setState({productName: name});
+                                                      }}
+                                                      createProduct={() => {
+                                                        this.props.history.push('/product/create')
+                                                      }}
                               />}
                             </Popup>}
                           </Col>
@@ -335,57 +399,69 @@ class Create extends Component {
                       </td>
                     </tr>
                     <tr>
-                      <th>영농과정<span style={{color : "#FA5858"}}> *</span></th>
+                      <th>영농과정<span style={{color: "#FA5858"}}> *</span></th>
                       <td>
-                        <Input defaultValue={this.form.process} placeholder="자유롭게 적어주세요" onChange={(e) => {this.form.process = e.target.value}}/>
+                        <Input required defaultValue={this.form.process} onChange={(e) => {
+                          this.form.process = e.target.value
+                        }}/>
                       </td>
-                      <th>작업명<span style={{color : "#FA5858"}}> *</span></th>
+                      <th>작업명<span style={{color: "#FA5858"}}> *</span></th>
                       <td>
-                        <Input defaultValue={this.form.name} onChange={(e) => {this.form.name = e.target.value}}/>
+                        <Input required defaultValue={this.form.name} onChange={(e) => {
+                          this.form.name = e.target.value
+                        }}/>
                       </td>
                     </tr>
                     <tr>
-                      <th>작업내용<span style={{color : "#FA5858"}}> *</span></th>
+                      <th>작업내용<span style={{color: "#FA5858"}}> *</span></th>
                       <td>
-                        <Input defaultValue={this.form.content} onChange={(e) => {this.form.content = e.target.value}}/>
+                        <Input required defaultValue={this.form.content} onChange={(e) => {
+                          this.form.content = e.target.value
+                        }}/>
                       </td>
-                      <th>재배 면적<span style={{color : "#FA5858"}}> *</span></th>
+                      <th>재배 면적<span style={{color: "#FA5858"}}> *</span></th>
                       <td>
-                        <Input type="number" defaultValue={this.form.area} placeholder="단위 : ha (1ha = 10,000㎡)"onChange={(e) => {this.form.area = e.target.value}}/>
+                        <Input required type="number" defaultValue={this.form.area}
+                               onChange={(e) => {
+                                 this.form.area = e.target.value
+                               }}/>
                       </td>
                     </tr>
                     <tr>
-                      <th>예상 생산량<span style={{color : "#FA5858"}}> *</span></th>
+                      <th>예상 생산량<span style={{color: "#FA5858"}}> *</span></th>
                       <td colSpan="3">
-                        <Input type="number" defaultValue={this.form.expected} placeholder="단위 : kg" onChange={(e) => {this.form.expected = e.target.value}}/>
+                        <Input required type="number" defaultValue={this.form.expected}
+                               onChange={(e) => {
+                                 this.form.expected = e.target.value
+                               }}/>
                       </td>
                     </tr>
-                      <th>작업사진</th>
-                      <td colSpan="3">
-                        <div style={{paddingBottom: '10px'}}>
-                          <input ref="file" type="file" name="file" onChange={e => {
-                            this.handleFileInput(e);
-                          }} style={{display: "none"}}/>
-                          <img src='/assets/img/upload.jpg' border='0' style={{width: '10%', marginLeft: 10}}
-                               onClick={() => document.all.file.click()}/>
-                        </div>
-                        <div>
-                          <img id = "imageFile" alt="작업사진" style={{
-                            display: "inline-block",
-                            border: '1px',
-                            borderStyle: 'dashed',
-                            borderColor: '#c8ced3'
-                          }} src ={this.state.image}/>
-                        </div>
-                      </td>
-                  </tbody>
-                </Table>
-              </CardBody>
-              <CardFooter>
-                <Button block color="primary" onClick={this.handlePost.bind(this)}>추가하기</Button>
-              </CardFooter>
-            </Card>
-            {/*<Row>
+                    <th>작업사진</th>
+                    <td colSpan="3">
+                      <div style={{paddingBottom: '10px'}}>
+                        <input ref="file" type="file" name="file" onChange={e => {
+                          this.handleFileInput(e);
+                        }} style={{display: "none"}}/>
+                        <img src='/assets/img/upload.jpg' border='0' style={{width: '10%', marginLeft: 10}}
+                             onClick={() => document.all.file.click()}/>
+                      </div>
+                      <div>
+                        <img id="imageFile" alt="작업사진" style={{
+                          display: "inline-block",
+                          border: '1px',
+                          borderStyle: 'dashed',
+                          borderColor: '#c8ced3'
+                        }} src={this.state.image}/>
+                      </div>
+                    </td>
+                    </tbody>
+                  </Table>
+                </CardBody>
+                <CardFooter>
+                  <Button block color="primary">추가하기</Button>
+                </CardFooter>
+              </Card>
+              {/*<Row>
               <Col>
                 <Card>
                   <CardHeader>
@@ -477,11 +553,13 @@ class Create extends Component {
                 </Card>
               </Col>
 						</Row>*/}
-          </Col>
-				</Row>
-      </div>
-    )
-  }
+            </FormGroup>
+          </form>
+        </Col>
+      </Row>
+    </div>
+  )
+}
 }
 
 export default Create;

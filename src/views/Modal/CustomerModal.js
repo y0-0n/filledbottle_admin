@@ -159,8 +159,8 @@ class CustomerModal extends Component {
                   <thead>
                     <tr>
                       <th>고객명</th>
-                      <th className="list-hidden">전화번호</th>
-                      <th className="list-hidden">HP</th>
+                      <th className="list-hidden">연락처1</th>
+                      <th className="list-hidden">연락처2</th>
                       <th>주소</th>
                     </tr>
                   </thead>
@@ -171,8 +171,8 @@ class CustomerModal extends Component {
                         return (
                           <tr style={{cursor: 'pointer'}} onClick={() => this.selectCustomer(e)} key={i}>
                             <td>{e.name}</td>
-                            <td className="list-hidden">{e.telephone}</td>
                             <td className="list-hidden">{e.cellphone}</td>
+                            <td className="list-hidden">{e.telephone}</td>
                             <td>{e.address}</td>
                           </tr>
                         )

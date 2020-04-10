@@ -26,6 +26,8 @@ class Register extends Component {
   }
 
   signup() {
+
+		//주소 띄어쓰기 생기는 부분
     this.form.address = document.getElementById("sample6_address").value + " " + document.getElementById("sample6_detailAddress").value;
     this.form.postcode = document.getElementById("sample6_postcode").value;
 
