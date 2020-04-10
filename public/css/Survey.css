@@ -1,0 +1,55 @@
+.survey_card {
+    text-align: center;
+    font-weight: lighter;
+}
+
+.survey_explain {
+    margin: 10px 0 50px 0;
+}
+
+.content_question {
+    margin-bottom: 30px;
+}
+
+.answer_box > span {
+    display: inline-block;
+    margin: 5px;
+}
+
+.content_answers > label {
+    display: block;
+}
+
+label>input {
+    position: absolute;
+    opacity: 0;
+}
+
+.answer_box {
+    display: block;
+    position: relative;
+    height: 40px;
+    width: 60%;
+    background-color: #ececec;
+    margin: 12px auto;
+    color: #4d4d4d;
+}
+
+input:checked ~ .answer_box{
+    background-color:lightsteelblue;
+    color:white;
+}
+
+.survey_button {
+    margin-top: 50px;
+}
+
+.prev_button {
+    width: 20%;
+    margin-right: 30px;
+    border: 1px solid lightsteelblue;
+}
+
+.next_button {
+    width: 20%;
+}
