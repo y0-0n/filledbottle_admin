@@ -80,6 +80,7 @@ const Message = React.lazy(() => import('./views/Message/Message'));
 const Activity = React.lazy(() => import('./views/Activity/List'));
 const RegisterDetail = React.lazy(() => import('./views/Pages/Register/RegisterDetail'));
 const RegisterModify = React.lazy(() => import('./views/Pages/Register/RegisterModify'));
+const Survey = React.lazy(() => import('./views/Survey/Survey'));
 const Setting = React.lazy(() => import('./views/Setting/Setting'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
@@ -127,6 +128,7 @@ const routes = [
 	{ path: '/stock/edit/:id', exact: true,  name: '재고 실사', component: StockModify},
   { path: '/stock/transport', exact: true,  name: '재고 이동', component: StockTransport},
   { path: '/stock/product/:id', exact: true,  name: '재고 품목', component: StockProduct},
+  { path: '/main/survey', exact: true,  name: '설문 조사', component: Survey},
 
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },
