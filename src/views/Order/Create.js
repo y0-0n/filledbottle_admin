@@ -4,10 +4,6 @@ import Popup from "reactjs-popup";
 import ProductModal from '../Modal/ProductModal';
 import CustomerModal from '../Modal/CustomerModal';
 import DatePicker from "react-datepicker";
-import { registerLocale } from  "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import ko from 'date-fns/locale/ko';
-registerLocale('ko', ko)
 
 //TODO : 입력창에 placefolder 수정하기
 

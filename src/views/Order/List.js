@@ -3,7 +3,6 @@ import DatePicker from "react-datepicker";
 import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, NavItem, Nav, NavLink,
    CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup, Badge,
    InputGroup, InputGroupAddon, UncontrolledButtonDropdown, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
-import "react-datepicker/dist/react-datepicker.css";
 /*
 
   GET /order/state
