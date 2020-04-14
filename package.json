@@ -53,7 +53,7 @@
     "react-scripts": "^3.0.1"
   },
   "scripts": {
-    "start": "export PORT=8080 && react-scripts start",
+    "start": "export PORT=8080 && HTTPS=true react-scripts start",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "build": "react-scripts build",
