@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row, Table, Nav, NavItem, NavLink } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, Col, Input, InputGroup, InputGroupAddon, Row, Table, Nav, NavItem, NavLink } from 'reactstrap';
 
 class RegisterDetail extends Component {
   constructor(props) {

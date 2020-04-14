@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-import { Card, CardBody, CardHeader, Col, Row, Input, InputGroupAddon, Button, Nav, NavItem, NavLink, Table, CardFooter, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
-import DatePicker from "react-datepicker";
+// import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
+import { Card, CardBody, CardHeader, Col, Row, Button, Table, CardFooter, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+// import DatePicker from "react-datepicker";
 import Popup from "reactjs-popup";
 import PlantModal from '../Modal/PlantModal';
 
