@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Input, Table, Nav, NavItem, NavLink} from 'reactstrap';
+import { Card, CardBody, CardHeader, Col, Row, Nav, NavItem, NavLink} from 'reactstrap';
 
 class ProductList extends Component {
   constructor(props) {

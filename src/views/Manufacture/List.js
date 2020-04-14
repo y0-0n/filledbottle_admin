@@ -21,7 +21,7 @@ class Manufacture extends Component {
     this.getList();
   }
 
-  getDate(dateInput) {
+  getDateTime(dateInput) {
     var d = new Date(dateInput);
     var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate(), ho = d.getHours(), min = d.getMinutes(), sec = d.getSeconds();
 

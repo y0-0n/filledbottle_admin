@@ -208,7 +208,7 @@ class Modify extends Component {
                           {<Popup
                             trigger={
                               <Col sm="10">
-                                <Input name='name' defaultValue={data.productName} onChange={(e) => { this.state.productName = e.target.value }} style={{ cursor: 'pointer', backgroundColor: '#ffffff' }} readOnly />
+                                <Input name='name' defaultValue={data.productName} onChange={(e) => { this.setState({productName: e.target.value}) }} style={{ cursor: 'pointer', backgroundColor: '#ffffff' }} readOnly />
                               </Col>
                             }
                             modal>
