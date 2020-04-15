@@ -3,7 +3,12 @@ import DatePicker from "react-datepicker";
 import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, NavItem, Nav, NavLink,
    CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup, Badge,
    InputGroup, InputGroupAddon, UncontrolledButtonDropdown, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
-/*
+// import { connect } from 'react-redux'
+// import { bindActionCreators } from 'redux';
+// import { actionCreators } from '../../reducer';
+
+
+   /*
 
   GET /order/state
 
@@ -33,7 +38,7 @@ class List extends Component {
       count : 1,
       process: "all",
       orderData: [],
-      page: 1,
+      //page: 1,
       total: 0,
       keyword: '',
       first_date: (new Date(new Date().getTime() - 60*60*24*1000*30)),
@@ -86,7 +91,9 @@ class List extends Component {
   }
 
   getOrder() {
-    const {first_date, last_date, page, keyword} = this.state;
+    const {first_date, last_date, keyword} = this.state;
+    const page = this.props.pageNumbers;
+    console.warn(this.props)
     const process_ = this.state.process;
     fetch(process.env.REACT_APP_HOST+"/order/list"+(process_ === "refund" ? "/refund" : ""), {
       method: 'POST',
@@ -119,7 +126,7 @@ class List extends Component {
   tabClick(process) {
     this.setState({
       process,
-      page: 1
+      //page: 1
     }, () => {
       this.getTotal();
       this.getOrder();
@@ -132,7 +139,7 @@ class List extends Component {
 
   searchOrder() {
     let {keyword} = this;
-    this.setState({keyword, page: 1}, () => {
+    this.setState({keyword/*, page: 1*/}, () => {
       this.getOrder();
       this.getTotal();
     })
@@ -147,7 +154,7 @@ class List extends Component {
 
   countPageNumber(x){
     this.setState({
-      page: x,
+      //page: x,
     }, () => {
       this.getOrder();
     });
@@ -271,28 +278,29 @@ class List extends Component {
               </CardBody>
               <CardFooter>
                 <Pagination style={{justifyContent: 'center'}}>
-                  {this.state.page === 1 ? '' :
+                  {this.props.pageNumbers === 1 ? '' :
                   <PaginationItem>
-                    <PaginationLink previous onClick={() => {this.countPageNumber(this.state.page-1)}}/>
+                    <PaginationLink previous onClick={() => {this.countPageNumber(this.props.pageNumbers-1)}}/>
                   </PaginationItem>
                   }
-                  {this.state.page === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
-                  {this.state.page === 2 ? arr.forEach(x => arr1.push(x+1)) : null}
-                  {this.state.page !== 1 && this.state.page!== 2 ? arr.forEach(x => arr1.push(x)) :null }
+                  {this.props.pageNumbers === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
+                  {this.props.pageNumbers === 2 ? arr.forEach(x => arr1.push(x+1)) : null}
+                  {this.props.pageNumbers !== 1 && this.props.pageNumbers!== 2 ? arr.forEach(x => arr1.push(x)) :null }
                   {arr1.map((e, i) => {
-                    if(this.state.total >= this.state.page+e)
-                    return (<PaginationItem key={i} active={this.state.page === this.state.page+e}>
-                      <PaginationLink onClick={() => {this.countPageNumber(this.state.page+e)}}>
-                      {this.state.page+e}
+                    if(this.state.total >= this.props.pageNumbers+e)
+                    return (<PaginationItem key={i} active={this.props.pageNumbers === this.props.pageNumbers+e}>
+                      <PaginationLink onClick={() => {this.countPageNumber(this.props.pageNumbers+e); console.log(this.props.pageNumbers)}}>
+                      {this.props.pageNumbers+e}
                       </PaginationLink>
                     </PaginationItem>)
                     return null;
                   })}
-                  {this.state.page === this.state.total ? '' :
+                  {this.props.pageNumbers === this.state.total ? '' :
                   <PaginationItem>
-                    <PaginationLink next onClick={() => {this.countPageNumber(this.state.page+1)}}/>
+                    <PaginationLink next onClick={() => {this.countPageNumber(this.props.pageNumbers+1)}}/>
                   </PaginationItem>}
                 </Pagination>
+                <Button onClick={() => {this.props.clickConvertPage(4); console.log(this.props.pageNumbers)}}></Button>
               </CardFooter>
             </Card>
           </Col>
@@ -300,6 +308,7 @@ class List extends Component {
       </div>
     )
   }
+
 }
 
 export default List;
