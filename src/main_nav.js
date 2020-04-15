@@ -96,7 +96,7 @@ export default {
     },
     {
       name: '설문조사',
-      url: '/main/survey',
+      url: '/main/survey/home',
       icon: 'icon-speedometer',
     },
   ],
