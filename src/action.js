@@ -1,6 +1,7 @@
 const next = 'next' ;
 const prev = 'prev' ;
 const convert = 'convert' ;
+const search = 'search'
 
 function clickNextPage() {
     return {
@@ -21,16 +22,25 @@ function clickConvertPage(e) {
     }
 }
 
+function searchKeyword(e) {
+    return {
+        type : search,
+        payload : e
+    }
+}
+
 const order = {
     next,
     prev,
-    convert
+    convert,
+    search
 }
 
 const orderFunction = {
     clickNextPage,
     clickPrevPage,
-    clickConvertPage
+    clickConvertPage,
+    searchKeyword
 }
 
 export { order }

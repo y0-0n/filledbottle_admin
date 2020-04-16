@@ -1,14 +1,20 @@
-import { order } from './action'
+import { order } from './action';
+import { combineReducers } from 'redux';
 
 /*reducer*/
 
-const initialState ={
+const pageInitialState ={
+    keyword : '',
     pageNumbers : 1,
 };
 
+// const searchInitialState ={
+//     keyword : '하이',
+// };
 
 
-function reducer(state = initialState, action) {
+
+function pageReducer(state = pageInitialState, action) {
     switch(action.type) {
         case order.next : 
             return nextPage(state);
@@ -16,10 +22,21 @@ function reducer(state = initialState, action) {
             return prevPage(state);
         case order.convert :
             return convertPage(state, action.payload);
+        case order.search : 
+            return searchKeyword(state, action.payload);
         default : 
             return state;
     }
 }
+
+// function searchReducer(state = searchInitialState, action) {
+//     switch(action.type) {
+//         case order.search : 
+//             return searchKeyword(state, action.payload);
+//         default : 
+//             return state;
+//     }
+// }
 
 /*reducer function */
 
@@ -47,5 +64,18 @@ function convertPage(state, next_page) {
     }
 }
 
+function searchKeyword(state, keyword_s) {
+    return {
+        ...state,
+        keyword : keyword_s,
+        pageNumbers : 1
+    }
+}
 
-export default reducer;
+// const reducer = combineReducers({
+//     pageReducer,
+//     searchReducer
+// });
+
+
+export default pageReducer;

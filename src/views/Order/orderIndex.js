@@ -4,10 +4,10 @@ import { orderFunction } from '../../action';
 import List from './List';
 
 function mapStateToProps(state) {
-  const { pageNumbers, convertNumber } = state;
+  const { pageNumbers, keyword } = state;
   return {
     pageNumbers,
-    convertNumber
+    keyword
   }
 }
 
@@ -16,6 +16,7 @@ function mapDispatchToProps(dispatch) {
     clickNextPage: bindActionCreators(orderFunction.clickNextPage, dispatch),
     clickPrevPage: bindActionCreators(orderFunction.clickPrevPage, dispatch),
     clickConvertPage: bindActionCreators(orderFunction.clickConvertPage, dispatch),
+    searchKeyword: bindActionCreators(orderFunction.searchKeyword, dispatch),
   }
 }
 
