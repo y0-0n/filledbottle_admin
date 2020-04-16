@@ -1,19 +1,6 @@
-const next = 'next' ;
-const prev = 'prev' ;
+//page
 const convert = 'convert' ;
-const search = 'search'
 
-function clickNextPage() {
-    return {
-        type : next,
-    }
-}
-
-function clickPrevPage() {
-    return {
-        type : prev,
-    }
-}
 
 function clickConvertPage(e) {
     return {
@@ -22,6 +9,10 @@ function clickConvertPage(e) {
     }
 }
 
+//search
+const search = 'search'
+
+
 function searchKeyword(e) {
     return {
         type : search,
@@ -29,19 +20,40 @@ function searchKeyword(e) {
     }
 }
 
-const order = {
-    next,
-    prev,
+//product
+const category = 'category'
+
+function checkCategoryId(e) {
+    return {
+        type : category,
+        payload : e,
+    }
+}
+
+//order_export
+const countPage = {
     convert,
+}
+
+const searchPage = {
     search
 }
 
-const orderFunction = {
-    clickNextPage,
-    clickPrevPage,
+const product = {
+    category
+}
+
+const pageFunction = {
     clickConvertPage,
+}
+
+const searchFunction = {
     searchKeyword
 }
 
-export { order }
-export { orderFunction }
+const productFunction = {
+    checkCategoryId
+}
+
+export { countPage, searchPage, product }
+export { searchFunction, pageFunction, productFunction }

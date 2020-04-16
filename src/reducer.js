@@ -1,11 +1,11 @@
-import { order } from './action';
+import { searchPage, countPage, product } from './action';
 import { combineReducers } from 'redux';
-
 /*reducer*/
 
 const pageInitialState ={
     keyword : '',
     pageNumbers : 1,
+    category : 0
 };
 
 // const searchInitialState ={
@@ -16,14 +16,12 @@ const pageInitialState ={
 
 function pageReducer(state = pageInitialState, action) {
     switch(action.type) {
-        case order.next : 
-            return nextPage(state);
-        case order.prev :
-            return prevPage(state);
-        case order.convert :
+        case countPage.convert :
             return convertPage(state, action.payload);
-        case order.search : 
+        case searchPage.search : 
             return searchKeyword(state, action.payload);
+        case product.category :
+            return checkCategoryId(state, action.payload);
         default : 
             return state;
     }
@@ -40,21 +38,6 @@ function pageReducer(state = pageInitialState, action) {
 
 /*reducer function */
 
-function nextPage(state) {
-    return {
-        ...state,
-        pageNumbers : state.pageNumbers + 1
-    }
-}
-
-function prevPage(state) {
-    if(state.page > 1) {
-        return {
-            ...state,
-            pageNumbers : state.pageNumbers -1
-        }
-    }
-}
 
 function convertPage(state, next_page) {
     console.warn(next_page)
@@ -69,6 +52,13 @@ function searchKeyword(state, keyword_s) {
         ...state,
         keyword : keyword_s,
         pageNumbers : 1
+    }
+}
+
+function checkCategoryId(state, category_c) {
+    return {
+        ...state,
+        category : category_c
     }
 }
 

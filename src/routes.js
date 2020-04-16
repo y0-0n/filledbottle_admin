@@ -39,13 +39,13 @@ const User = React.lazy(() => import('./views/Users/User'));
 
 
 const Home = React.lazy(() => import('./views/Home/Home'));
-const Sales = React.lazy(() => import('./views/Order/orderIndex'));
+const Sales = React.lazy(() => import('./views/Order'));
 const Customer = React.lazy(() => import('./views/Customer/List'));
 const CreateCustomer = React.lazy(() => import('./views/Customer/Create'));
 const CustomerDetail = React.lazy(() => import('./views/Customer/Detail'));
 const CustomerModify = React.lazy(() => import('./views/Customer/Modify'));
 const CustomerUnset = React.lazy(() => import('./views/Customer/Unset'));
-const Product = React.lazy(() => import('./views/Product/List'));
+const Product = React.lazy(() => import('./views/Product'));
 const CreateProduct = React.lazy(() => import('./views/Product/Create'));
 const ProductDetail = React.lazy(() => import('./views/Product/Detail'));
 const ProductModify = React.lazy(() => import('./views/Product/Modify'));
