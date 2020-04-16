@@ -32,7 +32,7 @@ class List extends Component {
       stockData: [],
       //page: 1,
       name: '',
-      family: 0,
+      //family: 0,
       //set: true,
       stockEdit: false,
 			familyData: [],
@@ -41,7 +41,7 @@ class List extends Component {
       total: 0
 		};
     //this.name = '';
-    this.family = 0;
+    //this.family = 0;
     this.form = {
 
 		}
@@ -50,23 +50,13 @@ class List extends Component {
 		this.changeShowTrue.bind(this);
   }
   componentWillMount() {
-    if(this.props.location.state) {
-      const {family} = this.props.location.state
-      this.setState({
-        family
-      }, () => {
-				this.getUserFamilyCategory();
-      })
-    } else {
-      this.getUserFamilyCategory();
-    }
-		//this.excel();
+    console.log('dd',this.props.family)
+    this.getUserFamilyCategory();
   }
 
   getTotal() {
-    const {family} = this.state;
     const name = this.props.keyword;
-    const category = this.props.category;
+    const {category, family} = this.props;
 
     fetch(process.env.REACT_APP_HOST + "/product/total/", {
       method: 'POST',
@@ -136,10 +126,9 @@ class List extends Component {
 	}
 
 	getProduct() {
-    const { family} = this.state;
     const name = this.props.keyword;
     const page = this.props.pageNumbers;
-    const category = this.props.category;
+    const {category, family} = this.props;
     fetch(process.env.REACT_APP_HOST + "/product/list", {
       method: 'POST',
       headers: {
@@ -173,10 +162,9 @@ class List extends Component {
   }
 
   getStock() {
-    const {family} = this.state;
     const page = this.props.pageNumbers;
     const name = this.props.keyword;
-    const category = this.props.category
+    const {category, family} = this.props;
 
     fetch(process.env.REACT_APP_HOST + "/api/stock/sum", {
       method: 'POST',
@@ -261,7 +249,7 @@ class List extends Component {
 		this.setState({
 			//category: id,
 			//page: 1,
-			family: 0,
+			//family: 0,
 		}, () => {
 			this.getProductFamily();
 		})
@@ -324,9 +312,10 @@ class List extends Component {
   }
 
   render() {
-    console.log(this.props.category)
     var data = this.state.productData;
-		var {stockData, familyData, userCategoryData} = this.state;
+    var {stockData, familyData, userCategoryData} = this.state;
+    var family = this.props.family;
+    console.log(family , "ddss")
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
     return (
@@ -365,7 +354,7 @@ class List extends Component {
                   <Col>품목 상세 검색</ Col>
                   <Col md="3" xs="6" sm="6">
                     <InputGroup>
-                      <Input onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
+                      <Input value = {this.props.keyword} onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
                       <InputGroupAddon addonType="append">
                         <Button block color="primary" onClick={() => { this.searchProduct(this.props.keyword); }}><i class="fa fa-search"></i></Button>
                       </InputGroupAddon>
@@ -379,7 +368,7 @@ class List extends Component {
                   <Col>
                   <ul className="list-productfamily-ul" style={{width: '100%', display: 'flex', flexWrap: 'wrap', listStyleType: 'none', cursor: 'pointer'}}>
                     { this.state.checkCategory ?
-                      <li className="list-productfamily" style={{backgroundColor: this.state.family === 0? '#F16B6F' : 'transparent', border: this.state.family === 0? '0px' : '1px solid #c9d6de',color: this.state.family === 0? '#fff' : '#52616a', fontWeight: this.state.family === 0? 'bold' : 'normal', fontSize: this.state.family === 0? '1.1em' : '1em'}}onClick = {() => this.changeFamily(0)}>
+                      <li className="list-productfamily" style={{backgroundColor: family === 0? '#F16B6F' : 'transparent', border: family === 0? '0px' : '1px solid #c9d6de',color: family === 0? '#fff' : '#52616a', fontWeight: family === 0? 'bold' : 'normal', fontSize: family === 0? '1.1em' : '1em'}}onClick = {() => this.changeFamily(this.props.checkFamily(0))}>
                         전체
                       </li>
                       :
@@ -389,7 +378,7 @@ class List extends Component {
                     }
                     { this.state.checkCategory ?
                       familyData.map((e, i) => {
-                        return <li key={i} className="list-productfamily" style={{backgroundColor: this.state.family === e.id? '#F16B6F' : 'transparent', border: this.state.family === e.id? '0px' : '1px solid #c9d6de', color: this.state.family === e.id? '#fff' : '#52616a', fontWeight: this.state.family === e.id? 'bold' : 'normal', fontSize: this.state.family === e.id? '1.1em' : '1em'}}  onClick = {() => this.changeFamily(e.id)}><p>{e.name}</p></li>
+                        return <li key={i} className="list-productfamily" style={{backgroundColor: family === e.id? '#F16B6F' : 'transparent', border: family === e.id? '0px' : '1px solid #c9d6de', color: family === e.id? '#fff' : '#52616a', fontWeight: family === e.id? 'bold' : 'normal', fontSize: family === e.id? '1.1em' : '1em'}}  onClick = {() => this.changeFamily(this.props.checkFamily(e.id))}><p>{e.name}</p></li>
                       })
                       :
                       <li>

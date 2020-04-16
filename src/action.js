@@ -30,6 +30,15 @@ function checkCategoryId(e) {
     }
 }
 
+const family = 'family'
+
+function checkFamily(e) {
+    return {
+        type : family,
+        payload : e,
+    }
+}
+
 //order_export
 const countPage = {
     convert,
@@ -40,7 +49,8 @@ const searchPage = {
 }
 
 const product = {
-    category
+    category,
+    family
 }
 
 const pageFunction = {
@@ -52,7 +62,8 @@ const searchFunction = {
 }
 
 const productFunction = {
-    checkCategoryId
+    checkCategoryId,
+    checkFamily
 }
 
 export { countPage, searchPage, product }

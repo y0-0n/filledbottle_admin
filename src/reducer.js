@@ -5,7 +5,8 @@ import { combineReducers } from 'redux';
 const pageInitialState ={
     keyword : '',
     pageNumbers : 1,
-    category : 0
+    category : 0,
+    family : 0,
 };
 
 // const searchInitialState ={
@@ -22,6 +23,8 @@ function pageReducer(state = pageInitialState, action) {
             return searchKeyword(state, action.payload);
         case product.category :
             return checkCategoryId(state, action.payload);
+        case product.family :
+            return checkFamily(state, action.payload);
         default : 
             return state;
     }
@@ -51,14 +54,25 @@ function searchKeyword(state, keyword_s) {
     return {
         ...state,
         keyword : keyword_s,
-        pageNumbers : 1
+        pageNumbers : 1,
+        family : 0
     }
 }
 
 function checkCategoryId(state, category_c) {
     return {
         ...state,
-        category : category_c
+        category : category_c,
+        keyword : '',
+        family : 0
+    }
+}
+
+function checkFamily(state, family_c) {
+    return {
+        ...state,
+        family : family_c,
+        keyword : ''
     }
 }
 
