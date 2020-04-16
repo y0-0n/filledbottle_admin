@@ -7,6 +7,7 @@ const pageInitialState ={
     pageNumbers : 1,
     category : 0,
     family : 0,
+    show : true,
 };
 
 // const searchInitialState ={
@@ -25,6 +26,8 @@ function pageReducer(state = pageInitialState, action) {
             return checkCategoryId(state, action.payload);
         case product.family :
             return checkFamily(state, action.payload);
+        case product.show :
+            return changeShow(state);
         default : 
             return state;
     }
@@ -73,6 +76,14 @@ function checkFamily(state, family_c) {
         ...state,
         family : family_c,
         keyword : ''
+    }
+}
+
+function changeShow(state) {
+    return {
+        ...state,
+        show : !state.show,
+        pageNumbers : 1
     }
 }
 

@@ -39,6 +39,14 @@ function checkFamily(e) {
     }
 }
 
+const show = 'show'
+
+function changeShow() {
+    return {
+        type : show
+    }
+}
+
 //order_export
 const countPage = {
     convert,
@@ -50,7 +58,8 @@ const searchPage = {
 
 const product = {
     category,
-    family
+    family,
+    show
 }
 
 const pageFunction = {
@@ -63,7 +72,8 @@ const searchFunction = {
 
 const productFunction = {
     checkCategoryId,
-    checkFamily
+    checkFamily,
+    changeShow
 }
 
 export { countPage, searchPage, product }

@@ -4,12 +4,13 @@ import { pageFunction, searchFunction, productFunction } from '../../action';
 import List from './List';
 
 function mapStateToProps(state) {
-  const { pageNumbers, keyword, category, family } = state;
+  const { pageNumbers, keyword, category, family, show } = state;
   return {
     pageNumbers,
     keyword,
     category,
-    family
+    family,
+    show
   }
 }
 
@@ -19,6 +20,7 @@ function mapDispatchToProps(dispatch) {
     searchKeyword: bindActionCreators(searchFunction.searchKeyword, dispatch),
     checkCategoryId: bindActionCreators(productFunction.checkCategoryId, dispatch),
     checkFamily: bindActionCreators(productFunction.checkFamily, dispatch),
+    changeShow: bindActionCreators(productFunction.changeShow, dispatch),
   }
 }
 

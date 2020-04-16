@@ -22,7 +22,6 @@ import ReactToPrint from 'react-to-print';
 */
 
 const listCount = 15;
-global.show = true;
 
 class List extends Component {
   constructor(props) {
@@ -46,11 +45,8 @@ class List extends Component {
 
 		}
 
-		this.changeShowFalse.bind(this);
-		this.changeShowTrue.bind(this);
   }
   componentWillMount() {
-    console.log('dd',this.props.family)
     this.getUserFamilyCategory();
   }
 
@@ -301,21 +297,12 @@ class List extends Component {
     })
   }
 
-  changeShowFalse() {
-		global.show = false;
-		this.forceUpdate();
-  }
-
-  changeShowTrue() {
-    global.show = true;
-		this.forceUpdate();
-  }
 
   render() {
     var data = this.state.productData;
     var {stockData, familyData, userCategoryData} = this.state;
-    var family = this.props.family;
-    console.log(family , "ddss")
+    var {family, show, pageNumbers} = this.props;
+    console.log(show , "ddss")
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
     return (
@@ -405,19 +392,6 @@ class List extends Component {
                 </Row>
                 <hr></hr>
                 <Row style={{marginBottom: 15}}>
-                  {/*<Col>
-                    {this.state.set ?
-                      "비활성화 품목 보기" :
-                      "활성화 품목 보기"}
-                    <Switch id='1' isOn={this.state.set} handleToggle={this.changeSet.bind(this)} />
-                  </Col>
-                  <Col>
-                    {this.state.show ?
-                      "카드로 보기" :
-                      "리스트로 보기"
-                    }
-                    <Switch id='2' isOn={this.state.show} handleToggle={() => this.changeShow()} />
-                  </Col>*/}
                   <Col>
                     <UncontrolledButtonDropdown>
                       <DropdownToggle caret color="primary">
@@ -436,14 +410,14 @@ class List extends Component {
                     <div style={{float: "right"}}>
                       <Button style={{marginRight: "10px"}} onClick={() => { this.props.history.push('/product/create'); }} color="primary">엑셀로 보내기</Button>
 											<Button style={{marginRight: "10px"}} onClick={() => { this.props.history.push('/product/create'); }} color="primary">품목추가</Button>
-                      <a className="button-list" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: global.show === false ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowFalse()}}><i className="fa fa-th" style={{display: "block"}}></i>
+                      <a className="button-list" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: show === false ? 'lightgray' : 'transparent'}} onClick={() => {this.props.changeShow()}}><i className="fa fa-th" style={{display: "block"}}></i>
                       </a>
-                      <a className="button-card" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: global.show === true ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowTrue()}}><i className="fa fa-th-list" style={{display: "block"}}></i>
+                      <a className="button-card" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: show === true ? 'lightgray' : 'transparent'}} onClick={() => {this.props.changeShow()}}><i className="fa fa-th-list" style={{display: "block"}}></i>
                       </a>
                     </div>
                   </Col>
                 </Row>
-                {global.show ?
+                {show ?
                 <Row>
                   <Table className="ListTable" style={{ minWidth: 600 }} hover>
                     <thead>
@@ -555,26 +529,26 @@ class List extends Component {
               </CardBody>
               <CardFooter>
                 <Pagination style={{justifyContent: 'center'}}>
-                  {this.props.pageNumbers === 1 ? '' :
+                  {pageNumbers === 1 ? '' :
                   <PaginationItem>
-                    <PaginationLink previous onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers-1))}}/>
+                    <PaginationLink previous onClick={() => {this.countPageNumber(this.props.clickConvertPage(pageNumbers-1))}}/>
                   </PaginationItem>
                   }
-                  {this.props.pageNumbers === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
-                  {this.props.pageNumbers === 2 ? arr.forEach(x => arr1.push(x+1)) : null}
-                  {this.props.pageNumbers !== 1 && this.props.pageNumbers!== 2 ? arr.forEach(x => arr1.push(x)) :null }
+                  {pageNumbers === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
+                  {pageNumbers === 2 ? arr.forEach(x => arr1.push(x+1)) : null}
+                  {pageNumbers !== 1 && pageNumbers!== 2 ? arr.forEach(x => arr1.push(x)) :null }
                   {arr1.map((e, i) => {
-                    if(this.state.total >= this.props.pageNumbers+e)
-                    return (<PaginationItem key={i} active={this.props.pageNumbers === this.props.pageNumbers+e}>
-                      <PaginationLink onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+e));}}>
-                      {this.props.pageNumbers+e}
+                    if(this.state.total >= pageNumbers+e)
+                    return (<PaginationItem key={i} active={pageNumbers === pageNumbers+e}>
+                      <PaginationLink onClick={() => {this.countPageNumber(this.props.clickConvertPage(pageNumbers+e));}}>
+                      {pageNumbers+e}
                       </PaginationLink>
                     </PaginationItem>)
                     return null;
                   })}
-                  {this.props.pageNumbers === this.state.total ? '' :
+                  {pageNumbers === this.state.total ? '' :
                   <PaginationItem>
-                    <PaginationLink next onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+1))}}/>
+                    <PaginationLink next onClick={() => {this.countPageNumber(this.props.clickConvertPage(pageNumbers+1))}}/>
                   </PaginationItem>}
                 </Pagination>
               </CardFooter>
