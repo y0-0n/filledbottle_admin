@@ -45,7 +45,51 @@ class List extends Component {
       last_date: new Date(),
     };
     this.keyword = '';
-  }
+	}
+	getCafe24Orders() {
+		// fetch("https://cors-anywhere.herokuapp.com/https://ast99.cafe24api.com/api/v2/oauth/token", {
+    //   method: "POST",
+    //   headers: {
+    //     'Authorization': `Basic `+Buffer.from('RfqI830WFC9Ljwfm2q8o7P:eTW86bTvbqdZxrvN9u52VF').toString('base64'),
+    //     "Content-Type": "application/x-www-form-urlencoded"
+    //   },
+    //   body: "grant_type=authorization_code&code=waQXkBfeg0QG2FZw3DSD1M&redirect_uri=https://bnbnong.com",
+    // })
+    // .then(response => {
+    //   return Promise.all([response.status, response.json()]);
+    // })
+    // .then(data => {
+    //   let status = data[0], token = data[1].token;
+    //   if(status === 200) {
+    //     localStorage.setItem('token', token);
+    //     console.warn(data)
+    //   } else {
+    //     console.warn(data)
+    //   }
+		// });
+
+		// __________________________________________________-
+
+		// fetch("https://cors-anywhere.herokuapp.com/https://ast99.cafe24api.com/api/v2/admin/orders?start_date=2020-04-01&end_date=2020-04-31", {
+		// 	headers: {
+		// 		Authorization: "Bearer VV5niXkKC9fKfp4FpiAff1",
+		// 		"Content-Type": "application/json"
+		// 	},
+		// })
+		// .then(response => {
+    //   return Promise.all([response.status, response.json()]);
+    // })
+    // .then(data => {
+    //   let status = data[0], token = data[1].token;
+    //   if(status === 200) {
+    //     localStorage.setItem('token', token);
+    //     console.warn(data)
+    //   } else {
+    //     console.warn(data)
+    //   }
+		// });
+		window.location.href = "https://bnbnong.com:4001/api/cafe24";
+	}
 
   componentWillMount() {
     if(this.props.location.state !== undefined) {
@@ -209,6 +253,8 @@ class List extends Component {
                   <Col>
 										<div style={{float: "right"}}>
 											<Button onClick={() => { this.props.history.push('/sales/order') }} color="primary">주문생성</Button>
+
+											<Button onClick={() => { this.getCafe24Orders(); }} color="primary">카페24 주문 불러오기</Button>
 										</div>
                     {/*<UncontrolledButtonDropdown>
                       <DropdownToggle caret color="primary">

@@ -5,19 +5,18 @@ import moment from 'moment';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "moment/locale/ko";
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-import { Bar } from 'react-chartjs-2';
+// import { Bar } from 'react-chartjs-2';
+import queryString from "query-string";
 
 const localizer = momentLocalizer(moment);
 
-
-
-const options = {
-  tooltips: {
-    enabled: false,
-    custom: CustomTooltips
-  },
-  maintainAspectRatio: false
-}
+// const options = {
+//   tooltips: {
+//     enabled: false,
+//     custom: CustomTooltips
+//   },
+//   maintainAspectRatio: false
+// }
 
 /*
 
@@ -58,7 +57,9 @@ class Home extends Component {
 		this.getIncome();
 		this.getAmount();
     this.chart();
-    this.getToday();
+		this.getToday();
+		
+		console.warn(queryString.parse(this.props.location.search))
   }
 
   componentDidMount() {
