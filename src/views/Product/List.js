@@ -6,6 +6,7 @@ import Switch from "../Switch/Switch";
 import ImageModal from '../Modal/ImageModal';
 import Popup from "reactjs-popup";
 import ProductFamilyModal from '../Modal/ProductFamilyModal';
+import ReactToPrint from 'react-to-print';
 /*
 
   GET /product/state
@@ -21,7 +22,6 @@ import ProductFamilyModal from '../Modal/ProductFamilyModal';
 */
 
 const listCount = 15;
-global.show = true;
 
 class List extends Component {
   constructor(props) {
@@ -29,40 +29,30 @@ class List extends Component {
     this.state = {
       productData: [],
       stockData: [],
-      page: 1,
+      //page: 1,
       name: '',
-      family: 0,
+      //family: 0,
       //set: true,
       stockEdit: false,
 			familyData: [],
       userCategoryData: [],
       checkCategory: true,
+      total: 0
 		};
-    this.name = '';
-    this.family = 0;
+    //this.name = '';
+    //this.family = 0;
     this.form = {
 
 		}
 
-		this.changeShowFalse.bind(this);
-		this.changeShowTrue.bind(this);
   }
   componentWillMount() {
-    if(this.props.location.state) {
-      const {page, name, family} = this.props.location.state
-      this.setState({
-        page, name, family
-      }, () => {
-				this.getUserFamilyCategory();
-      })
-    } else {
-      this.getUserFamilyCategory();
-    }
-		//this.excel();
+    this.getUserFamilyCategory();
   }
 
   getTotal() {
-    const {name, family, category} = this.state;
+    const name = this.props.keyword;
+    const {category, family} = this.props;
 
     fetch(process.env.REACT_APP_HOST + "/product/total/", {
       method: 'POST',
@@ -113,8 +103,8 @@ class List extends Component {
 				let status = data[0];
         if (status === 200){
 					if(data[1].length !== 0) {
-						this.setState({ userCategoryData: data[1],
-							category: data[1][0].id }, () => {
+            //this.props.checkCategoryId(data[1][0].id)
+						this.setState({ userCategoryData: data[1],}, () => {
 								this.getProductFamily();
 							});
 					} else {
@@ -132,7 +122,9 @@ class List extends Component {
 	}
 
 	getProduct() {
-    const {page, name, family, category} = this.state;
+    const name = this.props.keyword;
+    const page = this.props.pageNumbers;
+    const {category, family} = this.props;
     fetch(process.env.REACT_APP_HOST + "/product/list", {
       method: 'POST',
       headers: {
@@ -166,7 +158,9 @@ class List extends Component {
   }
 
   getStock() {
-		const {page, name, family, category} = this.state;
+    const page = this.props.pageNumbers;
+    const name = this.props.keyword;
+    const {category, family} = this.props;
 
     fetch(process.env.REACT_APP_HOST + "/api/stock/sum", {
       method: 'POST',
@@ -228,12 +222,8 @@ class List extends Component {
 
 
   searchProduct() {
-    let { name } = this;
-    //let keyword = this.keyword
-    this.setState({ name, page: 1 }, () => {
-			this.getProduct();
-			this.getStock();
-    })
+		this.getProduct();
+    this.getStock();
   }
 
   changeStockEdit() {
@@ -253,9 +243,9 @@ class List extends Component {
 
 	changeCategory(id) {
 		this.setState({
-			category: id,
-			page: 1,
-			family: 0,
+			//category: id,
+			//page: 1,
+			//family: 0,
 		}, () => {
 			this.getProductFamily();
 		})
@@ -263,7 +253,7 @@ class List extends Component {
 
   countPageNumber(x) {
     this.setState({
-      page: x,
+      //page: x,
     }, () => {
       this.getProduct();
       this.getStock();
@@ -271,7 +261,7 @@ class List extends Component {
   }
 
   getProductFamily() {
-    fetch(process.env.REACT_APP_HOST + "/api/product/familyList/"+this.state.category, {
+    fetch(process.env.REACT_APP_HOST + "/api/product/familyList/"+this.props.category, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -301,27 +291,18 @@ class List extends Component {
 
   changeFamily (family) {
     //let keyword = this.keyword
-    this.setState({ name: '', family, page: 1 }, () => {
+    this.setState({ family, /*page: 1*/ }, () => {
       this.getProduct();
       this.getStock();
     })
   }
 
-  changeShowFalse() {
-		global.show = false;
-		this.forceUpdate();
-    console.log(this.state.show)
-  }
-
-  changeShowTrue() {
-    global.show = true;
-		this.forceUpdate();
-    console.log(this.state.show)
-  }
 
   render() {
     var data = this.state.productData;
-		var {stockData, familyData, userCategoryData} = this.state;
+    var {stockData, familyData, userCategoryData} = this.state;
+    var {family, show, pageNumbers} = this.props;
+    console.log(show , "ddss")
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
     return (
@@ -335,7 +316,7 @@ class List extends Component {
                 <tr>
 									{ this.state.checkCategory ?
 										userCategoryData.map((e, i) => {
-											return <td key={i} style={{cursor: "pointer", backgroundColor: this.state.category===e.id ? '#E6E6E6' : '#fff'}} onClick={() => {this.changeCategory(e.id)}}>{e.name}</td>
+											return <td key={i} style={{cursor: "pointer", backgroundColor: this.props.category===e.id ? '#E6E6E6' : '#fff'}} onClick={() => {this.changeCategory(this.props.checkCategoryId(e.id))}}>{e.name}</td>
                     })
                     :
                     <div style={{textAlign: "left", padding: 30}}>
@@ -360,9 +341,9 @@ class List extends Component {
                   <Col>품목 상세 검색</ Col>
                   <Col md="3" xs="6" sm="6">
                     <InputGroup>
-                      <Input onChange={(e) => { this.name = e.target.value }} />
+                      <Input value = {this.props.keyword} onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
                       <InputGroupAddon addonType="append">
-                        <Button block color="primary" onClick={() => { this.searchProduct() }}><i className="fa fa-search"></i></Button>
+                        <Button block color="primary" onClick={() => { this.searchProduct(this.props.keyword); }}><i className="fa fa-search"></i></Button>
                       </InputGroupAddon>
                     </InputGroup>
                   </Col>
@@ -374,7 +355,7 @@ class List extends Component {
                   <Col>
                   <ul className="list-productfamily-ul" style={{width: '100%', display: 'flex', flexWrap: 'wrap', listStyleType: 'none', cursor: 'pointer'}}>
                     { this.state.checkCategory ?
-                      <li className="list-productfamily" style={{backgroundColor: this.state.family === 0? '#F16B6F' : 'transparent', border: this.state.family === 0? '0px' : '1px solid #c9d6de',color: this.state.family === 0? '#fff' : '#52616a', fontWeight: this.state.family === 0? 'bold' : 'normal', fontSize: this.state.family === 0? '1.1em' : '1em'}}onClick = {() => this.changeFamily(0)}>
+                      <li className="list-productfamily" style={{backgroundColor: family === 0? '#F16B6F' : 'transparent', border: family === 0? '0px' : '1px solid #c9d6de',color: family === 0? '#fff' : '#52616a', fontWeight: family === 0? 'bold' : 'normal', fontSize: family === 0? '1.1em' : '1em'}}onClick = {() => this.changeFamily(this.props.checkFamily(0))}>
                         전체
                       </li>
                       :
@@ -384,7 +365,7 @@ class List extends Component {
                     }
                     { this.state.checkCategory ?
                       familyData.map((e, i) => {
-                        return <li key={i} className="list-productfamily" style={{backgroundColor: this.state.family === e.id? '#F16B6F' : 'transparent', border: this.state.family === e.id? '0px' : '1px solid #c9d6de', color: this.state.family === e.id? '#fff' : '#52616a', fontWeight: this.state.family === e.id? 'bold' : 'normal', fontSize: this.state.family === e.id? '1.1em' : '1em'}}  onClick = {() => this.changeFamily(e.id)}><p>{e.name}</p></li>
+                        return <li key={i} className="list-productfamily" style={{backgroundColor: family === e.id? '#F16B6F' : 'transparent', border: family === e.id? '0px' : '1px solid #c9d6de', color: family === e.id? '#fff' : '#52616a', fontWeight: family === e.id? 'bold' : 'normal', fontSize: family === e.id? '1.1em' : '1em'}}  onClick = {() => this.changeFamily(this.props.checkFamily(e.id))}><p>{e.name}</p></li>
                       })
                       :
                       <li>
@@ -411,19 +392,6 @@ class List extends Component {
                 </Row>
                 <hr></hr>
                 <Row style={{marginBottom: 15}}>
-                  {/*<Col>
-                    {this.state.set ?
-                      "비활성화 품목 보기" :
-                      "활성화 품목 보기"}
-                    <Switch id='1' isOn={this.state.set} handleToggle={this.changeSet.bind(this)} />
-                  </Col>
-                  <Col>
-                    {this.state.show ?
-                      "카드로 보기" :
-                      "리스트로 보기"
-                    }
-                    <Switch id='2' isOn={this.state.show} handleToggle={() => this.changeShow()} />
-                  </Col>*/}
                   <Col>
                     <UncontrolledButtonDropdown>
                       <DropdownToggle caret color="primary">
@@ -442,14 +410,14 @@ class List extends Component {
                     <div style={{float: "right"}}>
                       <Button style={{marginRight: "10px"}} onClick={() => { this.props.history.push('/product/create'); }} color="primary">엑셀로 보내기</Button>
 											<Button style={{marginRight: "10px"}} onClick={() => { this.props.history.push('/product/create'); }} color="primary">품목추가</Button>
-                      <a className="button-list" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: global.show === false ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowFalse()}}><i className="fa fa-th" style={{display: "block"}}></i>
+                      <a className="button-list" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: show === false ? 'lightgray' : 'transparent'}} onClick={() => {this.props.changeShow()}}><i className="fa fa-th" style={{display: "block"}}></i>
                       </a>
-                      <a className="button-card" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: global.show === true ? 'lightgray' : 'transparent'}} onClick={() => {this.changeShowTrue()}}><i className="fa fa-th-list" style={{display: "block"}}></i>
+                      <a className="button-card" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: show === true ? 'lightgray' : 'transparent'}} onClick={() => {this.props.changeShow()}}><i className="fa fa-th-list" style={{display: "block"}}></i>
                       </a>
                     </div>
                   </Col>
                 </Row>
-                {global.show ?
+                {show ?
                 <Row>
                   <Table className="ListTable" style={{ minWidth: 600 }} hover>
                     <thead>
@@ -472,7 +440,6 @@ class List extends Component {
                         return (<tr style={{height : "150px"}} key={e.id} onClick={() => {
                           this.props.history.push({
                             pathname: '/main/product/' + e.id,
-                            state: {name: this.state.name, family: this.state.family, page: this.state.page}
                           })
                         }}>
 													<td>{e.id}</td>
@@ -523,7 +490,6 @@ class List extends Component {
                           <a style={{textAlign: 'center', cursor: 'pointer'}} onClick={() => {
                             this.props.history.push({
                               pathname: '/main/product/' + e.id,
-                              state: {name: this.state.name, family: this.state.family, page: this.state.page}
                             })
                           }}>
                             <div className="img-product" ><CardImg top style={{display: 'inline-block', width:"90%", overflow: "hidden"}} src={e.file_name ? process.env.REACT_APP_HOST+"/static/" + e.file_name : '318x180.svg'} alt="Card image cap" /></div>
@@ -563,27 +529,27 @@ class List extends Component {
               </CardBody>
               <CardFooter>
                 <Pagination style={{justifyContent: 'center'}}>
-                  {this.state.page === 1 ? '' :
-                    <PaginationItem>
-                      <PaginationLink previous onClick={() => { this.countPageNumber(this.state.page - 1) }} />
-                    </PaginationItem>
+                  {pageNumbers === 1 ? '' :
+                  <PaginationItem>
+                    <PaginationLink previous onClick={() => {this.countPageNumber(this.props.clickConvertPage(pageNumbers-1))}}/>
+                  </PaginationItem>
                   }
-                  {this.state.page === 1 ? arr.forEach(x => arr1.push(x + 2)) : null}
-                  {this.state.page === 2 ? arr.forEach(x => arr1.push(x + 1)) : null}
-                  {this.state.page !== 1 && this.state.page !== 2 ? arr.forEach(x => arr1.push(x)) : null}
+                  {pageNumbers === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
+                  {pageNumbers === 2 ? arr.forEach(x => arr1.push(x+1)) : null}
+                  {pageNumbers !== 1 && pageNumbers!== 2 ? arr.forEach(x => arr1.push(x)) :null }
                   {arr1.map((e, i) => {
-                    if (this.state.total >= this.state.page + e)
-                      return (<PaginationItem key={i} active={this.state.page === this.state.page + e}>
-                        <PaginationLink onClick={() => { this.countPageNumber(this.state.page + e) }}>
-                          {this.state.page + e}
-                        </PaginationLink>
-                      </PaginationItem>)
+                    if(this.state.total >= pageNumbers+e)
+                    return (<PaginationItem key={i} active={pageNumbers === pageNumbers+e}>
+                      <PaginationLink onClick={() => {this.countPageNumber(this.props.clickConvertPage(pageNumbers+e));}}>
+                      {pageNumbers+e}
+                      </PaginationLink>
+                    </PaginationItem>)
                     return null;
                   })}
-                  {this.state.page === this.state.total ? '' :
-                    <PaginationItem>
-                      <PaginationLink next onClick={() => { this.countPageNumber(this.state.page + 1) }} />
-                    </PaginationItem>}
+                  {pageNumbers === this.state.total ? '' :
+                  <PaginationItem>
+                    <PaginationLink next onClick={() => {this.countPageNumber(this.props.clickConvertPage(pageNumbers+1))}}/>
+                  </PaginationItem>}
                 </Pagination>
               </CardFooter>
             </Card>

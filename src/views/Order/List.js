@@ -40,11 +40,11 @@ class List extends Component {
       orderData: [],
       //page: 1,
       total: 0,
-      keyword: '',
-      first_date: (new Date(new Date().getTime() - 60*60*24*1000*30)),
+      //keyword: '',
+      first_date: (new Date(new Date().getTime() - 60*60*24*1000*30*4)),
       last_date: new Date(),
     };
-    this.keyword = '';
+    //this.keyword = '';
 	}
 	getCafe24Orders() {
 		// fetch("https://cors-anywhere.herokuapp.com/https://ast99.cafe24api.com/api/v2/oauth/token", {
@@ -92,19 +92,22 @@ class List extends Component {
 	}
 
   componentWillMount() {
-    if(this.props.location.state !== undefined) {
-      this.setState({keyword: this.props.location.state.name}, () => {
-        this.getOrder();
-        this.getTotal();
-      });
-    } else {
+    // if(this.props.location.state !== undefined) {
+    //   this.setState({keyword: this.props.location.state.name}, () => {
+    //     this.getOrder();
+    //     this.getTotal();
+    //   });
+    // } else {
       this.getOrder();
       this.getTotal();
-    }
+    //}
+    console.log(this.props.keyword)
+    console.log(this.props.pageNumbers)
   }
 
   getTotal() {
-    const {first_date, last_date, keyword} = this.state;
+    const {first_date, last_date } = this.state;
+    const keyword = this.props.keyword;
     const process_ = this.state.process;
 
     fetch(process.env.REACT_APP_HOST+"/order/total/"+(process_ === "refund" ? "refund" : ""), {
@@ -135,7 +138,8 @@ class List extends Component {
   }
 
   getOrder() {
-    const {first_date, last_date, keyword} = this.state;
+    const {first_date, last_date } = this.state;
+    const keyword = this.props.keyword;
     const page = this.props.pageNumbers;
     console.warn(this.props)
     const process_ = this.state.process;
@@ -182,11 +186,8 @@ class List extends Component {
   }
 
   searchOrder() {
-    let {keyword} = this;
-    this.setState({keyword/*, page: 1*/}, () => {
-      this.getOrder();
-      this.getTotal();
-    })
+    this.getOrder();
+    this.getTotal();
   }
 
   getDate(dateInput) {
@@ -222,9 +223,9 @@ class List extends Component {
 									<Col md="9" xs="10" sm="9">
 										<span className="search">
 											<InputGroup>
-												<Input onChange={(e) => { this.keyword = e.target.value }} />
+												<Input onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
 												<InputGroupAddon addonType="append">
-													<Button block color="primary" onClick={() => { this.searchOrder() }}><i className="fa fa-search"></i></Button>
+													<Button block color="primary" onClick={() => { this.searchOrder(this.props.keyword); console.log(this.props.keyword) }}><i className="fa fa-search"></i></Button>
 												</InputGroupAddon>
 											</InputGroup>
 										</span>
@@ -326,7 +327,7 @@ class List extends Component {
                 <Pagination style={{justifyContent: 'center'}}>
                   {this.props.pageNumbers === 1 ? '' :
                   <PaginationItem>
-                    <PaginationLink previous onClick={() => {this.countPageNumber(this.props.pageNumbers-1)}}/>
+                    <PaginationLink previous onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers-1))}}/>
                   </PaginationItem>
                   }
                   {this.props.pageNumbers === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
@@ -335,7 +336,7 @@ class List extends Component {
                   {arr1.map((e, i) => {
                     if(this.state.total >= this.props.pageNumbers+e)
                     return (<PaginationItem key={i} active={this.props.pageNumbers === this.props.pageNumbers+e}>
-                      <PaginationLink onClick={() => {this.countPageNumber(this.props.pageNumbers+e); console.log(this.props.pageNumbers)}}>
+                      <PaginationLink onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+e)); console.log(this.props.pageNumbers)}}>
                       {this.props.pageNumbers+e}
                       </PaginationLink>
                     </PaginationItem>)
@@ -343,10 +344,9 @@ class List extends Component {
                   })}
                   {this.props.pageNumbers === this.state.total ? '' :
                   <PaginationItem>
-                    <PaginationLink next onClick={() => {this.countPageNumber(this.props.pageNumbers+1)}}/>
+                    <PaginationLink next onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+1))}}/>
                   </PaginationItem>}
                 </Pagination>
-                <Button onClick={() => {this.props.clickConvertPage(4); console.log(this.props.pageNumbers)}}></Button>
               </CardFooter>
             </Card>
           </Col>

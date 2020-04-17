@@ -1,18 +1,6 @@
-const next = 'next' ;
-const prev = 'prev' ;
+//page
 const convert = 'convert' ;
 
-function clickNextPage() {
-    return {
-        type : next,
-    }
-}
-
-function clickPrevPage() {
-    return {
-        type : prev,
-    }
-}
 
 function clickConvertPage(e) {
     return {
@@ -21,17 +9,72 @@ function clickConvertPage(e) {
     }
 }
 
-const order = {
-    next,
-    prev,
-    convert
+//search
+const search = 'search'
+
+
+function searchKeyword(e) {
+    return {
+        type : search,
+        payload : e
+    }
 }
 
-const orderFunction = {
-    clickNextPage,
-    clickPrevPage,
-    clickConvertPage
+//product
+const category = 'category'
+
+function checkCategoryId(e) {
+    return {
+        type : category,
+        payload : e,
+    }
 }
 
-export { order }
-export { orderFunction }
+const family = 'family'
+
+function checkFamily(e) {
+    return {
+        type : family,
+        payload : e,
+    }
+}
+
+const show = 'show'
+
+function changeShow() {
+    return {
+        type : show
+    }
+}
+
+//order_export
+const countPage = {
+    convert,
+}
+
+const searchPage = {
+    search
+}
+
+const product = {
+    category,
+    family,
+    show
+}
+
+const pageFunction = {
+    clickConvertPage,
+}
+
+const searchFunction = {
+    searchKeyword
+}
+
+const productFunction = {
+    checkCategoryId,
+    checkFamily,
+    changeShow
+}
+
+export { countPage, searchPage, product }
+export { searchFunction, pageFunction, productFunction }
