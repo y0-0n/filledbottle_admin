@@ -68,7 +68,7 @@ const Post = React.lazy(() => import('./views/Order/Post'));
 const Suggestions = React.lazy(() => import('./views/Suggestions/List'));
 const CreateSuggestions = React.lazy(() => import('./views/Suggestions/Create'));
 const SuggestionsDetail = React.lazy(() => import('./views/Suggestions/Detail'));
-const Manufacture = React.lazy(() => import('./views/Manufacture/List'));
+const Manufacture = React.lazy(() => import('./views/Manufacture'));
 const CreateManufacture = React.lazy(() => import('./views/Manufacture/Create'));
 const ManufactureDetail = React.lazy(() => import('./views/Manufacture/Detail'));
 const ManufactureModify = React.lazy(() => import('./views/Manufacture/Modify'));
