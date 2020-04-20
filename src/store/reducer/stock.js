@@ -5,7 +5,7 @@ const InitialState ={
     keyword : '',
     pageNumbers : 1,
     family : 0,
-    plant : 0
+    plant : 'all'
 };
 
 

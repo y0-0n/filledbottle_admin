@@ -53,7 +53,7 @@ const ProductUnset = React.lazy(() => import('./views/Product/Unset'));
 const Plant = React.lazy(() => import('./views/Plant/Plant'));
 const CreateOrder = React.lazy(() => import('./views/Order/Create'));
 //const Stock = React.lazy(() => import('./views/Stock/Stock'));
-const StockList = React.lazy(() => import('./views/Stock/List'));
+const StockList = React.lazy(() => import('./views/Stock/ListIndex'));
 const StockListDetail = React.lazy(() => import('./views/Stock/Detail'));
 const Stock = React.lazy(() => import('./views/Stock'));
 const StockDetail = React.lazy(() => import('./views/Stock/StockDetail'));
