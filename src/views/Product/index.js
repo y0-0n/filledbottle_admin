@@ -4,7 +4,8 @@ import { pageFunction, searchFunction, productFunction } from '../../action';
 import List from './List';
 
 function mapStateToProps(state) {
-  const { pageNumbers, keyword, category, family, show } = state;
+  const { pageNumbers, keyword } = state.product;
+  const { category, family, show } = state.product
   return {
     pageNumbers,
     keyword,

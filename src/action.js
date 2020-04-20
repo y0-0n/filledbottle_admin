@@ -47,8 +47,19 @@ function changeShow() {
     }
 }
 
+//stock
+
+const plant = 'plant'
+
+function checkPlant(e) {
+    return {
+        type : plant,
+        payload : e
+    }
+}
+
 //order_export
-const countPage = {
+const pagination = {
     convert,
 }
 
@@ -60,6 +71,10 @@ const product = {
     category,
     family,
     show
+}
+
+const stock = {
+    plant
 }
 
 const pageFunction = {
@@ -76,5 +91,9 @@ const productFunction = {
     changeShow
 }
 
-export { countPage, searchPage, product }
-export { searchFunction, pageFunction, productFunction }
+const stockFunction = {
+    checkPlant
+}
+
+export { pagination, searchPage, product, stock }
+export { searchFunction, pageFunction, productFunction, stockFunction }

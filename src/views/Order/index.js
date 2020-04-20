@@ -4,7 +4,8 @@ import { pageFunction, searchFunction } from '../../action';
 import List from './List';
 
 function mapStateToProps(state) {
-  const { pageNumbers, keyword } = state;
+  console.warn(state)
+  const { pageNumbers, keyword } = state.search;
   return {
     pageNumbers,
     keyword
