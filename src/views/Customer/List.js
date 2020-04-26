@@ -23,8 +23,8 @@ class List extends Component {
     super(props);
     this.state = {
       data: [],
-      page: 1,
-      keyword: '',
+      //page: 1,
+      //keyword: '',
       checkdata: [],
       checks: [],
     };
@@ -37,7 +37,7 @@ class List extends Component {
   }
 
   getTotal() {
-    const {keyword} = this.state;
+    const {keyword} = this.props;
 
     fetch(process.env.REACT_APP_HOST+"/customer/total", {
       method: 'POST',
@@ -67,7 +67,8 @@ class List extends Component {
   }
 
   getCustomer() {
-    const {page, keyword} = this.state;
+    const { keyword} = this.props;
+    const page = this.props.pageNumbers;
 
     fetch(process.env.REACT_APP_HOST+"/customer/list", {
       method: 'POST',
@@ -100,7 +101,7 @@ class List extends Component {
 
   countPageNumber(x){
     this.setState({
-      page: x,
+      //page: x,
     }, () => {
       this.getCustomer();
     });
@@ -173,10 +174,7 @@ class List extends Component {
   }
 
   searchCustomer() {
-    let {keyword} = this;
-    this.setState({keyword, page: 1}, () => {
-      this.getCustomer();
-    })
+    this.getCustomer();
 	}
 	
 	sendMessage() {
@@ -230,9 +228,9 @@ class List extends Component {
                   <Col>고객 상세 검색</Col>
                   <Col md="3" xs="6" sm="6">
                     <InputGroup>
-                      <Input onChange={(e) => { this.keyword = e.target.value }} />
+                      <Input onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
                       <InputGroupAddon addonType="append">
-                        <Button block color="primary" onClick={() => { this.searchCustomer() }}><i className="fa fa-search"></i></Button>
+                        <Button block color="primary" onClick={() => { this.searchCustomer(this.props.keyword) }}><i className="fa fa-search"></i></Button>
                       </InputGroupAddon>
                     </InputGroup>
                   </Col>
@@ -321,26 +319,26 @@ class List extends Component {
               </CardBody>
               <CardFooter>
                 <Pagination style={{justifyContent: 'center'}}>
-                  {this.state.page === 1 ? '' :
+                  {this.props.pageNumbers === 1 ? '' :
                   <PaginationItem>
-                    <PaginationLink previous onClick={() => {this.countPageNumber(this.state.page-1)}}/>
+                    <PaginationLink previous onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers-1))}}/>
                   </PaginationItem>
                   }
-                  {this.state.page === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
-                  {this.state.page === 2 ? arr.forEach(x => arr1.push(x+1)) : null}
-                  {this.state.page !== 1 && this.state.page!== 2 ? arr.forEach(x => arr1.push(x)) :null }
+                  {this.props.pageNumbers === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
+                  {this.props.pageNumbers === 2 ? arr.forEach(x => arr1.push(x+1)) : null}
+                  {this.props.pageNumbers !== 1 && this.props.pageNumbers!== 2 ? arr.forEach(x => arr1.push(x)) :null }
                   {arr1.map((e, i) => {
-                    if(this.state.total >= this.state.page+e)
-                    return (<PaginationItem key={i} active={this.state.page === this.state.page+e}>
-                      <PaginationLink onClick={() => {this.countPageNumber(this.state.page+e)}}>
-                      {this.state.page+e}
+                    if(this.state.total >= this.props.pageNumbers+e)
+                    return (<PaginationItem key={i} active={this.props.pageNumbers === this.props.pageNumbers+e}>
+                      <PaginationLink onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+e)); console.log(this.props.pageNumbers)}}>
+                      {this.props.pageNumbers+e}
                       </PaginationLink>
                     </PaginationItem>)
                     return null;
                   })}
-                  {this.state.page === this.state.total ? '' :
+                  {this.props.pageNumbers === this.state.total ? '' :
                   <PaginationItem>
-                    <PaginationLink next onClick={() => {this.countPageNumber(this.state.page+1)}}/>
+                    <PaginationLink next onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+1))}}/>
                   </PaginationItem>}
                 </Pagination>
               </CardFooter>

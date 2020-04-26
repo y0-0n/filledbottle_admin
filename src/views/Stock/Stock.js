@@ -12,19 +12,20 @@ class Stock extends Component {
 			plantData: [],
 			useFamilyData: [],
 			page: 1,
-			family: 0,
+			//family: 0,
 			name: '',
-      plant: 0,
+      //plant: 0,
       checkCategory: true,
     };
   }
 
   componentWillMount() {
+    console.log(this.props.plant, "ddd")
     this.getPlant();
 	}
 
   getUseFamily() {//취급 품목 불러오기
-    fetch(process.env.REACT_APP_HOST+"/api/product/familyInPlant/"+this.state.plant, {
+    fetch(process.env.REACT_APP_HOST+"/api/product/familyInPlant/"+this.props.plant, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -52,7 +53,8 @@ class Stock extends Component {
 	}
 
   getStock() {
-		const {plant, page, family, name, useFamilyData} = this.state;
+    const {page, name, useFamilyData} = this.state;
+    const { family, plant } = this.props
     fetch(process.env.REACT_APP_HOST+"/api/stock/list", {
       method: 'POST',
       headers: {
@@ -87,7 +89,8 @@ class Stock extends Component {
   }
 
   getTotal() {
-    const {name, family, plant, useFamilyData} = this.state;
+    const {name, useFamilyData} = this.state;
+    const { family, plant } = this.props
 
     fetch(process.env.REACT_APP_HOST + "/api/stock/list/total/", {
       method: 'POST',
@@ -140,8 +143,9 @@ class Stock extends Component {
 			let status = data[0];
       if(status === 200){
         if(data[1].length !== 0) {
+          this.props.checkPlant(data[1][0].id)
           this.setState({ plantData: data[1],
-            plant: data[1][0].id }, () => {
+            /*plant: data[1][0].id*/ }, () => {
               this.getUseFamily();
             });
         } else {
@@ -159,9 +163,9 @@ class Stock extends Component {
 
 	changePlant(id) {
 		this.setState({
-			plant: id,
-			page: 1,
-			family: 0,
+			//plant: id,
+			//page: 1,
+			//family: 0,
 		}, () => {
 			this.getUseFamily();
 		})
@@ -177,7 +181,7 @@ class Stock extends Component {
 
 	changeFamily (family) {
     //let keyword = this.keyword
-    this.setState({ family, page: 1 }, () => {
+    this.setState({ family }, () => {
 			this.getStock();
     })
   }
@@ -185,6 +189,7 @@ class Stock extends Component {
 
   render() {
     let {stockData, plantData, useFamilyData} = this.state;
+    var {family, pageNumbers} = this.props;
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
     return (
@@ -200,7 +205,7 @@ class Stock extends Component {
                   { this. state.checkCategory ?
                     plantData.map((e,i) => {
                       return (
-                        <td key={i} className='list-plant' style={{backgroundColor: this.state.plant===e.id ? '#E6E6E6' : '#fff'}} onClick={() => {this.changePlant(e.id)}}>{e.name}</td>
+                        <td key={i} className='list-plant' style={{backgroundColor: this.props.plant===e.id ? '#E6E6E6' : '#fff'}} onClick={() => {this.changePlant(this.props.checkPlant(e.id))}}>{e.name}</td>
                       )
                     })
                     :
@@ -226,10 +231,10 @@ class Stock extends Component {
 									<Col>재고 관리</Col>
 									<Col>
 										<div style={{ float: "right" }}>
-											<Button color="primary" onClick={() => { this.props.history.push('/stock/product/'+ this.state.plant) }}>품목 관리</Button>
+											<Button color="primary" onClick={() => { this.props.history.push('/stock/product/'+ this.props.plant) }}>품목 관리</Button>
 											<Button color="primary" style={{ marginLeft: 10 }} onClick={() => {
 												this.props.history.push({
-													pathname: '/stock/edit/'+this.state.plant,
+													pathname: '/stock/edit/'+this.props.plant,
 												})}}>재고 실사</Button>
 											<Button color="primary" style={{ marginLeft: 10 }} onClick={() => { this.props.history.push('/stock/transport') }}>창고 이동</Button>
 											{/*<Popup
@@ -250,7 +255,7 @@ class Stock extends Component {
                   <Col>
                     <ul className="list-productfamily-ul" style={{width: '100%', display: 'flex', flexWrap: 'wrap', listStyleType: 'none', cursor: 'pointer'}}>
                       { this.state.checkCategory ?
-                        <li className="list-productfamily" style={{backgroundColor: this.state.family === 0? '#F16B6F' : 'transparent', border: this.state.family === 0? '0px' : '1px solid #c9d6de',color: this.state.family === 0? '#fff' : '#52616a', fontWeight: this.state.family === 0? 'bold' : 'normal', fontSize: this.state.family === 0? '1.1em' : '1em'}}onClick = {() => this.changeFamily(0)}>
+                        <li className="list-productfamily" style={{backgroundColor: family === 0? '#F16B6F' : 'transparent', border: family === 0? '0px' : '1px solid #c9d6de',color: family === 0? '#fff' : '#52616a', fontWeight: family === 0? 'bold' : 'normal', fontSize: family === 0? '1.1em' : '1em'}}onClick = {() => {this.changeFamily(this.props.checkFamily(0));console.log(this.props.family)}}>
                           전체
                         </li>
                         :
@@ -260,7 +265,7 @@ class Stock extends Component {
                       }
                       { this.state.checkCategory ?
                         useFamilyData.map((e, i) => {
-                          return <li key={i} className="list-productfamily" style={{backgroundColor: this.state.family === e.family? '#F16B6F' : 'transparent', border: this.state.family === e.family? '0px' : '1px solid #c9d6de', color: this.state.family === e.family? '#fff' : '#52616a', fontWeight: this.state.family === e.family? 'bold' : 'normal', fontSize: this.state.family === e.family? '1.1em' : '1em'}}  onClick = {() => this.changeFamily(e.family)}>{e.name}</li>
+                          return <li key={i} className="list-productfamily" style={{backgroundColor: family === e.id? '#F16B6F' : 'transparent', border: family === e.id? '0px' : '1px solid #c9d6de', color: family === e.id? '#fff' : '#52616a', fontWeight: family === e.id? 'bold' : 'normal', fontSize: family === e.id? '1.1em' : '1em'}} onClick = {() => {this.changeFamily(this.props.checkFamily(e.id));console.log(this.props.family)}}>{e.name}</li>
                         })
                         :
                         <li>
@@ -298,7 +303,7 @@ class Stock extends Component {
                     <tbody>
                       {stockData.map((d) => {
                         return (
-                          <tr onClick={() => {this.props.history.push(`/main/manage/stock/${this.state.plant}/${d.product_id}`)}} style={{cursor: 'pointer'}} key={d.id}
+                          <tr onClick={() => {this.props.history.push(`/main/manage/stock/${this.props.plant}/${d.product_id}`)}} style={{cursor: 'pointer'}} key={d.id}
 													>
 														<td className="list-hidden">
 															<img style={{ width: '90%' }} alt="품목 사진" src={d.file_name ? process.env.REACT_APP_HOST+"/static/" + d.file_name : '318x180.svg'} />
@@ -312,30 +317,30 @@ class Stock extends Component {
                     </tbody>
                   </Table>
                 <div style={{width: "100%", textAlign : "center"}}>{this.state.stockData.length === 0 ? <span >"현재 재고 목록이 없습니다."</span> : null}</div>
-                </CardBody>
-                <CardFooter>
-                <Pagination style={{ justifyContent: 'center' }}>
-                  {this.state.page === 1 ? '' :
-                    <PaginationItem>
-                      <PaginationLink previous onClick={() => { this.countPageNumber(this.state.page - 1) }} />
-                    </PaginationItem>
+              </CardBody>
+              <CardFooter>
+                <Pagination style={{justifyContent: 'center'}}>
+                  {this.props.pageNumbers === 1 ? '' :
+                  <PaginationItem>
+                    <PaginationLink previous onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers-1))}}/>
+                  </PaginationItem>
                   }
-                  {this.state.page === 1 ? arr.forEach(x => arr1.push(x + 2)) : null}
-                  {this.state.page === 2 ? arr.forEach(x => arr1.push(x + 1)) : null}
-                  {this.state.page !== 1 && this.state.page !== 2 ? arr.forEach(x => arr1.push(x)) : null}
+                  {this.props.pageNumbers === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
+                  {this.props.pageNumbers === 2 ? arr.forEach(x => arr1.push(x+1)) : null}
+                  {this.props.pageNumbers !== 1 && this.props.pageNumbers!== 2 ? arr.forEach(x => arr1.push(x)) :null }
                   {arr1.map((e, i) => {
-                    if (this.state.total >= this.state.page + e)
-                      return (<PaginationItem key={i} active={this.state.page === this.state.page + e}>
-                        <PaginationLink onClick={() => { this.countPageNumber(this.state.page + e) }}>
-                          {this.state.page + e}
-                        </PaginationLink>
-                      </PaginationItem>)
+                    if(this.state.total >= this.props.pageNumbers+e)
+                    return (<PaginationItem key={i} active={this.props.pageNumbers === this.props.pageNumbers+e}>
+                      <PaginationLink onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+e)); console.log(this.props.pageNumbers)}}>
+                      {this.props.pageNumbers+e}
+                      </PaginationLink>
+                    </PaginationItem>)
                     return null;
                   })}
-                  {this.state.page === this.state.total ? '' :
-                    <PaginationItem>
-                      <PaginationLink next onClick={() => { this.countPageNumber(this.state.page + 1) }} />
-                    </PaginationItem>}
+                  {this.props.pageNumbers === this.state.total ? '' :
+                  <PaginationItem>
+                    <PaginationLink next onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+1))}}/>
+                  </PaginationItem>}
                 </Pagination>
               </CardFooter>
 

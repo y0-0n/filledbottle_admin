@@ -302,7 +302,8 @@ class List extends Component {
     var data = this.state.productData;
     var {stockData, familyData, userCategoryData} = this.state;
     var {family, show, pageNumbers} = this.props;
-    console.log(show , "ddss")
+    console.log(family , "ddss")
+    console.log(this.props.keyword , "ddss")
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
     return (

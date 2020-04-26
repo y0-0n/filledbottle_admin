@@ -124,9 +124,17 @@ class Detail extends Component {
                       <td>{data.set ? <Badge color="primary">활성화</Badge> : <Badge color="danger">비활성화</Badge>}</td>
                     </tr>
                     <tr>
-                      <th>사진</th>
+                      <th>대표 사진</th>
                       <td style={ {textAlign : "center"} }>
                         <img alt="품목 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>상세 사진</th>
+                      <td style={ {textAlign : "center"} }>
+                        <img alt="상세 사진1" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
+                        <img alt="상세 사진2" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
+                        <img alt="상세 사진3" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
                       </td>
                     </tr>
 

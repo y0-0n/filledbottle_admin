@@ -141,7 +141,6 @@ class List extends Component {
     const {first_date, last_date } = this.state;
     const keyword = this.props.keyword;
     const page = this.props.pageNumbers;
-    console.warn(this.props)
     const process_ = this.state.process;
     fetch(process.env.REACT_APP_HOST+"/order/list"+(process_ === "refund" ? "/refund" : ""), {
       method: 'POST',
@@ -225,7 +224,7 @@ class List extends Component {
 											<InputGroup>
 												<Input onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
 												<InputGroupAddon addonType="append">
-													<Button block color="primary" onClick={() => { this.searchOrder(this.props.keyword); console.log(this.props.keyword) }}><i className="fa fa-search"></i></Button>
+													<Button block color="primary" onClick={() => { this.searchOrder(this.props.keyword); }}><i className="fa fa-search"></i></Button>
 												</InputGroupAddon>
 											</InputGroup>
 										</span>
@@ -336,7 +335,7 @@ class List extends Component {
                   {arr1.map((e, i) => {
                     if(this.state.total >= this.props.pageNumbers+e)
                     return (<PaginationItem key={i} active={this.props.pageNumbers === this.props.pageNumbers+e}>
-                      <PaginationLink onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+e)); console.log(this.props.pageNumbers)}}>
+                      <PaginationLink onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+e));}}>
                       {this.props.pageNumbers+e}
                       </PaginationLink>
                     </PaginationItem>)

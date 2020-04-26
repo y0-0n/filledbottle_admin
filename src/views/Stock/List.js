@@ -14,13 +14,12 @@ class List extends Component {
     this.state = {
       stockData: [],
       plantData: [],
-      page: 1,
-      plant: 'all',
     };
   }
 
   getHistory() {
-    const { page, plant } = this.state;
+    const { plant } = this.props;
+    const page = this.props.pageNumbers;
 
     const limit = 15;
 
@@ -54,7 +53,7 @@ class List extends Component {
   }
 
   getTotal() {
-    const { plant } = this.state;
+    const { plant } = this.props;
     fetch(process.env.REACT_APP_HOST + "/api/stock/total/", {
       method: 'POST',
       headers: {
@@ -126,8 +125,6 @@ class List extends Component {
 
   changePlant(id) {
     this.setState({
-      plant: id,
-      page: 1,
     }, () => {
       this.getHistory();
     })
@@ -135,7 +132,6 @@ class List extends Component {
 
   countPageNumber(x) {
     this.setState({
-      page: x,
     }, () => {
       this.getHistory();
     });
@@ -143,6 +139,7 @@ class List extends Component {
 
   render() {
     const { plantData, stockData } = this.state;
+    const plant = this.props.plant
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
 
@@ -155,11 +152,11 @@ class List extends Component {
             <Table className="category-top">
               <tbody>
                 <tr>
-                  <td style={{cursor: "pointer", backgroundColor: this.state.plant==='all' ? '#E6E6E6' : '#fff'}} onClick={() => { this.changePlant('all') }}>전체</td>
+                  <td style={{cursor: "pointer", backgroundColor: plant==='all' ? '#E6E6E6' : '#fff'}} onClick={() => { this.changePlant(this.props.checkPlant('all')) }}>전체</td>
                   {
                     plantData.map((e, i) => {
                       return (
-                        <td style={{cursor: "pointer", backgroundColor: this.state.plant===e.id ? '#E6E6E6' : '#fff'}} onClick={() => { this.changePlant(e.id) }}>{e.name}</td>
+                        <td style={{cursor: "pointer", backgroundColor: plant===e.id ? '#E6E6E6' : '#fff'}} onClick={() => { this.changePlant(this.props.checkPlant(e.id)) }}>{e.name}</td>
                       )
                     })
                   }
@@ -216,28 +213,28 @@ class List extends Component {
                 </Table>
               </CardBody>
               <CardFooter>
-                <Pagination style={{ justifyContent: 'center' }}>
-                  {this.state.page === 1 ? '' :
-                    <PaginationItem>
-                      <PaginationLink previous onClick={() => { this.countPageNumber(this.state.page - 1) }} />
-                    </PaginationItem>
+                <Pagination style={{justifyContent: 'center'}}>
+                  {this.props.pageNumbers === 1 ? '' :
+                  <PaginationItem>
+                    <PaginationLink previous onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers-1))}}/>
+                  </PaginationItem>
                   }
-                  {this.state.page === 1 ? arr.forEach(x => arr1.push(x + 2)) : null}
-                  {this.state.page === 2 ? arr.forEach(x => arr1.push(x + 1)) : null}
-                  {this.state.page !== 1 && this.state.page !== 2 ? arr.forEach(x => arr1.push(x)) : null}
+                  {this.props.pageNumbers === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
+                  {this.props.pageNumbers === 2 ? arr.forEach(x => arr1.push(x+1)) : null}
+                  {this.props.pageNumbers !== 1 && this.props.pageNumbers!== 2 ? arr.forEach(x => arr1.push(x)) :null }
                   {arr1.map((e, i) => {
-                    if (this.state.total >= this.state.page + e)
-                      return (<PaginationItem key={i} active={this.state.page === this.state.page + e}>
-                        <PaginationLink onClick={() => { this.countPageNumber(this.state.page + e) }}>
-                          {this.state.page + e}
-                        </PaginationLink>
-                      </PaginationItem>)
+                    if(this.state.total >= this.props.pageNumbers+e)
+                    return (<PaginationItem key={i} active={this.props.pageNumbers === this.props.pageNumbers+e}>
+                      <PaginationLink onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+e)); console.log(this.props.pageNumbers)}}>
+                      {this.props.pageNumbers+e}
+                      </PaginationLink>
+                    </PaginationItem>)
                     return null;
                   })}
-                  {this.state.page === this.state.total ? '' :
-                    <PaginationItem>
-                      <PaginationLink next onClick={() => { this.countPageNumber(this.state.page + 1) }} />
-                    </PaginationItem>}
+                  {this.props.pageNumbers === this.state.total ? '' :
+                  <PaginationItem>
+                    <PaginationLink next onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+1))}}/>
+                  </PaginationItem>}
                 </Pagination>
               </CardFooter>
             </Card>
