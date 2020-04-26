@@ -93,8 +93,8 @@ class Create extends Component {
                   </CardHeader>
               <CardBody>
 								<div className="survey_explain">
-									다음은 귀하의 기분을 묻는 질문입니다. <br></br>
-									지난 2주간 각 문항에 해당하는 증상들을어느 정도로경험하였는지 해당하는 번호에 표시하여 주세요.
+									다음은 유통 역량을 자가 진단 하는 설문조사입니다. <br></br>
+									유통에 대한 준비를 얼마나 하였는지 해당하는 번호에 표시하여 주세요.
 								</div>
                 <div className="survey_card">
 									{
