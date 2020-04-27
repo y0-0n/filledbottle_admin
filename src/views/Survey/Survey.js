@@ -56,19 +56,20 @@ class Create extends Component {
   }
 
   nextQuestion() {
+    let answerVal = this.state.checkAnswer
+    if (answerVal === -1) {
+      alert('해당 문항에 답변을 해주세요.');
+      return;
+    }
+    answerList[this.state.checkQuestion] = answerVal;
     if (this.state.question_no >= this.state.data.length) {
-        alert(this.state.question_no)
+      console.log(answerList)
+      alert(this.state.question_no)
     } else {
-      let answerVal = this.state.checkAnswer
-      if (answerVal === -1) {
-        alert('해당 문항에 답변을 해주세요.');
-        return;
-      }
-      answerList[this.state.checkQuestion] = answerVal;
-			this.setState({
-				question_no : this.state.question_no + 1,
-			})
-    console.log(answerList)
+      this.setState({
+        question_no : this.state.question_no + 1,
+      })
+      console.log(answerList)
     }
   }
 
