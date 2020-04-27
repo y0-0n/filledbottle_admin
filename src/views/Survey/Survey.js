@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Input, Table, } from 'reactstrap';
 
+const answerList = []
+
 class Create extends Component {
   constructor(props) {
     super(props);
     this.state = {
 			question_no : 1,
-			data: []
+      data: [],
+      checkAnswer : -1,
+      checkQuestion : -1,
     };
   }
 
@@ -55,10 +59,25 @@ class Create extends Component {
     if (this.state.question_no >= this.state.data.length) {
         alert(this.state.question_no)
     } else {
+      let answerVal = this.state.checkAnswer
+      if (answerVal === -1) {
+        alert('해당 문항에 답변을 해주세요.');
+        return;
+      }
+      answerList[this.state.checkQuestion] = answerVal;
 			this.setState({
 				question_no : this.state.question_no + 1,
 			})
+    console.log(answerList)
     }
+  }
+
+  changeStateAnswer(x, i) {
+    this.setState({
+      checkAnswer : x,
+      checkQuestion : i
+    })
+    console.log(this.state.checkAnswer, this.state.checkQuestion)
   }
 
   render() {
@@ -74,8 +93,8 @@ class Create extends Component {
                   </CardHeader>
               <CardBody>
 								<div className="survey_explain">
-									다음은 귀하의 기분을 묻는 질문입니다. <br></br>
-									지난 2주간 각 문항에 해당하는 증상들을어느 정도로경험하였는지 해당하는 번호에 표시하여 주세요.
+									다음은 유통 역량을 자가 진단 하는 설문조사입니다. <br></br>
+									유통에 대한 준비를 얼마나 하였는지 해당하는 번호에 표시하여 주세요.
 								</div>
                 <div className="survey_card">
 									{
@@ -87,25 +106,25 @@ class Create extends Component {
 														<span>{e.question}</span>
 													</div>
 													<div className="content_answers">
-														<label for={"q"+i+"-1"}>
-															<input id={"q"+i+"-1"} type="radio" name="q1" />
+														<label for={"q"+i+"-1"} onClick={() => {this.changeStateAnswer(1, i);}}>
+                              <input id={"q"+i+"-1"} type="radio" name="q1"/>
 															<div className="answer_box">
 																<span>{e.answer1}</span>
 															</div>
 														</label>
-														<label for={"q"+i+"-2"}>
+														<label for={"q"+i+"-2"} onClick={() => {this.changeStateAnswer(2, i);}}>
 															<input id={"q"+i+"-2"} type="radio" name="q1"/>
 															<div className="answer_box">
 																<span>{e.answer2}</span>
 															</div>
 														</label>
-														<label for={"q"+i+"-3"}>
+														<label for={"q"+i+"-3"} onClick={() => {this.changeStateAnswer(3, i);}}>
 															<input id={"q"+i+"-3"} type="radio" name="q1"/>
 															<div className="answer_box">
 																<span>{e.answer3}</span>
 															</div>
 														</label>
-														<label for={"q"+i+"-4"}>
+														<label for={"q"+i+"-4"} onClick={() => {this.changeStateAnswer(4, i);}}>
 															<input id={"q"+i+"-4"} type="radio" name="q1"/>
 															<div className="answer_box">
 																<span>{e.answer4}</span>

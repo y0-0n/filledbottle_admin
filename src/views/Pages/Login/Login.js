@@ -11,32 +11,9 @@ class Login extends Component {
       password: ''
     };
     this.logout();
-  }
-
-  //`https://ast99.cafe24api.com/api/v2/oauth/authorize?response_type=code&client_id=RfqI830WFC9Ljwfm2q8o7P&redirect_uri=https://bnbnong.com&scope=mall.read_application,mall.write_application,mall.read_category`
-      
+  }   
 
   componentWillMount() {
-    // fetch("https://cors-anywhere.herokuapp.com/https://ast99.cafe24api.com/api/v2/oauth/token", {
-    //   method: "POST",
-    //   headers: {
-    //     'Authorization': `Basic UmZxSTgzMFdGQzlMandmbTJxOG83UDplVFc4NmJUdmJxZFp4cnZOOXU1MlZG`,
-    //     "Content-Type": "application/x-www-form-urlencoded"
-    //   },
-    //   body: "grant_type=authorization_code&code={authorization_code}&redirect_uri={redirect_uri}",
-    // })
-    // .then(response => {
-    //   return Promise.all([response.status, response.json()]);
-    // })
-    // .then(data => {
-    //   let status = data[0], token = data[1].token;
-    //   if(status === 200) {
-    //     localStorage.setItem('token', token);
-    //     alert('s')
-    //   } else {
-    //     alert('아이디 혹은 비밀번호가 잘못됐습니다.');
-    //   }
-    // });
   }
   
   logout() {

@@ -40,27 +40,74 @@ class List extends Component {
       orderData: [],
       //page: 1,
       total: 0,
-      keyword: '',
-      first_date: (new Date(new Date().getTime() - 60*60*24*1000*30)),
+      //keyword: '',
+      first_date: (new Date(new Date().getTime() - 60*60*24*1000*30*4)),
       last_date: new Date(),
     };
-    this.keyword = '';
-  }
+    //this.keyword = '';
+	}
+	getCafe24Orders() {
+		// fetch("https://cors-anywhere.herokuapp.com/https://ast99.cafe24api.com/api/v2/oauth/token", {
+    //   method: "POST",
+    //   headers: {
+    //     'Authorization': `Basic `+Buffer.from('RfqI830WFC9Ljwfm2q8o7P:eTW86bTvbqdZxrvN9u52VF').toString('base64'),
+    //     "Content-Type": "application/x-www-form-urlencoded"
+    //   },
+    //   body: "grant_type=authorization_code&code=waQXkBfeg0QG2FZw3DSD1M&redirect_uri=https://bnbnong.com",
+    // })
+    // .then(response => {
+    //   return Promise.all([response.status, response.json()]);
+    // })
+    // .then(data => {
+    //   let status = data[0], token = data[1].token;
+    //   if(status === 200) {
+    //     localStorage.setItem('token', token);
+    //     console.warn(data)
+    //   } else {
+    //     console.warn(data)
+    //   }
+		// });
+
+		// __________________________________________________-
+
+		// fetch("https://cors-anywhere.herokuapp.com/https://ast99.cafe24api.com/api/v2/admin/orders?start_date=2020-04-01&end_date=2020-04-31", {
+		// 	headers: {
+		// 		Authorization: "Bearer VV5niXkKC9fKfp4FpiAff1",
+		// 		"Content-Type": "application/json"
+		// 	},
+		// })
+		// .then(response => {
+    //   return Promise.all([response.status, response.json()]);
+    // })
+    // .then(data => {
+    //   let status = data[0], token = data[1].token;
+    //   if(status === 200) {
+    //     localStorage.setItem('token', token);
+    //     console.warn(data)
+    //   } else {
+    //     console.warn(data)
+    //   }
+		// });
+		window.location.href = "https://bnbnong.com:4001/api/cafe24";
+	}
 
   componentWillMount() {
-    if(this.props.location.state !== undefined) {
-      this.setState({keyword: this.props.location.state.name}, () => {
-        this.getOrder();
-        this.getTotal();
-      });
-    } else {
+    // if(this.props.location.state !== undefined) {
+    //   this.setState({keyword: this.props.location.state.name}, () => {
+    //     this.getOrder();
+    //     this.getTotal();
+    //   });
+    // } else {
       this.getOrder();
       this.getTotal();
-    }
+    //}
+    console.log(this.props.keyword)
+    console.log(this.props.pageNumbers)
   }
 
   getTotal() {
-    const {first_date, last_date, keyword} = this.state;
+    const {first_date, last_date } = this.state;
+    const keyword = this.props.keyword;
     const process_ = this.state.process;
 
     fetch(process.env.REACT_APP_HOST+"/order/total/"+(process_ === "refund" ? "refund" : ""), {
@@ -91,9 +138,9 @@ class List extends Component {
   }
 
   getOrder() {
-    const {first_date, last_date, keyword} = this.state;
+    const {first_date, last_date } = this.state;
+    const keyword = this.props.keyword;
     const page = this.props.pageNumbers;
-    console.warn(this.props)
     const process_ = this.state.process;
     fetch(process.env.REACT_APP_HOST+"/order/list"+(process_ === "refund" ? "/refund" : ""), {
       method: 'POST',
@@ -138,11 +185,8 @@ class List extends Component {
   }
 
   searchOrder() {
-    let {keyword} = this;
-    this.setState({keyword/*, page: 1*/}, () => {
-      this.getOrder();
-      this.getTotal();
-    })
+    this.getOrder();
+    this.getTotal();
   }
 
   getDate(dateInput) {
@@ -178,9 +222,9 @@ class List extends Component {
 									<Col md="9" xs="10" sm="9">
 										<span className="search">
 											<InputGroup>
-												<Input onChange={(e) => { this.keyword = e.target.value }} />
+												<Input onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
 												<InputGroupAddon addonType="append">
-													<Button block color="primary" onClick={() => { this.searchOrder() }}><i className="fa fa-search"></i></Button>
+													<Button block color="primary" onClick={() => { this.searchOrder(this.props.keyword); }}><i className="fa fa-search"></i></Button>
 												</InputGroupAddon>
 											</InputGroup>
 										</span>
@@ -209,6 +253,8 @@ class List extends Component {
                   <Col>
 										<div style={{float: "right"}}>
 											<Button onClick={() => { this.props.history.push('/sales/order') }} color="primary">주문생성</Button>
+
+											<Button onClick={() => { this.getCafe24Orders(); }} color="primary">카페24 주문 불러오기</Button>
 										</div>
                     {/*<UncontrolledButtonDropdown>
                       <DropdownToggle caret color="primary">
@@ -280,7 +326,7 @@ class List extends Component {
                 <Pagination style={{justifyContent: 'center'}}>
                   {this.props.pageNumbers === 1 ? '' :
                   <PaginationItem>
-                    <PaginationLink previous onClick={() => {this.countPageNumber(this.props.pageNumbers-1)}}/>
+                    <PaginationLink previous onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers-1))}}/>
                   </PaginationItem>
                   }
                   {this.props.pageNumbers === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
@@ -289,7 +335,7 @@ class List extends Component {
                   {arr1.map((e, i) => {
                     if(this.state.total >= this.props.pageNumbers+e)
                     return (<PaginationItem key={i} active={this.props.pageNumbers === this.props.pageNumbers+e}>
-                      <PaginationLink onClick={() => {this.countPageNumber(this.props.pageNumbers+e); console.log(this.props.pageNumbers)}}>
+                      <PaginationLink onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+e));}}>
                       {this.props.pageNumbers+e}
                       </PaginationLink>
                     </PaginationItem>)
@@ -297,10 +343,9 @@ class List extends Component {
                   })}
                   {this.props.pageNumbers === this.state.total ? '' :
                   <PaginationItem>
-                    <PaginationLink next onClick={() => {this.countPageNumber(this.props.pageNumbers+1)}}/>
+                    <PaginationLink next onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+1))}}/>
                   </PaginationItem>}
                 </Pagination>
-                <Button onClick={() => {this.props.clickConvertPage(4); console.log(this.props.pageNumbers)}}></Button>
               </CardFooter>
             </Card>
           </Col>
