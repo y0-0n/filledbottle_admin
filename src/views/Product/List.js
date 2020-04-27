@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input,
-   CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup,
+   CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup, Badge,
    InputGroup, InputGroupAddon, UncontrolledButtonDropdown, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import Switch from "../Switch/Switch";
 import ImageModal from '../Modal/ImageModal';
@@ -27,6 +27,7 @@ class List extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      productData_cafe24: [],
       productData: [],
       stockData: [],
       //page: 1,
@@ -48,6 +49,7 @@ class List extends Component {
   }
   componentWillMount() {
     this.getUserFamilyCategory();
+    this.getCafe24Product();
   }
 
   getTotal() {
@@ -297,13 +299,41 @@ class List extends Component {
     })
   }
 
+  getCafe24Product() {
+    fetch('https://cors-anywhere.herokuapp.com/https://ast99.cafe24api.com/api/v2/admin/products', {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('cafe24AccessToken'),
+        'Content-Type' : 'application/json',
+
+      },
+    })
+
+    .then(response => {
+      if (response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+      let status = data[0];
+      if (status === 200){
+        this.setState({ productData_cafe24: data[1].products })
+        console.log(this.state.productData_cafe24)
+      }
+      else {
+        alert('로그인 하고 접근해주세요');
+        this.props.history.push('/login');
+      }
+    })
+  }
 
   render() {
     var data = this.state.productData;
+    var data_cafe24 = this.state.productData_cafe24;
     var {stockData, familyData, userCategoryData} = this.state;
     var {family, show, pageNumbers} = this.props;
-    console.log(family , "ddss")
-    console.log(this.props.keyword , "ddss")
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
     return (
@@ -437,6 +467,22 @@ class List extends Component {
                       </tr>
                     </thead>
                     <tbody>
+                    {data_cafe24.map((e, i) => {
+                        return (<tr style={{height : "150px"}} key={e.id} onClick={() => {
+                          this.props.history.push({
+                            pathname: '/main/product/' + e.id,
+                          })
+                        }}>
+													<td>{e.product_no}</td>
+                          <td>
+                            <img style={{ width: '90%' }} alt="품목 사진" src={e.small_image} />
+                          </td>
+                          <td>{e.product_name}</td>
+                          <td><Badge>카페24</Badge></td>
+                          <td>{e.price}&nbsp;원</td>
+													<td>재고</td>
+                        </tr>)
+                      })}
                       {data.map((e, i) => {
                         return (<tr style={{height : "150px"}} key={e.id} onClick={() => {
                           this.props.history.push({
