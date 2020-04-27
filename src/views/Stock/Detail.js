@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Input, Table } from 'reactstrap';
-import ProductFamilyModal from '../Modal/ProductFamilyModal';
-import Popup from "reactjs-popup";
+import { Card, CardBody, CardHeader, Col, Row, FormGroup, Table } from 'reactstrap';
+// import ProductFamilyModal from '../Modal/ProductFamilyModal';
+// import Popup from "reactjs-popup";
 
 class Detail extends Component {
   constructor(props) {

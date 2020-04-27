@@ -39,7 +39,7 @@ const User = React.lazy(() => import('./views/Users/User'));
 
 
 const Home = React.lazy(() => import('./views/Home/Home'));
-const Sales = React.lazy(() => import('./views/Order/List'));
+const Sales = React.lazy(() => import('./views/Order/orderIndex'));
 const Customer = React.lazy(() => import('./views/Customer/List'));
 const CreateCustomer = React.lazy(() => import('./views/Customer/Create'));
 const CustomerDetail = React.lazy(() => import('./views/Customer/Detail'));
@@ -80,6 +80,8 @@ const Message = React.lazy(() => import('./views/Message/Message'));
 const Activity = React.lazy(() => import('./views/Activity/List'));
 const RegisterDetail = React.lazy(() => import('./views/Pages/Register/RegisterDetail'));
 const RegisterModify = React.lazy(() => import('./views/Pages/Register/RegisterModify'));
+const Survey = React.lazy(() => import('./views/Survey/Survey'));
+const SurveyHome = React.lazy(() => import('./views/Survey/Home'));
 const Setting = React.lazy(() => import('./views/Setting/Setting'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
@@ -127,6 +129,8 @@ const routes = [
 	{ path: '/stock/edit/:id', exact: true,  name: '재고 실사', component: StockModify},
   { path: '/stock/transport', exact: true,  name: '재고 이동', component: StockTransport},
   { path: '/stock/product/:id', exact: true,  name: '재고 품목', component: StockProduct},
+  { path: '/main/survey', exact: true,  name: '시행 중', component: Survey},
+  { path: '/main/survey/home', exact: true,  name: '마케팅 검사', component: SurveyHome},
 
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },

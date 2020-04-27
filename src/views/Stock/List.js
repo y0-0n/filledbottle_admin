@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-import { Card, CardBody, CardHeader, Col, Row, Input, InputGroupAddon, Button, Nav, NavItem, NavLink, Table, CardFooter, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
-import DatePicker from "react-datepicker";
+// import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
+import { Card, CardBody, CardHeader, Col, Row, Button, Table, CardFooter, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+// import DatePicker from "react-datepicker";
 import Popup from "reactjs-popup";
 import PlantModal from '../Modal/PlantModal';
 
@@ -202,7 +202,7 @@ class List extends Component {
                       return (
                         <tr style={{ cursor: 'pointer', height: "150px" }} key={i}>
                           <td className="list-hidden">
-                            <img style={{ width: '90%' }} alt="품목 사진" src={d.file_name ? "http://211.62.225.216:4000/static/" + d.file_name : '318x180.svg'} />
+                            <img style={{ width: '90%' }} alt="품목 사진" src={d.file_name ? process.env.REACT_APP_HOST+"/static/" + d.file_name : '318x180.svg'} />
                           </td>
                           <td>{this.getDate(d.changeDate)}</td>
                           <td onClick={() => { this.props.history.push(`/main/stock/${d.product_id}`) }}>{d.name + " " + d.grade + " " + d.weight}</td>

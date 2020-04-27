@@ -22,7 +22,7 @@ class ProductModal extends Component {
   }
 
   getTotal() {
-    const {name, family, category} = this.state;
+    const {name, family} = this.state;
 
     fetch(process.env.REACT_APP_HOST + "/product/total/", {
       method: 'POST',

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import DatePicker from "react-datepicker";
 import { Card, CardBody, CardHeader, Col, Row, Table, Button, CardFooter, Pagination, PaginationItem, PaginationLink, Input, Badge, InputGroupAddon, InputGroup } from 'reactstrap';
-import "react-datepicker/dist/react-datepicker.css";
 
 const listCount = 5;
 
@@ -22,7 +21,7 @@ class Manufacture extends Component {
     this.getList();
   }
 
-  getDate(dateInput) {
+  getDateTime(dateInput) {
     var d = new Date(dateInput);
     var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate(), ho = d.getHours(), min = d.getMinutes(), sec = d.getSeconds();
 

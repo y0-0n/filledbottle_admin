@@ -58,7 +58,7 @@ class List extends Component {
     } else {
       this.getUserFamilyCategory();
     }
-
+		//this.excel();
   }
 
   getTotal() {
@@ -197,7 +197,35 @@ class List extends Component {
           this.props.history.push('/login');
         }
       });
+	}
+	
+  excel() {
+
+    fetch(process.env.REACT_APP_HOST + "/api/product/excel", {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+				let status = data[0];
+        if (status === 200){
+					//this.setState({ stockData: data[1] });
+				}
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      });
   }
+
 
   searchProduct() {
     let { name } = this;
@@ -312,7 +340,7 @@ class List extends Component {
                     :
                     <div style={{textAlign: "left", padding: 30}}>
                       <div style={{ display: "table-cell" }}>
-                        <i style={{ marginRight: 10 }} class="fa fa-exclamation-circle"></i>
+                        <i style={{ marginRight: 10 }} className="fa fa-exclamation-circle"></i>
                       </div>
                       <div style={{ display: "table-cell" }}>
 												품목군을 설정해서 품목 관리를 시작하세요. <br></br>
@@ -334,7 +362,7 @@ class List extends Component {
                     <InputGroup>
                       <Input onChange={(e) => { this.name = e.target.value }} />
                       <InputGroupAddon addonType="append">
-                        <Button block color="primary" onClick={() => { this.searchProduct() }}><i class="fa fa-search"></i></Button>
+                        <Button block color="primary" onClick={() => { this.searchProduct() }}><i className="fa fa-search"></i></Button>
                       </InputGroupAddon>
                     </InputGroup>
                   </Col>
@@ -498,7 +526,7 @@ class List extends Component {
                               state: {name: this.state.name, family: this.state.family, page: this.state.page}
                             })
                           }}>
-                            <div className="img-product" ><CardImg top style={{display: 'inline-block', width:"90%", overflow: "hidden"}} src={e.file_name ? "http://211.62.225.216:4000/static/" + e.file_name : '318x180.svg'} alt="Card image cap" /></div>
+                            <div className="img-product" ><CardImg top style={{display: 'inline-block', width:"90%", overflow: "hidden"}} src={e.file_name ? process.env.REACT_APP_HOST+"/static/" + e.file_name : '318x180.svg'} alt="Card image cap" /></div>
                             <p style={{fontWeight: 'bold'}}>{e.name + ' ' + e.grade + ' ' + e.weight}</p>
                             <p>{e.familyName}</p>
                             {this.state.stockEdit ?

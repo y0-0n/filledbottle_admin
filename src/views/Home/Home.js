@@ -53,8 +53,8 @@ class Home extends Component {
   }
 
   componentWillMount() {
-    this.getOrder(moment().startOf('month')._d, moment().endOf('month')._d);
-    this.getOnlyOrder(moment().startOf('month')._d, moment().endOf('month')._d);
+		this.getOrder(moment().startOf('week'), moment().endOf('week'))
+		this.getOnlyOrder(moment().startOf('month')._d, moment().endOf('month')._d);
 		this.getIncome();
 		this.getAmount();
     this.chart();
@@ -90,7 +90,7 @@ class Home extends Component {
         if(this_income === null) this_income = 0;
         this.setState({this_income});
       } else {
-        alert('로그인 하고 접근해주세요')
+        // alert('로그인 하고 접근해주세요')
         this.props.history.push('/login')
       }
     })
@@ -115,7 +115,7 @@ class Home extends Component {
         if(last_income === null) last_income = 0;
         this.setState({last_income});
       } else {
-        alert('로그인 하고 접근해주세요')
+        // alert('로그인 하고 접근해주세요')
         this.props.history.push('/login')
       }
     })
@@ -144,7 +144,7 @@ class Home extends Component {
         let this_amount = data[1][0].amount;
         this.setState({this_amount});
       } else {
-        alert('로그인 하고 접근해주세요')
+        // alert('로그인 하고 접근해주세요')
         this.props.history.push('/login')
       }
     })
@@ -168,7 +168,7 @@ class Home extends Component {
         let last_amount = data[1][0].amount;
 				this.setState({last_amount});
       } else {
-        alert('로그인 하고 접근해주세요')
+        // alert('로그인 하고 접근해주세요')
         this.props.history.push('/login')
       }
     })
@@ -238,7 +238,7 @@ class Home extends Component {
             return null;
           });
         } else {
-          alert('로그인 하고 접근해주세요')
+          // alert('로그인 하고 접근해주세요')
           this.props.history.push('/login')
         }
       });
@@ -269,7 +269,7 @@ class Home extends Component {
         let orderData2 = data[1];
         this.setState({orderData2})
       } else {
-        alert('로그인 하고 접근해주세요')
+        // alert('로그인 하고 접근해주세요')
         this.props.history.push('/login')
       }
     });

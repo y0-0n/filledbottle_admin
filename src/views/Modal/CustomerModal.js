@@ -80,37 +80,6 @@ class CustomerModal extends Component {
     })
   }
 
-  searchCustomer(props) {
-    let {keyword} = this.state;
-    fetch(process.env.REACT_APP_HOST+`/customer/search/${keyword}`, {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-    })
-    .then(response => {
-      if(response.status === 401) {
-        return Promise.all([401])
-      } else {
-        return Promise.all([response.status, response.json()]);
-      }  
-    })
-    .then(data => {
-      const status = data[0];
-      if(status === 200) {
-        if(data.length === 0) {
-          alert('고객을 찾을 수 없습니다');
-          props.close();
-        }
-        else
-          this.setState({data: data[1]});
-      } else {
-        alert('로그인 하고 접근해주세요')
-        this.props.history.push('/login')  
-      }
-    });
-  }
-
   selectCustomer(data) {
     this.props.selectCustomer(data);
     this.props.close();

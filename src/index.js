@@ -6,8 +6,22 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import "react-datepicker/dist/react-datepicker.css";
+import ko from 'date-fns/locale/ko';
+import { registerLocale } from  "react-datepicker";
+import test from './reducer'
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const store = createStore(test);
+
+registerLocale('ko', ko)
+
+ReactDOM.render(
+    <Provider store = {store}>
+        <App />
+    </Provider>
+    , document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

@@ -51,7 +51,7 @@ class Stock extends Component {
 	
   getStock() {
 		const {plant, family, name, useFamilyData} = this.state;
-		console.warn(this.state)
+		//console.warn(this.state)
     fetch(process.env.REACT_APP_HOST+"/api/stock/list2", {
       method: 'POST',
       headers: {
@@ -85,8 +85,8 @@ class Stock extends Component {
   }
 
   modifyStock() {
-    let {quantity} = this.state.stockData;
-    let {id} = this.state.plant;
+    let {stockData} = this.state;
+    let id = this.state.plant;
     fetch(process.env.REACT_APP_HOST+`/api/stock/`+id, {
       method: 'PUT',
       headers: {
@@ -94,7 +94,7 @@ class Stock extends Component {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
       },
-      body: JSON.stringify({quantity})
+      body: JSON.stringify({stockData})
     })
     .then(response => {
       if(response.status === 401) {
@@ -113,7 +113,6 @@ class Stock extends Component {
         this.props.history.push('/login');
       }
 		})
-		console.warn(this.state.stockData)
 		/*this.props.history.push('/main/stock');*/
 	}
 	
@@ -151,7 +150,7 @@ class Stock extends Component {
                           <tr key={i}>
                             <td>{d.name + " " + d.grade + " " + d.weight}</td>
                             <td>{d.quantity}</td>
-                            <td><Input defaultValue={d.quantity} onChange={(e) => { d.quantity = e.target.value}} style={{width : "150px"}} ></Input></td>
+                            <td><Input defaultValue={d.quantity} onChange={(e) => { d.next = e.target.value}} style={{width : "150px"}} ></Input></td>
                           </tr>
                         )
                       })}

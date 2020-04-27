@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Col, Row, Button, Input, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import { Table, Col, Row, Input } from 'reactstrap';
 
 class PlantModal extends Component {
     constructor(props) {

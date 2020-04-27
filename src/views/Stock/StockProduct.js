@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader, Col, Row, Table, Button, Nav, NavItem, NavLink } from 'reactstrap';
+import { Card, CardBody, CardHeader, Col, Row, Button, Nav, NavItem, NavLink } from 'reactstrap';
 
 class Detail extends Component {
   constructor(props) {

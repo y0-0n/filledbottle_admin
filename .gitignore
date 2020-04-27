@@ -22,3 +22,5 @@ yarn-debug.log*
 yarn-error.log*
 
 package-lock.json
+.env
+public/.well-known/pki-validation/DBB23C043CBDFF8F7825DA8DCCA5468C.txt

@@ -301,7 +301,7 @@ class Stock extends Component {
                           <tr onClick={() => {this.props.history.push(`/main/manage/stock/${this.state.plant}/${d.product_id}`)}} style={{cursor: 'pointer'}} key={d.id}
 													>
 														<td className="list-hidden">
-															<img style={{ width: '90%' }} alt="품목 사진" src={d.file_name ? "http://211.62.225.216:4000/static/" + d.file_name : '318x180.svg'} />
+															<img style={{ width: '90%' }} alt="품목 사진" src={d.file_name ? process.env.REACT_APP_HOST+"/static/" + d.file_name : '318x180.svg'} />
 														</td>
                             <td>{d.name + " " + d.grade + " " + d.weight}</td>
                             <td>{d.plantName}</td>
