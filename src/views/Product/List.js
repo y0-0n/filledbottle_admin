@@ -49,7 +49,7 @@ class List extends Component {
   }
   componentWillMount() {
     this.getUserFamilyCategory();
-    this.getCafe24Product();
+    // this.getCafe24Product();
   }
 
   getTotal() {
@@ -323,8 +323,8 @@ class List extends Component {
         console.log(this.state.productData_cafe24)
       }
       else {
-        alert('로그인 하고 접근해주세요');
-        this.props.history.push('/login');
+        alert('cafe24');
+        // this.props.history.push('/login');
       }
     })
   }
