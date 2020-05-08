@@ -70,12 +70,8 @@ class CreateProduct extends Component {
         var ctx = canvas.getContext("2d");
         var url = e.target.result;
         var img = new Image();
-        img.onload = function () {
-          ctx.drawImage(img, 0, 0, 300, 300);
-          var dataurl = canvas.toDataURL('image/png');
-          imgList.push(dataurl);
-          this.setState({imageDetail: imgList})
-        }.bind(this);
+        imgList.push(url);
+        this.setState({imageDetail: imgList})
         img.src = url;
         canvas.width = 300;
         canvas.height = 300;
@@ -260,7 +256,8 @@ class CreateProduct extends Component {
                               display: "inline-block",
                               border: '1px',
                               borderStyle: 'dashed',
-                              borderColor: '#c8ced3'
+                              borderColor: '#c8ced3',
+                              maxWidth: '100%'
                             }} src={this.state.image}/>
                           </div>
                         </td>
