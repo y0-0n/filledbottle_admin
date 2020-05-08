@@ -100,6 +100,33 @@ class UserListDetail extends Component {
         }
       });
 	}
+
+	getProduct() {
+    fetch(process.env.REACT_APP_HOST + "/api/admin/users/detail/product/" + this.props.match.params.id, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if (status === 200) {
+          this.setState({productData: data[1]})
+        }
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      });
+	}
+
 	
 	getCoord() {
     fetch(process.env.REACT_APP_HOST + `/api/geocode/?query=${this.state.data.address}`, {
@@ -143,11 +170,13 @@ class UserListDetail extends Component {
 
   componentWillMount() {
     this.getDetail();
-    this.getProductFamily();
+		this.getProductFamily();
+		this.getProduct();
   }
 
   render() {
-    const { data, familyData, } = this.state;
+		const { data, familyData, productData} = this.state;
+		console.warn(productData)
     return (
       <div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
