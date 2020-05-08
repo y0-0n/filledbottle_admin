@@ -16,9 +16,7 @@ class CreateProduct extends Component {
 
     this.state = {
       image: '/assets/img/noimage.jpg',
-      imageDetail1: '/assets/img/noimage.jpg',
-      imageDetail2: '/assets/img/noimage.jpg',
-      imageDetail3: '/assets/img/noimage.jpg',
+      imageDetail: ['/assets/img/noimage.jpg'],
       familyData: [],
       data: [],
       checkCategory: true,
@@ -28,8 +26,10 @@ class CreateProduct extends Component {
   componentWillMount() {
     this.getProductFamily();
   }
-
+  
   handleFileInput() {
+    console.log(this.refs.file_detail1.files)
+    console.log(this.refs.file.files)
     var file = this.refs.file.files[0];
     var canvasImg = document.createElement("img");
     var reader = new FileReader();
@@ -56,6 +56,34 @@ class CreateProduct extends Component {
 
     }.bind(this);
     this.setState({image: this.state.image})
+  }
+
+  handleFileInput_multiple() {
+    console.log(this.refs.file_detail1.files)
+    let imgList = [];
+    for(var i = 0; i < this.refs.file_detail1.files.length; i++ ) {
+      var file = this.refs.file_detail1.files[i];
+      //var canvasImg = document.createElement("img");
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      // img resize
+      reader.onload = function (e) {
+        var canvas = document.createElement("canvas");
+        var ctx = canvas.getContext("2d");
+        var url = e.target.result;
+        var img = new Image();
+        img.onload = function () {
+          ctx.drawImage(img, 0, 0, 300, 300);
+          var dataurl = canvas.toDataURL('image/png');
+          imgList.push(dataurl);
+          this.setState({imageDetail: imgList})
+        }.bind(this);
+        img.src = url;
+        canvas.width = 300;
+        canvas.height = 300;
+  
+      }.bind(this);
+    }
   }
 
   handlePost(e) {
@@ -240,69 +268,26 @@ class CreateProduct extends Component {
                         </td>
                       </tr>
                       <tr>
-                        <th>상세 사진</th>
+                        <th>
+                          상세 사진
+                          <p style={{color: "#D3D3D3", fontSize: "0.9em"}}>* 이미지 다중선택 가능</p>
+                        </th>
                         <td>
-                          <Table className="imageTable">
-                            <tbody>
-                              <tr>
-                                <td>
-                                  <div style={{paddingBottom: '10px'}}>
-                                    <input ref="file_detail1" type="file" name="file_detail1" onChange={e => {
-                                      this.handleFileInput(e);
-                                    }} style={{display: "none"}}/>
-                                    <img src='/assets/img/upload.jpg' border='0' style={{width: '20%', marginLeft: 10}}
-                                        onClick={() => document.all.file.click()}/>
-                                  </div>
-                                </td>
-                                <td>
-                                  <img id="imageFile" alt="상세 사진1" style={{
-                                    display: "inline-block",
-                                    border: '1px',
-                                    borderStyle: 'dashed',
-                                    borderColor: '#c8ced3'
-                                  }} src={this.state.imageDetail1}/>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <div>
-                                    <input ref="file_detail2" type="file" name="file_detail2" onChange={e => {
-                                      this.handleFileInput(e);
-                                    }} style={{display: "none"}}/>
-                                    <img src='/assets/img/upload.jpg' border='0' style={{width: '20%', marginLeft: 10}}
-                                        onClick={() => document.all.file.click()}/>
-                                  </div>
-                                </td>
-                                <td>
-                                  <img id="imageFile" alt="상세 사진2" style={{
-                                    display: "inline-block",
-                                    border: '1px',
-                                    borderStyle: 'dashed',
-                                    borderColor: '#c8ced3'
-                                  }} src={this.state.imageDetail2}/>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <div style={{paddingBottom: '10px'}}>
-                                    <input ref="file_detail3" type="file" name="file_detail3" onChange={e => {
-                                      this.handleFileInput(e);
-                                    }} style={{display: "none"}}/>
-                                    <img src='/assets/img/upload.jpg' border='0' style={{width: '20%', marginLeft: 10}}
-                                        onClick={() => document.all.file.click()}/>
-                                  </div>
-                                </td>
-                                <td>
-                                  <img id="imageFile" alt="상세 사진3" style={{
-                                    display: "inline-block",
-                                    border: '1px',
-                                    borderStyle: 'dashed',
-                                    borderColor: '#c8ced3'
-                                  }} src={this.state.imageDetail3}/>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </Table>
+                          <div style={{paddingBottom: '10px'}}>
+                            <input ref="file_detail1" type="file" name="file_detail1" onChange={e => {
+                              this.handleFileInput_multiple(e);
+                            }} style={{display: "none"}} multiple/>
+                            <img src='/assets/img/upload.jpg' border='0' style={{width: '10%', marginLeft: 10}}
+                                onClick={() => document.all.file_detail1.click()}/>
+                          </div>
+                          {this.state.imageDetail.map((e, i) => {
+                            return <img id="imageFile" alt="상세 사진1" style={{
+                              display: "inline-block",
+                              border: '1px',
+                              borderStyle: 'dashed',
+                              borderColor: '#c8ced3'
+                            }} src={this.state.imageDetail[i]}/>
+                          })}
                         </td>
                       </tr>
                       {/*<tr>
