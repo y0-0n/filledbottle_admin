@@ -28,8 +28,6 @@ class CreateProduct extends Component {
   }
   
   handleFileInput() {
-    console.log(this.refs.file_detail1.files)
-    console.log(this.refs.file.files)
     var file = this.refs.file.files[0];
     var canvasImg = document.createElement("img");
     var reader = new FileReader();
@@ -59,10 +57,10 @@ class CreateProduct extends Component {
   }
 
   handleFileInput_multiple() {
-    console.log(this.refs.file_detail1.files)
+    console.log(this.refs.file_detail.files)
     let imgList = [];
-    for(var i = 0; i < this.refs.file_detail1.files.length; i++ ) {
-      var file = this.refs.file_detail1.files[i];
+    for(var i = 0; i < this.refs.file_detail.files.length; i++ ) {
+      var file = this.refs.file_detail.files[i];
       //var canvasImg = document.createElement("img");
       var reader = new FileReader();
       reader.readAsDataURL(file);
@@ -274,11 +272,11 @@ class CreateProduct extends Component {
                         </th>
                         <td>
                           <div style={{paddingBottom: '10px'}}>
-                            <input ref="file_detail1" type="file" name="file_detail1" onChange={e => {
+                            <input ref="file_detail" type="file" name="file_detail" onChange={e => {
                               this.handleFileInput_multiple(e);
                             }} style={{display: "none"}} multiple/>
                             <img src='/assets/img/upload.jpg' border='0' style={{width: '10%', marginLeft: 10}}
-                                onClick={() => document.all.file_detail1.click()}/>
+                                onClick={() => document.all.file_detail.click()}/>
                           </div>
                           {this.state.imageDetail.map((e, i) => {
                             return <img id="imageFile" alt="상세 사진1" style={{
