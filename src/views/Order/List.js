@@ -47,6 +47,7 @@ class List extends Component {
     //this.keyword = '';
 	}
 	getCafe24Orders() {
+    // 로그인 유저의 토큰 받아오기
 		// fetch("https://cors-anywhere.herokuapp.com/https://ast99.cafe24api.com/api/v2/oauth/token", {
     //   method: "POST",
     //   headers: {
@@ -70,6 +71,7 @@ class List extends Component {
 
 		// __________________________________________________-
 
+    // 토큰을 사용해 주문을 받아옴
 		// fetch("https://cors-anywhere.herokuapp.com/https://ast99.cafe24api.com/api/v2/admin/orders?start_date=2020-04-01&end_date=2020-04-31", {
 		// 	headers: {
 		// 		Authorization: "Bearer VV5niXkKC9fKfp4FpiAff1",
@@ -100,6 +102,7 @@ class List extends Component {
     // } else {
       this.getOrder();
       this.getTotal();
+      this.getCafe24Order();
     //}
     console.log(this.props.keyword)
     console.log(this.props.pageNumbers)
@@ -202,6 +205,33 @@ class List extends Component {
     }, () => {
       this.getOrder();
     });
+  }
+
+  getCafe24Order() {
+    fetch('https://cors-anywhere.herokuapp.com/https://ast99.cafe24api.com/api/v2/admin/orders?start_date=2020-04-01&end_date=2020-04-31', {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('cafe24AccessToken'),
+        'Content-Type' : 'application/json',
+      },
+    })
+
+    .then(response => {
+      if (response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+      let status = data[0];
+      if (status === 200){
+        console.log(data[1].orders)
+      }
+      else {
+        alert('로그인 하고 접근해주세요');
+      }
+    })
   }
 
   render() {

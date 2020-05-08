@@ -47,9 +47,6 @@
   vertical-align: middle;
 }
 
-.imageTable td {
-  width: 10% !important
-}
 
 @media (min-width: 769px) and (max-width: 1024px) {
 	.img-product {
