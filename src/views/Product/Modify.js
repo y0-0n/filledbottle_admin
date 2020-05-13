@@ -10,13 +10,68 @@ class Modify extends Component {
     this.state = {
       data: [],
       image: null,
-      familyData: []
+      familyData: [],
+      image: "http://211.62.225.216:4000/static/",
+      imageDetail: ['http://211.62.225.216:4000/static/'],
     };
   }
 
   componentWillMount() {
     this.getProduct();
     this.getProductFamily();
+  }
+
+  handleFileInput() {
+    var file = this.refs.file.files[0];
+    var canvasImg = document.createElement("img");
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    // img resize
+    reader.onload = function (e) {
+      var canvas = document.createElement("canvas");
+      var ctx = canvas.getContext("2d");
+      var url = e.target.result;
+      var img = new Image();
+      img.onload = function () {
+        ctx.drawImage(img, 0, 0, 300, 300);
+        var dataurl = canvas.toDataURL('image/png');
+        this.setState({
+          image: dataurl
+        });
+        console.log(dataurl)
+      }.bind(this);
+      img.src = url;
+
+      canvas.width = 300;
+      canvas.height = 300;
+
+    }.bind(this);
+    this.setState({image: this.state.image})
+  }
+
+  handleFileInput_multiple() {
+    console.log(this.refs.file_detail.files)
+    let imgList = [];
+    for(var i = 0; i < this.refs.file_detail.files.length; i++ ) {
+      var file = this.refs.file_detail.files[i];
+      //var canvasImg = document.createElement("img");
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      // img resize
+      reader.onload = function (e) {
+        var canvas = document.createElement("canvas");
+        var ctx = canvas.getContext("2d");
+        var url = e.target.result;
+        var img = new Image();
+        imgList.push(url);
+        this.setState({imageDetail: imgList})
+        img.src = url;
+        canvas.width = 300;
+        canvas.height = 300;
+  
+      }.bind(this);
+    }
   }
 
   getProduct() {
@@ -173,9 +228,44 @@ class Modify extends Component {
                           <td colSpan="3">{data.set ? <Badge color="primary">활성화</Badge> : <Badge color="danger">비활성화</Badge>}</td>
                         </tr>
                         <tr>
-                          <th>사진</th>
-                          <td>
-                            <img alt="품목 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
+                          <th>대표 사진</th>
+                          <td style={{ textAlign: "center" }}>
+                            <div style={{paddingBottom: '10px'}}>
+                              <input ref="file" type="file" name="file" onChange={e => {
+                                this.handleFileInput(e);
+                              }} style={{display: "none"}}/>
+                              <img src='/assets/img/upload.jpg' border='0' style={{width: '10%', marginLeft: 10}}
+                                  onClick={() => document.all.file.click()}/>
+                            </div>
+                            <div>
+                              <img id="imageFile" alt="품목 사진" style={{
+                                display: "inline-block",
+                                border: '1px',
+                                borderStyle: 'dashed',
+                                borderColor: '#c8ced3',
+                                maxWidth: '100%'
+                              }} src={data.file_name ? this.state.image + data.file_name : '318x180.svg'}/>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>상세 사진</th>
+                          <td style={{ textAlign: "center" }}>
+                            <div style={{ paddingBottom: '10px' }}>
+                              <input ref="file_detail" type="file" name="file_detail" onChange={e => {
+                                this.handleFileInput_multiple(e);
+                              }} style={{ display: "none" }} multiple />
+                              <img src='/assets/img/upload.jpg' border='0' style={{ width: '10%', marginLeft: 10 }}
+                                onClick={() => document.all.file_detail.click()} />
+                            </div>
+                            {this.state.imageDetail.map((e, i) => {
+                              return <img id="imageFile" alt="상세 사진1" style={{
+                                display: "inline-block",
+                                border: '1px',
+                                borderStyle: 'dashed',
+                                borderColor: '#c8ced3'
+                              }} src={data.file_name ? this.state.imageDetail + data.file_name : '318x180.svg'}/>
+                            })}
                           </td>
                         </tr>
                       </tbody>
