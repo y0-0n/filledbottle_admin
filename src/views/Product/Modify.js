@@ -149,7 +149,7 @@ class Modify extends Component {
   }
 
   getProductFamily() {
-    fetch(process.env.REACT_APP_HOST + "/api/product/familyList", {
+    fetch(process.env.REACT_APP_HOST + "/api/product/familyList/all", {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
