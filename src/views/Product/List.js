@@ -27,7 +27,7 @@ class List extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      productData_cafe24: [],
+      //productData_cafe24: [],
       productData: [],
       stockData: [],
       //page: 1,
@@ -49,7 +49,7 @@ class List extends Component {
   }
   componentWillMount() {
     this.getUserFamilyCategory();
-    this.getCafe24Product();
+    //this.getCafe24Product();
   }
 
   getTotal() {
@@ -299,7 +299,7 @@ class List extends Component {
     })
   }
 
-  getCafe24Product() {
+  /*getCafe24Product() {
     fetch('https://cors-anywhere.herokuapp.com/https://ast99.cafe24api.com/api/v2/admin/products', {
       method: 'GET',
       headers: {
@@ -327,11 +327,11 @@ class List extends Component {
         this.props.history.push('/login');
       }
     })
-  }
+  }*/
 
   render() {
     var data = this.state.productData;
-    var data_cafe24 = this.state.productData_cafe24;
+    //var data_cafe24 = this.state.productData_cafe24;
     var {stockData, familyData, userCategoryData} = this.state;
     var {family, show, pageNumbers} = this.props;
     const arr = [-2, -1, 0, 1, 2];
@@ -345,6 +345,8 @@ class List extends Component {
             <Table className="category-top" >
               <tbody>
                 <tr>
+                  <td style={{cursor: "pointer", backgroundColor: this.props.category===0 ? '#E6E6E6' : '#fff'}} onClick={() => {this.changeCategory(this.props.checkCategoryId(0))}}>전체</td>
+                  {console.log(this.props.category)}
 									{ this.state.checkCategory ?
 										userCategoryData.map((e, i) => {
 											return <td key={i} style={{cursor: "pointer", backgroundColor: this.props.category===e.id ? '#E6E6E6' : '#fff'}} onClick={() => {this.changeCategory(this.props.checkCategoryId(e.id))}}>{e.name}</td>
@@ -381,11 +383,10 @@ class List extends Component {
                 </Row>
               </CardHeader>
               <CardBody>
-                <hr></hr>
                 <Row>
                   <Col>
                   <ul className="list-productfamily-ul" style={{width: '100%', display: 'flex', flexWrap: 'wrap', listStyleType: 'none', cursor: 'pointer'}}>
-                    { this.state.checkCategory ?
+                    { this.props.category !== 0 ?
                       <li className="list-productfamily" style={{backgroundColor: family === 0? '#F16B6F' : 'transparent', border: family === 0? '0px' : '1px solid #c9d6de',color: family === 0? '#fff' : '#52616a', fontWeight: family === 0? 'bold' : 'normal', fontSize: family === 0? '1.1em' : '1em'}}onClick = {() => this.changeFamily(this.props.checkFamily(0))}>
                         전체
                       </li>
@@ -467,7 +468,7 @@ class List extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                    {data_cafe24.map((e, i) => {
+                    {/*data_cafe24.map((e, i) => {
                         return (<tr style={{height : "150px"}} key={e.id} onClick={() => {
                           this.props.history.push({
                             pathname: '/main/product/' + e.id,
@@ -482,7 +483,7 @@ class List extends Component {
                           <td>{e.price}&nbsp;원</td>
 													<td>재고</td>
                         </tr>)
-                      })}
+                      })*/}
                       {data.map((e, i) => {
                         return (<tr style={{height : "150px"}} key={e.id} onClick={() => {
                           this.props.history.push({
