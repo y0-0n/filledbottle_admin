@@ -241,7 +241,7 @@ class Create extends Component {
                   <tr>
                     <th>연락처 1</th>
                     <td >
-                      <Input value={this.state.cellphone} type="tel" placeholder={ "000-0000-0000" }onChange={(e) => {this.setState({cellphone: e.target.value})}} />
+                      <Input value={this.state.cellphone} type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder={ "000-0000-0000" }onChange={(e) => {this.setState({cellphone: e.target.value})}} />
                     </td>
                     <th>연락처 2</th>
                     <td>
