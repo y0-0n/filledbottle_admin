@@ -266,9 +266,7 @@ class Create extends Component {
                         :
 												  <Input type="number" onChange={(e) => this.form.quantity = e.target.value} />
                         }
-                        <Input id="check" type="checkbox" onClick={()=> {this.setState({checked : !this.state.checked}); console.log(this.state.checked)}} />
-                        <label for="check"></label>
-                        <span>전체 옮기기</span>
+                        <Button style={{marginTop: 10}} color="primary" onClick={()=> {this.setState({checked : !this.state.checked})}}>전체 옮기기</Button>
 											</td>
 										</tr>
 									</tbody>

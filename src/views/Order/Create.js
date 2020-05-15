@@ -349,7 +349,7 @@ class Create extends Component {
                               </Input>
                             </td>
                             <td style={{width : 200}}>
-                              <Input name='quantity' style={{width: 50, display: 'inline-block'}} value={this.state.sProduct[i].quantity} onChange={(e)=> {
+                              <Input type="number" name='quantity' style={{width: 50, display: 'inline-block'}} value={this.state.sProduct[i].quantity} onChange={(e)=> {
                                 let {sProduct} = this.state;
                                 sProduct[i].quantity > 0 ? sProduct[i].quantity = e.target.value :  sProduct[i].quantity= Math.abs(e.target.value)
                                 //sProduct[i].quantity = e.target.value;
