@@ -228,7 +228,7 @@ class List extends Component {
                   <Col>고객 상세 검색</Col>
                   <Col md="3" xs="6" sm="6">
                     <InputGroup>
-                      <Input onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
+                      <Input placeholder="고객명을 검색해주세요." onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
                       <InputGroupAddon addonType="append">
                         <Button block color="primary" onClick={() => { this.searchCustomer(this.props.keyword) }}><i className="fa fa-search"></i></Button>
                       </InputGroupAddon>

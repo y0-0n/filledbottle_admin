@@ -252,7 +252,7 @@ class List extends Component {
 									<Col md="9" xs="10" sm="9">
 										<span className="search">
 											<InputGroup>
-												<Input onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
+												<Input placeholder="고객명을 검색해주세요." onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
 												<InputGroupAddon addonType="append">
 													<Button block color="primary" onClick={() => { this.searchOrder(this.props.keyword); }}><i className="fa fa-search"></i></Button>
 												</InputGroupAddon>
