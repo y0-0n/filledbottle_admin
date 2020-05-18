@@ -20,7 +20,8 @@ class Create extends Component {
 			plantData: [],
 			current1: 0,
 			current2: 0,
-			productFamily: 0
+      productFamily: 0,
+      checked: false,
     };
   }
 
@@ -207,9 +208,9 @@ class Create extends Component {
 									<tbody>
 										<tr>
 											<th>품목명</th>
-											<td>
+											<td colSpan="3">
 												{<Popup
-													trigger={<Input value={this.state.name} onChange={(e) => this.form.name = e.target.value} />}
+													trigger={<Input placeholder="품목을 선택해주세요." value={this.state.name} onChange={(e) => this.form.name = e.target.value} />}
 													modal>
 													{close => <ProductModal close={close} login={() => { this.props.history.push('/login') }} createProduct={() => { this.props.history.push('/product/create') }}
 														selectProduct={(data) => {
@@ -259,8 +260,13 @@ class Create extends Component {
 										</tr>
 										<tr>
 											<th>이동량</th>
-											<td>
-												<Input onChange={(e) => this.form.quantity = e.target.value} />
+											<td colSpan="3" className="forCheck">
+                        {this.state.checked ? 
+												  <Input type="number" value={this.state.current1} onChange={(e) => this.form.quantity = e.target.value} />
+                        :
+												  <Input type="number" onChange={(e) => this.form.quantity = e.target.value} />
+                        }
+                        <Button style={{marginTop: 10}} color="primary" onClick={()=> {this.setState({checked : !this.state.checked})}}>전체 옮기기</Button>
 											</td>
 										</tr>
 									</tbody>

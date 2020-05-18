@@ -102,7 +102,7 @@ class List extends Component {
     // } else {
       this.getOrder();
       this.getTotal();
-      this.getCafe24Order();
+      //this.getCafe24Order();
     //}
     console.log(this.props.keyword)
     console.log(this.props.pageNumbers)
@@ -207,7 +207,7 @@ class List extends Component {
     });
   }
 
-  getCafe24Order() {
+  /*getCafe24Order() {
     fetch('https://cors-anywhere.herokuapp.com/https://ast99.cafe24api.com/api/v2/admin/orders?start_date=2020-04-01&end_date=2020-04-31', {
       method: 'GET',
       headers: {
@@ -232,7 +232,7 @@ class List extends Component {
         alert('로그인 하고 접근해주세요');
       }
     })
-  }
+  }*/
 
   render() {
     var data = this.state.orderData;
@@ -252,7 +252,7 @@ class List extends Component {
 									<Col md="9" xs="10" sm="9">
 										<span className="search">
 											<InputGroup>
-												<Input onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
+												<Input placeholder="고객명을 검색해주세요." onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
 												<InputGroupAddon addonType="append">
 													<Button block color="primary" onClick={() => { this.searchOrder(this.props.keyword); }}><i className="fa fa-search"></i></Button>
 												</InputGroupAddon>
@@ -284,7 +284,7 @@ class List extends Component {
 										<div style={{float: "right"}}>
 											<Button onClick={() => { this.props.history.push('/sales/order') }} color="primary">주문생성</Button>
 
-											<Button onClick={() => { this.getCafe24Orders(); }} color="primary">카페24 주문 불러오기</Button>
+											{/* <Button onClick={() => { this.getCafe24Orders(); }} color="primary">카페24 주문 불러오기</Button> */}
 										</div>
                     {/*<UncontrolledButtonDropdown>
                       <DropdownToggle caret color="primary">

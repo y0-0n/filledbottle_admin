@@ -221,7 +221,7 @@ class Create extends Component {
                     <th>고객<span style={{color : "#FA5858"}}>*</span></th>
                     <td >
                       {<Popup
-                        trigger={<Input required value={this.state.customerName} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}}/>}
+                        trigger={<Input require placeholder={ "고객을 선택해주세요" } value={this.state.customerName} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}}/>}
                         modal>
                         {close => <CustomerModal close={close} login={()=>{this.props.history.push('/login')}} createCustomer={() => {this.props.history.push('/customer/create')}}
                                                  selectCustomer={(data) => {
@@ -241,7 +241,7 @@ class Create extends Component {
                   <tr>
                     <th>연락처 1</th>
                     <td >
-                      <Input value={this.state.cellphone} type="tel" placeholder={ "000-0000-0000" }onChange={(e) => {this.setState({cellphone: e.target.value})}} />
+                      <Input value={this.state.cellphone} type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder={ "000-0000-0000" }onChange={(e) => {this.setState({cellphone: e.target.value})}} />
                     </td>
                     <th>연락처 2</th>
                     <td>
@@ -312,7 +312,7 @@ class Create extends Component {
                           <tr key={i}>
                             <td>
                               {<Popup
-                                trigger={<Input required name='name' value={this.state.sProduct[i].name} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}}/>}
+                                trigger={<Input required placeholder={"선택해주세요"} name='name' value={this.state.sProduct[i].name} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}}/>}
                                 modal>
                                 {close => <ProductModal index={i} close={close} login={()=>{this.props.history.push('/login')}} createProduct={() => {this.props.history.push('/product/create')}}
                                                         selectProduct={(data) => {
@@ -349,7 +349,7 @@ class Create extends Component {
                               </Input>
                             </td>
                             <td style={{width : 200}}>
-                              <Input name='quantity' style={{width: 50, display: 'inline-block'}} value={this.state.sProduct[i].quantity} onChange={(e)=> {
+                              <Input type="number" name='quantity' style={{width: 50, display: 'inline-block'}} value={this.state.sProduct[i].quantity} onChange={(e)=> {
                                 let {sProduct} = this.state;
                                 sProduct[i].quantity > 0 ? sProduct[i].quantity = e.target.value :  sProduct[i].quantity= Math.abs(e.target.value)
                                 //sProduct[i].quantity = e.target.value;
