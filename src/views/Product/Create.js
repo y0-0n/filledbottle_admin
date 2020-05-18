@@ -95,20 +95,37 @@ class CreateProduct extends Component {
         mime = arr[0].match(/:(.*?);/)[1],
         bstr = atob(arr[1]),
         n = bstr.length,
-        u8arr = new Uint8Array(n);
-
+				u8arr = new Uint8Array(n);
+				
       while (n--) {
         u8arr[n] = bstr.charCodeAt(n);
-      }
+			}
+			console.warn(this.state.image)
       formData.append('file', new File([u8arr], this.state.image.name, {type: mime}));
     } else {
       formData.append('file', this.state.image);
-    }
+		}
+		
+		if (this.state.imageDetail[0] !== '/assets/img/noimage.jpg') {
+			this.state.imageDetail.forEach((e) => {
+				var arr = e.split(','),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
 
+				while (n--) {
+					u8arr[n] = bstr.charCodeAt(n);
+				}
+				formData.append('file_detail', new File([u8arr], e.name, {type: mime}));
+			})
+    } else {
+      formData.append('file_detail', this.state.imageDetail[0]);
+    }
     for (let [key, value] of Object.entries(this.form)) {
-      formData.append(key, value);
-    }
-
+			formData.append(key, value);
+		}
+		
     fetch(process.env.REACT_APP_HOST + "/product", {
       method: 'POST',
       'Content-Type': 'multipart/form-data',
@@ -279,11 +296,11 @@ class CreateProduct extends Component {
                                 onClick={() => document.all.file_detail.click()}/>
                           </div>
                           {this.state.imageDetail.map((e, i) => {
-                            return <img id="imageFile" alt="상세 사진1" style={{
+                            return <img key={i} id="imageFile" alt="상세 사진1" style={{
                               display: "inline-block",
                               border: '1px',
                               borderStyle: 'dashed',
-                              borderColor: '#c8ced3'
+															borderColor: '#c8ced3'
                             }} src={this.state.imageDetail[i]}/>
                           })}
                         </td>
