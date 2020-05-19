@@ -6,13 +6,13 @@ class Detail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: []
+			data: {},
+			detail_file: []
     };
   }
 
   componentWillMount() {
     this.getProduct();
-    console.log(this.props.match.params.id)
   }
 
   getProduct() {
@@ -23,7 +23,10 @@ class Detail extends Component {
       }
     })
       .then(response => response.json())
-      .then(data => { this.setState({ data: data[0] }) });
+      .then(data => { this.setState({ data: data[0] }, () => {
+				if(this.state.data.detail_file)
+					this.setState({detail_file: this.state.data.detail_file.split('|')});
+			}) });
   }
 
   deactivateProduct(id) {
@@ -79,7 +82,7 @@ class Detail extends Component {
   }
 
   render() {
-    var data = this.state.data;
+		var data = this.state.data;
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
@@ -126,15 +129,15 @@ class Detail extends Component {
                     <tr>
                       <th>대표 사진</th>
                       <td style={ {textAlign : "center"} }>
-                        <img alt="품목 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
+                        <img alt="품목 사진" src={data.file_name ? "https://bnbnong.com:4001/static/" + data.file_name : '318x180.svg'} />
                       </td>
                     </tr>
                     <tr>
                       <th>상세 사진</th>
                       <td style={ {textAlign : "center"} }>
-                        <img alt="상세 사진1" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
-                        <img alt="상세 사진2" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
-                        <img alt="상세 사진3" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
+                        { this.state.detail_file.map((e,i) => {
+													return <img alt="상세 사진1" src={"https://bnbnong.com:4001/static/" + e} style={{display: "block", margin: '0 auto'}}/>
+												})}
                       </td>
                     </tr>
 

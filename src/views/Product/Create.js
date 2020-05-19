@@ -16,7 +16,8 @@ class CreateProduct extends Component {
 
     this.state = {
       image: '/assets/img/noimage.jpg',
-      imageDetail: ['/assets/img/noimage.jpg'],
+			imageDetail: ['/assets/img/noimage.jpg'],
+			imageDetailFile: [],
       familyData: [],
       data: [],
       checkCategory: true,
@@ -27,56 +28,68 @@ class CreateProduct extends Component {
     this.getProductFamily();
   }
   
-  handleFileInput() {
-    var file = this.refs.file.files[0];
+  handleFileInput(e) {
+    var file = e.target.files[0];
     var canvasImg = document.createElement("img");
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
-
+		var reader = new FileReader();
+		reader.onload = () => {
+			this.setState({image: reader.result})
+		}
+		reader.readAsDataURL(file);
+		this.setState({imageFile: file});
+		
+		
     // img resize
-    reader.onload = function (e) {
-      var canvas = document.createElement("canvas");
-      var ctx = canvas.getContext("2d");
-      var url = e.target.result;
-      var img = new Image();
-      img.onload = function () {
-        ctx.drawImage(img, 0, 0, 300, 300);
-        var dataurl = canvas.toDataURL('image/png');
-        this.setState({
-          image: dataurl
-        });
-        console.log(dataurl)
-      }.bind(this);
-      img.src = url;
+    // reader.onload = function (e) {
+    //   var canvas = document.createElement("canvas");
+    //   var ctx = canvas.getContext("2d");
+    //   var url = e.target.result;
+    //   var img = new Image();
+    //   img.onload = function () {
+    //     ctx.drawImage(img, 0, 0, 300, 300);
+    //     var dataurl = canvas.toDataURL('image/png');
+    //     this.setState({
+    //       image: dataurl
+    //     });
+    //   }.bind(this);
+    //   img.src = url;
 
-      canvas.width = 300;
-      canvas.height = 300;
+    //   canvas.width = 300;
+    //   canvas.height = 300;
 
-    }.bind(this);
-    this.setState({image: this.state.image})
+    // }.bind(this);
+    // this.setState({image: this.state.image})
   }
 
-  handleFileInput_multiple() {
-    console.log(this.refs.file_detail.files)
-    let imgList = [];
+  handleFileInput_multiple(e) {
+		let imgList = [], imgFileList = [];
+		console.warn(this.refs.file_detail.files)
     for(var i = 0; i < this.refs.file_detail.files.length; i++ ) {
-      var file = this.refs.file_detail.files[i];
+			var file = this.refs.file_detail.files[i];
+			console.warn(file)
       //var canvasImg = document.createElement("img");
       var reader = new FileReader();
-      reader.readAsDataURL(file);
-      // img resize
-      reader.onload = function (e) {
-        var canvas = document.createElement("canvas");
-        var ctx = canvas.getContext("2d");
-        var url = e.target.result;
-        var img = new Image();
-        imgList.push(url);
-        this.setState({imageDetail: imgList})
-        img.src = url;
-        canvas.width = 300;
-        canvas.height = 300;
+			reader.onload = (e) => {
+				imgList.push(e.target.result);
+				this.setState({imageDetail: imgList});
+				console.warn(imgList)
+			};
+			reader.readAsDataURL(file);
+			imgFileList.push(file)
+			this.setState({imageDetailFile: imgFileList})
+				// img resize
+      // reader.onload = function (e) {
+      //   var canvas = document.createElement("canvas");
+      //   var ctx = canvas.getContext("2d");
+      //   var url = e.target.result;
+      //   var img = new Image();
+      //   imgList.push(url);
+      //   this.setState({imageDetail: imgList})
+      //   img.src = url;
+      //   canvas.width = 300;
+      //   canvas.height = 300;
   
-      }.bind(this);
+      // }.bind(this);
     }
   }
 
@@ -86,38 +99,41 @@ class CreateProduct extends Component {
 
     // base64 -> file object 변환
     // reference -> https://helloinyong.tistory.com/233
-    if (this.state.image !== '/assets/img/noimage.jpg') {
-      var arr = this.state.image.split(','),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]),
-        n = bstr.length,
-				u8arr = new Uint8Array(n);
+    // if (this.state.image !== '/assets/img/noimage.jpg') {
+    //   var arr = this.state.image.split(','),
+    //     mime = arr[0].match(/:(.*?);/)[1],
+    //     bstr = atob(arr[1]),
+    //     n = bstr.length,
+		// 		u8arr = new Uint8Array(n);
 				
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-			}
-			console.warn(this.state.image)
-      formData.append('file', new File([u8arr], this.state.image.name, {type: mime}));
-    } else {
-      formData.append('file', this.state.image);
-		}
-		
-		if (this.state.imageDetail[0] !== '/assets/img/noimage.jpg') {
-			this.state.imageDetail.forEach((e) => {
-				var arr = e.split(','),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]),
-        n = bstr.length,
-        u8arr = new Uint8Array(n);
+    //   while (n--) {
+    //     u8arr[n] = bstr.charCodeAt(n);
+		// 	}
+    //   formData.append('file', new File([u8arr], this.state.image.name, {type: mime}));
+    // } else {
+    //   formData.append('file', this.state.image);
+		// }
+		formData.append('file', this.state.imageFile);
 
-				while (n--) {
-					u8arr[n] = bstr.charCodeAt(n);
-				}
-				formData.append('file_detail', new File([u8arr], e.name, {type: mime}));
-			})
-    } else {
-      formData.append('file_detail', this.state.imageDetail[0]);
-    }
+		// if (this.state.imageDetail[0] !== '/assets/img/noimage.jpg') {
+		// 	this.state.imageDetailFile.forEach((e) => {
+		// 		var arr = e.split(','),
+    //     mime = arr[0].match(/:(.*?);/)[1],
+    //     bstr = atob(arr[1]),
+    //     n = bstr.length,
+    //     u8arr = new Uint8Array(n);
+
+		// 		while (n--) {
+		// 			u8arr[n] = bstr.charCodeAt(n);
+		// 		}
+		// 		formData.append('file_detail', new File([u8arr], e.name, {type: mime}));
+		// 	})
+    // } else {
+    //   formData.append('file_detail', this.state.imageDetail[0]);
+		// }
+		this.state.imageDetailFile.forEach((e) => {
+			formData.append('file_detail', e);
+		})
     for (let [key, value] of Object.entries(this.form)) {
 			formData.append(key, value);
 		}
@@ -185,6 +201,7 @@ class CreateProduct extends Component {
   }
 
   render() {
+		console.warn(this.state.imageDetail, this.state.image)
     return (
       <div className="animated fadeIn align-items-center">
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
