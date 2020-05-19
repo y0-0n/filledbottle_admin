@@ -16,8 +16,24 @@ export default {
     },
     {
       name: '품목 관리',
-      url: '/main/product/list',
       icon: 'icon-puzzle',
+      children: [
+        {
+          name: '1차',
+          url: '/main/product/list/primary',
+          icon: 'icon-puzzle',
+        },
+        {
+          name: '2차',
+          url: '/main/product/list/secondary',
+          icon: 'icon-puzzle',
+        },
+        {
+          name: '3차',
+          url: '/main/product/list/tertiary',
+          icon: 'icon-puzzle',
+        },
+      ]
     },
     {
       name: '고객 관리',

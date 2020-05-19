@@ -46,6 +46,8 @@ const CustomerDetail = React.lazy(() => import('./views/Customer/Detail'));
 const CustomerModify = React.lazy(() => import('./views/Customer/Modify'));
 const CustomerUnset = React.lazy(() => import('./views/Customer/Unset'));
 const Product = React.lazy(() => import('./views/Product'));
+const ProductSecondary = React.lazy(() => import('./views/Product/ListSecondary'));
+const ProductTertiary = React.lazy(() => import('./views/Product/ListTertiary'));
 const CreateProduct = React.lazy(() => import('./views/Product/Create'));
 const ProductDetail = React.lazy(() => import('./views/Product/Detail'));
 const ProductModify = React.lazy(() => import('./views/Product/Modify'));
@@ -94,7 +96,9 @@ const routes = [
   { path: '/main/customer/:id', exact: true,  name: '고객 상세정보', component: CustomerDetail},
   { path: '/main/customer/edit/:id', exact: true,  name: '고객 수정', component: CustomerModify},
   { path: '/main/customer/list/unset', exact: true,  name: '비활성화 고객 목록', component: CustomerUnset},
-  { path: '/main/product/list', exact: true,  name: '상품 목록', component: Product},
+  { path: '/main/product/list/primary', exact: true,  name: '상품 목록', component: Product},
+  { path: '/main/product/list/secondary', exact: true,  name: '상품 목록', component: ProductSecondary},
+  { path: '/main/product/list/tertiary', exact: true,  name: '상품 목록', component: ProductTertiary},
   { path: '/main/product/:id', exact: true,  name: '상품 상세정보', component: ProductDetail},
   { path: '/main/product/edit/:id', exact: true,  name: '상품 수정', component: ProductModify},
   { path: '/product/create', exact: true,  name: '상품 등록', component: CreateProduct},
