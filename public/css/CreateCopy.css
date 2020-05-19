@@ -1,0 +1,125 @@
+body{
+    font-size: 1.0em;
+}
+
+ul li {
+    list-style-type: none;
+}
+
+.form-card {
+    position: relative;
+    margin-bottom: 10px;
+    padding: 0;
+    background-color: #fff;
+    border: 1px solid #dbdde2;
+}
+
+.form-card .form-title {
+    padding: 20px 35px;
+}
+
+.form-card .form-innercontent {
+    padding: 20px 35px;
+    border-top: 1px solid #e2e6ee;
+    width: 100%;
+}
+
+.form-card .form-innercontent input {
+    width: 100%;
+}
+
+.category-input-toggle input {
+    display: none;
+}
+
+.category-input-toggle input:checked+label {
+    background-color: #63C2DE;
+    border-color: #63C2DE;
+    color: #fff;
+}
+
+.category-input-toggle input+label {
+    display: table-cell;
+    padding: 4px 20px;
+    margin-bottom: 0;
+    color: #767a83;
+    font-size: 1rem;
+    line-height: 24px;
+    text-align: center;
+    border: 1px solid #dbdde2;
+    background-color: #fff;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.category-content{
+    margin: 15px 0 15px 0;
+}
+
+.category-list {
+    border: 1px solid #dbdde2;
+    padding: 10px
+}
+
+.category-list .category-ul ul {
+    padding-top: 1rem;
+    line-height: 30px;
+}
+
+.form-card .form-innercontent .sell-label {
+    float: left;
+    width: 180px;
+    font-weight: lighter;
+}
+
+.form-card .form-innercontent .sell-list {
+    padding : 20px 0 30px 0;
+    border-bottom: 1px solid #dbdde2;
+}
+
+.form-card .form-innercontent .sell-input .input-group {
+    width: 200px;
+}
+
+.form-card .form-innercontent .sell-input .input-group input {
+    width: 100px;
+}
+
+.sell-list .sell-content {
+    margin-bottom: 20px;
+}
+
+.sell-discount {
+    font-weight: lighter;
+    background-color: #f8f9fd;
+    padding : 20px 0 30px 0;
+    margin-bottom: -30px;
+}
+
+.sell-discount .sell-label {
+    font-size: 0.9em;
+    color: #767a83;
+    padding-left: 20px;
+}
+
+.sell-discount .total-discount {
+    color: #20A8D8;
+    font-size: 1.1em;
+    font-weight: bolder;
+    margin-top: 10px;
+}
+
+.sell-list .add-image {
+    display: inline-block;
+    border: 1px dashed #c1c5cd;
+    content: "";
+    width: 140px;
+    height: 140px;
+    text-align: center;
+}
+
+.sell-list .add-image i {
+    margin-top: 62px;
+}

@@ -48,7 +48,7 @@ const CustomerUnset = React.lazy(() => import('./views/Customer/Unset'));
 const Product = React.lazy(() => import('./views/Product'));
 const ProductSecondary = React.lazy(() => import('./views/Product/ListSecondary'));
 const ProductTertiary = React.lazy(() => import('./views/Product/ListTertiary'));
-const CreateProduct = React.lazy(() => import('./views/Product/Create'));
+const CreateProduct = React.lazy(() => import('./views/Product/Create copy'));
 const ProductDetail = React.lazy(() => import('./views/Product/Detail'));
 const ProductModify = React.lazy(() => import('./views/Product/Modify'));
 const ProductUnset = React.lazy(() => import('./views/Product/Unset'));
