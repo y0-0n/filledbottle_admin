@@ -64,10 +64,12 @@ class Detail extends Component {
     let c, d;
     c = window.confirm('이 주문을 변경하시겠습니까?');
 
-    if(next === 'cancel')
-      d = window.confirm('주문 취소 후엔 변경이 불가능합니다. 원치 않으시다면 취소를 눌러주세요.');
+    if(next === 'cancel'){
+			d = window.confirm('주문 취소 후엔 변경이 불가능합니다. 원치 않으시다면 취소를 눌러주세요.');
+			if(d) return;
+		}
 
-    if(c && d) {
+    if(c) {
 			const id = this.props.match.params.id;
       fetch(process.env.REACT_APP_HOST+"/order/changeState/", {
 				method: 'POST',
