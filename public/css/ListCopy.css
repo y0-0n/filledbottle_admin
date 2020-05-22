@@ -1,0 +1,112 @@
+.animated {
+    font-size: 0.9em;
+}
+
+ul li {
+    list-style-type: none;
+}
+
+.status-box {
+    background-color: #fff;
+    margin: 0 auto 20px;
+    padding: 45px 30px 15px;
+    text-align: center;
+}
+
+.status-list {
+    display: inline-block;
+    margin: 0 auto;
+}
+
+.status-list li {
+    float: left;
+    border-top: none;
+    display: table;
+    padding-bottom: 30px;
+}
+
+.status-list li i {
+    display: table-cell;
+    width: 68px;
+    height: 46px !important;
+    background-color: #767a83;
+    border-radius: 50%;
+    vertical-align: middle;
+    text-align: center;
+    color: #fff;
+}
+
+.status-list-text {
+    display: table-cell;
+    padding-left: 15px;
+    width: 120px;
+    text-align: left;
+    vertical-align: middle;
+    line-height: 1.4;
+}
+
+.search-box {
+    padding: 20px 35px 0;
+    background-color: #f8f9fd;
+    margin: 0 auto 20px;
+}
+
+.search-box .search-list {
+    font-weight: lighter;
+    padding : 20px 0 30px 0;
+    border-bottom: 1px solid #dbdde2;
+}
+
+.search-label {
+    float: left;
+    width: 180px;
+    color: #767a83;
+    padding-left: 20px;
+}
+
+.search-input .search-input-group {
+    display: inline-block;
+    width: 300px;
+}
+
+.search-input-label {
+    margin-right : 10px
+}
+
+.search-input-checkbox {
+    margin-right: 10px;
+    border-radius: 0;
+}
+
+.search-button {
+    text-align: center;
+    padding: 20px;
+}
+
+.list-box {
+    background-color: #fff;
+    margin: 0 auto 20px;
+    padding: 0 30px 0;
+}
+
+.list-card {
+    position: relative;
+    margin-bottom: 10px;
+    padding: 0;
+    background-color: #fff;
+    border: 1px solid #dbdde2;
+}
+
+.list-card .list-title {
+    padding: 20px 35px;
+    border-bottom: 1px solid #e2e6ee;
+}
+
+.list-sort-box {
+    float: right;
+}
+
+.list-menu {
+    float: right;
+    padding: 30px 0;
+}
