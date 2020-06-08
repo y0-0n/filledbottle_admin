@@ -61,10 +61,13 @@ class Detail extends Component {
   }
 
   changeState(prev, next) {
-    let c;
+    let c, d;
     c = window.confirm('이 주문을 변경하시겠습니까?');
 
-    if(c) {
+    if(next === 'cancel')
+      d = window.confirm('주문 취소 후엔 변경이 불가능합니다. 원치 않으시다면 취소를 눌러주세요.');
+
+    if(c && d) {
 			const id = this.props.match.params.id;
       fetch(process.env.REACT_APP_HOST+"/order/changeState/", {
 				method: 'POST',
@@ -179,10 +182,10 @@ class Detail extends Component {
                       <td>{year}년 {month}월 {date}일</td>
                     </tr>
                     <tr>
-                      <th>전화번호</th>
-                      <td>{orderInfo['telephone']}</td>
-                      <th>HP</th>
+                      <th>연락처1</th>
                       <td>{orderInfo['cellphone']}</td>
+                      <th>연락처2</th>
+                      <td>{orderInfo['telephone']}</td>
                     </tr>
                     <tr>
                       <th>배송지</th>

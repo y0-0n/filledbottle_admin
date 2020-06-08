@@ -59,7 +59,10 @@ class Home extends Component {
     this.chart();
 		this.getToday();
 		
-		console.warn(queryString.parse(this.props.location.search))
+    console.warn(queryString.parse(this.props.location.search).refresh_token)
+    const cafe24Token = queryString.parse(this.props.location.search)
+    localStorage.setItem('cafe24AccessToken', cafe24Token.access_token)
+    localStorage.setItem('cafe24RefreshToken', cafe24Token.refresh_token)
   }
 
   componentDidMount() {

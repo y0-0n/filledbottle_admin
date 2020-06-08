@@ -156,7 +156,7 @@ class Modify extends Component {
                           <td colSpan="3">
                             <Row style={{marginBottom: '10px'}}>
                               <Col lg="6" md="6" sm="6">
-                                <div style={{marginBottom: '10px', marginLeft: '5px'}}>{data.address}</div>
+                                <div style={{marginBottom: '10px', marginLeft: '5px', fontSize:'0.8em'}}>기존주소 ) {data.address}</div>
                                 <InputGroup required>
                                   <Input type="text" id="sample6_postcode" placeholder="우편번호" readOnly/>                            
                                   <InputGroupAddon addonType="append">

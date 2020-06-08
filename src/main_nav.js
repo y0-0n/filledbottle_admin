@@ -16,8 +16,24 @@ export default {
     },
     {
       name: '품목 관리',
-      url: '/main/product/list',
       icon: 'icon-puzzle',
+      children: [
+        {
+          name: '1차',
+          url: '/main/product/list/primary',
+          icon: 'icon-puzzle',
+        },
+        {
+          name: '2차',
+          url: '/main/product/list/secondary',
+          icon: 'icon-puzzle',
+        },
+        {
+          name: '3차',
+          url: '/main/product/list/tertiary',
+          icon: 'icon-puzzle',
+        },
+      ]
     },
     {
       name: '고객 관리',
@@ -29,7 +45,7 @@ export default {
       url: '/main/stock',
       icon: 'icon-speedometer',
     },
-		{
+		/*{
       name: '영농 일지',
       url: '/main/produce',
       icon: 'icon-speedometer',
@@ -46,7 +62,7 @@ export default {
         variant: 'info',
         text: '2차',
       },
-		},
+		},*/
     /*{
       name: '체험 관광',
       url: '/main/activity',
@@ -77,7 +93,7 @@ export default {
         },
       ]
 		},*/
-		{
+		/*{
       name: '경영 관리',
       url: '/main/manage',
       icon: 'icon-speedometer',
@@ -98,6 +114,6 @@ export default {
       name: '설문조사',
       url: '/main/survey/home',
       icon: 'icon-speedometer',
-    },
+    },*/
   ],
 };

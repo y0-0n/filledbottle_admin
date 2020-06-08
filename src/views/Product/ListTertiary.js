@@ -342,32 +342,6 @@ class List extends Component {
         <link rel="stylesheet" type="text/css" href="css/Product.css"></link>
         <Row>
           <Col>
-            <Table className="category-top" >
-              <tbody>
-                <tr>
-                  <td style={{cursor: "pointer", backgroundColor: this.props.category===0 ? '#E6E6E6' : '#fff'}} onClick={() => {this.changeCategory(this.props.checkCategoryId(0))}}>전체</td>
-                  {console.log(this.props.category)}
-									{ this.state.checkCategory ?
-										userCategoryData.map((e, i) => {
-											return <td key={i} style={{cursor: "pointer", backgroundColor: this.props.category===e.id ? '#E6E6E6' : '#fff'}} onClick={() => {this.changeCategory(this.props.checkCategoryId(e.id))}}>{e.name}</td>
-                    })
-                    :
-                    <div style={{textAlign: "left", padding: 30}}>
-                      <div style={{ display: "table-cell" }}>
-                        <i style={{ marginRight: 10 }} className="fa fa-exclamation-circle"></i>
-                      </div>
-                      <div style={{ display: "table-cell" }}>
-												품목군을 설정해서 품목 관리를 시작하세요. <br></br>
-                        ( 우측상단의 회원정보 또는 품목군 추가하기 버튼을 통해 설정이 가능합니다. )
-                      </div>
-                      <div style={{ display: "table-cell", paddingLeft: 50, verticalAlign: "middle"}}>
-                        <Button color="primary" onClick={() => { this.props.history.push('/main/registerdetail') }}>품목군 추가하기</Button>
-                      </div>
-                    </div>
-									}
-                </tr>
-              </tbody>
-            </Table>
             <Card>
               <CardHeader>
                 <Row>
@@ -383,46 +357,6 @@ class List extends Component {
                 </Row>
               </CardHeader>
               <CardBody>
-                <Row>
-                  <Col>
-                  <ul className="list-productfamily-ul" style={{width: '100%', display: 'flex', flexWrap: 'wrap', listStyleType: 'none', cursor: 'pointer'}}>
-                    { this.props.category !== 0 ?
-                      <li className="list-productfamily" style={{backgroundColor: family === 0? '#F16B6F' : 'transparent', border: family === 0? '0px' : '1px solid #c9d6de',color: family === 0? '#fff' : '#52616a', fontWeight: family === 0? 'bold' : 'normal', fontSize: family === 0? '1.1em' : '1em'}}onClick = {() => this.changeFamily(this.props.checkFamily(0))}>
-                        전체
-                      </li>
-                      :
-                      <li>
-
-                      </li>
-                    }
-                    { this.state.checkCategory ?
-                      familyData.map((e, i) => {
-                        return <li key={i} className="list-productfamily" style={{backgroundColor: family === e.id? '#F16B6F' : 'transparent', border: family === e.id? '0px' : '1px solid #c9d6de', color: family === e.id? '#fff' : '#52616a', fontWeight: family === e.id? 'bold' : 'normal', fontSize: family === e.id? '1.1em' : '1em'}}  onClick = {() => this.changeFamily(this.props.checkFamily(e.id))}><p>{e.name}</p></li>
-                      })
-                      :
-                      <li>
-
-                      </li>
-                    }
-                    {/*<Popup
-                          trigger={<li className="list-productfamily" style={{border: '1px solid #c9d6de', color: 'lightgreen',}}>+</li>}
-                          modal>
-                          {close => <ProductFamilyModal close={close} login={() => { this.props.history.push('/login') }}
-                    />}
-                    </Popup>*/}
-                      {/*<InputGroup>
-                        <Input value={this.state.newFamily} onChange={(e) => {
-                          let newFamily = e.target.value;
-                          this.setState({ newFamily })
-                        }} />
-                        <InputGroupAddon addonType="append">
-                          <Button onClick={this.addProductFamily.bind(this)} outline color="success">+</Button>
-                        </InputGroupAddon>
-                      </InputGroup>*/}
-                  </ul>
-                  </Col>
-                </Row>
-                <hr></hr>
                 <Row style={{marginBottom: 15}}>
                   <Col>
                     <UncontrolledButtonDropdown>

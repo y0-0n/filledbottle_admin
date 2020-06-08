@@ -241,62 +241,61 @@ class List extends Component {
 
     return (
       <div className="animated fadeIn">
-      <link rel="stylesheet" type="text/css" href="css/Order.css"></link>
-			<link rel="stylesheet" type="text/css" href="css/Table.css"></link>
+        <link rel="stylesheet" type="text/css" href="css/ListCopy.css"></link>
         <Row>
           <Col>
-            <Card>
-              <CardHeader>
-								<Row>
-									<Col md="3" xs="2" sm="3">주문 보기</Col>
-									<Col md="9" xs="10" sm="9">
-										<span className="search">
-											<InputGroup>
-												<Input placeholder="고객명을 검색해주세요." onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
-												<InputGroupAddon addonType="append">
-													<Button block color="primary" onClick={() => { this.searchOrder(this.props.keyword); }}><i className="fa fa-search"></i></Button>
-												</InputGroupAddon>
-											</InputGroup>
-										</span>
-										<span className="date">
-											<DatePicker
-												className="datepicker"
-												dateFormat="yyyy년 MM월 dd일"
-												locale="ko"
-												selected={this.state.first_date}
-												onChange={(first_date) => { this.setState({ first_date }) }}
-											/>
-											&nbsp;~&nbsp;
-											<DatePicker
-												className="datepicker"
-												dateFormat="yyyy년 MM월 dd일"
-												locale="ko"
-												selected={this.state.last_date}
-												onChange={(last_date) => { this.setState({ last_date }) }}
-											/>
-										</span>
-									</Col>
-								</Row>
-              </CardHeader>
-              <CardBody>
-                <Row>
-                  <Col>
-										<div style={{float: "right"}}>
-											<Button onClick={() => { this.props.history.push('/sales/order') }} color="primary">주문생성</Button>
-
-											{/* <Button onClick={() => { this.getCafe24Orders(); }} color="primary">카페24 주문 불러오기</Button> */}
-										</div>
-                    {/*<UncontrolledButtonDropdown>
-                      <DropdownToggle caret color="primary">
-                        더 보기
-                      </DropdownToggle>
-                      <DropdownMenu>
-                        <DropdownItem onClick={() => { this.props.history.push('/sales/order') }}>주문생성</DropdownItem>
-                      </DropdownMenu>
-										</UncontrolledButtonDropdown>*/}
-                  </Col>
-                </Row>
-                <hr></hr>
+            <div className="search-box">
+              <div className="search-list">
+                <label className="search-label">조회기간</label>
+                <div className="sell-input">
+                  <DatePicker
+                    className="datepicker"
+                    dateFormat="yyyy년 MM월 dd일"
+                    locale="ko"
+                    selected={this.state.first_date}
+                    onChange={(first_date) => { this.setState({ first_date }) }}
+                  />
+                  &nbsp;~&nbsp;
+                  <DatePicker
+                    className="datepicker"
+                    dateFormat="yyyy년 MM월 dd일"
+                    locale="ko"
+                    selected={this.state.last_date}
+                    onChange={(last_date) => { this.setState({ last_date }) }}
+                  />
+                </div>
+              </div>
+              <div className="search-list">
+                <label className="search-label">상세조건</label>
+                <div className="sell-input">
+                  <InputGroup style={{width: 300}}>
+                    <Input placeholder="고객명을 검색해주세요." onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
+                    <InputGroupAddon addonType="append">
+                      <Button block color="primary" onClick={() => { this.searchOrder(this.props.keyword); }}><i className="fa fa-search"></i></Button>
+                    </InputGroupAddon>
+                  </InputGroup>
+                </div>
+              </div>
+            </div>
+            
+            <div className="list-card">
+              <div className="list-title">
+                <span>
+                  상품목록 (총 <span style={{color: "#1B8EB7"}}>{data.length}</span> 개)
+                </span>
+                <div className="list-sort-box">
+                  <div>
+                    <select>
+                      <option>상품등록일순</option>
+                      <option>총액높은순</option>
+                      <option>총액낮은순</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div className="list-menu">
+              </div>
+              <div className="list-box" style={{marginTop: 20}}>
                 <Nav tabs>
                   <NavItem>
                     <NavLink active={this.state.process === "all"} onClick={() => this.tabClick("all")} href="#">전체</NavLink>
@@ -317,67 +316,40 @@ class List extends Component {
                     <NavLink active={this.state.process === "cancel"} onClick={() => this.tabClick("cancel")} href="#">취소</NavLink>
                   </NavItem>
                 </Nav>
-                <div>
-                  <Table className="ListTable" hover>
-                    <thead>
-                      <tr>
-                        <th className="list-hidden">#</th>
-                        <th>출하일</th>
-                        <th className="list-hidden">생성일</th>
-                        <th>고객</th>
-                        <th>총액</th>
-                        <th className="list-hidden">상태</th>
+                <Table className="ListTable" style={{ minWidth: 600 }} hover>
+                  <thead>
+                    <tr>
+                      <th className="list-hidden">#</th>
+                      <th>출하일</th>
+                      <th className="list-hidden">생성일</th>
+                      <th>고객</th>
+                      <th>총액</th>
+                      <th className="list-hidden">상태</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data.map((e, i) => {
+                      this.state.count++
+                      return (<tr style={{cursor: 'pointer'}} key={this.state.count} onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>
+                        <td className="list-hidden">{e.id}</td>
+                      <td>{this.getDate(e.date)}</td>
+                      <td className="list-hidden">{this.getDate(e.orderDate)}</td>
+                      <td>{e.name}</td>
+                      <td>{this.numberWithCommas(e.price)}</td>
+                      <td className="list-hidden">
+                        {this.state.process === 'refund' ? <Badge color="danger">{stateKor['refund']}</Badge> : null}
+                        {e.state === 'order' ? <Badge color="primary">{stateKor[e.state]}</Badge>: null}
+                        {e.state === 'shipping' && this.state.process !== 'refund' ? <Badge color="secondary">{stateKor[e.state]}</Badge>: null}
+                        {e.state === 'cancel' ? <Badge color="danger">{stateKor[e.state]}</Badge>: null}
+                      </td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      {data.map((e, i) => {
-                        this.state.count++
-                        return (<tr style={{cursor: 'pointer'}} key={this.state.count} onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>
-                          <td className="list-hidden">{e.id}</td>
-                        <td>{this.getDate(e.date)}</td>
-                        <td className="list-hidden">{this.getDate(e.orderDate)}</td>
-                        <td>{e.name}</td>
-                        <td>{this.numberWithCommas(e.price)}</td>
-                        <td className="list-hidden">
-                          {this.state.process === 'refund' ? <Badge color="danger">{stateKor['refund']}</Badge> : null}
-                          {e.state === 'order' ? <Badge color="primary">{stateKor[e.state]}</Badge>: null}
-                          {e.state === 'shipping' && this.state.process !== 'refund' ? <Badge color="secondary">{stateKor[e.state]}</Badge>: null}
-                          {e.state === 'cancel' ? <Badge color="danger">{stateKor[e.state]}</Badge>: null}
-                        </td>
-                        </tr>
-                        )
-                      })}
-                    </tbody>
-                  </Table>
-                  <div style={{width: "100%", textAlign : "center"}}>{this.state.orderData.length === 0 ? <span >"현재 주문 목록이 없습니다."</span> : null}</div>
-                </div>
-              </CardBody>
-              <CardFooter>
-                <Pagination style={{justifyContent: 'center'}}>
-                  {this.props.pageNumbers === 1 ? '' :
-                  <PaginationItem>
-                    <PaginationLink previous onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers-1))}}/>
-                  </PaginationItem>
-                  }
-                  {this.props.pageNumbers === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
-                  {this.props.pageNumbers === 2 ? arr.forEach(x => arr1.push(x+1)) : null}
-                  {this.props.pageNumbers !== 1 && this.props.pageNumbers!== 2 ? arr.forEach(x => arr1.push(x)) :null }
-                  {arr1.map((e, i) => {
-                    if(this.state.total >= this.props.pageNumbers+e)
-                    return (<PaginationItem key={i} active={this.props.pageNumbers === this.props.pageNumbers+e}>
-                      <PaginationLink onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+e));}}>
-                      {this.props.pageNumbers+e}
-                      </PaginationLink>
-                    </PaginationItem>)
-                    return null;
-                  })}
-                  {this.props.pageNumbers === this.state.total ? '' :
-                  <PaginationItem>
-                    <PaginationLink next onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+1))}}/>
-                  </PaginationItem>}
-                </Pagination>
-              </CardFooter>
-            </Card>
+                      )
+                    })}
+                  </tbody>
+                </Table>
+                
+              </div>
+            </div>
           </Col>
         </Row>
       </div>

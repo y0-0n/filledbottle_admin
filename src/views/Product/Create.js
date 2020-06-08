@@ -7,6 +7,7 @@ class CreateProduct extends Component {
   constructor(props) {
     super(props);
     this.form = {
+      category: '',
       name: '',
       grade: '',
       weight: '',
@@ -16,19 +17,18 @@ class CreateProduct extends Component {
 
     this.state = {
       image: '/assets/img/noimage.jpg',
-      imageDetail1: '/assets/img/noimage.jpg',
-      imageDetail2: '/assets/img/noimage.jpg',
-      imageDetail3: '/assets/img/noimage.jpg',
+      imageDetail: ['/assets/img/noimage.jpg'],
       familyData: [],
       data: [],
       checkCategory: true,
+      category: '1차'
     };
   }
 
   componentWillMount() {
     this.getProductFamily();
   }
-
+  
   handleFileInput() {
     var file = this.refs.file.files[0];
     var canvasImg = document.createElement("img");
@@ -56,6 +56,30 @@ class CreateProduct extends Component {
 
     }.bind(this);
     this.setState({image: this.state.image})
+  }
+
+  handleFileInput_multiple() {
+    console.log(this.refs.file_detail.files)
+    let imgList = [];
+    for(var i = 0; i < this.refs.file_detail.files.length; i++ ) {
+      var file = this.refs.file_detail.files[i];
+      //var canvasImg = document.createElement("img");
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      // img resize
+      reader.onload = function (e) {
+        var canvas = document.createElement("canvas");
+        var ctx = canvas.getContext("2d");
+        var url = e.target.result;
+        var img = new Image();
+        imgList.push(url);
+        this.setState({imageDetail: imgList})
+        img.src = url;
+        canvas.width = 300;
+        canvas.height = 300;
+  
+      }.bind(this);
+    }
   }
 
   handlePost(e) {
@@ -145,6 +169,10 @@ class CreateProduct extends Component {
       })
   }
 
+  changeCategory(e) {
+    this.setState({category: e.target.value})
+  }
+
   render() {
     return (
       <div className="animated fadeIn align-items-center">
@@ -161,6 +189,14 @@ class CreateProduct extends Component {
                   <CardBody>
                     <Table className="ShowTable">
                       <tbody>
+                      <tr>
+                        <th>카테고리</th>
+                        <td>
+                          <Input type="radio" name="category" value="1차" style={{marginLeft: 10, marginRight: 5, position: "initial"}} onChange={this.changeCategory.bind(this)} defaultChecked/>1차
+                          <Input type="radio" name="category" value="2차" style={{marginLeft: 10, marginRight: 5, position: "initial"}} onChange={this.changeCategory.bind(this)} />2차
+                          <Input type="radio" name="category" value="3차" style={{marginLeft: 10, marginRight: 5, position: "initial"}} onChange={this.changeCategory.bind(this)} />3차
+                        </td>
+                      </tr>
                       <tr>
                         <th>품목명<span style={{color: "#FA5858"}}>*</span></th>
                         <td>
@@ -183,6 +219,7 @@ class CreateProduct extends Component {
                                 }} />}
                             </Popup>*/}
                           {this.state.checkCategory ?
+                            this.state.category==="1차" ?
                             <Input onChange={(e) => {
                               this.form.productFamily = e.target.value;
                             }} type='select' name="family">
@@ -190,6 +227,8 @@ class CreateProduct extends Component {
                                 return <option key={i} value={e.id}>{e.name}</option>
                               })}
                             </Input>
+                            :
+                            <Input disabled></Input>
                             :
                             <div style={{textAlign: "left", padding: 10}}>
                               <div style={{display: "table-cell"}}>
@@ -234,75 +273,33 @@ class CreateProduct extends Component {
                               display: "inline-block",
                               border: '1px',
                               borderStyle: 'dashed',
-                              borderColor: '#c8ced3'
+                              borderColor: '#c8ced3',
+                              maxWidth: '100%'
                             }} src={this.state.image}/>
                           </div>
                         </td>
                       </tr>
                       <tr>
-                        <th>상세 사진</th>
+                        <th>
+                          상세 사진
+                          <p style={{color: "#D3D3D3", fontSize: "0.9em"}}>* 이미지 다중선택 가능</p>
+                        </th>
                         <td>
-                          <Table className="imageTable">
-                            <tbody>
-                              <tr>
-                                <td>
-                                  <div style={{paddingBottom: '10px'}}>
-                                    <input ref="file_detail1" type="file" name="file_detail1" onChange={e => {
-                                      this.handleFileInput(e);
-                                    }} style={{display: "none"}}/>
-                                    <img src='/assets/img/upload.jpg' border='0' style={{width: '20%', marginLeft: 10}}
-                                        onClick={() => document.all.file.click()}/>
-                                  </div>
-                                </td>
-                                <td>
-                                  <img id="imageFile" alt="상세 사진1" style={{
-                                    display: "inline-block",
-                                    border: '1px',
-                                    borderStyle: 'dashed',
-                                    borderColor: '#c8ced3'
-                                  }} src={this.state.imageDetail1}/>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <div>
-                                    <input ref="file_detail2" type="file" name="file_detail2" onChange={e => {
-                                      this.handleFileInput(e);
-                                    }} style={{display: "none"}}/>
-                                    <img src='/assets/img/upload.jpg' border='0' style={{width: '20%', marginLeft: 10}}
-                                        onClick={() => document.all.file.click()}/>
-                                  </div>
-                                </td>
-                                <td>
-                                  <img id="imageFile" alt="상세 사진2" style={{
-                                    display: "inline-block",
-                                    border: '1px',
-                                    borderStyle: 'dashed',
-                                    borderColor: '#c8ced3'
-                                  }} src={this.state.imageDetail2}/>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>
-                                  <div style={{paddingBottom: '10px'}}>
-                                    <input ref="file_detail3" type="file" name="file_detail3" onChange={e => {
-                                      this.handleFileInput(e);
-                                    }} style={{display: "none"}}/>
-                                    <img src='/assets/img/upload.jpg' border='0' style={{width: '20%', marginLeft: 10}}
-                                        onClick={() => document.all.file.click()}/>
-                                  </div>
-                                </td>
-                                <td>
-                                  <img id="imageFile" alt="상세 사진3" style={{
-                                    display: "inline-block",
-                                    border: '1px',
-                                    borderStyle: 'dashed',
-                                    borderColor: '#c8ced3'
-                                  }} src={this.state.imageDetail3}/>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </Table>
+                          <div style={{paddingBottom: '10px'}}>
+                            <input ref="file_detail" type="file" name="file_detail" onChange={e => {
+                              this.handleFileInput_multiple(e);
+                            }} style={{display: "none"}} multiple/>
+                            <img src='/assets/img/upload.jpg' border='0' style={{width: '10%', marginLeft: 10}}
+                                onClick={() => document.all.file_detail.click()}/>
+                          </div>
+                          {this.state.imageDetail.map((e, i) => {
+                            return <img id="imageFile" alt="상세 사진1" style={{
+                              display: "inline-block",
+                              border: '1px',
+                              borderStyle: 'dashed',
+                              borderColor: '#c8ced3'
+                            }} src={this.state.imageDetail[i]}/>
+                          })}
                         </td>
                       </tr>
                       {/*<tr>
