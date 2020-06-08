@@ -43,6 +43,7 @@ class List extends Component {
       //keyword: '',
       first_date: (new Date(new Date().getTime() - 60*60*24*1000*30*4)),
       last_date: new Date(),
+      checks: []
     };
     //this.keyword = '';
 	}
@@ -238,7 +239,8 @@ class List extends Component {
     var data = this.state.orderData;
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
-
+    data.map((e, i) => {this.state.checks[i] = false});
+    {console.log(this.props.location.state)}
     return (
       <div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/ListCopy.css"></link>
@@ -296,6 +298,10 @@ class List extends Component {
               <div className="list-menu">
               </div>
               <div className="list-box" style={{marginTop: 20}}>
+                <div style={{float: "right"}}>
+                  <Button color="primary" onClick={() => {this.props.history.push(`/main/order/post/`)}}>택배송장</Button>
+                  {console.log(data[0])}
+                </div>
                 <Nav tabs>
                   <NavItem>
                     <NavLink active={this.state.process === "all"} onClick={() => this.tabClick("all")} href="#">전체</NavLink>
@@ -325,23 +331,29 @@ class List extends Component {
                       <th>고객</th>
                       <th>총액</th>
                       <th className="list-hidden">상태</th>
+                      <th>선택</th>
                     </tr>
                   </thead>
                   <tbody>
                     {data.map((e, i) => {
                       this.state.count++
-                      return (<tr style={{cursor: 'pointer'}} key={this.state.count} onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>
+                      return (<tr style={{cursor: 'pointer'}} key={this.state.count}>
                         <td className="list-hidden">{e.id}</td>
-                      <td>{this.getDate(e.date)}</td>
-                      <td className="list-hidden">{this.getDate(e.orderDate)}</td>
-                      <td>{e.name}</td>
-                      <td>{this.numberWithCommas(e.price)}</td>
-                      <td className="list-hidden">
-                        {this.state.process === 'refund' ? <Badge color="danger">{stateKor['refund']}</Badge> : null}
-                        {e.state === 'order' ? <Badge color="primary">{stateKor[e.state]}</Badge>: null}
-                        {e.state === 'shipping' && this.state.process !== 'refund' ? <Badge color="secondary">{stateKor[e.state]}</Badge>: null}
-                        {e.state === 'cancel' ? <Badge color="danger">{stateKor[e.state]}</Badge>: null}
-                      </td>
+                        <td>{this.getDate(e.date)}</td>
+                        <td className="list-hidden">{this.getDate(e.orderDate)}</td>
+                        <td onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>{e.name}</td>
+                        <td>{this.numberWithCommas(e.price)}</td>
+                        <td className="list-hidden">
+                          {this.state.process === 'refund' ? <Badge color="danger">{stateKor['refund']}</Badge> : null}
+                          {e.state === 'order' ? <Badge color="primary">{stateKor[e.state]}</Badge>: null}
+                          {e.state === 'shipping' && this.state.process !== 'refund' ? <Badge color="secondary">{stateKor[e.state]}</Badge>: null}
+                          {e.state === 'cancel' ? <Badge color="danger">{stateKor[e.state]}</Badge>: null}
+                        </td>
+                        <td style={{textAlign: "center"}} onClick={() => {
+                            let {checks} = this.state;
+                            checks[i] = !checks[i];
+                            console.log(this.state.checks)
+                          }}><Input type="checkbox"></Input></td>
                       </tr>
                       )
                     })}
