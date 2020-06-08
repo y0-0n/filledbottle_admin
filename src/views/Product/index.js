@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { pageFunction, searchFunction, productFunction } from '../../action';
-import List from './List';
+import List from './List copy';
 
 function mapStateToProps(state) {
   const { pageNumbers, keyword } = state.product;
