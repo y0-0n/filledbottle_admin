@@ -84,6 +84,7 @@ const Message = React.lazy(() => import('./views/Message/Message'));
 const Activity = React.lazy(() => import('./views/Activity/List'));
 const RegisterDetail = React.lazy(() => import('./views/Pages/Register/RegisterDetail'));
 const RegisterModify = React.lazy(() => import('./views/Pages/Register/RegisterModify'));
+const RegisterCreate = React.lazy(() => import('./views/Pages/Register/EmployeeCreate'));
 const Survey = React.lazy(() => import('./views/Survey/Survey'));
 const SurveyHome = React.lazy(() => import('./views/Survey/Home'));
 const Setting = React.lazy(() => import('./views/Setting/Setting'));
@@ -126,6 +127,7 @@ const routes = [
   { path: '/main/activity', exact: true,  name: '관광', component: Activity},
   { path: '/main/registerdetail', exact: true,  name: '회원정보', component: RegisterDetail},
   { path: '/main/register/edit', exact: true,  name: '회원정보수정', component: RegisterModify},
+  { path: '/main/register/create', exact: true,  name: '직원추가', component: RegisterCreate},
 	{ path: '/main/setting', exact: true,  name: '설정', component: Setting},
   { path: '/main/stock', exact: true,  name: '재고 관리', component: Stock},
   { path: '/main/manage/stock/:plantId/:productId', exact: true,  name: '재고 내역', component: StockDetail},

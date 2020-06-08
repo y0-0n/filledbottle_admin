@@ -1,6 +1,21 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, Col, Input, InputGroup, InputGroupAddon, Row, Table, Nav, NavItem, NavLink } from 'reactstrap';
 
+const employee = [
+  {
+      name: '정소원',
+      department: '개발부',
+      position: '부장',
+      cellphone: '01012353512',
+  },
+  {
+    name: '강주희',
+    department: '영업부',
+    position: '사원',
+    cellphone: '01023672958',
+  },
+]
+
 class RegisterDetail extends Component {
   constructor(props) {
     super(props);
@@ -20,6 +35,7 @@ class RegisterDetail extends Component {
       prohibitDelete: false,
       plant : 1,
       deletePlantList: [],
+      employee: [[]],
     }
   }
 
@@ -410,6 +426,45 @@ class RegisterDetail extends Component {
                       {data.address}
                     </td>
                   </tr>
+                </tbody>
+              </Table>
+            </CardBody>
+          </Card>
+        </Col>
+
+        <Col md="12" xs="12" sm="12">
+          <Card>
+            <CardHeader>
+              <Row>
+                <Col>직원 관리</Col>
+                <Col>
+                  <div style={{float : "right"}}>
+                    <Button block color="primary" onClick={() => {this.props.history.push(`/main/register/create`)}}>직원추가</Button>
+                  </div>
+                </Col>
+              </Row>
+            </CardHeader>
+            <CardBody>
+              <Table className="ListTable" style={{ minWidth: 600 }} hover>
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    <th>부서</th>
+                    <th>직원명</th>
+                    <th>직책</th>
+                    <th>전화번호</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {employee.map((e, i) => {
+                    return (<tr>
+                      <td className="list-hidden">{i+1}</td>
+                      <td>{e.department}</td>
+                      <td className="list-hidden">{e.name}</td>
+                      <td>{e.position}</td>
+                      <td>{e.cellphone}</td>
+                    </tr>)
+                  })}
                 </tbody>
               </Table>
             </CardBody>
