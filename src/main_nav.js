@@ -45,6 +45,11 @@ export default {
       url: '/main/stock',
       icon: 'icon-speedometer',
     },
+    {
+      name: '손익계산서',
+      url: '/main/income',
+      icon: 'icon-speedometer',
+    },
 		/*{
       name: '영농 일지',
       url: '/main/produce',
