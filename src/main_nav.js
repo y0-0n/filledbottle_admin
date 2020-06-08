@@ -15,6 +15,11 @@ export default {
       icon: 'icon-puzzle',
     },
     {
+      name: '매입 관리',
+      url: '/main/purchase',
+      icon: 'icon-puzzle',
+    },
+    {
       name: '품목 관리',
       icon: 'icon-puzzle',
       children: [

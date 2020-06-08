@@ -78,6 +78,8 @@ const Produce = React.lazy(() => import('./views/Produce'));
 const CreateProduce = React.lazy(() => import('./views/Produce/Create'));
 const ProduceDetail = React.lazy(() => import('./views/Produce/Detail'));
 const ProduceModify = React.lazy(() => import('./views/Produce/Modify'));
+const Purchase = React.lazy(() => import('./views/Purchase/List'));
+const CreatePurchase = React.lazy(() => import('./views/Purchase/Create'));
 const Message = React.lazy(() => import('./views/Message/Message'));
 const Activity = React.lazy(() => import('./views/Activity/List'));
 const RegisterDetail = React.lazy(() => import('./views/Pages/Register/RegisterDetail'));
@@ -133,6 +135,8 @@ const routes = [
 	{ path: '/stock/edit/:id', exact: true,  name: '재고 실사', component: StockModify},
   { path: '/stock/transport', exact: true,  name: '재고 이동', component: StockTransport},
   { path: '/stock/product/:id', exact: true,  name: '재고 품목', component: StockProduct},
+  { path: '/main/purchase', exact: true,  name: '매입 관리', component: Purchase},
+  { path: '/purchase/create', exact: true,  name: '매입 등록', component: CreatePurchase},
   { path: '/main/survey', exact: true,  name: '시행 중', component: Survey},
   { path: '/main/survey/home', exact: true,  name: '마케팅 검사', component: SurveyHome},
 
