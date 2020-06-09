@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { pageFunction, searchFunction } from '../../action';
-import List from './List';
+import List from './List copy';
 
 function mapStateToProps(state) {
   console.warn(state)

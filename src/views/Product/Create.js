@@ -7,6 +7,7 @@ class CreateProduct extends Component {
   constructor(props) {
     super(props);
     this.form = {
+      category: '',
       name: '',
       grade: '',
       weight: '',
@@ -21,6 +22,7 @@ class CreateProduct extends Component {
       familyData: [],
       data: [],
       checkCategory: true,
+      category: '1차'
     };
   }
 
@@ -200,6 +202,10 @@ class CreateProduct extends Component {
       })
   }
 
+  changeCategory(e) {
+    this.setState({category: e.target.value})
+  }
+
   render() {
 		console.warn(this.state.imageDetail, this.state.image)
     return (
@@ -217,6 +223,14 @@ class CreateProduct extends Component {
                   <CardBody>
                     <Table className="ShowTable">
                       <tbody>
+                      <tr>
+                        <th>카테고리</th>
+                        <td>
+                          <Input type="radio" name="category" value="1차" style={{marginLeft: 10, marginRight: 5, position: "initial"}} onChange={this.changeCategory.bind(this)} defaultChecked/>1차
+                          <Input type="radio" name="category" value="2차" style={{marginLeft: 10, marginRight: 5, position: "initial"}} onChange={this.changeCategory.bind(this)} />2차
+                          <Input type="radio" name="category" value="3차" style={{marginLeft: 10, marginRight: 5, position: "initial"}} onChange={this.changeCategory.bind(this)} />3차
+                        </td>
+                      </tr>
                       <tr>
                         <th>품목명<span style={{color: "#FA5858"}}>*</span></th>
                         <td>
@@ -239,6 +253,7 @@ class CreateProduct extends Component {
                                 }} />}
                             </Popup>*/}
                           {this.state.checkCategory ?
+                            this.state.category==="1차" ?
                             <Input onChange={(e) => {
                               this.form.productFamily = e.target.value;
                             }} type='select' name="family">
@@ -246,6 +261,8 @@ class CreateProduct extends Component {
                                 return <option key={i} value={e.id}>{e.name}</option>
                               })}
                             </Input>
+                            :
+                            <Input disabled></Input>
                             :
                             <div style={{textAlign: "left", padding: 10}}>
                               <div style={{display: "table-cell"}}>
