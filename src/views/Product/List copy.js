@@ -382,7 +382,7 @@ class List extends Component {
                 <li>
                   <i className="fa fa-list-alt"></i>
                   <div className="status-list-text">
-                    <p>주문</p>
+                    <p>판매중</p>
                     <strong>0</strong>
                     <span>건</span>
                   </div>
@@ -390,7 +390,7 @@ class List extends Component {
                 <li>
                   <i className="fa fa-list-alt"></i>
                   <div className="status-list-text">
-                    <p>출하</p>
+                    <p>품절</p>
                     <strong>0</strong>
                     <span>건</span>
                   </div>
@@ -398,7 +398,7 @@ class List extends Component {
                 <li>
                   <i className="fa fa-list-alt"></i>
                   <div className="status-list-text">
-                    <p>취소</p>
+                    <p>판매중지</p>
                     <strong>0</strong>
                     <span>건</span>
                   </div>
@@ -410,43 +410,20 @@ class List extends Component {
               <div className="search-list">
                 <label className="search-label">검색어</label>
                 <div className="search-input">
-                  <div className="search-input-group">
-                    <div>
-                      <label>상품명 </label>
-                      <input></input>
-                    </div>
-                    <div>
-                      <label>모델명 </label>
-                      <input></input>
-                    </div>
-                  </div>
-                  <div className="search-input-group">
-                    <div>
-                      <label>제조사명 </label>
-                      <input></input>
-                    </div>
-                    <div>
-                      <label>브랜드명 </label>
-                      <input></input>
-                    </div>
-                  </div>
+                  <Input style={{width : "30%"}}></Input>
                 </div>
               </div>
               <div className="search-list">
                 <label className="search-label">판매상태</label>
                 <div className="search-input">
                   <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>전체</label>
-                  <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>판매대기</label>
                   <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>판매중</label>
                   <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>품절</label>
-                  <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>승인대기</label>
                   <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>판매중지</label>
-                  <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>판매종료</label>
-                  <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>판매금지</label>
                 </div>
               </div>
               <div className="search-list">
-                <label className="search-label">카테고리</label>
+                <label className="search-label">품목군</label>
                 <div className="search-input">
                   <select>
                     <option selected disabled>선택해주세요</option>
@@ -459,14 +436,14 @@ class List extends Component {
                   </select>
                 </div>
               </div>
-              <div className="search-list">
+              {/*<div className="search-list">
                 <label className="search-label">결제여부</label>
                 <div className="search-input">
                   <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>전체</label>
                   <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>결제가능상품</label>
                   <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>결제불가능상품</label>
                 </div>
-              </div>
+              </div>*/}
               <div className="search-list">
                 <label className="search-label">기간</label>
                 <div className="sell-input">
@@ -488,7 +465,7 @@ class List extends Component {
                 </div>
               </div>
               <div className="search-button">
-                <Button color="primary" style={{marginRight: 10}}>검색</Button>
+                <Button color="primary" style={{marginRight: 10}} onClick={()=> {this.searchProduct()}}>검색</Button>
                 <Button color="ghost-primary">초기화</Button>
               </div>
             </div>

@@ -28,16 +28,16 @@ export default {
           url: '/main/product/list/primary',
           icon: 'icon-puzzle',
         },
-        {
-          name: '2차',
-          url: '/main/product/list/secondary',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: '3차',
-          url: '/main/product/list/tertiary',
-          icon: 'icon-puzzle',
-        },
+        // {
+        //   name: '2차',
+        //   url: '/main/product/list/secondary',
+        //   icon: 'icon-puzzle',
+        // },
+        // {
+        //   name: '3차',
+        //   url: '/main/product/list/tertiary',
+        //   icon: 'icon-puzzle',
+        // },
       ]
     },
     {

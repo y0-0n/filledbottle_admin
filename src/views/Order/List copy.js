@@ -278,6 +278,9 @@ class List extends Component {
                   </InputGroup>
                 </div>
               </div>
+              <div style={{textAlign: 'center', paddingBottom: "10px"}}>
+								<Button color="primary" style={{width: "100%"}} onClick={() => { this.searchOrder(this.props.keyword); }}>검색하기</Button>
+							</div>
             </div>
             
             <div className="list-card">
@@ -299,6 +302,7 @@ class List extends Component {
               </div>
               <div className="list-box" style={{marginTop: 20}}>
                 <div style={{float: "right"}}>
+                  <Button color="primary" onClick={() => {this.props.history.push(`/sales/order`)}} style={{marginRight: 10}}>주문추가</Button>
                   <Button color="primary" onClick={() => {this.props.history.push(`/main/order/post/`)}}>택배송장</Button>
                   {console.log(data[0])}
                 </div>
@@ -359,6 +363,29 @@ class List extends Component {
                     })}
                   </tbody>
                 </Table>
+                <Pagination style={{justifyContent: 'center'}}>
+                  {this.props.pageNumbers === 1 ? '' :
+                  <PaginationItem>
+                    <PaginationLink previous onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers-1))}}/>
+                  </PaginationItem>
+                  }
+                  {this.props.pageNumbers === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
+                  {this.props.pageNumbers === 2 ? arr.forEach(x => arr1.push(x+1)) : null}
+                  {this.props.pageNumbers !== 1 && this.props.pageNumbers!== 2 ? arr.forEach(x => arr1.push(x)) :null }
+                  {arr1.map((e, i) => {
+                    if(this.state.total >= this.props.pageNumbers+e)
+                    return (<PaginationItem key={i} active={this.props.pageNumbers === this.props.pageNumbers+e}>
+                      <PaginationLink onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+e));}}>
+                      {this.props.pageNumbers+e}
+                      </PaginationLink>
+                    </PaginationItem>)
+                    return null;
+                  })}
+                  {this.props.pageNumbers === this.state.total ? '' :
+                  <PaginationItem>
+                    <PaginationLink next onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+1))}}/>
+                  </PaginationItem>}
+                </Pagination>
                 
               </div>
             </div>

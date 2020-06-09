@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader, Col, Row, Table, Button, Input, Pagination, PaginationItem, PaginationLink, CardFooter } from 'reactstrap';
+import { Card, CardBody, CardHeader, Col, Row, Table, Button, Input, Pagination, PaginationItem, PaginationLink, CardFooter, InputGroupAddon, InputGroup } from 'reactstrap';
 import Popup from "reactjs-popup";
+import DatePicker from "react-datepicker";
 
 const listCount = 15;
 
@@ -196,6 +197,8 @@ class Stock extends Component {
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/Stock.css"></link>
       <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
+      <link rel="stylesheet" type="text/css" href="css/ListCopy.css"></link>
+
         <Row>
           <Col md="12" xs="12" sm="12">
 						<Table className="category-top">
@@ -225,126 +228,97 @@ class Stock extends Component {
                 </tr>
               </tbody>
             </Table>
-            <Card>
-              <CardHeader>
-								<Row>
-									<Col>재고 관리</Col>
-									<Col>
-										<div style={{ float: "right" }}>
-											<Button color="primary" onClick={() => { this.props.history.push('/stock/product/'+ this.props.plant) }}>품목 관리</Button>
-											<Button color="primary" style={{ marginLeft: 10 }} onClick={() => {
-												this.props.history.push({
-													pathname: '/stock/edit/'+this.props.plant,
-												})}}>재고 실사</Button>
-											<Button color="primary" style={{ marginLeft: 10 }} onClick={() => { this.props.history.push('/stock/transport') }}>창고 이동</Button>
-											{/*<Popup
-												trigger={<Button color="primary" style={{ marginLeft: 10 }}>창고 이동</Button>}
-												modal>
-												{close => <PlantModal close={close} login={() => { this.props.history.push('/login') }}
-													selectProduct={(data) => {
-													}}
-												/>}
-												</Popup>*/}
-										</div>
-									</Col>
-								</Row>
-              </CardHeader>
-              <CardBody className="card-body">
-                <hr></hr>
-                <Row>
-                  <Col>
-                    <ul className="list-productfamily-ul" style={{width: '100%', display: 'flex', flexWrap: 'wrap', listStyleType: 'none', cursor: 'pointer'}}>
-                      { this.state.checkCategory ?
-                        <li className="list-productfamily" style={{backgroundColor: family === 0? '#F16B6F' : 'transparent', border: family === 0? '0px' : '1px solid #c9d6de',color: family === 0? '#fff' : '#52616a', fontWeight: family === 0? 'bold' : 'normal', fontSize: family === 0? '1.1em' : '1em'}}onClick = {() => {this.changeFamily(this.props.checkFamily(0));console.log(this.props.family)}}>
-                          전체
-                        </li>
-                        :
-                        <li>
+            <div className="search-box">
+              <div className="search-list">
+                <label className="search-label">품목군</label>
+                <div className="sell-input">
+                  <select>
+                    {
+                      useFamilyData.map((e, i) => {
+                        return <option key={i} className="list-productfamily" style={{backgroundColor: family === e.id? '#F16B6F' : 'transparent', border: family === e.id? '0px' : '1px solid #c9d6de', color: family === e.id? '#fff' : '#52616a', fontWeight: family === e.id? 'bold' : 'normal', fontSize: family === e.id? '1.1em' : '1em'}} onClick = {() => {this.changeFamily(this.props.checkFamily(e.id));console.log(this.props.family)}}>{e.name}</option>
+                      })
+                    }
+                  </select>
+                </div>
+              </div>
+              <div className="search-list">
+                <label className="search-label">품목명</label>
+                <div className="sell-input">
+                  <Input style={{width: "30%"}} placeholder="품목명을 검색해주세요." onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
+                </div>
+              </div>
+              <div style={{textAlign: 'center', paddingBottom: "10px"}}>
+								<Button color="primary" style={{width: "100%"}} onClick={() => { this.searchOrder(this.props.keyword); }}>검색하기</Button>
+							</div>
+            </div>
 
-                        </li>
-                      }
-                      { this.state.checkCategory ?
-                        useFamilyData.map((e, i) => {
-                          return <li key={i} className="list-productfamily" style={{backgroundColor: family === e.id? '#F16B6F' : 'transparent', border: family === e.id? '0px' : '1px solid #c9d6de', color: family === e.id? '#fff' : '#52616a', fontWeight: family === e.id? 'bold' : 'normal', fontSize: family === e.id? '1.1em' : '1em'}} onClick = {() => {this.changeFamily(this.props.checkFamily(e.id));console.log(this.props.family)}}>{e.name}</li>
-                        })
-                        :
-                        <li>
-
-                        </li>
-                      }
-                      {/*<Popup
-                            trigger={<li className="list-productfamily" style={{border: '1px solid #c9d6de', color: 'lightgreen',}}>+</li>}
-                            modal>
-                            {close => <ProductFamilyModal close={close} login={() => { this.props.history.push('/login') }}
-                      />}
-                      </Popup>*/}
-                        {/*<InputGroup>
-                          <Input value={this.state.newFamily} onChange={(e) => {
-                            let newFamily = e.target.value;
-                            this.setState({ newFamily })
-                          }} />
-                          <InputGroupAddon addonType="append">
-                            <Button onClick={this.addProductFamily.bind(this)} outline color="success">+</Button>
-                          </InputGroupAddon>
-                        </InputGroup>*/}
-                    </ul>
-                  </Col>
-                </Row>
-                <hr></hr>
+            <div className="list-card">
+              <div className="list-title">
+                <span>
+                  재고관리
+                </span>
+              </div>
+              <div className="list-box" style={{marginTop: 20}}>
+                <div style={{float: "right", marginBottom: 20}}>
+                  <Button color="primary" onClick={() => { this.props.history.push('/stock/product/'+ this.props.plant) }}>품목 관리</Button>
+                  <Button color="primary" style={{ marginLeft: 10 }} onClick={() => {
+                    this.props.history.push({
+                    pathname: '/stock/edit/'+this.props.plant,
+                    })}}>재고 실사</Button>
+                  <Button color="primary" style={{ marginLeft: 10 }} onClick={() => { this.props.history.push('/stock/transport') }}>창고 이동</Button>
+                </div>
                 <Table className="ListTable" hover>
-                    <thead>
-                      <tr>
-												<th style={{ width: 150 }} className="list-hidden">사진</th>
-                        <th>제품명</th>
-												<th>창고</th>
-                        <th>현 재고</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {stockData.map((d) => {
-                        return (
-                          <tr onClick={() => {this.props.history.push(`/main/manage/stock/${this.props.plant}/${d.product_id}`)}} style={{cursor: 'pointer'}} key={d.id}
-													>
-														<td className="list-hidden">
-															<img style={{ width: '90%' }} alt="품목 사진" src={d.file_name ? process.env.REACT_APP_HOST+"/static/" + d.file_name : '318x180.svg'} />
-														</td>
-                            <td>{d.name + " " + d.grade + " " + d.weight}</td>
-                            <td>{d.plantName}</td>
-                            <td>{d.quantity}</td>
-                          </tr>
-                        )
-                      })}
-                    </tbody>
-                  </Table>
-                <div style={{width: "100%", textAlign : "center"}}>{this.state.stockData.length === 0 ? <span >"현재 재고 목록이 없습니다."</span> : null}</div>
-              </CardBody>
-              <CardFooter>
-                <Pagination style={{justifyContent: 'center'}}>
-                  {this.props.pageNumbers === 1 ? '' :
-                  <PaginationItem>
-                    <PaginationLink previous onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers-1))}}/>
-                  </PaginationItem>
-                  }
-                  {this.props.pageNumbers === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
-                  {this.props.pageNumbers === 2 ? arr.forEach(x => arr1.push(x+1)) : null}
-                  {this.props.pageNumbers !== 1 && this.props.pageNumbers!== 2 ? arr.forEach(x => arr1.push(x)) :null }
-                  {arr1.map((e, i) => {
-                    if(this.state.total >= this.props.pageNumbers+e)
-                    return (<PaginationItem key={i} active={this.props.pageNumbers === this.props.pageNumbers+e}>
-                      <PaginationLink onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+e)); console.log(this.props.pageNumbers)}}>
-                      {this.props.pageNumbers+e}
-                      </PaginationLink>
-                    </PaginationItem>)
-                    return null;
-                  })}
-                  {this.props.pageNumbers === this.state.total ? '' :
-                  <PaginationItem>
-                    <PaginationLink next onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+1))}}/>
-                  </PaginationItem>}
-                </Pagination>
-              </CardFooter>
-
-            </Card>
+                  <thead>
+                    <tr>
+                      <th style={{ width: 150 }} className="list-hidden">사진</th>
+                      <th>제품명</th>
+                      <th>창고</th>
+                      <th>현 재고</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {stockData.map((d) => {
+                      return (
+                        <tr onClick={() => {this.props.history.push(`/main/manage/stock/${this.props.plant}/${d.product_id}`)}} style={{cursor: 'pointer'}} key={d.id}
+                        >
+                          <td className="list-hidden">
+                            <img style={{ width: '90%' }} alt="품목 사진" src={d.file_name ? process.env.REACT_APP_HOST+"/static/" + d.file_name : '318x180.svg'} />
+                          </td>
+                          <td>{d.name + " " + d.grade + " " + d.weight}</td>
+                          <td>{d.plantName}</td>
+                          <td>{d.quantity}</td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </Table>
+              </div>
+              <div style={{width: "100%", textAlign : "center"}}>{this.state.stockData.length === 0 ? <span >"현재 재고 목록이 없습니다."</span> : null}</div>
+              <hr></hr>
+              <Pagination style={{justifyContent: 'center'}}>
+                {this.props.pageNumbers === 1 ? '' :
+                <PaginationItem>
+                  <PaginationLink previous onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers-1))}}/>
+                </PaginationItem>
+                }
+                {this.props.pageNumbers === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
+                {this.props.pageNumbers === 2 ? arr.forEach(x => arr1.push(x+1)) : null}
+                {this.props.pageNumbers !== 1 && this.props.pageNumbers!== 2 ? arr.forEach(x => arr1.push(x)) :null }
+                {arr1.map((e, i) => {
+                  if(this.state.total >= this.props.pageNumbers+e)
+                  return (<PaginationItem key={i} active={this.props.pageNumbers === this.props.pageNumbers+e}>
+                    <PaginationLink onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+e)); console.log(this.props.pageNumbers)}}>
+                    {this.props.pageNumbers+e}
+                    </PaginationLink>
+                  </PaginationItem>)
+                  return null;
+                })}
+                {this.props.pageNumbers === this.state.total ? '' :
+                <PaginationItem>
+                  <PaginationLink next onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+1))}}/>
+                </PaginationItem>}
+              </Pagination>
+            </div>
           </Col>
         </Row>
       </div>
