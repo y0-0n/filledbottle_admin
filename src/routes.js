@@ -78,13 +78,17 @@ const Produce = React.lazy(() => import('./views/Produce'));
 const CreateProduce = React.lazy(() => import('./views/Produce/Create'));
 const ProduceDetail = React.lazy(() => import('./views/Produce/Detail'));
 const ProduceModify = React.lazy(() => import('./views/Produce/Modify'));
+const Purchase = React.lazy(() => import('./views/Purchase/List'));
+const CreatePurchase = React.lazy(() => import('./views/Purchase/Create'));
 const Message = React.lazy(() => import('./views/Message/Message'));
 const Activity = React.lazy(() => import('./views/Activity/List'));
 const RegisterDetail = React.lazy(() => import('./views/Pages/Register/RegisterDetail'));
 const RegisterModify = React.lazy(() => import('./views/Pages/Register/RegisterModify'));
+const RegisterCreate = React.lazy(() => import('./views/Pages/Register/EmployeeCreate'));
 const Survey = React.lazy(() => import('./views/Survey/Survey'));
 const SurveyHome = React.lazy(() => import('./views/Survey/Home'));
 const Setting = React.lazy(() => import('./views/Setting/Setting'));
+const Income = React.lazy(() => import('./views/Income/Income'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -124,6 +128,7 @@ const routes = [
   { path: '/main/activity', exact: true,  name: '관광', component: Activity},
   { path: '/main/registerdetail', exact: true,  name: '회원정보', component: RegisterDetail},
   { path: '/main/register/edit', exact: true,  name: '회원정보수정', component: RegisterModify},
+  { path: '/main/register/create', exact: true,  name: '직원추가', component: RegisterCreate},
 	{ path: '/main/setting', exact: true,  name: '설정', component: Setting},
   { path: '/main/stock', exact: true,  name: '재고 관리', component: Stock},
   { path: '/main/manage/stock/:plantId/:productId', exact: true,  name: '재고 내역', component: StockDetail},
@@ -133,8 +138,11 @@ const routes = [
 	{ path: '/stock/edit/:id', exact: true,  name: '재고 실사', component: StockModify},
   { path: '/stock/transport', exact: true,  name: '재고 이동', component: StockTransport},
   { path: '/stock/product/:id', exact: true,  name: '재고 품목', component: StockProduct},
+  { path: '/main/purchase', exact: true,  name: '매입 관리', component: Purchase},
+  { path: '/purchase/create', exact: true,  name: '매입 등록', component: CreatePurchase},
   { path: '/main/survey', exact: true,  name: '시행 중', component: Survey},
   { path: '/main/survey/home', exact: true,  name: '마케팅 검사', component: SurveyHome},
+  { path: '/main/income', exact: true,  name: '손익 계산서', component: Income},
 
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },

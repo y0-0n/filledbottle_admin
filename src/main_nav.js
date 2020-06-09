@@ -15,6 +15,11 @@ export default {
       icon: 'icon-puzzle',
     },
     {
+      name: '매입 관리',
+      url: '/main/purchase',
+      icon: 'icon-puzzle',
+    },
+    {
       name: '품목 관리',
       icon: 'icon-puzzle',
       children: [
@@ -23,16 +28,16 @@ export default {
           url: '/main/product/list/primary',
           icon: 'icon-puzzle',
         },
-        {
-          name: '2차',
-          url: '/main/product/list/secondary',
-          icon: 'icon-puzzle',
-        },
-        {
-          name: '3차',
-          url: '/main/product/list/tertiary',
-          icon: 'icon-puzzle',
-        },
+        // {
+        //   name: '2차',
+        //   url: '/main/product/list/secondary',
+        //   icon: 'icon-puzzle',
+        // },
+        // {
+        //   name: '3차',
+        //   url: '/main/product/list/tertiary',
+        //   icon: 'icon-puzzle',
+        // },
       ]
     },
     {
@@ -43,6 +48,11 @@ export default {
 		{
       name: '재고 관리',
       url: '/main/stock',
+      icon: 'icon-speedometer',
+    },
+    {
+      name: '손익계산서',
+      url: '/main/income',
       icon: 'icon-speedometer',
     },
 		/*{

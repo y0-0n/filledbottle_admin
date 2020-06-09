@@ -8,6 +8,20 @@
     margin: auto;
     width: 800px;
   }
+
+  .post-card {
+    background-color: #fff;
+  }
+
+  .post-title {
+    padding: 15px;
+    border-bottom: 1px solid lightgrey;
+    margin-bottom: 15px;
+  }
+
+  .post-footer {
+    margin-top: 15px;
+  }
   
   .stylecenter{
     text-align: center;
