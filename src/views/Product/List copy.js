@@ -23,6 +23,11 @@ import ReactToPrint from 'react-to-print';
 */
 
 const listCount = 15;
+const _state = [
+  '판매 중',
+  '품절',
+  '판매 중지'
+]
 
 class List extends Component {
   constructor(props) {
@@ -347,7 +352,6 @@ class List extends Component {
               <tbody>
                 <tr>
                   <td style={{cursor: "pointer", backgroundColor: this.props.category===0 ? '#E6E6E6' : '#fff'}} onClick={() => {this.changeCategory(this.props.checkCategoryId(0))}}>전체</td>
-                  {console.log(this.props.category)}
 									{ this.state.checkCategory ?
 										userCategoryData.map((e, i) => {
 											return <td key={i} style={{cursor: "pointer", backgroundColor: this.props.category===e.id ? '#E6E6E6' : '#fff'}} onClick={() => {this.changeCategory(this.props.checkCategoryId(e.id))}}>{e.name}</td>
@@ -425,9 +429,8 @@ class List extends Component {
               <div className="search-list">
                 <label className="search-label">품목군</label>
                 <div className="search-input">
-                  <select>
-                    <option selected disabled>선택해주세요</option>
-                    {console.log(familyData)}
+                  <select defaultValue='1'>
+                    <option disabled value='1'>선택해주세요</option>
                     {
                       familyData.map((e, i) => {
                         return <option>{e.name}</option>
@@ -502,6 +505,7 @@ class List extends Component {
                       <th style={{ width: 250 }}>품목군</th>
                       <th>판매 단가</th>
                       <th>재고</th>
+                      <th>상태</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -519,6 +523,7 @@ class List extends Component {
                         <td>{e.familyName}</td>
                         <td>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</td>
                         <td>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>
+                        <td>{_state[e.state-1]}</td>
                       </tr>)
                     })}
                   </tbody>
