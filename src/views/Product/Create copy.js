@@ -368,6 +368,19 @@ class CreateProduct extends Component {
               </div>
 
               <div className="form-card">
+                <div className="form-title">품목상태</div>
+                <div className="form-innercontent">
+                  <div className="sell-input">
+                    <div className="search-input">
+                      <label className="search-input-label"><input className="search-input-checkbox" type="checkbox" checked/>판매중</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>품절</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>판매중지</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-card">
                 <div className="form-title">상품이미지</div>
                 <div className="form-innercontent">
                   <div className="sell-list">

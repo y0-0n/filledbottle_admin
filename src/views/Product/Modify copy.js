@@ -339,9 +339,7 @@ class Modify extends Component {
                       <Input type="radio" name="vat" id="vat1" value="vat1" defaultChecked onChange={this.changeVAT.bind(this)}/>
                       <label for="vat1">과세상품</label>
                       <Input type="radio" name="vat" id="vat2" value="vat2" onChange={this.changeVAT.bind(this)}/>
-                      <label for="vat2">면세상품</label>
-                      <Input type="radio" name="vat" id="vat3" value="vat3" onChange={this.changeVAT.bind(this)}/>
-                      <label for="vat3">영세상품</label>
+                      <label for="vat2">비과세상품</label>
                     </div>
                   </div>
                 </div>
@@ -355,6 +353,19 @@ class Modify extends Component {
                       <Input placeholder="숫자만 입력"/>
                       <InputGroupAddon addonType="append">개</InputGroupAddon>
                     </InputGroup>
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-card">
+                <div className="form-title">품목상태</div>
+                <div className="form-innercontent">
+                  <div className="sell-input">
+                    <div className="search-input">
+                      <label className="search-input-label"><input className="search-input-checkbox" type="checkbox" checked/>판매중</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>품절</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>판매중지</label>
+                    </div>
                   </div>
                 </div>
               </div>

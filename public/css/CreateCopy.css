@@ -24,9 +24,9 @@ ul li {
     width: 100%;
 }
 
-.form-card .form-innercontent input {
+/* .form-card .form-innercontent input {
     width: 100%;
-}
+} */
 
 .category-input-toggle input {
     display: none;
@@ -122,4 +122,13 @@ ul li {
 
 .sell-list .add-image i {
     margin-top: 62px;
+}
+
+.search-input-label {
+    margin-right : 10px
+}
+
+.search-input-checkbox {
+    margin-right: 10px;
+    border-radius: 0;
 }
