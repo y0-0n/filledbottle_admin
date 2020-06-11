@@ -429,14 +429,11 @@ class List extends Component {
               <div className="search-list">
                 <label className="search-label">품목군</label>
                 <div className="search-input">
-                  <select defaultValue='1'>
-                    <option disabled value='1'>선택해주세요</option>
-                    {
-                      familyData.map((e, i) => {
-                        return <option>{e.name}</option>
-                      })
-                    }
-                  </select>
+                  {
+                    familyData.map((e, i) => {
+                      return <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>{e.name}</label>
+                    })
+                  }
                 </div>
               </div>
               {/*<div className="search-list">
@@ -447,7 +444,7 @@ class List extends Component {
                   <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>결제불가능상품</label>
                 </div>
               </div>*/}
-              <div className="search-list">
+              {/*<div className="search-list">
                 <label className="search-label">기간</label>
                 <div className="sell-input">
                   <DatePicker
@@ -466,7 +463,7 @@ class List extends Component {
                     onChange={(last_date) => { this.setState({ last_date }) }}
                   />
                 </div>
-              </div>
+              </div>*/}
               <div className="search-button">
                 <Button color="primary" style={{marginRight: 10}} onClick={()=> {this.searchProduct()}}>검색</Button>
                 <Button color="ghost-primary">초기화</Button>
