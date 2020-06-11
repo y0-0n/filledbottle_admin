@@ -341,11 +341,11 @@ class List extends Component {
                   <tbody>
                     {data.map((e, i) => {
                       this.state.count++
-                      return (<tr style={{cursor: 'pointer'}} key={this.state.count}>
+                      return (<tr style={{cursor: 'pointer'}} key={this.state.count} onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>
                         <td className="list-hidden">{e.id}</td>
                         <td>{this.getDate(e.date)}</td>
                         <td className="list-hidden">{this.getDate(e.orderDate)}</td>
-                        <td onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>{e.name}</td>
+                        <td>{e.name}</td>
                         <td>{this.numberWithCommas(e.price)}</td>
                         <td className="list-hidden">
                           {this.state.process === 'refund' ? <Badge color="danger">{stateKor['refund']}</Badge> : null}
