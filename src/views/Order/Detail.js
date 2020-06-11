@@ -15,8 +15,9 @@ class Detail extends Component {
     this.state = {
       data: {
         orderInfo: [{}],
-        productInfo: [{}]
+        productInfo: [{}],
       },
+      collect : true,
       refund : false,
     };
   }
@@ -103,11 +104,7 @@ class Detail extends Component {
   }
 
   handleRefund() {
-    if(this.state.refund === true){
-      this.setState({refund: false});
-    }else{
-      this.setState({refund: true});
-    }
+    this.setState({refund: !this.state.refund});
   }
 
   changeRefundstate(id, refund) {
@@ -200,6 +197,9 @@ class Detail extends Component {
                       <td colSpan='3'>
                         {orderInfo['state'] === 'order' ? <h3><Badge color="primary">{stateKor[orderInfo['state']]}</Badge></h3>: null}
                         {orderInfo['state'] === 'shipping' ? <h3><Badge color="secondary">{stateKor[orderInfo['state']]}</Badge></h3>: null}
+                        {orderInfo['state'] === 'shipping' ? this.state.collect ? <h3><Badge color="secondary">미수금</Badge></h3>
+                        :<h3><Badge color="secondary">수금</Badge></h3>
+                        : null}
                         {orderInfo['state'] === 'refund' ? <h3><Badge color="danger">{stateKor[orderInfo['state']]}</Badge></h3>: null}
                         {orderInfo['state'] === 'cancel' ? <h3><Badge color="danger">{stateKor[orderInfo['state']]}</Badge></h3>: null}</td>
                     </tr>
@@ -209,6 +209,9 @@ class Detail extends Component {
               <CardFooter>
                 {orderInfo['state'] === "order" ? <Button onClick={() => this.changeState(orderInfo.state, 'shipping')} style={{marginLeft : '10px'}}>출하 완료</Button> : null}
                 {orderInfo['state'] === "shipping" ? <Button onClick={() => this.changeState(orderInfo.state, 'order')} style={{marginLeft : '10px'}} >출하 취소</Button> : null}
+                {orderInfo['state'] === "shipping" ?  this.state.collect ? <Button onClick={() => this.setState({collect : false})} style={{marginLeft : '10px'}} >수금 완료</Button>
+                :<Button onClick={() => this.setState({collect : true})} style={{marginLeft : '10px'}} >수금 미완</Button>
+                : null}
                 <Button onClick={() => {this.props.history.push(`/main/order/transaction/`+this.props.match.params.id)}} style={{marginLeft : '10px'}}>거래명세서</Button>
                 <Button onClick={() => {this.props.history.push(`/main/order/post/`+this.props.match.params.id)}} style={{marginLeft : '10px'}}>택배송장</Button>
               </CardFooter>
