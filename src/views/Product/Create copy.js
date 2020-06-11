@@ -211,34 +211,46 @@ class CreateProduct extends Component {
           <Col sm="12" md="12" lg="12">
             <form encType="multipart/form-data" onSubmit={this.handlePost.bind(this)}>
               <div className="form-card">
-                <div className="form-title">카테고리</div>
+                <div className="form-title">품목군</div>
                 <div className="form-innercontent">
                   <div className="category-">
                     <div className="category-input-toggle">
                       <Input type="radio" name="category" id="category1" value="category1" onChange={this.changeCategory.bind(this)} defaultChecked/>
-                      <label for="category1">카테고리명 검색</label>
+                      <label for="category1">품목군 선택</label>
                       <Input type="radio" name="category" id="category2" value="category2" onChange={this.changeCategory.bind(this)}/>
-                      <label for="category2">카테고리명 선택</label>
+                      <label for="category2">카테고리 선택</label>
                     </div>
                   </div>
                   { this.state.category === 'category1' ? 
                     <div className="category-content">
-                      <Input placeholder="카테고리명 입력"/>
+                      {this.state.checkCategory ?
+                            <Input onChange={(e) => {
+                              this.form.productFamily = e.target.value;
+                            }} type='select' name="family">
+                              {this.state.familyData.map((e, i) => {
+                                return <option key={i} value={e.id}>{e.name}</option>
+                              })}
+                            </Input>
+                            :
+                            <div style={{textAlign: "left", padding: 10}}>
+                              <div style={{display: "table-cell"}}>
+                                <i style={{marginRight: 10}} class="fa fa-exclamation-circle"></i>
+                              </div>
+                              <div style={{display: "table-cell"}}>
+                                품목군을 설정해서 품목 관리를 시작하세요. <br></br>
+                                ( 우측상단의 회원정보 또는 품목군 추가하기 버튼을 통해 설정이 가능합니다. )
+                              </div>
+                              <div style={{display: "table-cell", paddingLeft: 50, verticalAlign: "middle"}}>
+                                <Button color="primary" onClick={() => {
+                                  this.props.history.push('/main/registerdetail')
+                                }}>품목군 추가하기</Button>
+                              </div>
+                            </div>
+                          }
                     </div>
                   :
                     <div className="category-content category-list">
                       <div className="category-ul">
-                        <ul>
-                          <li>
-                            농산품
-                          </li>
-                          <li>
-                            수산품
-                          </li>
-                          <li>
-                            축산품
-                          </li>
-                        </ul>
                       </div>
                     </div>
                   }
@@ -248,7 +260,7 @@ class CreateProduct extends Component {
               <div className="form-card">
                 <div className="form-title">상품명</div>
                 <div className="form-innercontent">
-                  <Input placeholder="상품명 입력"/>
+                  <Input required onChange={(e) => this.form.name = e.target.value} placeholder="상품명 입력"/>
                 </div>
               </div>
 
@@ -259,7 +271,7 @@ class CreateProduct extends Component {
                     <label className="sell-label">판매가</label>
                     <div className="sell-input">
                       <InputGroup>
-                        <Input placeholder="숫자만 입력" onChange={this.changePrice.bind(this)}/>
+                        <Input type="number" placeholder="숫자만 입력" required onChange={(e) => this.form.price = e.target.value/*this.changePrice.bind(this)*/} />
                         <InputGroupAddon addonType="append">
                           원
                         </InputGroupAddon>
@@ -337,9 +349,7 @@ class CreateProduct extends Component {
                       <Input type="radio" name="vat" id="vat1" value="vat1" defaultChecked onChange={this.changeVAT.bind(this)}/>
                       <label for="vat1">과세상품</label>
                       <Input type="radio" name="vat" id="vat2" value="vat2" onChange={this.changeVAT.bind(this)}/>
-                      <label for="vat2">면세상품</label>
-                      <Input type="radio" name="vat" id="vat3" value="vat3" onChange={this.changeVAT.bind(this)}/>
-                      <label for="vat3">영세상품</label>
+                      <label for="vat2">비과세상품</label>
                     </div>
                   </div>
                 </div>
