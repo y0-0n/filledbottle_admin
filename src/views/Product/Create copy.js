@@ -211,13 +211,6 @@ class CreateProduct extends Component {
           <Col sm="12" md="12" lg="12">
             <form encType="multipart/form-data" onSubmit={this.handlePost.bind(this)}>
               <div className="form-card">
-                <div className="form-title">복사등록</div>
-                <div className="form-innercontent">
-                  <Input placeholder="최근 등록한 상품 선택"/>
-                </div>
-              </div>
-
-              <div className="form-card">
                 <div className="form-title">카테고리</div>
                 <div className="form-innercontent">
                   <div className="category-">
@@ -385,6 +378,7 @@ class CreateProduct extends Component {
                   </div>
                 </div>
               </div>
+              <Button block outline color="primary">추가하기</Button>
 
             </form>
           </Col>
