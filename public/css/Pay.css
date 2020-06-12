@@ -1,0 +1,16 @@
+.pay-card {
+    background-color: #fff;
+    padding: 50px;
+    text-align: center;
+}
+
+.pay-text {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.listcard {
+    border: 1px solid lightgrey;
+    padding: 50px;
+    margin-bottom: 20px;
+}

@@ -36,6 +36,8 @@ class RegisterDetail extends Component {
       plant : 1,
       deletePlantList: [],
       employee: [[]],
+      cardShow : true,
+      day: 7
     }
   }
 
@@ -379,195 +381,212 @@ class RegisterDetail extends Component {
   }
 
   render() {
+    console.log(this.state.cardShow)
     const {data, plantData, allFamilyData, familyData, categoryData, productData} = this.state;
     return (
 			<div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
         <link rel="stylesheet" type="text/css" href="css/RegisterDetail.css"></link>
         <Row>
-        <Col md="12" xs="12" sm="12">
-          <Card>
-            <CardHeader>
-              <Row>
-                <Col>회원 정보</Col>
-                <Col>
-                  <div style={{float : "right"}}>
-                    <Button block color="primary" onClick={() => {this.props.history.push(`/main/register/edit`)}}>회원정보수정</Button>
-                  </div>
-                </Col>
-              </Row>
-            </CardHeader>
-            <CardBody>
-              <Table className="ShowTable">
-                <tbody>
-                  <tr>
-                    <th>이름</th>
-                    <td>
-                      {data.name}
-                    </td>
-                    <th>아이디</th>
-                    <td>
-                      {data.email}
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>전화번호</th>
-                    <td>
-                      {data.phone}
-                    </td>
-                    <th>사업자등록번호</th>
-                    <td>
-                      {data.crNumber}
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>주소</th>
-                    <td colSpan="3">
-                      {data.address}
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
-            </CardBody>
-          </Card>
-        </Col>
-
-        <Col md="12" xs="12" sm="12">
-          <Card>
-            <CardHeader>
-              <Row>
-                <Col>직원 관리</Col>
-                <Col>
-                  <div style={{float : "right"}}>
-                    <Button block color="primary" onClick={() => {this.props.history.push(`/main/register/create`)}}>직원추가</Button>
-                  </div>
-                </Col>
-              </Row>
-            </CardHeader>
-            <CardBody>
-              <Table className="ListTable" style={{ minWidth: 600 }} hover>
-                <thead>
-                  <tr>
-                    <th>No.</th>
-                    <th>부서</th>
-                    <th>직원명</th>
-                    <th>직책</th>
-                    <th>전화번호</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {employee.map((e, i) => {
-                    return (<tr>
-                      <td className="list-hidden">{i+1}</td>
-                      <td>{e.department}</td>
-                      <td className="list-hidden">{e.name}</td>
-                      <td>{e.position}</td>
-                      <td>{e.cellphone}</td>
-                    </tr>)
-                  })}
-                </tbody>
-              </Table>
-            </CardBody>
-          </Card>
-        </Col>
-
-				<Col md="12" xs="12" sm="12">
-          <Card>
-            <CardHeader>
-              <Row>
-                <Col>창고</Col>
-                <div style={{float: "right"}}>
+          <Col>
+            {this.state.cardShow ? 
+            <div className="vaildity-card">
+            <div>
+              <p className="close-button" style={{cursor : 'pointer'}} onClick={()=> {this.setState({cardShow: false})}}>X</p>
+              <p className="vaildity-content">
+                부농부농 서비스를 이용할 수 있는 기간이 <span style={{color: "lightblue"}}>{this.state.day}</span> 일 남았습니다
+                <br/>
+                연장하기 버튼을 눌러 이용기간을 연장해주세요. 
+              </p>
+              <Button color="primary" onClick={() => {this.props.history.push(`/main/pay`)}}>연장하기</Button>
+            </div>
+          </div>
+          : null}
+            
+          </Col>
+          <Col md="12" xs="12" sm="12">
+            <Card>
+              <CardHeader>
+                <Row>
+                  <Col>회원 정보</Col>
                   <Col>
-                  <InputGroup>
-                    <Input placeholder="새 창고명" onChange={(e) => { this.newPlant = e.target.value }} />
-                    <InputGroupAddon addonType="append">
-                      <Button block color="primary" onClick={() => { this.addPlant() }}>추가</Button>
-                    </InputGroupAddon>
-                  </InputGroup>
+                    <div style={{float : "right"}}>
+                      <Button block color="primary" onClick={() => {this.props.history.push(`/main/register/edit`)}}>회원정보수정</Button>
+                    </div>
                   </Col>
-                </div>
-              </Row>
-            </CardHeader>
-            <CardBody>
-              <Table className="ShowTable">
-                <thead>
-                  <tr>
-                    <th>창고명</th>
-										<th>저장 품목군</th>
-                    <th style={{width : 35}}>삭제</th>
-										{/*<th>저장량</th>*/}
-                  </tr>
-                </thead>
-								<tbody>
-									{plantData.map((e, i) => {
-										return (<tr key={i}>
-											<td>{e.name}</td>
+                </Row>
+              </CardHeader>
+              <CardBody>
+                <Table className="ShowTable">
+                  <tbody>
+                    <tr>
+                      <th>이름</th>
                       <td>
-                      {
-                      this.state.familyInPlantData[i] !== undefined ?
-                        this.state.familyInPlantData[i].map((e, i) => {
-												return e.name
-                      }) : null}
+                        {data.name}
                       </td>
-                      <td style={{textAlign:"center"}}>{this.state.familyInPlantData[i] !== undefined && this.state.familyInPlantData[i].length === 0 ?
-                        <Button color="danger" onClick={() => {
-													this.deactivatePlant(e)
-												}}>X</Button> :
-												<Button color="danger" disabled>X</Button>  
-                      }</td>
-										</tr>)}
-									)}
-									<tr>
-									</tr>
-								</tbody>
-              </Table>
-            </CardBody>
-          </Card>
-        </Col>
+                      <th>아이디</th>
+                      <td>
+                        {data.email}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>전화번호</th>
+                      <td>
+                        {data.phone}
+                      </td>
+                      <th>사업자등록번호</th>
+                      <td>
+                        {data.crNumber}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>주소</th>
+                      <td colSpan="3">
+                        {data.address}
+                      </td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </CardBody>
+            </Card>
+          </Col>
 
-				<Col md="12" xs="12" sm="12">
-          <Card>
-            <CardHeader>
-              <Row>
-                <Col>취급 품목</Col>
-                <Col>
-                  <div style={{float : "right"}}>
-                    {this.state.modify ? <Button block color="success" onClick={() => {this.modifyFamily()}}>저장하기</Button> : <Button block color="primary" onClick={() => {this.setState({modify: true})}}>편집하기</Button>}
+          <Col md="12" xs="12" sm="12">
+            <Card>
+              <CardHeader>
+                <Row>
+                  <Col>직원 관리</Col>
+                  <Col>
+                    <div style={{float : "right"}}>
+                      <Button block color="primary" onClick={() => {this.props.history.push(`/main/register/create`)}}>직원추가</Button>
+                    </div>
+                  </Col>
+                </Row>
+              </CardHeader>
+              <CardBody>
+                <Table className="ListTable" style={{ minWidth: 600 }} hover>
+                  <thead>
+                    <tr>
+                      <th>No.</th>
+                      <th>부서</th>
+                      <th>직원명</th>
+                      <th>직책</th>
+                      <th>전화번호</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {employee.map((e, i) => {
+                      return (<tr>
+                        <td className="list-hidden">{i+1}</td>
+                        <td>{e.department}</td>
+                        <td className="list-hidden">{e.name}</td>
+                        <td>{e.position}</td>
+                        <td>{e.cellphone}</td>
+                      </tr>)
+                    })}
+                  </tbody>
+                </Table>
+              </CardBody>
+            </Card>
+          </Col>
+
+          <Col md="12" xs="12" sm="12">
+            <Card>
+              <CardHeader>
+                <Row>
+                  <Col>창고</Col>
+                  <div style={{float: "right"}}>
+                    <Col>
+                    <InputGroup>
+                      <Input placeholder="새 창고명" onChange={(e) => { this.newPlant = e.target.value }} />
+                      <InputGroupAddon addonType="append">
+                        <Button block color="primary" onClick={() => { this.addPlant() }}>추가</Button>
+                      </InputGroupAddon>
+                    </InputGroup>
+                    </Col>
                   </div>
-                </Col>
-              </Row>
-            </CardHeader>
-            <CardBody>
-              <Nav tabs>
-                {categoryData.map((e,i) => {
-									return <NavItem key={i}>
-                  <NavLink active={this.state.category === e.id} onClick={() => this.tabClick(e.id)} href="#">{e.name}</NavLink>
-                </NavItem>
-								})}
-              </Nav>
-              <div>
-							  <ul className="ul-productFamily" style={{listStyleType: "none",}}>
-                  {allFamilyData.map((e, i) => {
-                    const f = (element) => element.id === e.id
-										return (
-                      <li key={i} className="list-productFamily" style={{
-                        color: familyData.findIndex(f) === -1 ? this.state.addFamilyList.findIndex(f) === -1 ? 'black': '#fff': this.state.deleteFamilyList.findIndex(f) !== -1 ? 'black': '#fff',
-                        backgroundColor: familyData.findIndex(f) === -1 ? this.state.addFamilyList.findIndex(f) === -1 ? '#fff': '#20A8D8': this.state.deleteFamilyList.findIndex(f) !== -1 ? '#fff': '#20A8D8', 
-                        borderColor: familyData.findIndex(f) === -1 ? this.state.addFamilyList.findIndex(f) === -1 ? 'lightgray': '': this.state.deleteFamilyList.findIndex(f) !== -1 ? 'lightgray': ''
-                      }} 
-                      onClick={() => {
-                        this.setState({family: e.id}, () => {
-                          familyData.findIndex(f) === -1 ? this.toggleList(this.state.addFamilyList, e) : this.toggleList(this.state.deleteFamilyList, e);
-                        });
-                        
-                      }}>{e.name}</li>
-                      )}
-                      )}
-                </ul>
-              </div>
-            </CardBody>
-          </Card>
-        </Col>
+                </Row>
+              </CardHeader>
+              <CardBody>
+                <Table className="ShowTable">
+                  <thead>
+                    <tr>
+                      <th>창고명</th>
+                      <th>저장 품목군</th>
+                      <th style={{width : 35}}>삭제</th>
+                      {/*<th>저장량</th>*/}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {plantData.map((e, i) => {
+                      return (<tr key={i}>
+                        <td>{e.name}</td>
+                        <td>
+                        {
+                        this.state.familyInPlantData[i] !== undefined ?
+                          this.state.familyInPlantData[i].map((e, i) => {
+                          return e.name
+                        }) : null}
+                        </td>
+                        <td style={{textAlign:"center"}}>{this.state.familyInPlantData[i] !== undefined && this.state.familyInPlantData[i].length === 0 ?
+                          <Button color="danger" onClick={() => {
+                            this.deactivatePlant(e)
+                          }}>X</Button> :
+                          <Button color="danger" disabled>X</Button>  
+                        }</td>
+                      </tr>)}
+                    )}
+                    <tr>
+                    </tr>
+                  </tbody>
+                </Table>
+              </CardBody>
+            </Card>
+          </Col>
+
+          <Col md="12" xs="12" sm="12">
+            <Card>
+              <CardHeader>
+                <Row>
+                  <Col>취급 품목</Col>
+                  <Col>
+                    <div style={{float : "right"}}>
+                      {this.state.modify ? <Button block color="success" onClick={() => {this.modifyFamily()}}>저장하기</Button> : <Button block color="primary" onClick={() => {this.setState({modify: true})}}>편집하기</Button>}
+                    </div>
+                  </Col>
+                </Row>
+              </CardHeader>
+              <CardBody>
+                <Nav tabs>
+                  {categoryData.map((e,i) => {
+                    return <NavItem key={i}>
+                    <NavLink active={this.state.category === e.id} onClick={() => this.tabClick(e.id)} href="#">{e.name}</NavLink>
+                  </NavItem>
+                  })}
+                </Nav>
+                <div>
+                  <ul className="ul-productFamily" style={{listStyleType: "none",}}>
+                    {allFamilyData.map((e, i) => {
+                      const f = (element) => element.id === e.id
+                      return (
+                        <li key={i} className="list-productFamily" style={{
+                          color: familyData.findIndex(f) === -1 ? this.state.addFamilyList.findIndex(f) === -1 ? 'black': '#fff': this.state.deleteFamilyList.findIndex(f) !== -1 ? 'black': '#fff',
+                          backgroundColor: familyData.findIndex(f) === -1 ? this.state.addFamilyList.findIndex(f) === -1 ? '#fff': '#20A8D8': this.state.deleteFamilyList.findIndex(f) !== -1 ? '#fff': '#20A8D8', 
+                          borderColor: familyData.findIndex(f) === -1 ? this.state.addFamilyList.findIndex(f) === -1 ? 'lightgray': '': this.state.deleteFamilyList.findIndex(f) !== -1 ? 'lightgray': ''
+                        }} 
+                        onClick={() => {
+                          this.setState({family: e.id}, () => {
+                            familyData.findIndex(f) === -1 ? this.toggleList(this.state.addFamilyList, e) : this.toggleList(this.state.deleteFamilyList, e);
+                          });
+                          
+                        }}>{e.name}</li>
+                        )}
+                        )}
+                  </ul>
+                </div>
+              </CardBody>
+            </Card>
+          </Col>
 
         </Row>
       </div>

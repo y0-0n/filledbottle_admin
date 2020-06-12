@@ -8,6 +8,24 @@
     text-align: center;
 }
 
+.vaildity-card {
+    padding: 30px;
+    position: relative;
+    margin-bottom: 10px;
+    background-color: #fff;
+    border: 1px solid #dbdde2;
+}
+
+.close-button {
+    float: right;
+    margin-top: -20px;
+}
+
+.close-button:active {
+    float: right;
+    margin-top: -20px;
+}
+
 @media (max-width: 768px) {
     .ShowTable tr,
     .ShowTable td,
