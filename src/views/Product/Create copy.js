@@ -30,11 +30,13 @@ class CreateProduct extends Component {
       discount_price: 0,
       first_date: new Date(),
       last_date: (new Date(new Date().getTime() + 60*60*24*1000*30*4)),
+      userCategoryData : []
     };
   }
 
   componentWillMount() {
-    this.getProductFamily();
+    //this.getProductFamily();
+    this.getUserFamilyCategory();
   }
   
   handleFileInput() {
@@ -141,6 +143,42 @@ class CreateProduct extends Component {
       });
   }
 
+  getUserFamilyCategory() {
+		fetch(process.env.REACT_APP_HOST + "/api/product/userFamilyCategory", {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+				let status = data[0];
+        if (status === 200){
+					if(data[1].length !== 0) {
+            //this.props.checkCategoryId(data[1][0].id)
+						this.setState({ userCategoryData: data[1],}, () => {
+								this.getProductFamily();
+							});
+					} else {
+						this.setState({
+              checkCategory: false
+            })
+					}
+
+        }
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })
+	}
+
 
   getProductFamily() {
     fetch(process.env.REACT_APP_HOST + "/api/product/familyList/all", {
@@ -204,6 +242,7 @@ class CreateProduct extends Component {
   }
 
   render() {
+    var userCategoryData = this.state.userCategoryData;
     return (
       <div className="animated fadeIn align-items-center">
         <link rel="stylesheet" type="text/css" href="css/CreateCopy.css"></link>
@@ -211,46 +250,42 @@ class CreateProduct extends Component {
           <Col sm="12" md="12" lg="12">
             <form encType="multipart/form-data" onSubmit={this.handlePost.bind(this)}>
               <div className="form-card">
+                <div className="form-title">카테고리</div>
+                <div className="form-innercontent">
+                    <Input onChange={(e) => {
+                      this.form.productFamily = e.target.value;
+                    }} type='select' name="family">
+                      {userCategoryData.map((e, i) => {
+                        return <option key={i} value={e.id}>{e.name}</option>
+                      })}
+                    </Input>
+                </div>
+              </div>
+              
+              <div className="form-card">
                 <div className="form-title">품목군</div>
                 <div className="form-innercontent">
-                  <div className="category-">
-                    <div className="category-input-toggle">
-                      <Input type="radio" name="category" id="category1" value="category1" onChange={this.changeCategory.bind(this)} defaultChecked/>
-                      <label for="category1">품목군 선택</label>
-                      <Input type="radio" name="category" id="category2" value="category2" onChange={this.changeCategory.bind(this)}/>
-                      <label for="category2">카테고리 선택</label>
-                    </div>
-                  </div>
-                  { this.state.category === 'category1' ? 
-                    <div className="category-content">
-                      {this.state.checkCategory ?
-                            <Input onChange={(e) => {
-                              this.form.productFamily = e.target.value;
-                            }} type='select' name="family">
-                              {this.state.familyData.map((e, i) => {
-                                return <option key={i} value={e.id}>{e.name}</option>
-                              })}
-                            </Input>
-                            :
-                            <div style={{textAlign: "left", padding: 10}}>
-                              <div style={{display: "table-cell"}}>
-                                <i style={{marginRight: 10}} class="fa fa-exclamation-circle"></i>
-                              </div>
-                              <div style={{display: "table-cell"}}>
-                                품목군을 설정해서 품목 관리를 시작하세요. <br></br>
-                                ( 우측상단의 회원정보 또는 품목군 추가하기 버튼을 통해 설정이 가능합니다. )
-                              </div>
-                              <div style={{display: "table-cell", paddingLeft: 50, verticalAlign: "middle"}}>
-                                <Button color="primary" onClick={() => {
-                                  this.props.history.push('/main/registerdetail')
-                                }}>품목군 추가하기</Button>
-                              </div>
-                            </div>
-                          }
-                    </div>
-                  :
-                    <div className="category-content category-list">
-                      <div className="category-ul">
+                  {this.state.checkCategory ?
+                    <Input onChange={(e) => {
+                      this.form.productFamily = e.target.value;
+                    }} type='select' name="family">
+                      {this.state.familyData.map((e, i) => {
+                        return <option key={i} value={e.id}>{e.name}</option>
+                      })}
+                    </Input>
+                    :
+                    <div style={{textAlign: "left", padding: 10}}>
+                      <div style={{display: "table-cell"}}>
+                        <i style={{marginRight: 10}} class="fa fa-exclamation-circle"></i>
+                      </div>
+                      <div style={{display: "table-cell"}}>
+                        품목군을 설정해서 품목 관리를 시작하세요. <br></br>
+                        ( 우측상단의 회원정보 또는 품목군 추가하기 버튼을 통해 설정이 가능합니다. )
+                      </div>
+                      <div style={{display: "table-cell", paddingLeft: 50, verticalAlign: "middle"}}>
+                        <Button color="primary" onClick={() => {
+                          this.props.history.push('/main/registerdetail')
+                        }}>품목군 추가하기</Button>
                       </div>
                     </div>
                   }
