@@ -246,32 +246,34 @@ class List extends Component {
             </span>
           </div>
           <div className="list-box">
-            <UncontrolledButtonDropdown>
-              <DropdownToggle caret color="primary">
-                더 보기
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem onClick={() => { this.props.history.push('/main/customer/list/unset') }}>비활성화</DropdownItem>
-                <DropdownItem onClick={() => {
-                  /*let { checkdata } = this.state;
-                  for (var i = 0; i < this.state.checks.length; i++) {
-                    if (this.state.checks[i] === true) {
-                      checkdata[i] = data[i];
+            <div className="list-menu-customer">
+              <UncontrolledButtonDropdown>
+                <DropdownToggle caret color="primary">
+                  더 보기
+                </DropdownToggle>
+                <DropdownMenu>
+                  <DropdownItem onClick={() => { this.props.history.push('/main/customer/list/unset') }}>비활성화</DropdownItem>
+                  <DropdownItem onClick={() => {
+                    /*let { checkdata } = this.state;
+                    for (var i = 0; i < this.state.checks.length; i++) {
+                      if (this.state.checks[i] === true) {
+                        checkdata[i] = data[i];
+                      }
                     }
-                  }
-                  this.props.history.push({
-                    pathname: '/main/message',
-                    state: checkdata
-                  });*/
-                  alert('A')
-                  this.sendMessage();
-                }}>카카오톡 보내기</DropdownItem>
-                <DropdownItem onClick={() => { this.props.history.push('/customer/create'); }}>고객등록</DropdownItem>
-              </DropdownMenu>
-            </UncontrolledButtonDropdown>
+                    this.props.history.push({
+                      pathname: '/main/message',
+                      state: checkdata
+                    });*/
+                    alert('A')
+                    this.sendMessage();
+                  }}>카카오톡 보내기</DropdownItem>
+                  <DropdownItem onClick={() => { this.props.history.push('/customer/create'); }}>고객등록</DropdownItem>
+                </DropdownMenu>
+              </UncontrolledButtonDropdown>
 
-            <div style={{float: "right"}}>
-              <Button onClick={() => { this.props.history.push('/customer/create'); }} color="primary">고객 등록</Button>
+              <div style={{float: "right"}}>
+                <Button onClick={() => { this.props.history.push('/customer/create'); }} color="primary">고객 등록</Button>
+              </div>
             </div>
 
             <Table className="ListTable" hover>
