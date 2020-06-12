@@ -218,133 +218,116 @@ class List extends Component {
     data.map((e, i) => {this.state.checks[i] = false});
     return (
       <div className="animated fadeIn">
-      <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
-      <link rel="stylesheet" type="text/css" href="css/Customer.css"></link>
-        <Row>
-          <Col>
-          <Card>
-              <CardHeader>
-                <Row>
-                  <Col>고객 상세 검색</Col>
-                  <Col md="3" xs="6" sm="6">
-                    <InputGroup>
-                      <Input placeholder="고객명을 검색해주세요." onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
-                      <InputGroupAddon addonType="append">
-                        <Button block color="primary" onClick={() => { this.searchCustomer(this.props.keyword) }}><i className="fa fa-search"></i></Button>
-                      </InputGroupAddon>
-                    </InputGroup>
-                  </Col>
-                </Row>
-              </CardHeader>
-              <CardBody>
-                <Row>
-                  {/*
-                  <Col>
-                    {this.state.set ?
-                      "비활성화 고객 보기" :
-                      "활성화 고객 보기"
+        <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
+        <link rel="stylesheet" type="text/css" href="css/Customer.css"></link>
+        <link rel="stylesheet" type="text/css" href="css/ListCopy.css"></link>
+        <div>
+          <div className="search-box">
+            <div className="search-list">
+              <label className="search-label">고객검색</label>
+              <div className="sell-input">
+                <InputGroup style={{width: 300}}>
+                  <Input placeholder="고객명을 검색해주세요." onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
+                  <InputGroupAddon addonType="append">
+                    <Button block color="primary" onClick={() => { this.searchCustomer(this.props.keyword); }}><i className="fa fa-search"></i></Button>
+                  </InputGroupAddon>
+                </InputGroup>
+              </div>
+            </div>
+            <div style={{textAlign: 'center', paddingBottom: "10px"}}>
+              <Button color="primary" style={{width: "100%"}} onClick={() => { this.searchCustomer(this.props.keyword); }}>검색하기</Button>
+            </div>
+          </div>
+        </div>
+        <div className="list-card">
+          <div className="list-title">
+            <span>
+              고객목록 (총 <span style={{color: "#1B8EB7"}}>{data.length}</span> 개)
+            </span>
+          </div>
+          <div className="list-box">
+            <UncontrolledButtonDropdown>
+              <DropdownToggle caret color="primary">
+                더 보기
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem onClick={() => { this.props.history.push('/main/customer/list/unset') }}>비활성화</DropdownItem>
+                <DropdownItem onClick={() => {
+                  /*let { checkdata } = this.state;
+                  for (var i = 0; i < this.state.checks.length; i++) {
+                    if (this.state.checks[i] === true) {
+                      checkdata[i] = data[i];
                     }
-                    <Switch id='1' isOn={this.state.set} handleToggle={this.changeSet.bind(this)} />
-                  </Col>
-                  <Col>
-                    {this.state.show ?
-                      "카드로 보기" :
-                      "리스트로 보기"
-                    }<Switch id='2' isOn={this.state.show} handleToggle={() => this.changeShow()} />
-                  </Col>*/}
-                  <Col>
-                    <UncontrolledButtonDropdown>
-                      <DropdownToggle caret color="primary">
-                        더 보기
-                      </DropdownToggle>
-                      <DropdownMenu>
-                        <DropdownItem onClick={() => { this.props.history.push('/main/customer/list/unset') }}>비활성화</DropdownItem>
-                        <DropdownItem onClick={() => {
-                          /*let { checkdata } = this.state;
-                          for (var i = 0; i < this.state.checks.length; i++) {
-                            if (this.state.checks[i] === true) {
-                              checkdata[i] = data[i];
-                            }
-                          }
-                          this.props.history.push({
-                            pathname: '/main/message',
-                            state: checkdata
-													});*/
-													alert('A')
-													this.sendMessage();
-                        }}>카카오톡 보내기</DropdownItem>
-                        <DropdownItem onClick={() => { this.props.history.push('/customer/create'); }}>고객등록</DropdownItem>
-                      </DropdownMenu>
-                    </UncontrolledButtonDropdown>
-                  </Col>
-									<Col>
-										<div style={{float: "right"}}>
-											<Button onClick={() => { this.props.history.push('/customer/create'); }} color="primary">고객 등록</Button>
-                    </div>
-									</Col>
-                </Row>
-                <hr></hr>
-                <div>
-                  <Table className="ListTable" hover>
-                    <thead>
-                      <tr>
-                        <th className="list-hidden">no.</th>
-                        <th>고객명</th>
-                        <th className="list-hidden">연락처</th>
-                        <th>주소</th>
-                        {//<th>수정</th>
-                        }
-                        <th>선택</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {data.map((e, i) => {
-                        return (<tr onClick={() => {this.props.history.push(`/main/customer/${e.id}`)}} style={{ cursor: 'pointer' }} key={e.id}>
-                          <td className="list-hidden">{e.id}</td>
-                          <td>{e.name}</td>
-                          <td className="list-hidden">{e.cellphone}</td>
-                          <td>{e.address}</td>
-                          {//<td><Button onClick={() => {this.props.history.push(`/main/customer/edit/:id}`)}}>수정</Button></td>
-                          }
-                          <td><input name='selection' type='checkbox' onClick={() => {
-                            let {checks} = this.state;
-                            checks[i] = !checks[i];
-                          }}/></td>
-                        </tr>)
-                      })}
-                    </tbody>
-                  </Table>
-                  <div style={{width: "100%", textAlign : "center"}}>{this.state.data.length === 0? <span >"현재 고객 목록이 없습니다."</span> : null}</div>
-                </div>
-              </CardBody>
-              <CardFooter>
-                <Pagination style={{justifyContent: 'center'}}>
-                  {this.props.pageNumbers === 1 ? '' :
-                  <PaginationItem>
-                    <PaginationLink previous onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers-1))}}/>
-                  </PaginationItem>
                   }
-                  {this.props.pageNumbers === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
-                  {this.props.pageNumbers === 2 ? arr.forEach(x => arr1.push(x+1)) : null}
-                  {this.props.pageNumbers !== 1 && this.props.pageNumbers!== 2 ? arr.forEach(x => arr1.push(x)) :null }
-                  {arr1.map((e, i) => {
-                    if(this.state.total >= this.props.pageNumbers+e)
-                    return (<PaginationItem key={i} active={this.props.pageNumbers === this.props.pageNumbers+e}>
-                      <PaginationLink onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+e)); console.log(this.props.pageNumbers)}}>
-                      {this.props.pageNumbers+e}
-                      </PaginationLink>
-                    </PaginationItem>)
-                    return null;
-                  })}
-                  {this.props.pageNumbers === this.state.total ? '' :
-                  <PaginationItem>
-                    <PaginationLink next onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+1))}}/>
-                  </PaginationItem>}
-                </Pagination>
-              </CardFooter>
-            </Card>
-          </Col>
-        </Row>
+                  this.props.history.push({
+                    pathname: '/main/message',
+                    state: checkdata
+                  });*/
+                  alert('A')
+                  this.sendMessage();
+                }}>카카오톡 보내기</DropdownItem>
+                <DropdownItem onClick={() => { this.props.history.push('/customer/create'); }}>고객등록</DropdownItem>
+              </DropdownMenu>
+            </UncontrolledButtonDropdown>
+
+            <div style={{float: "right"}}>
+              <Button onClick={() => { this.props.history.push('/customer/create'); }} color="primary">고객 등록</Button>
+            </div>
+
+            <Table className="ListTable" hover>
+              <thead>
+                <tr>
+                  <th className="list-hidden">no.</th>
+                  <th>고객명</th>
+                  <th className="list-hidden">연락처</th>
+                  <th>주소</th>
+                  {//<th>수정</th>
+                  }
+                  <th>선택</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((e, i) => {
+                  return (<tr onClick={() => {this.props.history.push(`/main/customer/${e.id}`)}} style={{ cursor: 'pointer' }} key={e.id}>
+                    <td className="list-hidden">{e.id}</td>
+                    <td>{e.name}</td>
+                    <td className="list-hidden">{e.cellphone}</td>
+                    <td>{e.address}</td>
+                    {//<td><Button onClick={() => {this.props.history.push(`/main/customer/edit/:id}`)}}>수정</Button></td>
+                    }
+                    <td><input name='selection' type='checkbox' onClick={() => {
+                      let {checks} = this.state;
+                      checks[i] = !checks[i];
+                    }}/></td>
+                  </tr>)
+                })}
+              </tbody>
+            </Table>
+          </div>
+          <Pagination style={{justifyContent: 'center'}}>
+            {this.props.pageNumbers === 1 ? '' :
+            <PaginationItem>
+              <PaginationLink previous onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers-1))}}/>
+            </PaginationItem>
+            }
+            {this.props.pageNumbers === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
+            {this.props.pageNumbers === 2 ? arr.forEach(x => arr1.push(x+1)) : null}
+            {this.props.pageNumbers !== 1 && this.props.pageNumbers!== 2 ? arr.forEach(x => arr1.push(x)) :null }
+            {arr1.map((e, i) => {
+              if(this.state.total >= this.props.pageNumbers+e)
+              return (<PaginationItem key={i} active={this.props.pageNumbers === this.props.pageNumbers+e}>
+                <PaginationLink onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+e)); console.log(this.props.pageNumbers)}}>
+                {this.props.pageNumbers+e}
+                </PaginationLink>
+              </PaginationItem>)
+              return null;
+            })}
+            {this.props.pageNumbers === this.state.total ? '' :
+            <PaginationItem>
+              <PaginationLink next onClick={() => {this.countPageNumber(this.props.clickConvertPage(this.props.pageNumbers+1))}}/>
+            </PaginationItem>}
+          </Pagination>
+        </div>
       </div>
     )
   }
