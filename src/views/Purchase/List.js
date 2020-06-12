@@ -142,7 +142,7 @@ class List extends Component {
         <Row>
           <Col>
             <div className="search-box">
-              <div className="search-list" style={{border: 0}}>
+              <div className="search-list">
                 <label className="search-label">조회기간</label>
                 <div className="sell-input">
                   <DatePicker
@@ -162,8 +162,9 @@ class List extends Component {
                   />
                 </div>
               </div>
-							<div style={{textAlign: 'center', paddingBottom: "10px"}}>
-								<Button color="primary" style={{width: "100%"}}>검색하기</Button>
+							<div className="search-button" style={{textAlign: 'center', paddingBottom: "10px"}}>
+								<Button color="primary">검색</Button>
+								<Button color="ghost-primary">초기화</Button>
 							</div>
             </div>
             

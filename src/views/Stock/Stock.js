@@ -247,8 +247,9 @@ class Stock extends Component {
                   <Input style={{width: "30%"}} placeholder="품목명을 검색해주세요." onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
                 </div>
               </div>
-              <div style={{textAlign: 'center', paddingBottom: "10px"}}>
-								<Button color="primary" style={{width: "100%"}} onClick={() => { this.searchOrder(this.props.keyword); }}>검색하기</Button>
+              <div className="search-button" style={{textAlign: 'center', paddingBottom: "10px"}}>
+								<Button color="primary" onClick={() => { this.searchOrder(this.props.keyword); }}>검색</Button>
+								<Button color="ghost-primary">초기화</Button>
 							</div>
             </div>
 
