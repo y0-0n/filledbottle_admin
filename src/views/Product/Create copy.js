@@ -18,7 +18,9 @@ class CreateProduct extends Component {
 
     this.state = {
       image: '/assets/img/plusImage.jpg',
+      imageDetailPlus: '/assets/img/plusImage.jpg',
       imageDetail: [],
+      imageDetailFile: [],
       familyData: [],
       data: [],
       checkCategory: true,
@@ -39,84 +41,48 @@ class CreateProduct extends Component {
     this.getUserFamilyCategory();
   }
   
-  handleFileInput() {
-    var file = this.refs.file.files[0];
+  handleFileInput(e) {
+    var file = e.target.files[0];
     var canvasImg = document.createElement("img");
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
-
-    // img resize
-    reader.onload = function (e) {
-      var canvas = document.createElement("canvas");
-      var ctx = canvas.getContext("2d");
-      var url = e.target.result;
-      var img = new Image();
-      img.onload = function () {
-        ctx.drawImage(img, 0, 0, 300, 300);
-        var dataurl = canvas.toDataURL('image/png');
-        this.setState({
-          image: dataurl
-        });
-        console.log(dataurl)
-      }.bind(this);
-      img.src = url;
-
-      canvas.width = 300;
-      canvas.height = 300;
-
-    }.bind(this);
-    this.setState({image: this.state.image})
+		var reader = new FileReader();
+		reader.onload = () => {
+			this.setState({image: reader.result})
+		}
+		reader.readAsDataURL(file);
+		this.setState({imageFile: file});
   }
 
-  handleFileInput_multiple() {
-    console.log(this.refs.file_detail.files)
-    let imgList = [];
+  handleFileInput_multiple(e) {
+    let imgList = [], imgFileList = [];
+		console.warn(this.refs.file_detail.files)
     for(var i = 0; i < this.refs.file_detail.files.length; i++ ) {
-      var file = this.refs.file_detail.files[i];
+			var file = this.refs.file_detail.files[i];
+			console.warn(file)
       //var canvasImg = document.createElement("img");
       var reader = new FileReader();
-      reader.readAsDataURL(file);
-      // img resize
-      reader.onload = function (e) {
-        var canvas = document.createElement("canvas");
-        var ctx = canvas.getContext("2d");
-        var url = e.target.result;
-        var img = new Image();
-        imgList.push(url);
-        this.setState({imageDetail: imgList})
-        img.src = url;
-        canvas.width = 300;
-        canvas.height = 300;
-  
-      }.bind(this);
+			reader.onload = (e) => {
+				imgList.push(e.target.result);
+				this.setState({imageDetail: imgList});
+				console.warn(imgList)
+			};
+			reader.readAsDataURL(file);
+			imgFileList.push(file)
+			this.setState({imageDetailFile: imgFileList})
     }
   }
 
   handlePost(e) {
     e.preventDefault();
     let formData = new FormData();
+    formData.append('file', this.state.imageFile);
 
-    // base64 -> file object 변환
-    // reference -> https://helloinyong.tistory.com/233
-    if (this.state.image !== '/assets/img/noimage.jpg') {
-      var arr = this.state.image.split(','),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]),
-        n = bstr.length,
-        u8arr = new Uint8Array(n);
-
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-      }
-      formData.append('file', new File([u8arr], this.state.image.name, {type: mime}));
-    } else {
-      formData.append('file', this.state.image);
-    }
-
+    this.state.imageDetailFile.forEach((e) => {
+			formData.append('file_detail', e);
+		})
     for (let [key, value] of Object.entries(this.form)) {
-      formData.append(key, value);
-    }
-
+			formData.append(key, value);
+		}
+		
     fetch(process.env.REACT_APP_HOST + "/product", {
       method: 'POST',
       'Content-Type': 'multipart/form-data',
@@ -439,6 +405,15 @@ class CreateProduct extends Component {
                     
                     <div className="sell-input">
                       <div className="sell-image">
+                        
+                        <div style={{paddingBottom: '10px', cursor: 'pointer'}}>
+                          <input ref="file_detail" type="file" name="file_detail" onChange={e => {
+                            this.handleFileInput_multiple(e);
+                          }} style={{display: "none"}} multiple/>
+                          <div id="imageFile" className="add-image" onClick={() => document.all.file_detail.click()}>
+                            <img src={this.state.imageDetailPlus} />
+                          </div>
+                        </div>
                         {this.state.imageDetail.map((e, i) => {
                           return <img key={i} id="imageFile" alt="상세 사진1" style={{
                             display: "inline-block",
@@ -448,14 +423,6 @@ class CreateProduct extends Component {
                             marginBottom: '10px'
                           }} src={this.state.imageDetail[i]}/>
                         })}
-                        <div style={{paddingBottom: '10px', cursor: 'pointer'}}>
-                          <input ref="file_detail" type="file" name="file_detail" onChange={e => {
-                            this.handleFileInput_multiple(e);
-                          }} style={{display: "none"}} multiple/>
-                          <div id="imageFile" className="add-image" onClick={() => document.all.file_detail.click()}>
-                            <img src={this.state.image} />
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
