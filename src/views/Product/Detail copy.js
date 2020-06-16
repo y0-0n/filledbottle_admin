@@ -83,35 +83,24 @@ class Detail extends Component {
 
   render() {
 		var data = this.state.data;
-		console.warn(this.state.data.detail_file)
+    console.warn(this.state.data.detail_file)
+    console.log(data)
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/CreateCopy.css"></link>
         <Row className="mb-5 justify-content-center">
           <Col sm="12" md="12" lg="12">
             <form encType="multipart/form-data">
-              <div className="form-card">
+            <div className="form-card">
                 <div className="form-title">카테고리</div>
                 <div className="form-innercontent">
-                  <div className="category-">
-                    <div className="category-input-toggle">
-                      <Input type="radio" name="category" id="category1" value="category1" defaultChecked/>
-                      <label for="category1">카테고리명 검색</label>
-                      <Input type="radio" name="category" id="category2" value="category2"/>
-                      <label for="category2">카테고리명 선택</label>
-                    </div>
-                  </div>
-                  { this.state.category === 'category1' ? 
-                    <div className="category-content">
-                      <Input placeholder="카테고리명 입력"/>
-                    </div>
-                  :
-                    <div className="category-content category-list">
-                      <div className="category-ul">
-                      {data.familyName}
-                      </div>
-                    </div>
-                  }
+                </div>
+              </div>
+              
+              <div className="form-card">
+                <div className="form-title">품목군</div>
+                <div className="form-innercontent">
+                  {data.familyName}
                 </div>
               </div>
 
