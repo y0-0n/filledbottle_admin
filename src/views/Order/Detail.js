@@ -196,7 +196,7 @@ class Detail extends Component {
                       <th>주문상태</th>
                       <td colSpan='3'>
                         {orderInfo['state'] === 'order' ? <h3><Badge color="primary">{stateKor[orderInfo['state']]}</Badge></h3>: null}
-                        {orderInfo['state'] === 'shipping' ? <h3><Badge color="secondary">{stateKor[orderInfo['state']]}</Badge></h3>: null}
+                        {/*orderInfo['state'] === 'shipping' ? <h3><Badge color="secondary">{stateKor[orderInfo['state']]}</Badge></h3>: null*/}
                         {orderInfo['state'] === 'shipping' ? this.state.collect ? <h3><Badge color="secondary">미수금</Badge></h3>
                         :<h3><Badge color="secondary">수금</Badge></h3>
                         : null}
