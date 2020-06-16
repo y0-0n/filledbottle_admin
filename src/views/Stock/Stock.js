@@ -248,7 +248,7 @@ class Stock extends Component {
                 </div>
               </div>
               <div className="search-button" style={{textAlign: 'center', paddingBottom: "10px"}}>
-								<Button color="primary" onClick={() => { this.searchOrder(this.props.keyword); }}>검색</Button>
+								<Button color="primary">검색</Button>
 								<Button color="ghost-primary">초기화</Button>
 							</div>
             </div>
