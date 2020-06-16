@@ -17,8 +17,8 @@ class CreateProduct extends Component {
     };
 
     this.state = {
-      image: '/assets/img/noimage.jpg',
-      imageDetail: ['/assets/img/noimage.jpg'],
+      image: '/assets/img/plusImage.jpg',
+      imageDetail: [],
       familyData: [],
       data: [],
       checkCategory: true,
@@ -421,16 +421,36 @@ class CreateProduct extends Component {
                   <div className="sell-list">
                     <label className="sell-label">대표이미지</label>
                     <div className="sell-input">
-                      <div className="add-image">
-                        <i className="fa fa-plus"></i>
+                      <div style={{paddingBottom: '10px', cursor: 'pointer'}}>
+                        <input ref="file" type="file" name="file" onChange={e => {
+                          this.handleFileInput(e);
+                        }} style={{display: "none"}}/>
+                        <div id="imageFile" className="add-image" onClick={() => document.all.file.click()}>
+                          <img src={this.state.image} />
+                        </div>
                       </div>
                     </div>
                   </div>
                   <div className="sell-list">
-                    <label className="sell-label">추가이미지</label>
+                    <label className="sell-label">상세이미지</label>
+                    <p style={{color: "#D3D3D3", fontSize: "0.9em"}}>* 이미지 다중선택 가능</p>
                     <div className="sell-input">
-                      <div className="add-image">
-                        <i className="fa fa-plus"></i>
+                      {this.state.imageDetail.map((e, i) => {
+                        return <img key={i} id="imageFile" alt="상세 사진1" style={{
+                          display: "inline-block",
+                          border: '1px',
+                          borderStyle: 'dashed',
+                          borderColor: '#c8ced3',
+                          marginBottom: '10px'
+                        }} src={this.state.imageDetail[i]}/>
+                      })}
+                      <div style={{paddingBottom: '10px', cursor: 'pointer'}}>
+                        <input ref="file_detail" type="file" name="file_detail" onChange={e => {
+                          this.handleFileInput_multiple(e);
+                        }} style={{display: "none"}} multiple/>
+                        <div id="imageFile" className="add-image" onClick={() => document.all.file_detail.click()}>
+                          <img src={this.state.image} />
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -72,6 +72,12 @@ ul li {
     float: left;
     width: 180px;
     font-weight: lighter;
+    height: 200px;
+}
+
+.form-card .form-innercontent .sell-input {
+    display: inline-block;
+    width: 260px;
 }
 
 .form-card .form-innercontent .sell-list {
@@ -115,8 +121,6 @@ ul li {
     display: inline-block;
     border: 1px dashed #c1c5cd;
     content: "";
-    width: 140px;
-    height: 140px;
     text-align: center;
 }
 
