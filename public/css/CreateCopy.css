@@ -72,10 +72,10 @@ ul li {
     float: left;
     width: 180px;
     font-weight: lighter;
-    height: 200px;
+    height: auto;
 }
 
-.form-card .form-innercontent .sell-input {
+.form-card .form-innercontent .sell-input .sell-image {
     display: inline-block;
     width: 260px;
 }

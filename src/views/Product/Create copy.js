@@ -407,9 +407,9 @@ class CreateProduct extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <label className="search-input-label"><input className="search-input-checkbox" type="checkbox" checked/>판매중</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>품절</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>판매중지</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" checked/>판매중</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio"/>품절</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio"/>판매중지</label>
                     </div>
                   </div>
                 </div>
@@ -432,24 +432,29 @@ class CreateProduct extends Component {
                     </div>
                   </div>
                   <div className="sell-list">
-                    <label className="sell-label">상세이미지</label>
-                    <p style={{color: "#D3D3D3", fontSize: "0.9em"}}>* 이미지 다중선택 가능</p>
+                    <label className="sell-label">
+                      상세이미지
+                      <p style={{color: "#D3D3D3", fontSize: "0.9em"}}>* 이미지 다중선택 가능</p>
+                    </label>
+                    
                     <div className="sell-input">
-                      {this.state.imageDetail.map((e, i) => {
-                        return <img key={i} id="imageFile" alt="상세 사진1" style={{
-                          display: "inline-block",
-                          border: '1px',
-                          borderStyle: 'dashed',
-                          borderColor: '#c8ced3',
-                          marginBottom: '10px'
-                        }} src={this.state.imageDetail[i]}/>
-                      })}
-                      <div style={{paddingBottom: '10px', cursor: 'pointer'}}>
-                        <input ref="file_detail" type="file" name="file_detail" onChange={e => {
-                          this.handleFileInput_multiple(e);
-                        }} style={{display: "none"}} multiple/>
-                        <div id="imageFile" className="add-image" onClick={() => document.all.file_detail.click()}>
-                          <img src={this.state.image} />
+                      <div className="sell-image">
+                        {this.state.imageDetail.map((e, i) => {
+                          return <img key={i} id="imageFile" alt="상세 사진1" style={{
+                            display: "inline-block",
+                            border: '1px',
+                            borderStyle: 'dashed',
+                            borderColor: '#c8ced3',
+                            marginBottom: '10px'
+                          }} src={this.state.imageDetail[i]}/>
+                        })}
+                        <div style={{paddingBottom: '10px', cursor: 'pointer'}}>
+                          <input ref="file_detail" type="file" name="file_detail" onChange={e => {
+                            this.handleFileInput_multiple(e);
+                          }} style={{display: "none"}} multiple/>
+                          <div id="imageFile" className="add-image" onClick={() => document.all.file_detail.click()}>
+                            <img src={this.state.image} />
+                          </div>
                         </div>
                       </div>
                     </div>
