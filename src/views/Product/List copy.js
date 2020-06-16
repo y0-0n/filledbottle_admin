@@ -421,8 +421,8 @@ class List extends Component {
                 <label className="search-label">판매상태</label>
                 <div className="search-input">
                   <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>전체</label>
-                  <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>판매중</label>
-                  <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>품절</label>
+                  <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>판매중</label>
+                  <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>품절</label>
                   <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>판매중지</label>
                 </div>
               </div>

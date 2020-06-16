@@ -7,13 +7,12 @@ class Detail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: []
+      data: {detail_file: []}
     };
   }
 
   componentWillMount() {
     this.getProduct();
-    console.log(this.props.match.params.id)
   }
 
   getProduct() {
@@ -24,7 +23,10 @@ class Detail extends Component {
       }
     })
       .then(response => response.json())
-      .then(data => { this.setState({ data: data[0] }) });
+      .then(data => {
+				data[0].detail_file = data[0].detail_file.split('|')
+				this.setState({ data: data[0] })
+			});
   }
 
   deactivateProduct(id) {
@@ -80,7 +82,8 @@ class Detail extends Component {
   }
 
   render() {
-    var data = this.state.data;
+		var data = this.state.data;
+		console.warn(this.state.data.detail_file)
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/CreateCopy.css"></link>
@@ -243,9 +246,9 @@ class Detail extends Component {
                   <div className="sell-list">
                     <label className="sell-label">추가이미지</label>
                     <div className="sell-input">
-                      <img alt="품목 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
-                      <img alt="품목 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
-                      <img alt="품목 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
+											{this.state.data.detail_file.map((e, i) => {
+												return <img alt="품목 사진" src={"http://211.62.225.216:4000/static/" + e} />
+											})}
                     </div>
                   </div>
                 </div>
