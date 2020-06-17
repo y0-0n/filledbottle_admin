@@ -58,6 +58,7 @@ class List extends Component {
     //this.getCafe24Product();
   }
 
+  //사용자의 (검색 결과에 해당하는) 품목의 개수를 받아옴
   getTotal() {
     const name = this.props.keyword;
     const {category, family} = this.props;
@@ -202,7 +203,6 @@ class List extends Component {
 	}
 	
   excel() {
-
     fetch(process.env.REACT_APP_HOST + "/api/product/excel", {
       method: 'GET',
       headers: {
@@ -351,7 +351,7 @@ class List extends Component {
             <Table className="category-top" >
               <tbody>
                 <tr>
-                  <td style={{cursor: "pointer", backgroundColor: this.props.category===0 ? '#E6E6E6' : '#fff'}} onClick={() => {this.changeCategory(this.props.checkCategoryId(0))}}>전체</td>
+                  { userCategoryData.length > 0 ? <td style={{cursor: "pointer", backgroundColor: this.props.category===0 ? '#E6E6E6' : '#fff'}} onClick={() => {this.changeCategory(this.props.checkCategoryId(0))}}>전체</td>  : null}
 									{ this.state.checkCategory ?
 										userCategoryData.map((e, i) => {
 											return <td key={i} style={{cursor: "pointer", backgroundColor: this.props.category===e.id ? '#E6E6E6' : '#fff'}} onClick={() => {this.changeCategory(this.props.checkCategoryId(e.id))}}>{e.name}</td>
