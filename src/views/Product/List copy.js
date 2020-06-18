@@ -412,9 +412,9 @@ class List extends Component {
 
             <div className="search-box">
               <div className="search-list">
-                <label className="search-label">검색어</label>
+                <label className="search-label">품목검색</label>
                 <div className="search-input">
-                  <Input style={{width : "30%"}}></Input>
+                  <Input placeholder="품목명을 검색해주세요." style={{width : "30%"}} onChange={(e) => { this.props.searchKeyword(e.target.value) }}></Input>
                 </div>
               </div>
               <div className="search-list">
