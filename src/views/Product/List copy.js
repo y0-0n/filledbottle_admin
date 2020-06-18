@@ -507,6 +507,7 @@ class List extends Component {
                     </tr>
                   </thead>
                   <tbody>
+                    {console.log(data)}
                     {data.map((e, i) => {
                       return (<tr style={{height : "150px"}} key={e.id} onClick={() => {
                         this.props.history.push({
@@ -521,7 +522,10 @@ class List extends Component {
                         <td>{e.familyName}</td>
                         <td>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</td>
                         <td>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>
-                        <td>{_state[e.state-1]}</td>
+                        <td>
+                          {e.id === 263 ? <h4><Badge color="primary">{_state[0]}</Badge></h4> :
+                          e.id === 262 ? <h4><Badge color="danger">{_state[1]}</Badge></h4> : <h4><Badge>{_state[2]}</Badge></h4>}
+                        </td>
                       </tr>)
                     })}
                   </tbody>
