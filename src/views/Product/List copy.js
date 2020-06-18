@@ -431,7 +431,7 @@ class List extends Component {
                 <div className="search-input">
                   {
                     familyData.map((e, i) => {
-                      return <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>{e.name}</label>
+                      return <label className="search-input-label"><input onChange = {() => this.changeFamily(this.props.checkFamily(e.id))} className="search-input-checkbox" name="family" type="radio"/>{e.name}</label>
                     })
                   }
                 </div>
