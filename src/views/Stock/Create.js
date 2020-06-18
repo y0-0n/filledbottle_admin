@@ -5,7 +5,6 @@ import ProductModal from '../Modal/ProductModal';
 import Popup from "reactjs-popup";
 import DatePicker from "react-datepicker";
 
-
 class Create extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +18,11 @@ class Create extends Component {
 
     this.state = {
 			plantData: [],
-			current: 0
+      current: 0,
+      sProduct :[],
+      productName :'',
+      price_shipping: '',
+      file_name : "/assets/img/noimage.jpg",
     };
   }
 
@@ -129,12 +132,27 @@ class Create extends Component {
               <div className="sell-content">
                 <label className="sell-label">품목명</label>
                 <div className="sell-input">
-                  <Input style={{width: "30%"}}/>
+                  {console.log(this.state.sProduct)}
+                  {<Popup
+                    trigger={<Input require placeholder={ "품목을 선택해주세요" } value={this.state.productName} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}}/>}
+                    modal>
+                      
+                    {close => <ProductModal close={close} login={()=>{this.props.history.push('/login')}} createProduct={() => {this.props.history.push('/product/create')}}
+                      selectProduct={(data) => {
+                        console.log(data)
+                        let {name, price_shipping, file_name} = data;
+                        this.setState({
+                          productName: name,
+                          price_shipping,
+                          file_name : "http://211.62.225.216:4000/static/" + file_name
+                        })
+                      }}/>}
+                  </Popup>}
                 </div>
               </div>
               <div className="sell-discount">
                 <div style={{display: "inline-block"}}>
-                  <img src="/assets/img/noimage.jpg"/>
+                  <img src={this.state.file_name}/>
                 </div>
                 <div style={{display: "inline-block"}}>
                   <div className="product-info">
@@ -147,7 +165,7 @@ class Create extends Component {
                   </div>
                   <div className="product-info">
                     <label>판매단가</label>
-                    <input></input>
+                    <input value={this.state.price_shipping}></input>
                   </div>
                 </div>
               </div>
@@ -155,7 +173,7 @@ class Create extends Component {
             <div className="sell-list">
               <label className="sell-label">구분</label>
               <div className="sell-input">
-                <Input style={{width: "30%"}} readOnly/>
+                <Input value={this.state.productName} style={{width: "30%"}} readOnly/>
               </div>
             </div>
             <div className="sell-list">
