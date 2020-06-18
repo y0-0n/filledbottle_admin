@@ -44,7 +44,8 @@ class List extends Component {
 			familyData: [],
       userCategoryData: [],
       checkCategory: true,
-      total: 0
+      total: 0,
+      family: 0,
 		};
     //this.name = '';
     //this.family = 0;
@@ -431,7 +432,7 @@ class List extends Component {
                 <div className="search-input">
                   {
                     familyData.map((e, i) => {
-                      return <label className="search-input-label"><input onChange = {() => this.changeFamily(this.props.checkFamily(e.id))} className="search-input-checkbox" name="family" type="radio"/>{e.name}</label>
+                      return <label className="search-input-label"><input onChange = {() => this.setState({family: this.props.checkFamily(e.id)})} className="search-input-checkbox" name="family" type="radio"/>{e.name}</label>
                     })
                   }
                 </div>
@@ -465,7 +466,7 @@ class List extends Component {
                 </div>
               </div>*/}
               <div className="search-button">
-                <Button color="primary" style={{marginRight: 10}} onClick={()=> {this.searchProduct()}}>검색</Button>
+                <Button color="primary" style={{marginRight: 10}} onClick={()=> {this.searchProduct(); this.changeFamily(this.state.family)}}>검색</Button>
                 <Button color="ghost-primary">초기화</Button>
               </div>
             </div>
