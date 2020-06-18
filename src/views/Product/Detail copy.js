@@ -91,11 +91,11 @@ class Detail extends Component {
         <Row className="mb-5 justify-content-center">
           <Col sm="12" md="12" lg="12">
             <form encType="multipart/form-data">
-            <div className="form-card">
+              {/* <div className="form-card">
                 <div className="form-title">카테고리</div>
                 <div className="form-innercontent">
                 </div>
-              </div>
+              </div> */}
               
               <div className="form-card">
                 <div className="form-title">품목군</div>
@@ -125,7 +125,7 @@ class Detail extends Component {
                       </InputGroup>
                     </div>
                   </div>
-                  <div className="sell-list">
+                  {/* <div className="sell-list">
                     <div className="sell-content">
                       <label className="sell-label">할인</label>
                       <div className="category-input-toggle">
@@ -198,30 +198,17 @@ class Detail extends Component {
                       <Input type="radio" name="vat" id="vat2" value="vat2"/>
                       <label for="vat2">비과세상품</label>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
-              <div className="form-card">
-                <div className="form-title">재고수량</div>
-                <div className="form-innercontent">
-                  <div className="sell-input">
-                    <InputGroup>
-                      <Input placeholder="숫자만 입력"/>
-                      <InputGroupAddon addonType="append">개</InputGroupAddon>
-                    </InputGroup>
-                  </div>
-                </div>
-              </div>
-
-              <div className="form-card">
+              {/* <div className="form-card">
                 <div className="form-title">품목상태</div>
                 <div className="form-innercontent">
                   <div className="sell-input">
-                    {/*data.state*/}
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               <div className="form-card">
                 <div className="form-title">상품이미지</div>
