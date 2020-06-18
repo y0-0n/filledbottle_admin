@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader, Col, Row, Table} from 'reactstrap';
+import { Card, CardBody, CardHeader, Col, Row, Table, Input, InputGroup, InputGroupAddon, Button} from 'reactstrap';
 
 class Detail extends Component {
   constructor(props) {
@@ -47,8 +47,53 @@ class Detail extends Component {
 
   render() {
     let {data} = this.state;
+    console.log("ss",data)
     return (
       <div className="animated fadeIn">
+        <link rel="stylesheet" type="text/css" href="css/CreateCopy.css"></link>
+        <div className="form-card">
+          <div className="form-title">
+            재고 등록
+            <Button color="primary" style={{float: "right"}} onClick={() => {this.props.history.push(`/main/manage/stock/edit/${this.props.match.params.plantId}/${this.props.match.params.productId}`)}}>수정</Button>
+          </div>
+          <div className="form-innercontent">
+            <div className="sell-list">
+              <div className="sell-content">
+                <label className="sell-label">품목명</label>
+                <div className="sell-input">
+                </div>
+              </div>
+            </div>
+            <div className="sell-list">
+              <div className="sell-content">
+                <label className="sell-label">구분</label>
+                <div className="sell-input">
+                </div>
+              </div>
+            </div>
+            <div className="sell-list">
+              <div className="sell-content">
+                <label className="sell-label">재고수</label>
+                <div className="sell-input">
+                </div>
+              </div>
+            </div>
+            <div className="sell-list">
+              <div className="sell-content">
+                <label className="sell-label">유통기한</label>
+                <div className="sell-input">
+                </div>
+              </div>
+            </div>
+            <div className="sell-list">
+              <div className="sell-content">
+                <label className="sell-label">제조일자</label>
+                <div className="sell-input">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <Row>
           <Col md="12" xs="12" sm="12">
             <Card>

@@ -61,6 +61,7 @@ const Stock = React.lazy(() => import('./views/Stock'));
 const StockDetail = React.lazy(() => import('./views/Stock/StockDetail'));
 const StockProduct = React.lazy(() => import('./views/Stock/StockProduct'));
 const StockModify = React.lazy(() => import('./views/Stock/Modify'));
+const StockDetailModify = React.lazy(() => import('./views/Stock/StockModify'));
 const CreateStock = React.lazy(() => import('./views/Stock/Create'));
 const StockTransport = React.lazy(() => import('./views/Stock/Transport'));
 const OrderDetail = React.lazy(() => import('./views/Order/Detail'));
@@ -133,6 +134,7 @@ const routes = [
 	{ path: '/main/setting', exact: true,  name: '설정', component: Setting},
   { path: '/main/stock', exact: true,  name: '재고 관리', component: Stock},
   { path: '/main/manage/stock/:plantId/:productId', exact: true,  name: '재고 내역', component: StockDetail},
+  { path: '/main/manage/stock/edit/:plantId/:productId', exact: true,  name: '재고 수정', component: StockDetailModify},
 	{ path: '/main/manage/stock/', exact: true,  name: '재고 관리', component: StockList},
 	{ path: '/stock/create', exact: true,  name: '재고 등록', component: CreateStock},
 	{ path: '/main/stock/:id', exact: true,  name: '재고 상세', component: StockListDetail},
