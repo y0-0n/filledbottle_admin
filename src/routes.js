@@ -59,7 +59,7 @@ const StockList = React.lazy(() => import('./views/Stock/ListIndex'));
 const StockListDetail = React.lazy(() => import('./views/Stock/Detail'));
 const Stock = React.lazy(() => import('./views/Stock'));
 const StockDetail = React.lazy(() => import('./views/Stock/StockDetail'));
-const StockProduct = React.lazy(() => import('./views/Stock/StockProduct'));
+// const StockProduct = React.lazy(() => import('./views/Stock/StockProduct'));
 const StockModify = React.lazy(() => import('./views/Stock/Modify'));
 const StockDetailModify = React.lazy(() => import('./views/Stock/StockModify'));
 const CreateStock = React.lazy(() => import('./views/Stock/Create'));
@@ -140,7 +140,7 @@ const routes = [
 	{ path: '/main/stock/:id', exact: true,  name: '재고 상세', component: StockListDetail},
 	{ path: '/stock/edit/:id', exact: true,  name: '재고 실사', component: StockModify},
   { path: '/stock/transport', exact: true,  name: '재고 이동', component: StockTransport},
-  { path: '/stock/product/:id', exact: true,  name: '재고 품목', component: StockProduct},
+  // { path: '/stock/product/:id', exact: true,  name: '재고 품목', component: StockProduct},
   { path: '/main/purchase', exact: true,  name: '매입 관리', component: Purchase},
   { path: '/purchase/create', exact: true,  name: '매입 등록', component: CreatePurchase},
   { path: '/main/survey', exact: true,  name: '시행 중', component: Survey},

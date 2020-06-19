@@ -262,7 +262,7 @@ class Stock extends Component {
               <div className="list-box" style={{marginTop: 20}}>
                 <div style={{float: "right", marginBottom: 20}}>
                   <Button color="primary" onClick={() => { this.props.history.push('/stock/create') }}>재고 등록</Button>
-                  <Button color="primary" style={{ marginLeft: 10 }} onClick={() => { this.props.history.push('/stock/product/'+ this.props.plant) }}>품목 관리</Button>
+                  {/*<Button color="primary" style={{ marginLeft: 10 }} onClick={() => { this.props.history.push('/stock/product/'+ this.props.plant) }}>품목 관리</Button>*/}
                   <Button color="primary" style={{ marginLeft: 10 }} onClick={() => {
                     this.props.history.push({
                     pathname: '/stock/edit/'+this.props.plant,
