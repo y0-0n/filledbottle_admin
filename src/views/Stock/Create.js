@@ -28,7 +28,6 @@ class Create extends Component {
   }
 
   componentWillMount() {
-		this.getPlant();
 	}
 
 	convertDateFormat(date) {
@@ -41,6 +40,7 @@ class Create extends Component {
 		this.form.productId = this.state.productId;
 		this.form.expiration = this.convertDateFormat(this.state.expiration);
 		this.form.date_manufacture = this.convertDateFormat(this.state.date_manufacture);
+		this.form.plant = this.props.plant;
 		console.warn(this.form)
 
 		fetch(process.env.REACT_APP_HOST+"/api/stock", {
@@ -72,68 +72,8 @@ class Create extends Component {
     });
   }
 
-	getPlant(){
-    fetch(process.env.REACT_APP_HOST+"/api/plant", {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-			},
-    })
-    .then(response => {
-      if(response.status === 401) {
-        return Promise.all([401])
-      } else {
-        return Promise.all([response.status, response.json()]);
-      }
-    })
-    .then(data => {
-			let status = data[0];
-      if(status === 200){
-				this.setState({plantData: data[1]});
-				this.form.plant = data[1][0].id
-			}
-      else {
-        alert('로그인 하고 접근해주세요');
-        this.props.history.push('/login');
-      }
-    });
-	}
-	
-	getLastStock() {
-		fetch(process.env.REACT_APP_HOST+"/api/stock/last/", {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-			},
-			body: JSON.stringify({plant: this.form.plant, productId: this.form.productId})
-    })
-    .then(response => {
-      if(response.status === 401) {
-        return Promise.all([401])
-      } else {
-        return Promise.all([response.status, response.json()]);
-      }
-    })
-    .then(data => {
-			let status = data[0];
-      if(status === 200){
-				this.setState({current: data[1].current});
-				this.form.current = data[1].current;
-			}
-      else {
-        alert('로그인 하고 접근해주세요');
-        this.props.history.push('/login');
-      }
-    });
-	}
-
   render() {
 		const {plantData} = this.state;
-		console.log(this.state.current)
     return (
       <div className="animated fadeIn align-items-center">
         <link rel="stylesheet" type="text/css" href="css/CreateCopy.css"></link>
