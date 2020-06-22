@@ -47,7 +47,6 @@ class Detail extends Component {
 
   render() {
     let {data} = this.state;
-    console.log("ss",data)
     return (
       <div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/CreateCopy.css"></link>
@@ -56,43 +55,52 @@ class Detail extends Component {
             재고 등록
             <Button color="primary" style={{float: "right"}} onClick={() => {this.props.history.push(`/main/manage/stock/edit/${this.props.match.params.plantId}/${this.props.match.params.productId}`)}}>수정</Button>
           </div>
-          <div className="form-innercontent">
-            <div className="sell-list">
-              <div className="sell-content">
-                <label className="sell-label">품목명</label>
-                <div className="sell-input">
+          {data.map((e) => {
+            return(
+              <div className="form-innercontent">
+                <div className="sell-list">
+                  <div className="sell-content">
+                    <label className="sell-label">품목명</label>
+                    <div className="sell-input">
+                      {e.productName}
+                    </div>
+                  </div>
+                </div>
+                <div className="sell-list">
+                  <div className="sell-content">
+                    <label className="sell-label">구분</label>
+                    <div className="sell-input">
+                      {e.name}
+                    </div>
+                  </div>
+                </div>
+                <div className="sell-list">
+                  <div className="sell-content">
+                    <label className="sell-label">재고수</label>
+                    <div className="sell-input">
+                      {e.quantity} 개
+                    </div>
+                  </div>
+                </div>
+                <div className="sell-list">
+                  <div className="sell-content">
+                    <label className="sell-label">유통기한</label>
+                    <div className="sell-input">
+                      {this.getDate(e.expiration)}
+                    </div>
+                  </div>
+                </div>
+                <div className="sell-list">
+                  <div className="sell-content">
+                    <label className="sell-label">제조일자</label>
+                    <div className="sell-input">
+                      {this.getDate(e.date_manufacture)}
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="sell-list">
-              <div className="sell-content">
-                <label className="sell-label">구분</label>
-                <div className="sell-input">
-                </div>
-              </div>
-            </div>
-            <div className="sell-list">
-              <div className="sell-content">
-                <label className="sell-label">재고수</label>
-                <div className="sell-input">
-                </div>
-              </div>
-            </div>
-            <div className="sell-list">
-              <div className="sell-content">
-                <label className="sell-label">유통기한</label>
-                <div className="sell-input">
-                </div>
-              </div>
-            </div>
-            <div className="sell-list">
-              <div className="sell-content">
-                <label className="sell-label">제조일자</label>
-                <div className="sell-input">
-                </div>
-              </div>
-            </div>
-          </div>
+            )
+          })}
         </div>
         <Row>
           <Col md="12" xs="12" sm="12">
