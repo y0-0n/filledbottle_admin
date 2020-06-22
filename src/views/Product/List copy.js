@@ -563,7 +563,7 @@ class List extends Component {
                         <td>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</td>
                         <td>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>
                         <td>
-                        	<h4><Badge color="primary">{_state[e.state-1]}</Badge></h4>
+                        	<h4>{e.state-1===0 ? <Badge color="primary">{_state[e.state-1]}</Badge> : e.state-1 === 1 ? <Badge color="danger">{_state[e.state-1]}</Badge> : <Badge color="secondary">{_state[e.state-1]}</Badge>}</h4>
                         </td>
                       </tr>)
                     })}
