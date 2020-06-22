@@ -62,7 +62,7 @@ const StockDetail = React.lazy(() => import('./views/Stock/StockDetail'));
 // const StockProduct = React.lazy(() => import('./views/Stock/StockProduct'));
 const StockModify = React.lazy(() => import('./views/Stock/Modify'));
 const StockDetailModify = React.lazy(() => import('./views/Stock/StockModify'));
-const CreateStock = React.lazy(() => import('./views/Stock/Create'));
+const CreateStock = React.lazy(() => import('./views/Stock/CreateIndex'));
 const StockTransport = React.lazy(() => import('./views/Stock/Transport'));
 const OrderDetail = React.lazy(() => import('./views/Order/Detail'));
 const OrderModify = React.lazy(() => import('./views/Order/Modify'));
