@@ -9,12 +9,12 @@ class Detail extends Component {
     };
   }
   componentWillMount() {
-		const {productId, plantId} = this.props.match.params;
-		this.getStockDetail(plantId, productId);
+		const {stockId} = this.props.match.params;
+		this.getStockDetail(stockId);
   }
 
-  getStockDetail(plantId, productId) {
-    fetch(process.env.REACT_APP_HOST+"/api/stock/"+plantId+"/"+productId, {
+  getStockDetail(stockId) {
+    fetch(process.env.REACT_APP_HOST+"/api/stock/"+stockId, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),

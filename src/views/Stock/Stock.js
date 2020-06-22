@@ -53,8 +53,8 @@ class Stock extends Component {
 	}
 
   getStock() {
-    const {page, name, useFamilyData} = this.state;
-    const { family, plant } = this.props
+		const {page, name, useFamilyData} = this.state;
+		const { family, plant } = this.props
     fetch(process.env.REACT_APP_HOST+"/api/stock/list", {
       method: 'POST',
       headers: {
@@ -286,7 +286,7 @@ class Stock extends Component {
                   <tbody>
                     {stockData.map((d) => {
                       return (
-                        <tr onClick={() => {this.props.history.push(`/main/manage/stock/${this.props.plant}/${d.product_id}`)}} style={{cursor: 'pointer'}} key={d.id}
+                        <tr onClick={() => {this.props.history.push(`/main/manage/stock/${d.id}`)}} style={{cursor: 'pointer'}} key={d.id}
                         >
                           <td className="list-hidden">
                             <img style={{ width: '90%' }} alt="품목 사진" src={d.file_name ? process.env.REACT_APP_HOST+"/static/" + d.file_name : '318x180.svg'} />
