@@ -33,6 +33,7 @@ class List extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      stateCount: [],
       //productData_cafe24: [],
       productData: [],
       stockData: [],
@@ -81,11 +82,15 @@ class List extends Component {
       .then(data => {
         const status = data[0];
         if (status === 200) {
-					let stateCount = [];
+          let stateCount = [];
+          for(var i =0 ; i < 3; i++) {
+            stateCount[i] = 0
+          }
+          console.log(data[1])
 					data[1].map((e,i) => {
 						stateCount[e.state-1] = e.count
-					})
-					console.warn(stateCount)
+          })
+          this.setState({ stateCount: stateCount })
         } else {
           alert('로그인 하고 접근해주세요')
           this.props.history.push('/login')
@@ -374,7 +379,7 @@ class List extends Component {
   render() {
     var data = this.state.productData;
     //var data_cafe24 = this.state.productData_cafe24;
-    var {stockData, familyData, userCategoryData} = this.state;
+    var {stockData, familyData, userCategoryData, stateCount} = this.state;
     var {family, show, pageNumbers} = this.props;
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
@@ -415,7 +420,7 @@ class List extends Component {
                   <i className="fa fa-list-alt"></i>
                   <div className="status-list-text">
                     <p>전체</p>
-                    <strong>0</strong>
+                    <strong>{stateCount[0] + stateCount[1] + stateCount[2]}</strong>
                     <span>건</span>
                   </div>
                 </li>
@@ -423,7 +428,7 @@ class List extends Component {
                   <i className="fa fa-list-alt"></i>
                   <div className="status-list-text">
                     <p>판매중</p>
-                    <strong>0</strong>
+                    <strong>{stateCount[0]===undefined ? 0 : stateCount[0]}</strong>
                     <span>건</span>
                   </div>
                 </li>
@@ -431,7 +436,7 @@ class List extends Component {
                   <i className="fa fa-list-alt"></i>
                   <div className="status-list-text">
                     <p>품절</p>
-                    <strong>0</strong>
+                    <strong>{stateCount[1]===undefined ? 0 : stateCount[1]}</strong>
                     <span>건</span>
                   </div>
                 </li>
@@ -439,7 +444,7 @@ class List extends Component {
                   <i className="fa fa-list-alt"></i>
                   <div className="status-list-text">
                     <p>판매중지</p>
-                    <strong>0</strong>
+                    <strong>{stateCount[2]===undefined ? 0 : stateCount[2]}</strong>
                     <span>건</span>
                   </div>
                 </li>
