@@ -45,30 +45,30 @@ class CreateProduct extends Component {
   handleFileInput(e) {
     var file = e.target.files[0];
     var canvasImg = document.createElement("img");
-		var reader = new FileReader();
-		reader.onload = () => {
-			this.setState({image: reader.result})
-		}
-		reader.readAsDataURL(file);
-		this.setState({imageFile: file});
+    var reader = new FileReader();
+    reader.onload = () => {
+      this.setState({image: reader.result})
+    }
+    reader.readAsDataURL(file);
+    this.setState({imageFile: file});
   }
 
   handleFileInput_multiple(e) {
     let imgList = [], imgFileList = [];
-		console.warn(this.refs.file_detail.files)
+    console.warn(this.refs.file_detail.files)
     for(var i = 0; i < this.refs.file_detail.files.length; i++ ) {
-			var file = this.refs.file_detail.files[i];
-			console.warn(file)
+      var file = this.refs.file_detail.files[i];
+      console.warn(file)
       //var canvasImg = document.createElement("img");
       var reader = new FileReader();
-			reader.onload = (e) => {
-				imgList.push(e.target.result);
-				this.setState({imageDetail: imgList});
-				console.warn(imgList)
-			};
-			reader.readAsDataURL(file);
-			imgFileList.push(file)
-			this.setState({imageDetailFile: imgFileList})
+      reader.onload = (e) => {
+        imgList.push(e.target.result);
+        this.setState({imageDetail: imgList});
+        console.warn(imgList)
+      };
+      reader.readAsDataURL(file);
+      imgFileList.push(file)
+      this.setState({imageDetailFile: imgFileList})
     }
   }
 
@@ -78,12 +78,11 @@ class CreateProduct extends Component {
     formData.append('file', this.state.imageFile);
 
     this.state.imageDetailFile.forEach((e) => {
-			formData.append('file_detail', e);
-		})
+      formData.append('file_detail', e);
+    })
     for (let [key, value] of Object.entries(this.form)) {
-			formData.append(key, value);
-		}
-		
+      formData.append(key, value);
+    }
     fetch(process.env.REACT_APP_HOST + "/product", {
       method: 'POST',
       'Content-Type': 'multipart/form-data',
@@ -103,7 +102,7 @@ class CreateProduct extends Component {
         let status = data[0];
         if (status === 200) {
           alert('등록됐습니다.');
-          this.props.history.push('/main/product/list');
+          this.props.history.push('/main/product/list/primary');
         } else {
           alert('등록에 실패했습니다.');
         }
@@ -111,7 +110,7 @@ class CreateProduct extends Component {
   }
 
   getUserFamilyCategory() {
-		fetch(process.env.REACT_APP_HOST + "/api/product/userFamilyCategory", {
+    fetch(process.env.REACT_APP_HOST + "/api/product/userFamilyCategory", {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -125,18 +124,18 @@ class CreateProduct extends Component {
         }
       })
       .then(data => {
-				let status = data[0];
+        let status = data[0];
         if (status === 200){
-					if(data[1].length !== 0) {
+          if(data[1].length !== 0) {
             //this.props.checkCategoryId(data[1][0].id)
-						this.setState({ userCategoryData: data[1], category: data[1][0].id}, () => {
-							this.getProductFamily();
-						});
-					} else {
-						this.setState({
+            this.setState({ userCategoryData: data[1], category: data[1][0].id}, () => {
+              this.getProductFamily();
+            });
+          } else {
+            this.setState({
               checkCategory: false
             })
-					}
+          }
 
         }
         else {
@@ -144,7 +143,7 @@ class CreateProduct extends Component {
           this.props.history.push('/login');
         }
       })
-	}
+  }
 
 
   getProductFamily() {
