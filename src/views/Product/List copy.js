@@ -55,9 +55,44 @@ class List extends Component {
 
   }
   componentWillMount() {
-    this.getUserFamilyCategory();
+		this.getUserFamilyCategory();
+		this.getStateCount();
     //this.getCafe24Product();
-  }
+	}
+	
+	//상태별 품목 개수를 가져옴
+	getStateCount() {
+    const name = this.props.keyword;
+    const {category, family} = this.props;
+
+    fetch(process.env.REACT_APP_HOST + "/api/product/stateCount", {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        const status = data[0];
+        if (status === 200) {
+					let stateCount = [];
+					data[1].map((e,i) => {
+						stateCount[e.state-1] = e.count
+					})
+					console.warn(stateCount)
+        } else {
+          alert('로그인 하고 접근해주세요')
+          this.props.history.push('/login')
+        }
+      });
+	}
+
 
   //사용자의 (검색 결과에 해당하는) 품목의 개수를 받아옴
   getTotal() {
