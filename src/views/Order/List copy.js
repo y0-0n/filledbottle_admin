@@ -347,7 +347,8 @@ class List extends Component {
                           {this.state.process === 'refund' ? <Badge color="danger">{stateKor['refund']}</Badge> : null}
                           {e.state === 'order' ? <Badge color="primary">{stateKor[e.state]}</Badge>: null}
                           {/*e.state === 'shipping' && this.state.process !== 'refund' ? <span><Badge color="secondary">{stateKor[e.state]}</Badge></span>: null*/}
-                          {e.state === 'shipping' && this.state.process !== 'refund' ? <span><Badge color="secondary">미수금</Badge></span>: null}
+													{e.state === 'shipping' && this.state.process !== 'refund' ? <span><Badge color="secondary">출하</Badge></span>: null}
+													{e.state === 'complete' && this.state.process !== 'refund' ? <span><Badge color="secondary">수금</Badge></span>: null}
                           {e.state === 'cancel' ? <Badge color="danger">{stateKor[e.state]}</Badge>: null}
                         </td>
                         <td style={{textAlign: "center"}} onClick={() => {

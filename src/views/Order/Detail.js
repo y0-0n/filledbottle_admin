@@ -197,7 +197,7 @@ class Detail extends Component {
                       <td colSpan='3'>
                         {orderInfo['state'] === 'order' ? <h3><Badge color="primary">{stateKor[orderInfo['state']]}</Badge></h3>: null}
                         {/*orderInfo['state'] === 'shipping' ? <h3><Badge color="secondary">{stateKor[orderInfo['state']]}</Badge></h3>: null*/}
-                        {orderInfo['state'] === 'shipping' ? this.state.collect ? <h3><Badge color="secondary">미수금</Badge></h3>
+                        {orderInfo['state'] === 'shipping' ? this.state.collect ? <h3><Badge color="secondary">출하</Badge></h3>
                         :<h3><Badge color="secondary">수금</Badge></h3>
                         : null}
                         {orderInfo['state'] === 'refund' ? <h3><Badge color="danger">{stateKor[orderInfo['state']]}</Badge></h3>: null}
@@ -209,7 +209,7 @@ class Detail extends Component {
               <CardFooter>
                 {orderInfo['state'] === "order" ? <Button onClick={() => this.changeState(orderInfo.state, 'shipping')} style={{marginLeft : '10px'}}>출하 완료</Button> : null}
                 {orderInfo['state'] === "shipping" ? <Button onClick={() => this.changeState(orderInfo.state, 'order')} style={{marginLeft : '10px'}} >출하 취소</Button> : null}
-                {orderInfo['state'] === "shipping" ?  this.state.collect ? <Button onClick={() => this.setState({collect : false})} style={{marginLeft : '10px'}} >수금 완료</Button>
+                {orderInfo['state'] === "shipping" ?  this.state.collect ? <Button onClick={() => this.changeState(orderInfo.state, 'complete')} style={{marginLeft : '10px'}} >수금 완료</Button>
                 :<Button onClick={() => this.setState({collect : true})} style={{marginLeft : '10px'}} >수금 미완</Button>
                 : null}
                 <Button onClick={() => {this.props.history.push(`/main/order/transaction/`+this.props.match.params.id)}} style={{marginLeft : '10px'}}>거래명세서</Button>
