@@ -12,7 +12,8 @@ class CreateProduct extends Component {
       name: '',
       grade: '',
       weight: '',
-      price: '',
+      price: 0,
+      discount_price: 0,
       productFamily: 'NULL'
     };
 
@@ -28,8 +29,8 @@ class CreateProduct extends Component {
       discount: 'discount1',
       sale_period: 'sale_period1',
       vat: 'vat1',
-      price: 0,
       discount_price: 0,
+      price: 0,
       first_date: new Date(),
       last_date: (new Date(new Date().getTime() + 60*60*24*1000*30*4)),
       userCategoryData : []
@@ -188,7 +189,6 @@ class CreateProduct extends Component {
 
   changeDiscount(e) {
     this.setState({discount: e.target.value})
-    console.log(this.state.discount)
   }
 
   changePrice(e) {
@@ -272,7 +272,7 @@ class CreateProduct extends Component {
                     <label className="sell-label">판매가</label>
                     <div className="sell-input">
                       <InputGroup>
-                        <Input type="number" placeholder="숫자만 입력" required onChange={(e) => this.form.price = e.target.value/*this.changePrice.bind(this)*/} />
+                        <Input type="number" placeholder="숫자만 입력" required onChange={(e) => this.form.price = e.target.value, this.changePrice.bind(this)} />
                         <InputGroupAddon addonType="append">
                           원
                         </InputGroupAddon>
@@ -282,14 +282,28 @@ class CreateProduct extends Component {
                   <div className="sell-list">
                     <div className="sell-content">
                       <label className="sell-label">할인</label>
-                      <div className="category-input-toggle">
+                      {/* <div className="category-input-toggle">
                         <Input type="radio" name="discount" id="discount1" value="discount1" defaultChecked onChange={this.changeDiscount.bind(this)}/>
                         <label for="discount1">설정함</label>
                         <Input type="radio" name="discount" id="discount2" value="discount2" onChange={this.changeDiscount.bind(this)}/>
                         <label for="discount2">설정안함</label>
+                      </div> */}
+                      <div className="sell-input">
+                        <InputGroup>
+                          <Input type="number" placeholder="숫자만 입력" required onChange={(e) => this.form.discount_price = e.target.value, this.changeDiscountPrice.bind(this)} />
+                          <InputGroupAddon addonType="append">
+                            원
+                          </InputGroupAddon>
+                        </InputGroup>
+                        <div className="sell-discount" style={{marginTop: "20px"}}>
+                          <label className="sell-label total-discount">할인가</label>
+                          <div className="sell-input total-discount">
+                            {this.state.price - this.state.discount_price} 원 ( {this.state.discount_price} 원 할인 )
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  { this.state.discount === 'discount1' ?
+                  {/* { this.state.discount === 'discount1' ?
                     <div className="sell-discount">
                       <label className="sell-label">할인</label>
                       <div className="sell-input">
@@ -300,16 +314,13 @@ class CreateProduct extends Component {
                           </InputGroupAddon>
                         </InputGroup>
                       </div>
-                      <label className="sell-label total-discount">할인가</label>
-                      <div className="sell-input total-discount">
-                        {this.state.price - this.state.discount_price} 원 ( {this.state.discount_price} 원 할인 )
-                      </div>
+                      
                     </div>
                     :
                     <div></div>
-                  }
+                  } */}
                   </div>
-                  <div className="sell-list">
+                  {/*<div className="sell-list">
                     <div className="sell-content">
                       <label className="sell-label">판매기간</label>
                       <div className="category-input-toggle">
@@ -343,7 +354,7 @@ class CreateProduct extends Component {
                     :
                     <div></div>
                   }
-                  </div>
+                  </div>*/}
                   <div className="sell-list">
                     <label className="sell-label">부가세</label>
                     <div className="category-input-toggle">
