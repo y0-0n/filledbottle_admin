@@ -10,10 +10,11 @@ class Create extends Component {
     super(props);
     this.form = {
       productId : '',
-      plant : '',
-      type : '외주생산',
+			plant : '',
+			date_manufacture: '',
+			expiration: '',
+      type : '자가생산',
       quantity: 0,
-      price : 0,
     };
 
     this.state = {
@@ -29,8 +30,19 @@ class Create extends Component {
   componentWillMount() {
 		this.getPlant();
 	}
-	
+
+	convertDateFormat(date) {
+    return date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+  }
+
   createStock() {
+		//TODO : 구분명 편집 필요
+		this.form.name = this.state.productName;
+		this.form.productId = this.state.productId;
+		this.form.expiration = this.convertDateFormat(this.state.expiration);
+		this.form.date_manufacture = this.convertDateFormat(this.state.date_manufacture);
+		console.warn(this.form)
+
 		fetch(process.env.REACT_APP_HOST+"/api/stock", {
       method: 'POST',
       headers: {
@@ -126,7 +138,7 @@ class Create extends Component {
       <div className="animated fadeIn align-items-center">
         <link rel="stylesheet" type="text/css" href="css/CreateCopy.css"></link>
         <div className="form-card">
-          <div className="form-title">재고 등록</div>
+				<div className="form-title">재고 등록 ({this.props.plant})</div>
           <div className="form-innercontent">
             <div className="sell-list">
               <div className="sell-content">
@@ -139,13 +151,14 @@ class Create extends Component {
                       
                     {close => <ProductModal close={close} login={()=>{this.props.history.push('/login')}} createProduct={() => {this.props.history.push('/product/create')}}
                       selectProduct={(data) => {
-                        console.log(data)
-                        let {name, price_shipping, file_name} = data;
+												let {name, price_shipping, file_name, familyName, id} = data;
                         this.setState({
+													productId: id,
                           productName: name,
-                          price_shipping,
+													price_shipping,
+													familyName,
                           file_name : "http://211.62.225.216:4000/static/" + file_name
-                        })
+                        });
                       }}/>}
                   </Popup>}
                 </div>
@@ -155,13 +168,13 @@ class Create extends Component {
                   <img src={this.state.file_name}/>
                 </div>
                 <div style={{display: "inline-block"}}>
-                  <div className="product-info">
+                  {/* <div className="product-info">
                     <label>카테고리</label>
                     <input></input>
-                  </div>
+                  </div> */}
                   <div className="product-info">
                     <label>품목군</label>
-                    <input></input>
+                    <input value={this.state.familyName}/>
                   </div>
                   <div className="product-info">
                     <label>판매단가</label>
@@ -181,7 +194,7 @@ class Create extends Component {
                 <label className="sell-label">재고수</label>
                 <div className="sell-input">
                   <InputGroup>
-                    <Input type="number" placeholder="숫자만 입력" required onChange={(e) => this.form.price = e.target.value/*this.changePrice.bind(this)*/} />
+                    <Input type="number" placeholder="숫자만 입력" required onChange={(e) => this.form.quantity = e.target.value/*this.changePrice.bind(this)*/} />
                     <InputGroupAddon addonType="append">
                       개
                     </InputGroupAddon>
@@ -196,8 +209,8 @@ class Create extends Component {
                   className="datepicker"
                   dateFormat="yyyy년 MM월 dd일"
                   locale="ko"
-                  selected={this.state.first_date}
-                  onChange={(first_date) => { this.setState({ first_date }) }}
+                  selected={this.state.expiration}
+                  onChange={(date) => { this.setState({ expiration: date }) }}
                 />
               </div>
             </div>
@@ -208,8 +221,8 @@ class Create extends Component {
                   className="datepicker"
                   dateFormat="yyyy년 MM월 dd일"
                   locale="ko"
-                  selected={this.state.first_date2}
-                  onChange={(first_date2) => { this.setState({ first_date2 }) }}
+                  selected={this.state.date_manufacture}
+                  onChange={(date) => { this.setState({ date_manufacture: date }) }}
                 />
               </div>
             </div>

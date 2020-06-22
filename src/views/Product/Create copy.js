@@ -128,9 +128,9 @@ class CreateProduct extends Component {
         if (status === 200){
 					if(data[1].length !== 0) {
             //this.props.checkCategoryId(data[1][0].id)
-						this.setState({ userCategoryData: data[1],}, () => {
-								this.getProductFamily();
-							});
+						this.setState({ userCategoryData: data[1], category: data[1][0].id}, () => {
+							this.getProductFamily();
+						});
 					} else {
 						this.setState({
               checkCategory: false
@@ -147,7 +147,7 @@ class CreateProduct extends Component {
 
 
   getProductFamily() {
-    fetch(process.env.REACT_APP_HOST + "/api/product/familyList/all", {
+    fetch(process.env.REACT_APP_HOST + "/api/product/familyList/"+this.state.category, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -219,7 +219,7 @@ class CreateProduct extends Component {
                 <div className="form-title">카테고리</div>
                 <div className="form-innercontent">
                     <Input onChange={(e) => {
-                      this.form.productFamily = e.target.value;
+                      this.form.category = e.target.value;
                     }} type='select' name="family">
                       {userCategoryData.map((e, i) => {
                         return <option key={i} value={e.id}>{e.name}</option>
@@ -356,7 +356,7 @@ class CreateProduct extends Component {
                 </div>
               </div>
 
-              <div className="form-card">
+              {/* <div className="form-card">
                 <div className="form-title">재고수량</div>
                 <div className="form-innercontent">
                   <div className="sell-input">
@@ -366,7 +366,7 @@ class CreateProduct extends Component {
                     </InputGroup>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               <div className="form-card">
                 <div className="form-title">품목상태</div>

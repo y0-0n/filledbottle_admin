@@ -21,7 +21,6 @@ class Stock extends Component {
   }
 
   componentWillMount() {
-    console.log(this.props.plant, "ddd")
     this.getPlant();
 	}
 
@@ -147,7 +146,7 @@ class Stock extends Component {
           this.props.checkPlant(data[1][0].id)
           this.setState({ plantData: data[1],
             /*plant: data[1][0].id*/ }, () => {
-              this.getUseFamily();
+							this.getUseFamily();
             });
         } else {
           this.setState({ checkCategory: false })
