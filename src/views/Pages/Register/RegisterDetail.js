@@ -381,7 +381,7 @@ class RegisterDetail extends Component {
   }
 
   render() {
-    console.log(this.state.cardShow)
+    console.log(this.state.data)
     const {data, plantData, allFamilyData, familyData, categoryData, productData} = this.state;
     return (
 			<div className="animated fadeIn">

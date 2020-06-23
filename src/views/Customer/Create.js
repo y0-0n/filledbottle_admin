@@ -54,7 +54,8 @@ class Create extends Component {
   handlePost(e) {
     e.preventDefault();
 		let formData = new FormData();
-		this.form.address = document.getElementById("sample6_address").value+" "+document.getElementById("sample6_detailAddress").value;
+    this.form.address = document.getElementById("sample6_address").value
+    this.form.addressDetail = document.getElementById("sample6_detailAddress").value;
 		this.form.postcode = document.getElementById("sample6_postcode").value;
     for (let [key, value] of Object.entries(this.form)) {
       formData.append(key, value);
