@@ -39,17 +39,15 @@ class List extends Component {
       stockData: [],
       //page: 1,
       name: '',
-      //family: 0,
       //set: true,
       stockEdit: false,
 			familyData: [],
       userCategoryData: [],
       checkCategory: true,
       total: 0,
-      family: 0,
+      familyName: 0,
 		};
     //this.name = '';
-    //this.family = 0;
     this.form = {
 
 		}
@@ -64,7 +62,6 @@ class List extends Component {
 	//상태별 품목 개수를 가져옴
 	getStateCount() {
     const name = this.props.keyword;
-    const {category, family} = this.props;
 
     fetch(process.env.REACT_APP_HOST + "/api/product/stateCount", {
       method: 'GET',
@@ -300,9 +297,9 @@ class List extends Component {
 		})
   }
 
-  countPageNumber(x) {
+  countPageNumber() {
     this.setState({
-      //page: x,
+      familyName :  0
     }, () => {
       this.getProduct();
       this.getStock();
@@ -338,9 +335,9 @@ class List extends Component {
       })
   }
 
-  changeFamily (family) {
+  changeFamily (familyName) {
     //let keyword = this.keyword
-    this.setState({ family, /*page: 1*/ }, () => {
+    this.setState({ familyName /*page: 1*/ }, () => {
       this.getProduct();
       this.getStock();
     })
@@ -380,7 +377,7 @@ class List extends Component {
     var data = this.state.productData;
     //var data_cafe24 = this.state.productData_cafe24;
     var {stockData, familyData, userCategoryData, stateCount} = this.state;
-    var {family, show, pageNumbers} = this.props;
+    var { show, pageNumbers} = this.props;
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
     return (
@@ -472,7 +469,7 @@ class List extends Component {
                 <div className="search-input">
                   {
                     familyData.map((e, i) => {
-                      return <label className="search-input-label"><input onChange = {() => this.setState({family: this.props.checkFamily(e.id)})} className="search-input-checkbox" name="family" type="radio"/>{e.name}</label>
+                      return <label className="search-input-label"><input onChange = {() => {this.setState({familyName: this.props.checkFamily(e.id)})}} className="search-input-checkbox" name="family" type="radio"/>{e.name}</label>
                     })
                   }
                 </div>
@@ -506,7 +503,7 @@ class List extends Component {
                 </div>
               </div>*/}
               <div className="search-button">
-                <Button color="primary" style={{marginRight: 10}} onClick={()=> {this.searchProduct(); this.changeFamily(this.state.family)}}>검색</Button>
+                <Button color="primary" style={{marginRight: 10}} onClick={()=> {this.searchProduct(); this.changeFamily(this.state.familyName)}}>검색</Button>
                 <Button color="ghost-primary">초기화</Button>
               </div>
             </div>
