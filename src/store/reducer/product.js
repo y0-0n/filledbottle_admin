@@ -65,7 +65,8 @@ function searchKeyword(state, keyword_s) {
 function convertPage(state, next_page) {
     console.warn(next_page)
     return {
-        ...state ,
+        ...state,
+        family: 0,
         pageNumbers : next_page
     }
 }
