@@ -37,7 +37,6 @@ class RegisterDetail extends Component {
       deletePlantList: [],
       employee: [[]],
       cardShow : true,
-      day: 7
     }
   }
 
@@ -380,6 +379,14 @@ class RegisterDetail extends Component {
     return result;
   }
 
+  getDiffDate(dateInput) {
+    var d = new Date(dateInput);
+    var todayDate = new Date();
+    var diffDate = Math.ceil((d.getTime()-todayDate.getTime())/(1000*3600*24));
+
+    return diffDate;
+  }
+
   render() {
     console.log(this.state.data)
     const {data, plantData, allFamilyData, familyData, categoryData, productData} = this.state;
@@ -394,7 +401,7 @@ class RegisterDetail extends Component {
             <div>
               <p className="close-button" style={{cursor : 'pointer'}} onClick={()=> {this.setState({cardShow: false})}}>X</p>
               <p className="vaildity-content">
-                부농부농 서비스를 이용할 수 있는 기간이 <span style={{color: "lightblue"}}>{this.state.day}</span> 일 남았습니다
+                부농부농 서비스를 이용할 수 있는 기간이 <span style={{color: "lightblue"}}>{this.getDiffDate(data.expiration)}</span> 일 남았습니다
                 <br/>
                 연장하기 버튼을 눌러 이용기간을 연장해주세요. 
               </p>

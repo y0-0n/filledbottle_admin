@@ -13,7 +13,7 @@ class Stock extends Component {
 			plantData: [],
 			useFamilyData: [],
 			page: 1,
-			//family: 0,
+			family: 0,
 			name: '',
       //plant: 0,
       checkCategory: true,
@@ -53,8 +53,9 @@ class Stock extends Component {
 	}
 
   getStock() {
-		const {page, name, useFamilyData} = this.state;
-		const { family, plant } = this.props
+    const name = this.props.keyword;
+		const { useFamilyData} = this.state;
+		const { pageNumbers, family, plant } = this.props
     fetch(process.env.REACT_APP_HOST+"/api/stock/list", {
       method: 'POST',
       headers: {
@@ -64,7 +65,7 @@ class Stock extends Component {
       },
       body: JSON.stringify(
         {
-          plant, page, family, name, useFamilyData
+          plant, pageNumbers, family, name, useFamilyData
         }
       )
     })
@@ -89,7 +90,8 @@ class Stock extends Component {
   }
 
   getTotal() {
-    const {name, useFamilyData} = this.state;
+    const name = this.props.keyword;
+    const {useFamilyData} = this.state;
     const { family, plant } = this.props
 
     fetch(process.env.REACT_APP_HOST + "/api/stock/list/total/", {
@@ -235,13 +237,26 @@ class Stock extends Component {
               <div className="search-list">
                 <label className="search-label">품목군</label>
                 <div className="sell-input">
-                  <select>
+                  {useFamilyData.map((e, i) => {
+                      return <label className="search-input-label"><input onChange = {() => {this.setState({family: this.props.checkFamily(e.id)}); console.log(this.state.family)}} className="search-input-checkbox" name="family" type="radio"/>{e.name}</label>
+                    })
+                  }
+                  {/* payload를 문자열로 받아옴 */}
+                  {/* <Input onChange={(e) => {
+                    this.setState({family : this.props.checkFamily(e.target.value)});
+                    console.log(this.state.family)
+                  }} type='select' name="family">
+                    {useFamilyData.map((e, i) => {
+                      return <option key={i} value={e.id}>{e.name}</option>
+                    })}
+                  </Input> */}
+                  {/* <select>
                     {
                       useFamilyData.map((e, i) => {
-                        return <option key={i} className="list-productfamily" style={{backgroundColor: family === e.id? '#F16B6F' : 'transparent', border: family === e.id? '0px' : '1px solid #c9d6de', color: family === e.id? '#fff' : '#52616a', fontWeight: family === e.id? 'bold' : 'normal', fontSize: family === e.id? '1.1em' : '1em'}} onClick = {() => {this.changeFamily(this.props.checkFamily(e.id));console.log(this.props.family)}}>{e.name}</option>
+                        return <option key={i} className="list-productfamily" onClick = {() => {this.changeFamily(this.props.checkFamily(e.id));console.log(this.props.family)}}>{e.name}</option>
                       })
                     }
-                  </select>
+                  </select> */}
                 </div>
               </div>
               <div className="search-list">
@@ -251,7 +266,7 @@ class Stock extends Component {
                 </div>
               </div>
               <div className="search-button" style={{textAlign: 'center', paddingBottom: "10px"}}>
-								<Button color="primary" onClick={()=> {this.searchProduct();}} >검색</Button>
+								<Button color="primary" onClick={()=> {this.searchProduct(); this.changeFamily(this.state.family)}} >검색</Button>
 								<Button color="ghost-primary">초기화</Button>
 							</div>
             </div>

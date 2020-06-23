@@ -9,24 +9,25 @@ class Modify extends Component {
     super(props);
 
     this.state = {
+      image: '/assets/img/plusImage.jpg',
+      imageDetailPlus: '/assets/img/plusImage.jpg',
+      imageDetail: [],
+      imageDetailFile: [],
       data: [],
-      image: null,
       familyData: [],
-      image: "http://211.62.225.216:4000/static/",
-      imageDetail: ['http://211.62.225.216:4000/static/'],
       checkCategory: true,
-      category: 'category1',
       discount: 'discount1',
       sale_period: 'sale_period1',
       vat: 'vat1',
       price: 0,
+      userCategoryData : [],
       discount_price: 0,
     };
   }
 
   componentWillMount() {
     this.getProduct();
-    this.getProductFamily();
+    this.getUserFamilyCategory();
   }
 
   handleFileInput() {
@@ -156,8 +157,44 @@ class Modify extends Component {
     }
   }
 
+  getUserFamilyCategory() {
+    fetch(process.env.REACT_APP_HOST + "/api/product/userFamilyCategory", {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if (status === 200){
+          if(data[1].length !== 0) {
+            //this.props.checkCategoryId(data[1][0].id)
+            this.setState({ userCategoryData: data[1], category: data[1][0].id}, () => {
+              this.getProductFamily();
+            });
+          } else {
+            this.setState({
+              checkCategory: false
+            })
+          }
+
+        }
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })
+  }
+
   getProductFamily() {
-    fetch(process.env.REACT_APP_HOST + "/api/product/familyList/all", {
+    fetch(process.env.REACT_APP_HOST + "/api/product/familyList/"+this.state.category, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -209,6 +246,7 @@ class Modify extends Component {
 
 
   render() {
+    var userCategoryData = this.state.userCategoryData;
 		var data = this.state.data;
     return (
       <div className="animated fadeIn">
@@ -220,30 +258,26 @@ class Modify extends Component {
               <div className="form-card">
                 <div className="form-title">카테고리</div>
                 <div className="form-innercontent">
-                  <div className="category-">
-                    <div className="category-input-toggle">
-                      <Input type="radio" name="category" id="category1" value="category1" onChange={this.changeCategory.bind(this)} defaultChecked/>
-                      <label for="category1">카테고리명 검색</label>
-                      <Input type="radio" name="category" id="category2" value="category2" onChange={this.changeCategory.bind(this)}/>
-                      <label for="category2">카테고리명 선택</label>
-                    </div>
-                  </div>
-                  { this.state.category === 'category1' ? 
-                    <div className="category-content">
-                      <Input placeholder="카테고리명 입력"/>
-                    </div>
-                  :
-                    <div className="category-content category-list">
-                      <div className="category-ul">
-                        <Input onChange={(e) => {this.form.productFamily = e.target.value;}} type='select' name="family">
-                          <option value='NULL'>품목군 없음</option>
-                          {this.state.familyData.map((e, i) => {
-                            return <option value={e.id} selected={e.id === data.family}>{e.name}</option>
-                          })}
-                        </Input>
-                      </div>
-                    </div>
-                  }
+                    <Input onChange={(e) => {
+                      this.form.category = e.target.value;
+                    }} type='select' name="family">
+                      {userCategoryData.map((e, i) => {
+                        return <option key={i} value={e.id}>{e.name}</option>
+                      })}
+                    </Input>
+                </div>
+              </div>
+
+              <div className="form-card">
+                <div className="form-title">품목군</div>
+                <div className="form-innercontent">
+                  <Input onChange={(e) => {
+                      this.form.productFamily = e.target.value;
+                    }} type='select' name="family">
+                      {this.state.familyData.map((e, i) => {
+                        return <option key={i} value={e.id}>{e.name}</option>
+                      })}
+                  </Input>
                 </div>
               </div>
 
@@ -268,14 +302,10 @@ class Modify extends Component {
                       </InputGroup>
                     </div>
                   </div>
-                  <div className="sell-list">
+                  {/* <div className="sell-list">
                     <div className="sell-content">
                       <label className="sell-label">할인</label>
                       <div className="category-input-toggle">
-                        <Input type="radio" name="discount" id="discount1" value="discount1" defaultChecked onChange={this.changeDiscount.bind(this)}/>
-                        <label for="discount1">설정함</label>
-                        <Input type="radio" name="discount" id="discount2" value="discount2" onChange={this.changeDiscount.bind(this)}/>
-                        <label for="discount2">설정안함</label>
                       </div>
                     </div>
                   { this.state.discount === 'discount1' ?
@@ -297,16 +327,10 @@ class Modify extends Component {
                     :
                     <div></div>
                   }
-                  </div>
-                  <div className="sell-list">
+                  </div> */}
+                  {/* <div className="sell-list">
                     <div className="sell-content">
                       <label className="sell-label">판매기간</label>
-                      <div className="category-input-toggle">
-                        <Input type="radio" name="sale_period" id="sale_period1" value="sale_period1" defaultChecked onChange={this.changeSalePeriod.bind(this)}/>
-                        <label for="sale_period1">설정함</label>
-                        <Input type="radio" name="sale_period" id="sale_period2" value="sale_period2" onChange={this.changeSalePeriod.bind(this)}/>
-                        <label for="sale_period2">설정안함</label>
-                      </div>
                     </div>
                     { this.state.sale_period === 'sale_period1' ?
                     <div className="sell-discount">
@@ -332,8 +356,8 @@ class Modify extends Component {
                     :
                     <div></div>
                   }
-                  </div>
-                  <div className="sell-list">
+                  </div> */}
+                  {/* <div className="sell-list">
                     <label className="sell-label">부가세</label>
                     <div className="category-input-toggle">
                       <Input type="radio" name="vat" id="vat1" value="vat1" defaultChecked onChange={this.changeVAT.bind(this)}/>
@@ -341,23 +365,11 @@ class Modify extends Component {
                       <Input type="radio" name="vat" id="vat2" value="vat2" onChange={this.changeVAT.bind(this)}/>
                       <label for="vat2">비과세상품</label>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
-              <div className="form-card">
-                <div className="form-title">재고수량</div>
-                <div className="form-innercontent">
-                  <div className="sell-input">
-                    <InputGroup>
-                      <Input placeholder="숫자만 입력"/>
-                      <InputGroupAddon addonType="append">개</InputGroupAddon>
-                    </InputGroup>
-                  </div>
-                </div>
-              </div>
-
-              <div className="form-card">
+              {/* <div className="form-card">
                 <div className="form-title">품목상태</div>
                 <div className="form-innercontent">
                   <div className="sell-input">
@@ -368,7 +380,7 @@ class Modify extends Component {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               <div className="form-card">
                 <div className="form-title">상품이미지</div>
@@ -376,22 +388,48 @@ class Modify extends Component {
                   <div className="sell-list">
                     <label className="sell-label">대표이미지</label>
                     <div className="sell-input">
-                      <div className="add-image">
-                        <i className="fa fa-plus"></i>
+                      <div style={{paddingBottom: '10px', cursor: 'pointer'}}>
+                        <input ref="file" type="file" name="file" onChange={e => {
+                          this.handleFileInput(e);
+                        }} style={{display: "none"}}/>
+                        <div id="imageFile" className="add-image" onClick={() => document.all.file.click()}>
+                          <img src={this.state.image} />
+                        </div>
                       </div>
                     </div>
                   </div>
                   <div className="sell-list">
-                    <label className="sell-label">추가이미지</label>
+                    <label className="sell-label">
+                      상세이미지
+                      <p style={{color: "#D3D3D3", fontSize: "0.9em"}}>* 이미지 다중선택 가능</p>
+                    </label>
+                    
                     <div className="sell-input">
-                      <div className="add-image">
-                        <i className="fa fa-plus"></i>
+                      <div className="sell-image">
+                        
+                        <div style={{paddingBottom: '10px', cursor: 'pointer'}}>
+                          <input ref="file_detail" type="file" name="file_detail" onChange={e => {
+                            this.handleFileInput_multiple(e);
+                          }} style={{display: "none"}} multiple/>
+                          <div id="imageFile" className="add-image" onClick={() => document.all.file_detail.click()}>
+                            <img src={this.state.imageDetailPlus} />
+                          </div>
+                        </div>
+                        {this.state.imageDetail.map((e, i) => {
+                          return <img key={i} id="imageFile" alt="상세 사진1" style={{
+                            display: "inline-block",
+                            border: '1px',
+                            borderStyle: 'dashed',
+                            borderColor: '#c8ced3',
+                            marginBottom: '10px'
+                          }} src={this.state.imageDetail[i]}/>
+                        })}
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-
+              <Button color="primary" style={{width: "100%"}}>수정하기</Button>
             </form>
           </Col>
         </Row>
