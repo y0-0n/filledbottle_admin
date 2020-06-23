@@ -53,8 +53,8 @@ class Stock extends Component {
 	}
 
   getStock() {
-		const {page, name, useFamilyData} = this.state;
-		const { family, plant } = this.props
+		const {name, useFamilyData} = this.state;
+		const { pageNumbers, family, plant } = this.props
     fetch(process.env.REACT_APP_HOST+"/api/stock/list", {
       method: 'POST',
       headers: {
@@ -64,7 +64,7 @@ class Stock extends Component {
       },
       body: JSON.stringify(
         {
-          plant, page, family, name, useFamilyData
+          plant, pageNumbers, family, name, useFamilyData
         }
       )
     })
