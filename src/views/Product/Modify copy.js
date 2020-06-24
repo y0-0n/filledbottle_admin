@@ -30,56 +30,87 @@ class Modify extends Component {
     this.getUserFamilyCategory();
   }
 
-  handleFileInput() {
-    var file = this.refs.file.files[0];
+  // blob 만드는 부분
+  // handleFileInput() {
+  //   var file = this.refs.file.files[0];
+  //   var canvasImg = document.createElement("img");
+  //   var reader = new FileReader();
+  //   reader.readAsDataURL(file);
+
+  //   // img resize
+  //   reader.onload = function (e) {
+  //     var canvas = document.createElement("canvas");
+  //     var ctx = canvas.getContext("2d");
+  //     var url = e.target.result;
+  //     var img = new Image();
+  //     img.onload = function () {
+  //       ctx.drawImage(img, 0, 0, 300, 300);
+  //       var dataurl = canvas.toDataURL('image/png');
+  //       this.setState({
+  //         image: dataurl
+  //       });
+  //       console.log(dataurl)
+  //     }.bind(this);
+  //     img.src = url;
+
+  //     canvas.width = 300;
+  //     canvas.height = 300;
+
+  //   }.bind(this);
+  //   this.setState({image: this.state.image})
+  // }
+
+  // handleFileInput_multiple() {
+  //   console.log(this.refs.file_detail.files)
+  //   let imgList = [];
+  //   for(var i = 0; i < this.refs.file_detail.files.length; i++ ) {
+  //     var file = this.refs.file_detail.files[i];
+  //     //var canvasImg = document.createElement("img");
+  //     var reader = new FileReader();
+  //     reader.readAsDataURL(file);
+  //     // img resize
+  //     reader.onload = function (e) {
+  //       var canvas = document.createElement("canvas");
+  //       var ctx = canvas.getContext("2d");
+  //       var url = e.target.result;
+  //       var img = new Image();
+  //       imgList.push(url);
+  //       this.setState({imageDetail: imgList})
+  //       img.src = url;
+  //       canvas.width = 300;
+  //       canvas.height = 300;
+  
+  //     }.bind(this);
+  //   }
+  // }
+
+  handleFileInput(e) {
+    var file = e.target.files[0];
     var canvasImg = document.createElement("img");
     var reader = new FileReader();
+    reader.onload = () => {
+      this.setState({image: reader.result})
+    }
     reader.readAsDataURL(file);
-
-    // img resize
-    reader.onload = function (e) {
-      var canvas = document.createElement("canvas");
-      var ctx = canvas.getContext("2d");
-      var url = e.target.result;
-      var img = new Image();
-      img.onload = function () {
-        ctx.drawImage(img, 0, 0, 300, 300);
-        var dataurl = canvas.toDataURL('image/png');
-        this.setState({
-          image: dataurl
-        });
-        console.log(dataurl)
-      }.bind(this);
-      img.src = url;
-
-      canvas.width = 300;
-      canvas.height = 300;
-
-    }.bind(this);
-    this.setState({image: this.state.image})
+    this.setState({imageFile: file});
   }
 
-  handleFileInput_multiple() {
-    console.log(this.refs.file_detail.files)
-    let imgList = [];
+  handleFileInput_multiple(e) {
+    let imgList = [], imgFileList = [];
+    console.warn(this.refs.file_detail.files)
     for(var i = 0; i < this.refs.file_detail.files.length; i++ ) {
       var file = this.refs.file_detail.files[i];
+      console.warn(file)
       //var canvasImg = document.createElement("img");
       var reader = new FileReader();
+      reader.onload = (e) => {
+        imgList.push(e.target.result);
+        this.setState({imageDetail: imgList});
+        console.warn(imgList)
+      };
       reader.readAsDataURL(file);
-      // img resize
-      reader.onload = function (e) {
-        var canvas = document.createElement("canvas");
-        var ctx = canvas.getContext("2d");
-        var url = e.target.result;
-        var img = new Image();
-        imgList.push(url);
-        this.setState({imageDetail: imgList})
-        img.src = url;
-        canvas.width = 300;
-        canvas.height = 300;
-  
-      }.bind(this);
+      imgFileList.push(file)
+      this.setState({imageDetailFile: imgFileList})
     }
   }
 
@@ -127,6 +158,12 @@ class Modify extends Component {
     if (c) {
       let formData = new FormData();
       //formData.append('file', this.state.img);
+      formData.append('file', this.state.imageFile);
+
+      this.state.imageDetailFile.forEach((e) => {
+        formData.append('file_detail', e);
+      })
+  
       for (let [key, value] of Object.entries(this.form)) {
         formData.append(key, value);
       }
