@@ -230,6 +230,7 @@ class Modify extends Component {
 
   changePrice(e) {
     this.setState({price: e.target.value})
+    this.form.price = e.target.value;
   }
 
   changeDiscountPrice(e) {
