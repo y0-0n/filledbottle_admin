@@ -11,7 +11,7 @@ class Stock extends Component {
     this.state = {
 			stockData: [],
 			plantData: [],
-			useFamilyData: [],
+			familyData: [],
 			page: 1,
 			family: 0,
 			name: '',
@@ -22,39 +22,65 @@ class Stock extends Component {
 
   componentWillMount() {
     this.getPlant();
+    this.getFamily();
 	}
 
-  getUseFamily() {//취급 품목 불러오기
-    fetch(process.env.REACT_APP_HOST+"/api/product/familyInPlant/"+this.props.plant, {
+  getFamily() {//취급 품목 불러오기
+    // fetch(process.env.REACT_APP_HOST+"/api/product/familyInPlant/"+this.props.plant, {
+    //   method: 'GET',
+    //   headers: {
+    //     'Authorization': 'Bearer ' + localStorage.getItem('token'),
+    //   },
+    // })
+    // .then(response => {
+    //   if(response.status === 401) {
+    //     return Promise.all([401])
+    //   } else {
+    //     return Promise.all([response.status, response.json()]);
+    //   }
+    // })
+    // .then(data => {
+		// 	let status = data[0];
+    //   if(status === 200){
+		// 		this.setState({familyData: data[1]}, () => {
+		// 			this.getStock();
+		// 		});
+		// 	}
+    //   else {
+    //     alert('로그인 하고 접근해주세요');
+    //     this.props.history.push('/login');
+    //   }
+    // });
+    fetch(process.env.REACT_APP_HOST + "/api/product/familyList/0", {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
       },
     })
-    .then(response => {
-      if(response.status === 401) {
-        return Promise.all([401])
-      } else {
-        return Promise.all([response.status, response.json()]);
-      }
-    })
-    .then(data => {
-			let status = data[0];
-      if(status === 200){
-				this.setState({useFamilyData: data[1]}, () => {
-					this.getStock();
-				});
-			}
-      else {
-        alert('로그인 하고 접근해주세요');
-        this.props.history.push('/login');
-      }
-    });
+      .then(response => {
+        if (response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+				let status = data[0];
+        if (status === 200){
+          this.setState({ familyData: data[1] }, () => {
+						this.getStock();
+					});
+        }
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      })
 	}
 
   getStock() {
     const name = this.props.keyword;
-		const { useFamilyData} = this.state;
+		const { familyData} = this.state;
 		const { pageNumbers, family, plant } = this.props
     fetch(process.env.REACT_APP_HOST+"/api/stock/list", {
       method: 'POST',
@@ -65,7 +91,7 @@ class Stock extends Component {
       },
       body: JSON.stringify(
         {
-          plant, pageNumbers, family, name, useFamilyData
+          plant, pageNumbers, family, name, familyData
         }
       )
     })
@@ -91,7 +117,7 @@ class Stock extends Component {
 
   getTotal() {
     const name = this.props.keyword;
-    const {useFamilyData} = this.state;
+    const {familyData} = this.state;
     const { family, plant } = this.props
 
     fetch(process.env.REACT_APP_HOST + "/api/stock/list/total/", {
@@ -103,10 +129,10 @@ class Stock extends Component {
       },
       body: JSON.stringify(
         {
-          name, family, plant, useFamilyData
+          name, family, plant, familyData
         }
       )
-    })
+    })  
       .then(response => {
         if (response.status === 401) {
           return Promise.all([401])
@@ -148,13 +174,12 @@ class Stock extends Component {
           this.props.checkPlant(data[1][0].id)
           this.setState({ plantData: data[1],
             /*plant: data[1][0].id*/ }, () => {
-							this.getUseFamily();
             });
         } else {
           this.setState({ checkCategory: false })
         }
 				/*this.setState({plantData: data[1], plant: data[1][0].id});
-				this.getUseFamily();*/
+				this.getFamily();*/
 			}
       else {
         alert('로그인 하고 접근해주세요');
@@ -173,7 +198,6 @@ class Stock extends Component {
 			//page: 1,
 			//family: 0,
 		}, () => {
-			this.getUseFamily();
 		})
   }
 
@@ -181,7 +205,6 @@ class Stock extends Component {
     this.setState({
       page: x,
     }, () => {
-			this.getUseFamily();
     });
 	}
 
@@ -194,7 +217,7 @@ class Stock extends Component {
 
 
   render() {
-    let {stockData, plantData, useFamilyData} = this.state;
+    let {stockData, plantData, familyData} = this.state;
     var {family, pageNumbers} = this.props;
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
@@ -237,7 +260,7 @@ class Stock extends Component {
               <div className="search-list">
                 <label className="search-label">품목군</label>
                 <div className="sell-input">
-                  {useFamilyData.map((e, i) => {
+                  {familyData.map((e, i) => {
                       return <label className="search-input-label"><input onChange = {() => {this.setState({family: this.props.checkFamily(e.id)}); console.log(this.state.family)}} className="search-input-checkbox" name="family" type="radio"/>{e.name}</label>
                     })
                   }
@@ -246,13 +269,13 @@ class Stock extends Component {
                     this.setState({family : this.props.checkFamily(e.target.value)});
                     console.log(this.state.family)
                   }} type='select' name="family">
-                    {useFamilyData.map((e, i) => {
+                    {familyData.map((e, i) => {
                       return <option key={i} value={e.id}>{e.name}</option>
                     })}
                   </Input> */}
                   {/* <select>
                     {
-                      useFamilyData.map((e, i) => {
+                      familyData.map((e, i) => {
                         return <option key={i} className="list-productfamily" onClick = {() => {this.changeFamily(this.props.checkFamily(e.id));console.log(this.props.family)}}>{e.name}</option>
                       })
                     }
