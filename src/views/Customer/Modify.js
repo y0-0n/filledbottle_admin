@@ -31,7 +31,10 @@ class Modify extends Component {
           cellphone: data[0].cellphone,
           crNumber: data[0].crNumber,
           address: data[0].address,
-        }    
+        }
+        document.getElementById("sample6_address").value = data[0].address;
+        document.getElementById("sample6_detailAddress").value = data[0].address_detail;
+        document.getElementById("sample6_postcode").value = data[0].postcode;
       });
   }
 
@@ -72,8 +75,9 @@ class Modify extends Component {
     let c = window.confirm('이 상품을 수정하시겠습니까?')
     if(c) {
       let formData = new FormData();
-      this.form.address = document.getElementById("sample6_address").value+" "+document.getElementById("sample6_detailAddress").value;
-		  this.form.postcode = document.getElementById("sample6_postcode").value;
+      this.form.address = document.getElementById("sample6_address").value;
+      this.form.addressDetail = document.getElementById("sample6_detailAddress").value;
+      this.form.postcode = document.getElementById("sample6_postcode").value;
       for (let [key, value] of Object.entries(this.form)) {
         formData.append(key, value);
       }
