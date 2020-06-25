@@ -23,6 +23,10 @@ class Modify extends Component {
       data: {detail_file: []},
       discount_price: 0,
     };
+
+    this.form={
+      productFamily : ''
+    }
   }
 
   componentWillMount() {
@@ -279,7 +283,8 @@ class Modify extends Component {
 
   render() {
     var userCategoryData = this.state.userCategoryData;
-		var data = this.state.data;
+    var data = this.state.data;
+    console.log(data)
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/CreateCopy.css"></link>
@@ -292,6 +297,9 @@ class Modify extends Component {
                 <div className="form-innercontent">
                     <Input onChange={(e) => {
                       this.form.category = e.target.value;
+                      this.setState({category: e.target.value}, ()=> {
+                        this.getProductFamily()
+                      });
                     }} type='select' name="family">
                       {userCategoryData.map((e, i) => {
                         return <option key={i} value={e.id}>{e.name}</option>
@@ -303,7 +311,7 @@ class Modify extends Component {
               <div className="form-card">
                 <div className="form-title">품목군</div>
                 <div className="form-innercontent">
-                  <Input onChange={(e) => {
+                  <Input defaultValue={data.familyName} onChange={(e) => {
                       this.form.productFamily = e.target.value;
                     }} type='select' name="family">
                       {this.state.familyData.map((e, i) => {

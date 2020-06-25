@@ -219,6 +219,9 @@ class CreateProduct extends Component {
                 <div className="form-innercontent">
                     <Input onChange={(e) => {
                       this.form.category = e.target.value;
+                      this.setState({category: e.target.value}, ()=> {
+                        this.getProductFamily()
+                      });
                     }} type='select' name="family">
                       {userCategoryData.map((e, i) => {
                         return <option key={i} value={e.id}>{e.name}</option>
