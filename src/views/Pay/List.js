@@ -25,17 +25,19 @@ class List extends Component {
           </p>
           <div className="listcard">
             <div>1개월 결제하기</div>
-            <div style={{fontSize: "40px", marginBottom: "10px"}}>월 <strong>50,000</strong> 원</div>
+            <div style={{fontSize: "40px", marginBottom: "10px"}}><strong>50,000</strong> 원</div>
             <Button color="primary">결제하기</Button>
           </div>
           <div className="listcard">
             <div>6개월 결제하기</div>
-            <div style={{fontSize: "40px", marginBottom: "10px"}}>월 <strong>45,000</strong> 원</div>
+            <div style={{fontSize: "40px", marginBottom: "10px"}}><strong>270,000</strong> 원</div>
+            <div style={{fontSize: "20px", marginBottom: "10px", color: "#20A8D7"}}>( 월 <strong>45,000</strong> 원 )</div>
             <Button color="primary">결제하기</Button>
           </div>
           <div className="listcard">
             <div>1년 결제하기</div>
-            <div style={{fontSize: "40px", marginBottom: "10px"}}>월 <strong>40,000</strong> 원</div>
+            <div style={{fontSize: "40px", marginBottom: "10px"}}><strong>480,000</strong> 원</div>
+            <div style={{fontSize: "20px", marginBottom: "10px", color: "#20A8D7"}}>( 월 <strong>40,000</strong> 원 )</div>
             <Button color="primary">결제하기</Button>
           </div>
         </div>
