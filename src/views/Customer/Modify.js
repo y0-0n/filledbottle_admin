@@ -25,13 +25,6 @@ class Modify extends Component {
       .then(response => response.json())
       .then(data => {
         this.setState({data: data[0]});
-        this.form = {
-          name: data[0].name,
-          telephone: data[0].telephone,
-          cellphone: data[0].cellphone,
-          crNumber: data[0].crNumber,
-          address: data[0].address,
-        }
         document.getElementById("sample6_address").value = data[0].address;
         document.getElementById("sample6_detailAddress").value = data[0].address_detail;
         document.getElementById("sample6_postcode").value = data[0].postcode;
