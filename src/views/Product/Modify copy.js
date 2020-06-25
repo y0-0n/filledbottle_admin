@@ -13,7 +13,6 @@ class Modify extends Component {
       imageDetailPlus: '/assets/img/plusImage.jpg',
       imageDetail: [],
       imageDetailFile: [],
-      data: [],
       familyData: [],
       checkCategory: true,
       discount: 'discount1',
@@ -21,6 +20,7 @@ class Modify extends Component {
       vat: 'vat1',
       price: 0,
       userCategoryData : [],
+      data: {detail_file: []},
       discount_price: 0,
     };
   }
@@ -123,14 +123,8 @@ class Modify extends Component {
     })
       .then(response => response.json())
       .then(data => {
+				data[0].detail_file = data[0].detail_file.split('|')
         this.setState({ data: data[0] })
-        this.form = {
-          name: data[0].name,
-          grade: data[0].grade,
-          weight: data[0].weight,
-					price: data[0].price_shipping,
-					productFamily: data[0].family,
-        };
       });
   }
 
@@ -424,14 +418,17 @@ class Modify extends Component {
                 <div className="form-title">상품이미지</div>
                 <div className="form-innercontent">
                   <div className="sell-list">
-                    <label className="sell-label">대표이미지</label>
+                    <label className="sell-label">
+                      대표이미지
+                      <p style={{color: "#D3D3D3", fontSize: "0.9em"}}>* 수정하려면 <br></br> 이미지를 클릭하세요.</p>
+                    </label>
                     <div className="sell-input">
                       <div style={{paddingBottom: '10px', cursor: 'pointer'}}>
                         <input ref="file" type="file" name="file" onChange={e => {
                           this.handleFileInput(e);
                         }} style={{display: "none"}}/>
                         <div id="imageFile" className="add-image" onClick={() => document.all.file.click()}>
-                          <img src={this.state.image} />
+                          <img alt="품목 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
                         </div>
                       </div>
                     </div>
@@ -453,6 +450,10 @@ class Modify extends Component {
                             <img src={this.state.imageDetailPlus} />
                           </div>
                         </div>
+                        {console.log(data)}
+                        {data.detail_file.map((e, i) => {
+												  return <img alt="품목 사진" src={"http://211.62.225.216:4000/static/" + e} />
+											  })}
                         {this.state.imageDetail.map((e, i) => {
                           return <img key={i} id="imageFile" alt="상세 사진1" style={{
                             display: "inline-block",
