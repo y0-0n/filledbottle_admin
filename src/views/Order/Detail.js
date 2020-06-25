@@ -71,7 +71,7 @@ class Detail extends Component {
 		}
 
     if(c) {
-			const id = this.props.match.params.id;
+      let {orderInfo, productInfo} = this.state.data;
       fetch(process.env.REACT_APP_HOST+"/order/changeState/", {
 				method: 'POST',
 				headers: {
@@ -79,7 +79,7 @@ class Detail extends Component {
 					'Content-Type': 'application/json',
 					'Authorization': 'Bearer ' + localStorage.getItem('token'),
 				},
-				body: JSON.stringify({id, next, prev})
+				body: JSON.stringify({orderInfo, productInfo, next, prev})
 			})
       .then(response => {
         if(response.status === 401) {

@@ -21,8 +21,8 @@ import DatePicker from "react-datepicker";
 
 //vos = value of supply (공급가액)
 //vat = value added tax (부가세))
-let d = {id: '', name: '', plant: 0, quantity: 0, price: 0, vos: 0, vat: 0, tax: false, sum: 0};
-let p = {id: '', name: ''};
+let d = {id: '', name: '', stock: 0, plant: 0, quantity: 0, price: 0, vos: 0, vat: 0, tax: false, sum: 0};
+let p = {id: '', name: '', expiration: '', plantName: ''};
 
 class Create extends Component {
   constructor(props) {
@@ -30,7 +30,7 @@ class Create extends Component {
 
     this.customer = [];
     this.state = {
-      plantData: [[p]],
+      stockList: [[p]],
       product: [],
       sProduct: [d],
       sCustomer: null, //선택된 거래처
@@ -87,6 +87,37 @@ class Create extends Component {
       });
   }
 
+  //productId로 재고 구분 가져와서 i번째 select에 뿌리기
+  getStock(productId, i) {
+    fetch(process.env.REACT_APP_HOST+"/api/stock/product/"+productId, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if(status === 200){
+          let {stockList, sProduct} = this.state;
+          stockList[i] = data[1];
+          sProduct[i].stock = data[1][0].id
+          sProduct[i].plant = data[1][0].plant_id
+          this.setState({stockList, sProduct})
+        }
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      });
+  }
+
   getFamilyId(id, i){
     fetch(process.env.REACT_APP_HOST+"/api/product/familyId/"+id, {
       method: 'GET',
@@ -105,7 +136,7 @@ class Create extends Component {
         let status = data[0];
         if(status === 200){
           this.setState({productFamily: data[1][0].id}, () => {
-            this.getPlant(i)
+            this.getPlant(i);
           })
         }
         else {
@@ -345,11 +376,12 @@ class Create extends Component {
                     <div style={{float : "right"}}>
                       <Button block color="primary"
                               onClick={()=> {
-                                let {sProduct, plantData} = this.state;
+                                let {sProduct, stockList} = this.state;
+                                //기본 데이터 포맷을 state에 push
                                 sProduct.push(d);
-                                plantData.push([p]);
+                                stockList.push([p]);
                                 this.setState({
-                                  sProduct, plantData
+                                  sProduct, stockList
                                 })}}>
                         추가하기
                       </Button>
@@ -363,7 +395,7 @@ class Create extends Component {
                     <thead>
                     <tr>
                       <th>품목<span style={{color : "#FA5858"}}>*</span></th>
-                      <th>창고<span style={{color : "#FA5858"}}>*</span></th>
+                      <th>재고<span style={{color : "#FA5858"}}>*</span></th>
                       <th>수량</th>
                       <th>판매 단가</th>
                       <th>공급가액</th>
@@ -398,20 +430,21 @@ class Create extends Component {
 
                                                           /* set the state to the new variable */
                                                           this.setState({sProduct});
-                                                          this.getFamilyId(data['id'], i)
+                                                          // this.getFamilyId(data['id'], i);
+                                                          this.getStock(data['id'], i);
                                                         }}
                                 />}
                               </Popup>}
                             </td>
                             <td>
-                              <Input value={this.state.sProduct[i].plant} onChange={(e) => {
-                                let {sProduct} = this.state;
-                                sProduct[i].plant = e.target.value;
+                              <Input value={this.state.sProduct[i].stock} onChange={(e, x) => {
+                                let {sProduct, stockList} = this.state;
+                                sProduct[i].stock = e.target.value
                                 this.setState({sProduct})
-                              }} type='select' name="plant">
+                              }} type='select' name="stock">
                                 {
-                                  this.state.plantData[i].map((e, i) => {
-                                    return <option key={i} value={e.id} >{e.name}</option>
+                                  this.state.stockList[i].map((e, i) => {
+                                    return <option key={i} value={e.id} >{e.name + '(' + e.expiration + ' ' +e.plantName +')'}</option>
                                   })
                                 }
                               </Input>
