@@ -81,7 +81,7 @@ class Stock extends Component {
   getStock() {
     const name = this.props.keyword;
 		const { familyData} = this.state;
-		const { pageNumbers, family, plant } = this.props
+    const { pageNumbers, family, plant } = this.props;
     fetch(process.env.REACT_APP_HOST+"/api/stock/list", {
       method: 'POST',
       headers: {
@@ -91,7 +91,7 @@ class Stock extends Component {
       },
       body: JSON.stringify(
         {
-          plant, pageNumbers, family, name, familyData
+          plant, pageNumbers, family, name
         }
       )
     })
@@ -117,7 +117,6 @@ class Stock extends Component {
 
   getTotal() {
     const name = this.props.keyword;
-    const {familyData} = this.state;
     const { family, plant } = this.props
 
     fetch(process.env.REACT_APP_HOST + "/api/stock/list/total/", {
@@ -129,7 +128,7 @@ class Stock extends Component {
       },
       body: JSON.stringify(
         {
-          name, family, plant, familyData
+          name, family, plant
         }
       )
     })  
