@@ -386,9 +386,9 @@ class CreateProduct extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" checked/>판매중</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio"/>품절</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio"/>판매중지</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="state1" checked/>판매중</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="state2"/>품절</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="state3"/>판매중지</label>
                     </div>
                   </div>
                 </div>
