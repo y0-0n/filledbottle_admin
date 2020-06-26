@@ -235,6 +235,21 @@ class List extends Component {
     })
   }*/
 
+  resetInput() {
+    var reset_input = document.getElementsByClassName('searchbox-input')
+    for(var i = 0; i < reset_input.length; i++) {
+      reset_input[i].value = null;
+      console.log(i);
+    }
+  }
+  
+  resetDatePicker() {
+    this.setState({
+      first_date: (new Date(new Date().getTime() - 60*60*24*1000*30*4)),
+      last_date: new Date(),
+    })
+  }
+
   render() {
     var data = this.state.orderData;
     const arr = [-2, -1, 0, 1, 2];
@@ -251,7 +266,7 @@ class List extends Component {
                 <label className="search-label">조회기간</label>
                 <div className="sell-input">
                   <DatePicker
-                    className="datepicker"
+                    className="datepicker searchbox-input"
                     dateFormat="yyyy년 MM월 dd일"
                     locale="ko"
                     selected={this.state.first_date}
@@ -259,7 +274,7 @@ class List extends Component {
                   />
                   &nbsp;~&nbsp;
                   <DatePicker
-                    className="datepicker"
+                    className="datepicker searchbox-input"
                     dateFormat="yyyy년 MM월 dd일"
                     locale="ko"
                     selected={this.state.last_date}
@@ -270,12 +285,12 @@ class List extends Component {
               <div className="search-list">
                 <label className="search-label">상세조건</label>
                 <div className="sell-input">
-                  <Input placeholder="고객명을 검색해주세요." style={{width: "30%"}} onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
+                  <Input className='searchbox-input' placeholder="고객명을 검색해주세요." style={{width: "30%"}} onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
                 </div>
               </div>
               <div className="search-button" style={{textAlign: 'center', paddingBottom: "10px"}}>
-                <Button color="primary" onClick={() => { this.searchOrder(this.props.keyword); }}>검색</Button>
-								<Button color="ghost-primary">초기화</Button>
+                <Button color="primary" style={{marginRight: 10}} onClick={() => { this.searchOrder(this.props.keyword); }}>검색</Button>
+								<Button color="ghost-primary" onClick={() => { this.props.searchKeyword(''); this.resetInput(); this.resetDatePicker() }}>초기화</Button>
 							</div>
             </div>
             

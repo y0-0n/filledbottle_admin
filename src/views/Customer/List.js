@@ -211,6 +211,14 @@ class List extends Component {
     });
   }*/
 
+  resetInput() {
+    var reset_input = document.getElementsByClassName('searchbox-input')
+    for(var i = 0; i < reset_input.length; i++) {
+      reset_input[i].value = null;
+      console.log(i);
+    }
+  }
+
   render() {
     var data = this.state.data;
     const arr = [-2, -1, 0, 1, 2];
@@ -226,12 +234,12 @@ class List extends Component {
             <div className="search-list">
               <label className="search-label">고객검색</label>
               <div className="sell-input">
-                <Input placeholder="고객명을 검색해주세요." style={{width: "30%"}} onChange={(e) => { this.props.searchKeywordC(e.target.value) }} />
+                <Input className="searchbox-input" placeholder="고객명을 검색해주세요." style={{width: "30%"}} onChange={(e) => { this.props.searchKeywordC(e.target.value) }} />
               </div>
             </div>
             <div className="search-button" style={{textAlign: 'center', paddingBottom: "10px"}}>
-              <Button color="primary" onClick={() => { this.searchCustomer(this.props.keywordC); }}>검색</Button>
-              <Button color="ghost-primary">초기화</Button>
+              <Button color="primary" style={{marginRight: 10}} onClick={() => { this.searchCustomer(this.props.keywordC); }}>검색</Button>
+              <Button color="ghost-primary" onClick={() => { this.props.searchKeywordC(''); this.resetInput(); }}>초기화</Button>
             </div>
           </div>
         </div>

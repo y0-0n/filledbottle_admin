@@ -373,6 +373,14 @@ class List extends Component {
     })
   }*/
 
+  resetInput() {
+    var reset_input = document.getElementsByClassName('searchbox-input')
+    for(var i = 0; i < reset_input.length; i++) {
+      reset_input[i].value = null;
+      console.log(i);
+    }
+  }
+
   render() {
     var data = this.state.productData;
     //var data_cafe24 = this.state.productData_cafe24;
@@ -452,7 +460,7 @@ class List extends Component {
               <div className="search-list">
                 <label className="search-label">품목검색</label>
                 <div className="search-input">
-                  <Input placeholder="품목명을 검색해주세요." style={{width : "30%"}} onChange={(e) => { this.props.searchKeywordP(e.target.value) }}></Input>
+                  <Input className="searchbox-input" placeholder="품목명을 검색해주세요." style={{width : "30%"}} onChange={(e) => { this.props.searchKeywordP(e.target.value) }}></Input>
                 </div>
               </div>
               <div className="search-list">
@@ -469,7 +477,7 @@ class List extends Component {
                 <div className="search-input">
                   {
                     familyData.map((e, i) => {
-                      return <label className="search-input-label"><input onChange = {() => {this.setState({familyName: this.props.checkFamily(e.id)})}} className="search-input-checkbox" name="family" type="radio"/>{e.name}</label>
+                      return <label className="search-input-label"><input className="searchbox-input" onChange = {() => {this.setState({familyName: this.props.checkFamily(e.id)})}} className="search-input-checkbox" name="family" type="radio"/>{e.name}</label>
                     })
                   }
                 </div>
@@ -504,7 +512,7 @@ class List extends Component {
               </div>*/}
               <div className="search-button">
                 <Button color="primary" style={{marginRight: 10}} onClick={()=> {this.searchProduct(); this.changeFamily(this.state.familyName)}}>검색</Button>
-                <Button color="ghost-primary">초기화</Button>
+                <Button color="ghost-primary" onClick={() => { this.props.searchKeywordP(''); this.resetInput(); }}>초기화</Button>
               </div>
             </div>
             <div className="list-card">

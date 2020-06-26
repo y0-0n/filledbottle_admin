@@ -221,6 +221,13 @@ class Stock extends Component {
     return year + "년 " + month + "월 " + date + "일";
   }
 
+  resetInput() {
+    var reset_input = document.getElementsByClassName('searchbox-input')
+    for(var i = 0; i < reset_input.length; i++) {
+      reset_input[i].value = null;
+      console.log(i);
+    }
+  }
 
   render() {
     let {stockData, plantData, familyData} = this.state;
@@ -291,12 +298,12 @@ class Stock extends Component {
               <div className="search-list">
                 <label className="search-label">품목명</label>
                 <div className="sell-input">
-                  <Input style={{width: "30%"}} placeholder="품목명을 검색해주세요." onChange={(e) => { this.props.searchKeywordS(e.target.value) }} />
+                  <Input className="searchbox-input" style={{width: "30%"}} placeholder="품목명을 검색해주세요." onChange={(e) => { this.props.searchKeywordS(e.target.value) }} />
                 </div>
               </div>
               <div className="search-button" style={{textAlign: 'center', paddingBottom: "10px"}}>
-								<Button color="primary" onClick={()=> {this.searchProduct(); this.changeFamily(this.state.family)}} >검색</Button>
-								<Button color="ghost-primary">초기화</Button>
+								<Button color="primary" style={{marginRight: 10}} onClick={()=> {this.searchProduct(); this.changeFamily(this.state.family)}} >검색</Button>
+								<Button color="ghost-primary" onClick={() => { this.props.searchKeywordS(''); this.resetInput(); }}>초기화</Button>
 							</div>
             </div>
 
