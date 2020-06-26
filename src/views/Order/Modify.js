@@ -5,7 +5,7 @@ import Popup from "reactjs-popup";
 import StockModal from '../Modal/StockModal';
 
 let def = {id: '', name: '', quantity: 0, price: 0, tax: 0};
-let d = {id: '', name: '', plant: 0, quantity: 0, price: 0, vos: 0, vat: 0, tax: false, sum: 0};
+let d = {id: '', name: '', plant: 0, stock:0, quantity: 0, price: 0, vos: 0, vat: 0, tax: false, sum: 0};
 let p = {id: '', name: ''};
 let sl = {id: '', name: '', expiration: '', plantName: ''};
 
@@ -29,42 +29,6 @@ class OrderModify extends Component {
     this.getData(this.props.match.params.id);
   }
 
-
-  getPlant(i){
-    const {productFamily} = this.state;
-    fetch(process.env.REACT_APP_HOST+"/api/plant/searchPlant", {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-      body: JSON.stringify({productFamily})
-    })
-      .then(response => {
-        if(response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-        let status = data[0];
-        if(status === 200){
-          let {plantData} = this.state;
-          plantData[i] = data[1];
-          if(data[1][0] === undefined) alert("창고에서 품목을 취급하지 않습니다")
-          else {
-            this.setState({plantData});
-          }
-        }
-        else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-      });
-  }
-
   getFamilyId(id, i){
     fetch(process.env.REACT_APP_HOST+"/api/product/familyId/"+id, {
       method: 'GET',
@@ -82,9 +46,7 @@ class OrderModify extends Component {
       .then(data => {
         let status = data[0];
         if(status === 200){
-          this.setState({productFamily: data[1][0].id}, () => {
-            this.getPlant(i)
-          })
+          this.setState({productFamily: data[1][0].id})
         }
         else {
           alert('로그인 하고 접근해주세요');
@@ -144,11 +106,11 @@ class OrderModify extends Component {
       .then(data => {
         let status = data[0];
         if(status === 200){
-          let {stockList, sProduct} = this.state;
+          let {stockList, productInfo} = this.state;
           stockList[i] = data[1];
-          sProduct[i].stock = data[1][0].id
-          sProduct[i].plant = data[1][0].plant_id
-          this.setState({stockList, sProduct})
+          productInfo[i].stock = data[1][0].id
+          productInfo[i].plant = data[1][0].plant_id
+          this.setState({stockList, productInfo})
         }
         else {
           alert('로그인 하고 접근해주세요');
