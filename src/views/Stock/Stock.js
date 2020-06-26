@@ -309,10 +309,10 @@ class Stock extends Component {
 
             <div className="list-card">
               <div className="list-title">
-                <span>
-                  재고관리
-                </span>
-              </div>
+              <span>
+                재고목록 (총 <span style={{color: "#1B8EB7"}}>{stockData.length}</span> 개)
+              </span>
+            </div>
               <div className="list-box" style={{marginTop: 20}}>
                 <div style={{float: "right", marginBottom: 20}}>
                   <Button color="primary" onClick={() => { this.props.history.push('/stock/create') }}>재고 등록</Button>

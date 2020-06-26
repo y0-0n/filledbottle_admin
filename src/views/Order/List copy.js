@@ -40,6 +40,7 @@ class List extends Component {
       orderData: [],
       //page: 1,
       total: 0,
+      totalData: 0,
       //keyword: '',
       first_date: (new Date(new Date().getTime() - 60*60*24*1000*30*4)),
       last_date: new Date(),
@@ -133,7 +134,7 @@ class List extends Component {
       .then(data => {
         const status = data[0];
         if(status === 200) {
-          this.setState({total: Math.ceil(data[1][0].total/listCount)})
+          this.setState({total: Math.ceil(data[1][0].total/listCount), totalData : data[1][0].total})
         } else {
           alert('로그인 하고 접근해주세요')
           this.props.history.push('/login')
@@ -297,7 +298,7 @@ class List extends Component {
             <div className="list-card">
               <div className="list-title">
                 <span>
-                  상품목록 (총 <span style={{color: "#1B8EB7"}}>{data.length}</span> 개)
+                  상품목록 (총 <span style={{color: "#1B8EB7"}}>{this.state.totalData}</span> 개)
                 </span>
                 <div className="list-sort-box">
                   <div>
