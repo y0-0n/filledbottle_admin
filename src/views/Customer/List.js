@@ -34,10 +34,10 @@ class List extends Component {
 
   componentWillMount() {
     this.getCustomer();
-  }
+    }
 
   getTotal() {
-    const {keyword} = this.props;
+    const keyword = this.props.keywordC;
 
     fetch(process.env.REACT_APP_HOST+"/customer/total", {
       method: 'POST',
@@ -67,7 +67,7 @@ class List extends Component {
   }
 
   getCustomer() {
-    const { keyword} = this.props;
+    const keyword = this.props.keywordC;
     const page = this.props.pageNumbers;
 
     fetch(process.env.REACT_APP_HOST+"/customer/list", {
@@ -226,11 +226,11 @@ class List extends Component {
             <div className="search-list">
               <label className="search-label">고객검색</label>
               <div className="sell-input">
-                <Input placeholder="고객명을 검색해주세요." style={{width: "30%"}} onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
+                <Input placeholder="고객명을 검색해주세요." style={{width: "30%"}} onChange={(e) => { this.props.searchKeywordC(e.target.value) }} />
               </div>
             </div>
             <div className="search-button" style={{textAlign: 'center', paddingBottom: "10px"}}>
-              <Button color="primary" onClick={() => { this.searchCustomer(this.props.keyword); }}>검색</Button>
+              <Button color="primary" onClick={() => { this.searchCustomer(this.props.keywordC); }}>검색</Button>
               <Button color="ghost-primary">초기화</Button>
             </div>
           </div>

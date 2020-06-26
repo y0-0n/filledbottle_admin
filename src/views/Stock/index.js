@@ -6,12 +6,12 @@ import Stock from './Stock';
 function mapStateToProps(state) {
   const { pageNumbers, plant } = state.stock;
   const { family } = state.stock;
-  const { keyword } = state.search;
+  const { keywordS } = state.search;
   return {
     pageNumbers,
     family,
     plant,
-    keyword
+    keywordS
   }
 }
 
@@ -19,7 +19,7 @@ function mapDispatchToProps(dispatch) {
   return {
     clickConvertPage: bindActionCreators(pageFunction.clickConvertPage, dispatch),
     checkFamily: bindActionCreators(productFunction.checkFamily, dispatch),
-    searchKeyword: bindActionCreators(searchFunction.searchKeyword, dispatch),
+    searchKeywordS: bindActionCreators(searchFunction.searchKeywordS, dispatch),
     checkPlant: bindActionCreators(stockFunction.checkPlant, dispatch),
   }
 }

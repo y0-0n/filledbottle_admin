@@ -61,7 +61,7 @@ class List extends Component {
 	
 	//상태별 품목 개수를 가져옴
 	getStateCount() {
-    const name = this.props.keyword;
+    const name = this.props.keywordP;
 
     fetch(process.env.REACT_APP_HOST + "/api/product/stateCount", {
       method: 'GET',
@@ -98,7 +98,7 @@ class List extends Component {
 
   //사용자의 (검색 결과에 해당하는) 품목의 개수를 받아옴
   getTotal() {
-    const name = this.props.keyword;
+    const name = this.props.keywordP;
     const {category, family} = this.props;
 
     fetch(process.env.REACT_APP_HOST + "/product/total/", {
@@ -169,7 +169,7 @@ class List extends Component {
 	}
 
 	getProduct() {
-    const name = this.props.keyword;
+    const name = this.props.keywordP;
     const page = this.props.pageNumbers;
     const {category, family} = this.props;
     fetch(process.env.REACT_APP_HOST + "/product/list", {
@@ -206,7 +206,7 @@ class List extends Component {
 
   getStock() {
     const page = this.props.pageNumbers;
-    const name = this.props.keyword;
+    const name = this.props.keywordP;
     const {category, family} = this.props;
 
     fetch(process.env.REACT_APP_HOST + "/api/stock/sum", {
@@ -452,7 +452,7 @@ class List extends Component {
               <div className="search-list">
                 <label className="search-label">품목검색</label>
                 <div className="search-input">
-                  <Input placeholder="품목명을 검색해주세요." style={{width : "30%"}} onChange={(e) => { this.props.searchKeyword(e.target.value) }}></Input>
+                  <Input placeholder="품목명을 검색해주세요." style={{width : "30%"}} onChange={(e) => { this.props.searchKeywordP(e.target.value) }}></Input>
                 </div>
               </div>
               <div className="search-list">

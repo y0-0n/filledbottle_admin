@@ -79,7 +79,7 @@ class Stock extends Component {
 	}
 
   getStock() {
-    const name = this.props.keyword;
+    const name = this.props.keywordS;
 		const { familyData} = this.state;
     const { pageNumbers, family, plant } = this.props;
     fetch(process.env.REACT_APP_HOST+"/api/stock/list", {
@@ -116,7 +116,7 @@ class Stock extends Component {
   }
 
   getTotal() {
-    const name = this.props.keyword;
+    const name = this.props.keywordS;
     const { family, plant } = this.props
 
     fetch(process.env.REACT_APP_HOST + "/api/stock/list/total/", {
@@ -291,7 +291,7 @@ class Stock extends Component {
               <div className="search-list">
                 <label className="search-label">품목명</label>
                 <div className="sell-input">
-                  <Input style={{width: "30%"}} placeholder="품목명을 검색해주세요." onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
+                  <Input style={{width: "30%"}} placeholder="품목명을 검색해주세요." onChange={(e) => { this.props.searchKeywordS(e.target.value) }} />
                 </div>
               </div>
               <div className="search-button" style={{textAlign: 'center', paddingBottom: "10px"}}>
