@@ -214,6 +214,13 @@ class Stock extends Component {
     })
   }
 
+  getDate(dateInput) {
+    var d = new Date(dateInput);
+    var year = d.getFullYear(), month = d.getMonth() + 1, date = d.getDate();
+
+    return year + "년 " + month + "월 " + date + "일";
+  }
+
 
   render() {
     let {stockData, plantData, familyData} = this.state;
@@ -330,7 +337,7 @@ class Stock extends Component {
                           </td>
                           <td>{d.productName}</td>
                           <td>{d.name}</td>
-                          <td>{d.expiration}</td>
+                          <td>{this.getDate(d.expiration)}</td>
                           <td>{d.plantName}</td>
                           <td>{d.quantity}</td>
                         </tr>
