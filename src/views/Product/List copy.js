@@ -281,17 +281,17 @@ class List extends Component {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
-  /*changeSet() {
-    this.setState({set: !this.state.set}, () => {
-      this.getProduct();
-    });
-	}*/
+  // changeSet() {
+  //   this.setState({set: !this.state.set}, () => {
+  //     this.getProduct();
+  //   });
+	// }
 
 	changeCategory(id) {
 		this.setState({
-			//category: id,
-			//page: 1,
-			//family: 0,
+			// category: id,
+			// page: 1,
+			// family: 0,
 		}, () => {
 			this.getProductFamily();
 		})
