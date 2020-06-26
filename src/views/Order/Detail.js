@@ -188,7 +188,7 @@ class Detail extends Component {
                     </tr>
                     <tr>
                       <th>배송지</th>
-                      <td>{orderInfo['address']}</td>
+                      <td>{orderInfo['address']+ ' ' +orderInfo['addressDetail']+' ('+orderInfo['postcode']+')'}</td>
                       <th>요청사항</th>
                       <td>{orderInfo['comment']}</td>
                     </tr>
