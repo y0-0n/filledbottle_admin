@@ -274,7 +274,7 @@ class CreateProduct extends Component {
                     <label className="sell-label">판매가</label>
                     <div className="sell-input">
                       <InputGroup>
-                        <Input type="number" placeholder="숫자만 입력" required onChange={(e) => this.form.price = e.target.value, this.changePrice.bind(this)} />
+                        <Input type="number" placeholder="숫자만 입력" required onChange={(e) => {this.form.price = e.target.value; this.changePrice.bind(this); console.log(this.form.price)}} />
                         <InputGroupAddon addonType="append">
                           원
                         </InputGroupAddon>
@@ -292,7 +292,7 @@ class CreateProduct extends Component {
                       </div> */}
                       <div className="sell-input">
                         <InputGroup>
-                          <Input type="number" placeholder="숫자만 입력" required onChange={(e) => this.form.discount_price = e.target.value, this.changeDiscountPrice.bind(this)} />
+                          <Input type="number" placeholder="숫자만 입력" required onChange={(e) => {this.form.discount_price = e.target.value; this.changeDiscountPrice.bind(this)}} />
                           <InputGroupAddon addonType="append">
                             원
                           </InputGroupAddon>
