@@ -436,7 +436,7 @@ class Modify extends Component {
                           this.handleFileInput(e);
                         }} style={{display: "none"}}/>
                         <div id="imageFile" className="add-image" onClick={() => document.all.file.click()}>
-                          <img alt="품목 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
+                          <img style={{width:"300px"}} alt="품목 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
                         </div>
                       </div>
                     </div>
@@ -455,7 +455,7 @@ class Modify extends Component {
                             this.handleFileInput_multiple(e);
                           }} style={{display: "none"}} multiple/>
                           <div id="imageFile" className="add-image" onClick={() => document.all.file_detail.click()}>
-                            <img src={this.state.imageDetailPlus} />
+                            <img style={{width:"300px"}} src={this.state.imageDetailPlus} />
                           </div>
                         </div>
                         {console.log(data)}
@@ -466,6 +466,7 @@ class Modify extends Component {
                           return <img key={i} id="imageFile" alt="상세 사진1" style={{
                             display: "inline-block",
                             border: '1px',
+                            width: '300px',
                             borderStyle: 'dashed',
                             borderColor: '#c8ced3',
                             marginBottom: '10px'

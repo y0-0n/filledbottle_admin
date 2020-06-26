@@ -405,7 +405,7 @@ class CreateProduct extends Component {
                           this.handleFileInput(e);
                         }} style={{display: "none"}}/>
                         <div id="imageFile" className="add-image" onClick={() => document.all.file.click()}>
-                          <img src={this.state.image} />
+                          <img style={{width:"300px"}} src={this.state.image} />
                         </div>
                       </div>
                     </div>
@@ -424,11 +424,12 @@ class CreateProduct extends Component {
                             this.handleFileInput_multiple(e);
                           }} style={{display: "none"}} multiple/>
                           <div id="imageFile" className="add-image" onClick={() => document.all.file_detail.click()}>
-                            <img src={this.state.imageDetailPlus} />
+                            <img style={{width:"300px"}} src={this.state.imageDetailPlus} />
                           </div>
                         </div>
                         {this.state.imageDetail.map((e, i) => {
                           return <img key={i} id="imageFile" alt="상세 사진1" style={{
+                            width: "300px",
                             display: "inline-block",
                             border: '1px',
                             borderStyle: 'dashed',
