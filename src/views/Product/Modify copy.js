@@ -127,8 +127,16 @@ class Modify extends Component {
     })
       .then(response => response.json())
       .then(data => {
-				data[0].detail_file = data[0].detail_file.split('|')
-        this.setState({ data: data[0] })
+        data[0].detail_file = data[0].detail_file.split('|')
+        console.warn(data[0])
+        this.form.productFamily = data[0].family;
+        this.form.name = data[0].name;
+        this.form.price = data[0].price_shipping;
+        this.form.discount_price = data[0].discount_price;
+        this.setState({price: data[0].price_shipping, discount_price: data[0].discount_price})
+        this.setState({ data: data[0], category: data[0].categoryId }, () => {
+          this.getProductFamily();
+        });
       });
   }
 
@@ -212,7 +220,7 @@ class Modify extends Component {
           if(data[1].length !== 0) {
             //this.props.checkCategoryId(data[1][0].id)
             this.setState({ userCategoryData: data[1], category: data[1][0].id}, () => {
-              this.getProductFamily();
+              // this.getProductFamily();
             });
           } else {
             this.setState({
@@ -269,7 +277,8 @@ class Modify extends Component {
   }
 
   changeDiscountPrice(e) {
-    this.setState({discount_price: e.target.value})
+    this.setState({discount_price: e.target.value});
+    this.form.discount_price = e.target.value;
   }
 
   changeSalePeriod(e) {
@@ -284,7 +293,6 @@ class Modify extends Component {
   render() {
     var userCategoryData = this.state.userCategoryData;
     var data = this.state.data;
-    console.log(data)
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/CreateCopy.css"></link>
@@ -302,7 +310,7 @@ class Modify extends Component {
                       });
                     }} type='select' name="family">
                       {userCategoryData.map((e, i) => {
-                        return <option key={i} value={e.id}>{e.name}</option>
+                        return <option selected={e.id === data.categoryId} key={i} value={e.id}>{e.name}</option>
                       })}
                     </Input>
                 </div>
@@ -315,7 +323,7 @@ class Modify extends Component {
                       this.form.productFamily = e.target.value;
                     }} type='select' name="family">
                       {this.state.familyData.map((e, i) => {
-                        return <option key={i} value={e.id}>{e.name}</option>
+                        return <option key={i} value={e.id} selected={e.id === data.family}>{e.name}</option>
                       })}
                   </Input>
                 </div>
@@ -324,7 +332,7 @@ class Modify extends Component {
               <div className="form-card">
                 <div className="form-title">상품명</div>
                 <div className="form-innercontent">
-                  <Input defaultValue={data.name}/>
+                  <Input defaultValue={data.name} onChange={(e) => this.form.name = e.target.value}/>
                 </div>
               </div>
 
@@ -342,33 +350,32 @@ class Modify extends Component {
                       </InputGroup>
                     </div>
                   </div>
-                  {/* <div className="sell-list">
+                  <div className="sell-list">
                     <div className="sell-content">
                       <label className="sell-label">할인</label>
-                      <div className="category-input-toggle">
-                      </div>
-                    </div>
-                  { this.state.discount === 'discount1' ?
-                    <div className="sell-discount">
-                      <label className="sell-label">할인</label>
+                      {/* <div className="category-input-toggle">
+                        <Input type="radio" name="discount" id="discount1" value="discount1" defaultChecked onChange={this.changeDiscount.bind(this)}/>
+                        <label for="discount1">설정함</label>
+                        <Input type="radio" name="discount" id="discount2" value="discount2" onChange={this.changeDiscount.bind(this)}/>
+                        <label for="discount2">설정안함</label>
+                      </div> */}
                       <div className="sell-input">
                         <InputGroup>
-                          <Input placeholder="숫자만 입력" onChange={this.changeDiscountPrice.bind(this)}/>
+                          <Input type="number" placeholder="숫자만 입력" required defaultValue={data.discount_price} onChange={this.changeDiscountPrice.bind(this)} />
                           <InputGroupAddon addonType="append">
                             원
                           </InputGroupAddon>
                         </InputGroup>
-                      </div>
-                      <label className="sell-label total-discount">할인가</label>
-                      <div className="sell-input total-discount">
-                        {this.state.price - this.state.discount_price} 원 ( {this.state.discount_price} 원 할인 )
+                        <div className="sell-discount" style={{marginTop: "20px"}}>
+                          <label className="sell-label total-discount">할인가</label>
+                          <div className="sell-input total-discount">
+                            {this.state.price - this.state.discount_price} 원 ( {this.state.discount_price} 원 할인 )
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    :
-                    <div></div>
-                  }
-                  </div> */}
-                  {/* <div className="sell-list">
+                  </div>
+                    {/* <div className="sell-list">
                     <div className="sell-content">
                       <label className="sell-label">판매기간</label>
                     </div>
@@ -458,7 +465,7 @@ class Modify extends Component {
                             <img style={{width:"300px"}} src={this.state.imageDetailPlus} />
                           </div>
                         </div>
-                        {console.log(data)}
+                        {/* {console.log(data)} */}
                         {data.detail_file.map((e, i) => {
 												  return <img alt="품목 사진" src={"http://211.62.225.216:4000/static/" + e} />
 											  })}
