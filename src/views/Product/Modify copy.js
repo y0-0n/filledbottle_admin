@@ -140,21 +140,21 @@ class Modify extends Component {
       });
   }
 
-  /*handleFileInput(e){
-    var file = this.refs.file.files[0];
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
+  // handleFileInput(e){
+  //   var file = this.refs.file.files[0];
+  //   var reader = new FileReader();
+  //   reader.readAsDataURL(file);
 
-    reader.onloadend = function (e) {
-      this.setState({
-        image : [reader.result],
-      });
-    }.bind(this);
+  //   reader.onloadend = function (e) {
+  //     this.setState({
+  //       image : [reader.result],
+  //     });
+  //   }.bind(this);
 
-    let img = e.target.files[0];
+  //   let img = e.target.files[0];
 
-    this.setState({img});
-  }*/
+  //   this.setState({img});
+  // }
 
   modifyProduct(e) {
     e.preventDefault();
@@ -218,7 +218,7 @@ class Modify extends Component {
         let status = data[0];
         if (status === 200){
           if(data[1].length !== 0) {
-            //this.props.checkCategoryId(data[1][0].id)
+            // this.props.checkCategoryId(data[1][0].id)
             this.setState({ userCategoryData: data[1], category: data[1][0].id}, () => {
               // this.getProductFamily();
             });
@@ -227,7 +227,6 @@ class Modify extends Component {
               checkCategory: false
             })
           }
-
         }
         else {
           alert('로그인 하고 접근해주세요');
@@ -252,8 +251,10 @@ class Modify extends Component {
       })
       .then(data => {
         let status = data[0];
-        if (status === 200)
+        if (status === 200) {
           this.setState({ familyData: data[1] });
+          this.form.productFamily = data[1][0].id;
+        }
         else {
           alert('로그인 하고 접근해주세요');
           this.props.history.push('/login');
@@ -306,7 +307,7 @@ class Modify extends Component {
                     <Input onChange={(e) => {
                       this.form.category = e.target.value;
                       this.setState({category: e.target.value}, ()=> {
-                        this.getProductFamily()
+                        this.getProductFamily();
                       });
                     }} type='select' name="family">
                       {userCategoryData.map((e, i) => {
