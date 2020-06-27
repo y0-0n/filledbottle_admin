@@ -24,7 +24,8 @@ class Detail extends Component {
     })
       .then(response => response.json())
       .then(data => {
-				data[0].detail_file = data[0].detail_file.split('|')
+        data[0].detail_file = data[0].detail_file.split('|');
+        this.setState({price: data[0].price_shipping, discount_price: data[0].discount_price})
 				this.setState({ data: data[0] })
 			});
   }
@@ -83,7 +84,6 @@ class Detail extends Component {
 
   render() {
 		var data = this.state.data;
-    console.warn(this.state.data.detail_file)
     console.log(data)
     return (
       <div className="animated fadeIn">
@@ -91,11 +91,12 @@ class Detail extends Component {
         <Row className="mb-5 justify-content-center">
           <Col sm="12" md="12" lg="12">
             <form encType="multipart/form-data">
-              {/* <div className="form-card">
+              <div className="form-card">
                 <div className="form-title">카테고리</div>
                 <div className="form-innercontent">
+                  {data.categoryName}
                 </div>
-              </div> */}
+              </div>
               
               <div className="form-card">
                 <div className="form-title">품목군</div>
@@ -123,6 +124,31 @@ class Detail extends Component {
                           원
                         </InputGroupAddon>
                       </InputGroup>
+                    </div>
+                  </div>
+                  <div className="sell-list">
+                    <div className="sell-content">
+                      <label className="sell-label">할인</label>
+                      {/* <div className="category-input-toggle">
+                        <Input type="radio" name="discount" id="discount1" value="discount1" defaultChecked onChange={this.changeDiscount.bind(this)}/>
+                        <label for="discount1">설정함</label>
+                        <Input type="radio" name="discount" id="discount2" value="discount2" onChange={this.changeDiscount.bind(this)}/>
+                        <label for="discount2">설정안함</label>
+                      </div> */}
+                      <div className="sell-input">
+                        <InputGroup>
+                          <Input type="number" placeholder="숫자만 입력" disabled placeholder={data.discount_price} />
+                          <InputGroupAddon addonType="append">
+                            원
+                          </InputGroupAddon>
+                        </InputGroup>
+                        <div className="sell-discount" style={{marginTop: "20px"}}>
+                          <label className="sell-label total-discount">할인가</label>
+                          <div className="sell-input total-discount">
+                            {this.state.price - this.state.discount_price} 원 ( {this.state.discount_price} 원 할인 )
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   {/* <div className="sell-list">
