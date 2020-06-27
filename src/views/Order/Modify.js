@@ -73,6 +73,7 @@ class OrderModify extends Component {
     .then(data => {
       const status = data[0];
       if(status === 200) {
+        // console.warn(data)
         data[1].productInfo.map((e,i) => {
           e['price_shipping'] = e['price'] / e['quantity'];
           this.getFamilyId(e.productId, i)
@@ -87,6 +88,38 @@ class OrderModify extends Component {
         this.props.history.push('/main/sales/list')
       }
     });
+  }
+
+  sample6_execDaumPostcode() {
+    new window.daum.Postcode({
+      oncomplete: function(data) {
+        var addr = ''; // 주소 변수
+        var extraAddr = ''; // 참고항목 변수
+        if (data.userSelectedType === 'R') {
+          addr = data.roadAddress;
+        } else {
+          addr = data.jibunAddress;
+        }
+        if(data.userSelectedType === 'R'){
+          if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+            extraAddr += data.bname;
+          }
+          if(data.buildingName !== '' && data.apartment === 'Y'){
+            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+          }
+          if(extraAddr !== ''){
+            extraAddr = ' (' + extraAddr + ')';
+          }
+          //document.getElementById("sample6_extraAddress").value = extraAddr;
+          addr += extraAddr;
+        } else {
+          //document.getElementById("sample6_extraAddress").value = '';
+        }
+        document.getElementById('sample6_postcode').value = data.zonecode;
+        document.getElementById("sample6_address").value = addr;
+        document.getElementById("sample6_detailAddress").focus();
+      }
+    }).open();
   }
 
   getStock(productId, i) {
@@ -132,6 +165,10 @@ class OrderModify extends Component {
 
   modifyOrder() {
     let {orderInfo, productInfo} = this.state.data;
+
+    orderInfo[0].postcode = document.getElementById('sample6_postcode').value;
+    orderInfo[0].address = document.getElementById('sample6_address').value;
+    orderInfo[0].addressDetail = document.getElementById('sample6_detailAddress').value;
     fetch(process.env.REACT_APP_HOST+"/order/modify/"+this.props.match.params.id, {
       method: 'PUT',
       headers: {
@@ -168,7 +205,7 @@ class OrderModify extends Component {
     var d = new Date(orderInfo['date']);
     var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
 
-    console.log(productInfo);
+    // console.log(productInfo);
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
@@ -201,12 +238,12 @@ class OrderModify extends Component {
                   <tr className="TableBottom">
                     <th>배송지</th>
                     <td>
-                      <div style={{marginBottom: '10px', marginLeft: '5px', fontSize:'0.8em'}}>기존주소 ) {orderInfo['address']}</div>
+                      {/* <div style={{marginBottom: '10px', marginLeft: '5px', fontSize:'0.8em'}}>기존주소 ) {orderInfo['address']}</div> */}
                       {/* <Input defaultValue={orderInfo['address']} onChange={(e) => {orderInfo['address'] = e.target.value}} /> */}
                       <Row style={{marginBottom: '10px'}}>
                         <Col lg="6" md="6" sm="6">
                           <InputGroup required>
-                            <Input type="text" id="sample6_postcode" placeholder="우편번호" value={this.state.postcode} readOnly/>
+                            <Input type="text" id="sample6_postcode" placeholder="우편번호" defaultValue={orderInfo['postcode']} readOnly/>
                             <InputGroupAddon addonType="append">
                               <Button block color="primary" onClick={() => {this.sample6_execDaumPostcode()}}>우편번호찾기</Button>
                             </InputGroupAddon>
@@ -215,12 +252,12 @@ class OrderModify extends Component {
                       </Row>
                       <Row style={{marginBottom: '10px'}}>
                         <Col>
-                          <Input style={{'width':'70%'}} type="text" id="sample6_address" placeholder="주소" readOnly/>
+                          <Input style={{'width':'70%'}} type="text" id="sample6_address" placeholder="주소" defaultValue={orderInfo['address']} readOnly/>
                         </Col>
                       </Row>
                       <Row>
                         <Col>
-                          <Input style={{'width':'70%'}} type="text" id="sample6_detailAddress" placeholder="상세주소"/>
+                          <Input style={{'width':'70%'}} type="text" id="sample6_detailAddress" defaultValue={orderInfo['addressDetail']} placeholder="상세주소"/>
                         </Col>
                       </Row>
                     </td>
@@ -278,7 +315,7 @@ class OrderModify extends Component {
                   </thead>
                   <tbody>
                     {productInfo.map((e, i) => {
-                      console.warn(e)
+                      // console.warn(e)
                       return ( <tr key={i}>
                         <td>
                           {<Popup

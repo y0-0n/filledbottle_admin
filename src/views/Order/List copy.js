@@ -167,7 +167,7 @@ class List extends Component {
       let status = data[0];
       if(status === 200) {
         let orderData = data[1];
-        this.setState({orderData})
+        this.setState({orderData});
       } else {
         alert('로그인 하고 접근해주세요')
         this.props.history.push('/login')
@@ -256,7 +256,7 @@ class List extends Component {
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
     data.map((e, i) => {this.state.checks[i] = false});
-    {console.log(this.props.location.state)}
+    // {console.log(this.props.location.state)}
     return (
       <div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/ListCopy.css"></link>
