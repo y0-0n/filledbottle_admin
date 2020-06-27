@@ -84,7 +84,6 @@ class Detail extends Component {
 
   render() {
 		var data = this.state.data;
-    console.log(data)
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/CreateCopy.css"></link>
@@ -215,16 +214,16 @@ class Detail extends Component {
                     :
                     <div></div>
                   }
-                  </div>
+                  </div>*/}
                   <div className="sell-list">
                     <label className="sell-label">부가세</label>
                     <div className="category-input-toggle">
-                      <Input type="radio" name="vat" id="vat1" value="vat1" defaultChecked/>
-                      <label for="vat1">과세상품</label>
-                      <Input type="radio" name="vat" id="vat2" value="vat2"/>
-                      <label for="vat2">비과세상품</label>
+                      <Input type="radio" name="vat" id="vat1" disabled checked={data.tax === 1}/>
+                      <label htmlFor="vat1">과세상품</label>
+                      <Input type="radio" name="vat" id="vat2" disabled checked={data.tax === 0}/>
+                      <label htmlFor="vat2">면세상품</label>
                     </div>
-                  </div> */}
+                  </div>
                 </div>
               </div>
 
@@ -249,7 +248,7 @@ class Detail extends Component {
                     <label className="sell-label">추가이미지</label>
                     <div className="sell-input">
 											{this.state.data.detail_file.map((e, i) => {
-												return <img alt="품목 사진" src={"http://211.62.225.216:4000/static/" + e} />
+												return <img key={i} alt="품목 사진" src={"http://211.62.225.216:4000/static/" + e} />
 											})}
                     </div>
                   </div>

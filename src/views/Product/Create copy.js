@@ -103,7 +103,7 @@ class CreateProduct extends Component {
         let status = data[0];
         if (status === 200) {
           alert('등록됐습니다.');
-          // this.props.history.push('/main/product/list/primary');
+          this.props.history.push('/main/product/list/primary');
         } else {
           alert('등록에 실패했습니다.');
         }
