@@ -197,7 +197,7 @@ class List extends Component {
       .then(data => {
         let status = data[0];
         if (status === 200){
-          // console.warn(data[1]);
+          console.warn(data[1]);
           this.setState({ productData: data[1] });
         }
         else {
@@ -273,11 +273,11 @@ class List extends Component {
 
   searchProduct() {
 		this.getProduct();
-    this.getStock();
+    // this.getStock();
   }
 
   changeStockEdit() {
-    this.getStock();
+    // this.getStock();
     this.setState({ stockEdit: !this.state.stockEdit })
   }
 
@@ -306,7 +306,7 @@ class List extends Component {
       familyName :  0
     }, () => {
       this.getProduct();
-      this.getStock();
+      // this.getStock();
     });
   }
 
@@ -329,7 +329,7 @@ class List extends Component {
         if (status === 200){
           this.setState({ familyData: data[1] }, () => {
 						this.getProduct();
-						this.getStock();
+						// this.getStock();
 					});
         }
         else {
@@ -343,7 +343,7 @@ class List extends Component {
     //let keyword = this.keyword
     this.setState({ familyName /*page: 1*/ }, () => {
       this.getProduct();
-      this.getStock();
+      // this.getStock();
     })
   }
 
@@ -570,7 +570,7 @@ class List extends Component {
                         <td>{e.name + ' ' + e.grade + ' ' + e.weight}</td>
                         <td>{e.familyName}</td>
                         <td>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</td>
-                        <td>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>
+                        <td>{e.stock}</td>
                         <td>
                         	<h4>{e.state-1===0 ? <Badge color="primary">{_state[e.state-1]}</Badge> : e.state-1 === 1 ? <Badge color="danger">{_state[e.state-1]}</Badge> : <Badge color="secondary">{_state[e.state-1]}</Badge>}</h4>
                         </td>
