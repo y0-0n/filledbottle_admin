@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { Button, Input, Card, CardBody, CardHeader, CardFooter, Col, Row, Table } from 'reactstrap';
+import { Button, Input, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, InputGroup, InputGroupAddon } from 'reactstrap';
 import ProductModal from '../Modal/ProductModal';
 import Popup from "reactjs-popup";
+import StockModal from '../Modal/StockModal';
 
 let def = {id: '', name: '', quantity: 0, price: 0, tax: 0};
-let d = {id: '', name: '', plant: 0, quantity: 0, price: 0, vos: 0, vat: 0, tax: false, sum: 0};
+let d = {id: '', name: '', plant: 0, stock:0, quantity: 0, price: 0, vos: 0, vat: 0, tax: false, sum: 0};
 let p = {id: '', name: ''};
+let sl = {id: '', name: '', expiration: '', plantName: ''};
 
 
 class OrderModify extends Component {
@@ -13,6 +15,7 @@ class OrderModify extends Component {
     super(props);
 
     this.state = {
+      stockList: [[sl]],
       plantData: [[p]],
       product: [],
       data: {
@@ -24,42 +27,6 @@ class OrderModify extends Component {
   }
   componentWillMount() {
     this.getData(this.props.match.params.id);
-  }
-
-
-  getPlant(i){
-    const {productFamily} = this.state;
-    fetch(process.env.REACT_APP_HOST+"/api/plant/searchPlant", {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-      body: JSON.stringify({productFamily})
-    })
-      .then(response => {
-        if(response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-        let status = data[0];
-        if(status === 200){
-          let {plantData} = this.state;
-          plantData[i] = data[1];
-          if(data[1][0] === undefined) alert("창고에서 품목을 취급하지 않습니다")
-          else {
-            this.setState({plantData});
-          }
-        }
-        else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-      });
   }
 
   getFamilyId(id, i){
@@ -79,9 +46,7 @@ class OrderModify extends Component {
       .then(data => {
         let status = data[0];
         if(status === 200){
-          this.setState({productFamily: data[1][0].id}, () => {
-            this.getPlant(i)
-          })
+          this.setState({productFamily: data[1][0].id})
         }
         else {
           alert('로그인 하고 접근해주세요');
@@ -122,6 +87,36 @@ class OrderModify extends Component {
         this.props.history.push('/main/sales/list')
       }
     });
+  }
+
+  getStock(productId, i) {
+    fetch(process.env.REACT_APP_HOST+"/api/stock/product/"+productId, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if(status === 200){
+          let {stockList, productInfo} = this.state;
+          stockList[i] = data[1];
+          productInfo[i].stock = data[1][0].id
+          productInfo[i].plant = data[1][0].plant_id
+          this.setState({stockList, productInfo})
+        }
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      });
   }
 
   numberWithCommas(x) {
@@ -206,7 +201,28 @@ class OrderModify extends Component {
                   <tr className="TableBottom">
                     <th>배송지</th>
                     <td>
-                      <Input defaultValue={orderInfo['address']} onChange={(e) => {orderInfo['address'] = e.target.value}} />
+                      <div style={{marginBottom: '10px', marginLeft: '5px', fontSize:'0.8em'}}>기존주소 ) {orderInfo['address']}</div>
+                      {/* <Input defaultValue={orderInfo['address']} onChange={(e) => {orderInfo['address'] = e.target.value}} /> */}
+                      <Row style={{marginBottom: '10px'}}>
+                        <Col lg="6" md="6" sm="6">
+                          <InputGroup required>
+                            <Input type="text" id="sample6_postcode" placeholder="우편번호" value={this.state.postcode} readOnly/>
+                            <InputGroupAddon addonType="append">
+                              <Button block color="primary" onClick={() => {this.sample6_execDaumPostcode()}}>우편번호찾기</Button>
+                            </InputGroupAddon>
+                          </InputGroup>
+                        </Col>
+                      </Row>
+                      <Row style={{marginBottom: '10px'}}>
+                        <Col>
+                          <Input style={{'width':'70%'}} type="text" id="sample6_address" placeholder="주소" readOnly/>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <Input style={{'width':'70%'}} type="text" id="sample6_detailAddress" placeholder="상세주소"/>
+                        </Col>
+                      </Row>
                     </td>
                     <th>요청사항</th>
                     <td className="TableRight">
@@ -231,10 +247,12 @@ class OrderModify extends Component {
                   <div style={{float : "right"}}>
                     <Button block color="primary"
                       onClick={()=> {
-                        let sProduct = productInfo;
-                        sProduct.push(def);
+                        let {sProduct, stockList} = this.state;
+                        //기본 데이터 포맷을 state에 push
+                        sProduct.push(d);
+                        stockList.push([p]);
                         this.setState({
-                          sProduct: productInfo
+                          sProduct, stockList
                         })}}>
                       추가하기
                     </Button>
@@ -248,7 +266,7 @@ class OrderModify extends Component {
                   <thead>
                     <tr>
                       <th>품목명</th>
-                      <th>창고</th>
+                      <th>재고</th>
                       <th>수량</th>
                       <th>판매 단가</th>
                       <th>공급가액</th>
@@ -281,21 +299,24 @@ class OrderModify extends Component {
                                           /* set the state to the new variable */
                                           this.setState({productInfo: sProduct});
                                           this.getFamilyId(data['id'], i)
+                                          this.getStock(data['id'], i)
                                         }}/>}
                           </Popup>}
                         </td>
                         <td>
-                          <Input value={e['plantId']} onChange={(e) => {
-                            let sProduct = productInfo;
-                            sProduct[i].plantId = e.target.value;
-                            this.setState({productInfo : sProduct})
-                          }} type='select' name="plant">
-                            {
-                              this.state.plantData[i] !== undefined? this.state.plantData[i].map((e, i) => {
-                                return <option key={i} value={e.id} >{e.name}</option>
-                              }) : null
-                            }
-                          </Input>
+                          {<Popup
+                            trigger={<Input require  value={productInfo[i].quantity} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}}/>}
+                            modal>
+                            {close => <StockModal close={close} login={()=>{this.props.history.push('/login')}} stockList={this.state.stockList}
+                              selectStock={(data) => {
+                                console.log(data)
+                                // let {product_id, quantity} = data;
+                                // this.setState({
+                                //   product_id,
+                                //   quantity_stock : quantity
+                                // })
+                              }}/>}
+                          </Popup>}
                         </td>
                         <td>
                           <Input name='quantity' style={{width: 100, display: 'inline-block'}} value={productInfo[i].quantity || 0} onChange={(e)=> {

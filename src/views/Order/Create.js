@@ -15,6 +15,7 @@ import {
 import Popup from "reactjs-popup";
 import ProductModal from '../Modal/ProductModal';
 import CustomerModal from '../Modal/CustomerModal';
+import StockModal from '../Modal/StockModal';
 import DatePicker from "react-datepicker";
 
 //TODO : 입력창에 placefolder 수정하기
@@ -41,6 +42,9 @@ class Create extends Component {
       telephone: '',
       customerName: '',
       comment: '',
+
+      product_id: 0,
+      quantity_stock : 0,
     };
   }
   componentWillMount() {
@@ -269,6 +273,7 @@ class Create extends Component {
   }
 
   render() {
+    console.log(this.state.stockList)
     return (
       <div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
@@ -437,7 +442,20 @@ class Create extends Component {
                               </Popup>}
                             </td>
                             <td>
-                              <Input value={this.state.sProduct[i].stock} onChange={(e, x) => {
+                              {<Popup
+                                trigger={<Input require  value={this.state.stockList.quantity} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}}/>}
+                                modal>
+                                {close => <StockModal close={close} login={()=>{this.props.history.push('/login')}} stockList={this.state.stockList}
+                                  selectStock={(data) => {
+                                    console.log(data)
+                                    // let {product_id, quantity} = data;
+                                    // this.setState({
+                                    //   product_id,
+                                    //   quantity_stock : quantity
+                                    // })
+                                  }}/>}
+                              </Popup>}
+                              {/* <Input value={this.state.sProduct[i].stock} onChange={(e, x) => {
                                 let {sProduct, stockList} = this.state;
                                 sProduct[i].stock = e.target.value
                                 this.setState({sProduct})
@@ -447,7 +465,7 @@ class Create extends Component {
                                     return <option key={i} value={e.id} >{e.name + '(' + e.expiration + ' ' +e.plantName +')'}</option>
                                   })
                                 }
-                              </Input>
+                              </Input> */}
                             </td>
                             <td style={{width : 200}}>
                               <Input type="number" name='quantity' style={{width: 50, display: 'inline-block'}} value={this.state.sProduct[i].quantity} onChange={(e)=> {

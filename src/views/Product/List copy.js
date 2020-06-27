@@ -45,6 +45,7 @@ class List extends Component {
       userCategoryData: [],
       checkCategory: true,
       total: 0,
+      totalData: 0,
       familyName: 0,
 		};
     //this.name = '';
@@ -61,7 +62,7 @@ class List extends Component {
 	
 	//상태별 품목 개수를 가져옴
 	getStateCount() {
-    const name = this.props.keyword;
+    const name = this.props.keywordP;
 
     fetch(process.env.REACT_APP_HOST + "/api/product/stateCount", {
       method: 'GET',
@@ -98,7 +99,7 @@ class List extends Component {
 
   //사용자의 (검색 결과에 해당하는) 품목의 개수를 받아옴
   getTotal() {
-    const name = this.props.keyword;
+    const name = this.props.keywordP;
     const {category, family} = this.props;
 
     fetch(process.env.REACT_APP_HOST + "/product/total/", {
@@ -124,7 +125,7 @@ class List extends Component {
       .then(data => {
         const status = data[0];
         if (status === 200) {
-          this.setState({ lastPage: Math.ceil(data[1][0].total / listCount), total: data[1][0].total })
+          this.setState({ lastPage: Math.ceil(data[1][0].total / listCount), totalData: data[1][0].total })
         } else {
           alert('로그인 하고 접근해주세요')
           this.props.history.push('/login')
@@ -169,7 +170,7 @@ class List extends Component {
 	}
 
 	getProduct() {
-    const name = this.props.keyword;
+    const name = this.props.keywordP;
     const page = this.props.pageNumbers;
     const {category, family} = this.props;
     fetch(process.env.REACT_APP_HOST + "/product/list", {
@@ -206,7 +207,7 @@ class List extends Component {
 
   getStock() {
     const page = this.props.pageNumbers;
-    const name = this.props.keyword;
+    const name = this.props.keywordP;
     const {category, family} = this.props;
 
     fetch(process.env.REACT_APP_HOST + "/api/stock/sum", {
@@ -373,6 +374,14 @@ class List extends Component {
     })
   }*/
 
+  resetInput() {
+    var reset_input = document.getElementsByClassName('searchbox-input')
+    for(var i = 0; i < reset_input.length; i++) {
+      reset_input[i].value = null;
+      console.log(i);
+    }
+  }
+
   render() {
     var data = this.state.productData;
     //var data_cafe24 = this.state.productData_cafe24;
@@ -452,7 +461,7 @@ class List extends Component {
               <div className="search-list">
                 <label className="search-label">품목검색</label>
                 <div className="search-input">
-                  <Input placeholder="품목명을 검색해주세요." style={{width : "30%"}} onChange={(e) => { this.props.searchKeyword(e.target.value) }}></Input>
+                  <Input className="searchbox-input" placeholder="품목명을 검색해주세요." style={{width : "30%"}} onChange={(e) => { this.props.searchKeywordP(e.target.value) }}></Input>
                 </div>
               </div>
               <div className="search-list">
@@ -469,7 +478,7 @@ class List extends Component {
                 <div className="search-input">
                   {
                     familyData.map((e, i) => {
-                      return <label className="search-input-label"><input onChange = {() => {this.setState({familyName: this.props.checkFamily(e.id)})}} className="search-input-checkbox" name="family" type="radio"/>{e.name}</label>
+                      return <label className="search-input-label"><input className="searchbox-input" onChange = {() => {this.setState({familyName: this.props.checkFamily(e.id)})}} className="search-input-checkbox" name="family" type="radio"/>{e.name}</label>
                     })
                   }
                 </div>
@@ -504,13 +513,13 @@ class List extends Component {
               </div>*/}
               <div className="search-button">
                 <Button color="primary" style={{marginRight: 10}} onClick={()=> {this.searchProduct(); this.changeFamily(this.state.familyName)}}>검색</Button>
-                <Button color="ghost-primary">초기화</Button>
+                <Button color="ghost-primary" onClick={() => { this.props.searchKeywordP(''); this.resetInput(); }}>초기화</Button>
               </div>
             </div>
             <div className="list-card">
               <div className="list-title">
                 <span>
-                  상품목록 (총 <span style={{color: "#1B8EB7"}}>{this.state.total}</span> 개)
+                  상품목록 (총 <span style={{color: "#1B8EB7"}}>{this.state.totalData}</span> 개)
                 </span>
                 <div className="list-sort-box">
                   <div>

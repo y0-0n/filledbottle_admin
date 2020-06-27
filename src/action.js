@@ -20,6 +20,36 @@ function searchKeyword(e) {
     }
 }
 
+const searchC = 'searchC'
+
+
+function searchKeywordC(e) {
+    return {
+        type : searchC,
+        payload : e
+    }
+}
+
+const searchP = 'searchP'
+
+
+function searchKeywordP(e) {
+    return {
+        type : searchP,
+        payload : e
+    }
+}
+
+const searchS = 'searchS'
+
+
+function searchKeywordS(e) {
+    return {
+        type : searchS,
+        payload : e
+    }
+}
+
 //product
 const category = 'category'
 
@@ -64,7 +94,10 @@ const pagination = {
 }
 
 const searchPage = {
-    search
+    search,
+    searchC,
+    searchP,
+    searchS,
 }
 
 const product = {
@@ -82,7 +115,10 @@ const pageFunction = {
 }
 
 const searchFunction = {
-    searchKeyword
+    searchKeyword,
+    searchKeywordC,
+    searchKeywordP,
+    searchKeywordS,
 }
 
 const productFunction = {

@@ -79,7 +79,7 @@ class Stock extends Component {
 	}
 
   getStock() {
-    const name = this.props.keyword;
+    const name = this.props.keywordS;
 		const { familyData} = this.state;
     const { pageNumbers, family, plant } = this.props;
     fetch(process.env.REACT_APP_HOST+"/api/stock/list", {
@@ -116,7 +116,7 @@ class Stock extends Component {
   }
 
   getTotal() {
-    const name = this.props.keyword;
+    const name = this.props.keywordS;
     const { family, plant } = this.props
 
     fetch(process.env.REACT_APP_HOST + "/api/stock/list/total/", {
@@ -214,6 +214,20 @@ class Stock extends Component {
     })
   }
 
+  getDate(dateInput) {
+    var d = new Date(dateInput);
+    var year = d.getFullYear(), month = d.getMonth() + 1, date = d.getDate();
+
+    return year + "년 " + month + "월 " + date + "일";
+  }
+
+  resetInput() {
+    var reset_input = document.getElementsByClassName('searchbox-input')
+    for(var i = 0; i < reset_input.length; i++) {
+      reset_input[i].value = null;
+      console.log(i);
+    }
+  }
 
   render() {
     let {stockData, plantData, familyData} = this.state;
@@ -284,21 +298,21 @@ class Stock extends Component {
               <div className="search-list">
                 <label className="search-label">품목명</label>
                 <div className="sell-input">
-                  <Input style={{width: "30%"}} placeholder="품목명을 검색해주세요." onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
+                  <Input className="searchbox-input" style={{width: "30%"}} placeholder="품목명을 검색해주세요." onChange={(e) => { this.props.searchKeywordS(e.target.value) }} />
                 </div>
               </div>
               <div className="search-button" style={{textAlign: 'center', paddingBottom: "10px"}}>
-								<Button color="primary" onClick={()=> {this.searchProduct(); this.changeFamily(this.state.family)}} >검색</Button>
-								<Button color="ghost-primary">초기화</Button>
+								<Button color="primary" style={{marginRight: 10}} onClick={()=> {this.searchProduct(); this.changeFamily(this.state.family)}} >검색</Button>
+								<Button color="ghost-primary" onClick={() => { this.props.searchKeywordS(''); this.resetInput(); }}>초기화</Button>
 							</div>
             </div>
 
             <div className="list-card">
               <div className="list-title">
-                <span>
-                  재고관리
-                </span>
-              </div>
+              <span>
+                재고목록 (총 <span style={{color: "#1B8EB7"}}>{stockData.length}</span> 개)
+              </span>
+            </div>
               <div className="list-box" style={{marginTop: 20}}>
                 <div style={{float: "right", marginBottom: 20}}>
                   <Button color="primary" onClick={() => { this.props.history.push('/stock/create') }}>재고 등록</Button>
@@ -330,7 +344,7 @@ class Stock extends Component {
                           </td>
                           <td>{d.productName}</td>
                           <td>{d.name}</td>
-                          <td>{d.expiration}</td>
+                          <td>{this.getDate(d.expiration)}</td>
                           <td>{d.plantName}</td>
                           <td>{d.quantity}</td>
                         </tr>

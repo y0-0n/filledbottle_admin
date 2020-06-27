@@ -219,6 +219,9 @@ class CreateProduct extends Component {
                 <div className="form-innercontent">
                     <Input onChange={(e) => {
                       this.form.category = e.target.value;
+                      this.setState({category: e.target.value}, ()=> {
+                        this.getProductFamily()
+                      });
                     }} type='select' name="family">
                       {userCategoryData.map((e, i) => {
                         return <option key={i} value={e.id}>{e.name}</option>
@@ -271,7 +274,7 @@ class CreateProduct extends Component {
                     <label className="sell-label">판매가</label>
                     <div className="sell-input">
                       <InputGroup>
-                        <Input type="number" placeholder="숫자만 입력" required onChange={(e) => this.form.price = e.target.value, this.changePrice.bind(this)} />
+                        <Input type="number" placeholder="숫자만 입력" required onChange={(e) => {this.form.price = e.target.value; this.changePrice.bind(this); console.log(this.form.price)}} />
                         <InputGroupAddon addonType="append">
                           원
                         </InputGroupAddon>
@@ -289,7 +292,7 @@ class CreateProduct extends Component {
                       </div> */}
                       <div className="sell-input">
                         <InputGroup>
-                          <Input type="number" placeholder="숫자만 입력" required onChange={(e) => this.form.discount_price = e.target.value, this.changeDiscountPrice.bind(this)} />
+                          <Input type="number" placeholder="숫자만 입력" required onChange={(e) => {this.form.discount_price = e.target.value; this.changeDiscountPrice.bind(this)}} />
                           <InputGroupAddon addonType="append">
                             원
                           </InputGroupAddon>
@@ -383,9 +386,9 @@ class CreateProduct extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" checked/>판매중</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio"/>품절</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio"/>판매중지</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="state1" checked/>판매중</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="state2"/>품절</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="state3"/>판매중지</label>
                     </div>
                   </div>
                 </div>
@@ -402,7 +405,7 @@ class CreateProduct extends Component {
                           this.handleFileInput(e);
                         }} style={{display: "none"}}/>
                         <div id="imageFile" className="add-image" onClick={() => document.all.file.click()}>
-                          <img src={this.state.image} />
+                          <img style={{width:"300px"}} src={this.state.image} />
                         </div>
                       </div>
                     </div>
@@ -421,11 +424,12 @@ class CreateProduct extends Component {
                             this.handleFileInput_multiple(e);
                           }} style={{display: "none"}} multiple/>
                           <div id="imageFile" className="add-image" onClick={() => document.all.file_detail.click()}>
-                            <img src={this.state.imageDetailPlus} />
+                            <img style={{width:"300px"}} src={this.state.imageDetailPlus} />
                           </div>
                         </div>
                         {this.state.imageDetail.map((e, i) => {
                           return <img key={i} id="imageFile" alt="상세 사진1" style={{
+                            width: "300px",
                             display: "inline-block",
                             border: '1px',
                             borderStyle: 'dashed',
