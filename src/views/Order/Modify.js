@@ -5,7 +5,7 @@ import Popup from "reactjs-popup";
 import StockModal from '../Modal/StockModal';
 
 let def = {id: '', name: '', quantity: 0, price: 0, tax: 0};
-let d = {id: '', name: '', plant: 0, stock:0, quantity: 0, price: 0, vos: 0, vat: 0, tax: false, sum: 0};
+let dd = {id: '', name: '', plant: 0, stock:0, quantity: 0, price: 0, vos: 0, vat: 0, tax: 0, sum: 0};
 let p = {id: '', name: ''};
 let sl = {id: '', name: '', expiration: '', plantName: ''};
 
@@ -284,12 +284,13 @@ class OrderModify extends Component {
                   <div style={{float : "right"}}>
                     <Button block color="primary"
                       onClick={()=> {
-                        let {sProduct, stockList} = this.state;
+                        let {productInfo} = this.state.data
+                        // let {stockList} = this.state;
                         //기본 데이터 포맷을 state에 push
-                        sProduct.push(d);
-                        stockList.push([p]);
+                        productInfo.push(dd);
+                        // stockList.push([p]);
                         this.setState({
-                          sProduct, stockList
+                          productInfo
                         })}}>
                       추가하기
                     </Button>
@@ -334,19 +335,32 @@ class OrderModify extends Component {
                                           sProduct[i] = val;
 
                                           /* set the state to the new variable */
-                                          this.setState({productInfo: sProduct});
+                                          let d = this.state.data;
+                                          d.productInfo = sProduct;
+                                          this.setState({data: d});
                                           this.getFamilyId(data['id'], i)
-                                          this.getStock(data['id'], i)
+                                          // this.getStock(data['id'], i)
                                         }}/>}
                           </Popup>}
                         </td>
                         <td>
                           {<Popup
-                            trigger={<Input require  value={productInfo[i].quantity} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}}/>}
+                            trigger={<Input require value={productInfo[i].stockName} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}}/>}
                             modal>
-                            {close => <StockModal close={close} login={()=>{this.props.history.push('/login')}} stockList={this.state.stockList}
+                            {close => <StockModal close={close} login={()=>{this.props.history.push('/login')}} stockList={this.state.stockList} productId={e.productId}
                               selectStock={(data) => {
-                                console.log(data)
+                                console.log(data);
+                                let {productInfo} = this.state.data;
+                                productInfo[i].stockId = data.id;
+                                productInfo[i].stockName = data.name;
+                                productInfo[i].plantName = data.plantName;
+                                productInfo[i].expiration = data.expiration;
+                                productInfo[i].plantId = data.plant_id;
+                                let d = this.state.data;
+                                d.productInfo = productInfo;
+                                this.setState({
+                                  data: d
+                                });
                                 // let {product_id, quantity} = data;
                                 // this.setState({
                                 //   product_id,
