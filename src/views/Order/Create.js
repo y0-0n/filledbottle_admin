@@ -273,7 +273,7 @@ class Create extends Component {
   }
 
   render() {
-    console.log(this.state.stockList)
+    // console.log(this.state.stockList)
     return (
       <div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
@@ -436,18 +436,28 @@ class Create extends Component {
                                                           /* set the state to the new variable */
                                                           this.setState({sProduct});
                                                           // this.getFamilyId(data['id'], i);
-                                                          this.getStock(data['id'], i);
+                                                          // this.getStock(data['id'], i);
                                                         }}
                                 />}
                               </Popup>}
                             </td>
                             <td>
                               {<Popup
-                                trigger={<Input require  value={this.state.stockList.quantity} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}}/>}
+                                trigger={<Input require value={this.state.sProduct[i].stockName} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}}/>}
                                 modal>
-                                {close => <StockModal close={close} login={()=>{this.props.history.push('/login')}} stockList={this.state.stockList}
+                                {close => <StockModal close={close} login={()=>{this.props.history.push('/login')}} stockList={this.state.stockList} productId={this.state.sProduct[i].id}
                                   selectStock={(data) => {
-                                    console.log(data)
+                                    // console.log(data);
+                                    let {sProduct} = this.state;
+                                    sProduct[i].stock = data.id;
+                                    sProduct[i].stockName = data.name;
+                                    sProduct[i].plantName = data.plantName;
+                                    sProduct[i].expiration = data.expiration;
+                                    sProduct[i].plant = data.plant_id
+                                    
+                                    this.setState({
+                                      sProduct
+                                    });
                                     // let {product_id, quantity} = data;
                                     // this.setState({
                                     //   product_id,
