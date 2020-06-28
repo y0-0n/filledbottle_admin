@@ -227,13 +227,18 @@ class Detail extends Component {
                 </div>
               </div>
 
-              {/* <div className="form-card">
+              <div className="form-card">
                 <div className="form-title">품목상태</div>
                 <div className="form-innercontent">
                   <div className="sell-input">
+                    <div className="search-input">
+                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="1" checked={data.state===1} />판매중</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="2" checked={data.state===2} />품절</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="3" checked={data.state===3} />판매중지</label>
+                    </div>
                   </div>
                 </div>
-              </div> */}
+              </div>
 
               <div className="form-card">
                 <div className="form-title">상품이미지</div>

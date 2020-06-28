@@ -127,8 +127,7 @@ class Modify extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        data[0].detail_file = data[0].detail_file.split('|')
-        console.warn(data[0])
+        data[0].detail_file = data[0].detail_file.split('|');
         this.form.productFamily = data[0].family;
         this.form.name = data[0].name;
         this.form.price = data[0].price_shipping;
@@ -290,10 +289,17 @@ class Modify extends Component {
     this.setState({vat: e.target.value})
   }
 
+  changeState(e) {
+    let {data} = this.state;
+    data.state = parseInt(e.target.value);
+    this.setState({data})
+    this.form.state = e.target.value;
+  }
 
   render() {
     var userCategoryData = this.state.userCategoryData;
     var data = this.state.data;
+    // console.warn(data)
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/CreateCopy.css"></link>
@@ -417,18 +423,18 @@ class Modify extends Component {
                 </div>
               </div>
 
-              {/* <div className="form-card">
+              <div className="form-card">
                 <div className="form-title">품목상태</div>
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <label className="search-input-label"><input className="search-input-checkbox" type="checkbox" checked/>판매중</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>품절</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>판매중지</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="1" onChange={this.changeState.bind(this)} checked={data.state===1} />판매중</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="2" onChange={this.changeState.bind(this)} checked={data.state===2} />품절</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="3" onChange={this.changeState.bind(this)} checked={data.state===3} />판매중지</label>
                     </div>
                   </div>
                 </div>
-              </div> */}
+              </div>
 
               <div className="form-card">
                 <div className="form-title">상품이미지</div>
