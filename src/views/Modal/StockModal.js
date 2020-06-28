@@ -7,10 +7,13 @@ class StockModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      stockList: []
     };
   }
 
   componentWillMount() {
+    this.getStock(this.props.productId);
+    // console.warn(this.props.productId)
     this.selectStock = this.selectStock.bind(this);
   }
 
@@ -26,9 +29,43 @@ class StockModal extends Component {
     this.props.close();
   }
 
+  //productId로 재고 구분 가져와서 i번째 select에 뿌리기
+  getStock(productId) {
+    fetch(process.env.REACT_APP_HOST+"/api/stock/product/"+productId, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+      .then(response => {
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if(status === 200){
+          this.setState({
+            stockList: data[1]
+          })
+          // let {stockList, sProduct} = this.state;
+          // stockList[i] = data[1];
+          // sProduct[i].stock = data[1][0].id
+          // sProduct[i].plant = data[1][0].plant_id
+          // this.setState({stockList, sProduct})
+        }
+        else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      });
+  }  
+
   render() {
-    const stockList = this.props.stockList[0][0];
-    console.log(stockList,'dddfadfa')
+    // const stockList = this.props.stockList[0];
+    const stockList = this.state.stockList
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
     return (
@@ -51,12 +88,14 @@ class StockModal extends Component {
                 </tr>
               </thead>
               <tbody>
-                <tr onClick={() => this.selectStock()}>
-                  <td>{stockList.name}</td>
-                  <td>{stockList.plantName}</td>
-                  <td>{this.getDate(stockList.expiration)}</td>
-                  <td>{stockList.quantity}개</td>
+                {stockList.map((e, i) => {
+                  return <tr key={i} onClick={() => this.selectStock(e)}>
+                  <td>{e.name}</td>
+                  <td>{e.plantName}</td>
+                  <td>{this.getDate(e.expiration)}</td>
+                  <td>{e.quantity}개</td>
                 </tr>
+                })}
               </tbody>
             </Table>
           </div>
