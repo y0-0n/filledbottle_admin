@@ -101,7 +101,7 @@ class List extends Component {
   //사용자의 (검색 결과에 해당하는) 품목의 개수를 받아옴
   getTotal() {
     const name = this.props.keywordP;
-    const {category, family} = this.props;
+    const {category, family, stateP} = this.props;
 
     fetch(process.env.REACT_APP_HOST + "/product/total/", {
       method: 'POST',
@@ -112,7 +112,7 @@ class List extends Component {
       },
       body: JSON.stringify(
         {
-          name, family, category
+          name, family, category, state: stateP
         }
       )
     })
@@ -173,7 +173,7 @@ class List extends Component {
 	getProduct() {
     const name = this.props.keywordP;
     const page = this.props.pageNumbers;
-    const {category, family} = this.props;
+    const {category, family, stateP} = this.props;
     fetch(process.env.REACT_APP_HOST + "/product/list", {
       method: 'POST',
       headers: {
@@ -183,7 +183,7 @@ class List extends Component {
       },
       body: JSON.stringify(
         {
-          page, name, family, category
+          page, name, family, category, state: stateP
         }
       )
     })
@@ -197,7 +197,7 @@ class List extends Component {
       .then(data => {
         let status = data[0];
         if (status === 200){
-          console.warn(data[1]);
+          // console.warn(data[1]);
           this.setState({ productData: data[1] });
         }
         else {
@@ -391,7 +391,7 @@ class List extends Component {
     var {stockData, familyData, userCategoryData, stateCount} = this.state;
     var { show, pageNumbers} = this.props;
     const arr = [-2, -1, 0, 1, 2];
-    const arr1 = [];
+		const arr1 = [];
     return (
       <div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/ListCopy.css"></link>
@@ -470,10 +470,10 @@ class List extends Component {
               <div className="search-list">
                 <label className="search-label">판매상태</label>
                 <div className="search-input">
-                  <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>전체</label>
-                  <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>판매중</label>
-                  <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>품절</label>
-                  <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>판매중지</label>
+                  <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio"/>전체</label>
+                  <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio"/>판매중</label>
+                  <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio"/>품절</label>
+                  <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio"/>판매중지</label>
                 </div>
               </div>
               <div className="search-list">
