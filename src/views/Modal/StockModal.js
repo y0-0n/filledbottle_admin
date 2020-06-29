@@ -96,6 +96,9 @@ class StockModal extends Component {
                   <td>{e.quantity}개</td>
                 </tr>
                 })}
+                <tr>
+                  {stockList.length == 0 ? <td colSpan="4">"해당 품목의 재고가 존재하지 않습니다."</td> : "" }
+                </tr>
               </tbody>
             </Table>
           </div>
