@@ -132,7 +132,7 @@ class Modify extends Component {
         this.form.name = data[0].name;
         this.form.price = data[0].price_shipping;
         this.form.discount_price = data[0].discount_price;
-        this.setState({price: data[0].price_shipping, discount_price: data[0].discount_price})
+        this.setState({price: data[0].price_shipping, discount_price: data[0].discount_price, image: "http://211.62.225.216:4000/static/" + data[0].file_name})
         this.setState({ data: data[0], category: data[0].categoryId }, () => {
           this.getProductFamily();
         });
@@ -450,7 +450,8 @@ class Modify extends Component {
                           this.handleFileInput(e);
                         }} style={{display: "none"}}/>
                         <div id="imageFile" className="add-image" onClick={() => document.all.file.click()}>
-                          <img style={{width:"300px"}} alt="품목 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
+                          {/* <img style={{width:"300px"}} alt="품목 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} /> */}
+                          <img style={{width:"300px"}} src={this.state.image} />
                         </div>
                       </div>
                     </div>
