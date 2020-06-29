@@ -84,7 +84,6 @@ class List extends Component {
           for(var i =0 ; i < 3; i++) {
             stateCount[i] = 0
           }
-          // console.log(data[1])
 					data[1].map((e,i) => {
             if(e.count)
 						  stateCount[e.state-1] = e.count
@@ -340,10 +339,8 @@ class List extends Component {
   }
 
   changeFamily (familyName) {
-    //let keyword = this.keyword
-    this.setState({ familyName /*page: 1*/ }, () => {
+    this.setState({ familyName }, () => {
       this.getProduct();
-      // this.getStock();
     })
   }
 
@@ -386,6 +383,7 @@ class List extends Component {
   }
 
   render() {
+    console.log(this.state.familyName)
     var data = this.state.productData;
     //var data_cafe24 = this.state.productData_cafe24;
     var {stockData, familyData, userCategoryData, stateCount} = this.state;
@@ -470,7 +468,7 @@ class List extends Component {
               <div className="search-list">
                 <label className="search-label">판매상태</label>
                 <div className="search-input">
-                  <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" onChange={()=>{this.props.changeStateP(0)}}/>전체</label>
+                  <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" onChange={()=>{this.props.changeStateP(0)}} checked={this.props.stateP===0}/>전체</label>
                   <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" onChange={()=>{this.props.changeStateP(1)}}/>판매중</label>
                   <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" onChange={()=>{this.props.changeStateP(2)}}/>품절</label>
                   <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" onChange={()=>{this.props.changeStateP(3)}}/>판매중지</label>
@@ -479,9 +477,10 @@ class List extends Component {
               <div className="search-list">
                 <label className="search-label">품목군</label>
                 <div className="search-input">
+                <label className="search-input-label"><input className="search-input-checkbox" name="family" type="radio" onChange={()=>{this.setState({familyName: this.props.checkFamily(0)})}} checked={this.props.family===0}/>전체</label>
                   {
                     familyData.map((e, i) => {
-                      return <label key={i} className="search-input-label"><input className="searchbox-input" onChange = {() => {this.setState({familyName: this.props.checkFamily(e.id)})}} className="search-input-checkbox" name="family" type="radio"/>{e.name}</label>
+                      return <label key={i} className="search-input-label"><input className="search-input-checkbox" name="family" type="radio" onChange = {() => {this.setState({familyName: this.props.checkFamily(e.id)})}}/>{e.name}</label>
                     })
                   }
                 </div>
@@ -556,7 +555,6 @@ class List extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {/* {console.log(data)} */}
                     {data.map((e, i) => {
                       return (<tr style={{height : "150px"}} key={e.id} onClick={() => {
                         this.props.history.push({
