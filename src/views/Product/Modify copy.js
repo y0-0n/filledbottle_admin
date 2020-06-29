@@ -132,6 +132,7 @@ class Modify extends Component {
         this.form.name = data[0].name;
         this.form.price = data[0].price_shipping;
         this.form.discount_price = data[0].discount_price;
+				this.form.state = data[0].state;
         this.setState({price: data[0].price_shipping, discount_price: data[0].discount_price, image: "http://211.62.225.216:4000/static/" + data[0].file_name})
         this.setState({ data: data[0], category: data[0].categoryId }, () => {
           this.getProductFamily();

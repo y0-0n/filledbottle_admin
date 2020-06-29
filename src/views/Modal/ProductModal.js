@@ -66,7 +66,7 @@ class ProductModal extends Component {
       },
       body: JSON.stringify(
         {
-          page, name, family, category: 0
+          page, name, family, category: 0, state: 0
         }
       )
     })
