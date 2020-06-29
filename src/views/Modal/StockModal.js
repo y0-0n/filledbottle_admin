@@ -102,7 +102,7 @@ class StockModal extends Component {
               </tbody>
             </Table>
           </div>
-          <div style={{ margin: 'auto' }}>
+          {/* <div style={{ margin: 'auto' }}>
             <Pagination>
               {this.state.page === 1 ? '' :
                 <PaginationItem>
@@ -126,7 +126,7 @@ class StockModal extends Component {
                   <PaginationLink next onClick={() => { this.countPageNumber(this.state.page + 1) }} />
                 </PaginationItem>}
             </Pagination>
-          </div>
+          </div> */}
         </div>
       </div>
     )

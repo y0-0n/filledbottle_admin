@@ -6,7 +6,16 @@ class Modify extends Component {
     super(props);
     this.state = {
       data: [],
-    };
+		};
+		this.form = {
+      name: '',
+      telephone: '',
+      cellphone: '',
+			address: '',
+			addressDetail: '',
+			postcode: '',
+      crNumber: '',
+    }
   }
 
   componentWillMount() {
@@ -24,10 +33,18 @@ class Modify extends Component {
     })
       .then(response => response.json())
       .then(data => {
+				console.warn(data)
         this.setState({data: data[0]});
         document.getElementById("sample6_address").value = data[0].address;
         document.getElementById("sample6_detailAddress").value = data[0].address_detail;
-        document.getElementById("sample6_postcode").value = data[0].postcode;
+				document.getElementById("sample6_postcode").value = data[0].postcode;
+				this.form.name = data[0].name;
+				this.form.telephone = data[0].telephone;
+				this.form.cellphone = data[0].cellphone;
+				this.form.address = data[0].address;
+				this.form.addressDetail = data[0].addressDetail;
+				this.form.postcode = data[0].postcode;
+				this.form.crNumber = data[0].crNumber;
       });
   }
 

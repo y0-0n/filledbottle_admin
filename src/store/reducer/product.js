@@ -6,7 +6,8 @@ const InitialState ={
     family : 0,
     show : true,
     keyword : '',
-    pageNumbers : 1,
+		pageNumbers : 1,
+		stateP: 0,
 };
 
 export default function pageReducer(state = InitialState, action) {

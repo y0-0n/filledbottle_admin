@@ -5,14 +5,15 @@ import List from './List copy';
 
 function mapStateToProps(state) {
   const { pageNumbers, keyword, keywordP } = state.search;
-  const { category, family, show } = state.product
+  const { category, family, show, stateP } = state.product
   return {
     pageNumbers,
     keyword,
     keywordP,
     category,
     family,
-    show
+		show,
+		stateP,
   }
 }
 

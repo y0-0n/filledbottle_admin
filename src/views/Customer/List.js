@@ -302,7 +302,7 @@ class List extends Component {
                     <td>{e.address}</td>
                     {//<td><Button onClick={() => {this.props.history.push(`/main/customer/edit/:id}`)}}>수정</Button></td>
                     }
-                    <td><input name='selection' type='checkbox' onClick={() => {
+                    <td onClick="event.cancelBubble=true" ><input name='selection' type='checkbox' onClick={() => {
                       let {checks} = this.state;
                       checks[i] = !checks[i];
                     }}/></td>
