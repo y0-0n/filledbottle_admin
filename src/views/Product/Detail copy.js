@@ -24,7 +24,8 @@ class Detail extends Component {
     })
       .then(response => response.json())
       .then(data => {
-				data[0].detail_file = data[0].detail_file.split('|')
+        data[0].detail_file = data[0].detail_file.split('|');
+        this.setState({price: data[0].price_shipping, discount_price: data[0].discount_price})
 				this.setState({ data: data[0] })
 			});
   }
@@ -83,19 +84,18 @@ class Detail extends Component {
 
   render() {
 		var data = this.state.data;
-    console.warn(this.state.data.detail_file)
-    console.log(data)
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/CreateCopy.css"></link>
         <Row className="mb-5 justify-content-center">
           <Col sm="12" md="12" lg="12">
             <form encType="multipart/form-data">
-              {/* <div className="form-card">
+              <div className="form-card">
                 <div className="form-title">카테고리</div>
                 <div className="form-innercontent">
+                  {data.categoryName}
                 </div>
-              </div> */}
+              </div>
               
               <div className="form-card">
                 <div className="form-title">품목군</div>
@@ -123,6 +123,31 @@ class Detail extends Component {
                           원
                         </InputGroupAddon>
                       </InputGroup>
+                    </div>
+                  </div>
+                  <div className="sell-list">
+                    <div className="sell-content">
+                      <label className="sell-label">할인</label>
+                      {/* <div className="category-input-toggle">
+                        <Input type="radio" name="discount" id="discount1" value="discount1" defaultChecked onChange={this.changeDiscount.bind(this)}/>
+                        <label for="discount1">설정함</label>
+                        <Input type="radio" name="discount" id="discount2" value="discount2" onChange={this.changeDiscount.bind(this)}/>
+                        <label for="discount2">설정안함</label>
+                      </div> */}
+                      <div className="sell-input">
+                        <InputGroup>
+                          <Input type="number" placeholder="숫자만 입력" disabled placeholder={data.discount_price} />
+                          <InputGroupAddon addonType="append">
+                            원
+                          </InputGroupAddon>
+                        </InputGroup>
+                        <div className="sell-discount" style={{marginTop: "20px"}}>
+                          <label className="sell-label total-discount">할인가</label>
+                          <div className="sell-input total-discount">
+                            {this.state.price - this.state.discount_price} 원 ( {this.state.discount_price} 원 할인 )
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   {/* <div className="sell-list">
@@ -189,26 +214,31 @@ class Detail extends Component {
                     :
                     <div></div>
                   }
-                  </div>
+                  </div>*/}
                   <div className="sell-list">
                     <label className="sell-label">부가세</label>
                     <div className="category-input-toggle">
-                      <Input type="radio" name="vat" id="vat1" value="vat1" defaultChecked/>
-                      <label for="vat1">과세상품</label>
-                      <Input type="radio" name="vat" id="vat2" value="vat2"/>
-                      <label for="vat2">비과세상품</label>
+                      <Input type="radio" name="vat" id="vat1" disabled checked={data.tax === 1}/>
+                      <label htmlFor="vat1">과세상품</label>
+                      <Input type="radio" name="vat" id="vat2" disabled checked={data.tax === 0}/>
+                      <label htmlFor="vat2">면세상품</label>
                     </div>
-                  </div> */}
+                  </div>
                 </div>
               </div>
 
-              {/* <div className="form-card">
+              <div className="form-card">
                 <div className="form-title">품목상태</div>
                 <div className="form-innercontent">
                   <div className="sell-input">
+                    <div className="search-input">
+                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="1" checked={data.state===1} />판매중</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="2" checked={data.state===2} />품절</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="3" checked={data.state===3} />판매중지</label>
+                    </div>
                   </div>
                 </div>
-              </div> */}
+              </div>
 
               <div className="form-card">
                 <div className="form-title">상품이미지</div>
@@ -223,7 +253,7 @@ class Detail extends Component {
                     <label className="sell-label">추가이미지</label>
                     <div className="sell-input">
 											{this.state.data.detail_file.map((e, i) => {
-												return <img alt="품목 사진" src={"http://211.62.225.216:4000/static/" + e} />
+												return <img key={i} alt="품목 사진" src={"http://211.62.225.216:4000/static/" + e} />
 											})}
                     </div>
                   </div>

@@ -238,7 +238,7 @@ class Detail extends Component {
                   <thead>
                     <tr>
                       <th>품목명</th>
-                      <th>창고</th>
+                      <th>재고</th>
                       <th>수량</th>
                       <th>판매 단가</th>
                       <th>공급가액</th>
@@ -255,7 +255,8 @@ class Detail extends Component {
                       total_vat += Math.round(e['tax'] ? e['price'] * 1 / 11 : 0);
                       return ( <tr key={i} style={{backgroundColor: e.refund ? 'orange' : null}}>
                         <td>{e['name']}</td>
-                        <td style={{color: !e['plantSet'] ? 'red' : ''}}>{e['plant']}</td>
+                        <td>{e['stockName']}</td>
+                        {/* <td style={{color: !e['plantSet'] ? 'red' : ''}}>{e['plant']}</td> */}
                         <td>{e['quantity']}</td>
                         <td>{this.numberWithCommas(e['price']/e['quantity'])}</td>
                         <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price'] * 10 / 11 : e['price']))}</td>

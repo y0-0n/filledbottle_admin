@@ -5,7 +5,7 @@ import Popup from "reactjs-popup";
 import StockModal from '../Modal/StockModal';
 
 let def = {id: '', name: '', quantity: 0, price: 0, tax: 0};
-let d = {id: '', name: '', plant: 0, stock:0, quantity: 0, price: 0, vos: 0, vat: 0, tax: false, sum: 0};
+let dd = {id: '', name: '', plant: 0, stock:0, quantity: 0, price: 0, vos: 0, vat: 0, tax: 0, sum: 0};
 let p = {id: '', name: ''};
 let sl = {id: '', name: '', expiration: '', plantName: ''};
 
@@ -73,6 +73,7 @@ class OrderModify extends Component {
     .then(data => {
       const status = data[0];
       if(status === 200) {
+        // console.warn(data)
         data[1].productInfo.map((e,i) => {
           e['price_shipping'] = e['price'] / e['quantity'];
           this.getFamilyId(e.productId, i)
@@ -91,6 +92,38 @@ class OrderModify extends Component {
         this.props.history.push('/main/sales/list')
       }
     });
+  }
+
+  sample6_execDaumPostcode() {
+    new window.daum.Postcode({
+      oncomplete: function(data) {
+        var addr = ''; // 주소 변수
+        var extraAddr = ''; // 참고항목 변수
+        if (data.userSelectedType === 'R') {
+          addr = data.roadAddress;
+        } else {
+          addr = data.jibunAddress;
+        }
+        if(data.userSelectedType === 'R'){
+          if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+            extraAddr += data.bname;
+          }
+          if(data.buildingName !== '' && data.apartment === 'Y'){
+            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+          }
+          if(extraAddr !== ''){
+            extraAddr = ' (' + extraAddr + ')';
+          }
+          //document.getElementById("sample6_extraAddress").value = extraAddr;
+          addr += extraAddr;
+        } else {
+          //document.getElementById("sample6_extraAddress").value = '';
+        }
+        document.getElementById('sample6_postcode').value = data.zonecode;
+        document.getElementById("sample6_address").value = addr;
+        document.getElementById("sample6_detailAddress").focus();
+      }
+    }).open();
   }
 
   getStock(productId, i) {
@@ -135,16 +168,11 @@ class OrderModify extends Component {
   }
 
   modifyOrder() {
-		const address = document.getElementById("sample6_address").value;
-    const addressDetail = document.getElementById("sample6_detailAddress").value;
-		const postcode = document.getElementById("sample6_postcode").value;
+    let {orderInfo, productInfo} = this.state.data;
 
-		let {orderInfo, productInfo} = this.state.data;
-		
-		orderInfo[0].address = address;
-		orderInfo[0].addressDetail = addressDetail;
-		orderInfo[0].postcode = postcode;
-
+    orderInfo[0].postcode = document.getElementById('sample6_postcode').value;
+    orderInfo[0].address = document.getElementById('sample6_address').value;
+    orderInfo[0].addressDetail = document.getElementById('sample6_detailAddress').value;
     fetch(process.env.REACT_APP_HOST+"/order/modify/"+this.props.match.params.id, {
       method: 'PUT',
       headers: {
@@ -245,12 +273,12 @@ class OrderModify extends Component {
                   <tr className="TableBottom">
                     <th>배송지</th>
                     <td>
-                      <div style={{marginBottom: '10px', marginLeft: '5px', fontSize:'0.8em'}}>기존주소 ) {orderInfo['address']}</div>
+                      {/* <div style={{marginBottom: '10px', marginLeft: '5px', fontSize:'0.8em'}}>기존주소 ) {orderInfo['address']}</div> */}
                       {/* <Input defaultValue={orderInfo['address']} onChange={(e) => {orderInfo['address'] = e.target.value}} /> */}
                       <Row style={{marginBottom: '10px'}}>
                         <Col lg="6" md="6" sm="6">
                           <InputGroup required>
-                            <Input type="text" id="sample6_postcode" placeholder="우편번호" value={this.state.postcode} readOnly/>
+                            <Input type="text" id="sample6_postcode" placeholder="우편번호" defaultValue={orderInfo['postcode']} readOnly/>
                             <InputGroupAddon addonType="append">
                               <Button block color="primary" onClick={() => {this.sample6_execDaumPostcode()}}>우편번호찾기</Button>
                             </InputGroupAddon>
@@ -259,12 +287,12 @@ class OrderModify extends Component {
                       </Row>
                       <Row style={{marginBottom: '10px'}}>
                         <Col>
-                          <Input style={{'width':'70%'}} type="text" id="sample6_address" placeholder="주소" readOnly/>
+                          <Input style={{'width':'70%'}} type="text" id="sample6_address" placeholder="주소" defaultValue={orderInfo['address']} readOnly/>
                         </Col>
                       </Row>
                       <Row>
                         <Col>
-                          <Input style={{'width':'70%'}} type="text" id="sample6_detailAddress" placeholder="상세주소"/>
+                          <Input style={{'width':'70%'}} type="text" id="sample6_detailAddress" defaultValue={orderInfo['addressDetail']} placeholder="상세주소"/>
                         </Col>
                       </Row>
                     </td>
@@ -291,12 +319,13 @@ class OrderModify extends Component {
                   <div style={{float : "right"}}>
                     <Button block color="primary"
                       onClick={()=> {
-                        let {sProduct, stockList} = this.state;
+                        let {productInfo} = this.state.data
+                        // let {stockList} = this.state;
                         //기본 데이터 포맷을 state에 push
-                        sProduct.push(d);
-                        stockList.push([p]);
+                        productInfo.push(dd);
+                        // stockList.push([p]);
                         this.setState({
-                          sProduct, stockList
+                          productInfo
                         })}}>
                       추가하기
                     </Button>
@@ -322,7 +351,7 @@ class OrderModify extends Component {
                   </thead>
                   <tbody>
                     {productInfo.map((e, i) => {
-                      console.warn(e)
+                      // console.warn(e)
                       return ( <tr key={i}>
                         <td>
                           {<Popup
@@ -341,19 +370,32 @@ class OrderModify extends Component {
                                           sProduct[i] = val;
 
                                           /* set the state to the new variable */
-                                          this.setState({productInfo: sProduct});
+                                          let d = this.state.data;
+                                          d.productInfo = sProduct;
+                                          this.setState({data: d});
                                           this.getFamilyId(data['id'], i)
-                                          this.getStock(data['id'], i)
+                                          // this.getStock(data['id'], i)
                                         }}/>}
                           </Popup>}
                         </td>
                         <td>
                           {<Popup
-                            trigger={<Input require  value={productInfo[i].quantity} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}}/>}
+                            trigger={<Input require value={productInfo[i].stockName} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}}/>}
                             modal>
-                            {close => <StockModal close={close} login={()=>{this.props.history.push('/login')}} stockList={this.state.stockList}
+                            {close => <StockModal close={close} login={()=>{this.props.history.push('/login')}} stockList={this.state.stockList} productId={e.productId}
                               selectStock={(data) => {
-                                console.log(data)
+                                console.log(data);
+                                let {productInfo} = this.state.data;
+                                productInfo[i].stockId = data.id;
+                                productInfo[i].stockName = data.name;
+                                productInfo[i].plantName = data.plantName;
+                                productInfo[i].expiration = data.expiration;
+                                productInfo[i].plantId = data.plant_id;
+                                let d = this.state.data;
+                                d.productInfo = productInfo;
+                                this.setState({
+                                  data: d
+                                });
                                 // let {product_id, quantity} = data;
                                 // this.setState({
                                 //   product_id,

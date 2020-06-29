@@ -127,26 +127,33 @@ class Modify extends Component {
     })
       .then(response => response.json())
       .then(data => {
-				data[0].detail_file = data[0].detail_file.split('|')
-        this.setState({ data: data[0] })
+        data[0].detail_file = data[0].detail_file.split('|');
+        this.form.productFamily = data[0].family;
+        this.form.name = data[0].name;
+        this.form.price = data[0].price_shipping;
+        this.form.discount_price = data[0].discount_price;
+        this.setState({price: data[0].price_shipping, discount_price: data[0].discount_price})
+        this.setState({ data: data[0], category: data[0].categoryId }, () => {
+          this.getProductFamily();
+        });
       });
   }
 
-  /*handleFileInput(e){
-    var file = this.refs.file.files[0];
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
+  // handleFileInput(e){
+  //   var file = this.refs.file.files[0];
+  //   var reader = new FileReader();
+  //   reader.readAsDataURL(file);
 
-    reader.onloadend = function (e) {
-      this.setState({
-        image : [reader.result],
-      });
-    }.bind(this);
+  //   reader.onloadend = function (e) {
+  //     this.setState({
+  //       image : [reader.result],
+  //     });
+  //   }.bind(this);
 
-    let img = e.target.files[0];
+  //   let img = e.target.files[0];
 
-    this.setState({img});
-  }*/
+  //   this.setState({img});
+  // }
 
   modifyProduct(e) {
     e.preventDefault();
@@ -210,16 +217,15 @@ class Modify extends Component {
         let status = data[0];
         if (status === 200){
           if(data[1].length !== 0) {
-            //this.props.checkCategoryId(data[1][0].id)
+            // this.props.checkCategoryId(data[1][0].id)
             this.setState({ userCategoryData: data[1], category: data[1][0].id}, () => {
-              this.getProductFamily();
+              // this.getProductFamily();
             });
           } else {
             this.setState({
               checkCategory: false
             })
           }
-
         }
         else {
           alert('로그인 하고 접근해주세요');
@@ -244,8 +250,10 @@ class Modify extends Component {
       })
       .then(data => {
         let status = data[0];
-        if (status === 200)
+        if (status === 200) {
           this.setState({ familyData: data[1] });
+          this.form.productFamily = data[1][0].id;
+        }
         else {
           alert('로그인 하고 접근해주세요');
           this.props.history.push('/login');
@@ -269,7 +277,8 @@ class Modify extends Component {
   }
 
   changeDiscountPrice(e) {
-    this.setState({discount_price: e.target.value})
+    this.setState({discount_price: e.target.value});
+    this.form.discount_price = e.target.value;
   }
 
   changeSalePeriod(e) {
@@ -280,11 +289,17 @@ class Modify extends Component {
     this.setState({vat: e.target.value})
   }
 
+  changeState(e) {
+    let {data} = this.state;
+    data.state = parseInt(e.target.value);
+    this.setState({data})
+    this.form.state = e.target.value;
+  }
 
   render() {
     var userCategoryData = this.state.userCategoryData;
     var data = this.state.data;
-    console.log(data)
+    // console.warn(data)
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/CreateCopy.css"></link>
@@ -298,11 +313,11 @@ class Modify extends Component {
                     <Input onChange={(e) => {
                       this.form.category = e.target.value;
                       this.setState({category: e.target.value}, ()=> {
-                        this.getProductFamily()
+                        this.getProductFamily();
                       });
                     }} type='select' name="family">
                       {userCategoryData.map((e, i) => {
-                        return <option key={i} value={e.id}>{e.name}</option>
+                        return <option selected={e.id === data.categoryId} key={i} value={e.id}>{e.name}</option>
                       })}
                     </Input>
                 </div>
@@ -315,7 +330,7 @@ class Modify extends Component {
                       this.form.productFamily = e.target.value;
                     }} type='select' name="family">
                       {this.state.familyData.map((e, i) => {
-                        return <option key={i} value={e.id}>{e.name}</option>
+                        return <option key={i} value={e.id} selected={e.id === data.family}>{e.name}</option>
                       })}
                   </Input>
                 </div>
@@ -324,7 +339,7 @@ class Modify extends Component {
               <div className="form-card">
                 <div className="form-title">상품명</div>
                 <div className="form-innercontent">
-                  <Input defaultValue={data.name}/>
+                  <Input defaultValue={data.name} onChange={(e) => this.form.name = e.target.value}/>
                 </div>
               </div>
 
@@ -342,33 +357,32 @@ class Modify extends Component {
                       </InputGroup>
                     </div>
                   </div>
-                  {/* <div className="sell-list">
+                  <div className="sell-list">
                     <div className="sell-content">
                       <label className="sell-label">할인</label>
-                      <div className="category-input-toggle">
-                      </div>
-                    </div>
-                  { this.state.discount === 'discount1' ?
-                    <div className="sell-discount">
-                      <label className="sell-label">할인</label>
+                      {/* <div className="category-input-toggle">
+                        <Input type="radio" name="discount" id="discount1" value="discount1" defaultChecked onChange={this.changeDiscount.bind(this)}/>
+                        <label for="discount1">설정함</label>
+                        <Input type="radio" name="discount" id="discount2" value="discount2" onChange={this.changeDiscount.bind(this)}/>
+                        <label for="discount2">설정안함</label>
+                      </div> */}
                       <div className="sell-input">
                         <InputGroup>
-                          <Input placeholder="숫자만 입력" onChange={this.changeDiscountPrice.bind(this)}/>
+                          <Input type="number" placeholder="숫자만 입력" required defaultValue={data.discount_price} onChange={this.changeDiscountPrice.bind(this)} />
                           <InputGroupAddon addonType="append">
                             원
                           </InputGroupAddon>
                         </InputGroup>
-                      </div>
-                      <label className="sell-label total-discount">할인가</label>
-                      <div className="sell-input total-discount">
-                        {this.state.price - this.state.discount_price} 원 ( {this.state.discount_price} 원 할인 )
+                        <div className="sell-discount" style={{marginTop: "20px"}}>
+                          <label className="sell-label total-discount">할인가</label>
+                          <div className="sell-input total-discount">
+                            {this.state.price - this.state.discount_price} 원 ( {this.state.discount_price} 원 할인 )
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    :
-                    <div></div>
-                  }
-                  </div> */}
-                  {/* <div className="sell-list">
+                  </div>
+                    {/* <div className="sell-list">
                     <div className="sell-content">
                       <label className="sell-label">판매기간</label>
                     </div>
@@ -409,18 +423,18 @@ class Modify extends Component {
                 </div>
               </div>
 
-              {/* <div className="form-card">
+              <div className="form-card">
                 <div className="form-title">품목상태</div>
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <label className="search-input-label"><input className="search-input-checkbox" type="checkbox" checked/>판매중</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>품절</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" type="checkbox"/>판매중지</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="1" onChange={this.changeState.bind(this)} checked={data.state===1} />판매중</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="2" onChange={this.changeState.bind(this)} checked={data.state===2} />품절</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="3" onChange={this.changeState.bind(this)} checked={data.state===3} />판매중지</label>
                     </div>
                   </div>
                 </div>
-              </div> */}
+              </div>
 
               <div className="form-card">
                 <div className="form-title">상품이미지</div>
@@ -436,7 +450,7 @@ class Modify extends Component {
                           this.handleFileInput(e);
                         }} style={{display: "none"}}/>
                         <div id="imageFile" className="add-image" onClick={() => document.all.file.click()}>
-                          <img alt="품목 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
+                          <img style={{width:"300px"}} alt="품목 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
                         </div>
                       </div>
                     </div>
@@ -455,10 +469,10 @@ class Modify extends Component {
                             this.handleFileInput_multiple(e);
                           }} style={{display: "none"}} multiple/>
                           <div id="imageFile" className="add-image" onClick={() => document.all.file_detail.click()}>
-                            <img src={this.state.imageDetailPlus} />
+                            <img style={{width:"300px"}} src={this.state.imageDetailPlus} />
                           </div>
                         </div>
-                        {console.log(data)}
+                        {/* {console.log(data)} */}
                         {data.detail_file.map((e, i) => {
 												  return <img alt="품목 사진" src={"http://211.62.225.216:4000/static/" + e} />
 											  })}
@@ -466,6 +480,7 @@ class Modify extends Component {
                           return <img key={i} id="imageFile" alt="상세 사진1" style={{
                             display: "inline-block",
                             border: '1px',
+                            width: '300px',
                             borderStyle: 'dashed',
                             borderColor: '#c8ced3',
                             marginBottom: '10px'

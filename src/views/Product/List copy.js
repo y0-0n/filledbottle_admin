@@ -84,11 +84,12 @@ class List extends Component {
           for(var i =0 ; i < 3; i++) {
             stateCount[i] = 0
           }
-          console.log(data[1])
+          // console.log(data[1])
 					data[1].map((e,i) => {
-						stateCount[e.state-1] = e.count
+            if(e.count)
+						  stateCount[e.state-1] = e.count
           })
-          this.setState({ stateCount: stateCount })
+          this.setState({ stateCount })
         } else {
           alert('로그인 하고 접근해주세요')
           this.props.history.push('/login')
@@ -195,8 +196,10 @@ class List extends Component {
       })
       .then(data => {
         let status = data[0];
-        if (status === 200)
+        if (status === 200){
+          console.warn(data[1]);
           this.setState({ productData: data[1] });
+        }
         else {
           alert('로그인 하고 접근해주세요');
           this.props.history.push('/login');
@@ -270,11 +273,11 @@ class List extends Component {
 
   searchProduct() {
 		this.getProduct();
-    this.getStock();
+    // this.getStock();
   }
 
   changeStockEdit() {
-    this.getStock();
+    // this.getStock();
     this.setState({ stockEdit: !this.state.stockEdit })
   }
 
@@ -282,17 +285,17 @@ class List extends Component {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
-  /*changeSet() {
-    this.setState({set: !this.state.set}, () => {
-      this.getProduct();
-    });
-	}*/
+  // changeSet() {
+  //   this.setState({set: !this.state.set}, () => {
+  //     this.getProduct();
+  //   });
+	// }
 
 	changeCategory(id) {
 		this.setState({
-			//category: id,
-			//page: 1,
-			//family: 0,
+			// category: id,
+			// page: 1,
+			// family: 0,
 		}, () => {
 			this.getProductFamily();
 		})
@@ -303,7 +306,7 @@ class List extends Component {
       familyName :  0
     }, () => {
       this.getProduct();
-      this.getStock();
+      // this.getStock();
     });
   }
 
@@ -326,7 +329,7 @@ class List extends Component {
         if (status === 200){
           this.setState({ familyData: data[1] }, () => {
 						this.getProduct();
-						this.getStock();
+						// this.getStock();
 					});
         }
         else {
@@ -340,39 +343,39 @@ class List extends Component {
     //let keyword = this.keyword
     this.setState({ familyName /*page: 1*/ }, () => {
       this.getProduct();
-      this.getStock();
+      // this.getStock();
     })
   }
 
-  /*getCafe24Product() {
-    fetch('https://cors-anywhere.herokuapp.com/https://ast99.cafe24api.com/api/v2/admin/products', {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('cafe24AccessToken'),
-        'Content-Type' : 'application/json',
+  // getCafe24Product() {
+  //   fetch('https://cors-anywhere.herokuapp.com/https://ast99.cafe24api.com/api/v2/admin/products', {
+  //     method: 'GET',
+  //     headers: {
+  //       'Authorization': 'Bearer ' + localStorage.getItem('cafe24AccessToken'),
+  //       'Content-Type' : 'application/json',
 
-      },
-    })
+  //     },
+  //   })
 
-    .then(response => {
-      if (response.status === 401) {
-        return Promise.all([401])
-      } else {
-        return Promise.all([response.status, response.json()]);
-      }
-    })
-    .then(data => {
-      let status = data[0];
-      if (status === 200){
-        this.setState({ productData_cafe24: data[1].products })
-        console.log(this.state.productData_cafe24)
-      }
-      else {
-        alert('로그인 하고 접근해주세요');
-        this.props.history.push('/login');
-      }
-    })
-  }*/
+  //   .then(response => {
+  //     if (response.status === 401) {
+  //       return Promise.all([401])
+  //     } else {
+  //       return Promise.all([response.status, response.json()]);
+  //     }
+  //   })
+  //   .then(data => {
+  //     let status = data[0];
+  //     if (status === 200){
+  //       this.setState({ productData_cafe24: data[1].products })
+  //       console.log(this.state.productData_cafe24)
+  //     }
+  //     else {
+  //       alert('로그인 하고 접근해주세요');
+  //       this.props.history.push('/login');
+  //     }
+  //   })
+  // }
 
   resetInput() {
     var reset_input = document.getElementsByClassName('searchbox-input')
@@ -426,7 +429,7 @@ class List extends Component {
                   <i className="fa fa-list-alt"></i>
                   <div className="status-list-text">
                     <p>전체</p>
-                    <strong>{stateCount[0] + stateCount[1] + stateCount[2]}</strong>
+                    <strong>{stateCount[0] + stateCount[1] + stateCount[2]+""}</strong>
                     <span>건</span>
                   </div>
                 </li>
@@ -434,7 +437,7 @@ class List extends Component {
                   <i className="fa fa-list-alt"></i>
                   <div className="status-list-text">
                     <p>판매중</p>
-                    <strong>{stateCount[0]===undefined ? 0 : stateCount[0]}</strong>
+                    <strong>{stateCount[0]}</strong>
                     <span>건</span>
                   </div>
                 </li>
@@ -442,7 +445,7 @@ class List extends Component {
                   <i className="fa fa-list-alt"></i>
                   <div className="status-list-text">
                     <p>품절</p>
-                    <strong>{stateCount[1]===undefined ? 0 : stateCount[1]}</strong>
+                    <strong>{stateCount[1]}</strong>
                     <span>건</span>
                   </div>
                 </li>
@@ -450,7 +453,7 @@ class List extends Component {
                   <i className="fa fa-list-alt"></i>
                   <div className="status-list-text">
                     <p>판매중지</p>
-                    <strong>{stateCount[2]===undefined ? 0 : stateCount[2]}</strong>
+                    <strong>{stateCount[2]}</strong>
                     <span>건</span>
                   </div>
                 </li>
@@ -478,7 +481,7 @@ class List extends Component {
                 <div className="search-input">
                   {
                     familyData.map((e, i) => {
-                      return <label className="search-input-label"><input className="searchbox-input" onChange = {() => {this.setState({familyName: this.props.checkFamily(e.id)})}} className="search-input-checkbox" name="family" type="radio"/>{e.name}</label>
+                      return <label key={i} className="search-input-label"><input className="searchbox-input" onChange = {() => {this.setState({familyName: this.props.checkFamily(e.id)})}} className="search-input-checkbox" name="family" type="radio"/>{e.name}</label>
                     })
                   }
                 </div>
@@ -553,7 +556,7 @@ class List extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {console.log(data)}
+                    {/* {console.log(data)} */}
                     {data.map((e, i) => {
                       return (<tr style={{height : "150px"}} key={e.id} onClick={() => {
                         this.props.history.push({
@@ -567,7 +570,7 @@ class List extends Component {
                         <td>{e.name + ' ' + e.grade + ' ' + e.weight}</td>
                         <td>{e.familyName}</td>
                         <td>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</td>
-                        <td>{stockData[i] !== undefined ? stockData[i].quantity : null}</td>
+                        <td>{e.stock}</td>
                         <td>
                         	<h4>{e.state-1===0 ? <Badge color="primary">{_state[e.state-1]}</Badge> : e.state-1 === 1 ? <Badge color="danger">{_state[e.state-1]}</Badge> : <Badge color="secondary">{_state[e.state-1]}</Badge>}</h4>
                         </td>

@@ -5,12 +5,14 @@ class Detail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
+      data: [[]],
+      orderData: []
     };
   }
   componentWillMount() {
 		const {stockId} = this.props.match.params;
-		this.getStockDetail(stockId);
+    this.getStockDetail(stockId);
+    this.getStockOrder(stockId);
   }
 
   getStockDetail(stockId) {
@@ -38,6 +40,31 @@ class Detail extends Component {
     });
   }
 
+  getStockOrder(stockId) {
+    fetch(process.env.REACT_APP_HOST+"/api/stock/order/"+stockId, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+      let status = data[0];
+      if(status === 200)
+        this.setState({orderData: data[1]});
+      else {
+        alert('로그인 하고 접근해주세요');
+        this.props.history.push('/login');
+      }
+    });
+  }
+
   getDate(dateInput) {
     var d = new Date(dateInput);
     var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
@@ -46,7 +73,8 @@ class Detail extends Component {
   }
 
   render() {
-    let {data} = this.state;
+    let {data, orderData} = this.state;
+    let stockQuantity = data[0].initial_quantity;
     return (
       <div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/CreateCopy.css"></link>
@@ -76,9 +104,9 @@ class Detail extends Component {
                 </div>
                 <div className="sell-list">
                   <div className="sell-content">
-                    <label className="sell-label">재고수</label>
+                    <label className="sell-label">등록 재고</label>
                     <div className="sell-input">
-                      {e.quantity} 개
+                      {e.initial_quantity} 개
                     </div>
                   </div>
                 </div>
@@ -114,20 +142,21 @@ class Detail extends Component {
                 <Table striped>
                     <thead>
                       <tr>
-                        <th>날짜</th>
-                        <th>수정 수량</th>
-                        <th>현재 수량</th>
-												<th>기록</th>
+                        <th>일자</th>
+                        <th>구분</th>
+                        <th>수량</th>
+												<th>재고</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {data.map((d, i) => {
+                      {orderData.map((d, i) => {
+                        stockQuantity -= d.quantity
                         return (
                           <tr key={i}>
                             <td>{this.getDate(d.date)}</td>
-                            <td>{d.change}</td>
+                            <td>상품 출하</td>
                             <td>{d.quantity}</td>
-														<td>{d.memo}</td>
+														<td>{stockQuantity}</td>
                           </tr>
                         )
                       })}

@@ -66,7 +66,11 @@ class RegisterModify extends Component {
             phone: data[1][0].phone,
             address: data[1][0].addreses,
             crNumber: data[1][0].crNumber,
-          }      
+          }
+          console.warn(data[1])
+          document.getElementById("sample6_address").value = data[1][0].address;
+          document.getElementById("sample6_detailAddress").value = data[1][0].addressDetail;
+          document.getElementById("sample6_postcode").value = data[1][0].postcode;  
         }
         else {
           alert('로그인 하고 접근해주세요');
