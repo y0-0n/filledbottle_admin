@@ -321,7 +321,7 @@ class Stock extends Component {
                     this.props.history.push({
                     pathname: '/stock/edit/'+this.props.plant,
                     })}}>재고 실사</Button>
-                  <Button color="primary" style={{ marginLeft: 10 }} onClick={() => { this.props.history.push('/stock/transport') }}>창고 이동</Button>
+                  {/* <Button color="primary" style={{ marginLeft: 10 }} onClick={() => { this.props.history.push('/stock/transport') }}>창고 이동</Button> */}
                 </div>
                 <Table className="ListTable" hover>
                   <thead>
