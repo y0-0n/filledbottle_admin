@@ -234,6 +234,7 @@ class Detail extends Component {
             </CardHeader>
             <CardBody>
               <div style={{overflowX : "auto", whiteSpace: "nowrap"}}>
+                <p style={{fontSize: "0.8em", color: "grey", fontWeight: "lighter"}}>* 재고명을 클릭하시면 재고 정보를 확인할 수 있습니다.</p>
                 <Table>
                   <thead>
                     <tr>
@@ -255,11 +256,11 @@ class Detail extends Component {
                       total_vat += Math.round(e['tax'] ? e['price'] * 1 / 11 : 0);
                       return ( <tr key={i} style={{backgroundColor: e.refund ? 'orange' : null}}>
                         <td>{e['name']}</td>
-                        <td>{e['stockName']}</td>
+                        <td style={{cursor: "pointer"}} onClick={() => {this.props.history.push(`/main/manage/stock/${e.stockId}`)}}>{e['stockName']}</td>
                         {/* <td style={{color: !e['plantSet'] ? 'red' : ''}}>{e['plant']}</td> */}
                         <td>{e['quantity']}</td>
                         <td>{this.numberWithCommas(e['price']/e['quantity'])}</td>
-                        <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price'] * 10 / 11 : e['price']))}</td>
+                        <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price'] *     10 / 11 : e['price']))}</td>
                         <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price'] * 1 / 11 : 0))}</td>
                         <td style={{textAlign: 'center'}}><Input name='tax' type='checkbox' checked={e.tax || false} disabled/></td>
                         <td>{this.numberWithCommas(e['price'])}</td>
