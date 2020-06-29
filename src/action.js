@@ -77,6 +77,15 @@ function changeShow() {
     }
 }
 
+const stateP = 'stateP'
+
+function changeStateP(e) {
+    return {
+        type : stateP,
+        payload: e
+    }
+}
+
 //stock
 
 const plant = 'plant'
@@ -103,7 +112,8 @@ const searchPage = {
 const product = {
     category,
     family,
-    show
+    show,
+    stateP
 }
 
 const stock = {
@@ -124,7 +134,8 @@ const searchFunction = {
 const productFunction = {
     checkCategoryId,
     checkFamily,
-    changeShow
+    changeShow,
+    changeStateP,
 }
 
 const stockFunction = {

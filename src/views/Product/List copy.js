@@ -470,10 +470,10 @@ class List extends Component {
               <div className="search-list">
                 <label className="search-label">판매상태</label>
                 <div className="search-input">
-                  <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio"/>전체</label>
-                  <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio"/>판매중</label>
-                  <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio"/>품절</label>
-                  <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio"/>판매중지</label>
+                  <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" onChange={()=>{this.props.changeStateP(0)}}/>전체</label>
+                  <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" onChange={()=>{this.props.changeStateP(1)}}/>판매중</label>
+                  <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" onChange={()=>{this.props.changeStateP(2)}}/>품절</label>
+                  <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" onChange={()=>{this.props.changeStateP(3)}}/>판매중지</label>
                 </div>
               </div>
               <div className="search-list">

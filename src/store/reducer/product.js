@@ -6,8 +6,8 @@ const InitialState ={
     family : 0,
     show : true,
     keyword : '',
-		pageNumbers : 1,
-		stateP: 0,
+    pageNumbers : 1,
+    stateP: 0,
 };
 
 export default function pageReducer(state = InitialState, action) {
@@ -22,6 +22,8 @@ export default function pageReducer(state = InitialState, action) {
             return checkFamily(state, action.payload);
         case product.show :
             return changeShow(state);
+        case product.stateP :
+            return changeStateP(state, action.payload);
         default : 
             return state;
     }
@@ -50,6 +52,14 @@ function changeShow(state) {
     return {
         ...state,
         show : !state.show,
+        pageNumbers : 1
+    }
+}
+
+function changeStateP(state, state_product) {
+    return {
+        ...state,
+        stateP : state_product,
         pageNumbers : 1
     }
 }

@@ -5,7 +5,7 @@ import List from './List copy';
 
 function mapStateToProps(state) {
   const { pageNumbers, keyword, keywordP } = state.search;
-  const { category, family, show, stateP } = state.product
+  const { category, family, show, stateP } = state.product;
   return {
     pageNumbers,
     keyword,
@@ -25,6 +25,7 @@ function mapDispatchToProps(dispatch) {
     checkCategoryId: bindActionCreators(productFunction.checkCategoryId, dispatch),
     checkFamily: bindActionCreators(productFunction.checkFamily, dispatch),
     changeShow: bindActionCreators(productFunction.changeShow, dispatch),
+    changeStateP: bindActionCreators(productFunction.changeStateP, dispatch),
   }
 }
 
