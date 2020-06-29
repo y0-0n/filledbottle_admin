@@ -229,6 +229,16 @@ class Stock extends Component {
     }
   }
 
+  getDiffDate(dateInput) {
+    var d = new Date(dateInput);
+    var todayDate = new Date();
+    var diffDate = Math.ceil((d.getTime()-todayDate.getTime())/(1000*3600*24));
+    var textDate = '';
+    if (diffDate > 0) textDate = diffDate + " 일 남음"
+    else textDate = Math.abs(diffDate) + " 일 지남";
+    return textDate;
+  }
+
   render() {
     let {stockData, plantData, familyData} = this.state;
     var {family, pageNumbers} = this.props;
@@ -337,14 +347,16 @@ class Stock extends Component {
                   <tbody>
                     {stockData.map((d) => {
                       return (
-                        <tr onClick={() => {this.props.history.push(`/main/manage/stock/${d.id}`)}} style={{cursor: 'pointer'}} key={d.id}
-                        >
+                        <tr onClick={() => {this.props.history.push(`/main/manage/stock/${d.id}`)}} style={{cursor: 'pointer'}} key={d.id}>
                           <td className="list-hidden">
                             <img style={{ width: '90%' }} alt="품목 사진" src={d.file_name ? process.env.REACT_APP_HOST+"/static/" + d.file_name : '318x180.svg'} />
                           </td>
                           <td>{d.productName}</td>
                           <td>{d.name}</td>
-                          <td>{this.getDate(d.expiration)}</td>
+                          <td>
+                            {this.getDate(d.expiration)}<br/>
+                            <p>({this.getDiffDate(d.expiration)})</p>
+                          </td>
                           <td>{d.plantName}</td>
                           <td>{d.quantity}</td>
                         </tr>
