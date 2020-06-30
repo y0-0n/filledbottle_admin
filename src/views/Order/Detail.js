@@ -67,7 +67,38 @@ class Detail extends Component {
 
     if(next === 'cancel'){
 			d = window.confirm('주문 취소 후엔 변경이 불가능합니다. 원치 않으시다면 취소를 눌러주세요.');
-			if(d) return;
+			if(d) {
+				let {orderInfo} = this.state.data;
+				fetch(process.env.REACT_APP_HOST+"/order/changeState/", {
+					method: 'POST',
+					headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json',
+						'Authorization': 'Bearer ' + localStorage.getItem('token'),
+					},
+					body: JSON.stringify({orderInfo, next, prev})
+				})
+				.then(response => {
+					if(response.status === 401) {
+						return Promise.all([401])
+					} else {
+						return Promise.all([response.status, response.json()]);
+					}
+				})
+				.then(data => {
+					const status = data[0];
+					if(status === 200) {
+						this.getData(this.props.match.params.id)
+					} else if(status === 401) {
+						alert('로그인 하고 접근해주세요')
+						this.props.history.push('/login')
+					} else if(status === 400) {
+						alert('존재하지 않는 주문입니다.');
+						this.props.history.push('/main/sales/list')
+					}
+				});
+			}
+			return ;
 		}
 
     if(c) {
