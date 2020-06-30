@@ -131,11 +131,14 @@ class Modify extends Component {
         this.form.productFamily = data[0].family;
         this.form.name = data[0].name;
         this.form.price = data[0].price_shipping;
-				this.form.discount_price = data[0].discount_price;
+        this.form.discount_price = data[0].discount_price;
 				this.form.state = data[0].state;
-        this.setState({price: data[0].price_shipping, discount_price: data[0].discount_price})
+        this.setState({price: data[0].price_shipping, discount_price: data[0].discount_price, imageFile: "http://211.62.225.216:4000/static/"+data[0].file_name, image : "http://211.62.225.216:4000/static/" + data[0].file_name}, ()=> {
+        })
         this.setState({ data: data[0], category: data[0].categoryId }, () => {
           this.getProductFamily();
+          this.createFile()
+
         });
       });
   }
@@ -264,12 +267,10 @@ class Modify extends Component {
 
   changeCategory(e) {
     this.setState({category: e.target.value})
-    console.log(this.state.category)
   }
 
   changeDiscount(e) {
     this.setState({discount: e.target.value})
-    console.log(this.state.discount)
   }
 
   changePrice(e) {
@@ -295,6 +296,21 @@ class Modify extends Component {
     data.state = parseInt(e.target.value);
     this.setState({data})
     this.form.state = e.target.value;
+  }
+
+  async createFile(){
+    let response = await fetch(`https://cors-anywhere.herokuapp.com/${this.state.imageFile}`);
+    let data = await response.blob();
+    let metadata = {
+      type: 'image/jpeg'
+    };
+    let file = new File([data], "test.jpg", metadata);
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      console.log(reader.result , 'ddfadsf')
+    }
+    this.setState({imageFile: file});
   }
 
   render() {
@@ -451,7 +467,8 @@ class Modify extends Component {
                           this.handleFileInput(e);
                         }} style={{display: "none"}}/>
                         <div id="imageFile" className="add-image" onClick={() => document.all.file.click()}>
-                          <img style={{width:"300px"}} alt="품목 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} />
+                          {/* <img style={{width:"300px"}} alt="품목 사진" src={data.file_name ? "http://211.62.225.216:4000/static/" + data.file_name : '318x180.svg'} /> */}
+                          <img style={{width:"300px"}} src={this.state.image} />
                         </div>
                       </div>
                     </div>
