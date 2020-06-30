@@ -9,7 +9,17 @@
 .datepicker {
 	width: 200px;
 	cursor: pointer;
-	text-align: center;
+    text-align: center;
+}
+
+.datebox {
+    position: relative;
+    z-index: 2;
+}
+
+.post-button {
+    position: relative;
+    z-index: 1;
 }
 
 .date {
@@ -21,9 +31,6 @@
 	display: inline-block;
 	width: 30%;
 	float: right;
-}
-
-.card {
 }
 
 @media (max-width: 1024px) {

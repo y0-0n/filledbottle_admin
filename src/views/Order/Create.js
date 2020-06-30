@@ -290,7 +290,7 @@ class Create extends Component {
                   <tr>
                     <th>일자</th>
                     <td>
-                      <div style={{pointer: 'cursor'}}>
+                      <div className="datebox" style={{pointer: 'cursor'}}>
                         <DatePicker
                           className="datepicker"
                           dateFormat="yyyy년 MM월 dd일"
@@ -334,7 +334,7 @@ class Create extends Component {
                   </tr>
                   <tr >
                     <th>주소</th>
-                    <td>
+                    <td className="post-button" >
                       <Row style={{marginBottom: '10px'}}>
                         <Col lg="6" md="6" sm="6">
                           <InputGroup required>
