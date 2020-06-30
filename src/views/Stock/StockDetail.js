@@ -6,7 +6,8 @@ class Detail extends Component {
     super(props);
     this.state = {
       data: [[]],
-      orderData: []
+      orderData: [],
+      modifyData: [],
     };
   }
   componentWillMount() {
@@ -57,7 +58,43 @@ class Detail extends Component {
     .then(data => {
       let status = data[0];
       if(status === 200)
-        this.setState({orderData: data[1]});
+        this.setState({orderData: data[1]}, () => {
+          this.getStockModify(stockId);
+        });
+      else {
+        alert('로그인 하고 접근해주세요');
+        this.props.history.push('/login');
+      }
+    });
+  }
+
+  getStockModify(stockId) {
+    fetch(process.env.REACT_APP_HOST+"/api/stock/modify/"+stockId, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+      let status = data[0];
+      if(status === 200)
+        this.setState({modifyData: data[1]}, () => {
+          let {orderData} = this.state;
+          this.state.modifyData.map((e, i) => {
+            orderData.push(e);
+          })
+          orderData.sort(function (a, b) {
+            return new Date(a.date) - new Date(b.date)
+          });
+          this.setState({orderData});
+        });
       else {
         alert('로그인 하고 접근해주세요');
         this.props.history.push('/login');
@@ -73,7 +110,7 @@ class Detail extends Component {
   }
 
   render() {
-    let {data, orderData} = this.state;
+    let {data, orderData, modifyData} = this.state;
     let stockQuantity = data[0].initial_quantity;
     return (
       <div className="animated fadeIn">
@@ -150,15 +187,34 @@ class Detail extends Component {
                     </thead>
                     <tbody>
                       {orderData.map((d, i) => {
-                        stockQuantity -= d.quantity
-                        return (
-                          <tr key={i}>
-                            <td>{this.getDate(d.date)}</td>
-                            <td>상품 출하</td>
-                            <td>{d.quantity}</td>
-														<td>{stockQuantity}</td>
-                          </tr>
-                        )
+                        if(d.order_id){//주문은 quantity 만큼 차감
+                          stockQuantity -= d.quantity;
+                          return (
+                            <tr key={i}>
+                              <td>{this.getDate(d.date)}</td>
+                              <td>상품 출하 - 주문</td>
+                              <td>{d.quantity}</td>
+                              <td>{stockQuantity}</td>
+                            </tr>
+                          )
+                        } else {//재고 실사로 변동될 경우 quantity 만큼 증가
+                          stockQuantity += d.quantity;
+                          let memo;
+                          if(d.quantity >= 0)
+                            memo = "입고";
+                          else
+                            memo = "출고"
+                          return (
+                            <tr key={i}>
+                              <td>{this.getDate(d.date)}</td>
+                              <td>상품 {memo}</td>
+                              <td>{Math.abs(d.quantity)}</td>
+                              <td>{stockQuantity}</td>
+                            </tr>
+                          )
+                        }
+
+
                       })}
                     </tbody>
                   </Table>
