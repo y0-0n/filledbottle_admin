@@ -79,7 +79,8 @@ class OrderModify extends Component {
           this.getFamilyId(e.productId, i)
 				})
 				
-        this.setState({data: data[1]})
+				this.setState({data: data[1]});
+				console.warn(data[1])
         document.getElementById("sample6_address").value = data[1].orderInfo[0].address;
         document.getElementById("sample6_detailAddress").value = data[1].orderInfo[0].addressDetail;
         document.getElementById("sample6_postcode").value = data[1].orderInfo[0].postcode;
@@ -169,7 +170,7 @@ class OrderModify extends Component {
 
   modifyOrder() {
     let {orderInfo, productInfo} = this.state.data;
-
+		// console.warn(orderInfo)
     orderInfo[0].postcode = document.getElementById('sample6_postcode').value;
     orderInfo[0].address = document.getElementById('sample6_address').value;
     orderInfo[0].addressDetail = document.getElementById('sample6_detailAddress').value;
@@ -240,7 +241,6 @@ class OrderModify extends Component {
     orderInfo = orderInfo[0];
     var d = new Date(orderInfo['date']);
     var year = d.getFullYear(), month = d.getMonth()+1, date = d.getDate();
-
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
@@ -263,11 +263,11 @@ class OrderModify extends Component {
                   <tr>
                     <th>전화번호</th>
                     <td>
-                      <Input defaultValue={orderInfo['telephone']} type="tel" onChange={(e) => {orderInfo['telephone'] = e.target.value}} />
+                      <Input defaultValue={orderInfo['telephone']} type="tel" onChange={(e) => {orderInfo['telephone'] = e.target.value}} onBlur={(e) => {orderInfo['cellphone'] = e.target.value}}/>
                     </td>
                     <th>HP</th>
                     <td className="TableRight">
-                      <Input defaultValue={orderInfo['cellphone']} type="tel" onChange={(e) => {orderInfo['cellphone'] = e.target.value}} />
+                      <Input defaultValue={orderInfo['cellphone']} type="tel" onChange={(e) => {orderInfo['cellphone'] = e.target.value}} onBlur={(e) => {orderInfo['cellphone'] = e.target.value}} />
                     </td>
                   </tr>
                   <tr className="TableBottom">
