@@ -10,49 +10,50 @@ class Stock extends Component {
     super(props);
     this.state = {
 			stockData: [],
-			page: 1,
+			pageNumbers: 'all',
 			family: 0,
 			name: '',
 			plant: this.props.match.params.id
-		};
+    };
+    this.getStock();
   }
 
   componentWillMount() {
-		this.getUseFamily();
+		// this.getUseFamily();
 	}
 	
-  getUseFamily() {//취급 품목 불러오기
-    fetch(process.env.REACT_APP_HOST+"/api/product/familyInPlant/"+this.props.match.params.id, {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-    })
-    .then(response => {
-      if(response.status === 401) {
-        return Promise.all([401])
-      } else {
-        return Promise.all([response.status, response.json()]);
-      }
-    })
-    .then(data => {
-			let status = data[0];
-      if(status === 200){
-				this.setState({useFamilyData: data[1]}, () => {
-					this.getStock();
-				});
-			}
-      else {
-        alert('로그인 하고 접근해주세요');
-        this.props.history.push('/login');
-      }
-    });
-	}
+  // getUseFamily() {//취급 품목 불러오기
+  //   fetch(process.env.REACT_APP_HOST+"/api/product/familyInPlant/"+this.props.match.params.id, {
+  //     method: 'GET',
+  //     headers: {
+  //       'Authorization': 'Bearer ' + localStorage.getItem('token'),
+  //     },
+  //   })
+  //   .then(response => {
+  //     if(response.status === 401) {
+  //       return Promise.all([401])
+  //     } else {
+  //       return Promise.all([response.status, response.json()]);
+  //     }
+  //   })
+  //   .then(data => {
+	// 		let status = data[0];
+  //     if(status === 200){
+	// 			this.setState({useFamilyData: data[1]}, () => {
+	// 				this.getStock();
+	// 			});
+	// 		}
+  //     else {
+  //       alert('로그인 하고 접근해주세요');
+  //       this.props.history.push('/login');
+  //     }
+  //   });
+	// }
 	
   getStock() {
-		const {plant, family, name, useFamilyData} = this.state;
+		const {plant, family, name, pageNumbers} = this.state;
 		//console.warn(this.state)
-    fetch(process.env.REACT_APP_HOST+"/api/stock/list2", {
+    fetch(process.env.REACT_APP_HOST+"/api/stock/list", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -61,7 +62,7 @@ class Stock extends Component {
       },
       body: JSON.stringify(
         {
-          plant, family, name, useFamilyData
+          plant, family, name, pageNumbers
         }
       )
     })
@@ -86,8 +87,7 @@ class Stock extends Component {
 
   modifyStock() {
     let {stockData} = this.state;
-    let id = this.state.plant;
-    fetch(process.env.REACT_APP_HOST+`/api/stock/`+id, {
+    fetch(process.env.REACT_APP_HOST+`/api/stock/`, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
@@ -148,7 +148,7 @@ class Stock extends Component {
                       {stockData.map((d, i) => {
                         return (
                           <tr key={i}>
-                            <td>{d.name + " " + d.grade + " " + d.weight}</td>
+                            <td>{d.name}</td>
                             <td>{d.quantity}</td>
                             <td><Input defaultValue={d.quantity} onChange={(e) => { d.next = e.target.value}} style={{width : "150px"}} ></Input></td>
                           </tr>
