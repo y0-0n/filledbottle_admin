@@ -24,6 +24,7 @@ class CreateProduct extends Component {
       imageDetailPlus: '/assets/img/plusImage.jpg',
       imageDetail: [],
       imageDetailFile: [],
+      imageDetailName : [],
       familyData: [],
       data: [],
       checkCategory: true,
@@ -55,21 +56,20 @@ class CreateProduct extends Component {
   }
 
   handleFileInput_multiple(e) {
-    let imgList = [], imgFileList = [];
+    let imgList = [], imgFileList = [], imgFileNameList = [];
     console.warn(this.refs.file_detail.files)
     for(var i = 0; i < this.refs.file_detail.files.length; i++ ) {
       var file = this.refs.file_detail.files[i];
-      console.warn(file)
       //var canvasImg = document.createElement("img");
       var reader = new FileReader();
       reader.onload = (e) => {
         imgList.push(e.target.result);
         this.setState({imageDetail: imgList});
-        console.warn(imgList)
       };
       reader.readAsDataURL(file);
-      imgFileList.push(file)
-      this.setState({imageDetailFile: imgFileList})
+      imgFileList.push(file);
+      imgFileNameList.push(file.name);
+      this.setState({imageDetailFile: imgFileList, imageDetailName: imgFileNameList})
     }
   }
 
@@ -432,6 +432,22 @@ class CreateProduct extends Component {
                           <input ref="file_detail" type="file" name="file_detail" onChange={e => {
                             this.handleFileInput_multiple(e);
                           }} style={{display: "none"}} multiple/>
+                          <div className="add-image-list">
+                            <Table>
+                              <tbody>
+                                <tr>
+                                  <th>파일명</th>
+                                  <th style={{width: '100px'}}>삭제</th>
+                                </tr>
+                                {this.state.imageDetailName.map((e,i) => {
+                                  return <tr key={i}>
+                                    <td>{this.state.imageDetailName[i]}</td>
+                                    <td><Button color="danger">x</Button></td>
+                                  </tr>
+                                })}
+                              </tbody>
+                            </Table>
+                          </div>
                           <div id="imageFile" className="add-image" onClick={() => document.all.file_detail.click()}>
                             <img style={{width:"300px"}} src={this.state.imageDetailPlus} />
                           </div>

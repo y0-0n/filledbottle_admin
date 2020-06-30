@@ -290,7 +290,7 @@ class Create extends Component {
                   <tr>
                     <th>일자</th>
                     <td>
-                      <div style={{pointer: 'cursor'}}>
+                      <div className="datebox" style={{pointer: 'cursor'}}>
                         <DatePicker
                           className="datepicker"
                           dateFormat="yyyy년 MM월 dd일"
@@ -334,7 +334,7 @@ class Create extends Component {
                   </tr>
                   <tr >
                     <th>주소</th>
-                    <td>
+                    <td className="post-button" >
                       <Row style={{marginBottom: '10px'}}>
                         <Col lg="6" md="6" sm="6">
                           <InputGroup required>
@@ -478,24 +478,11 @@ class Create extends Component {
                               </Input> */}
                             </td>
                             <td style={{width : 200}}>
-                              <Input type="number" name='quantity' style={{width: 50, display: 'inline-block'}} value={this.state.sProduct[i].quantity} onChange={(e)=> {
+                              <Input type="number" name='quantity' value={this.state.sProduct[i].quantity} onChange={(e)=> {
                                 let {sProduct} = this.state;
-                                sProduct[i].quantity > 0 ? sProduct[i].quantity = e.target.value :  sProduct[i].quantity= Math.abs(e.target.value)
-                                //sProduct[i].quantity = e.target.value;
+                                sProduct[i].quantity > 0 ? sProduct[i].quantity = e.target.value :  sProduct[i].quantity= Math.abs(e.target.value);
                                 this.setState({sProduct})}}
                               />
-                              <Button onClick={(e)=> {
-                                let sProduct = this.state.sProduct;
-                                sProduct[i].quantity > 0 ? sProduct[i].quantity-- : sProduct[i].quantity= 0
-                                this.setState({
-                                  sProduct
-                                })}}>-</Button>
-                              <Button onClick={(e)=> {
-                                let sProduct = this.state.sProduct;
-                                sProduct[i].quantity++;
-                                this.setState({
-                                  sProduct
-                                })}}>+</Button>
                             </td>
                             <td><Input name='price' value={this.state.sProduct[i].price} readOnly/></td>
                             <td><Input name='vos' value={this.state.sProduct[i].tax ? Math.round(this.state.sProduct[i].price * this.state.sProduct[i].quantity * 10 / 11) : Math.round(this.state.sProduct[i].price * this.state.sProduct[i].quantity)} readOnly/></td>

@@ -405,27 +405,11 @@ class OrderModify extends Component {
                           </Popup>}
                         </td>
                         <td>
-                          <Input name='quantity' style={{width: 100, display: 'inline-block'}} value={productInfo[i].quantity || 0} onChange={(e)=> {
-                          let sProduct = productInfo;
-                          sProduct[i].quantity > 0 ? sProduct[i].quantity = e.target.value :  sProduct[i].quantity= Math.abs(e.target.value);
-                          //sProduct[i].quantity = e.target.value;
-                          this.setState({productInfo: sProduct})}}
-                        /><Button onClick={(e)=> {
-                          let sProduct = productInfo;
-                          sProduct[i].quantity > 0 ? --sProduct[i].quantity :  sProduct[i].quantity = 0;
-                          this.setState({
-                            productInfo: sProduct
-                          })}}>
-                          -
-                        </Button>
-                        <Button onClick={(e)=> {
-                          let sProduct = productInfo;
-                          ++sProduct[i].quantity;
-                          this.setState({
-                            productInfo: sProduct
-                          })}}>
-                          +
-                        </Button>
+                          <Input name='quantity' value={productInfo[i].quantity || 0} onChange={(e)=> {
+                            let sProduct = productInfo;
+                            sProduct[i].quantity > 0 ? sProduct[i].quantity = e.target.value :  sProduct[i].quantity= Math.abs(e.target.value);
+                            this.setState({productInfo: sProduct})}}
+                        />
                         </td>
                         <td>{this.numberWithCommas(e['price_shipping'])}</td>
                         <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price_shipping'] * e['quantity'] * 10 / 11 : e['price_shipping'] * e['quantity']))}</td>

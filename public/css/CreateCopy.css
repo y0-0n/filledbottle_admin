@@ -117,6 +117,13 @@ ul li {
     margin-top: 10px;
 }
 
+.sell-list .add-image-list {
+    width: 500px;
+    padding: 20px;
+    border: 1px solid lightgrey;
+    margin-bottom: 20px;
+}
+
 .sell-list .add-image {
     display: inline-block;
     border: 1px dashed #c1c5cd;
