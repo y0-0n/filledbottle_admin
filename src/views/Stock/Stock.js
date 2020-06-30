@@ -197,6 +197,7 @@ class Stock extends Component {
 			//page: 1,
 			//family: 0,
 		}, () => {
+      this.getStock();
 		})
   }
 
