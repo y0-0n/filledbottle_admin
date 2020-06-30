@@ -20,6 +20,7 @@ class Detail extends Component {
       collect: true,
       refund: true,
       productId : 0,
+      quantity : 0
     };
   }
   componentWillMount() {
@@ -142,6 +143,14 @@ class Detail extends Component {
           }
         })
     }
+  }
+
+  checkQuantity(max) {
+    if(this.state.quantity > max || 0 > this.state.quantity){
+      alert("범위를 확인해주세요");
+      return false;
+    }
+    else return true;
   }
 
   render() {
@@ -309,7 +318,7 @@ class Detail extends Component {
                       <td>{e['name']}</td>
                       <td style={{ cursor: "pointer" }} onClick={() => { this.props.history.push(`/main/manage/stock/${e.stockId}`) }}>{e['stockName']}</td>
                       {/* <td style={{color: !e['plantSet'] ? 'red' : ''}}>{e['plant']}</td> */}
-                      {e.refund?<td><Input placeholder={e['quantity']} disabled></Input></td>: <td><Input placeholder={e['quantity']}></Input></td>}
+                      {e.refund?<td><Input placeholder={this.state.quantity} disabled></Input></td>: <td><Input type="number" placeholder={0} min={0} max={e['quantity']} onChange={e => this.setState({quantity: e.target.value})}></Input></td>}
                       <td>{this.numberWithCommas(e['price'] / e['quantity'])}</td>
                       <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price'] * 10 / 11 : e['price']))}</td>
                       <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price'] * 1 / 11 : 0))}</td>
@@ -317,7 +326,7 @@ class Detail extends Component {
                       <td>{this.numberWithCommas(e['price'])}</td>
                       {
                         this.state.refund === true ?
-                          !e.refund ? <td><Button onClick={() => this.changeRefundstate(e.orderProductId, e.refund)}>환불</Button></td>
+                          !e.refund ? <td><Button onClick={() => {if(this.checkQuantity(e['quantity'])) this.changeRefundstate(e.orderProductId, e.refund);}}>환불</Button></td>
                             : <td><Button onClick={() => this.changeRefundstate(e.orderProductId, e.refund)}>환불 취소</Button></td>
                           : null}
                     </tr>
