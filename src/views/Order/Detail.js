@@ -18,7 +18,7 @@ class Detail extends Component {
         productInfo: [{}],
       },
       collect: true,
-      refund: true,
+      refund: false,
       productId : 0,
       quantity : 0
     };
@@ -140,19 +140,19 @@ class Detail extends Component {
     this.setState({ refund: !this.state.refund });
   }
 
-  changeRefundstate(id, refund) {
+  refundProduct(data) {
     let c;
-    if (refund)
-      c = window.confirm('이 상품을 환불 취소하시겠습니까?');
-    else
-      c = window.confirm('이 상품을 환불하시겠습니까?');
-
+    c = window.confirm('이 상품을 환불하시겠습니까?');
+    data.orderId = this.props.match.params.id;
     if (c) {
-      fetch(process.env.REACT_APP_HOST + "/order/detail/refund/" + id, {
-        method: 'PUT',
+      fetch(process.env.REACT_APP_HOST + "/order/detail/refund/", {
+        method: 'POST',
         headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + localStorage.getItem('token'),
-        }
+        },
+        body: JSON.stringify({ data })
       })
         .then(response => {
           if (response.status === 401) {
@@ -164,7 +164,7 @@ class Detail extends Component {
         .then(data => {
           const status = data[0];
           if (status === 200) {
-            this.getData(this.props.match.params.id)
+            this.getData(this.props.match.params.id);
           } else if (status === 401) {
             alert('로그인 하고 접근해주세요')
             this.props.history.push('/login')
@@ -176,8 +176,8 @@ class Detail extends Component {
     }
   }
 
-  checkQuantity(max) {
-    if(this.state.quantity > max || 0 > this.state.quantity){
+  checkQuantity(max, refund) {
+    if(refund > max || 0 > refund){
       alert("범위를 확인해주세요");
       return false;
     }
@@ -259,10 +259,6 @@ class Detail extends Component {
               <Col>
                 <div style={{ float: 'right' }}>
                   {orderInfo['state'] === "order" ? <Button onClick={() => { this.changeState(orderInfo.state, 'cancel') }}> 주문 취소</Button> : null}
-                  {/* {orderInfo['state'] === "shipping" ?
-                    this.state.refund ? <Button onClick={() => { this.handleRefund() }}>환불 완료</Button>
-                      : <Button onClick={() => { this.handleRefund() }}>환불 하기</Button>
-                    : null} */}
                 </div>
               </Col>
             </Row>
@@ -281,14 +277,26 @@ class Detail extends Component {
                     <th>부가세</th>
                     <th>과세</th>
                     <th>총액</th>
+                    <th>{orderInfo['state'] === "shipping" ?
+                      this.state.refund ? <Button onClick={() => { this.handleRefund() }}>환불 완료</Button>
+                        : <Button onClick={() => { this.handleRefund() }}>환불 하기</Button>
+                      : null}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {productInfo.map((e, i) => {
-                    total_price += e['price'];
-                    total_supply += Math.round(e['tax'] ? e['price'] * 10 / 11 : e['price']);
-                    total_vat += Math.round(e['tax'] ? e['price'] * 1 / 11 : 0);
-                    return (<tr key={i}>
+                    if(!e.refund){
+                      total_price += e['price'];
+                      total_supply += Math.round(e['tax'] ? e['price'] * 10 / 11 : e['price']);
+                      total_vat += Math.round(e['tax'] ? e['price'] * 1 / 11 : 0);
+                    }
+                    else {
+                      total_price -= e['price'];
+                      total_supply -= Math.round(e['tax'] ? e['price'] * 10 / 11 : e['price']);
+                      total_vat -= Math.round(e['tax'] ? e['price'] * 1 / 11 : 0);
+                    }
+                    return (<tr key={i} style={{ backgroundColor: e.refund ? 'lightyellow' : null }}>
                       <td>{e['name']}</td>
                       <td style={{ cursor: "pointer" }} onClick={() => { this.props.history.push(`/main/manage/stock/${e.stockId}`) }}>{e['stockName']}</td>
                       {/* <td style={{color: !e['plantSet'] ? 'red' : ''}}>{e['plant']}</td> */}
@@ -298,6 +306,15 @@ class Detail extends Component {
                       <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price'] * 1 / 11 : 0))}</td>
                       <td style={{ textAlign: 'center' }}><Input name='tax' type='checkbox' checked={e.tax || false} disabled /></td>
                       <td>{this.numberWithCommas(e['price'])}</td>
+                      <td>
+                      {
+                        this.state.refund === true && e.refund == false? <React.Fragment>
+                          <Input onChange={(ee) => {e['refundQuantity'] = ee.target.value;}}/>
+                          <Button onClick={() => {if(this.checkQuantity(e['quantity'], e['refundQuantity'])) this.refundProduct(e);}}>환불</Button>
+                        </React.Fragment>
+                           : null
+                      }
+                      </td>
                     </tr>
                     )
                   })}
@@ -312,13 +329,14 @@ class Detail extends Component {
                     <th>{this.numberWithCommas(total_vat)}</th>
                     <th></th>
                     <th>{this.numberWithCommas(total_price)}</th>
+                    <th></th>
                   </tr>
                 </tfoot>
               </Table>
             </div>
           </CardBody>
         </Card>
-        <Card>
+        {/* <Card>
           <CardHeader>
             <div>
               환불
@@ -348,7 +366,7 @@ class Detail extends Component {
                     return (<tr key={i} style={{ backgroundColor: e.refund ? 'lightyellow' : null }}>
                       <td>{e['name']}</td>
                       <td style={{ cursor: "pointer" }} onClick={() => { this.props.history.push(`/main/manage/stock/${e.stockId}`) }}>{e['stockName']}</td>
-                      {/* <td style={{color: !e['plantSet'] ? 'red' : ''}}>{e['plant']}</td> */}
+                      { <td style={{color: !e['plantSet'] ? 'red' : ''}}>{e['plant']}</td> }
                       {e.refund?<td><Input placeholder={this.state.quantity} disabled></Input></td>: <td><Input type="number" placeholder={0} min={0} max={e['quantity']} onChange={e => this.setState({quantity: e.target.value})}></Input></td>}
                       <td>{this.numberWithCommas(e['price'] / e['quantity'])}</td>
                       <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price'] * 10 / 11 : e['price']))}</td>
@@ -363,7 +381,7 @@ class Detail extends Component {
                     </tr>
                     )
                   })}
-                  {/* <Input onChange={(e) => {
+                  { <Input onChange={(e) => {
                     this.setState({productId : e.target.value}, ()=> {
                       this.handleRefund();
                       console.log(this.state.productId, 'asdf')
@@ -373,14 +391,14 @@ class Detail extends Component {
                       console.log(e.orderProductId)
                       return <option key={i} value={e.orderProductId}>{e['name']}</option>
                     })}
-                  </Input> */}
+                  </Input> }
                 </tbody>
                 <tfoot>
                 </tfoot>
               </Table>
             </div>
           </CardBody>
-        </Card>
+        </Card> */}
       </div>
     )
   }
