@@ -429,7 +429,7 @@ class CreateProduct extends Component {
                       <div className="sell-image">
                         
                         <div style={{paddingBottom: '10px', cursor: 'pointer'}}>
-                          <input ref="file_detail" type="file" name="file_detail" onChange={e => {
+                          <input ref="file_detail" type="file" name="file_detail" onClick={() => this.refs.file_detail.value = null} onChange={e => {
                             this.handleFileInput_multiple(e);
                           }} style={{display: "none"}} multiple/>
                           <div className="add-image-list">
