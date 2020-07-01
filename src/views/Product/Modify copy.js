@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Input, Table, Badge ,InputGroup, InputGroupAddon } from 'reactstrap';
 import DatePicker from "react-datepicker";
+import { lastIndexOf } from 'core-js/fn/array';
 
 class Modify extends Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class Modify extends Component {
       imageDetailPlus: '/assets/img/plusImage.jpg',
       imageDetail: [],
       imageDetailFile: [],
+      imageDetailName: [],
       familyData: [],
       checkCategory: true,
       discount: 'discount1',
@@ -100,21 +102,23 @@ class Modify extends Component {
   }
 
   handleFileInput_multiple(e) {
-    let imgList = [], imgFileList = [];
-    console.warn(this.refs.file_detail.files)
+    let imgList = this.state.imageDetail, imgFileList = this.state.imageDetailFile, imgFileNameList = this.state.imageDetailName;
+    console.log(imgList,imgFileList, imgFileNameList)
+    //console.warn(this.refs.file_detail.files)
     for(var i = 0; i < this.refs.file_detail.files.length; i++ ) {
       var file = this.refs.file_detail.files[i];
-      console.warn(file)
+      //console.warn(file)
       //var canvasImg = document.createElement("img");
       var reader = new FileReader();
       reader.onload = (e) => {
         imgList.push(e.target.result);
         this.setState({imageDetail: imgList});
-        console.warn(imgList)
+        //console.warn(imgList)
       };
       reader.readAsDataURL(file);
-      imgFileList.push(file)
-      this.setState({imageDetailFile: imgFileList})
+      imgFileList.push(file);
+      imgFileNameList.push(file.name);
+      this.setState({imageDetailFile: imgFileList, imageDetailName: imgFileNameList})
     }
   }
 
@@ -133,11 +137,18 @@ class Modify extends Component {
         this.form.price = data[0].price_shipping;
         this.form.discount_price = data[0].discount_price;
 				this.form.state = data[0].state;
-        this.setState({price: data[0].price_shipping, discount_price: data[0].discount_price, imageFile: "http://211.62.225.216:4000/static/"+data[0].file_name, image : "http://211.62.225.216:4000/static/" + data[0].file_name}, ()=> {
+        this.setState({
+          price: data[0].price_shipping, 
+          discount_price: data[0].discount_price, 
+          imageFile: "http://211.62.225.216:4000/static/"+data[0].file_name, 
+          image : "http://211.62.225.216:4000/static/" + data[0].file_name,
+          imageDetailFile : data[0].detail_file
+        }, ()=> {
         })
         this.setState({ data: data[0], category: data[0].categoryId }, () => {
           this.getProductFamily();
-          this.createFile()
+          this.createFile();
+          this.createMultipleFile();
 
         });
       });
@@ -307,16 +318,31 @@ class Modify extends Component {
     let file = new File([data], "test.jpg", metadata);
     var reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload = () => {
-      console.log(reader.result , 'ddfadsf')
-    }
     this.setState({imageFile: file});
+    console.log(this.state.imageFile)
+  }
+
+  async createMultipleFile(){
+    let imgFileList = [], imgFileNameList = this.state.imageDetailName;
+    for(var i = 0; i < this.state.imageDetailFile.length; i++){
+      let response = await fetch(`https://cors-anywhere.herokuapp.com/http://211.62.225.216:4000/static/${this.state.imageDetailFile[i]}`);
+      let data = await response.blob();
+      let metadata = {
+        type: 'image/jpeg'
+      };
+      let fileName = this.state.data.detail_file[i].substring(29,this.state.data.detail_file[i].length)
+      let file = new File([data], fileName , metadata);
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      imgFileList.push(file)
+      imgFileNameList.push(fileName)
+    }
+    this.setState({imageDetailFile:imgFileList, imageDetailName: imgFileNameList});
   }
 
   render() {
     var userCategoryData = this.state.userCategoryData;
     var data = this.state.data;
-    // console.warn(data)
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/CreateCopy.css"></link>
@@ -486,11 +512,35 @@ class Modify extends Component {
                           <input ref="file_detail" type="file" name="file_detail" onChange={e => {
                             this.handleFileInput_multiple(e);
                           }} style={{display: "none"}} multiple/>
+                          <div className="add-image-list">
+                            <Table>
+                              <tbody>
+                                <tr>
+                                  <th style={{width: '500px'}}>파일명</th>
+                                  <th>삭제</th>
+                                </tr>
+                                {this.state.imageDetailName.map((e,i) => {
+                                  return <tr key={i}>
+                                    <td>{this.state.imageDetailName[i]}</td>
+                                    <td>
+                                      <Button color="danger" onClick={() => { 
+                                        let { imageDetailName, imageDetailFile, imageDetail, data } = this.state;
+                                        imageDetailName.splice(i,1);
+                                        imageDetailFile.splice(i,1);
+                                        imageDetail.splice(i,1);
+                                        data.detail_file.splice(i,1);
+                                        this.setState({imageDetailName, imageDetailFile, imageDetail, data});
+                                      }}>x</Button>
+                                    </td>
+                                  </tr>
+                                })}
+                              </tbody>
+                            </Table>
+                          </div>
                           <div id="imageFile" className="add-image" onClick={() => document.all.file_detail.click()}>
                             <img style={{width:"300px"}} src={this.state.imageDetailPlus} />
                           </div>
                         </div>
-                        {/* {console.log(data)} */}
                         {data.detail_file.map((e, i) => {
 												  return <img alt="품목 사진" src={"http://211.62.225.216:4000/static/" + e} />
 											  })}
