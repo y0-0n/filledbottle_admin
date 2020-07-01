@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Input, Table, Badge ,InputGroup, InputGroupAddon } from 'reactstrap';
 import DatePicker from "react-datepicker";
 import { lastIndexOf } from 'core-js/fn/array';
+import spinner from '../../assets/img/brand/loading_ani.gif'
 
 class Modify extends Component {
   constructor(props) {
@@ -516,7 +517,7 @@ class Modify extends Component {
                             <Table>
                               <tbody>
                                 <tr>
-                                  <th style={{width: '500px'}}>파일명</th>
+                                  <th style={{width: '750px'}}>파일명</th>
                                   <th>삭제</th>
                                 </tr>
                                 {this.state.imageDetailName.map((e,i) => {
@@ -536,6 +537,9 @@ class Modify extends Component {
                                 })}
                               </tbody>
                             </Table>
+                            <div style={{textAlign: 'center'}}>
+                                {this.state.imageDetailName.length === 0 ? <img src={spinner} />: null}
+                            </div>
                           </div>
                           <div id="imageFile" className="add-image" onClick={() => document.all.file_detail.click()}>
                             <img style={{width:"300px"}} src={this.state.imageDetailPlus} />
