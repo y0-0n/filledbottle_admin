@@ -73,7 +73,8 @@ class Create extends Component {
   }
 
   render() {
-		const {plantData} = this.state;
+    const {plantData} = this.state;
+    if(this.props.plant === 'all') this.props.history.push('/main/stock')
     return (
       <div className="animated fadeIn align-items-center">
         <link rel="stylesheet" type="text/css" href="css/CreateCopy.css"></link>
