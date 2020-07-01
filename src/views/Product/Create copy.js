@@ -56,7 +56,8 @@ class CreateProduct extends Component {
   }
 
   handleFileInput_multiple(e) {
-    let imgList = [], imgFileList = [], imgFileNameList = [];
+    let imgList = this.state.imageDetail, imgFileList = this.state.imageDetailFile, imgFileNameList = this.state.imageDetailName;
+    console.log(imgList,imgFileList, imgFileNameList)
     console.warn(this.refs.file_detail.files)
     for(var i = 0; i < this.refs.file_detail.files.length; i++ ) {
       var file = this.refs.file_detail.files[i];
