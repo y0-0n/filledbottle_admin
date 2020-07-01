@@ -442,7 +442,15 @@ class CreateProduct extends Component {
                                 {this.state.imageDetailName.map((e,i) => {
                                   return <tr key={i}>
                                     <td>{this.state.imageDetailName[i]}</td>
-                                    <td><Button color="danger">x</Button></td>
+                                    <td>
+                                      <Button color="danger" onClick={() => { 
+                                        let { imageDetailName, imageDetailFile, imageDetail } = this.state;
+                                        imageDetailName.splice(i,1);
+                                        imageDetailFile.splice(i,1);
+                                        imageDetail.splice(i,1);
+                                        this.setState({imageDetailName, imageDetailFile, imageDetail});
+                                      }}>x</Button>
+                                    </td>
                                   </tr>
                                 })}
                               </tbody>
