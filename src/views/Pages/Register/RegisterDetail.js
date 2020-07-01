@@ -449,7 +449,7 @@ class RegisterDetail extends Component {
                     <tr>
                       <th>주소</th>
                       <td colSpan="3">
-                        {data.address}
+                        {data.address} {data.addressDetail} ({data.postcode})
                       </td>
                     </tr>
                   </tbody>
