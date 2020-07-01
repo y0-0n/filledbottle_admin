@@ -299,7 +299,7 @@ class List extends Component {
                     <td className="list-hidden">{e.id}</td>
                     <td>{e.name}</td>
                     <td className="list-hidden">{e.cellphone}</td>
-                    <td>{e.address}</td>
+                    <td>{e.address} {e.addressDetail} ({e.postcode})</td>
                     {//<td><Button onClick={() => {this.props.history.push(`/main/customer/edit/:id}`)}}>수정</Button></td>
                     }
                     <td onClick="event.cancelBubble=true" ><input name='selection' type='checkbox' onClick={() => {

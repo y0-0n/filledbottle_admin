@@ -175,7 +175,7 @@ class Detail extends Component {
                     <tr>
                       <th>주소</th>
                       <td>
-                        {data.address}
+                        {data.address} {data.address_detail} ({data.postcode})
                       </td>
                     </tr>
                   </tbody>
