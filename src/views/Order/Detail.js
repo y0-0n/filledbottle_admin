@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Input, Badge } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Input, Badge, InputGroup, InputGroupAddon } from 'reactstrap';
 
 const stateKor = {
   order: '주문',
@@ -309,8 +309,12 @@ class Detail extends Component {
                       <td>
                       {
                         this.state.refund === true && e.refund == false? <React.Fragment>
-                          <Input onChange={(ee) => {e['refundQuantity'] = ee.target.value;}}/>
-                          <Button onClick={() => {if(this.checkQuantity(e['quantity'], e['refundQuantity'])) this.refundProduct(e);}}>환불</Button>
+                          <InputGroup>
+                            <Input style={{width: '100px'}} onChange={(ee) => {e['refundQuantity'] = ee.target.value;}}/>
+                            <InputGroupAddon addonType="append">
+                              <Button onClick={() => {if(this.checkQuantity(e['quantity'], e['refundQuantity'])) this.refundProduct(e);}}>환불</Button>
+                            </InputGroupAddon>
+                          </InputGroup>
                         </React.Fragment>
                            : null
                       }
