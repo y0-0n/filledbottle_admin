@@ -114,3 +114,64 @@ ul li {
 .list-menu-customer {
     padding: 10px;
 }
+
+@media (max-width: 1024px) {
+    .main {
+        font-size: 0.8em;
+    }
+
+    .main .container-fluid {
+        padding: 0 !important;
+    }
+    
+    .search-box {
+        padding: 0
+    }
+
+    .search-box .search-list .search-label {
+        width: 100%;
+    }
+
+    .search-box .search-list .sell-input {
+        padding: 0 30px 0 30px;
+    }
+
+    .datepicker {
+        width: 100%;
+    }
+
+    .react-datepicker-wrapper {
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    .sell-input .searchbox-input {
+        width: 100% !important;
+    }
+
+    .list-button {
+        margin-bottom : 10px;
+    }
+    
+    .nav-tabs {
+        width: 100%;
+    }
+
+    .nav-tabs .nav-link {
+        font-size: 1.3em;
+    }
+
+    .list-hidden {
+        display: none;
+    }
+
+    .list-shown {
+        display: inline-block;
+        width: 130px;
+    }
+
+    .list-box {
+        padding: 10px;
+        margin: 0;
+    }
+}
