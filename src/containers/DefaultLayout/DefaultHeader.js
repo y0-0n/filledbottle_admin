@@ -77,6 +77,9 @@ class DefaultHeader extends Component {
 					<NavItem className="px-3">
             <NavLink to="/customer/create" className="nav-link" >고객 등록</NavLink>
           </NavItem>
+          <NavItem className="px-3">
+            <NavLink to="/stock/create" className="nav-link" >재고 등록</NavLink>
+          </NavItem>
 					{/*<NavItem className="px-3">
             <NavLink to="/produce/create" className="nav-link" >영농 일지 작성</NavLink>
           </NavItem>
