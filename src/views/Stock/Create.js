@@ -31,7 +31,8 @@ class Create extends Component {
 	}
 
 	convertDateFormat(date) {
-    return date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    if(date === undefined) alert('날짜를 입력해주세요') 
+    else return date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
   }
 
   createStock() {
@@ -83,11 +84,11 @@ class Create extends Component {
           <div className="form-innercontent">
             <div className="sell-list">
               <div className="sell-content">
-                <label className="sell-label">품목명</label>
+                <label className="sell-label">품목명 <span style={{color : "#FA5858"}}>*</span></label>
                 <div className="sell-input">
                   {console.log(this.state.sProduct)}
                   {<Popup
-                    trigger={<Input require placeholder={ "품목을 선택해주세요" } value={this.state.productName} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}}/>}
+                    trigger={<Input required placeholder={ "품목을 선택해주세요" } value={this.state.productName} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}}/>}
                     modal>
                       
                     {close => <ProductModal close={close} login={()=>{this.props.history.push('/login')}} createProduct={() => {this.props.history.push('/product/create')}}
@@ -132,7 +133,7 @@ class Create extends Component {
             </div>
             <div className="sell-list">
               <div className="sell-content">
-                <label className="sell-label">재고수</label>
+                <label className="sell-label">재고수 <span style={{color : "#FA5858"}}>*</span></label>
                 <div className="sell-input">
                   <InputGroup>
                     <Input type="number" placeholder="숫자만 입력" required onChange={(e) => this.form.quantity = e.target.value/*this.changePrice.bind(this)*/} />
@@ -144,7 +145,7 @@ class Create extends Component {
               </div>
             </div>
             <div className="sell-list">
-              <label className="sell-label">유통기한</label>
+              <label className="sell-label">유통기한 <span style={{color : "#FA5858"}}>*</span></label>
               <div className="sell-input">
                 <DatePicker
                   className="datepicker"
@@ -156,7 +157,7 @@ class Create extends Component {
               </div>
             </div>
             <div className="sell-list">
-              <label className="sell-label">제조일자</label>
+              <label className="sell-label">제조일자 <span style={{color : "#FA5858"}}>*</span></label>
               <div className="sell-input">
                 <DatePicker
                   className="datepicker"
