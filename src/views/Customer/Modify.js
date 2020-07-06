@@ -150,13 +150,13 @@ class Modify extends Component {
                         <tr>
                           <th>연락처 1</th>
                           <td>
-                            <Input defaultValue={data.cellphone} onChange={(e) => this.form.cellphone=e.target.value}/>
+                            <Input defaultValue={data.cellphone} required pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" onChange={(e) => this.form.cellphone=e.target.value}/>
                           </td>
                         </tr>
                         <tr>
                           <th>연락처 2</th>
                           <td>
-                            <Input defaultValue={data.telephone} onChange={(e) => this.form.telephone=e.target.value}/>
+                            <Input defaultValue={data.telephone} pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" onChange={(e) => this.form.telephone=e.target.value}/>
                           </td>
                         </tr>
                         <tr>
