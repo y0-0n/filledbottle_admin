@@ -118,7 +118,7 @@ class Create extends Component {
                       <tr>
                         <th>연락처 2</th>
                         <td>
-                          <Input type="tel" onChange={(e) => this.form.telephone=e.target.value}/>
+                          <Input type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" onChange={(e) => this.form.telephone=e.target.value}/>
                         </td>
                       </tr>
                       <tr>
