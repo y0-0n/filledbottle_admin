@@ -181,7 +181,7 @@ class Detail extends Component {
                       <tr>
                         <th>일자</th>
                         <th>구분</th>
-                        <th>수량</th>
+                        <th>수정재고량</th>
 												<th>재고</th>
                       </tr>
                     </thead>
@@ -193,7 +193,7 @@ class Detail extends Component {
                             <tr key={i}>
                               <td>{this.getDate(d.date)}</td>
                               <td>상품 출하 - 주문</td>
-                              <td>{d.quantity}</td>
+                              <td>- {d.quantity}</td>
                               <td>{stockQuantity}</td>
                             </tr>
                           )
@@ -208,7 +208,7 @@ class Detail extends Component {
                             <tr key={i}>
                               <td>{this.getDate(d.date)}</td>
                               <td>상품 {memo}</td>
-                              <td>{Math.abs(d.quantity)}</td>
+                              <td>{d.quantity > 0 ? "+" : "-"} {Math.abs(d.quantity)}</td>
                               <td>{stockQuantity}</td>
                             </tr>
                           )
