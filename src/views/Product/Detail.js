@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Card, CardBody, CardHeader, CardFooter, Col, Row, Button, Table, Badge, Input } from 'reactstrap';
-
+import API  from "./../../api"
 
 class Detail extends Component {
   constructor(props) {
@@ -82,7 +82,8 @@ class Detail extends Component {
   }
 
   render() {
-		var data = this.state.data;
+    var data = this.state.data;
+    console.log(API.getProduct(this.props.match.params.id))
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/Table.css"></link>

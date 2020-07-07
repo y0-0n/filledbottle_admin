@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import { pageFunction, searchFunction, productFunction } from '../../action';
-import List from './List copy';
+import Lists from './Lists';
 
 function mapStateToProps(state) {
   const { pageNumbers, keyword, keywordP } = state.search;
@@ -29,4 +29,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(List);
+export default connect(mapStateToProps, mapDispatchToProps)(Lists);
