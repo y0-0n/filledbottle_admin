@@ -156,13 +156,13 @@ class Modify extends Component {
                         <tr>
                           <th>연락처 2</th>
                           <td>
-                            <Input defaultValue={data.telephone} pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" onChange={(e) => this.form.telephone=e.target.value}/>
+                            <Input defaultValue={data.telephone} pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" onChange={(e) => this.form.telephone=e.target.value} onBlur={(e) => this.form.telephone=e.target.value}/>
                           </td>
                         </tr>
                         <tr>
                           <th>사업자등록번호</th>
                           <td>
-                            <Input defaultValue={data.crNumber} onChange={(e) => this.form.crNumber=e.target.value}/>
+                            <Input defaultValue={data.crNumber} onChange={(e) => this.form.crNumber=e.target.value} onBlur={(e) => this.form.crNumber=e.target.value}/>
                           </td>
                         </tr>
                         <tr>
