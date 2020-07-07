@@ -36,7 +36,7 @@ class Create extends Component {
 
   createStock() {
 		//TODO : 구분명 편집 필요
-		this.form.name = this.state.productName;
+    this.form.name = this.state.productName;
 		this.form.productId = this.state.productId;
 		this.form.expiration = this.convertDateFormat(this.state.expiration);
 		this.form.date_manufacture = this.convertDateFormat(this.state.date_manufacture);
@@ -98,7 +98,7 @@ class Create extends Component {
                           productName: name,
 													price_shipping,
 													familyName,
-                          file_name : "http://211.62.225.216:4000/static/" + file_name
+                          file_name : process.env.REACT_APP_HOST+"/static/" + file_name
                         });
                       }}/>}
                   </Popup>}
