@@ -193,7 +193,7 @@ class Detail extends Component {
                             <tr key={i}>
                               <td>{this.getDate(d.date)}</td>
                               <td>상품 출하 - 주문</td>
-                              <td>{d.quantity}</td>
+                              <td>-{d.quantity}</td>
                               <td>{stockQuantity}</td>
                             </tr>
                           )
@@ -201,14 +201,14 @@ class Detail extends Component {
                           stockQuantity += d.quantity;
                           let memo;
                           if(d.quantity >= 0)
-                            memo = "입고";
+                            memo = "재고 실사";
                           else
-                            memo = "출고"
+                            memo = "재고 실사"
                           return (
                             <tr key={i}>
                               <td>{this.getDate(d.date)}</td>
-                              <td>상품 {memo}</td>
-                              <td>{Math.abs(d.quantity)}</td>
+                              <td>{memo}</td>
+                              <td>{(d.quantity)}</td>
                               <td>{stockQuantity}</td>
                             </tr>
                           )
