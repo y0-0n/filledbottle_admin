@@ -32,7 +32,7 @@ class Transaction extends Component {
   }
 
   getData(id) {
-    fetch(process.env.REACT_APP_HOST+"/order/orderDetail/"+id, {
+    fetch(process.env.REACT_APP_HOST+"/order/detail/"+id, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -88,10 +88,9 @@ class Transaction extends Component {
   }
 
   render() {
-    {console.log(this.state.userInfo)}
     let {orderInfo, productInfo} = this.state.data;
     orderInfo = orderInfo[0];
-    let userInfo = this.state.userInfo;
+    let {userInfo} = this.state;
     var total_price = 0 ;
     var total_num = 0;
     return (
@@ -110,31 +109,31 @@ class Transaction extends Component {
                   <td width="200px">{userInfo.crNumber}</td>
                   <td rowSpan="5" width="30px" style={{backgroundColor : "#E6E6E6"}}>공급받는자</td>
                   <td width="170px">사업자등록번호</td>
-                  <td width="200px">{order_mockup['crNumber']}</td>
+                  <td width="200px">{orderInfo.crNumber}</td>
                 </tr>
-                <tr>
+                {/* <tr>
                   <td>상호(법인명)</td>
                   <td>{userInfo.name}</td>
                   <td>상호(법인명)</td>
-                  <td>{order_mockup['name']}</td>
-                </tr>
+                  <td>{orderInfo['name']}</td>
+                </tr> */}
                 <tr>
                   <td>주소</td>
                   <td>{userInfo.address}</td>
                   <td>주소</td>
-                  <td>{order_mockup['address']}</td>
+                  <td>{orderInfo['address']}</td>
                 </tr>
                 <tr>
-                  <td>연락처/FAX</td>
-                  <td>{userInfo.phone} / </td>
-                  <td>연락처/FAX</td>
-                  <td>{order_mockup['telephone']} / {order_mockup['cellphone']}</td>
+                  <td>연락처</td>
+                  <td>{userInfo.phone}</td>
+                  <td>연락처</td>
+                  <td>{orderInfo['cellphone']}</td>
                 </tr>
                 <tr>
-                  <td>담당자/연락처</td>
-                  <td>{userInfo.name}/{userInfo.phone}</td>
-                  <td>담당자/연락처</td>
-                  <td>{order_mockup['name']}/{order_mockup['telephone']}</td>
+                  <td>담당자</td>
+                  <td>{userInfo.name}</td>
+                  <td>담당자</td>
+                  <td>{orderInfo['name']}</td>
                 </tr>
               </tbody>
             </table>
@@ -144,27 +143,30 @@ class Transaction extends Component {
                 <tr style={{backgroundColor : "#E6E6E6"}}>
                   <td width="50px">No.</td>
                   <td width="400px">상품명</td>
-                  <td width="150px">무게</td>
+                  {/* <td width="150px">무게</td> */}
                   {/*<td width="120px">제조사<br></br>(원산지)</td>*/}
                   <td width="50px">수량</td>
                   <td width="50px">단가</td>
                   <td width="100px">공급가액</td>
                   <td width="100px">부가세</td>
                   <td width="100px">총액</td>
+                  <td width="150px">환불</td>
                 </tr>
-                {product_mockup.map((e, i) => {
+                {productInfo.map((e, i) => {
                   total_price += e['price'];
                   total_num += e['quantity'];
+                  console.warn(e)
                   return (<tr key={i}>
                     <td>{i + 1}</td>
                     <td>{e['name']}</td>
-                    <td>{e['weight']}</td>
+                    {/* <td>{e['weight']}</td> */}
                     {/*<td>{e['tel']}</td>*/}
                     <td>{e['quantity']}</td>
                     <td>{this.numberWithCommas(e['price'] / e['quantity'])}</td>
                     <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price'] * 10 / 11 : e['price']))}</td>
                     <td>{this.numberWithCommas(Math.round(e['tax'] ? e['price'] * 1 / 11 : 0))}</td>
                     <td>{this.numberWithCommas(e['price'])}</td>
+                    <td width="150px">{e.refund ? "환불" : ""}</td>
                   </tr>
                   )
                 })}
@@ -173,7 +175,7 @@ class Transaction extends Component {
             <table id="pay">
               <tbody>
                 <tr colSpan="4" style={{backgroundColor : "#E6E6E6"}}>
-                  <td width="650px">결제수단 : 외상거래</td>
+                  <td width="650px">{/*결제수단 : 외상거래*/}</td>
                   <td width="200px">총 주문수량 : {this.numberWithCommas(total_num)}</td>
                   <td width="150px">총 금액 : {this.numberWithCommas(total_price)}</td>
                 </tr>
