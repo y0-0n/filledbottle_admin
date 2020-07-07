@@ -313,7 +313,7 @@ class List extends Component {
               <div className="list-menu">
               </div>
               <div className="list-box" style={{marginTop: 20}}>
-                <div style={{float: "right"}}>
+                <div className="list-button" style={{float: "right"}}>
                   <Button color="primary" onClick={() => {this.props.history.push(`/sales/order`)}} style={{marginRight: 10}}>주문추가</Button>
                   <Button color="primary" onClick={() => {this.props.history.push(`/main/order/post/`)}}>택배송장</Button>
                   {console.log(data[0])}
@@ -342,12 +342,12 @@ class List extends Component {
                   <thead>
                     <tr>
                       <th className="list-hidden">#</th>
-                      <th>출하일</th>
+                      <th className="list-shown">출하일</th>
                       <th className="list-hidden">생성일</th>
-                      <th>고객</th>
-                      <th>총액</th>
+                      <th className="list-shown">고객</th>
+                      <th className="list-shown">총액</th>
                       <th className="list-hidden">상태</th>
-                      <th>선택</th>
+                      <th className="list-hidden">선택</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -355,10 +355,10 @@ class List extends Component {
                       this.state.count++
                       return (<tr style={{cursor: 'pointer'}} key={this.state.count} onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>
                         <td className="list-hidden">{e.id}</td>
-                        <td>{this.getDate(e.date)}</td>
+                        <td className="list-shown">{this.getDate(e.date)}</td>
                         <td className="list-hidden">{this.getDate(e.orderDate)}</td>
-                        <td>{e.name}</td>
-                        <td>{this.numberWithCommas(e.price)}</td>
+                        <td className="list-shown">{e.name}</td>
+                        <td className="list-shown">{this.numberWithCommas(e.price)}</td>
                         <td className="list-hidden">
                           {this.state.process === 'refund' ? <Badge color="danger">{stateKor['refund']}</Badge> : null}
                           {e.state === 'order' ? <Badge color="primary">{stateKor[e.state]}</Badge>: null}
@@ -367,7 +367,7 @@ class List extends Component {
 													{e.state === 'complete' && this.state.process !== 'refund' ? <span><Badge color="success">수금</Badge></span>: null}
                           {e.state === 'cancel' ? <Badge color="danger">{stateKor[e.state]}</Badge>: null}
                         </td>
-                        <td style={{textAlign: "center"}} onClick={() => {
+                        <td className="list-hidden" style={{textAlign: "center"}} onClick={() => {
                             let {checks} = this.state;
                             checks[i] = !checks[i];
                             console.log(this.state.checks)

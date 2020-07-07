@@ -163,6 +163,15 @@ class Create extends Component {
     if (this.state.sCustomer === null) {
       alert("고객 아이디를 입력해주세요.");
     }
+
+    if (this.state.sProduct[0].id === '') {
+      alert("품목을 하나 이상 입력해주세요.");
+    }
+    
+    if (this.state.sProduct[0].stock === 0) {
+      alert("재고를 선택해주세요.");
+    }
+    
     else {
       fetch(process.env.REACT_APP_HOST+"/order", {
         method: 'POST',
@@ -443,7 +452,7 @@ class Create extends Component {
                             </td>
                             <td>
                               {<Popup
-                                trigger={<Input require value={this.state.sProduct[i].stockName} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}}/>}
+                                trigger={<Input required value={this.state.sProduct[i].stockName} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}}/>}
                                 modal>
                                 {close => <StockModal close={close} login={()=>{this.props.history.push('/login')}} stockList={this.state.stockList} productId={this.state.sProduct[i].id}
                                   selectStock={(data) => {
@@ -526,6 +535,7 @@ class Create extends Component {
         </Row>
         <Button block color="primary" onClick={() => {
           this.addOrder(this.state);
+          console.log(this.state.sProduct)
         }}>주문 추가하기</Button>
       </div>
     )

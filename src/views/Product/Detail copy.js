@@ -246,14 +246,14 @@ class Detail extends Component {
                   <div className="sell-list">
                     <label className="sell-label">대표이미지</label>
                     <div className="sell-input">
-                      <img alt="품목 사진" src={data.file_name ? process.env.REACT_APP_HOST+"/static/" + data.file_name : '318x180.svg'} />
+                      <img style={{width: '500px'}} alt="품목 사진" src={data.file_name ? process.env.REACT_APP_HOST+"/static/" + data.file_name : '318x180.svg'} />
                     </div>
                   </div>
                   <div className="sell-list">
                     <label className="sell-label">추가이미지</label>
                     <div className="sell-input">
 											{this.state.data.detail_file.map((e, i) => {
-												return <img key={i} alt="품목 사진" src={process.env.REACT_APP_HOST+"static/" + e} />
+												return <img style={{width: '500px'}} key={i} alt="품목 사진" src={process.env.REACT_APP_HOST+"/static/" + e} />
 											})}
                     </div>
                   </div>

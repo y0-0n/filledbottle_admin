@@ -61,30 +61,34 @@ class Create extends Component {
       formData.append(key, value);
     }
 
-    fetch(process.env.REACT_APP_HOST+"/customer", {
-      method: 'POST',
-      'Content-Type': 'multipart/form-data',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-      body: formData
-    })
-    .then(response => {
-      if(response.status === 401) {
-        return Promise.all([401])
-      } else {
-        return Promise.all([response.status, response.json()]);
-      }
-    })
-    .then(data => {
-      let status = data[0];
-      if(status === 200) {
-        alert('등록됐습니다.');
-        this.props.history.push('/main/customer/list');
-      } else {
-        alert('등록에 실패했습니다.');
-      }
-    });
+    if (this.form.address === '') alert('주소를 입력해주세요')
+
+    else {
+      fetch(process.env.REACT_APP_HOST+"/customer", {
+        method: 'POST',
+        'Content-Type': 'multipart/form-data',
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        },
+        body: formData
+      })
+      .then(response => {
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        let status = data[0];
+        if(status === 200) {
+          alert('등록됐습니다.');
+          this.props.history.push('/main/customer/list');
+        } else {
+          alert('등록에 실패했습니다.');
+        }
+      });
+    }
   }
 
   render() {
@@ -118,7 +122,7 @@ class Create extends Component {
                       <tr>
                         <th>연락처 2</th>
                         <td>
-                          <Input type="tel" onChange={(e) => this.form.telephone=e.target.value}/>
+                          <Input type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" onChange={(e) => this.form.telephone=e.target.value}/>
                         </td>
                       </tr>
                       <tr>
@@ -128,7 +132,7 @@ class Create extends Component {
                         </td>
                       </tr>
                       <tr>
-                        <th>주소</th>
+                        <th>주소<span style={{color : "#FA5858"}}>*</span></th>
                         <td colSpan="3">
                           <Row style={{marginBottom: '10px'}}>
                             <Col lg="6" md="6" sm="6">

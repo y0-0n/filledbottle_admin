@@ -150,19 +150,19 @@ class Modify extends Component {
                         <tr>
                           <th>연락처 1</th>
                           <td>
-                            <Input defaultValue={data.cellphone} onChange={(e) => this.form.cellphone=e.target.value}/>
+                            <Input defaultValue={data.cellphone} required pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" onChange={(e) => this.form.cellphone=e.target.value}/>
                           </td>
                         </tr>
                         <tr>
                           <th>연락처 2</th>
                           <td>
-                            <Input defaultValue={data.telephone} onChange={(e) => this.form.telephone=e.target.value}/>
+                            <Input defaultValue={data.telephone} pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" onChange={(e) => this.form.telephone=e.target.value} onBlur={(e) => this.form.telephone=e.target.value}/>
                           </td>
                         </tr>
                         <tr>
                           <th>사업자등록번호</th>
                           <td>
-                            <Input defaultValue={data.crNumber} onChange={(e) => this.form.crNumber=e.target.value}/>
+                            <Input defaultValue={data.crNumber} onChange={(e) => this.form.crNumber=e.target.value} onBlur={(e) => this.form.crNumber=e.target.value}/>
                           </td>
                         </tr>
                         <tr>
@@ -170,7 +170,6 @@ class Modify extends Component {
                           <td colSpan="3">
                             <Row style={{marginBottom: '10px'}}>
                               <Col lg="6" md="6" sm="6">
-                                <div style={{marginBottom: '10px', marginLeft: '5px', fontSize:'0.8em'}}>기존주소 ) {data.address}</div>
                                 <InputGroup required>
                                   <Input type="text" id="sample6_postcode" placeholder="우편번호" readOnly/>                            
                                   <InputGroupAddon addonType="append">

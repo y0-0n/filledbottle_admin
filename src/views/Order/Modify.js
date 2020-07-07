@@ -261,13 +261,13 @@ class OrderModify extends Component {
                     <td className="TableRight">{year}년 {month}월 {date}일</td>
                   </tr>
                   <tr>
-                    <th>전화번호</th>
-                    <td>
-                      <Input defaultValue={orderInfo['telephone']} type="tel" onChange={(e) => {orderInfo['telephone'] = e.target.value}} onBlur={(e) => {orderInfo['cellphone'] = e.target.value}}/>
-                    </td>
-                    <th>HP</th>
+                    <th>연락처1<span style={{color : "#FA5858"}}>*</span></th>
                     <td className="TableRight">
-                      <Input defaultValue={orderInfo['cellphone']} type="tel" onChange={(e) => {orderInfo['cellphone'] = e.target.value}} onBlur={(e) => {orderInfo['cellphone'] = e.target.value}} />
+                      <Input pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required defaultValue={orderInfo['cellphone']} type="tel" onChange={(e) => {orderInfo['cellphone'] = e.target.value}} onBlur={(e) => {orderInfo['cellphone'] = e.target.value}} />
+                    </td>
+                    <th>연락처2</th>
+                    <td>
+                      <Input pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" defaultValue={orderInfo['telephone']} type="tel" onChange={(e) => {orderInfo['telephone'] = e.target.value}} onBlur={(e) => {orderInfo['telephone'] = e.target.value}}/>
                     </td>
                   </tr>
                   <tr className="TableBottom">
