@@ -205,6 +205,7 @@ class Stock extends Component {
     this.setState({
       page: x,
     }, () => {
+      this.getStock();
     });
 	}
 
