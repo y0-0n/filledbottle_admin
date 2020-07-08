@@ -42,7 +42,7 @@ class Create extends Component {
 		this.form.expiration = this.convertDateFormat(this.state.expiration);
 		this.form.date_manufacture = this.convertDateFormat(this.state.date_manufacture);
 		this.form.plant = this.props.plant;
-		console.warn(this.form)
+		// console.warn(this.form)
 
 		fetch(process.env.REACT_APP_HOST+"/api/stock", {
       method: 'POST',
