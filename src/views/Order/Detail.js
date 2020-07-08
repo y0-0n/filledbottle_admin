@@ -173,6 +173,7 @@ class Detail extends Component {
             this.props.history.push('/main/sales/list')
           }
         })
+      alert('환불되었습니다.')
     }
   }
 
