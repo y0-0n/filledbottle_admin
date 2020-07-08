@@ -277,7 +277,7 @@ class List extends Component {
               </UncontrolledButtonDropdown> */}
 
               <div style={{float: "right"}}>
-                <Button onClick={() => { this.props.history.push('/customer/create'); }} color="primary">고객 등록</Button>
+                <Button style={{marginBottom: 10}} onClick={() => { this.props.history.push('/customer/create'); }} color="primary">고객 등록</Button>
               </div>
             </div>
 

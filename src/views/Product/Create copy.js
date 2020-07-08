@@ -302,7 +302,7 @@ class CreateProduct extends Component {
                       </div> */}
                       <div className="sell-input">
                         <InputGroup>
-                          <Input type="number" placeholder="숫자만 입력" required onChange={(e) => {this.changeDiscountPrice.bind(this)(e);}} />
+                          <Input defaultValue={0} type="number" placeholder="숫자만 입력" required onChange={(e) => {this.changeDiscountPrice.bind(this)(e);}} />
                           <InputGroupAddon addonType="append">
                             원
                           </InputGroupAddon>
