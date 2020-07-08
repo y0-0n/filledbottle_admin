@@ -506,7 +506,8 @@ class Modify extends Component {
                               </tbody>
                             </Table>
                             <div style={{textAlign: 'center'}}>
-                                {this.state.imageDetailName.length === 0 ? <img src={spinner} />: null}
+                                {/*<img src={spinner} />*/}
+                                {this.state.imageDetailName.length === 0 ?<p>이미지가 존재하지 않습니다.</p> : null}
                             </div>
                           </div>
                           <div id="imageFile" className="add-image" onClick={() => document.all.file_detail.click()}>
