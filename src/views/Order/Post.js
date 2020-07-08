@@ -24,7 +24,7 @@ class Post extends Component {
   }
 
   getData(id) {
-    fetch(process.env.REACT_APP_HOST+"/order/orderDetail/"+id, {
+    fetch(process.env.REACT_APP_HOST+"/order/detail/"+id, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -103,7 +103,7 @@ class Post extends Component {
                   <td className="widthlong">{userInfo.name}</td>
                   <td className="stylecenter widthnar">내용물</td>
                   <td colSpan="3" className="styleright widthlong">
-                    {product_mockup['name']} {product_mockup['name'].length - 1 === 0 ? null : "외" + (product_mockup['name'].length - 1) + "건"}
+                    {productInfo[0]['name']} {productInfo.length - 1 === 0 ? null : "외" + (productInfo.length - 1) + "건"}
                   </td>
                 </tr>
                 <tr>
@@ -129,15 +129,15 @@ class Post extends Component {
                 <tr>
                   <td rowSpan="3" className="stylecenter">받는 분</td>
                   <td className="stylecenter widthnar">성명</td>
-                  <td colSpan="5" className="widthlong">{order_mockup['name']}</td>
+                  <td colSpan="5" className="widthlong">{orderInfo['name']}</td>
                 </tr>
                 <tr>
                   <td className="stylecenter widthnar">전화</td>
-                  <td colSpan="5" className="widthlong">{order_mockup['telephone']} / {order_mockup['cellphone']}</td>
+                  <td colSpan="5" className="widthlong">{orderInfo['telephone']} / {orderInfo['cellphone']}</td>
                 </tr>
                 <tr>
                   <td className="stylecenter widthnar">주소</td>
-                  <td colSpan="5" className="widthlong">{order_mockup['address']}</td>
+                  <td colSpan="5" className="widthlong">{orderInfo['address'] + orderInfo['addressDetail']}</td>
                 </tr>
               </tbody>
             </table>
