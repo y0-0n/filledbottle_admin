@@ -311,7 +311,7 @@ class Modify extends Component {
   }
 
   async createFile(){
-    let response = await fetch(process.env.REACT_APP_HOST + `/static/${this.state.imageFile}`);
+    let response = await fetch(`${this.state.imageFile}`);
     let data = await response.blob();
     let metadata = {
       type: 'image/jpeg'
