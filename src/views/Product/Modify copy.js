@@ -141,8 +141,8 @@ class Modify extends Component {
         this.setState({
           price: data[0].price_shipping, 
           discount_price: data[0].discount_price, 
-          imageFile: "http://211.62.225.216:4000/static/"+data[0].file_name, 
-          image : "http://211.62.225.216:4000/static/" + data[0].file_name,
+          imageFile: process.env.REACT_APP_HOST + "/static/"+data[0].file_name, 
+          image : process.env.REACT_APP_HOST + "/static/" + data[0].file_name,
           imageDetailFile : data[0].detail_file
         }, ()=> {
         })
@@ -311,7 +311,7 @@ class Modify extends Component {
   }
 
   async createFile(){
-    let response = await fetch(`https://cors-anywhere.herokuapp.com/${this.state.imageFile}`);
+    let response = await fetch(process.env.REACT_APP_HOST + `/static/${this.state.imageFile}`);
     let data = await response.blob();
     let metadata = {
       type: 'image/jpeg'
@@ -326,7 +326,7 @@ class Modify extends Component {
   async createMultipleFile(){
     let imgFileList = [], imgFileNameList = this.state.imageDetailName;
     for(var i = 0; i < this.state.imageDetailFile.length; i++){
-      let response = await fetch(`https://cors-anywhere.herokuapp.com/http://211.62.225.216:4000/static/${this.state.imageDetailFile[i]}`);
+      let response = await fetch(process.env.REACT_APP_HOST + `/static/${this.state.imageDetailFile[i]}`);
       let data = await response.blob();
       let metadata = {
         type: 'image/jpeg'
@@ -546,7 +546,7 @@ class Modify extends Component {
                           </div>
                         </div>
                         {data.detail_file.map((e, i) => {
-												  return <img alt="품목 사진" src={"http://211.62.225.216:4000/static/" + e} />
+												  return <img alt="품목 사진" style={{width: "100%"}} src={process.env.REACT_APP_HOST + '/static/' + e} />
 											  })}
                         {this.state.imageDetail.map((e, i) => {
                           return <img key={i} id="imageFile" alt="상세 사진1" style={{

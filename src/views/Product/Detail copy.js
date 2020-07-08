@@ -253,7 +253,7 @@ class Detail extends Component {
                     <label className="sell-label">추가이미지</label>
                     <div className="sell-input">
 											{this.state.data.detail_file.map((e, i) => {
-												return <img style={{width: '500px', display: 'block'}} key={i} alt="품목 사진" src={process.env.REACT_APP_HOST+"/static/" + e} />
+												return <img style={{width: '100%'}} key={i} alt="품목 사진" src={process.env.REACT_APP_HOST+"/static/" + e} />
 											})}
                     </div>
                   </div>
