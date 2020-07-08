@@ -153,8 +153,14 @@ class Transaction extends Component {
                   <td width="150px">환불</td>
                 </tr>
                 {productInfo.map((e, i) => {
-                  total_price += e['price'];
-                  total_num += e['quantity'];
+                  if(!e.refund) {
+                    total_price += e['price'];
+                    total_num += e['quantity'];
+                  } else {
+                    total_price -= e['price'];
+                    total_num -= e['quantity'];
+                  }
+                  
                   console.warn(e)
                   return (<tr key={i}>
                     <td>{i + 1}</td>
