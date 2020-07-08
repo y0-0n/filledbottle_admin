@@ -16,13 +16,15 @@ export default class extends React.Component {
     } = this.props;
 
     this.state = {
+      listCount: 15,
       loading: true,
       error: null,
-      getUserFamilyCategory: null,
-      getProductFamily: null,
+      getProduct: [],
+      getUserFamilyCategory: [],
+      getProductFamily: [],
       getExcel: null,
       getStock: null,
-      getStateCount: null,
+      getStateCount: [],
       getTotal: null,
       pageNumbers: pageNumbers,
       show: show,
@@ -38,56 +40,101 @@ export default class extends React.Component {
       name: "",
       response: null,
       data: null,
+      lastPage: 0,
+      totalData: null,
+      familyName: 0,
     };
   }
-  // componentWillMount = () => {
-  //   try {
-  //  //   const getProduct = FETCH.getProduct(this.props);
-  //     const getTotal = FETCH.getTotal(this.props);
-  //     const getUserFamilyCategory = FETCH.getUserFamilyCategory();
-  //     const getStock = FETCH.getStock(this.props)
-  //     const getExcel = FETCH.getExcel();
-  //     const getProductFamily =FETCH.getProductFamily(this.props);
+  componentWillMount = () => {
+    const { getStateCount, getUserFamilyCategory } = this.state;
+    return {
+      getStateCount,
+      getUserFamilyCategory,
+    };
+  };
 
-  //     this.setState({
-  //   //    getProduct: getProduct,
-  //       getTotal: getTotal,
-  //       getExcel:getExcel,
-  //       getStock:getStock,
-  //     });
-  //     this.setState({ getUserFamilyCategory: getUserFamilyCategory },()=>getProductFamily);
-  //    // this.setState({ getProductFamily: getProductFamily },()=>getProduct);
-  //   } catch {
-  //     this.setState({
-  //       error: "API_LIST 데이터를 불러오지 못함.",
-  //     });
-  //   } finally {
-  //     this.setState({
-  //       loading: false,
-  //     });
-  //   }  };
+  componentDidMount = async () => {
+    try {
+      const getProduct = await API_LIST.getProduct(this.props);
+      const getUserFamilyCategory = await API_LIST.getUserFamilyCategory();
+      const getStock = await API_LIST.getStock(this.props);
+      const getTotal = await API_LIST.getTotal(this.props);
+      const getStateCount = await API_LIST.getStateCount();
+      const getProductFamily = await API_LIST.getProductFamily(this.props);
+      this.setState({
+        getStock: getStock[1],
+        getTotal: getTotal,
+        getStateCount: getStateCount,
+      });
+      this.setState(
+        { getUserFamilyCategory: getUserFamilyCategory },
+        () => getProduct
+      );
+      this.setState({ getProductFamily: getProductFamily }, () => getProduct);
+      this.setState({
+        lastPage: Math.ceil(getTotal[0].total / this.state.listCount),
+        totalData: getTotal[0].total,
+      });
+      this.setState({ getProduct: getProduct },()=>getTotal);
+    } catch {
+      this.setState({
+        error: "Error !!",
+        checkCategory: false,
+      });
+    } finally {
+      this.setState({
+        loading: false,
+      });
+    }
+  };
 
-  async componentDidMount() {
-    try{
-    await  console.log( API_LIST.getProduct(this.props))
-    }catch{
+  changeCategory = (id) => {
+    this.setState({}, () => this.state.getProductFamily);
+  };
+  changeFamily = (familyName) => {
+    console.log(familyName)
+    this.setState({ familyName:familyName }, () => {
+      return this.state.getProduct;
+    });
+  };
 
-    }finally{
+  changeStockEdit() {
+    this.setState({ stockEdit: !this.state.stockEdit });
+  }
 
+  searchProduct = () => {
+    console.log(this.state.getProduct)
+    return this.state.getProduct;
+  };
+
+  numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  resetInput() {
+    var reset_input = document.getElementsByClassName("searchbox-input");
+    for (var i = 0; i < reset_input.length; i++) {
+      reset_input[i].value = null;
     }
   }
 
-  changeCategory = (id) => {
-		this.setState({}, () => {
-      this.getProductFamily();
-    });
-  }
+  countPageNumber = () => {
+    this.setState(
+      {
+        familyName: 0,
+      },
+      () => {
+        return this.state.getProduct;
+      }
+    );
+  };
 
   render() {
     const {
       loading,
       error,
       props,
+      listCount,
       getUserFamilyCategory,
       getProductFamily,
       getProduct,
@@ -107,8 +154,8 @@ export default class extends React.Component {
       totalData,
       familyName,
       name,
+      lastPage,
     } = this.state;
-    console.log(getProduct)
     return (
       <ListPresenter
         loading={loading}
@@ -121,19 +168,18 @@ export default class extends React.Component {
         getProduct={getProduct}
         getStateCount={getStateCount}
         pageNumbers={pageNumbers}
-        show={show}
-        keywordP={keywordP}
-        category={category}
-        family={family}
-        stateP={stateP}
         checkCategory={checkCategory}
-        stockEdit={stockEdit}
-        total={total}
         totalData={totalData}
         familyName={familyName}
-        name={name}
-        props={props}
+        props={this.props}
+        lastPage={lastPage}
         changeCategory={this.changeCategory}
+        changeFamily={this.changeFamily}
+        changeStockEdit={this.changeStockEdit}
+        searchProduct={this.searchProduct}
+        resetInput={this.resetInput}
+        numberWithCommas={this.numberWithCommas}
+        countPageNumber={this.countPageNumber}
       />
     );
   }
