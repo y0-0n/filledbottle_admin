@@ -118,7 +118,7 @@ class Detail extends Component {
         <div className="form-card">
           <div className="form-title">
             재고 등록
-            <Button color="primary" style={{float: "right"}} onClick={() => {this.props.history.push(`/main/manage/stock/edit/${this.props.match.params.plantId}/${this.props.match.params.productId}`)}}>수정</Button>
+            {/* <Button color="primary" style={{float: "right"}} onClick={() => {this.props.history.push(`/main/manage/stock/edit/${this.props.match.params.stockId}`)}}>수정</Button> */}
           </div>
           {data.map((e) => {
             return(

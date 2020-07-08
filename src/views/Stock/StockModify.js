@@ -10,13 +10,13 @@ class Modify extends Component {
     this.form = {
       productId : '',
       plant : '',
-      type : '외주생산',
+      type : '자가생산',
       quantity: 0,
       price : 0,
     };
 
     this.state = {
-			plantData: [],
+			data: [{}],
       current: 0,
       sProduct :[],
       productName :'',
@@ -26,17 +26,16 @@ class Modify extends Component {
   }
 
   componentWillMount() {
-		this.getPlant();
+    const {stockId} = this.props.match.params;
+		this.getStockDetail(stockId);
 	}
 
-	getPlant(){
-    fetch(process.env.REACT_APP_HOST+"/api/plant", {
+  getStockDetail(stockId) {
+    fetch(process.env.REACT_APP_HOST+"/api/stock/"+stockId, {
       method: 'GET',
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
-			},
+      },
     })
     .then(response => {
       if(response.status === 401) {
@@ -46,21 +45,22 @@ class Modify extends Component {
       }
     })
     .then(data => {
-			let status = data[0];
-      if(status === 200){
-				this.setState({plantData: data[1]});
-				this.form.plant = data[1][0].id
-			}
+      let status = data[0];
+      data[1][0].expiration = new Date(data[1][0].expiration);
+      data[1][0].date_manufacture = new Date(data[1][0].date_manufacture);
+      if(status === 200)
+        this.setState({data: data[1]});
       else {
         alert('로그인 하고 접근해주세요');
         this.props.history.push('/login');
       }
     });
-	}
+  }
 
   render() {
-		const {plantData} = this.state;
-		console.log(this.state.current)
+    let {data} = this.state;
+    data = data[0];
+    console.warn(data)
     return (
       <div className="animated fadeIn align-items-center">
         <link rel="stylesheet" type="text/css" href="css/CreateCopy.css"></link>
@@ -71,56 +71,22 @@ class Modify extends Component {
               <div className="sell-content">
                 <label className="sell-label">품목명</label>
                 <div className="sell-input">
-                  {console.log(this.state.sProduct)}
-                  {<Popup
-                    trigger={<Input require placeholder={ "품목을 선택해주세요" } value={this.state.productName} style={{cursor: 'pointer', backgroundColor: '#ffffff', width:"30%"}} onChange={() => {console.log('S')}}/>}
-                    modal>
-                      
-                    {close => <ProductModal close={close} login={()=>{this.props.history.push('/login')}} createProduct={() => {this.props.history.push('/product/create')}}
-                      selectProduct={(data) => {
-                        console.log(data)
-                        let {name, price_shipping, file_name} = data;
-                        this.setState({
-                          productName: name,
-                          price_shipping,
-                          file_name : "http://211.62.225.216:4000/static/" + file_name
-                        })
-                      }}/>}
-                  </Popup>}
-                </div>
-              </div>
-              <div className="sell-discount">
-                <div style={{display: "inline-block"}}>
-                  <img src={this.state.file_name}/>
-                </div>
-                <div style={{display: "inline-block"}}>
-                  <div className="product-info">
-                    <label>카테고리</label>
-                    <input></input>
-                  </div>
-                  <div className="product-info">
-                    <label>품목군</label>
-                    <input></input>
-                  </div>
-                  <div className="product-info">
-                    <label>판매단가</label>
-                    <input value={this.state.price_shipping}></input>
-                  </div>
+                  <Input placeholder={ "품목을 선택해주세요" } value={data.productName} style={{width:"30%"}} readOnly/>
                 </div>
               </div>
             </div>
             <div className="sell-list">
               <label className="sell-label">구분</label>
               <div className="sell-input">
-                <Input value={this.state.productName} style={{width: "30%"}} readOnly/>
+                <Input value={data.name} style={{width: "30%"}} readOnly/>
               </div>
             </div>
             <div className="sell-list">
               <div className="sell-content">
-                <label className="sell-label">재고수</label>
+                <label className="sell-label">입고 수량</label>
                 <div className="sell-input">
                   <InputGroup>
-                    <Input type="number" placeholder="숫자만 입력" required onChange={(e) => this.form.price = e.target.value/*this.changePrice.bind(this)*/} />
+                    <Input type="number" value={data.initial_quantity} readOnly/>
                     <InputGroupAddon addonType="append">
                       개
                     </InputGroupAddon>
@@ -135,8 +101,8 @@ class Modify extends Component {
                   className="datepicker"
                   dateFormat="yyyy년 MM월 dd일"
                   locale="ko"
-                  selected={this.state.first_date}
-                  onChange={(first_date) => { this.setState({ first_date }) }}
+                  selected={data.expiration}
+                  onChange={(expiration) => { data.expiration = expiration; this.setState({ data: [data] }); }}
                 />
               </div>
             </div>
@@ -147,8 +113,8 @@ class Modify extends Component {
                   className="datepicker"
                   dateFormat="yyyy년 MM월 dd일"
                   locale="ko"
-                  selected={this.state.first_date2}
-                  onChange={(first_date2) => { this.setState({ first_date2 }) }}
+                  selected={data.date_manufacture}
+                  onChange={(date_manufacture) => { data.date_manufacture = date_manufacture; this.setState({ data: [data] }); }}
                 />
               </div>
             </div>
