@@ -1,6 +1,7 @@
 import React from "react";
 import ListPresenter from "./ListPresenter";
-import { API_LIST } from "../../../api";
+import { API_LIST, FETCH, API } from "../../../api";
+import { fi } from "date-fns/locale";
 
 export default class extends React.Component {
   constructor(props) {
@@ -29,73 +30,64 @@ export default class extends React.Component {
       category: category,
       family: family,
       stateP: stateP,
-      checkCategory:true,
+      checkCategory: true,
       stockEdit: false,
       total: 0,
       totalData: 0,
       familyName: 0,
-      name:""
+      name: "",
+      response: null,
+      data: null,
     };
   }
-  componentWillMount = async () => {
-    try {
-      const {
-        data: getUserFamilyCategory,
-      } = await API_LIST.getUserFamilyCategory();
-      const { data: getStateCount } = await API_LIST.getStateCount();
-      this.setState({
-        getUserFamilyCategory:getUserFamilyCategory,
-        getStateCount: getStateCount,
-      });
-    } catch {
-    } finally {
-      this.setState({
-        loading: false,
-      });
+  // componentWillMount = () => {
+  //   try {
+  //  //   const getProduct = FETCH.getProduct(this.props);
+  //     const getTotal = FETCH.getTotal(this.props);
+  //     const getUserFamilyCategory = FETCH.getUserFamilyCategory();
+  //     const getStock = FETCH.getStock(this.props)
+  //     const getExcel = FETCH.getExcel();
+  //     const getProductFamily =FETCH.getProductFamily(this.props);
+
+  //     this.setState({
+  //   //    getProduct: getProduct,
+  //       getTotal: getTotal,
+  //       getExcel:getExcel,
+  //       getStock:getStock,
+  //     });
+  //     this.setState({ getUserFamilyCategory: getUserFamilyCategory },()=>getProductFamily);
+  //    // this.setState({ getProductFamily: getProductFamily },()=>getProduct);
+  //   } catch {
+  //     this.setState({
+  //       error: "API_LIST 데이터를 불러오지 못함.",
+  //     });
+  //   } finally {
+  //     this.setState({
+  //       loading: false,
+  //     });
+  //   }  };
+
+  async componentDidMount() {
+    try{
+    await  console.log( API_LIST.getProduct(this.props))
+    }catch{
+
+    }finally{
+
     }
-  };
+  }
 
-
-
-  async componentDidMount () {
-    console.log(this.props)
-    const { category, family, stateP,keywordP:name,pageNumbers:page } = this.props;
- await   console.log(    API_LIST.getProduct(name, page, category, family, stateP))
-    try {
-          const { data: getProductFamily } = await API_LIST.getProductFamily(
-            category
-          );
-          const { data: getExcel } = await API_LIST.getExcel();
-          const { data: getStock } = await API_LIST.getStock();
-          const { data: getTotal } = await API_LIST.getTotal();
-          const { data: getProduct } = await API_LIST.getProduct({
-            name,
-            page,
-            category,
-            family,
-            stateP,
-          });
-          this.setState({
-            getProductFamily: getProductFamily,
-            getExcel: getExcel,
-            getStock: getStock,
-            getTotal: getTotal,
-          });
-        } catch {
-      this.setState({
-        error: "API_LIST 데이터를 불러오지 못함.",
-      });
-    } finally {
-      this.setState({
-        loading: false,
-      });
-    }
-  };
+  changeCategory = (id) => {
+		this.setState({}, () => {
+      this.getProductFamily();
+    });
+  }
 
   render() {
     const {
       loading,
       error,
+      props,
       getUserFamilyCategory,
       getProductFamily,
       getProduct,
@@ -114,8 +106,9 @@ export default class extends React.Component {
       total,
       totalData,
       familyName,
-      name
+      name,
     } = this.state;
+    console.log(getProduct)
     return (
       <ListPresenter
         loading={loading}
@@ -139,6 +132,8 @@ export default class extends React.Component {
         totalData={totalData}
         familyName={familyName}
         name={name}
+        props={props}
+        changeCategory={this.changeCategory}
       />
     );
   }
