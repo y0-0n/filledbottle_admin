@@ -20,10 +20,10 @@ export default class extends React.Component {
       loading: true,
       error: null,
       productData: [],
-      getUserFamilyCategory: [],
-      getProductFamily: [],
+      userCategoryData: [],
+      familyData: [],
       getExcel: null,
-      getStock: null,
+      stockData: [],
       stateCount: [],
       getTotal: null,
       pageNumbers: pageNumbers,
@@ -56,15 +56,15 @@ export default class extends React.Component {
       const getStateCount = await API_LIST.getStateCount();
       const getProductFamily = await API_LIST.getProductFamily(this.props);
       this.setState({
-        getStock: getStock[1],
+        stockData: getStock[1],
         getTotal: getTotal,
         stateCount: getStateCount,
       });
       this.setState(
-        { getUserFamilyCategory: getUserFamilyCategory },
+        { userCategoryData: getUserFamilyCategory },
         () => getProduct
       );
-      this.setState({ getProductFamily: getProductFamily }, () => getProduct);
+      this.setState({ familyData: getProductFamily }, () => getProduct);
       this.setState({
         lastPage: Math.ceil(getTotal[0].total / this.state.listCount),
         totalData: getTotal[0].total,
@@ -124,37 +124,27 @@ export default class extends React.Component {
     const {
       loading,
       error,
-      props,
-      listCount,
-      getUserFamilyCategory,
-      getProductFamily,
+      userCategoryData,
+      familyData,
       productData,
       getExcel,
-      getStock,
+      stockData,
       getTotal,
       stateCount,
       pageNumbers,
-      show,
-      keywordP,
-      category,
-      family,
-      stateP,
       checkCategory,
-      stockEdit,
-      total,
       totalData,
       familyName,
-      name,
       lastPage,
     } = this.state;
     return (
       <ListPresenter
         loading={loading}
         error={error}
-        getUserFamilyCategory={getUserFamilyCategory}
-        getProductFamily={getProductFamily}
+        userCategoryData={userCategoryData}
+        familyData={familyData}
         getExcel={getExcel}
-        getStock={getStock}
+        stockData={stockData}
         getTotal={getTotal}
         productData={productData}
         stateCount={stateCount}

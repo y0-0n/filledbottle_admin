@@ -14,10 +14,10 @@ import {
 
 const LIstPresenter = ({
   loading,
-  getUserFamilyCategory,
-  getProductFamily,
+  userCategoryData,
+  familyData,
   getExcel,
-  getStock,
+  stockData,
   getTotal,
   stateCount,
   pageNumbers,
@@ -51,7 +51,7 @@ const LIstPresenter = ({
               <tr>
                 {loading ? null : (
                   <>
-                    {getUserFamilyCategory.length > 0 ? (
+                    {userCategoryData.length > 0 ? (
                       <td
                         style={{
                           cursor: "pointer",
@@ -66,7 +66,7 @@ const LIstPresenter = ({
                       </td>
                     ) : null}
                     {checkCategory ? (
-                      getUserFamilyCategory.map((e, i) => {
+                      userCategoryData.map((e, i) => {
                         return (
                           <td
                             key={i}
@@ -240,7 +240,7 @@ const LIstPresenter = ({
                   />
                   전체
                 </label>
-                {getProductFamily.map((e, i) => {
+                {familyData.map((e, i) => {
                   return (
                     <label key={i} className="search-input-label">
                       <input
