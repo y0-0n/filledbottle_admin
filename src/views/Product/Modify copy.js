@@ -443,6 +443,23 @@ class Modify extends Component {
               </div>
 
               <div className="form-card">
+                <div className="form-title">출하일</div>
+                <div className="form-innercontent">
+                  <div className="sell-input">
+                    <div className="search-input">
+                      <DatePicker
+                        className="datepicker"
+                        dateFormat="yyyy년 MM월 dd일"
+                        locale="ko"
+                        selected={this.state.shipping_date}
+                        onChange={(shipping_date) => { this.setState({ shipping_date }) }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-card">
                 <div className="form-title">상품이미지</div>
                 <div className="form-innercontent">
                   <div className="sell-list">

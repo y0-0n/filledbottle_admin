@@ -33,6 +33,7 @@ class CreateProduct extends Component {
       sale_period: 'sale_period1',
       discount_price: 0,
       price: 0,
+      shipping_date: new Date(),
       first_date: new Date(),
       last_date: (new Date(new Date().getTime() + 60*60*24*1000*30*4)),
       userCategoryData : []
@@ -399,6 +400,23 @@ class CreateProduct extends Component {
                       <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="1" onChange={this.changeState.bind(this)} defaultChecked/>판매중</label>
                       <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="2" onChange={this.changeState.bind(this)} />품절</label>
                       <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="3" onChange={this.changeState.bind(this)} />판매중지</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-card">
+                <div className="form-title">출하일</div>
+                <div className="form-innercontent">
+                  <div className="sell-input">
+                    <div className="search-input">
+                      <DatePicker
+                        className="datepicker"
+                        dateFormat="yyyy년 MM월 dd일"
+                        locale="ko"
+                        selected={this.state.shipping_date}
+                        onChange={(shipping_date) => { this.setState({ shipping_date }) }}
+                      />
                     </div>
                   </div>
                 </div>

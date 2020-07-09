@@ -241,6 +241,17 @@ class Detail extends Component {
               </div>
 
               <div className="form-card">
+                <div className="form-title">출하일</div>
+                <div className="form-innercontent">
+                  <div className="sell-input">
+                    <div className="search-input">
+                      {data.shipping_date}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-card">
                 <div className="form-title">상품이미지</div>
                 <div className="form-innercontent">
                   <div className="sell-list">
