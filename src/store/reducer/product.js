@@ -41,6 +41,7 @@ function checkCategoryId(state, category_c) {
 }
 
 function checkFamily(state, family_c) {
+    console.log("checkFamily:" , family_c)
     return {
         ...state,
         family : family_c,
@@ -57,6 +58,7 @@ function changeShow(state) {
 }
 
 function changeStateP(state, state_product) {
+    console.log("changeStateP",state_product)
     return {
         ...state,
         stateP : state_product,
@@ -65,6 +67,7 @@ function changeStateP(state, state_product) {
 }
 
 function searchKeyword(state, keyword_s) {
+    console.log(keyword_s)
     return {
         ...state,
         keyword : keyword_s,
@@ -74,7 +77,7 @@ function searchKeyword(state, keyword_s) {
 }
 
 function convertPage(state, next_page) {
-    console.warn(next_page)
+    console.warn(state,next_page)
     return {
         ...state,
         family: 0,

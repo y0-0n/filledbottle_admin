@@ -8,6 +8,7 @@ import Popup from "reactjs-popup";
 import ProductFamilyModal from '../Modal/ProductFamilyModal';
 import DatePicker from "react-datepicker";
 import ReactToPrint from 'react-to-print';
+import {API_LIST} from "../../api";
 /*
 
   GET /product/state
@@ -375,6 +376,7 @@ class List extends Component {
   // }
 
   resetInput() {
+    
     var reset_input = document.getElementsByClassName('searchbox-input')
     for(var i = 0; i < reset_input.length; i++) {
       reset_input[i].value = null;
@@ -383,6 +385,8 @@ class List extends Component {
   }
 
   render() {
+    console.log(API_LIST.getProductFamily(0))
+
     console.log(this.state.familyName)
     var data = this.state.productData;
     //var data_cafe24 = this.state.productData_cafe24;

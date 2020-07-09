@@ -55,12 +55,15 @@ function searchKeywordC(state, keyword_c) {
 }
 
 function searchKeywordP(state, keyword_p) {
-    return {
-        ...state,
-        keywordP : keyword_p,
-        pageNumbers : 1,
-        family : 0
-    }
+    console.log(keyword_p);
+    const newState = {
+      ...state,
+      keywordP: keyword_p,
+      pageNumbers: 1,
+      family: 0,
+    };
+    console.log(state,newState)
+    return newState
 }
 
 function searchKeywordS(state, keyword_s) {
