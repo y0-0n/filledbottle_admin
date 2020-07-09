@@ -394,6 +394,7 @@ class List extends Component {
       <div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/ListCopy.css"></link>
         <link rel="stylesheet" type="text/css" href="css/Product.css"></link>
+        <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
         <Row>
           <Col>
             <Table className="category-top" >
