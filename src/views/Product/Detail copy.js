@@ -245,7 +245,7 @@ class Detail extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      {data.shipping_date}
+                      {data.shippingDate}
                     </div>
                   </div>
                 </div>

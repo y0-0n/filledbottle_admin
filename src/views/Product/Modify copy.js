@@ -137,13 +137,15 @@ class Modify extends Component {
         this.form.name = data[0].name;
         this.form.price = data[0].price_shipping;
         this.form.discount_price = data[0].discount_price;
-				this.form.state = data[0].state;
+        this.form.state = data[0].state;
+        this.form.shippingDate = data[0].shippingDate;
         this.setState({
           price: data[0].price_shipping, 
           discount_price: data[0].discount_price, 
           imageFile: process.env.REACT_APP_HOST + "/static/"+data[0].file_name, 
           image : process.env.REACT_APP_HOST + "/static/" + data[0].file_name,
-          imageDetailFile : data[0].detail_file
+          imageDetailFile : data[0].detail_file,
+          shippingDate: data[0].shippingDate
         }, ()=> {
         })
         this.setState({ data: data[0], category: data[0].categoryId }, () => {
@@ -447,13 +449,7 @@ class Modify extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <DatePicker
-                        className="datepicker"
-                        dateFormat="yyyy년 MM월 dd일"
-                        locale="ko"
-                        selected={this.state.shipping_date}
-                        onChange={(shipping_date) => { this.setState({ shipping_date }) }}
-                      />
+                      <Input style={{width : '500px'}} defaultValue={data.shippingDate} onChange={(e) => this.form.shippingDate = e.target.value} />
                     </div>
                   </div>
                 </div>
