@@ -95,18 +95,6 @@ class Modify extends Component {
               </div>
             </div>
             <div className="sell-list">
-              <label className="sell-label">유통기한</label>
-              <div className="sell-input">
-                <DatePicker
-                  className="datepicker"
-                  dateFormat="yyyy년 MM월 dd일"
-                  locale="ko"
-                  selected={data.expiration}
-                  onChange={(expiration) => { data.expiration = expiration; this.setState({ data: [data] }); }}
-                />
-              </div>
-            </div>
-            <div className="sell-list">
               <label className="sell-label">제조일자</label>
               <div className="sell-input">
                 <DatePicker
@@ -115,6 +103,18 @@ class Modify extends Component {
                   locale="ko"
                   selected={data.date_manufacture}
                   onChange={(date_manufacture) => { data.date_manufacture = date_manufacture; this.setState({ data: [data] }); }}
+                />
+              </div>
+            </div>
+            <div className="sell-list">
+              <label className="sell-label">유통기한</label>
+              <div className="sell-input">
+                <DatePicker
+                  className="datepicker"
+                  dateFormat="yyyy년 MM월 dd일"
+                  locale="ko"
+                  selected={data.expiration}
+                  onChange={(expiration) => { data.expiration = expiration; this.setState({ data: [data] }); }}
                 />
               </div>
             </div>

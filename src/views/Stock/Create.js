@@ -42,35 +42,46 @@ class Create extends Component {
 		this.form.expiration = this.convertDateFormat(this.state.expiration);
 		this.form.date_manufacture = this.convertDateFormat(this.state.date_manufacture);
 		this.form.plant = this.props.plant;
-		// console.warn(this.form)
+    // console.warn(this.form)
+    
+    if(this.getDiffDate(this.state.date_manufacture, this.state.expiration) < 0 ) alert('제조일자와 유통기한을 확인해주세요.')
+    else{
+      fetch(process.env.REACT_APP_HOST+"/api/stock", {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        },
+        body: JSON.stringify(this.form)
+      })
+      .then(response => {
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        const status = data[0];
+        if(status === 200) {
+          this.props.history.push('/main/stock');
+        } else if(status === 401) {
+          alert('로그인 하고 접근해주세요.')
+          this.props.history.push('/login')
+        } else {
+          alert('에러로 인해 등록에 실패했습니다.')
+        }
+      });
+    }
+  }
 
-		fetch(process.env.REACT_APP_HOST+"/api/stock", {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-      body: JSON.stringify(this.form)
-    })
-    .then(response => {
-      if(response.status === 401) {
-        return Promise.all([401])
-      } else {
-        return Promise.all([response.status, response.json()]);
-      }
-    })
-    .then(data => {
-      const status = data[0];
-      if(status === 200) {
-        this.props.history.push('/main/stock');
-      } else if(status === 401) {
-        alert('로그인 하고 접근해주세요.')
-        this.props.history.push('/login')
-      } else {
-        alert('에러로 인해 등록에 실패했습니다.')
-      }
-    });
+  getDiffDate(date_manufacture, date_expiration) {
+    var dm = new Date(date_manufacture);
+    var de = new Date(date_expiration);
+    var diffDate = Math.ceil((de.getTime() - dm.getTime())/(1000*3600*24));
+
+    return diffDate
   }
 
   render() {
@@ -145,18 +156,6 @@ class Create extends Component {
               </div>
             </div>
             <div className="sell-list">
-              <label className="sell-label">유통기한 <span style={{color : "#FA5858"}}>*</span></label>
-              <div className="sell-input">
-                <DatePicker
-                  className="datepicker"
-                  dateFormat="yyyy년 MM월 dd일"
-                  locale="ko"
-                  selected={this.state.expiration}
-                  onChange={(date) => { this.setState({ expiration: date }) }}
-                />
-              </div>
-            </div>
-            <div className="sell-list">
               <label className="sell-label">제조일자 <span style={{color : "#FA5858"}}>*</span></label>
               <div className="sell-input">
                 <DatePicker
@@ -168,80 +167,22 @@ class Create extends Component {
                 />
               </div>
             </div>
+            <div className="sell-list">
+              <label className="sell-label">유통기한 <span style={{color : "#FA5858"}}>*</span></label>
+              <div className="sell-input">
+                <DatePicker
+                  className="datepicker"
+                  dateFormat="yyyy년 MM월 dd일"
+                  locale="ko"
+                  selected={this.state.expiration}
+                  onChange={(date) => { this.setState({ expiration: date }) }}
+                />
+              </div>
+            </div>
           </div>
         </div>
         <Button color="primary" style={{width:"100%"}} onClick={() => {this.createStock();}}>등록하기</Button>
-      {/*<link rel="stylesheet" type="text/css" href="css/Table.css"></link>
-      <link rel="stylesheet" type="text/css" href="css/Stock.css"></link>
-        <Row className="mb-5 justify-content-center">
-          <Col md="9" lg="9" xl="8">
-						<Card>
-							<CardHeader>
-									재고 입고 등록하기
-							</CardHeader>
-							<CardBody>
-								<Table className="ShowTable">
-									<tbody>
-										<tr>
-											<th>품목명</th>
-											<td>
-												{<Popup
-													trigger={<Input value={this.state.name} onChange={(e) => this.form.name = e.target.value} />}
-													modal>
-													{close => <ProductModal close={close} login={() => { this.props.history.push('/login') }} createProduct={() => { this.props.history.push('/product/create') }}
-														selectProduct={(data) => {
-															this.setState({name : data['name']})
-															this.form.productId = data['id'];;
-															this.getLastStock();
-														}}
-													/>}
-												</Popup>}
-											</td>
-											<th>창고</th>
-											<td>
-												<Input onChange={(e) => {this.form.plant = e.target.value;}} type='select'>
-													{
-														plantData.map((e,i) => {
-															return (
-																<option key={i} value={e.id}>{e.name}</option>
-															)
-														})
-													}
-												</Input>
-											</td>
-										</tr>
-										<tr>
-                      <th>재고</th>
-                      <td><Input value={this.state.current} readOnly/></td>
-											<th>유형</th>
-											<td>
-												<Input defaultValue={this.form.type} onChange={(e) => {this.form.type = e.target.value}} type='select'>
-													<option value="외주생산">외주생산</option>
-													<option value="자가생산">자가생산</option>
-													<option value="상품매입">상품매입</option>
-												</Input>
-											</td>
-										</tr>
-										<tr>
-											<th>입고수량</th>
-											<td >
-												<Input onChange={(e) => this.form.quantity = e.target.value} />
-											</td>
-											<th>매입원가</th>
-											<td >
-												<Input onChange={(e) => this.form.price = e.target.value} />
-											</td>
-										</tr>
-									</tbody>
-								</Table>
-							</CardBody>
-							<CardFooter>
-								<Button block outline color="primary" onClick={() => {this.createStock();}}>추가하기</Button>
-							</CardFooter>
-						</Card>
-					</Col>
-        </Row>*/}
-        </div>
+      </div>
     )
   }
 }
