@@ -200,7 +200,13 @@ class Detail extends Component {
         <Card>
           <CardHeader>
             <Row>
-              <Col>{this.props.match.params.id}번 주문</Col>
+              <Col>{this.props.match.params.id}번 주문
+                {orderInfo['state'] === 'order' ? <h3><Badge color="primary">{stateKor[orderInfo['state']]}</Badge></h3> : null}
+                {orderInfo['state'] === 'shipping' ? <h3><Badge color="secondary">출하</Badge></h3> : null}
+                {orderInfo['state'] === 'complete' ? <h3><Badge color="success">수금</Badge></h3> : null}
+                {orderInfo['state'] === 'refund' ? <h3><Badge color="danger">{stateKor[orderInfo['state']]}</Badge></h3> : null}
+                {orderInfo['state'] === 'cancel' ? <h3><Badge color="danger">{stateKor[orderInfo['state']]}</Badge></h3> : null}
+              </Col>
               <Col>
                 <div style={{ float: 'right' }}>
                   <Button color="primary" onClick={() => { this.props.history.goBack() }}>뒤로가기</Button>
@@ -233,14 +239,13 @@ class Detail extends Component {
                   <td>{orderInfo['comment']}</td>
                 </tr>
                 <tr>
-                  <th>주문상태</th>
+                  {/* <th>주문상태</th>
                   <td colSpan='3'>
                     {orderInfo['state'] === 'order' ? <h3><Badge color="primary">{stateKor[orderInfo['state']]}</Badge></h3> : null}
-                    {/*orderInfo['state'] === 'shipping' ? <h3><Badge color="secondary">{stateKor[orderInfo['state']]}</Badge></h3>: null*/}
                     {orderInfo['state'] === 'shipping' ? <h3><Badge color="secondary">출하</Badge></h3> : null}
                     {orderInfo['state'] === 'complete' ? <h3><Badge color="success">수금</Badge></h3> : null}
                     {orderInfo['state'] === 'refund' ? <h3><Badge color="danger">{stateKor[orderInfo['state']]}</Badge></h3> : null}
-                    {orderInfo['state'] === 'cancel' ? <h3><Badge color="danger">{stateKor[orderInfo['state']]}</Badge></h3> : null}</td>
+                    {orderInfo['state'] === 'cancel' ? <h3><Badge color="danger">{stateKor[orderInfo['state']]}</Badge></h3> : null}</td> */}
                 </tr>
               </tbody>
             </Table>
