@@ -252,7 +252,7 @@ class Detail extends Component {
           </CardBody>
           <CardFooter>
             {orderInfo['state'] === "order" ? <Button onClick={() => this.changeState(orderInfo.state, 'shipping')} style={{ marginLeft: '10px' }}>출하 완료</Button> : null}
-            {orderInfo['state'] === "shipping" ? <Button onClick={() => this.changeState(orderInfo.state, 'order')} style={{ marginLeft: '10px' }} >출하 취소</Button> : null}
+            {/* {orderInfo['state'] === "shipping" ? <Button onClick={() => this.changeState(orderInfo.state, 'order')} style={{ marginLeft: '10px' }} >출하 취소</Button> : null} */}
             {orderInfo['state'] === "shipping" ? <Button onClick={() => this.changeState(orderInfo.state, 'complete')} style={{ marginLeft: '10px' }} >수금 완료</Button> : null}
             <Button onClick={() => { this.props.history.push(`/main/order/transaction/` + this.props.match.params.id) }} style={{ marginLeft: '10px' }}>거래명세서</Button>
             <Button onClick={() => { this.props.history.push(`/main/order/post/` + this.props.match.params.id) }} style={{ marginLeft: '10px' }}>택배송장</Button>

@@ -149,17 +149,17 @@ class Detail extends Component {
                 </div>
                 <div className="sell-list">
                   <div className="sell-content">
-                    <label className="sell-label">유통기한</label>
+                    <label className="sell-label">제조일자</label>
                     <div className="sell-input">
-                      {this.getDate(e.expiration)}
+                      {this.getDate(e.date_manufacture)}
                     </div>
                   </div>
                 </div>
                 <div className="sell-list">
                   <div className="sell-content">
-                    <label className="sell-label">제조일자</label>
+                    <label className="sell-label">유통기한</label>
                     <div className="sell-input">
-                      {this.getDate(e.date_manufacture)}
+                      {this.getDate(e.expiration)}
                     </div>
                   </div>
                 </div>
