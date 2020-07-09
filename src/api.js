@@ -20,7 +20,7 @@ export const API_LIST = {
         if (response.status === 401) {
           return "Not Authorization";
         } else if (response.status === 200) {
-          console.log("getUserFamilyCategory is working..");
+          console.log("getUserFamilyCategory is working.. :" , response.data);
           if (response.data[1].length !== 0) return response.data;
         }
       }),
@@ -46,7 +46,7 @@ export const API_LIST = {
         if (response.status === 401) {
           return "Not Authorization";
         } else if (response.status === 200) {
-          console.log("getProduct is working..");
+          console.log("getProduct is working.. : " , response.data);
           return response.data;
         }
       });
@@ -55,14 +55,14 @@ export const API_LIST = {
   getProductFamily: (props) => {
     const { category } = props;
     return api
-      .request(`/api/product/familyList/${category}`, {
+      .get(`/api/product/familyList/${category}`, {
         method: "GET",
       })
       .then((response) => {
         if (response.status === 401) {
           return "Not Authorization";
         } else if (response.status === 200) {
-          console.log("getProductFamily is working..");
+          console.log("getProductFamily is working.. : ", response.data);
           return response.data;
         }
       });
@@ -89,21 +89,21 @@ export const API_LIST = {
         if (response.status === 401) {
           return "Not Authorization";
         } else if (response.status === 200) {
-          console.log("getStock is working..");
+          console.log("getStock is working.. : " ,response.data);
           return response.data;
         }
       });
   },
   getStateCount: () =>
     api
-      .request(`/api/product/stateCount`, {
+      .get(`/api/product/stateCount`, {
         method: "GET",
       })
       .then((response) => {
         if (response.status === 401) {
           return "Not Authorization";
         } else if (response.status === 200) {
-          console.log("getStateCount is working..");
+          console.log("getStateCount is working.. : ", response.data);
           let stateCount = [];
           for(var i=0 ; i<3 ; i++){
             stateCount[i] = 0
@@ -133,7 +133,7 @@ export const API_LIST = {
         if (response.status === 401) {
           return "Not Authorization";
         } else if (response.status === 200) {
-          console.log("getTotal is working..");
+          console.log("getTotal is working.. :", response.data);
 
           return response.data;
         }

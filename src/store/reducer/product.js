@@ -77,7 +77,7 @@ function searchKeyword(state, keyword_s) {
 }
 
 function convertPage(state, next_page) {
-    console.warn(next_page)
+    console.warn(state,next_page)
     return {
         ...state,
         family: 0,

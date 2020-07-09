@@ -19,12 +19,12 @@ const LIstPresenter = ({
   getExcel,
   getStock,
   getTotal,
-  getStateCount,
+  stateCount,
   pageNumbers,
   checkCategory,
   totalData,
   familyName,
-  getProduct,
+  productData,
   changeCategory,
   lastPage,
   changeFamily,
@@ -39,7 +39,7 @@ const LIstPresenter = ({
   const _state = ["판매 중", "품절", "판매 중지"];
   const arr = [-2, -1, 0, 1, 2];
   const arr1 = [];
-  var product = getProduct
+  var product = productData
   return (
     <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/ListCopy.css"></link>
@@ -126,9 +126,9 @@ const LIstPresenter = ({
                 <div className="status-list-text">
                   <p>전체</p>
                   <strong>
-                    {getStateCount[0] +
-                      getStateCount[1] +
-                      getStateCount[2] +
+                    {stateCount[0] +
+                      stateCount[1] +
+                      stateCount[2] +
                       ""}
                   </strong>
                   <span>건</span>
@@ -138,7 +138,7 @@ const LIstPresenter = ({
                 <i className="fa fa-list-alt"></i>
                 <div className="status-list-text">
                   <p>판매중</p>
-                  <strong>{getStateCount[0]}</strong>
+                  <strong>{stateCount[0]}</strong>
                   <span>건</span>
                 </div>
               </li>
@@ -146,7 +146,7 @@ const LIstPresenter = ({
                 <i className="fa fa-list-alt"></i>
                 <div className="status-list-text">
                   <p>품절</p>
-                  <strong>{getStateCount[1]}</strong>
+                  <strong>{stateCount[1]}</strong>
                   <span>건</span>
                 </div>
               </li>
@@ -154,7 +154,7 @@ const LIstPresenter = ({
                 <i className="fa fa-list-alt"></i>
                 <div className="status-list-text">
                   <p>판매중지</p>
-                  <strong>{getStateCount[2]}</strong>
+                  <strong>{stateCount[2]}</strong>
                   <span>건</span>
                 </div>
               </li>
@@ -263,6 +263,7 @@ const LIstPresenter = ({
                 style={{ marginRight: 10 }}
                 onClick={() => {
                   console.log(familyName)
+                  console.log(props)
                   searchProduct();
                   changeFamily(familyName);
                 }}
@@ -415,7 +416,7 @@ const LIstPresenter = ({
                 </tbody>
               </Table>
               <Pagination style={{ justifyContent: "center" }}>
-                {pageNumbers === 1 ? (
+                {props.pageNumbers === 1 ? (
                   ""
                 ) : (
                   <PaginationItem>
@@ -423,37 +424,37 @@ const LIstPresenter = ({
                       previous
                       onClick={() => {
                         countPageNumber(
-                          props.clickConvertPage(pageNumbers - 1)
+                          props.clickConvertPage(props.pageNumbers - 1)
                         );
                       }}
                     />
                   </PaginationItem>
                 )}
-                {pageNumbers === 1
+                {props.pageNumbers === 1
                   ? arr.forEach((x) => arr1.push(x + 2))
                   : null}
-                {pageNumbers === 2
+                {props.pageNumbers === 2
                   ? arr.forEach((x) => arr1.push(x + 1))
                   : null}
-                {pageNumbers !== 1 && pageNumbers !== 2
+                {props.pageNumbers !== 1 && props.pageNumbers !== 2
                   ? arr.forEach((x) => arr1.push(x))
                   : null}
                 {arr1.map((e, i) => {
-               //   console.log("e:",e , "pageNumbers :" , pageNumbers , "lastPage:",lastPage)
-                  if (lastPage >= pageNumbers + e)
+                  if (lastPage >= props.pageNumbers + e)
                     return (
                       <PaginationItem
                         key={i}
-                        active={pageNumbers === pageNumbers + e}
+                        active={props.pageNumbers === props.pageNumbers + e}
                       >
                         <PaginationLink
                           onClick={() => {
+                            console.log(props);
                             countPageNumber(
-                              props.clickConvertPage(pageNumbers + e)
+                              props.clickConvertPage(props.pageNumbers + e)
                             );
                           }}
                         >
-                          {pageNumbers + e}
+                          {props.pageNumbers + e}
                         </PaginationLink>
                       </PaginationItem>
                     );

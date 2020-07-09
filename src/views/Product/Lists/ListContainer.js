@@ -19,12 +19,12 @@ export default class extends React.Component {
       listCount: 15,
       loading: true,
       error: null,
-      getProduct: [],
+      productData: [],
       getUserFamilyCategory: [],
       getProductFamily: [],
       getExcel: null,
       getStock: null,
-      getStateCount: [],
+      stateCount: [],
       getTotal: null,
       pageNumbers: pageNumbers,
       show: show,
@@ -44,16 +44,10 @@ export default class extends React.Component {
       totalData: null,
       familyName: 0,
     };
-  }
-  componentWillMount = () => {
-    const { getStateCount, getUserFamilyCategory } = this.state;
-    return {
-      getStateCount,
-      getUserFamilyCategory,
-    };
-  };
 
+  }
   componentDidMount = async () => {
+
     try {
       const getProduct = await API_LIST.getProduct(this.props);
       const getUserFamilyCategory = await API_LIST.getUserFamilyCategory();
@@ -64,7 +58,7 @@ export default class extends React.Component {
       this.setState({
         getStock: getStock[1],
         getTotal: getTotal,
-        getStateCount: getStateCount,
+        stateCount: getStateCount,
       });
       this.setState(
         { getUserFamilyCategory: getUserFamilyCategory },
@@ -75,7 +69,7 @@ export default class extends React.Component {
         lastPage: Math.ceil(getTotal[0].total / this.state.listCount),
         totalData: getTotal[0].total,
       });
-      this.setState({ getProduct: getProduct },()=>getTotal);
+      this.setState({ productData: getProduct }, () => getTotal);
     } catch {
       this.setState({
         error: "Error !!",
@@ -88,23 +82,25 @@ export default class extends React.Component {
     }
   };
 
-  changeCategory = (id) => {
-    this.setState({}, () => this.state.getProductFamily);
+  changeCategory = async (id) => {
+    const getProductFamily = await API_LIST.getProductFamily(this.props);
+    this.setState({}, () =>getProductFamily);
   };
-  changeFamily = (familyName) => {
-    console.log(familyName)
-    this.setState({ familyName:familyName }, () => {
-      return this.state.getProduct;
-    });
+
+  changeFamily = async (familyName) => {
+    const getProduct = await API_LIST.getProduct(this.props);
+    this.setState({ familyName: familyName }, () => getProduct)
   };
 
   changeStockEdit() {
     this.setState({ stockEdit: !this.state.stockEdit });
   }
 
-  searchProduct = () => {
-    console.log(this.state.getProduct)
-    return this.state.getProduct;
+  searchProduct = async () => {
+    const getProduct = await API_LIST.getProduct(this.props);
+    this.setState({
+      productData: getProduct,
+    });
   };
 
   numberWithCommas(x) {
@@ -118,14 +114,9 @@ export default class extends React.Component {
     }
   }
 
-  countPageNumber = () => {
-    this.setState(
-      {
-        familyName: 0,
-      },
-      () => {
-        return this.state.getProduct;
-      }
+  countPageNumber = async () => {
+    const getProduct = await API_LIST.getProduct(this.props);
+    this.setState({familyName: 0, }, () => getProduct
     );
   };
 
@@ -137,11 +128,11 @@ export default class extends React.Component {
       listCount,
       getUserFamilyCategory,
       getProductFamily,
-      getProduct,
+      productData,
       getExcel,
       getStock,
       getTotal,
-      getStateCount,
+      stateCount,
       pageNumbers,
       show,
       keywordP,
@@ -165,8 +156,8 @@ export default class extends React.Component {
         getExcel={getExcel}
         getStock={getStock}
         getTotal={getTotal}
-        getProduct={getProduct}
-        getStateCount={getStateCount}
+        productData={productData}
+        stateCount={stateCount}
         pageNumbers={pageNumbers}
         checkCategory={checkCategory}
         totalData={totalData}
