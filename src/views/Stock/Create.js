@@ -107,7 +107,7 @@ class Create extends Component {
               </div>
               <div className="sell-discount">
                 <div style={{display: "inline-block"}}>
-                  <img src={this.state.file_name}/>
+                  <img style={{width: '300px'}} src={this.state.file_name}/>
                 </div>
                 <div style={{display: "inline-block"}}>
                   {/* <div className="product-info">

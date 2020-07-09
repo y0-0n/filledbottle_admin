@@ -241,6 +241,17 @@ class Detail extends Component {
               </div>
 
               <div className="form-card">
+                <div className="form-title">출하일</div>
+                <div className="form-innercontent">
+                  <div className="sell-input">
+                    <div className="search-input">
+                      {data.shipping_date}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-card">
                 <div className="form-title">상품이미지</div>
                 <div className="form-innercontent">
                   <div className="sell-list">
@@ -250,7 +261,7 @@ class Detail extends Component {
                     </div>
                   </div>
                   <div className="sell-list">
-                    <label className="sell-label">추가이미지</label>
+                    <label className="sell-label">상세이미지</label>
                     <div className="sell-input">
 											{this.state.data.detail_file.map((e, i) => {
 												return <img style={{width: '100%'}} key={i} alt="품목 사진" src={process.env.REACT_APP_HOST+"/static/" + e} />

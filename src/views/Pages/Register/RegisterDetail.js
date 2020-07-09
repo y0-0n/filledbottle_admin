@@ -448,8 +448,12 @@ class RegisterDetail extends Component {
                     </tr>
                     <tr>
                       <th>주소</th>
-                      <td colSpan="3">
+                      <td>
                         {data.address} {data.addressDetail} ({data.postcode})
+                      </td>
+                      <th>계좌번호</th>
+                      <td>
+                        {data.AccountNumber}
                       </td>
                     </tr>
                   </tbody>

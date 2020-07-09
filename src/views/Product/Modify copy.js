@@ -426,44 +426,6 @@ class Modify extends Component {
                       </div>
                     </div>
                   </div>
-                    {/* <div className="sell-list">
-                    <div className="sell-content">
-                      <label className="sell-label">판매기간</label>
-                    </div>
-                    { this.state.sale_period === 'sale_period1' ?
-                    <div className="sell-discount">
-                      <label className="sell-label">기간설정</label>
-                      <div className="sell-input">
-                        <DatePicker
-                          className="datepicker"
-                          dateFormat="yyyy년 MM월 dd일"
-                          locale="ko"
-                          selected={this.state.first_date}
-                          onChange={(first_date) => { this.setState({ first_date }) }}
-                        />
-                        &nbsp;~&nbsp;
-                        <DatePicker
-                          className="datepicker"
-                          dateFormat="yyyy년 MM월 dd일"
-                          locale="ko"
-                          selected={this.state.last_date}
-                          onChange={(last_date) => { this.setState({ last_date }) }}
-                        />
-                      </div>
-                    </div>
-                    :
-                    <div></div>
-                  }
-                  </div> */}
-                  {/* <div className="sell-list">
-                    <label className="sell-label">부가세</label>
-                    <div className="category-input-toggle">
-                      <Input type="radio" name="vat" id="vat1" value="vat1" defaultChecked onChange={this.changeVAT.bind(this)}/>
-                      <label for="vat1">과세상품</label>
-                      <Input type="radio" name="vat" id="vat2" value="vat2" onChange={this.changeVAT.bind(this)}/>
-                      <label for="vat2">비과세상품</label>
-                    </div>
-                  </div> */}
                 </div>
               </div>
 
@@ -475,6 +437,23 @@ class Modify extends Component {
                       <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="1" onChange={this.changeState.bind(this)} checked={data.state===1} />판매중</label>
                       <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="2" onChange={this.changeState.bind(this)} checked={data.state===2} />품절</label>
                       <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="3" onChange={this.changeState.bind(this)} checked={data.state===3} />판매중지</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-card">
+                <div className="form-title">출하일</div>
+                <div className="form-innercontent">
+                  <div className="sell-input">
+                    <div className="search-input">
+                      <DatePicker
+                        className="datepicker"
+                        dateFormat="yyyy년 MM월 dd일"
+                        locale="ko"
+                        selected={this.state.shipping_date}
+                        onChange={(shipping_date) => { this.setState({ shipping_date }) }}
+                      />
                     </div>
                   </div>
                 </div>
@@ -526,10 +505,16 @@ class Modify extends Component {
                                     <td>
                                       <Button color="danger" onClick={() => { 
                                         let { imageDetailName, imageDetailFile, imageDetail, data } = this.state;
-                                        imageDetailName.splice(i,1);
-                                        imageDetailFile.splice(i,1);
-                                        imageDetail.splice(i,1);
-                                        data.detail_file.splice(i,1);
+                                        if(i < this.state.data.detail_file.length) {
+                                          imageDetailName.splice(i,1);
+                                          data.detail_file.splice(i,1);
+                                          imageDetailFile.splice(i,1);
+                                        }
+                                        else {
+                                          imageDetailName.splice(i,1);
+                                          imageDetail.splice(i-this.state.data.detail_file.length, 1);
+                                          imageDetailFile.splice(i,1);
+                                        }
                                         this.setState({imageDetailName, imageDetailFile, imageDetail, data});
                                       }}>x</Button>
                                     </td>
@@ -538,7 +523,8 @@ class Modify extends Component {
                               </tbody>
                             </Table>
                             <div style={{textAlign: 'center'}}>
-                                {this.state.imageDetailName.length === 0 ? <img src={spinner} />: null}
+                                {/*<img src={spinner} />*/}
+                                {this.state.imageDetailName.length === 0 ?<p>이미지가 존재하지 않습니다.</p> : null}
                             </div>
                           </div>
                           <div id="imageFile" className="add-image" onClick={() => document.all.file_detail.click()}>

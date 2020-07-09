@@ -12,6 +12,7 @@ class Register extends Component {
       phone: '',
       address: '',
       crNumber: '',
+      AccountNumber: '',
       checks : [],
     }
     this.state = {
@@ -213,6 +214,12 @@ class Register extends Component {
                         <InputGroupText>@</InputGroupText>
                       </InputGroupAddon>
                       <Input type="text" onChange={(e) => this.form.crNumber = e.target.value} placeholder="사업자등록번호" autoComplete="crNumber" />
+                    </InputGroup>
+                    <InputGroup className="mb-3">
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>*</InputGroupText>
+                      </InputGroupAddon>
+                      <Input type="text" onChange={(e) => this.form.AccountNumber = e.target.value} placeholder="계좌번호" autoComplete="AccountNumber" />
                     </InputGroup>
                     <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">

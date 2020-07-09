@@ -159,6 +159,12 @@ class RegisterModify extends Component {
                     </td>
                   </tr>
                   <tr>
+                    <th>계좌번호</th>
+                    <td colSpan="3">
+                      <Input defaultValue={data.AccountNumber} onChange={(e) => this.form.AccountNumber=e.target.value}/>
+                    </td>
+                  </tr>
+                  <tr>
                     <th>주소</th>
                     <td colSpan="3">
                       <Row style={{marginBottom: '10px'}}>
