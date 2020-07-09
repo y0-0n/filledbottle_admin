@@ -57,7 +57,7 @@ class Register extends Component {
         let status = data[0];
         if (status === 422) {
           let { errors } = data[1];
-          console.log(errors)
+          // console.log(errors)
           errors.map(function (e, _) {
             switch (e.param) {
               case 'email': alert('이메일을 확인해주세요'); break;
@@ -219,7 +219,13 @@ class Register extends Component {
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>*</InputGroupText>
                       </InputGroupAddon>
-                      <Input type="text" onChange={(e) => this.form.AccountNumber = e.target.value} placeholder="계좌번호" autoComplete="AccountNumber" />
+                      <Input type="text" onChange={(e) => this.form.accountName = e.target.value} placeholder="은행명" autoComplete="AccountNumber" />
+                    </InputGroup>
+                    <InputGroup className="mb-3">
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>*</InputGroupText>
+                      </InputGroupAddon>
+                      <Input type="text" onChange={(e) => this.form.accountNumber = e.target.value} placeholder="계좌번호" autoComplete="AccountNumber" />
                     </InputGroup>
                     <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">
