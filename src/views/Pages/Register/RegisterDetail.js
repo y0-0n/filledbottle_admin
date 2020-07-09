@@ -453,7 +453,7 @@ class RegisterDetail extends Component {
                       </td>
                       <th>계좌번호</th>
                       <td>
-                        {data.AccountNumber}
+                        {data.accountName} {data.accountNumber}
                       </td>
                     </tr>
                   </tbody>

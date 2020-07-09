@@ -66,6 +66,8 @@ class RegisterModify extends Component {
             phone: data[1][0].phone,
             address: data[1][0].addreses,
             crNumber: data[1][0].crNumber,
+            accountName: data[1][0].accountName,
+            accountNumber: data[1][0].accountNumber,
           }
           console.warn(data[1])
           document.getElementById("sample6_address").value = data[1][0].address;
@@ -86,7 +88,7 @@ class RegisterModify extends Component {
 		this.form.postcode = document.getElementById("sample6_postcode").value;
     
     let c = window.confirm('회원정보를 수정하시겠습니까?')
-    console.log(this.form)
+    // console.log(this.form)
     if(c) {
       fetch(process.env.REACT_APP_HOST+"/api/auth/info", {
         method: 'PUT',
@@ -159,9 +161,13 @@ class RegisterModify extends Component {
                     </td>
                   </tr>
                   <tr>
+                    <th>은행명</th>
+                    <td colSpan>
+                      <Input defaultValue={data.accountName} onChange={(e) => this.form.accountName=e.target.value}/>
+                    </td>
                     <th>계좌번호</th>
-                    <td colSpan="3">
-                      <Input defaultValue={data.AccountNumber} onChange={(e) => this.form.AccountNumber=e.target.value}/>
+                    <td colSpan>
+                      <Input defaultValue={data.accountNumber} onChange={(e) => this.form.accountNumber=e.target.value}/>
                     </td>
                   </tr>
                   <tr>
