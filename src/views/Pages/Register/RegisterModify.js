@@ -81,7 +81,8 @@ class RegisterModify extends Component {
 
   modifyInfo(e){
     e.preventDefault();
-		this.form.address = document.getElementById("sample6_address").value+" "+document.getElementById("sample6_detailAddress").value;
+    this.form.address = document.getElementById("sample6_address").value
+    this.form.addressDetail = document.getElementById("sample6_detailAddress").value;
 		this.form.postcode = document.getElementById("sample6_postcode").value;
     
     let c = window.confirm('회원정보를 수정하시겠습니까?')
