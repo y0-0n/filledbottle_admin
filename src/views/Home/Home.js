@@ -41,6 +41,8 @@ class Home extends Component {
       bar:{},
       last_receivable: 0,
       this_receivable: 0,
+      last_income: 0,
+      this_income: 0,
     };
     this.messages = {
       today: '오늘',
@@ -500,17 +502,17 @@ class Home extends Component {
                 <Table className="ShowTable">
                   <tbody>
                     <tr>
-                      <th style={{width: '60px'}}></th>
+                      <th></th>
                       <th>전월</th>
                       <th>당월</th>
                     </tr>
                     <tr>
-                      <td>수금</td>
+                      <th>수금</th>
                       <td style={{textAlign : "right"}}>{this.state.last_income} 원</td>
                       <td style={{textAlign : "right"}}>{this.state.this_income} 원</td>
                     </tr>
                     <tr>
-                      <td>미수금</td>
+                      <th>미수금</th>
                       <td style={{textAlign : "right"}}>{this.state.last_receivable} 원</td>
                       <td style={{textAlign : "right"}}>{this.state.this_receivable} 원</td>
                     </tr>
