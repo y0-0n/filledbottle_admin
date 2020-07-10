@@ -185,6 +185,13 @@ class Detail extends Component {
     else return true;
   }
 
+  resetInput() {
+    var reset_input = document.getElementsByClassName('refund-input')
+    for(var i = 0; i < reset_input.length; i++) {
+      reset_input[i].value = null;
+    }
+  }
+
   render() {
     let { orderInfo, productInfo } = this.state.data;
     orderInfo = orderInfo[0];
@@ -311,9 +318,9 @@ class Detail extends Component {
                       {
                         this.state.refund === true && e.refund == false? <React.Fragment>
                           <InputGroup>
-                            <Input style={{width: '100px'}} onChange={(ee) => {e['refundQuantity'] = ee.target.value;}}/>
+                            <Input className="refund-input" style={{width: '100px'}} onChange={(ee) => {e['refundQuantity'] = ee.target.value;}}/>
                             <InputGroupAddon addonType="append">
-                              <Button onClick={() => {if(this.checkQuantity(e['quantity'], e['refundQuantity'])) this.refundProduct(e);}}>환불</Button>
+                              <Button onClick={() => {if(this.checkQuantity(e['quantity'], e['refundQuantity'])) this.refundProduct(e); this.resetInput()}}>환불</Button>
                             </InputGroupAddon>
                           </InputGroup>
                         </React.Fragment>
