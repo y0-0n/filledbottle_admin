@@ -181,17 +181,6 @@ class Detail extends Component {
                   </tbody>
                 </Table>
               </CardBody>
-              <CardFooter>
-                <Row>
-                  <Col>
-                    {
-                      data.set ?
-                        <Button block style={{ width: 120 }} color="ghost-danger" onClick={() => this.deactivateCustomer(this.props.match.params.id)}>고객 비활성화</Button> :
-                        <Button block style={{ width: 100 }} color="ghost-primary" onClick={() => this.activateCustomer(this.props.match.params.id)}>고객 활성화</Button>
-                    }
-                  </Col>
-                </Row>
-              </CardFooter>
             </Card>
           </Col>
           <Col>

@@ -6,6 +6,8 @@
 
 .ShowTable td{
     border: 1px solid lightgray;
+    text-align: center;
+    font-weight: lighter;
 }
 
 .ListTable {

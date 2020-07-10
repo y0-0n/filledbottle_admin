@@ -39,6 +39,10 @@ class Home extends Component {
       orderData2: [],
       events: [],
       bar:{},
+      last_receivable: 0,
+      this_receivable: 0,
+      last_income: 0,
+      this_income: 0,
     };
     this.messages = {
       today: '오늘',
@@ -422,6 +426,37 @@ class Home extends Component {
               </CardBody>
             </Card>
           </Col>
+          <Col sm="12" md="6">
+            <Card>
+              <CardHeader>
+                출하 예정 주문
+              </CardHeader>
+              <CardBody>
+                <div>
+                  <Table hover>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>출하일</th>
+                        <th>고객</th>
+                        <th>총액</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {this.state.orderData2.map((e, i) => {
+                        return (<tr style={{cursor: 'pointer'}} key={e.id} onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>
+                          <td>{e.id}</td>
+                          <td>{this.getDate(e.date)}</td>
+                          <td>{e.name}</td>
+                          <td>{this.numberWithCommas(e.price)}</td>
+                        </tr>)
+                      })}
+                    </tbody>
+                  </Table>
+                </div>
+              </CardBody>
+            </Card>
+          </Col>
           {/*<Col sm="12" md="6">          
             <Card>
               <CardHeader>
@@ -458,7 +493,7 @@ class Home extends Component {
               </CardBody>
             </Card>
 					</Col>*/}
-					<Col sm="6" md="3">          
+					<Col sm="12" md="6">          
             <Card>
               <CardHeader>
                 매출
@@ -467,19 +502,26 @@ class Home extends Component {
                 <Table className="ShowTable">
                   <tbody>
                     <tr>
+                      <th></th>
                       <th>전월</th>
-                      <td style={{textAlign : "right"}}>{this.state.last_income} 원</td>
+                      <th>당월</th>
                     </tr>
                     <tr>
-                      <th>당월</th>
+                      <th>수금</th>
+                      <td style={{textAlign : "right"}}>{this.state.last_income} 원</td>
                       <td style={{textAlign : "right"}}>{this.state.this_income} 원</td>
+                    </tr>
+                    <tr>
+                      <th>미수금</th>
+                      <td style={{textAlign : "right"}}>{this.state.last_receivable} 원</td>
+                      <td style={{textAlign : "right"}}>{this.state.this_receivable} 원</td>
                     </tr>
                   </tbody>
                 </Table>
               </CardBody>
             </Card>
           </Col>
-					<Col sm="6" md="3">          
+					<Col sm="12" md="6">          
             <Card>
               <CardHeader>
                 거래량
