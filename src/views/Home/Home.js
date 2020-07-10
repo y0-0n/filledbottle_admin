@@ -422,6 +422,37 @@ class Home extends Component {
               </CardBody>
             </Card>
           </Col>
+          <Col sm="12" md="6">
+            <Card>
+              <CardHeader>
+                출하 예정 주문
+              </CardHeader>
+              <CardBody>
+                <div>
+                  <Table hover>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>출하일</th>
+                        <th>고객</th>
+                        <th>총액</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {this.state.orderData2.map((e, i) => {
+                        return (<tr style={{cursor: 'pointer'}} key={e.id} onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>
+                          <td>{e.id}</td>
+                          <td>{this.getDate(e.date)}</td>
+                          <td>{e.name}</td>
+                          <td>{this.numberWithCommas(e.price)}</td>
+                        </tr>)
+                      })}
+                    </tbody>
+                  </Table>
+                </div>
+              </CardBody>
+            </Card>
+          </Col>
           {/*<Col sm="12" md="6">          
             <Card>
               <CardHeader>
