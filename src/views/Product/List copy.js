@@ -380,6 +380,7 @@ class List extends Component {
       reset_input[i].value = null;
       console.log(i);
     }
+    this.setState({familyName: this.props.checkFamily(0)})
   }
 
   render() {

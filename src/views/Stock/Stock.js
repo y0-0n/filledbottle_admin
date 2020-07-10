@@ -224,11 +224,11 @@ class Stock extends Component {
   }
 
   resetInput() {
-    var reset_input = document.getElementsByClassName('searchbox-input')
+    var reset_input = document.getElementsByClassName('searchbox-input');
     for(var i = 0; i < reset_input.length; i++) {
       reset_input[i].value = null;
-      console.log(i);
     }
+    this.setState({familyName: this.props.checkFamily(0)})
   }
 
   getDiffDate(dateInput) {
@@ -285,6 +285,7 @@ class Stock extends Component {
               <div className="search-list">
                 <label className="search-label">품목군</label>
                 <div className="sell-input">
+                <label className="search-input-label"><input className="search-input-checkbox" name="family" type="radio" onChange={()=>{this.setState({familyName: this.props.checkFamily(0)})}} checked={this.props.family===0}/>전체</label>
                   {familyData.map((e, i) => {
                       return <label className="search-input-label"><input onChange = {() => {this.setState({family: this.props.checkFamily(e.id)}); console.log(this.state.family)}} className="search-input-checkbox" name="family" type="radio"/>{e.name}</label>
                     })
