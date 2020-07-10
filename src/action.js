@@ -69,6 +69,15 @@ function checkFamily(e) {
     }
 }
 
+const familyS = 'familyS'
+
+function checkFamilyS(e) {
+    return {
+        type : familyS,
+        payload : e,
+    }
+}
+
 const show = 'show'
 
 function changeShow() {
@@ -117,7 +126,8 @@ const product = {
 }
 
 const stock = {
-    plant
+    plant,
+    familyS
 }
 
 const pageFunction = {
@@ -139,7 +149,8 @@ const productFunction = {
 }
 
 const stockFunction = {
-    checkPlant
+    checkPlant,
+    checkFamilyS
 }
 
 export { pagination, searchPage, product, stock }
