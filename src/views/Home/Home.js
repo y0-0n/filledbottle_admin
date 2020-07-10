@@ -39,6 +39,8 @@ class Home extends Component {
       orderData2: [],
       events: [],
       bar:{},
+      last_receivable: 0,
+      this_receivable: 0,
     };
     this.messages = {
       today: '오늘',
@@ -489,7 +491,7 @@ class Home extends Component {
               </CardBody>
             </Card>
 					</Col>*/}
-					<Col sm="6" md="3">          
+					<Col sm="12" md="6">          
             <Card>
               <CardHeader>
                 매출
@@ -498,19 +500,26 @@ class Home extends Component {
                 <Table className="ShowTable">
                   <tbody>
                     <tr>
+                      <th style={{width: '60px'}}></th>
                       <th>전월</th>
-                      <td style={{textAlign : "right"}}>{this.state.last_income} 원</td>
+                      <th>당월</th>
                     </tr>
                     <tr>
-                      <th>당월</th>
+                      <td>수금</td>
+                      <td style={{textAlign : "right"}}>{this.state.last_income} 원</td>
                       <td style={{textAlign : "right"}}>{this.state.this_income} 원</td>
+                    </tr>
+                    <tr>
+                      <td>미수금</td>
+                      <td style={{textAlign : "right"}}>{this.state.last_receivable} 원</td>
+                      <td style={{textAlign : "right"}}>{this.state.this_receivable} 원</td>
                     </tr>
                   </tbody>
                 </Table>
               </CardBody>
             </Card>
           </Col>
-					<Col sm="6" md="3">          
+					<Col sm="12" md="6">          
             <Card>
               <CardHeader>
                 거래량
