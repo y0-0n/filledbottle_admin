@@ -410,13 +410,7 @@ class CreateProduct extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <DatePicker
-                        className="datepicker"
-                        dateFormat="yyyy년 MM월 dd일"
-                        locale="ko"
-                        selected={this.state.shipping_date}
-                        onChange={(shipping_date) => { this.setState({ shipping_date }) }}
-                      />
+                      <Input required onChange={(e) => this.form.shippingDate = e.target.value} placeholder="출하일"/>
                     </div>
                   </div>
                 </div>
