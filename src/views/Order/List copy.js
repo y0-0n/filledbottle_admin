@@ -356,7 +356,7 @@ class List extends Component {
                       return (<tr style={{cursor: 'pointer'}} key={this.state.count} onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>
                         <td className="list-hidden">{e.id}</td>
                         <td className="list-shown">{this.getDate(e.date)}</td>
-                        <td className="list-hidden">{this.getDate(e.orderDate)}</td>
+                        <td className="list-hidden">{this.getDate(e.createAt)}</td>
                         <td className="list-shown">{e.name}</td>
                         <td className="list-shown">{this.numberWithCommas(e.price)}</td>
                         <td className="list-hidden">
