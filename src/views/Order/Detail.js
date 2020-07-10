@@ -178,6 +178,10 @@ class Detail extends Component {
   }
 
   checkQuantity(max, refund) {
+    if(refund === undefined){
+      alert('환불할 품목의 갯수를 입력해주세요.');
+      return false;
+    }
     if(refund > max || 0 > refund){
       alert("범위를 확인해주세요");
       return false;
