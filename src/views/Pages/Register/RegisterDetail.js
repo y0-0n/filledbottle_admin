@@ -453,7 +453,7 @@ class RegisterDetail extends Component {
                       </td>
                       <th>계좌번호</th>
                       <td>
-                        {data.AccountNumber}
+                        {data.accountName} {data.accountNumber}
                       </td>
                     </tr>
                   </tbody>
@@ -462,7 +462,7 @@ class RegisterDetail extends Component {
             </Card>
           </Col>
 
-          <Col md="12" xs="12" sm="12">
+          {/* <Col md="12" xs="12" sm="12">
             <Card>
               <CardHeader>
                 <Row>
@@ -499,7 +499,7 @@ class RegisterDetail extends Component {
                 </Table>
               </CardBody>
             </Card>
-          </Col>
+          </Col> */}
 
           <Col md="12" xs="12" sm="12">
             <Card>
@@ -523,7 +523,7 @@ class RegisterDetail extends Component {
                   <thead>
                     <tr>
                       <th>창고명</th>
-                      <th>저장 품목군</th>
+                      {/* <th>저장 품목군</th> */}
                       <th style={{width : 35}}>삭제</th>
                       {/*<th>저장량</th>*/}
                     </tr>
@@ -532,13 +532,13 @@ class RegisterDetail extends Component {
                     {plantData.map((e, i) => {
                       return (<tr key={i}>
                         <td>{e.name}</td>
-                        <td>
+                        {/* <td>
                         {
                         this.state.familyInPlantData[i] !== undefined ?
                           this.state.familyInPlantData[i].map((e, i) => {
                           return e.name
                         }) : null}
-                        </td>
+                        </td> */}
                         <td style={{textAlign:"center"}}>{this.state.familyInPlantData[i] !== undefined && this.state.familyInPlantData[i].length === 0 ?
                           <Button color="danger" onClick={() => {
                             this.deactivatePlant(e)

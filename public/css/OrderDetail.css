@@ -6,6 +6,11 @@
     width: 350px;
 }
 
+.col h3{
+    margin-left: 10px;
+    display: inline
+}
+
 @media (max-width: 1024px) {
     .ShowTable tr,
     .ShowTable td,

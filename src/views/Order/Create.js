@@ -158,7 +158,6 @@ class Create extends Component {
 		const postcode = document.getElementById("sample6_postcode").value;
 
     date = this.convertDateFormat(date);
-    const orderDate = this.convertDateFormat(new Date());
 
     if (this.state.sCustomer === null) {
       alert("고객 아이디를 입력해주세요.");
@@ -180,7 +179,7 @@ class Create extends Component {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + localStorage.getItem('token'),
         },
-        body: JSON.stringify({date, sCustomer, sProduct, cellphone, telephone, address, addressDetail, postcode, comment, orderDate})
+        body: JSON.stringify({date, sCustomer, sProduct, cellphone, telephone, address, addressDetail, postcode, comment})
       })
         .then(response => {
           if(response.status === 401) {
@@ -297,7 +296,7 @@ class Create extends Component {
                 <Table className="ShowTable">
                   <tbody>
                   <tr>
-                    <th>일자</th>
+                    <th>출고 일자</th>
                     <td>
                       <div className="datebox" style={{pointer: 'cursor'}}>
                         <DatePicker
