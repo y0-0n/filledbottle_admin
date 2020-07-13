@@ -91,6 +91,7 @@ const SurveyHome = React.lazy(() => import('./views/Survey/Home'));
 const Setting = React.lazy(() => import('./views/Setting/Setting'));
 const Income = React.lazy(() => import('./views/Income/Income'));
 const Pay = React.lazy(() => import('./views/Pay/List'));
+const Performance = React.lazy(() => import('./views/Performance/List'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -147,6 +148,7 @@ const routes = [
   { path: '/main/survey/home', exact: true,  name: '마케팅 검사', component: SurveyHome},
   { path: '/main/income', exact: true,  name: '손익 계산서', component: Income},
   { path: '/main/pay', exact: true,  name: '결제상품리스트', component: Pay},
+  { path: '/main/performance', exact: true,  name: '월별 성과', component: Performance},
 
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },

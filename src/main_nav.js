@@ -50,6 +50,11 @@ export default {
       url: '/main/stock',
       icon: 'icon-speedometer',
     },
+    {
+      name: '월별 성과',
+      url: '/main/performance',
+      icon: 'icon-speedometer',
+    },
     // {
     //   name: '손익계산서',
     //   url: '/main/income',
