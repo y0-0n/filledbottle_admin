@@ -152,3 +152,21 @@ ul li {
 .product-info input {
     margin-left : 10px;
 }
+
+@media (max-width: 1024px) {
+    .main {
+        font-size: 0.8em;
+    }
+
+    .main .container-fluid {
+        padding: 0 !important;
+    }
+
+    .sell-discount .sell-label {
+        width: 100px !important;
+    }
+
+    .add-image-list {
+        width: 300px !important;
+    }
+}
