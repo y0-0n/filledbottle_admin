@@ -52,8 +52,24 @@ export default {
     },
     {
       name: '월별 성과',
-      url: '/main/performance',
       icon: 'icon-speedometer',
+      children: [
+        {
+          name: '품목별',
+          url: '/main/performance/product',
+          icon: 'icon-puzzle',
+        },
+        {
+          name: '고객별',
+          url: '/main/performance/customer',
+          icon: 'icon-puzzle',
+        },
+        {
+          name: '일별',
+          url: '/main/performance/daily',
+          icon: 'icon-puzzle',
+        },
+      ]
     },
     // {
     //   name: '손익계산서',
