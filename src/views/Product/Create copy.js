@@ -17,6 +17,7 @@ class CreateProduct extends Component {
       productFamily: 'NULL',
       state: 1,
       vat: '1',
+      detail: '',
     };
 
     this.state = {
@@ -421,7 +422,7 @@ class CreateProduct extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <textarea style={{width: '100%', height: '100px'}}></textarea>
+                      <textarea style={{width: '100%', height: '100px'}} onChange={(e) => this.form.detail = e.target.value}></textarea>
                     </div>
                   </div>
                 </div>
