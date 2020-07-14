@@ -339,7 +339,7 @@ class Stock extends Component {
                   <thead>
                     <tr>
                       <th style={{ width: 150 }} className="list-hidden">사진</th>
-                      <th>제품명</th>
+                      <th className="list-hidden">제품명</th>
                       <th>구분</th>
                       <th>유통기한</th>
                       <th>창고</th>
@@ -353,7 +353,7 @@ class Stock extends Component {
                           <td className="list-hidden">
                             <img style={{ width: '90%' }} alt="품목 사진" src={d.file_name ? process.env.REACT_APP_HOST+"/static/" + d.file_name : '318x180.svg'} />
                           </td>
-                          <td>{d.productName}</td>
+                          <td className="list-hidden">{d.productName}</td>
                           <td>{d.name}</td>
                           <td>
                             {this.getDate(d.expiration)}<br/>

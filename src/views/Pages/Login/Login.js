@@ -50,6 +50,7 @@ class Login extends Component {
   render() {
     return (
       <div className="app flex-row align-items-center">
+        <link rel="stylesheet" type="text/css" href="css/Login.css"></link>
         <Container>
           <Row className="justify-content-center">
             <Col md="8">
@@ -89,7 +90,7 @@ class Login extends Component {
                   </form>
 
                 </Card>
-                <Card className="text-white bg-primary py-5 d-md-down-none" style={{ width: '44%' }}>
+                <Card className="text-white bg-primary py-5">
                   <CardBody className="text-center">
                     <div>
                       <h2>회원가입</h2>

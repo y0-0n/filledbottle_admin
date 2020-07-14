@@ -398,7 +398,7 @@ class List extends Component {
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
         <Row>
           <Col>
-            <Table className="category-top" >
+            <Table className="category-top list-hidden" >
               <tbody>
                 <tr>
                   { userCategoryData.length > 0 ? <td style={{cursor: "pointer", backgroundColor: this.props.category===0 ? '#E6E6E6' : '#fff'}} onClick={() => {this.changeCategory(this.props.checkCategoryId(0))}}>전체</td>  : null}
@@ -423,7 +423,7 @@ class List extends Component {
                 </tr>
               </tbody>
             </Table>
-            <div className="status-box">
+            <div className="status-box list-hidden">
               <ul className="status-list">
                 <li>
                   <i className="fa fa-list-alt"></i>
@@ -463,7 +463,7 @@ class List extends Component {
             <div className="search-box">
               <div className="search-list">
                 <label className="search-label">품목검색</label>
-                <div className="search-input">
+                <div className="sell-input">
                   <Input className="searchbox-input" placeholder="품목명을 검색해주세요." style={{width : "30%"}} onChange={(e) => { this.props.searchKeywordP(e.target.value) }}></Input>
                 </div>
               </div>
@@ -544,13 +544,13 @@ class List extends Component {
                 </a>
               </div>
               <div className="list-box">
-                <Table className="ListTable" style={{ minWidth: 600 }} hover>
+                <Table className="ListTable" hover>
                   <thead>
                     <tr>
-                      <th>No.</th>
-                      <th style={{ width: 150 }}>사진</th>
+                      <th className="list-hidden">No.</th>
+                      <th className="list-hidden" style={{ width: 150 }}>사진</th>
                       <th>품목명</th>
-                      <th style={{ width: 250 }}>품목군</th>
+                      <th className="list-hidden" style={{ width: 250 }}>품목군</th>
                       <th>판매 단가</th>
                       <th>재고</th>
                       <th>상태</th>
@@ -563,12 +563,12 @@ class List extends Component {
                           pathname: '/main/product/' + e.id,
                         })
                       }}>
-                        <td>{e.id}</td>
-                        <td>
+                        <td className="list-hidden">{e.id}</td>
+                        <td className="list-hidden">
                           <img style={{ width: '90%' }} alt="품목 사진" src={e.file_name ? process.env.REACT_APP_HOST+"/static/" + e.file_name : '318x180.svg'} />
                         </td>
                         <td>{e.name + ' ' + e.grade + ' ' + e.weight}</td>
-                        <td>{e.familyName}</td>
+                        <td className="list-hidden">{e.familyName}</td>
                         <td>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</td>
                         <td>{e.stock}</td>
                         <td>

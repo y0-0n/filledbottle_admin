@@ -152,3 +152,45 @@ ul li {
 .product-info input {
     margin-left : 10px;
 }
+
+.stock-input {
+    width: 30%;
+}
+
+@media (max-width: 1024px) {
+    .main {
+        font-size: 0.8em;
+    }
+
+    .main .container-fluid {
+        padding: 0 !important;
+    }
+
+    .sell-discount .sell-label {
+        width: 100px !important;
+    }
+
+    .add-image-list {
+        width: 300px !important;
+    }
+
+    .stock-input {
+        width: 100%;
+    }
+
+    .stockproduct-input {
+        width: 90%;
+    }
+
+    .form-card .form-innercontent .sell-label {
+        width: 100%;
+    }
+
+    .sales-card .form-innercontent{
+        padding: 0;
+    }
+
+    .list-box {
+        width: 100%;
+    }
+}

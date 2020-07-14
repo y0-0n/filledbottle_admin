@@ -99,7 +99,7 @@ class Create extends Component {
                 <div className="sell-input">
                   {console.log(this.state.sProduct)}
                   {<Popup
-                    trigger={<Input required placeholder={ "품목을 선택해주세요" } value={this.state.productName} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}}/>}
+                    trigger={<Input className="stock-input" required placeholder={ "품목을 선택해주세요" } value={this.state.productName} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}}/>}
                     modal>
                       
                     {close => <ProductModal close={close} login={()=>{this.props.history.push('/login')}} createProduct={() => {this.props.history.push('/product/create')}}
@@ -127,11 +127,11 @@ class Create extends Component {
                   </div> */}
                   <div className="product-info">
                     <label>품목군</label>
-                    <input value={this.state.familyName}/>
+                    <input className="stockproduct-input" value={this.state.familyName}/>
                   </div>
                   <div className="product-info">
                     <label>판매단가</label>
-                    <input value={this.state.price_shipping}></input>
+                    <input className="stockproduct-input" value={this.state.price_shipping}></input>
                   </div>
                 </div>
               </div>
@@ -139,7 +139,7 @@ class Create extends Component {
             <div className="sell-list">
               <label className="sell-label">구분</label>
               <div className="sell-input">
-                <Input value={this.state.productName} style={{width: "30%"}} readOnly/>
+                <Input className="stock-input" value={this.state.productName} readOnly/>
               </div>
             </div>
             <div className="sell-list">
