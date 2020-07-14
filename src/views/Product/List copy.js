@@ -544,7 +544,7 @@ class List extends Component {
                 </a>
               </div>
               <div className="list-box">
-                <Table className="ListTable" style={{ minWidth: 600 }} hover>
+                <Table className="ListTable" hover>
                   <thead>
                     <tr>
                       <th className="list-hidden">No.</th>
