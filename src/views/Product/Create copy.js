@@ -17,6 +17,7 @@ class CreateProduct extends Component {
       productFamily: 'NULL',
       state: 1,
       vat: '1',
+      detail: '',
     };
 
     this.state = {
@@ -411,6 +412,17 @@ class CreateProduct extends Component {
                   <div className="sell-input">
                     <div className="search-input">
                       <Input required onChange={(e) => this.form.shippingDate = e.target.value} placeholder="출하일"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-card">
+                <div className="form-title">추가사항</div>
+                <div className="form-innercontent">
+                  <div className="sell-input">
+                    <div className="search-input">
+                      <textarea style={{width: '100%', height: '100px'}} onChange={(e) => this.form.detail = e.target.value}></textarea>
                     </div>
                   </div>
                 </div>

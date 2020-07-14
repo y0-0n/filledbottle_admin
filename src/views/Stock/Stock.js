@@ -81,7 +81,8 @@ class Stock extends Component {
   getStock() {
     const name = this.props.keywordS;
 		const { familyData} = this.state;
-    const { pageNumbers, family, plant } = this.props;
+    const { pageNumbers, plant } = this.props;
+    const family = this.props.familyS
     fetch(process.env.REACT_APP_HOST+"/api/stock/list", {
       method: 'POST',
       headers: {
@@ -117,7 +118,8 @@ class Stock extends Component {
 
   getTotal() {
     const name = this.props.keywordS;
-    const { family, plant } = this.props
+    const { plant } = this.props;
+    const family = this.props.familyS;
 
     fetch(process.env.REACT_APP_HOST + "/api/stock/list/total/", {
       method: 'POST',
@@ -193,9 +195,6 @@ class Stock extends Component {
 
 	changePlant(id) {
 		this.setState({
-			//plant: id,
-			//page: 1,
-			//family: 0,
 		}, () => {
       this.getStock();
 		})
@@ -224,11 +223,11 @@ class Stock extends Component {
   }
 
   resetInput() {
-    var reset_input = document.getElementsByClassName('searchbox-input')
+    var reset_input = document.getElementsByClassName('searchbox-input');
     for(var i = 0; i < reset_input.length; i++) {
       reset_input[i].value = null;
-      console.log(i);
     }
+    this.setState({familyName: this.props.checkFamilyS(0)})
   }
 
   getDiffDate(dateInput) {
@@ -285,8 +284,9 @@ class Stock extends Component {
               <div className="search-list">
                 <label className="search-label">품목군</label>
                 <div className="sell-input">
+                <label className="search-input-label"><input className="search-input-checkbox" name="family" type="radio" onChange={()=>{this.setState({familyName: this.props.checkFamilyS(0)})}} checked={this.props.familyS===0}/>전체</label>
                   {familyData.map((e, i) => {
-                      return <label className="search-input-label"><input onChange = {() => {this.setState({family: this.props.checkFamily(e.id)}); console.log(this.state.family)}} className="search-input-checkbox" name="family" type="radio"/>{e.name}</label>
+                      return <label className="search-input-label"><input onChange = {() => {this.setState({family: this.props.checkFamilyS(e.id)})}} className="search-input-checkbox" name="family" type="radio"/>{e.name}</label>
                     })
                   }
                   {/* payload를 문자열로 받아옴 */}
@@ -314,7 +314,7 @@ class Stock extends Component {
                 </div>
               </div>
               <div className="search-button" style={{textAlign: 'center', paddingBottom: "10px"}}>
-								<Button color="primary" style={{marginRight: 10}} onClick={()=> {this.searchProduct(); this.changeFamily(this.state.family)}} >검색</Button>
+								<Button color="primary" style={{marginRight: 10}} onClick={()=> {this.searchProduct(); this.changeFamily(this.state.familyS)}} >검색</Button>
 								<Button color="ghost-primary" onClick={() => { this.props.searchKeywordS(''); this.resetInput(); }}>초기화</Button>
 							</div>
             </div>

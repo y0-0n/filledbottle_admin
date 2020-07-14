@@ -42,8 +42,8 @@ class List extends Component {
       total: 0,
       totalData: 0,
       //keyword: '',
-      first_date: (new Date(new Date().getTime() - 60*60*24*1000*30*4)),
-      last_date: new Date(),
+      first_date: (new Date(new Date().getTime() - 60*60*24*1000*15)),
+      last_date: (new Date(new Date().getTime() + 60*60*24*1000*15)),
       checks: []
     };
     //this.keyword = '';

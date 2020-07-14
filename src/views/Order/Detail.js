@@ -178,11 +178,22 @@ class Detail extends Component {
   }
 
   checkQuantity(max, refund) {
+    if(refund === undefined){
+      alert('환불할 품목의 갯수를 입력해주세요.');
+      return false;
+    }
     if(refund > max || 0 > refund){
       alert("범위를 확인해주세요");
       return false;
     }
     else return true;
+  }
+
+  resetInput() {
+    var reset_input = document.getElementsByClassName('refund-input')
+    for(var i = 0; i < reset_input.length; i++) {
+      reset_input[i].value = null;
+    }
   }
 
   render() {
@@ -316,9 +327,9 @@ class Detail extends Component {
                       {
                         this.state.refund === true && e.refund == false? <React.Fragment>
                           <InputGroup>
-                            <Input style={{width: '100px'}} onChange={(ee) => {e['refundQuantity'] = ee.target.value;}}/>
+                            <Input className="refund-input" style={{width: '100px'}} onChange={(ee) => {e['refundQuantity'] = ee.target.value;}}/>
                             <InputGroupAddon addonType="append">
-                              <Button onClick={() => {if(this.checkQuantity(e['quantity'], e['refundQuantity'])) this.refundProduct(e);}}>환불</Button>
+                              <Button onClick={() => {if(this.checkQuantity(e['quantity'], e['refundQuantity'])) this.refundProduct(e); this.resetInput()}}>환불</Button>
                             </InputGroupAddon>
                           </InputGroup>
                         </React.Fragment>

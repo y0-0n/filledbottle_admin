@@ -456,6 +456,17 @@ class Modify extends Component {
               </div>
 
               <div className="form-card">
+                <div className="form-title">추가사항</div>
+                <div className="form-innercontent">
+                  <div className="sell-input">
+                    <div className="search-input">
+                      <textarea style={{width: '100%', height: '100px'}} defaultValue={data.detail} onChange={(e) => this.form.detail = e.target.value} ></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-card">
                 <div className="form-title">상품이미지</div>
                 <div className="form-innercontent">
                   <div className="sell-list">
