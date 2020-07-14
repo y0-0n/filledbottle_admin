@@ -153,6 +153,10 @@ ul li {
     margin-left : 10px;
 }
 
+.stock-input {
+    width: 30%;
+}
+
 @media (max-width: 1024px) {
     .main {
         font-size: 0.8em;
@@ -168,5 +172,17 @@ ul li {
 
     .add-image-list {
         width: 300px !important;
+    }
+
+    .stock-input {
+        width: 100%;
+    }
+
+    .stockproduct-input {
+        width: 90%;
+    }
+
+    .form-card .form-innercontent .sell-label {
+        width: 100%;
     }
 }

@@ -139,7 +139,7 @@ class Stock extends Component {
                   <Table style={{textAlign: 'center'}} className="ListTable">
                     <thead>
                       <tr>
-                        <th>품목명</th>
+                        <th className="list-hidden">품목명</th>
                         <th>구분명</th>
                         <th>전산 재고</th>
                         <th>실제 재고</th>
@@ -150,7 +150,7 @@ class Stock extends Component {
                         console.log(stockData)
                         return (
                           <tr key={i}>
-                            <td>{d.productName}</td>
+                            <td className="list-hidden">{d.productName}</td>
                             <td>{d.name}</td>
                             <td>{d.quantity}</td>
                             <td><Input defaultValue={d.quantity} onChange={(e) => { d.next = e.target.value}} style={{width : "150px", margin: 'auto'}} ></Input></td>
