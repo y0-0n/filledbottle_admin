@@ -139,13 +139,15 @@ class Modify extends Component {
         this.form.discount_price = data[0].discount_price;
         this.form.state = data[0].state;
         this.form.shippingDate = data[0].shippingDate;
+        this.form.additional = data[0].additional;
         this.setState({
-          price: data[0].price_shipping, 
+          price: data[0].price_shipping,
+          additional: data[0].additional, 
           discount_price: data[0].discount_price, 
           imageFile: process.env.REACT_APP_HOST + "/static/"+data[0].file_name, 
           image : process.env.REACT_APP_HOST + "/static/" + data[0].file_name,
           imageDetailFile : data[0].detail_file,
-          shippingDate: data[0].shippingDate
+          shippingDate: data[0].shippingDate,
         }, ()=> {
         })
         this.setState({ data: data[0], category: data[0].categoryId }, () => {
@@ -305,6 +307,15 @@ class Modify extends Component {
     this.setState({vat: e.target.value})
   }
 
+  changeAdditional(e) {
+    let {data} = this.state;
+    data.additional = e.target.value;
+    this.form.additional = e.target.value;
+    this.setState({data});
+    e.preventDefault();
+  }
+
+
   changeState(e) {
     let {data} = this.state;
     data.state = parseInt(e.target.value);
@@ -460,7 +471,7 @@ class Modify extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <textarea style={{width: '100%', height: '100px'}} defaultValue={data.detail} onChange={(e) => this.form.detail = e.target.value} ></textarea>
+                      <textarea style={{width: '100%', height: '100px'}} type='text' value={data.additional} onChange={this.changeAdditional.bind(this)} />
                     </div>
                   </div>
                 </div>
@@ -539,7 +550,7 @@ class Modify extends Component {
                           </div>
                         </div>
                         {data.detail_file.map((e, i) => {
-												  return <img alt="품목 사진" style={{width: "100%"}} src={process.env.REACT_APP_HOST + '/static/' + e} />
+												  return <img key={i} alt="품목 사진" style={{width: "100%"}} src={process.env.REACT_APP_HOST + '/static/' + e} />
 											  })}
                         {this.state.imageDetail.map((e, i) => {
                           return <img key={i} id="imageFile" alt="상세 사진1" style={{
