@@ -205,7 +205,9 @@ class RegisterDetail extends Component {
       .then(data => {
 				let status = data[0];
         if (status === 200){
-					this.getPlantList();
+          this.getPlantList();
+          alert('추가되었습니다.');
+          window.location.reload();
         }
         else {
           alert('로그인 하고 접근해주세요');
@@ -519,12 +521,12 @@ class RegisterDetail extends Component {
                 </Row>
               </CardHeader>
               <CardBody>
-                <Table className="ShowTable">
+                <Table style={{textAlign: 'center'}}>
                   <thead>
                     <tr>
                       <th>창고명</th>
                       {/* <th>저장 품목군</th> */}
-                      <th style={{width : 35}}>삭제</th>
+                      <th style={{width: '20%'}}>삭제</th>
                       {/*<th>저장량</th>*/}
                     </tr>
                   </thead>
