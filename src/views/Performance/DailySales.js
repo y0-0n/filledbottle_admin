@@ -25,7 +25,7 @@ class List extends Component {
       <div className="animated fadeIn align-items-center">
         <link rel="stylesheet" type="text/css" href="css/CreateCopy.css"></link>
         <div>
-          <div className="form-card">
+          <div className="form-card sales-card">
             <div className="form-title" style={{textAlign: 'center', fontSize: '1.2em'}}>
               {this.state.year}년 {this.state.month}월
             </div>
@@ -34,7 +34,7 @@ class List extends Component {
                 <div className="form-title">일별 판매량</div>
                 <div className="form-innercontent">
                   <div className="list-box">
-                    <Table className="ListTable" style={{ minWidth: 600 }} hover>
+                    <Table className="ListTable" style={{textAlign: 'center'}} hover>
                       <thead>
                         <tr>
                           <th>순위</th>

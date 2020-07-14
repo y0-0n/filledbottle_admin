@@ -185,4 +185,12 @@ ul li {
     .form-card .form-innercontent .sell-label {
         width: 100%;
     }
+
+    .sales-card .form-innercontent{
+        padding: 0;
+    }
+
+    .list-box {
+        width: 100%;
+    }
 }
