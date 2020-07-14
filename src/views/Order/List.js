@@ -323,7 +323,7 @@ class List extends Component {
                       <tr>
                         <th className="list-hidden">#</th>
                         <th>출하일</th>
-                        <th className="list-hidden">생성일</th>
+                        {/* <th className="list-hidden">생성일</th> */}
                         <th>고객</th>
                         <th>총액</th>
                         <th className="list-hidden">상태</th>
@@ -335,7 +335,7 @@ class List extends Component {
                         return (<tr style={{cursor: 'pointer'}} key={this.state.count} onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>
                           <td className="list-hidden">{e.id}</td>
                         <td>{this.getDate(e.date)}</td>
-                        <td className="list-hidden">{this.getDate(e.orderDate)}</td>
+                        {/* <td className="list-hidden">{this.getDate(e.orderDate)}</td> */}
                         <td>{e.name}</td>
                         <td>{this.numberWithCommas(e.price)}</td>
                         <td className="list-hidden">

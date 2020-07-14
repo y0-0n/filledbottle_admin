@@ -223,7 +223,7 @@ class Detail extends Component {
                 <tr>
                   <th>고객명</th>
                   <td>{orderInfo['name']}</td>
-                  <th>일자</th>
+                  <th>출하 일자</th>
                   <td>{year}년 {month}월 {date}일</td>
                 </tr>
                 <tr>
