@@ -1,0 +1,9 @@
+.py-5 {
+  width: 44%;
+}
+
+@media (max-width: 1024px) {
+  .py-5 {
+    width: 100%;
+  }
+}
