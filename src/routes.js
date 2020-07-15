@@ -52,6 +52,7 @@ const CreateProduct = React.lazy(() => import('./views/Product/Create copy'));
 const ProductDetail = React.lazy(() => import('./views/Product/Detail copy'));
 const ProductModify = React.lazy(() => import('./views/Product/Modify copy'));
 const ProductUnset = React.lazy(() => import('./views/Product/Unset'));
+const CostCalculator = React.lazy(() => import('./views/Product/CostCal'));
 const Plant = React.lazy(() => import('./views/Plant/Plant'));
 const CreateOrder = React.lazy(() => import('./views/Order/Create'));
 //const Stock = React.lazy(() => import('./views/Stock/Stock'));
@@ -112,6 +113,7 @@ const routes = [
   { path: '/main/product/edit/:id', exact: true,  name: '상품 수정', component: ProductModify},
   { path: '/product/create', exact: true,  name: '상품 등록', component: CreateProduct},
   { path: '/main/product/list/unset', exact: true,  name: '상품 등록', component: ProductUnset},
+  { path: '/main/product/list/calculator', exact: true,  name: '상품 등록', component: CostCalculator},
   { path: '/main/plant', exact: true,  name: '공장', component: Plant},
   { path: '/sales/order', exact: true,  name: '주문', component: CreateOrder},
   { path: '/main/sales/order/:id', exact: true,  name: '주문 상세', component: OrderDetail},
