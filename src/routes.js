@@ -95,7 +95,7 @@ const Pay = React.lazy(() => import('./views/Pay/List'));
 const ProductSales = React.lazy(() => import('./views/Performance/ProductSales'));
 const CustomerSales = React.lazy(() => import('./views/Performance/CustomerSales'));
 const DailySales = React.lazy(() => import('./views/Performance/DailySales'));
-const Store = React.lazy(() => import('./views/Market/List'));
+const Store = React.lazy(() => import('./views/Market'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [

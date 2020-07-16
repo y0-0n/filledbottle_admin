@@ -17,7 +17,21 @@ class List extends Component {
       totalData: 0,
       checks: []
     };
-	}
+  }
+
+  countPageNumber(x){
+    this.setState({
+    }, () => {
+    });
+  }
+  
+  resetInput() {
+    var reset_input = document.getElementsByClassName('searchbox-input')
+    for(var i = 0; i < reset_input.length; i++) {
+      reset_input[i].value = null;
+      console.log(i);
+    }
+  }
 
   render() {
     var data = this.state.orderData;
@@ -33,18 +47,18 @@ class List extends Component {
               <div className="search-list">
                 <label className="search-label">매장명</label>
                 <div className="sell-input">
-                  <Input className='searchbox-input' placeholder="매장명을 검색해주세요." style={{width: "30%"}} onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
+                  <Input className='searchbox-input' placeholder="매장명을 검색해주세요." style={{width: "30%"}} onChange={(e) => { this.props.searchKeywordM(e.target.value) }} />
                 </div>
               </div>
               <div className="search-list">
                 <label className="search-label">취급품목</label>
                 <div className="sell-input">
-                  <Input className='searchbox-input' placeholder="품목명을 검색해주세요." style={{width: "30%"}} onChange={(e) => { this.props.searchKeyword(e.target.value) }} />
+                  <Input className='searchbox-input' placeholder="품목명을 검색해주세요." style={{width: "30%"}} onChange={(e) => { this.props.searchKeywordM(e.target.value) }} />
                 </div>
               </div>
               <div className="search-button" style={{textAlign: 'center', paddingBottom: "10px"}}>
                 <Button color="primary" style={{marginRight: 10}} onClick={() => { this.searchOrder(this.props.keyword); }}>검색</Button>
-								<Button color="ghost-primary" onClick={() => { this.props.searchKeyword(''); this.resetInput(); this.resetDatePicker() }}>초기화</Button>
+								<Button color="ghost-primary" onClick={() => { this.props.searchKeywordM(''); this.resetInput(); }}>초기화</Button>
 							</div>
             </div>
             
