@@ -71,6 +71,11 @@ export default {
         },
       ]
     },
+    {
+      name: '매장 관리',
+      url: '/main/market',
+      icon: 'icon-speedometer',
+    },
     // {
     //   name: '손익계산서',
     //   url: '/main/income',
