@@ -37,6 +37,7 @@ class Home extends Component {
     this.state = {
       orderData: [],
       orderData2: [],
+      orderData3: [],
       events: [],
       bar:{},
       last_receive: 0,
@@ -344,14 +345,13 @@ class Home extends Component {
   getTodayShipping() {
     const process_ = 'order', keyword = '', page = '1', limit = 5;
     const today = new Date()
-    fetch(process.env.REACT_APP_HOST+"/order/list", {
-      method: 'POST',
+    fetch(process.env.REACT_APP_HOST+"/order/todayShipping", {
+      method: 'GET',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
       },
-      body: JSON.stringify({today, today, page, process_, keyword, limit})
     })
     .then(response => {
       if(response.status === 401) {
@@ -533,7 +533,7 @@ class Home extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                    {this.state.orderData2.map((e, i) => {
+                    {this.state.orderData3.map((e, i) => {
                         return (<tr style={{cursor: 'pointer'}} key={e.id} onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>
                           <td>{e.id}</td>
                           <td>{this.getDate(e.date)}</td>
