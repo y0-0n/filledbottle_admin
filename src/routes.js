@@ -52,6 +52,7 @@ const CreateProduct = React.lazy(() => import('./views/Product/Create copy'));
 const ProductDetail = React.lazy(() => import('./views/Product/Detail copy'));
 const ProductModify = React.lazy(() => import('./views/Product/Modify copy'));
 const ProductUnset = React.lazy(() => import('./views/Product/Unset'));
+const CostCalculator = React.lazy(() => import('./views/Product/CostCal'));
 const Plant = React.lazy(() => import('./views/Plant/Plant'));
 const CreateOrder = React.lazy(() => import('./views/Order/Create'));
 //const Stock = React.lazy(() => import('./views/Stock/Stock'));
@@ -94,6 +95,8 @@ const Pay = React.lazy(() => import('./views/Pay/List'));
 const ProductSales = React.lazy(() => import('./views/Performance/ProductSales'));
 const CustomerSales = React.lazy(() => import('./views/Performance/CustomerSales'));
 const DailySales = React.lazy(() => import('./views/Performance/DailySales'));
+const Market = React.lazy(() => import('./views/Market'));
+const MarketDetail = React.lazy(() => import('./views/Market/Detail'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -112,6 +115,7 @@ const routes = [
   { path: '/main/product/edit/:id', exact: true,  name: '상품 수정', component: ProductModify},
   { path: '/product/create', exact: true,  name: '상품 등록', component: CreateProduct},
   { path: '/main/product/list/unset', exact: true,  name: '상품 등록', component: ProductUnset},
+  { path: '/main/product/list/calculator', exact: true,  name: '상품 등록', component: CostCalculator},
   { path: '/main/plant', exact: true,  name: '공장', component: Plant},
   { path: '/sales/order', exact: true,  name: '주문', component: CreateOrder},
   { path: '/main/sales/order/:id', exact: true,  name: '주문 상세', component: OrderDetail},
@@ -153,6 +157,8 @@ const routes = [
   { path: '/main/performance/product', exact: true,  name: '월별 성과', component: ProductSales},
   { path: '/main/performance/customer', exact: true,  name: '월별 성과', component: CustomerSales},
   { path: '/main/performance/daily', exact: true,  name: '월별 성과', component: DailySales},
+  { path: '/main/market', exact: true,  name: '매장 관리', component: Market},
+  { path: '/main/market/:id', exact: true,  name: '매장 상세', component: MarketDetail},
 
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },
