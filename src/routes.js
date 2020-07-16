@@ -95,7 +95,8 @@ const Pay = React.lazy(() => import('./views/Pay/List'));
 const ProductSales = React.lazy(() => import('./views/Performance/ProductSales'));
 const CustomerSales = React.lazy(() => import('./views/Performance/CustomerSales'));
 const DailySales = React.lazy(() => import('./views/Performance/DailySales'));
-const Store = React.lazy(() => import('./views/Market'));
+const Market = React.lazy(() => import('./views/Market'));
+const MarketDetail = React.lazy(() => import('./views/Market/Detail'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -156,7 +157,8 @@ const routes = [
   { path: '/main/performance/product', exact: true,  name: '월별 성과', component: ProductSales},
   { path: '/main/performance/customer', exact: true,  name: '월별 성과', component: CustomerSales},
   { path: '/main/performance/daily', exact: true,  name: '월별 성과', component: DailySales},
-  { path: '/main/market', exact: true,  name: '매장 관리', component: Store},
+  { path: '/main/market', exact: true,  name: '매장 관리', component: Market},
+  { path: '/main/market/:id', exact: true,  name: '매장 상세', component: MarketDetail},
 
   { path: '/theme', exact: true, name: 'Theme', component: Colors },
   { path: '/theme/colors', name: 'Colors', component: Colors },

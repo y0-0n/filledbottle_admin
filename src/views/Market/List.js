@@ -10,12 +10,8 @@ class List extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      count : 1,
-      process: "all",
-      orderData: [],
+      data : [{id: 1, name: '코스트코', address: '서울특별시 성북구', product: '사과', performance: 100000}],
       total: 0,
-      totalData: 0,
-      checks: []
     };
   }
 
@@ -34,10 +30,8 @@ class List extends Component {
   }
 
   render() {
-    var data = this.state.orderData;
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
-    data.map((e, i) => {this.state.checks[i] = false});
     return (
       <div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/ListCopy.css"></link>
@@ -91,6 +85,19 @@ class List extends Component {
                     </tr>
                   </thead>
                   <tbody>
+                    {
+                      this.state.data.map((e, i) => {
+                        return(
+                          <tr key={i} onClick={() => {this.props.history.push(`/main/market/${e.id}`)}}>
+                            <td>{e.id}</td>
+                            <td>{e.name}</td>
+                            <td>{e.address}</td>
+                            <td>{e.product}</td>
+                            <td>{e.performance}</td>
+                          </tr>
+                        )
+                      })
+                    }
                   </tbody>
                 </Table>
                 <Pagination style={{justifyContent: 'center'}}>
