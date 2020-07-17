@@ -536,7 +536,6 @@ class List extends Component {
                 </div>
               </div>
               <div className="list-menu">
-                <Button style={{marginRight: "10px"}} onClick={() => { this.props.history.push('/main/product/list/calculator'); }} color="primary">원가계산기</Button>
                 <Button style={{marginRight: "10px"}} onClick={() => { this.props.history.push('/product/create'); }} color="primary">엑셀로 보내기</Button>
                 <Button style={{marginRight: "10px"}} onClick={() => { this.props.history.push('/product/create'); }} color="primary">품목추가</Button>
                 <a className="button-list" style={{display: "inline-block", border: "1px solid #eee", padding: "10px", marginRight: "10px", backgroundColor: show === false ? 'lightgray' : 'transparent'}} onClick={() => {this.props.changeShow()}}><i className="fa fa-th" style={{display: "block"}}></i>
