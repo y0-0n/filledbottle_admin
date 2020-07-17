@@ -157,6 +157,14 @@ ul li {
     width: 30%;
 }
 
+.ant-table-column-sorters {
+    display: inline;
+}
+
+.ant-table-column-sorter-down , .ant-table-column-sorter-up {
+    margin-left: 10px;
+}
+
 @media (max-width: 1024px) {
     .main {
         font-size: 0.8em;
