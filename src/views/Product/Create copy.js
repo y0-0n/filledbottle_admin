@@ -218,6 +218,11 @@ class CreateProduct extends Component {
     this.form.state = e.target.value;
   }
 
+  changeGAP(e) {
+    this.setState({gap: e.target.value})
+    this.form.gap = e.target.value;
+  }
+
   render() {
     var userCategoryData = this.state.userCategoryData;
     return (
@@ -398,8 +403,8 @@ class CreateProduct extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <label className="search-input-label"><input className="search-input-checkbox" name="gap" type="radio" value="1" onChange={this.changeState.bind(this)} defaultChecked/>인증</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" name="gap" type="radio" value="2" onChange={this.changeState.bind(this)} />인증하지 않음</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="gap" type="radio" value="1" onChange={this.changeGAP.bind(this)} defaultChecked/>인증</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="gap" type="radio" value="2" onChange={this.changeGAP.bind(this)} />인증하지 않음</label>
                     </div>
                     <Input required onChange={(e) => this.form.gap = e.target.value} placeholder="GAP 인증번호"/>
                   </div>
