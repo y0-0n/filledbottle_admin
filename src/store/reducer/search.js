@@ -6,6 +6,7 @@ const InitialState ={
     keywordC : '',
     keywordP : '',
     keywordS : '',
+    keywordM : '',
     pageNumbers : 1,
 };
 
@@ -20,6 +21,8 @@ export default function searchReducer(state = InitialState, action) {
             return searchKeywordP(state, action.payload);
         case searchPage.searchS : 
             return searchKeywordS(state, action.payload);
+        case searchPage.searchM : 
+            return searchKeywordM(state, action.payload);
         case pagination.convert :
             return convertPage(state, action.payload);
         default : 
@@ -67,6 +70,15 @@ function searchKeywordS(state, keyword_s) {
     return {
         ...state,
         keywordS : keyword_s,
+        pageNumbers : 1,
+        family : 0
+    }
+}
+
+function searchKeywordM(state, keyword_m) {
+    return {
+        ...state,
+        keywordM : keyword_m,
         pageNumbers : 1,
         family : 0
     }

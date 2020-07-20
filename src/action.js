@@ -50,6 +50,16 @@ function searchKeywordS(e) {
     }
 }
 
+const searchM = 'searchM'
+
+
+function searchKeywordM(e) {
+    return {
+        type : searchM,
+        payload : e
+    }
+}
+
 //product
 const category = 'category'
 
@@ -116,6 +126,7 @@ const searchPage = {
     searchC,
     searchP,
     searchS,
+    searchM,
 }
 
 const product = {
@@ -139,6 +150,7 @@ const searchFunction = {
     searchKeywordC,
     searchKeywordP,
     searchKeywordS,
+    searchKeywordM,
 }
 
 const productFunction = {
