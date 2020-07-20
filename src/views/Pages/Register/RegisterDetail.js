@@ -37,6 +37,8 @@ class RegisterDetail extends Component {
       deletePlantList: [],
       employee: [[]],
       cardShow : true,
+      storeImg: '',
+      storeName: '민수의 농장'
     }
   }
 
@@ -456,6 +458,13 @@ class RegisterDetail extends Component {
                       <th>계좌번호</th>
                       <td>
                         {data.accountName} {data.accountNumber}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>상점 이름</th>
+                      <td colSpan="3" style={{textAlign: 'center'}}>
+                        {this.state.storeImg}
+                        {this.state.storeName}
                       </td>
                     </tr>
                   </tbody>
