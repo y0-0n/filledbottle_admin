@@ -229,6 +229,19 @@ class Detail extends Component {
               </div>
 
               <div className="form-card">
+                <div className="form-title">GAP 인증 여부</div>
+                <div className="form-innercontent">
+                  <div className="sell-input">
+                    <div className="search-input">
+                      <label className="search-input-label"><input className="search-input-checkbox" name="gap" type="radio" value="1"defaultChecked checked={data.state===1}/>인증</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="gap" type="radio" value="2" checked={data.state===2} />인증하지 않음</label>
+                    </div>
+                    {/* {this.form.gap} */}
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-card">
                 <div className="form-title">품목상태</div>
                 <div className="form-innercontent">
                   <div className="sell-input">
