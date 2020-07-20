@@ -311,6 +311,11 @@ class Modify extends Component {
     this.setState({data})
     this.form.state = e.target.value;
   }
+  
+  changeGAP(e) {
+    this.setState({gap: e.target.value})
+    this.form.gap = e.target.value;
+  }
 
   async createFile(){
     let response = await fetch(`${this.state.imageFile}`);
@@ -427,6 +432,19 @@ class Modify extends Component {
                         </div>
                       </div>
                     </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-card">
+                <div className="form-title">GAP 인증 여부</div>
+                <div className="form-innercontent">
+                  <div className="sell-input">
+                    <div className="search-input">
+                      <label className="search-input-label"><input className="search-input-checkbox" name="gap" type="radio" value="1" onChange={this.changeGAP.bind(this)} defaultChecked/>인증</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="gap" type="radio" value="2" onChange={this.changeGAP.bind(this)} />인증하지 않음</label>
+                    </div>
+                    <Input required onChange={(e) => this.form.gap = e.target.value} placeholder="GAP 인증번호"/>
                   </div>
                 </div>
               </div>

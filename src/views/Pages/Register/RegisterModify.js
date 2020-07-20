@@ -196,6 +196,12 @@ class RegisterModify extends Component {
                       {/* <Input defaultValue={data.address} onChange={(e) => this.form.address=e.target.value}/> */}
                     </td>
                   </tr>
+                  <tr>
+                    <th>상점 이름</th>
+                    <td colSpan="3" style={{textAlign: 'center'}}>
+                      <Input />
+                    </td>
+                  </tr>
                 </tbody>
               </Table>
             </CardBody>
