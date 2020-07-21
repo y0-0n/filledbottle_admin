@@ -6,8 +6,20 @@ class RegisterModify extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [[]]
+      data: [[]],
+      image: '/assets/img/plusImage.jpg',
     }
+  }
+
+  handleFileInput(e) {
+    var file = e.target.files[0];
+    var canvasImg = document.createElement("img");
+    var reader = new FileReader();
+    reader.onload = () => {
+      this.setState({image: reader.result})
+    }
+    reader.readAsDataURL(file);
+    this.setState({imageFile: file});
   }
 
   sample6_execDaumPostcode() {
@@ -87,6 +99,9 @@ class RegisterModify extends Component {
     this.form.addressDetail = document.getElementById("sample6_detailAddress").value;
 		this.form.postcode = document.getElementById("sample6_postcode").value;
     
+    let formData = new FormData();
+    formData.append('file', this.state.imageFile);
+
     let c = window.confirm('회원정보를 수정하시겠습니까?')
     // console.log(this.form)
     if(c) {
@@ -200,6 +215,14 @@ class RegisterModify extends Component {
                     <th>상점 이름</th>
                     <td colSpan="3" style={{textAlign: 'center'}}>
                       <Input />
+                      <div style={{paddingBottom: '10px', cursor: 'pointer'}}>
+                        <input ref="file" type="file" name="file" onChange={e => {
+                          this.handleFileInput(e);
+                        }} style={{display: "none"}}/>
+                        <div id="imageFile" className="add-image" onClick={() => document.all.file.click()}>
+                          <img style={{width:"300px"}} src={this.state.image} />
+                        </div>
+                      </div>
                     </td>
                   </tr>
                 </tbody>

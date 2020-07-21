@@ -463,8 +463,8 @@ class RegisterDetail extends Component {
                     <tr>
                       <th>상점 이름</th>
                       <td colSpan="3" style={{textAlign: 'center'}}>
-                        {this.state.storeImg}
-                        {this.state.storeName}
+                        <img style={{width: '500px'}} alt="품목 사진" src={data.file_name ? process.env.REACT_APP_HOST+"/static/" + data.file_name : '318x180.svg'} />
+                        <p>{this.state.storeImg}</p>
                       </td>
                     </tr>
                   </tbody>
