@@ -1,6 +1,6 @@
 /*global daum*/
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Input, Table, InputGroupAddon, InputGroup } from 'reactstrap';
+import { Table } from 'antd';
 
 class List extends Component {
   constructor(props) {
@@ -8,7 +8,31 @@ class List extends Component {
     this.state = {
       year : 0,
       month : 0,
-      dailySales : [],
+      columns : [{
+        title: '번호',
+        dataIndex: 'key',
+        sorter: (a, b) => a.key - b.key,
+        sortDirections: ['descend'],
+      },
+      {
+        title: '주문일자',
+        dataIndex: 'date',
+        defaultSortOrder: 'descend',
+        sorter: (a, b) => a.date.length - b.date.length,
+      },
+      {
+        title: '주문수량',
+        dataIndex: 'quantity',
+        sorter: (a, b) => a.quantity - b.quantity,
+        sortDirections: ['descend', 'ascend'],
+      },
+      {
+        title: '주문금액',
+        dataIndex: 'order_price',
+        sorter: (a, b) => a.sales_price - b.sales_price,
+        sortDirections: ['descend', 'ascend'],
+      },],
+      dailySales : []
     }
   }
 
@@ -16,7 +40,7 @@ class List extends Component {
     this.setState({
       year : 2020,
       month : 7,
-      dailySales : [{date : '2020-07-01', quantity: 100, order_price : 7800000}, {date: '2020-07-19', quantity : 87, order_price : 650000}],
+      dailySales : [{key: 1, date : '2020-07-01', quantity: 100, order_price : 7800000}, {key: 2, date: '2020-07-19', quantity : 87, order_price : 650000}],
     })
   }
 
@@ -24,6 +48,7 @@ class List extends Component {
     return (
       <div className="animated fadeIn align-items-center">
         <link rel="stylesheet" type="text/css" href="css/CreateCopy.css"></link>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/antd/3.25.3/antd.min.css"/>
         <div>
           <div className="form-card sales-card">
             <div className="form-title" style={{textAlign: 'center', fontSize: '1.2em'}}>
@@ -34,28 +59,7 @@ class List extends Component {
                 <div className="form-title">일별 판매량</div>
                 <div className="form-innercontent">
                   <div className="list-box">
-                    <Table className="ListTable" style={{textAlign: 'center'}} hover>
-                      <thead>
-                        <tr>
-                          <th>순위</th>
-                          <th>주문일자</th>
-                          <th>주문 수량</th>
-                          <th>주문 금액 (원)</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {this.state.dailySales.map((e, i) => {
-                          return (
-                            <tr key={i}>
-                              <td>{i + 1}</td>
-                              <td>{e.date}</td>
-                              <td>{e.quantity}</td>
-                              <td>{e.order_price}</td>
-                            </tr>
-                          )
-                        })}
-                      </tbody>
-                    </Table>
+                    <Table dataSource={this.state.dailySales} columns={this.state.columns} />
                   </div>
                 </div>
               </div>

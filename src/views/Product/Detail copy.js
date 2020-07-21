@@ -122,6 +122,7 @@ class Detail extends Component {
                         <InputGroupAddon addonType="append">
                           원
                         </InputGroupAddon>
+                        <Button style={{marginTop: '10px'}} onClick={() => { this.props.history.push('/main/product/list/calculator'); }} color="primary">원가계산기</Button>
                       </InputGroup>
                     </div>
                   </div>
@@ -223,6 +224,19 @@ class Detail extends Component {
                       <Input type="radio" name="vat" id="vat2" disabled checked={data.tax === 0}/>
                       <label htmlFor="vat2">면세상품</label>
                     </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-card">
+                <div className="form-title">GAP 인증 여부</div>
+                <div className="form-innercontent">
+                  <div className="sell-input">
+                    <div className="search-input">
+                      <label className="search-input-label"><input className="search-input-checkbox" name="gap" type="radio" value="1"defaultChecked checked={data.state===1}/>인증</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="gap" type="radio" value="2" checked={data.state===2} />인증하지 않음</label>
+                    </div>
+                    {/* {this.form.gap} */}
                   </div>
                 </div>
               </div>
