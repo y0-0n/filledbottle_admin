@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Table } from 'antd';
-
+import moment from 'moment';
 
 class List extends Component {
   constructor(props) {
@@ -37,12 +37,39 @@ class List extends Component {
     }
   }
 
+  getProductResult(year, month) {
+    fetch(process.env.REACT_APP_HOST+`/api/result/product/${year}/${month}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => {
+        if(response.status === 401) {
+          return Promise.all([401])
+        } else {
+          return Promise.all([response.status, response.json()]);
+        }
+      })
+      .then(data => {
+        const status = data[0];
+        if(status === 200) {
+          console.warn(data)
+        } else {
+          alert('로그인 하고 접근해주세요');
+          this.props.history.push('/login');
+        }
+      });
+  }
+
   componentWillMount() {
     this.setState({
-      year : 2020,
-      month : 7,
+      year : moment().year(),
+      month : moment().month()+1,
       dataSource : [{key: 1, name : '당근', quantity : 8, sales_price : 1000000}, {key: 2, name : '양파', quantity : 20, sales_price : 330000}],
-    })
+    }, () => this.getProductResult(this.state.year, this.state.month))
   }
 
   render() {
