@@ -6,8 +6,8 @@ class List extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      year : 0,
-      month : 0,
+      year : new Date().getFullYear(),
+      month : new Date().getMonth()+1,
       productSales : [],
       columns : [{
         title: '번호',
@@ -39,11 +39,24 @@ class List extends Component {
 
   componentWillMount() {
     this.setState({
-      year : 2020,
-      month : 7,
       dataSource : [{key: 1, name : '당근', quantity : 8, sales_price : 1000000}, {key: 2, name : '양파', quantity : 20, sales_price : 330000}],
     })
   }
+
+  nextMonth() {
+    if( this.state.month < 12)
+      this.setState({ month: ++this.state.month });
+    else if ( this.state.month === 12 )
+      this.setState({ year: ++ this.state.year , month : 1 })
+  }
+
+  prevMonth() {
+    if( this.state.month > 1)
+      this.setState({ month: -- this.state.month });
+    else if ( this.state.month === 1 )
+      this.setState({ year: -- this.state.year , month : 12 })
+  }
+    
 
   render() {
     return (
@@ -53,7 +66,9 @@ class List extends Component {
         <div>
           <div className="form-card sales-card">
             <div className="form-title" style={{textAlign: 'center', fontSize: '1.2em'}}>
-              {this.state.year}년 {this.state.month}월
+              <span style={{cursor: 'pointer'}} onClick={() => {this.prevMonth()}}>◀</span>
+              <span style={{margin: '0 10px 0 10px'}}>{this.state.year}년 {this.state.month}월</span>
+              <span style={{cursor: 'pointer'}} onClick={() => {this.nextMonth()}}>►</span>
             </div>
             <div className="form-innercontent">
               <div className="form-card">
