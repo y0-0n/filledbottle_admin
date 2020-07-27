@@ -114,7 +114,7 @@ class CreateProduct extends Component {
   }
 
   getUserFamilyCategory() {
-    fetch(process.env.REACT_APP_HOST + "/api/product/userFamilyCategory", {
+    fetch(process.env.REACT_APP_HOST + "/api/product/familyCategory", {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
@@ -151,7 +151,7 @@ class CreateProduct extends Component {
 
 
   getProductFamily() {
-    fetch(process.env.REACT_APP_HOST + "/api/product/familyList/"+this.state.category, {
+    fetch(process.env.REACT_APP_HOST + "/api/product/allFamily/"+this.state.category, {
       method: 'GET',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
