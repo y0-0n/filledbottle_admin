@@ -17,6 +17,7 @@ class Stock extends Component {
 			name: '',
       //plant: 0,
       checkCategory: true,
+      stockList : [],
     };
   }
 
@@ -334,6 +335,13 @@ class Stock extends Component {
                     pathname: '/stock/edit/'+this.props.plant,
                     })}}>재고 실사</Button>
                   {/* <Button color="primary" style={{ marginLeft: 10 }} onClick={() => { this.props.history.push('/stock/transport') }}>창고 이동</Button> */}
+                  <Button color="primary" style={{ marginLeft: 10 }} onClick={() => {
+                    var stockList =[];
+                    for(var i = 0; i < stockData.length; i++){
+                      if(document.getElementById('stock' + i).checked) stockList.push(stockData[i]);
+                    }
+                    this.setState({stockList: stockList})
+                   }}>판매 추가</Button>
                 </div>
                 <Table className="ListTable" hover>
                   <thead>
@@ -344,10 +352,11 @@ class Stock extends Component {
                       <th>유통기한</th>
                       <th>창고</th>
                       <th>현 재고</th>
+                      <th>선택</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {stockData.map((d) => {
+                    {stockData.map((d, i) => {
                       return (
                         <tr onClick={() => {this.props.history.push(`/main/manage/stock/${d.id}`)}} style={{cursor: 'pointer'}} key={d.id}>
                           <td className="list-hidden">
@@ -361,6 +370,7 @@ class Stock extends Component {
                           </td>
                           <td>{d.plantName}</td>
                           <td>{d.quantity}</td>
+                          <td onClick={(e) => {e.stopPropagation()}}><Input id={'stock' + i} type="checkbox"/></td>
                         </tr>
                       )
                     })}
