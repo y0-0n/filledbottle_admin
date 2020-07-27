@@ -37,10 +37,11 @@ class Home extends Component {
     this.state = {
       orderData: [],
       orderData2: [],
+      orderData3: [],
       events: [],
       bar:{},
-      last_receivable: 0,
-      this_receivable: 0,
+      last_receive: 0,
+      this_receive: 0,
       last_income: 0,
       this_income: 0,
     };
@@ -57,8 +58,10 @@ class Home extends Component {
 
   componentWillMount() {
 		this.getOrder(moment().startOf('week'), moment().endOf('week'))
-		this.getOnlyOrder(moment().startOf('month')._d, moment().endOf('month')._d);
-		this.getIncome();
+    this.getOrderState(moment().startOf('month')._d, moment().endOf('month')._d);
+    this.getTodayShipping();
+    this.getIncome();
+    this.getReceive();
 		this.getAmount();
     this.chart();
 		this.getToday();
@@ -122,6 +125,62 @@ class Home extends Component {
         let last_income = data[1][0].sum;
         if(last_income === null) last_income = 0;
         this.setState({last_income});
+      } else {
+        // alert('로그인 하고 접근해주세요')
+        this.props.history.push('/login')
+      }
+    })
+  }
+  
+  getReceive() {
+		const this_date = new Date();
+		const firstDate = new Date(this_date.getFullYear(), this_date.getMonth(), 1)
+		const last_month = new Date(firstDate.setDate(firstDate.getDate() - 1));
+
+    fetch(process.env.REACT_APP_HOST+"/order/receive/"+this_date.getFullYear()+"/"+(this_date.getMonth()+1), {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+      let status = data[0];
+      if(status === 200) {
+        let this_receive = data[1][0].sum;
+        if(this_receive === null) this_receive = 0;
+        this.setState({this_receive});
+      } else {
+        // alert('로그인 하고 접근해주세요')
+        this.props.history.push('/login')
+      }
+    })
+
+    fetch(process.env.REACT_APP_HOST+"/order/receive/"+last_month.getFullYear()+"/"+(last_month.getMonth()+1), {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+      let status = data[0];
+      if(status === 200) {
+        let last_receive = data[1][0].sum;
+        if(last_receive === null) last_receive = 0;
+        this.setState({last_receive});
       } else {
         // alert('로그인 하고 접근해주세요')
         this.props.history.push('/login')
@@ -252,7 +311,7 @@ class Home extends Component {
       });
   }
 
-  getOnlyOrder(first_date, last_date) {
+  getOrderState(first_date, last_date) {
     const process_ = 'order', keyword = '', page = '1', limit = 5;
 
     fetch(process.env.REACT_APP_HOST+"/order/list", {
@@ -276,6 +335,37 @@ class Home extends Component {
       if(status === 200) {
         let orderData2 = data[1];
         this.setState({orderData2})
+      } else {
+        // alert('로그인 하고 접근해주세요')
+        this.props.history.push('/login')
+      }
+    });
+  }
+
+  getTodayShipping() {
+    const process_ = 'order', keyword = '', page = '1', limit = 5;
+    const today = new Date()
+    fetch(process.env.REACT_APP_HOST+"/order/todayShipping", {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
+    .then(response => {
+      if(response.status === 401) {
+        return Promise.all([401])
+      } else {
+        return Promise.all([response.status, response.json()]);
+      }
+    })
+    .then(data => {
+      let status = data[0];
+      if(status === 200) {
+        console.warn(data[1])
+        let orderData3 = data[1];
+        this.setState({orderData3})
       } else {
         // alert('로그인 하고 접근해주세요')
         this.props.history.push('/login')
@@ -429,7 +519,7 @@ class Home extends Component {
           <Col sm="12" md="6">
             <Card>
               <CardHeader>
-                출하 예정 주문
+                금일 출하 주문
               </CardHeader>
               <CardBody>
                 <div>
@@ -443,7 +533,7 @@ class Home extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                    {this.state.orderData2.map((e, i) => {
+                    {this.state.orderData3.map((e, i) => {
                         return (<tr style={{cursor: 'pointer'}} key={e.id} onClick={() => {this.props.history.push(`/main/sales/order/${e.id}`)}}>
                           <td>{e.id}</td>
                           <td>{this.getDate(e.date)}</td>
@@ -507,14 +597,14 @@ class Home extends Component {
                       <th>당월</th>
                     </tr>
                     <tr>
-                      <th>수금</th>
+                      <th>미수금</th>
                       <td style={{textAlign : "right"}}>{this.state.last_income} 원</td>
                       <td style={{textAlign : "right"}}>{this.state.this_income} 원</td>
                     </tr>
                     <tr>
-                      <th>미수금</th>
-                      <td style={{textAlign : "right"}}>{this.state.last_receivable} 원</td>
-                      <td style={{textAlign : "right"}}>{this.state.this_receivable} 원</td>
+                      <th>수금</th>
+                      <td style={{textAlign : "right"}}>{this.state.last_receive} 원</td>
+                      <td style={{textAlign : "right"}}>{this.state.this_receive} 원</td>
                     </tr>
                   </tbody>
                 </Table>

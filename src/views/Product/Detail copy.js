@@ -270,7 +270,7 @@ class Detail extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      {data.detail}
+                      <pre>{data.additional}</pre>
                     </div>
                   </div>
                 </div>

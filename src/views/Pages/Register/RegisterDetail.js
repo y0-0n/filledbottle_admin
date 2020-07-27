@@ -400,7 +400,7 @@ class RegisterDetail extends Component {
         <link rel="stylesheet" type="text/css" href="css/RegisterDetail.css"></link>
         <Row>
           <Col>
-            {this.state.cardShow ? 
+            {/* {this.state.cardShow ? 
             <div className="vaildity-card">
             <div>
               <p className="close-button" style={{cursor : 'pointer'}} onClick={()=> {this.setState({cardShow: false})}}>X</p>
@@ -412,7 +412,7 @@ class RegisterDetail extends Component {
               <Button color="primary" onClick={() => {this.props.history.push(`/main/pay`)}}>연장하기</Button>
             </div>
           </div>
-          : null}
+          : null} */}
             
           </Col>
           <Col md="12" xs="12" sm="12">
