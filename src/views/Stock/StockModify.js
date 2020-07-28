@@ -22,6 +22,7 @@ class Modify extends Component {
       productName :'',
       price_shipping: '',
       file_name : "/assets/img/noimage.jpg",
+      sale : true,
     };
   }
 
@@ -118,6 +119,17 @@ class Modify extends Component {
                 />
               </div>
             </div>
+            <div className="sell-list">
+              <label className="sell-label">판매여부</label>
+              <div className="sell-input">
+                { this.state.sale ? 
+                <Button color="primary" onClick={() => this.setState({sale : false})}>판매하기</Button>:
+                <Button color="danger" onClick={() => this.setState({sale : true})}>판매취소</Button>
+                }
+              </div>
+            </div>
+
+            
           </div>
         </div>
         <Button color="primary" style={{width:"100%"}}>수정하기</Button>

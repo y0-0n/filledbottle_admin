@@ -8,6 +8,7 @@ class Detail extends Component {
       data: [[]],
       orderData: [],
       modifyData: [],
+      sale: true,
     };
   }
   componentWillMount() {
@@ -160,6 +161,17 @@ class Detail extends Component {
                     <label className="sell-label">유통기한</label>
                     <div className="sell-input">
                       {this.getDate(e.expiration)}
+                    </div>
+                  </div>
+                </div>
+                <div className="sell-list">
+                  <div className="sell-content">
+                    <label className="sell-label">판매여부</label>
+                    <div className="sell-input">
+                      { this.state.sale ? 
+                      <p>판매 중</p> :
+                      <p>미판매</p>
+                      }
                     </div>
                   </div>
                 </div>
