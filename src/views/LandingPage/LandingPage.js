@@ -5,17 +5,14 @@ class LandingPage extends Component {
     return (
       <div className="app align-items-center">
         <link rel="stylesheet" type="text/css" href="css/LandingPage.css"></link>
-
-        <section id="main" className="fullscreen">
-          <header>
+        <header className="header">
             <img className="logo" src="img/LDlogo.png" />
-          </header>
+            <button className="main_btn" onClick={()=> {this.props.history.push('/main/home')}}>지금 시작하기</button>
+        </header>
+        <section id="main" className="fullscreen">
           <div className="main_title">
             <div>
               <img className="mainImg" src="img/mainLandingPage.png"/>
-            </div>
-            <div>
-              <button className="main_btn" onClick={()=> {this.props.history.push('/main/home')}}>지금 시작하기</button>
             </div>
           </div>
           <img className="mainImg2" src="img/mainLandingPage2.png"/>

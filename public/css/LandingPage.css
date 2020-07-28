@@ -11,43 +11,55 @@
     min-height: 100%;
 }
 
+.header {
+    z-index: 1;
+    background-color: #7FC6AA;
+    width: 100%;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
 #main {
     background-color: #7FC6AA;
     padding: 30px 100px 0 100px;
 }
 
-#main .logo {
+.logo {
     width: 8%;
 }
 
 #main .main_title {
     float: right;
-    width: 55%;
+    width: 58%;
 }
 
 #main .main_title .mainImg {
+    margin: 20px;
     width: 100%;
 }
 
-#main .main_title .main_btn {
+.main_btn {
+    width: 220px;
+    height: 50px;
     float: right;
-    width: 400px;
-    height: 80px;
     text-align: center;
     background-color: #A2A0C0;
     border: 0;
     border-radius: 30px;
     color: #fff;
-    font-size: 2.0em;
+    font-size: 1.3em;
+    margin-right: 20px;
 }
 
 #main .mainImg2{
-    width: 53%;
+    width: 55%;
     position: absolute;
     bottom: 0px;
     left: 0px;
 }
-
 
 #one {
     padding: 100px 450px 0 450px;
