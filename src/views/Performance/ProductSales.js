@@ -66,6 +66,8 @@ class List extends Component {
 
   componentWillMount() {
     this.setState({
+      year : moment().year(),
+      month : moment().month()+1,
       dataSource : [{key: 1, name : '당근', quantity : 8, sales_price : 1000000}, {key: 2, name : '양파', quantity : 20, sales_price : 330000}],
     }, () => this.getProductResult(this.state.year, this.state.month))
   }

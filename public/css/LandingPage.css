@@ -1,0 +1,100 @@
+.app {
+    height: 100vh;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.fullscreen {
+    min-width: 100%;
+    min-height: 100%;
+}
+
+#main {
+    background-color: #7FC6AA;
+    padding: 30px 100px 0 100px;
+}
+
+#main .logo {
+    width: 8%;
+}
+
+#main .main_title {
+    float: right;
+    width: 55%;
+}
+
+#main .main_title .mainImg {
+    width: 100%;
+}
+
+#main .main_title .main_btn {
+    float: right;
+    width: 400px;
+    height: 80px;
+    text-align: center;
+    background-color: #A2A0C0;
+    border: 0;
+    border-radius: 30px;
+    color: #fff;
+    font-size: 2.0em;
+}
+
+#main .mainImg2{
+    width: 53%;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+}
+
+
+#one {
+    padding: 100px 450px 0 450px;
+    background-color: #fff;
+    text-align: center;
+}
+
+#one .oneImg {
+    width: 100%;
+    margin-bottom: 100px;
+}
+
+
+#foot {
+    background-color: #7FC6AA;
+    padding: 30px 400px 0 400px;
+}
+
+#foot .foot_title {
+    float: right;
+    width: 60%;
+    text-align: center;
+}
+
+#foot .foot_title .footImg {
+    width: 100%;
+}
+
+#foot .footImg2{
+    height: 90%;
+}
+
+#foot .foot_title .foot_text {
+    margin: 20px 0 20px 0;
+    padding: 20px;
+    width: 100%;
+    height: 250px;
+}
+
+#foot .foot_title .foot_btn {
+    margin: auto;
+    width: 300px;
+    height: 60px;
+    text-align: center;
+    background-color: #6C8E7E;
+    border: 0;
+    border-radius: 30px;
+    color: #fff;
+    font-size: 1.8em;
+}

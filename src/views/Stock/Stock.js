@@ -347,7 +347,7 @@ class Stock extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {stockData.map((d) => {
+                    {stockData.map((d, i) => {
                       return (
                         <tr onClick={() => {this.props.history.push(`/main/manage/stock/${d.id}`)}} style={{cursor: 'pointer'}} key={d.id}>
                           <td className="list-hidden">

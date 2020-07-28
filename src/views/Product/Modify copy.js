@@ -11,24 +11,33 @@ class Modify extends Component {
     super(props);
 
     this.state = {
-      image: '/assets/img/plusImage.jpg',
-      imageDetailPlus: '/assets/img/plusImage.jpg',
-      imageDetail: [],
-      imageDetailFile: [],
-      imageDetailName: [],
+      image: '/assets/img/plusImage.jpg', //대표 이미지 파일 경로
+      imageDetail: [], //상세 이미지 파일 경로
+      imageDetailFile: [], //상세 이미지 파일 객체
+      imageDetailName: [], //상세 이미지 파일명
+
       familyData: [],
-      checkCategory: true,
-      discount: 'discount1',
-      sale_period: 'sale_period1',
-      vat: 'vat1',
-      price: 0,
       userCategoryData : [],
       data: {detail_file: []},
-      discount_price: 0,
+
+      checkCategory: true,
+      
+      //discount: 'discount1', //할인여부
+      //sale_period: 'sale_period1', //할인기간
+      //vat: 'vat1', //부가세
+      gap : '' //gap인증여부
     };
 
     this.form={
-      productFamily : ''
+      category: '',
+      productFamily : '',
+      name: '',
+      price : 0,
+      discount_price : 0,
+      state : '',
+      shippingDate : '',
+      additional : '',
+      gap : '',
     }
   }
 
@@ -325,7 +334,6 @@ class Modify extends Component {
   
   changeGAP(e) {
     this.setState({gap: e.target.value})
-    this.form.gap = e.target.value;
   }
 
   async createFile(){
@@ -564,7 +572,7 @@ class Modify extends Component {
                             </div>
                           </div>
                           <div id="imageFile" className="add-image" onClick={() => document.all.file_detail.click()}>
-                            <img style={{width:"300px"}} src={this.state.imageDetailPlus} />
+                            <img style={{width:"300px"}} src='/assets/img/plusImage.jpg' />
                           </div>
                         </div>
                         {data.detail_file.map((e, i) => {

@@ -412,11 +412,11 @@ class List extends Component {
                         <i style={{ marginRight: 10 }} className="fa fa-exclamation-circle"></i>
                       </div>
                       <div style={{ display: "table-cell" }}>
-												품목군을 설정해서 품목 관리를 시작하세요. <br></br>
-                        ( 우측상단의 회원정보 또는 품목군 추가하기 버튼을 통해 설정이 가능합니다. )
+												첫번째 품목을 등록해보세요. <br></br>
+                        ( 상단의 품목등록 메뉴 또는 바로가기 버튼을 통해 등록이 가능합니다. )
                       </div>
                       <div style={{ display: "table-cell", paddingLeft: 50, verticalAlign: "middle"}}>
-                        <Button color="primary" onClick={() => { this.props.history.push('/main/registerdetail') }}>품목군 추가하기</Button>
+                        <Button color="primary" onClick={() => { this.props.history.push('/product/create') }}>바로가기</Button>
                       </div>
                     </div>
 									}
