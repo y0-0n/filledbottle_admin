@@ -290,31 +290,9 @@ class Modify extends Component {
       })
   }
 
-  changeCategory(e) {
-    this.setState({category: e.target.value})
-  }
-
-  changeDiscount(e) {
-    this.setState({discount: e.target.value})
-  }
-
-  changePrice(e) {
-    this.setState({price: e.target.value})
-    this.form.price = e.target.value;
-  }
-
-  changeDiscountPrice(e) {
-    this.setState({discount_price: e.target.value});
-    this.form.discount_price = e.target.value;
-  }
-
-  changeSalePeriod(e) {
-    this.setState({sale_period: e.target.value})
-  }
-
-  changeVAT(e) {
-    this.setState({vat: e.target.value})
-  }
+  handleClick = ({ target: { name, value } }) => {
+    this.setState({ [name]: value });
+  };
 
   changeAdditional(e) {
     let {data} = this.state;
@@ -332,10 +310,6 @@ class Modify extends Component {
     this.form.state = e.target.value;
   }
   
-  changeGAP(e) {
-    this.setState({gap: e.target.value})
-  }
-
   async createFile(){
     let response = await fetch(`${this.state.imageFile}`);
     let data = await response.blob();
@@ -396,9 +370,9 @@ class Modify extends Component {
               <div className="form-card">
                 <div className="form-title">품목군</div>
                 <div className="form-innercontent">
-                  <Input defaultValue={data.familyName} onChange={(e) => {
-                      this.form.productFamily = e.target.value;
-                    }} type='select' name="family">
+                  <Input defaultValue={data.familyName} onChange={(e) => 
+                      this.form.productFamily = e.target.value, this.handleClick
+                    } type='select' name="family">
                       {this.state.familyData.map((e, i) => {
                         return <option key={i} value={e.id} selected={e.id === data.family}>{e.name}</option>
                       })}
@@ -409,7 +383,7 @@ class Modify extends Component {
               <div className="form-card">
                 <div className="form-title">상품명</div>
                 <div className="form-innercontent">
-                  <Input defaultValue={data.name} onChange={(e) => this.form.name = e.target.value}/>
+                  <Input defaultValue={data.name} onChange={(e) => this.form.name = e.target.value, this.handleClick}/>
                 </div>
               </div>
 
@@ -420,7 +394,7 @@ class Modify extends Component {
                     <label className="sell-label">판매가</label>
                     <div className="sell-input">
                       <InputGroup>
-                        <Input defaultValue={data.price_shipping} onChange={this.changePrice.bind(this)}/>
+                        <Input defaultValue={data.price_shipping} name="price" value={this.state.price} onChange={(e) => this.form.price = e.target.value, this.handleClick}/>
                         <InputGroupAddon addonType="append">
                           원
                         </InputGroupAddon>
@@ -438,7 +412,7 @@ class Modify extends Component {
                       </div> */}
                       <div className="sell-input">
                         <InputGroup>
-                          <Input type="number" placeholder="숫자만 입력" required defaultValue={data.discount_price} onChange={this.changeDiscountPrice.bind(this)} />
+                          <Input type="number" placeholder="숫자만 입력" required defaultValue={data.discount_price} name="discount_price" value={this.state.discount_price} onChange={(e) => this.form.discount_price = e.target.value, this.handleClick} />
                           <InputGroupAddon addonType="append">
                             원
                           </InputGroupAddon>
@@ -460,10 +434,10 @@ class Modify extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <label className="search-input-label"><input className="search-input-checkbox" name="gap" type="radio" value="1" onChange={this.changeGAP.bind(this)} defaultChecked/>인증</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" name="gap" type="radio" value="2" onChange={this.changeGAP.bind(this)} />인증하지 않음</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="gapCheck" type="radio" value="1" onChange={this.handleClick} defaultChecked/>인증</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="gapCheck" type="radio" value="2" onChange={this.handleClick} />인증하지 않음</label>
                     </div>
-                    <Input required onChange={(e) => this.form.gap = e.target.value} placeholder="GAP 인증번호"/>
+                    <Input required name="gap" value={this.state.gap} onChange={(e) => this.form.gap = e.target.value, this.handleClick} placeholder="GAP 인증번호"/>
                   </div>
                 </div>
               </div>
@@ -486,7 +460,7 @@ class Modify extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <Input style={{width : '500px'}} defaultValue={data.shippingDate} onChange={(e) => this.form.shippingDate = e.target.value} />
+                      <Input style={{width : '500px'}} defaultValue={data.shippingDate} onChange={(e) => this.form.shippingDate = e.target.value, this.handleClick} />
                     </div>
                   </div>
                 </div>
