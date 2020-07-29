@@ -294,16 +294,7 @@ class Modify extends Component {
     let {data} = this.state;
     data[name] = value
     this.setState(data);
-    console.log(this.state)
   };
-
-
-  changeState(e) {
-    let {data} = this.state;
-    data.state = parseInt(e.target.value);
-    this.setState({data})
-    this.form.state = e.target.value;
-  }
   
   async createFile(){
     let response = await fetch(`${this.state.imageFile}`);
