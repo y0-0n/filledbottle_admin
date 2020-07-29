@@ -291,16 +291,11 @@ class Modify extends Component {
   }
 
   handleClick = ({ target: { name, value } }) => {
-    this.setState({ [name]: value });
-  };
-
-  changeAdditional(e) {
     let {data} = this.state;
-    data.additional = e.target.value;
-    this.form.additional = e.target.value;
-    this.setState({data});
-    e.preventDefault();
-  }
+    data[name] = value
+    this.setState(data);
+    console.log(this.state)
+  };
 
 
   changeState(e) {
@@ -355,7 +350,6 @@ class Modify extends Component {
                 <div className="form-title">카테고리</div>
                 <div className="form-innercontent">
                     <Input onChange={(e) => {
-                      this.form.category = e.target.value;
                       this.setState({category: e.target.value}, ()=> {
                         this.getProductFamily();
                       });
@@ -370,9 +364,7 @@ class Modify extends Component {
               <div className="form-card">
                 <div className="form-title">품목군</div>
                 <div className="form-innercontent">
-                  <Input defaultValue={data.familyName} onChange={(e) => 
-                      this.form.productFamily = e.target.value, this.handleClick
-                    } type='select' name="family">
+                  <Input defaultValue={data.familyName} onChange={this.handleClick} type='select' name="family">
                       {this.state.familyData.map((e, i) => {
                         return <option key={i} value={e.id} selected={e.id === data.family}>{e.name}</option>
                       })}
@@ -383,7 +375,7 @@ class Modify extends Component {
               <div className="form-card">
                 <div className="form-title">상품명</div>
                 <div className="form-innercontent">
-                  <Input defaultValue={data.name} onChange={(e) => this.form.name = e.target.value, this.handleClick}/>
+                  <Input name="name" defaultValue={data.name} onChange={this.handleClick}/>
                 </div>
               </div>
 
@@ -394,7 +386,7 @@ class Modify extends Component {
                     <label className="sell-label">판매가</label>
                     <div className="sell-input">
                       <InputGroup>
-                        <Input defaultValue={data.price_shipping} name="price" value={this.state.price} onChange={(e) => this.form.price = e.target.value, this.handleClick}/>
+                        <Input defaultValue={data.price_shipping} name="price_shipping" value={this.state.data.price_shipping} onChange={this.handleClick}/>
                         <InputGroupAddon addonType="append">
                           원
                         </InputGroupAddon>
@@ -412,7 +404,7 @@ class Modify extends Component {
                       </div> */}
                       <div className="sell-input">
                         <InputGroup>
-                          <Input type="number" placeholder="숫자만 입력" required defaultValue={data.discount_price} name="discount_price" value={this.state.discount_price} onChange={(e) => this.form.discount_price = e.target.value, this.handleClick} />
+                          <Input type="number" placeholder="숫자만 입력" required defaultValue={data.discount_price} name="discount_price" value={this.state.data.discount_price} onChange={this.handleClick} />
                           <InputGroupAddon addonType="append">
                             원
                           </InputGroupAddon>
@@ -420,7 +412,7 @@ class Modify extends Component {
                         <div className="sell-discount" style={{marginTop: "20px"}}>
                           <label className="sell-label total-discount">할인가</label>
                           <div className="sell-input total-discount">
-                            {this.state.price - this.state.discount_price} 원 ( {this.state.discount_price} 원 할인 )
+                            {this.state.data.price_shipping - this.state.data.discount_price} 원 ( {this.state.data.discount_price} 원 할인 )
                           </div>
                         </div>
                       </div>
@@ -437,7 +429,7 @@ class Modify extends Component {
                       <label className="search-input-label"><input className="search-input-checkbox" name="gapCheck" type="radio" value="1" onChange={this.handleClick} defaultChecked/>인증</label>
                       <label className="search-input-label"><input className="search-input-checkbox" name="gapCheck" type="radio" value="2" onChange={this.handleClick} />인증하지 않음</label>
                     </div>
-                    <Input required name="gap" value={this.state.gap} onChange={(e) => this.form.gap = e.target.value, this.handleClick} placeholder="GAP 인증번호"/>
+                    <Input required name="gap" value={this.state.data.gap} onChange={this.handleClick} placeholder="GAP 인증번호"/>
                   </div>
                 </div>
               </div>
@@ -447,9 +439,9 @@ class Modify extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="1" onChange={this.changeState.bind(this)} checked={data.state===1} />판매중</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="2" onChange={this.changeState.bind(this)} checked={data.state===2} />품절</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="3" onChange={this.changeState.bind(this)} checked={data.state===3} />판매중지</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={1} onChange={this.handleClick} checked={data.state===1 || data.state==="1"} />판매중</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={2} onChange={this.handleClick} checked={data.state===2 || data.state==="2"} />품절</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={3} onChange={this.handleClick} checked={data.state===3 || data.state==="3"} />판매중지</label>
                     </div>
                   </div>
                 </div>
@@ -460,7 +452,7 @@ class Modify extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <Input style={{width : '500px'}} defaultValue={data.shippingDate} onChange={(e) => this.form.shippingDate = e.target.value, this.handleClick} />
+                      <Input style={{width : '500px'}} name="shippingDate" defaultValue={data.shippingDate} onChange={this.handleClick} />
                     </div>
                   </div>
                 </div>
@@ -471,7 +463,7 @@ class Modify extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <textarea style={{width: '100%', height: '100px'}} type='text' value={data.additional} onChange={this.changeAdditional.bind(this)} />
+                      <textarea style={{width: '100%', height: '100px'}} type='text' name="additional" value={data.additional} onChange={this.handleClick} />
                     </div>
                   </div>
                 </div>
