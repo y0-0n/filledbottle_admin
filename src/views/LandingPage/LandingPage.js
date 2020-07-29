@@ -7,7 +7,7 @@ class LandingPage extends Component {
         <link rel="stylesheet" type="text/css" href="css/LandingPage.css"></link>
         <header className="header">
             <img className="logo" src="img/LDlogo.png" />
-            <button className="main_btn" onClick={()=> {this.props.history.push('/main/home')}}>지금 시작하기</button>
+            <button className="main_btn" onClick={()=> {this.props.history.push('/main')}}>지금 시작하기</button>
         </header>
         <section id="main" className="fullscreen">
           <div className="main_title">
