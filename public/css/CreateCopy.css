@@ -6,6 +6,16 @@ ul li {
     list-style-type: none;
 }
 
+.list-productFamily {
+    float: left;
+    margin: 10px;
+    width: calc(100%/ 10);
+    border: 1px solid lightgrey;
+    border-radius: 10px;
+    padding: 5px;
+    text-align: center;
+}
+
 .form-card {
     position: relative;
     margin-bottom: 10px;
