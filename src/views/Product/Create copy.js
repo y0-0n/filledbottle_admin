@@ -3,22 +3,11 @@ import {Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Inp
 import ProductFamilyModal from '../Modal/ProductFamilyModal';
 import DatePicker from "react-datepicker";
 import Popup from "reactjs-popup";
+import FamilySelector from "./FamilySelector";
 
 class CreateProduct extends Component {
   constructor(props) {
     super(props);
-    this.form = {
-      category: '',
-      name: '',
-      grade: '',
-      weight: '',
-      price: 0,
-      discount_price: 0,
-      productFamily: 'NULL',
-      state: 1,
-      vat: '1',
-      additional: '',
-    };
 
     this.state = {
       image: '/assets/img/plusImage.jpg',
@@ -27,7 +16,19 @@ class CreateProduct extends Component {
       imageDetailFile: [],
       imageDetailName : [],
       familyData: [],
-      data: [],
+      data: {
+        detail_file: [],
+        shippingDate : '',
+        gap : '',
+        category: 1,
+        name: '',
+        price: 0,
+        discount_price: 0,
+        productFamily: 0,
+        state: 1,
+        vat: '1',
+        additional: '',
+      },
       checkCategory: true,
       category: 'category1',
       discount: 'discount1',
@@ -59,8 +60,6 @@ class CreateProduct extends Component {
 
   handleFileInput_multiple(e) {
     let imgList = this.state.imageDetail, imgFileList = this.state.imageDetailFile, imgFileNameList = this.state.imageDetailName;
-    console.log(imgList,imgFileList, imgFileNameList)
-    console.warn(this.refs.file_detail.files)
     for(var i = 0; i < this.refs.file_detail.files.length; i++ ) {
       var file = this.refs.file_detail.files[i];
       //var canvasImg = document.createElement("img");
@@ -80,11 +79,10 @@ class CreateProduct extends Component {
     e.preventDefault();
     let formData = new FormData();
     formData.append('file', this.state.imageFile);
-    console.warn(this.form);
     this.state.imageDetailFile.forEach((e) => {
       formData.append('file_detail', e);
     })
-    for (let [key, value] of Object.entries(this.form)) {
+    for (let [key, value] of Object.entries(this.state.data)) {
       formData.append(key, value);
     }
     fetch(process.env.REACT_APP_HOST + "/product", {
@@ -170,7 +168,6 @@ class CreateProduct extends Component {
         if (status === 200) {
           if (data[1].length !== 0) {
             this.setState({familyData: data[1]});
-            this.form.productFamily = data[1][0].id
           } else {
             this.setState({
               checkCategory: false
@@ -185,102 +182,36 @@ class CreateProduct extends Component {
       })
   }
 
-  changeCategory(e) {
-    this.setState({category: e.target.value})
-    console.log(this.state.category)
-  }
+  handleClick = ({ target: { name, value } }) => {
+    let {data} = this.state;
+    data[name] = value
+    this.setState(data);
+  };
 
-  changeDiscount(e) {
-    this.setState({discount: e.target.value})
-  }
+  parentFunction = (category_value, productFamily_value) => {
+    let {data} = this.state;
+    data.category = category_value;
+    data.productFamily = productFamily_value;
 
-  changePrice(e) {
-    this.setState({price: e.target.value});
-    this.form.price = e.target.value;
-  }
-
-  changeDiscountPrice(e) {
-    this.setState({discount_price: e.target.value});
-    this.form.discount_price = e.target.value;
-  }
-
-  changeSalePeriod(e) {
-    this.setState({sale_period: e.target.value})
-  }
-
-  changeVAT(e) {
-    this.setState({vat: e.target.value})
-    this.form.vat = e.target.value;
-  }
-
-  changeState(e) {
-    this.setState({state: e.target.value})
-    this.form.state = e.target.value;
-  }
-
-  changeGAP(e) {
-    this.setState({gap: e.target.value})
-    this.form.gap = e.target.value;
+    this.setState({
+      data
+    })
   }
 
   render() {
-    var userCategoryData = this.state.userCategoryData;
+    let {data} = this.state;
+    console.log(this.state)
     return (
       <div className="animated fadeIn align-items-center">
         <link rel="stylesheet" type="text/css" href="css/CreateCopy.css"></link>
         <Row className="mb-5 justify-content-center">
           <Col sm="12" md="12" lg="12">
             <form encType="multipart/form-data" onSubmit={this.handlePost.bind(this)}>
-              <div className="form-card">
-                <div className="form-title">카테고리</div>
-                <div className="form-innercontent">
-                    <Input onChange={(e) => {
-                      this.form.category = e.target.value;
-                      this.setState({category: e.target.value}, ()=> {
-                        this.getProductFamily()
-                      });
-                    }} type='select' name="family">
-                      {userCategoryData.map((e, i) => {
-                        return <option key={i} value={e.id}>{e.name}</option>
-                      })}
-                    </Input>
-                </div>
-              </div>
-              
-              <div className="form-card">
-                <div className="form-title">품목군</div>
-                <div className="form-innercontent">
-                  {this.state.checkCategory ?
-                    <Input onChange={(e) => {
-                      this.form.productFamily = e.target.value;
-                    }} type='select' name="family">
-                      {this.state.familyData.map((e, i) => {
-                        return <option key={i} value={e.id}>{e.name}</option>
-                      })}
-                    </Input>
-                    :
-                    <div style={{textAlign: "left", padding: 10}}>
-                      <div style={{display: "table-cell"}}>
-                        <i style={{marginRight: 10}} class="fa fa-exclamation-circle"></i>
-                      </div>
-                      <div style={{display: "table-cell"}}>
-                        품목군을 설정해서 품목 관리를 시작하세요. <br></br>
-                        ( 우측상단의 회원정보 또는 품목군 추가하기 버튼을 통해 설정이 가능합니다. )
-                      </div>
-                      <div style={{display: "table-cell", paddingLeft: 50, verticalAlign: "middle"}}>
-                        <Button color="primary" onClick={() => {
-                          this.props.history.push('/main/registerdetail')
-                        }}>품목군 추가하기</Button>
-                      </div>
-                    </div>
-                  }
-                </div>
-              </div>
-
+              <FamilySelector parentFunction={this.parentFunction}/>
               <div className="form-card">
                 <div className="form-title">상품명</div>
                 <div className="form-innercontent">
-                  <Input required onChange={(e) => this.form.name = e.target.value} placeholder="상품명 입력"/>
+                  <Input required name="name" value={data.name} onChange={this.handleClick} placeholder="상품명 입력"/>
                 </div>
               </div>
 
@@ -291,7 +222,7 @@ class CreateProduct extends Component {
                     <label className="sell-label">판매가</label>
                     <div className="sell-input">
                       <InputGroup>
-                        <Input type="number" placeholder="숫자만 입력" required onChange={(e) => {this.changePrice.bind(this)(e);}} />
+                        <Input type="number" placeholder="숫자만 입력" required value={data.price} name="price" onChange={this.handleClick}/>
                         <InputGroupAddon addonType="append">
                           원
                         </InputGroupAddon>
@@ -309,7 +240,7 @@ class CreateProduct extends Component {
                       </div> */}
                       <div className="sell-input">
                         <InputGroup>
-                          <Input defaultValue={0} type="number" placeholder="숫자만 입력" required onChange={(e) => {this.changeDiscountPrice.bind(this)(e);}} />
+                          <Input value={0} type="number" placeholder="숫자만 입력" required value={data.discount_price} name="discount_price" onChange={this.handleClick} />
                           <InputGroupAddon addonType="append">
                             원
                           </InputGroupAddon>
@@ -374,7 +305,7 @@ class CreateProduct extends Component {
                     <div></div>
                   }
                   </div>*/}
-                  <div className="sell-list">
+                  {/* <div className="sell-list">
                     <label className="sell-label">부가세</label>
                     <div className="category-input-toggle">
                       <Input type="radio" name="vat" id="vat1" value="1" defaultChecked onChange={this.changeVAT.bind(this)}/>
@@ -382,7 +313,7 @@ class CreateProduct extends Component {
                       <Input type="radio" name="vat" id="vat2" value="0" onChange={this.changeVAT.bind(this)}/>
                       <label htmlFor="vat2">면세상품</label>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
@@ -403,10 +334,10 @@ class CreateProduct extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <label className="search-input-label"><input className="search-input-checkbox" name="gap" type="radio" value="1" onChange={this.changeGAP.bind(this)} defaultChecked/>인증</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" name="gap" type="radio" value="2" onChange={this.changeGAP.bind(this)} />인증하지 않음</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="gapCheck" type="radio" value="1" onChange={this.handleClick} defaultChecked/>인증</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="gapCheck" type="radio" value="2" onChange={this.handleClick}  />인증하지 않음</label>
                     </div>
-                    <Input required onChange={(e) => this.form.gap = e.target.value} placeholder="GAP 인증번호"/>
+                    <Input name="gap" value={data.gap} onChange={this.handleClick} placeholder="GAP 인증번호"/>
                   </div>
                 </div>
               </div>
@@ -416,9 +347,9 @@ class CreateProduct extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="1" onChange={this.changeState.bind(this)} defaultChecked/>판매중</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="2" onChange={this.changeState.bind(this)} />품절</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" name="product_state" type="radio" value="3" onChange={this.changeState.bind(this)} />판매중지</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={1} onChange={this.handleClick} defaultChecked/>판매중</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={2} onChange={this.handleClick} />품절</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={3} onChange={this.handleClick} />판매중지</label>
                     </div>
                   </div>
                 </div>
@@ -429,7 +360,7 @@ class CreateProduct extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <Input required onChange={(e) => this.form.shippingDate = e.target.value} placeholder="출하일"/>
+                      <Input name="shippingDate" value={data.shippingDate} onChange={this.handleClick} placeholder="출하일"/>
                     </div>
                   </div>
                 </div>
@@ -440,7 +371,7 @@ class CreateProduct extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <textarea style={{width: '100%', height: '100px'}} onChange={(e) => this.form.additional = e.target.value}></textarea>
+                      <textarea style={{width: '100%', height: '100px'}} type="text" name="additional" value={data.additional} onChange={this.handleClick}></textarea>
                     </div>
                   </div>
                 </div>
