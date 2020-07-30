@@ -332,6 +332,9 @@ class List extends Component {
                     <NavLink active={this.state.process === "shipping"} onClick={() => this.tabClick("shipping")} href="#">출하</NavLink>
                   </NavItem>
                   <NavItem>
+                    <NavLink active={this.state.process === "complete"} onClick={() => this.tabClick("complete")} href="#">수금</NavLink>
+                  </NavItem>
+                  <NavItem>
                     <NavLink active={this.state.process === "refund"} onClick={() => this.tabClick("refund")} href="#">환불</NavLink>
                   </NavItem>
                   <NavItem>
