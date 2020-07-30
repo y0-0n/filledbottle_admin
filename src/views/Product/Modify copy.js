@@ -18,27 +18,25 @@ class Modify extends Component {
 
       familyData: [],
       userCategoryData : [],
-      data: {detail_file: []},
+      data: {
+        detail_file: [],
+        category: '',
+        productFamily : '',
+        name: '',
+        price_shipping : 0,
+        discount_price : 0,
+        state : '',
+        shippingDate : '',
+        additional : '',
+        gap : '',
+      },
 
       checkCategory: true,
       
       //discount: 'discount1', //할인여부
       //sale_period: 'sale_period1', //할인기간
       //vat: 'vat1', //부가세
-      gap : '' //gap인증여부
     };
-
-    this.form={
-      category: '',
-      productFamily : '',
-      name: '',
-      price : 0,
-      discount_price : 0,
-      state : '',
-      shippingDate : '',
-      additional : '',
-      gap : '',
-    }
   }
 
   componentWillMount() {
@@ -142,13 +140,6 @@ class Modify extends Component {
       .then(response => response.json())
       .then(data => {
         data[0].detail_file = data[0].detail_file.split('|');
-        this.form.productFamily = data[0].family;
-        this.form.name = data[0].name;
-        this.form.price = data[0].price_shipping;
-        this.form.discount_price = data[0].discount_price;
-        this.form.state = data[0].state;
-        this.form.shippingDate = data[0].shippingDate;
-        this.form.additional = data[0].additional;
         this.setState({
           price: data[0].price_shipping,
           additional: data[0].additional, 
@@ -198,7 +189,7 @@ class Modify extends Component {
         formData.append('file_detail', e);
       })
   
-      for (let [key, value] of Object.entries(this.form)) {
+      for (let [key, value] of Object.entries(this.state.data)) {
         formData.append(key, value);
       }
       fetch(process.env.REACT_APP_HOST + "/product/modify/" + this.props.match.params.id, {
@@ -281,7 +272,7 @@ class Modify extends Component {
         let status = data[0];
         if (status === 200) {
           this.setState({ familyData: data[1] });
-          this.form.productFamily = data[1][0].id;
+          this.state.data.productFamily = data[1][0].id;
         }
         else {
           alert('로그인 하고 접근해주세요');
@@ -330,6 +321,7 @@ class Modify extends Component {
   render() {
     var userCategoryData = this.state.userCategoryData;
     var data = this.state.data;
+    console.log(this.state);
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/CreateCopy.css"></link>
@@ -377,7 +369,7 @@ class Modify extends Component {
                     <label className="sell-label">판매가</label>
                     <div className="sell-input">
                       <InputGroup>
-                        <Input defaultValue={data.price_shipping} name="price_shipping" value={this.state.data.price_shipping} onChange={this.handleClick}/>
+                        <Input type="number" defaultValue={data.price_shipping} name="price" value={this.state.price} onChange={this.handleClick}/>
                         <InputGroupAddon addonType="append">
                           원
                         </InputGroupAddon>
@@ -403,7 +395,7 @@ class Modify extends Component {
                         <div className="sell-discount" style={{marginTop: "20px"}}>
                           <label className="sell-label total-discount">할인가</label>
                           <div className="sell-input total-discount">
-                            {this.state.data.price_shipping - this.state.data.discount_price} 원 ( {this.state.data.discount_price} 원 할인 )
+                            {this.state.price - this.state.data.discount_price} 원 ( {this.state.data.discount_price} 원 할인 )
                           </div>
                         </div>
                       </div>
