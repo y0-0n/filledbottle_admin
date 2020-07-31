@@ -5,11 +5,13 @@ import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, In
 class Create extends Component {
   constructor(props) {
     super(props);
-    this.form = {
+    this.state = {
       name: '',
       telephone: '',
       cellphone: '',
       address: '',
+      addressDetail: '',
+      postcode: '',
       crNumber: '',
     }
   }
@@ -54,14 +56,14 @@ class Create extends Component {
   handlePost(e) {
     e.preventDefault();
 		let formData = new FormData();
-    this.form.address = document.getElementById("sample6_address").value
-    this.form.addressDetail = document.getElementById("sample6_detailAddress").value;
-		this.form.postcode = document.getElementById("sample6_postcode").value;
-    for (let [key, value] of Object.entries(this.form)) {
+    this.state.address = document.getElementById("sample6_address").value
+    this.state.addressDetail = document.getElementById("sample6_detailAddress").value;
+		this.state.postcode = document.getElementById("sample6_postcode").value;
+    for (let [key, value] of Object.entries(this.state)) {
       formData.append(key, value);
     }
 
-    if (this.form.address === '') alert('주소를 입력해주세요')
+    if (this.state.address === '') alert('주소를 입력해주세요')
 
     else {
       fetch(process.env.REACT_APP_HOST+"/customer", {
@@ -91,6 +93,10 @@ class Create extends Component {
     }
   }
 
+  handleClick = ({ target: { name, value } }) => {
+    this.setState({[name] : value});
+  };
+
   render() {
     return (
       <div className="animated fadeIn align-items-center">
@@ -110,25 +116,25 @@ class Create extends Component {
                       <tr>
                         <th>기업(고객)명<span style={{color : "#FA5858"}}>*</span></th>
                         <td>
-                          <Input required onChange={(e) => this.form.name=e.target.value}/>
+                          <Input required name="name" value={this.state.name} onChange={this.handleClick}/>
                         </td>
                       </tr>
 											<tr>
                         <th>연락처 1<span style={{color : "#FA5858"}}>*</span></th>
                         <td>
-                          <Input type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"  placeholder={ "000-0000-0000" } onChange={(e) => this.form.cellphone=e.target.value} required/>
+                          <Input type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"  placeholder={ "000-0000-0000" } name="cellphone" value={this.state.cellphone} onChange={this.handleClick} required/>
                         </td>
                       </tr>
                       <tr>
                         <th>연락처 2</th>
                         <td>
-                          <Input type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" onChange={(e) => this.form.telephone=e.target.value}/>
+                          <Input type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" name="telephone" value={this.state.telephone} onChange={this.handleClick}/>
                         </td>
                       </tr>
                       <tr>
                         <th>사업자등록번호</th>
                         <td>
-                          <Input onChange={(e) => this.form.crNumber=e.target.value}/>
+                          <Input name="crNumber" value={this.state.crNumber} onChange={this.handleClick}/>
                         </td>
                       </tr>
                       <tr>
