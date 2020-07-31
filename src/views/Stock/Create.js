@@ -8,14 +8,6 @@ import DatePicker from "react-datepicker";
 class Create extends Component {
   constructor(props) {
     super(props);
-    this.form = {
-      productId : '',
-			plant : '',
-			date_manufacture: '',
-			expiration: '',
-      type : '자가생산',
-      quantity: 0,
-    };
 
     this.state = {
 			plantData: [],
