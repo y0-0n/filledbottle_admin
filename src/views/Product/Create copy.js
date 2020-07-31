@@ -19,6 +19,7 @@ class CreateProduct extends Component {
       data: {
         detail_file: [],
         shippingDate : '',
+        shippingEndDate : '',
         gap : '',
         category: 1,
         name: '',
@@ -217,7 +218,7 @@ class CreateProduct extends Component {
               </div>
 
               <div className="form-card">
-                <div className="form-title">판매가</div>
+                <div className="form-title">가격</div>
                 <div className="form-innercontent">
                   <div className="sell-list">
                     <label className="sell-label">판매가</label>
@@ -338,7 +339,7 @@ class CreateProduct extends Component {
                       <label className="search-input-label"><input className="search-input-checkbox" name="gapCheck" type="radio" value="1" onChange={this.handleState} defaultChecked/>인증</label>
                       <label className="search-input-label"><input className="search-input-checkbox" name="gapCheck" type="radio" value="2" onChange={this.handleState}  />인증하지 않음</label>
                     </div>
-                    {this.state.data.gapCheck ==="1" ? <Input name="gap" value={data.gap} onChange={this.handleState} placeholder="GAP 인증번호"/> : null}
+                    {this.state.data.gapCheck ==="1" ? <Input required name="gap" value={data.gap} onChange={this.handleState} placeholder="GAP 인증번호"/> : null}
                   </div>
                 </div>
               </div>
@@ -359,9 +360,28 @@ class CreateProduct extends Component {
               <div className="form-card">
                 <div className="form-title">출하일</div>
                 <div className="form-innercontent">
-                  <div className="sell-input">
-                    <div className="search-input">
-                      <Input name="shippingDate" value={data.shippingDate} onChange={this.handleState} placeholder="출하일"/>
+                  <div className="sell-list">
+                    <label className="sell-label">출하 시작일</label>
+                    <div className="sell-input">
+                      <DatePicker
+                          className="datepicker"
+                          dateFormat="yyyy년 MM월 dd일"
+                          locale="ko"
+                          selected={this.state.data.shippingDate}
+                          onChange={(shippingDate) => {data.shippingDate = shippingDate; this.setState({data})}}
+                        />
+                    </div>
+                  </div>
+                  <div className="sell-list">
+                    <label className="sell-label">출하 종료일</label>
+                    <div className="sell-input">
+                        <DatePicker
+                          className="datepicker"
+                          dateFormat="yyyy년 MM월 dd일"
+                          locale="ko"
+                          selected={this.state.data.shippingEndDate}
+                          onChange={(shippingEndDate) => {data.shippingEndDate = shippingEndDate; this.setState({data})}}
+                        />
                     </div>
                   </div>
                 </div>

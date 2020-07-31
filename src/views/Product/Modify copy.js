@@ -27,6 +27,7 @@ class Modify extends Component {
         discount_price : 0,
         state : '',
         shippingDate : '',
+        shippingEndDate : '',
         additional : '',
         gap : '',
       },
@@ -363,7 +364,7 @@ class Modify extends Component {
               </div>
 
               <div className="form-card">
-                <div className="form-title">판매가</div>
+                <div className="form-title">가격</div>
                 <div className="form-innercontent">
                   <div className="sell-list">
                     <label className="sell-label">판매가</label>
@@ -433,9 +434,28 @@ class Modify extends Component {
               <div className="form-card">
                 <div className="form-title">출하일</div>
                 <div className="form-innercontent">
-                  <div className="sell-input">
-                    <div className="search-input">
-                      <Input style={{width : '500px'}} name="shippingDate" defaultValue={data.shippingDate} onChange={this.handleState} />
+                  <div className="sell-list">
+                    <label className="sell-label">출하 시작일</label>
+                    <div className="sell-input">
+                      <DatePicker
+                          className="datepicker"
+                          dateFormat="yyyy년 MM월 dd일"
+                          locale="ko"
+                          selected={this.state.data.shippingDate}
+                          onChange={(shippingDate) => {data.shippingDate = shippingDate; this.setState({data})}}
+                        />
+                    </div>
+                  </div>
+                  <div className="sell-list">
+                    <label className="sell-label">출하 종료일</label>
+                    <div className="sell-input">
+                        <DatePicker
+                          className="datepicker"
+                          dateFormat="yyyy년 MM월 dd일"
+                          locale="ko"
+                          selected={this.state.data.shippingEndDate}
+                          onChange={(shippingEndDate) => {data.shippingEndDate = shippingEndDate; this.setState({data})}}
+                        />
                     </div>
                   </div>
                 </div>
