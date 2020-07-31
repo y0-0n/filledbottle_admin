@@ -567,7 +567,7 @@ class List extends Component {
                         <td className="list-hidden">
                           <img style={{ width: '90%' }} alt="품목 사진" src={e.file_name ? process.env.REACT_APP_HOST+"/static/" + e.file_name : '318x180.svg'} />
                         </td>
-                        <td>{e.name + ' ' + e.grade + ' ' + e.weight}</td>
+                        <td>{e.name}</td>
                         <td className="list-hidden">{e.familyName}</td>
                         <td>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</td>
                         <td>{e.stock}</td>
