@@ -5,17 +5,16 @@ class Modify extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
+      data: {
+        name: '',
+        telephone: '',
+        cellphone: '',
+        address: '',
+        addressDetail: '',
+        postcode: '',
+        crNumber: '',
+      },
 		};
-		this.form = {
-      name: '',
-      telephone: '',
-      cellphone: '',
-			address: '',
-			addressDetail: '',
-			postcode: '',
-      crNumber: '',
-    }
   }
 
   componentWillMount() {
@@ -38,13 +37,13 @@ class Modify extends Component {
         document.getElementById("sample6_address").value = data[0].address;
         document.getElementById("sample6_detailAddress").value = data[0].address_detail;
 				document.getElementById("sample6_postcode").value = data[0].postcode;
-				this.form.name = data[0].name;
-				this.form.telephone = data[0].telephone;
-				this.form.cellphone = data[0].cellphone;
-				this.form.address = data[0].address;
-				this.form.addressDetail = data[0].addressDetail;
-				this.form.postcode = data[0].postcode;
-				this.form.crNumber = data[0].crNumber;
+				this.state.data.name = data[0].name;
+				this.state.data.telephone = data[0].telephone;
+				this.state.data.cellphone = data[0].cellphone;
+				this.state.data.address = data[0].address;
+				this.state.data.addressDetail = data[0].addressDetail;
+				this.state.data.postcode = data[0].postcode;
+				this.state.data.crNumber = data[0].crNumber;
       });
   }
 
@@ -85,10 +84,10 @@ class Modify extends Component {
     let c = window.confirm('이 상품을 수정하시겠습니까?')
     if(c) {
       let formData = new FormData();
-      this.form.address = document.getElementById("sample6_address").value;
-      this.form.addressDetail = document.getElementById("sample6_detailAddress").value;
-      this.form.postcode = document.getElementById("sample6_postcode").value;
-      for (let [key, value] of Object.entries(this.form)) {
+      this.state.data.address = document.getElementById("sample6_address").value;
+      this.state.data.addressDetail = document.getElementById("sample6_detailAddress").value;
+      this.state.data.postcode = document.getElementById("sample6_postcode").value;
+      for (let [key, value] of Object.entries(this.state.data)) {
         formData.append(key, value);
       }
   
@@ -119,6 +118,12 @@ class Modify extends Component {
     }
   }
 
+  handleClick = ({ target: { name, value } }) => {
+    let {data} = this.state;
+    data[name] = value
+    this.setState(data);
+  };
+
   render() {
     let {data} = this.state;
 
@@ -140,7 +145,7 @@ class Modify extends Component {
                         <tr>
                           <th>고객명</th>
                           <td>
-                            <Input defaultValue={data.name} onChange={(e) => this.form.name=e.target.value}/>
+                            <Input value={data.name}  name="name" onChange={this.handleClick}/>
                           </td>
                         </tr>
                         <tr>
@@ -150,19 +155,19 @@ class Modify extends Component {
                         <tr>
                           <th>연락처 1</th>
                           <td>
-                            <Input defaultValue={data.cellphone} required pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" onChange={(e) => this.form.cellphone=e.target.value}/>
+                            <Input value={data.cellphone} required pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"  name="cellphone" onChange={this.handleClick}/>
                           </td>
                         </tr>
                         <tr>
                           <th>연락처 2</th>
                           <td>
-                            <Input defaultValue={data.telephone} pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" onChange={(e) => this.form.telephone=e.target.value} onBlur={(e) => this.form.telephone=e.target.value}/>
+                            <Input value={data.telephone} pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" name="telephone" onChange={this.handleClick} onBlur={this.handleClick}/>
                           </td>
                         </tr>
                         <tr>
                           <th>사업자등록번호</th>
                           <td>
-                            <Input defaultValue={data.crNumber} onChange={(e) => this.form.crNumber=e.target.value} onBlur={(e) => this.form.crNumber=e.target.value}/>
+                            <Input value={data.crNumber} name="crNumber" onChange={this.handleClick} onBlur={this.handleClick}/>
                           </td>
                         </tr>
                         <tr>
