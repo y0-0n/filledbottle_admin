@@ -182,7 +182,7 @@ class CreateProduct extends Component {
       })
   }
 
-  handleClick = ({ target: { name, value } }) => {
+  handleState = ({ target: { name, value } }) => {
     let {data} = this.state;
     data[name] = value
     this.setState(data);
@@ -211,7 +211,7 @@ class CreateProduct extends Component {
               <div className="form-card">
                 <div className="form-title">상품명</div>
                 <div className="form-innercontent">
-                  <Input required name="name" value={data.name} onChange={this.handleClick} placeholder="상품명 입력"/>
+                  <Input required name="name" value={data.name} onChange={this.handleState} placeholder="상품명 입력"/>
                 </div>
               </div>
 
@@ -222,7 +222,7 @@ class CreateProduct extends Component {
                     <label className="sell-label">판매가</label>
                     <div className="sell-input">
                       <InputGroup>
-                        <Input type="number" placeholder="숫자만 입력" required value={data.price} name="price" onChange={this.handleClick}/>
+                        <Input type="number" placeholder="숫자만 입력" required value={data.price} name="price" onChange={this.handleState}/>
                         <InputGroupAddon addonType="append">
                           원
                         </InputGroupAddon>
@@ -240,7 +240,7 @@ class CreateProduct extends Component {
                       </div> */}
                       <div className="sell-input">
                         <InputGroup>
-                          <Input value={0} type="number" placeholder="숫자만 입력" required value={data.discount_price} name="discount_price" onChange={this.handleClick} />
+                          <Input value={0} type="number" placeholder="숫자만 입력" required value={data.discount_price} name="discount_price" onChange={this.handleState} />
                           <InputGroupAddon addonType="append">
                             원
                           </InputGroupAddon>
@@ -334,10 +334,10 @@ class CreateProduct extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <label className="search-input-label"><input className="search-input-checkbox" name="gapCheck" type="radio" value="1" onChange={this.handleClick} defaultChecked/>인증</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" name="gapCheck" type="radio" value="2" onChange={this.handleClick}  />인증하지 않음</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="gapCheck" type="radio" value="1" onChange={this.handleState} defaultChecked/>인증</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="gapCheck" type="radio" value="2" onChange={this.handleState}  />인증하지 않음</label>
                     </div>
-                    <Input name="gap" value={data.gap} onChange={this.handleClick} placeholder="GAP 인증번호"/>
+                    <Input name="gap" value={data.gap} onChange={this.handleState} placeholder="GAP 인증번호"/>
                   </div>
                 </div>
               </div>
@@ -347,9 +347,9 @@ class CreateProduct extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={1} onChange={this.handleClick} defaultChecked/>판매중</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={2} onChange={this.handleClick} />품절</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={3} onChange={this.handleClick} />판매중지</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={1} onChange={this.handleState} defaultChecked/>판매중</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={2} onChange={this.handleState} />품절</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={3} onChange={this.handleState} />판매중지</label>
                     </div>
                   </div>
                 </div>
@@ -360,7 +360,7 @@ class CreateProduct extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <Input name="shippingDate" value={data.shippingDate} onChange={this.handleClick} placeholder="출하일"/>
+                      <Input name="shippingDate" value={data.shippingDate} onChange={this.handleState} placeholder="출하일"/>
                     </div>
                   </div>
                 </div>
@@ -371,7 +371,7 @@ class CreateProduct extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <textarea style={{width: '100%', height: '100px'}} type="text" name="additional" value={data.additional} onChange={this.handleClick}></textarea>
+                      <textarea style={{width: '100%', height: '100px'}} type="text" name="additional" value={data.additional} onChange={this.handleState}></textarea>
                     </div>
                   </div>
                 </div>

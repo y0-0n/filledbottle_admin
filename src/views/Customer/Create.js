@@ -93,7 +93,7 @@ class Create extends Component {
     }
   }
 
-  handleClick = ({ target: { name, value } }) => {
+  handleState = ({ target: { name, value } }) => {
     this.setState({[name] : value});
   };
 
@@ -116,25 +116,25 @@ class Create extends Component {
                       <tr>
                         <th>기업(고객)명<span style={{color : "#FA5858"}}>*</span></th>
                         <td>
-                          <Input required name="name" value={this.state.name} onChange={this.handleClick}/>
+                          <Input required name="name" value={this.state.name} onChange={this.handleState}/>
                         </td>
                       </tr>
 											<tr>
                         <th>연락처 1<span style={{color : "#FA5858"}}>*</span></th>
                         <td>
-                          <Input type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"  placeholder={ "000-0000-0000" } name="cellphone" value={this.state.cellphone} onChange={this.handleClick} required/>
+                          <Input type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"  placeholder={ "000-0000-0000" } name="cellphone" value={this.state.cellphone} onChange={this.handleState} required/>
                         </td>
                       </tr>
                       <tr>
                         <th>연락처 2</th>
                         <td>
-                          <Input type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" name="telephone" value={this.state.telephone} onChange={this.handleClick}/>
+                          <Input type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" name="telephone" value={this.state.telephone} onChange={this.handleState}/>
                         </td>
                       </tr>
                       <tr>
                         <th>사업자등록번호</th>
                         <td>
-                          <Input name="crNumber" value={this.state.crNumber} onChange={this.handleClick}/>
+                          <Input name="crNumber" value={this.state.crNumber} onChange={this.handleState}/>
                         </td>
                       </tr>
                       <tr>

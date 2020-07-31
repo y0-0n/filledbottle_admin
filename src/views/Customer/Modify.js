@@ -118,7 +118,7 @@ class Modify extends Component {
     }
   }
 
-  handleClick = ({ target: { name, value } }) => {
+  handleState = ({ target: { name, value } }) => {
     let {data} = this.state;
     data[name] = value
     this.setState(data);
@@ -145,7 +145,7 @@ class Modify extends Component {
                         <tr>
                           <th>고객명</th>
                           <td>
-                            <Input value={data.name}  name="name" onChange={this.handleClick}/>
+                            <Input value={data.name}  name="name" onChange={this.handleState}/>
                           </td>
                         </tr>
                         <tr>
@@ -155,19 +155,19 @@ class Modify extends Component {
                         <tr>
                           <th>연락처 1</th>
                           <td>
-                            <Input value={data.cellphone} required pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"  name="cellphone" onChange={this.handleClick}/>
+                            <Input value={data.cellphone} required pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"  name="cellphone" onChange={this.handleState}/>
                           </td>
                         </tr>
                         <tr>
                           <th>연락처 2</th>
                           <td>
-                            <Input value={data.telephone} pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" name="telephone" onChange={this.handleClick} onBlur={this.handleClick}/>
+                            <Input value={data.telephone} pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" name="telephone" onChange={this.handleState} onBlur={this.handleState}/>
                           </td>
                         </tr>
                         <tr>
                           <th>사업자등록번호</th>
                           <td>
-                            <Input value={data.crNumber} name="crNumber" onChange={this.handleClick} onBlur={this.handleClick}/>
+                            <Input value={data.crNumber} name="crNumber" onChange={this.handleState} onBlur={this.handleState}/>
                           </td>
                         </tr>
                         <tr>
