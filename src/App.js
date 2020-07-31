@@ -27,11 +27,11 @@ class App extends Component {
           <Switch>
             <Route exact path="/login" name="Login Page" render={props => <Login {...props}/>} />
             <Route exact path="/register" name="Register Page" render={props => <Register {...props}/>} />
-						<Route path="/admin" name="Register Page" render={props => <AdminLayout {...props}/>} />
+						<Route path="/admin" name="Admin Page" render={props => <AdminLayout {...props}/>} />
             <Route exact path="/404" name="Page 404" render={props => <Page404 {...props}/>} />
             <Route exact path="/500" name="Page 500" render={props => <Page500 {...props}/>} />
-            <Route path="/main" name="Home" render={props => <DefaultLayout {...props}/>} />
             <Route exact path="/" name="Landing Page" render={props => <Landing {...props}/>} />
+            <Route path="/" name="Home" render={props => <DefaultLayout {...props}/>} />
           </Switch>
         </React.Suspense>
       </HashRouter>
