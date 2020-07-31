@@ -316,6 +316,23 @@ class CreateProduct extends Component {
                       <label htmlFor="vat2">면세상품</label>
                     </div>
                   </div> */}
+                  <div className="sell-list">
+                    <label className="sell-label">도매 최소 구매 무게</label>
+                    <div className="sell-input">
+                      <InputGroup>
+                        <Input style={{width: "30%"}} value={data.weight} name="weight" onChange={this.handleState}></Input>
+                        <InputGroupAddon addonType="append">
+                        <select>
+                          <option selected disabled value="">단위</option>
+                          <option value="kg">kg</option>
+                          <option value="되">되</option>
+                          <option value="밀">말</option>
+                          <option value="근">근</option>
+                        </select>
+                        </InputGroupAddon>
+                      </InputGroup>
+                    </div>
+                  </div>
                 </div>
               </div>
 
