@@ -73,8 +73,8 @@ class familySelector extends Component {
     });
   }
 
-  childFunction = () => {
-    this.props.parentFunction(this.state.category, this.state.productFamily);
+  passStateToParent = () => {
+    this.props.receiveStateFromChild(this.state.category, this.state.productFamily);
   }
 
   componentWillMount() {
@@ -103,7 +103,9 @@ class familySelector extends Component {
                   const f = (element) => element.id === e.id
                   return (
                     <li key={i} className="list-productFamily" style={this.state.productFamily === e.id ? {backgroundColor: "#20A8D8", color: "#fff"} : null}
-                    onDoubleClick={()=> {this.setState({productFamily : e.id})}} onClick={this.childFunction}>{e.name}</li>
+                    onClick={()=> {this.setState({productFamily : e.id}, () => {
+                      this.passStateToParent();
+                    })}}>{e.name}</li>
                     )}
                   )}
               </ul>

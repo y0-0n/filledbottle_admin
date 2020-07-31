@@ -188,7 +188,7 @@ class CreateProduct extends Component {
     this.setState(data);
   };
 
-  parentFunction = (category_value, productFamily_value) => {
+  receiveStateFromChild = (category_value, productFamily_value) => {
     let {data} = this.state;
     data.category = category_value;
     data.productFamily = productFamily_value;
@@ -207,7 +207,7 @@ class CreateProduct extends Component {
         <Row className="mb-5 justify-content-center">
           <Col sm="12" md="12" lg="12">
             <form encType="multipart/form-data" onSubmit={this.handlePost.bind(this)}>
-              <FamilySelector parentFunction={this.parentFunction}/>
+              <FamilySelector receiveStateFromChild={this.receiveStateFromChild}/>
               <div className="form-card">
                 <div className="form-title">상품명</div>
                 <div className="form-innercontent">
