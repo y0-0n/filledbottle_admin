@@ -412,7 +412,7 @@ class Modify extends Component {
                       <label className="search-input-label"><input className="search-input-checkbox" name="gapCheck" type="radio" value="1" onChange={this.handleState} defaultChecked/>인증</label>
                       <label className="search-input-label"><input className="search-input-checkbox" name="gapCheck" type="radio" value="2" onChange={this.handleState} />인증하지 않음</label>
                     </div>
-                    <Input required name="gap" value={this.state.data.gap} onChange={this.handleState} placeholder="GAP 인증번호"/>
+                    {this.state.data.gapCheck ==="1" ? <Input required name="gap" value={this.state.data.gap} onChange={this.handleState} placeholder="GAP 인증번호"/> : null}
                   </div>
                 </div>
               </div>
