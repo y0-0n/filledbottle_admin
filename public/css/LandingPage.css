@@ -110,3 +110,70 @@
     color: #fff;
     font-size: 1.8em;
 }
+
+
+@media (max-width: 1024px) {
+    .header {
+        padding: 0 10px 0 10px;
+    }
+
+    .fullscreen {
+        min-width: auto;
+        min-height: auto;
+        padding: 0;
+    }
+
+    .logo {
+        margin-top: 15px;
+        width: 80px;
+    }
+
+    .main_btn {
+        width: auto;
+        font-size: 1.0em;
+        height: auto;
+        padding: 2px 15px 2px 15px;
+        margin: 10px;
+    }
+
+    #main {
+        padding :0;
+    }
+
+    #main .main_title {
+        width: auto;
+    }
+
+    #main .main_title .mainImg {
+        margin: 50px 0 0 0;
+    }
+
+    #main .mainImg2 {
+        position : relative;
+        width: 70%;
+    }
+
+    #one {
+        padding: 0;
+    }
+
+    #foot {
+        padding : 0;
+    }
+
+    #foot .footImg2 {
+       display: none;
+    }
+
+    #foot .foot_title {
+        width: auto;
+    }
+
+    #foot .foot_title .foot_btn {
+        width: auto;
+        height: auto;
+        padding: 5px 20px 5px 20px;
+        margin-bottom: 10px;
+        font-size: 1.0em;
+    }
+}
