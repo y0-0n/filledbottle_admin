@@ -175,6 +175,11 @@ ul li {
     margin-left: 10px;
 }
 
+.ant-table-thead>tr>th .ant-table-column-sorter .ant-table-column-sorter-inner {
+    height: 0 !important;
+    margin: 0 !important;
+}
+
 @media (max-width: 1024px) {
     .main {
         font-size: 0.8em;

@@ -94,9 +94,8 @@ const SurveyHome = React.lazy(() => import('./views/Survey/Home'));
 const Setting = React.lazy(() => import('./views/Setting/Setting'));
 const Income = React.lazy(() => import('./views/Income/Income'));
 const Pay = React.lazy(() => import('./views/Pay/List'));
-const ProductSales = React.lazy(() => import('./views/Performance/ProductSales'));
-const CustomerSales = React.lazy(() => import('./views/Performance/CustomerSales'));
-const DailySales = React.lazy(() => import('./views/Performance/DailySales'));
+const AnalysisSales = React.lazy(() => import('./views/Analysis/Sales'));
+const AnalysisCollect = React.lazy(() => import('./views/Analysis/Collect'));
 const Market = React.lazy(() => import('./views/Market'));
 const MarketDetail = React.lazy(() => import('./views/Market/Detail'));
 
@@ -158,9 +157,8 @@ const routes = [
   { path: '/main/survey/home', exact: true,  name: '마케팅 검사', component: SurveyHome},
   { path: '/main/income', exact: true,  name: '손익 계산서', component: Income},
   { path: '/main/pay', exact: true,  name: '결제상품리스트', component: Pay},
-  { path: '/main/performance/product', exact: true,  name: '월별 성과', component: ProductSales},
-  { path: '/main/performance/customer', exact: true,  name: '월별 성과', component: CustomerSales},
-  { path: '/main/performance/daily', exact: true,  name: '월별 성과', component: DailySales},
+  { path: '/main/analysis/sales', exact: true,  name: '매출 분석', component: AnalysisSales},
+  { path: '/main/analysis/collect', exact: true,  name: '매출 분석', component: AnalysisCollect},
   { path: '/main/market', exact: true,  name: '매장 관리', component: Market},
   { path: '/main/market/:id', exact: true,  name: '매장 상세', component: MarketDetail},
 
