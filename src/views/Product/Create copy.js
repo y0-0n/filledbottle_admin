@@ -200,6 +200,11 @@ class CreateProduct extends Component {
     })
   }
 
+  scrollToNext(next) {
+    var location = document.querySelector("#section"+next).offsetTop;
+    window.scrollTo({top:location, behavior:'smooth'});
+  }
+
   render() {
     let {data} = this.state;
     console.log(this.state)
@@ -209,22 +214,22 @@ class CreateProduct extends Component {
         <Row className="mb-5 justify-content-center">
           <Col sm="12" md="12" lg="12">
             <form encType="multipart/form-data" onSubmit={this.handlePost.bind(this)}>
-              <FamilySelector receiveStateFromChild={this.receiveStateFromChild}/>
-              <div className="form-card">
+              <FamilySelector receiveStateFromChild={this.receiveStateFromChild} />
+              <div className="form-card" id="section2">
                 <div className="form-title">상품명</div>
                 <div className="form-innercontent">
-                  <Input required name="name" value={data.name} onChange={this.handleState} placeholder="상품명 입력"/>
+                  <Input required name="name" value={data.name} onChange={this.handleState} placeholder="상품명 입력" onBlur={()=>{this.scrollToNext(3)}}/>
                 </div>
               </div>
 
-              <div className="form-card">
+              <div className="form-card" id="section3">
                 <div className="form-title">가격</div>
                 <div className="form-innercontent">
                   <div className="sell-list">
                     <label className="sell-label">판매가</label>
                     <div className="sell-input">
                       <InputGroup>
-                        <Input type="number" placeholder="숫자만 입력" required value={data.price} name="price" onChange={this.handleState}/>
+                        <Input className="section3-0" type="number" placeholder="숫자만 입력" required value={data.price} name="price" onChange={this.handleState}/>
                         <InputGroupAddon addonType="append">
                           원
                         </InputGroupAddon>
@@ -242,7 +247,7 @@ class CreateProduct extends Component {
                       </div> */}
                       <div className="sell-input">
                         <InputGroup>
-                          <Input value={0} type="number" placeholder="숫자만 입력" required value={data.discount_price} name="discount_price" onChange={this.handleState} />
+                          <Input className="section3-1" value={0} type="number" placeholder="숫자만 입력" required value={data.discount_price} name="discount_price" onChange={this.handleState} />
                           <InputGroupAddon addonType="append">
                             원
                           </InputGroupAddon>
@@ -320,9 +325,9 @@ class CreateProduct extends Component {
                     <label className="sell-label">도매 최소 구매 무게</label>
                     <div className="sell-input">
                       <InputGroup>
-                        <Input style={{width: "30%"}} value={data.weight} name="weight" onChange={this.handleState}></Input>
+                        <Input className="section3-2" style={{width: "30%"}} value={data.weight} name="weight" onChange={this.handleState}></Input>
                         <InputGroupAddon addonType="append">
-                        <select>
+                        <select onChange={()=>{this.scrollToNext(4)}}>
                           <option selected disabled value="">단위</option>
                           <option value="kg">kg</option>
                           <option value="되">되</option>
@@ -348,33 +353,33 @@ class CreateProduct extends Component {
                 </div>
               </div> */}
 
-              <div className="form-card">
+              <div className="form-card" id="section4">
                 <div className="form-title">GAP 인증 여부</div>
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
                       <label className="search-input-label"><input className="search-input-checkbox" name="gapCheck" type="radio" value="1" onChange={this.handleState} defaultChecked/>인증</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" name="gapCheck" type="radio" value="2" onChange={this.handleState}  />인증하지 않음</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="gapCheck" type="radio" value="2" onChange={this.handleState} onClick={()=>{this.scrollToNext(5)}}/>인증하지 않음</label>
                     </div>
-                    {this.state.data.gapCheck ==="1" ? <Input required name="gap" value={data.gap} onChange={this.handleState} placeholder="GAP 인증번호"/> : null}
+                    {this.state.data.gapCheck ==="1" ? <Input required name="gap" value={data.gap} onChange={this.handleState} placeholder="GAP 인증번호" onBlur={()=>{this.scrollToNext(5)}}/> : null}
                   </div>
                 </div>
               </div>
 
-              <div className="form-card">
+              <div className="form-card" id="section5">
                 <div className="form-title">품목상태</div>
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={1} onChange={this.handleState} defaultChecked/>판매중</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={2} onChange={this.handleState} />품절</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={3} onChange={this.handleState} />판매중지</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={1} onChange={this.handleState} onClick={()=>{this.scrollToNext(6)}} defaultChecked/>판매중</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={2} onChange={this.handleState} onClick={()=>{this.scrollToNext(6)}} />품절</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={3} onChange={this.handleState} onClick={()=>{this.scrollToNext(6)}} />판매중지</label>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="form-card">
+              <div className="form-card" id="section6">
                 <div className="form-title">출하일</div>
                 <div className="form-innercontent">
                   <div className="sell-list">
@@ -398,24 +403,25 @@ class CreateProduct extends Component {
                           locale="ko"
                           selected={this.state.data.shippingEndDate}
                           onChange={(shippingEndDate) => {data.shippingEndDate = shippingEndDate; this.setState({data})}}
+                          onBlur={()=>{this.scrollToNext(7)}}
                         />
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="form-card">
+              <div className="form-card" id="section7">
                 <div className="form-title">추가사항</div>
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <textarea style={{width: '100%', height: '100px'}} type="text" name="additional" value={data.additional} onChange={this.handleState}></textarea>
+                      <textarea style={{width: '100%', height: '100px'}} type="text" name="additional" value={data.additional} onChange={this.handleState} onBlur={()=>{this.scrollToNext(8)}}></textarea>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="form-card">
+              <div className="form-card" id="section8">
                 <div className="form-title">상품이미지</div>
                 <div className="form-innercontent">
                   <div className="sell-list">
