@@ -566,7 +566,7 @@ class RegisterDetail extends Component {
             </Card>
           </Col>
 
-          <Col md="12" xs="12" sm="12">
+          {/* <Col md="12" xs="12" sm="12">
             <Card>
               <CardHeader>
                 <Row>
@@ -608,7 +608,7 @@ class RegisterDetail extends Component {
                 </div>
               </CardBody>
             </Card>
-          </Col>
+          </Col> */}
 
         </Row>
       </div>
