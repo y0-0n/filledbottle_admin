@@ -5,11 +5,13 @@ import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, In
 class Create extends Component {
   constructor(props) {
     super(props);
-    this.form = {
+    this.state = {
       name: '',
       telephone: '',
       cellphone: '',
       address: '',
+      addressDetail: '',
+      postcode: '',
       crNumber: '',
     }
   }
@@ -54,14 +56,14 @@ class Create extends Component {
   handlePost(e) {
     e.preventDefault();
 		let formData = new FormData();
-    this.form.address = document.getElementById("sample6_address").value
-    this.form.addressDetail = document.getElementById("sample6_detailAddress").value;
-		this.form.postcode = document.getElementById("sample6_postcode").value;
-    for (let [key, value] of Object.entries(this.form)) {
+    this.state.address = document.getElementById("sample6_address").value
+    this.state.addressDetail = document.getElementById("sample6_detailAddress").value;
+		this.state.postcode = document.getElementById("sample6_postcode").value;
+    for (let [key, value] of Object.entries(this.state)) {
       formData.append(key, value);
     }
 
-    if (this.form.address === '') alert('주소를 입력해주세요')
+    if (this.state.address === '') alert('주소를 입력해주세요')
 
     else {
       fetch(process.env.REACT_APP_HOST+"/customer", {
@@ -91,80 +93,76 @@ class Create extends Component {
     }
   }
 
+  handleState = ({ target: { name, value } }) => {
+    this.setState({[name] : value});
+  };
+
   render() {
     return (
       <div className="animated fadeIn align-items-center">
-        <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
-        <link rel="stylesheet" type="text/css" href="css/Customer.css"></link>
+        <link rel="stylesheet" type="text/css" href="css/CreateCopy.css"></link>
         <Row className="mb-5 justify-content-center">
-          <Col md="12" lg="12" xl="12">
+          <Col sm="12" md="12" lg="12">
             <form encType="multipart/form-data" onSubmit={this.handlePost.bind(this)}>
-              <FormGroup>
-                <Card>
-                  <CardHeader>
-                    고객 정보
-                  </CardHeader>
-                  <CardBody>
-                    <Table className="ShowTable">
-                    <tbody>
-                      <tr>
-                        <th>기업(고객)명<span style={{color : "#FA5858"}}>*</span></th>
-                        <td>
-                          <Input required onChange={(e) => this.form.name=e.target.value}/>
-                        </td>
-                      </tr>
-											<tr>
-                        <th>연락처 1<span style={{color : "#FA5858"}}>*</span></th>
-                        <td>
-                          <Input type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"  placeholder={ "000-0000-0000" } onChange={(e) => this.form.cellphone=e.target.value} required/>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>연락처 2</th>
-                        <td>
-                          <Input type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" onChange={(e) => this.form.telephone=e.target.value}/>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>사업자등록번호</th>
-                        <td>
-                          <Input onChange={(e) => this.form.crNumber=e.target.value}/>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th>주소<span style={{color : "#FA5858"}}>*</span></th>
-                        <td colSpan="3">
-                          <Row style={{marginBottom: '10px'}}>
-                            <Col lg="6" md="6" sm="6">
-                              <InputGroup required>
-                                <Input type="text" id="sample6_postcode" placeholder="우편번호" readOnly/>                            
-                                <InputGroupAddon addonType="append">
-                                  <Button block color="primary" onClick={() => {this.sample6_execDaumPostcode()}}>우편번호찾기</Button>
-                                </InputGroupAddon>
-                              </InputGroup>
-                            </Col>
-                          </Row>
-                          <Row style={{marginBottom: '10px'}}>
-                            <Col>
-                              <Input type="text" id="sample6_address" placeholder="주소" readOnly/>
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col lg="6" md="6" sm="6" style={{paddingRight: '0px'}}>
-                              <Input type="text" id="sample6_detailAddress" placeholder="상세주소"/>
-                            </Col>
-                          </Row>
-                          {/*<Input onChange={(e) => this.form.address=e.target.value}/>*/}
-                        </td>
-                      </tr>
-                    </tbody>
-                    </Table>
-                  </CardBody>
-                  <CardFooter>
-                    <Button block outline color="primary">추가하기</Button>
-                  </CardFooter>
-                </Card>
-              </FormGroup>
+              <div className="form-card">
+                <div className="form-title">고객 정보</div>
+                <div className="form-innercontent">
+                  <div className="sell-list">
+                    <label className="sell-label">기업(고객)명<span style={{color : "#FA5858"}}>*</span></label>
+                    <div className="sell-input">
+                      <Input style={{width: "50%"}} required name="name" value={this.state.name} onChange={this.handleState}/>
+                    </div>
+                  </div>
+
+                  <div className="sell-list">
+                    <label className="sell-label">연락처1<span style={{color : "#FA5858"}}>*</span></label>
+                    <div className="sell-input">
+                      <Input style={{width: "50%"}} type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"  placeholder={ "000-0000-0000" } name="cellphone" value={this.state.cellphone} onChange={this.handleState} required/>
+                    </div>
+                  </div>
+
+                  <div className="sell-list">
+                    <label className="sell-label">연락처2</label>
+                    <div className="sell-input">
+                      <Input style={{width: "50%"}} type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" name="telephone" value={this.state.telephone} onChange={this.handleState}/>
+                    </div>
+                  </div>
+
+                  <div className="sell-list">
+                    <label className="sell-label">사업자등록번호</label>
+                    <div className="sell-input">
+                      <Input style={{width: "50%"}} name="crNumber" value={this.state.crNumber} onChange={this.handleState}/>
+                    </div>
+                  </div>
+
+                  <div className="sell-list">
+                    <label style={{height: "100px"}} className="sell-label">주소<span style={{color : "#FA5858"}}>*</span></label>
+                    <div className="sell-input">
+                      <Row style={{marginBottom: '10px'}}>
+                        <Col lg="6" md="6" sm="6">
+                          <InputGroup required>
+                            <Input type="text" id="sample6_postcode" placeholder="우편번호" readOnly/>                            
+                            <InputGroupAddon addonType="append">
+                              <Button block color="primary" onClick={() => {this.sample6_execDaumPostcode()}}>우편번호찾기</Button>
+                            </InputGroupAddon>
+                          </InputGroup>
+                        </Col>
+                      </Row>
+                      <Row style={{marginBottom: '10px'}}>
+                        <Col>
+                          <Input style={{width: "50%"}} type="text" id="sample6_address" placeholder="주소" readOnly/>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col lg="6" md="6" sm="6" style={{paddingRight: '0px'}}>
+                          <Input style={{width: "50%"}} type="text" id="sample6_detailAddress" placeholder="상세주소"/>
+                        </Col>
+                      </Row>
+                    </div>
+                  </div>
+                </div>
+                <Button block outline color="primary">추가하기</Button>
+              </div>
             </form>
           </Col>
         </Row>

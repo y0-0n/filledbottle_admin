@@ -1,10 +1,38 @@
 //page
 const convert = 'convert' ;
+const convertP = 'convertP' ;
+const convertC = 'convertC' ;
+const convertS = 'convertS' ;
+const convertM = 'convertM' ;
 
 
 function clickConvertPage(e) {
     return {
         type : convert,
+        payload : e
+    }
+}
+function clickConvertPageP(e) {
+    return {
+        type : convertP,
+        payload : e
+    }
+}
+function clickConvertPageC(e) {
+    return {
+        type : convertC,
+        payload : e
+    }
+}
+function clickConvertPageS(e) {
+    return {
+        type : convertS,
+        payload : e
+    }
+}
+function clickConvertPageM(e) {
+    return {
+        type : convertM,
         payload : e
     }
 }
@@ -119,6 +147,10 @@ function checkPlant(e) {
 //order_export
 const pagination = {
     convert,
+    convertP,
+    convertC,
+    convertS,
+    convertM,
 }
 
 const searchPage = {
@@ -143,6 +175,10 @@ const stock = {
 
 const pageFunction = {
     clickConvertPage,
+    clickConvertPageP,
+    clickConvertPageC,
+    clickConvertPageS,
+    clickConvertPageM,
 }
 
 const searchFunction = {

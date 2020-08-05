@@ -8,14 +8,6 @@ import DatePicker from "react-datepicker";
 class Create extends Component {
   constructor(props) {
     super(props);
-    this.form = {
-      productId : '',
-			plant : '',
-			date_manufacture: '',
-			expiration: '',
-      type : '자가생산',
-      quantity: 0,
-    };
 
     this.state = {
 			plantData: [],
@@ -24,6 +16,15 @@ class Create extends Component {
       productName :'',
       price_shipping: '',
       file_name : "/assets/img/noimage.jpg",
+      data : {
+        name : '',
+        productId : 0,
+        plant : '',
+        date_manufacture: '',
+        expiration: '',
+        type : '자가생산',
+        quantity: 0,
+      }
     };
   }
 
@@ -37,13 +38,12 @@ class Create extends Component {
 
   createStock() {
 		//TODO : 구분명 편집 필요
-    this.form.name = this.state.productName;
-		this.form.productId = this.state.productId;
-		this.form.expiration = this.convertDateFormat(this.state.expiration);
-		this.form.date_manufacture = this.convertDateFormat(this.state.date_manufacture);
-		this.form.plant = this.props.plant;
-    // console.warn(this.form)
-    
+    this.state.data.name = this.state.productName;
+		this.state.data.productId = this.state.productId;
+		this.state.data.expiration = this.convertDateFormat(this.state.expiration);
+		this.state.data.date_manufacture = this.convertDateFormat(this.state.date_manufacture);
+		this.state.data.plant = this.props.plant;
+    console.log(this.state)
     if(this.getDiffDate(this.state.date_manufacture, this.state.expiration) < 0 ) alert('제조일자와 유통기한을 확인해주세요.')
     else{
       fetch(process.env.REACT_APP_HOST+"/api/stock", {
@@ -53,7 +53,7 @@ class Create extends Component {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + localStorage.getItem('token'),
         },
-        body: JSON.stringify(this.form)
+        body: JSON.stringify(this.state.data)
       })
       .then(response => {
         if(response.status === 401) {
@@ -84,6 +84,12 @@ class Create extends Component {
     return diffDate
   }
 
+  handleClick = ({ target: { name, value } }) => {
+    let {data} = this.state;
+    data[name] = value
+    this.setState(data);
+  };
+
   render() {
     const {plantData} = this.state;
     if(this.props.plant === 'all') this.props.history.push('/main/stock')
@@ -97,7 +103,6 @@ class Create extends Component {
               <div className="sell-content">
                 <label className="sell-label">품목명 <span style={{color : "#FA5858"}}>*</span></label>
                 <div className="sell-input">
-                  {console.log(this.state.sProduct)}
                   {<Popup
                     trigger={<Input className="stock-input" required placeholder={ "품목을 선택해주세요" } value={this.state.productName} style={{cursor: 'pointer', backgroundColor: '#ffffff'}} onChange={() => {console.log('S')}}/>}
                     modal>
@@ -147,7 +152,7 @@ class Create extends Component {
                 <label className="sell-label">재고수 <span style={{color : "#FA5858"}}>*</span></label>
                 <div className="sell-input">
                   <InputGroup>
-                    <Input type="number" placeholder="숫자만 입력" required onChange={(e) => this.form.quantity = e.target.value/*this.changePrice.bind(this)*/} />
+                    <Input type="number" placeholder="숫자만 입력" name="quantity" value={this.state.data.quantity} required onChange={this.handleClick} />
                     <InputGroupAddon addonType="append">
                       개
                     </InputGroupAddon>

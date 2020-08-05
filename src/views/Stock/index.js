@@ -1,14 +1,15 @@
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
-import { pageFunction, stockFunction, productFunction, searchFunction } from '../../action';
+import { pageFunction, stockFunction, searchFunction } from '../../action';
 import Stock from './Stock';
 
 function mapStateToProps(state) {
-  const { pageNumbers, plant } = state.stock;
+  const{ pageNumbersS } = state.pagination;
+  const { plant } = state.stock;
   const { familyS } = state.stock;
   const { keywordS } = state.search;
   return {
-    pageNumbers,
+    pageNumbersS,
     familyS,
     plant,
     keywordS
@@ -17,7 +18,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    clickConvertPage: bindActionCreators(pageFunction.clickConvertPage, dispatch),
+    clickConvertPageS: bindActionCreators(pageFunction.clickConvertPageS, dispatch),
     checkFamilyS: bindActionCreators(stockFunction.checkFamilyS, dispatch),
     searchKeywordS: bindActionCreators(searchFunction.searchKeywordS, dispatch),
     checkPlant: bindActionCreators(stockFunction.checkPlant, dispatch),

@@ -1,4 +1,4 @@
-import { stock, product, pagination } from '../../action'
+import { stock, } from '../../action'
 
 
 const InitialState ={
@@ -13,8 +13,6 @@ export default function searchReducer(state = InitialState, action) {
     switch(action.type) {
         case stock.familyS :
             return checkFamilyS(state, action.payload);
-        case pagination.convert :
-            return convertPage(state, action.payload);
         case stock.plant :
             return checkPlant(state, action.payload);
         default : 
@@ -22,13 +20,6 @@ export default function searchReducer(state = InitialState, action) {
     }
 }
 
-function convertPage(state, next_page) {
-    console.warn(next_page)
-    return {
-        ...state ,
-        pageNumbers : next_page
-    }
-}
 
 function checkFamilyS(state, family_c) {
     return {

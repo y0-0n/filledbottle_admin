@@ -171,7 +171,7 @@ class List extends Component {
 
 	getProduct() {
     const name = this.props.keywordP;
-    const page = this.props.pageNumbers;
+    const page = this.props.pageNumbersP;
     const {category, family, stateP} = this.props;
     fetch(process.env.REACT_APP_HOST + "/product/list", {
       method: 'POST',
@@ -208,7 +208,7 @@ class List extends Component {
   }
 
   getStock() {
-    const page = this.props.pageNumbers;
+    const page = this.props.pageNumbersP;
     const name = this.props.keywordP;
     const {category, family} = this.props;
 
@@ -388,7 +388,7 @@ class List extends Component {
     var data = this.state.productData;
     //var data_cafe24 = this.state.productData_cafe24;
     var {stockData, familyData, userCategoryData, stateCount} = this.state;
-    var { show, pageNumbers} = this.props;
+    var { show, pageNumbersP} = this.props;
     const arr = [-2, -1, 0, 1, 2];
 		const arr1 = [];
     return (
@@ -567,7 +567,7 @@ class List extends Component {
                         <td className="list-hidden">
                           <img style={{ width: '90%' }} alt="품목 사진" src={e.file_name ? process.env.REACT_APP_HOST+"/static/" + e.file_name : '318x180.svg'} />
                         </td>
-                        <td>{e.name + ' ' + e.grade + ' ' + e.weight}</td>
+                        <td>{e.name}</td>
                         <td className="list-hidden">{e.familyName}</td>
                         <td>{this.numberWithCommas(e['price_shipping'])}&nbsp;원</td>
                         <td>{e.stock}</td>
@@ -579,26 +579,26 @@ class List extends Component {
                   </tbody>
                 </Table>
                 <Pagination style={{justifyContent: 'center'}}>
-                  {pageNumbers === 1 ? '' :
+                  {pageNumbersP === 1 ? '' :
                   <PaginationItem>
-                    <PaginationLink previous onClick={() => {this.countPageNumber(this.props.clickConvertPage(pageNumbers-1))}}/>
+                    <PaginationLink previous onClick={() => {this.countPageNumber(this.props.clickConvertPageP(pageNumbersP-1))}}/>
                   </PaginationItem>
                   }
-                  {pageNumbers === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
-                  {pageNumbers === 2 ? arr.forEach(x => arr1.push(x+1)) : null}
-                  {pageNumbers !== 1 && pageNumbers!== 2 ? arr.forEach(x => arr1.push(x)) :null }
+                  {pageNumbersP === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
+                  {pageNumbersP === 2 ? arr.forEach(x => arr1.push(x+1)) : null}
+                  {pageNumbersP !== 1 && pageNumbersP!== 2 ? arr.forEach(x => arr1.push(x)) :null }
                   {arr1.map((e, i) => {
-                    if(this.state.lastPage >= pageNumbers+e)
-                    return (<PaginationItem key={i} active={pageNumbers === pageNumbers+e}>
-                      <PaginationLink onClick={() => {this.countPageNumber(this.props.clickConvertPage(pageNumbers+e));}}>
-                      {pageNumbers+e}
+                    if(this.state.lastPage >= pageNumbersP+e)
+                    return (<PaginationItem key={i} active={pageNumbersP === pageNumbersP+e}>
+                      <PaginationLink onClick={() => {this.countPageNumber(this.props.clickConvertPageP(pageNumbersP+e));}}>
+                      {pageNumbersP+e}
                       </PaginationLink>
                     </PaginationItem>)
                     return null;
                   })}
-                  {pageNumbers === this.state.lastPage ? '' :
+                  {pageNumbersP === this.state.lastPage ? '' :
                   <PaginationItem>
-                    <PaginationLink next onClick={() => {this.countPageNumber(this.props.clickConvertPage(pageNumbers+1))}}/>
+                    <PaginationLink next onClick={() => {this.countPageNumber(this.props.clickConvertPageP(pageNumbersP+1))}}/>
                   </PaginationItem>}
                 </Pagination>
               </div>

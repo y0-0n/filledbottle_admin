@@ -5,17 +5,16 @@ class Modify extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
+      data: {
+        name: '',
+        telephone: '',
+        cellphone: '',
+        address: '',
+        addressDetail: '',
+        postcode: '',
+        crNumber: '',
+      },
 		};
-		this.form = {
-      name: '',
-      telephone: '',
-      cellphone: '',
-			address: '',
-			addressDetail: '',
-			postcode: '',
-      crNumber: '',
-    }
   }
 
   componentWillMount() {
@@ -38,13 +37,13 @@ class Modify extends Component {
         document.getElementById("sample6_address").value = data[0].address;
         document.getElementById("sample6_detailAddress").value = data[0].address_detail;
 				document.getElementById("sample6_postcode").value = data[0].postcode;
-				this.form.name = data[0].name;
-				this.form.telephone = data[0].telephone;
-				this.form.cellphone = data[0].cellphone;
-				this.form.address = data[0].address;
-				this.form.addressDetail = data[0].addressDetail;
-				this.form.postcode = data[0].postcode;
-				this.form.crNumber = data[0].crNumber;
+				this.state.data.name = data[0].name;
+				this.state.data.telephone = data[0].telephone;
+				this.state.data.cellphone = data[0].cellphone;
+				this.state.data.address = data[0].address;
+				this.state.data.addressDetail = data[0].addressDetail;
+				this.state.data.postcode = data[0].postcode;
+				this.state.data.crNumber = data[0].crNumber;
       });
   }
 
@@ -85,10 +84,10 @@ class Modify extends Component {
     let c = window.confirm('이 상품을 수정하시겠습니까?')
     if(c) {
       let formData = new FormData();
-      this.form.address = document.getElementById("sample6_address").value;
-      this.form.addressDetail = document.getElementById("sample6_detailAddress").value;
-      this.form.postcode = document.getElementById("sample6_postcode").value;
-      for (let [key, value] of Object.entries(this.form)) {
+      this.state.data.address = document.getElementById("sample6_address").value;
+      this.state.data.addressDetail = document.getElementById("sample6_detailAddress").value;
+      this.state.data.postcode = document.getElementById("sample6_postcode").value;
+      for (let [key, value] of Object.entries(this.state.data)) {
         formData.append(key, value);
       }
   
@@ -119,90 +118,86 @@ class Modify extends Component {
     }
   }
 
+  handleState = ({ target: { name, value } }) => {
+    let {data} = this.state;
+    data[name] = value
+    this.setState(data);
+  };
+
   render() {
     let {data} = this.state;
 
     return (
-      <div className="animated fadeIn">
-      <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
-      <link rel="stylesheet" type="text/css" href="css/CustomerDetail.css"></link>
-        <Row className="mb-5">
-          <Col md="12" xs="12" sm="12">
-            <form onSubmit={this.handlePost.bind(this)}>
-              <FormGroup>
-                <Card>
-                  <CardHeader>
-                    고객 정보
-                  </CardHeader>
-                  <CardBody>
-                    <Table className="ShowTable">
-                      <tbody>
-                        <tr>
-                          <th>고객명</th>
-                          <td>
-                            <Input defaultValue={data.name} onChange={(e) => this.form.name=e.target.value}/>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th>상태</th>
-                          <td>{data.set ? <Badge color="primary">활성화</Badge> : <Badge color="danger">비활성화</Badge>}</td>
-                        </tr>
-                        <tr>
-                          <th>연락처 1</th>
-                          <td>
-                            <Input defaultValue={data.cellphone} required pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" onChange={(e) => this.form.cellphone=e.target.value}/>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th>연락처 2</th>
-                          <td>
-                            <Input defaultValue={data.telephone} pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" onChange={(e) => this.form.telephone=e.target.value} onBlur={(e) => this.form.telephone=e.target.value}/>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th>사업자등록번호</th>
-                          <td>
-                            <Input defaultValue={data.crNumber} onChange={(e) => this.form.crNumber=e.target.value} onBlur={(e) => this.form.crNumber=e.target.value}/>
-                          </td>
-                        </tr>
-                        <tr>
-                          <th>주소</th>
-                          <td colSpan="3">
-                            <Row style={{marginBottom: '10px'}}>
-                              <Col lg="6" md="6" sm="6">
-                                <InputGroup required>
-                                  <Input type="text" id="sample6_postcode" placeholder="우편번호" readOnly/>                            
-                                  <InputGroupAddon addonType="append">
-                                    <Button block color="primary" onClick={() => {this.sample6_execDaumPostcode()}}>우편번호찾기</Button>
-                                  </InputGroupAddon>
-                                </InputGroup>
-                              </Col>
-                            </Row>
-                            <Row style={{marginBottom: '10px'}}>
-                              <Col>
-                                <Input type="text" id="sample6_address" placeholder="주소" readOnly/>
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col lg="6" md="6" sm="6" style={{paddingRight: '0px'}}>
-                                <Input type="text" id="sample6_detailAddress" placeholder="상세주소"/>
-                              </Col>
-                            </Row>
-                            {/*<Input onChange={(e) => this.form.address=e.target.value}/>*/}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </CardBody>
-                  <CardFooter>
-                    <Button block outline color="primary">수정하기</Button>
-                  </CardFooter>
-                </Card>
-              </FormGroup>
+      <div className="animated fadeIn align-items-center">
+        <link rel="stylesheet" type="text/css" href="css/CreateCopy.css"></link>
+        <Row className="mb-5 justify-content-center">
+          <Col sm="12" md="12" lg="12">
+            <form encType="multipart/form-data" onSubmit={this.handlePost.bind(this)}>
+              <div className="form-card">
+                <div className="form-title">고객 정보</div>
+                <div className="form-innercontent">
+                  <div className="sell-list">
+                    <label className="sell-label">기업(고객)명<span style={{color : "#FA5858"}}>*</span></label>
+                    <div className="sell-input">
+                      <Input style={{width: "50%"}} value={data.name}  name="name" onChange={this.handleState}/>
+                    </div>
+                  </div>
+
+                  <div className="sell-list">
+                    <label className="sell-label">연락처1<span style={{color : "#FA5858"}}>*</span></label>
+                    <div className="sell-input">
+                      <Input style={{width: "50%"}} value={data.cellphone} required pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"  name="cellphone" onChange={this.handleState}/>
+                    </div>
+                  </div>
+
+                  <div className="sell-list">
+                    <label className="sell-label">연락처2</label>
+                    <div className="sell-input">
+                      <Input style={{width: "50%"}} value={data.telephone} pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" name="telephone" onChange={this.handleState} onBlur={this.handleState}/>
+                    </div>
+                  </div>
+
+                  <div className="sell-list">
+                    <label className="sell-label">사업자등록번호</label>
+                    <div className="sell-input">
+                      <Input style={{width: "50%"}} value={data.crNumber} name="crNumber" onChange={this.handleState} onBlur={this.handleState}/>
+                    </div>
+                  </div>
+
+                  <div className="sell-list">
+                    <label style={{height: "100px"}} className="sell-label">주소<span style={{color : "#FA5858"}}>*</span></label>
+                    <div className="sell-input">
+                      <Row style={{marginBottom: '10px'}}>
+                        <Col lg="6" md="6" sm="6">
+                          <InputGroup required>
+                            <Input type="text" id="sample6_postcode" placeholder="우편번호" readOnly/>                            
+                            <InputGroupAddon addonType="append">
+                              <Button block color="primary" onClick={() => {this.sample6_execDaumPostcode()}}>우편번호찾기</Button>
+                            </InputGroupAddon>
+                          </InputGroup>
+                        </Col>
+                      </Row>
+                      <Row style={{marginBottom: '10px'}}>
+                        <Col>
+                          <Input style={{width: "50%"}} type="text" id="sample6_address" placeholder="주소" readOnly/>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col lg="6" md="6" sm="6" style={{paddingRight: '0px'}}>
+                          <Input style={{width: "50%"}} type="text" id="sample6_detailAddress" placeholder="상세주소"/>
+                        </Col>
+                      </Row>
+                    </div>
+                  </div>
+                </div>
+                <Button block outline color="primary">수정하기</Button>
+              </div>
             </form>
           </Col>
         </Row>
       </div>
+
+      
     )
 
   }
