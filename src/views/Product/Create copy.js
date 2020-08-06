@@ -30,6 +30,8 @@ class CreateProduct extends Component {
         vat: '1',
         additional: '',
         gapCheck: '1',
+        weight: 0,
+        weight_unit: '',
       },
       checkCategory: true,
       category: 'category1',
@@ -77,10 +79,6 @@ class CreateProduct extends Component {
     }
   }
 
-  convertDateFormat(date) {
-    return date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
-  }
-
   handlePost(e) {
     e.preventDefault();
     let formData = new FormData();
@@ -91,9 +89,6 @@ class CreateProduct extends Component {
     for (let [key, value] of Object.entries(this.state.data)) {
       formData.append(key, value);
     }
-    formData.set('shippingDate', this.convertDateFormat(this.state.data.shippingDate));
-    formData.set('shippingEndDate', this.convertDateFormat(this.state.data.shippingEndDate));
-
     fetch(process.env.REACT_APP_HOST + "/product", {
       method: 'POST',
       'Content-Type': 'multipart/form-data',
@@ -334,7 +329,7 @@ class CreateProduct extends Component {
                       <InputGroup>
                         <Input className="section3-2" style={{width: "30%"}} value={data.weight} name="weight" onChange={this.handleState}></Input>
                         <InputGroupAddon addonType="append">
-                        <select onChange={()=>{this.scrollToNext(4)}}>
+                        <select name="weight_unit" onChange={this.handleState} onBlur={()=>{this.scrollToNext(4)}}>
                           <option selected disabled value="">단위</option>
                           <option value="kg">kg</option>
                           <option value="되">되</option>
