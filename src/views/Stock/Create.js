@@ -4,6 +4,7 @@ import ProductFamilyModal from '../Modal/ProductFamilyModal';
 import ProductModal from '../Modal/ProductModal';
 import Popup from "reactjs-popup";
 import DatePicker from "react-datepicker";
+import {handleState} from '../common';
 
 class Create extends Component {
   constructor(props) {
@@ -84,11 +85,11 @@ class Create extends Component {
     return diffDate
   }
 
-  handleClick = ({ target: { name, value } }) => {
-    let {data} = this.state;
-    data[name] = value
-    this.setState(data);
-  };
+  // handleState (e) {
+  //   let {data} = this.state;
+  //   data[e.target.name] = e.target.value
+  //   this.setState({data});
+  // };
 
   render() {
     const {plantData} = this.state;
@@ -152,7 +153,7 @@ class Create extends Component {
                 <label className="sell-label">재고수 <span style={{color : "#FA5858"}}>*</span></label>
                 <div className="sell-input">
                   <InputGroup>
-                    <Input type="number" placeholder="숫자만 입력" name="quantity" value={this.state.data.quantity} required onChange={this.handleClick} />
+                    <Input type="number" placeholder="숫자만 입력" name="quantity" value={this.state.data.quantity} required onChange={handleState.bind(this)} />
                     <InputGroupAddon addonType="append">
                       개
                     </InputGroupAddon>
