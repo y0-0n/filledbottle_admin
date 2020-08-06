@@ -235,7 +235,7 @@ class CreateProduct extends Component {
                     <label className="sell-label">판매가 <span style={{color : "#FA5858"}}>*</span></label>
                     <div className="sell-input">
                       <InputGroup>
-                        <Input className="section3-0" type="number" placeholder="숫자만 입력" required value={data.price} name="price" onChange={handleState.bind(this)}/>
+                        <Input type="number" placeholder="숫자만 입력" required value={data.price} name="price" onChange={handleState.bind(this)}/>
                         <InputGroupAddon addonType="append">
                           원
                         </InputGroupAddon>
@@ -253,7 +253,7 @@ class CreateProduct extends Component {
                       </div> */}
                       <div className="sell-input">
                         <InputGroup>
-                          <Input className="section3-1" value={0} type="number" placeholder="숫자만 입력" required value={data.discount_price} name="discount_price" onChange={handleState.bind(this)} />
+                          <Input value={0} type="number" placeholder="숫자만 입력" required value={data.discount_price} name="discount_price" onChange={handleState.bind(this)} />
                           <InputGroupAddon addonType="append">
                             원
                           </InputGroupAddon>
@@ -328,10 +328,10 @@ class CreateProduct extends Component {
                     </div>
                   </div> */}
                   <div className="sell-list">
-                    <label className="sell-label">도매 최소 구매 무게</label>
+                    <label className="sell-label">중량</label>
                     <div className="sell-input">
                       <InputGroup>
-                        <Input className="section3-2" style={{width: "30%"}} value={data.weight} name="weight" onChange={handleState.bind(this)}></Input>
+                        <Input style={{width: "30%"}} value={data.weight} name="weight" onChange={handleState.bind(this)}></Input>
                         <InputGroupAddon addonType="append">
                         <select name="weight_unit" onChange={handleState.bind(this)} onBlur={()=>{this.scrollToNext(4)}}>
                           <option selected disabled value="">단위</option>
@@ -340,6 +340,17 @@ class CreateProduct extends Component {
                           <option value="밀">말</option>
                           <option value="근">근</option>
                         </select>
+                        </InputGroupAddon>
+                      </InputGroup>
+                    </div>
+                  </div>
+                  <div className="sell-list">
+                    <label className="sell-label">최소 판매 수량</label>
+                    <div className="sell-input">
+                      <InputGroup>
+                        <Input style={{width: "30%"}}></Input>
+                        <InputGroupAddon addonType="append">
+                          개
                         </InputGroupAddon>
                       </InputGroup>
                     </div>
