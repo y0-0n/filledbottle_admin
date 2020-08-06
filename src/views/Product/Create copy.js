@@ -33,6 +33,7 @@ class CreateProduct extends Component {
         gapCheck: '1',
         weight: 0,
         weight_unit: '',
+        shippingCheck :'1'
       },
       checkCategory: true,
       category: 'category1',
@@ -81,7 +82,8 @@ class CreateProduct extends Component {
   }
 
   convertDateFormat(date) {
-    return date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
+    if(date === '') alert('출하 날짜를 입력해주세요') 
+    else return date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
   }
 
   handlePost(e) {
@@ -220,7 +222,7 @@ class CreateProduct extends Component {
             <form encType="multipart/form-data" onSubmit={this.handlePost.bind(this)}>
               <FamilySelector receiveStateFromChild={this.receiveStateFromChild} />
               <div className="form-card" id="section2">
-                <div className="form-title">상품명</div>
+                <div className="form-title">상품명 <span style={{color : "#FA5858"}}>*</span></div>
                 <div className="form-innercontent">
                   <Input required name="name" value={data.name} onChange={handleState.bind(this)} placeholder="상품명 입력" onBlur={()=>{this.scrollToNext(3)}}/>
                 </div>
@@ -230,7 +232,7 @@ class CreateProduct extends Component {
                 <div className="form-title">가격</div>
                 <div className="form-innercontent">
                   <div className="sell-list">
-                    <label className="sell-label">판매가</label>
+                    <label className="sell-label">판매가 <span style={{color : "#FA5858"}}>*</span></label>
                     <div className="sell-input">
                       <InputGroup>
                         <Input className="section3-0" type="number" placeholder="숫자만 입력" required value={data.price} name="price" onChange={handleState.bind(this)}/>
@@ -358,7 +360,7 @@ class CreateProduct extends Component {
               </div> */}
 
               <div className="form-card" id="section4">
-                <div className="form-title">GAP 인증 여부</div>
+                <div className="form-title">GAP 인증 여부 <span style={{color : "#FA5858"}}>*</span></div>
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
@@ -371,7 +373,7 @@ class CreateProduct extends Component {
               </div>
 
               <div className="form-card" id="section5">
-                <div className="form-title">품목상태</div>
+                <div className="form-title">품목상태 <span style={{color : "#FA5858"}}>*</span></div>
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
@@ -386,31 +388,39 @@ class CreateProduct extends Component {
               <div className="form-card" id="section6">
                 <div className="form-title">출하일</div>
                 <div className="form-innercontent">
-                  <div className="sell-list">
-                    <label className="sell-label">출하 시작일</label>
-                    <div className="sell-input">
-                      <DatePicker
-                          className="datepicker"
-                          dateFormat="yyyy년 MM월 dd일"
-                          locale="ko"
-                          selected={this.state.data.shippingDate}
-                          onChange={(shippingDate) => {data.shippingDate = shippingDate; this.setState({data})}}
-                        />
-                    </div>
+                  <div className="search-input">
+                    <label className="search-input-label"><input className="search-input-checkbox" name="shippingCheck" type="radio" value="1" onChange={handleState.bind(this)} defaultChecked/>설정</label>
+                    <label className="search-input-label"><input className="search-input-checkbox" name="shippingCheck" type="radio" value="2" onChange={handleState.bind(this)} onClick={()=>{this.scrollToNext(7)}}/>설정하지 않음</label>
                   </div>
-                  <div className="sell-list">
-                    <label className="sell-label">출하 종료일</label>
-                    <div className="sell-input">
+                  { this.state.data.shippingCheck === "1" ?
+                  <div>
+                    <div className="sell-list">
+                      <label className="sell-label">출하 시작일</label>
+                      <div className="sell-input">
                         <DatePicker
-                          className="datepicker"
-                          dateFormat="yyyy년 MM월 dd일"
-                          locale="ko"
-                          selected={this.state.data.shippingEndDate}
-                          onChange={(shippingEndDate) => {data.shippingEndDate = shippingEndDate; this.setState({data})}}
-                          onBlur={()=>{this.scrollToNext(7)}}
-                        />
+                            className="datepicker"
+                            dateFormat="yyyy년 MM월 dd일"
+                            locale="ko"
+                            selected={this.state.data.shippingDate}
+                            onChange={(shippingDate) => {data.shippingDate = shippingDate; this.setState({data})}}
+                          />
+                      </div>
+                    </div>
+                    <div className="sell-list">
+                      <label className="sell-label">출하 종료일</label>
+                      <div className="sell-input">
+                          <DatePicker
+                            className="datepicker"
+                            dateFormat="yyyy년 MM월 dd일"
+                            locale="ko"
+                            selected={this.state.data.shippingEndDate}
+                            onChange={(shippingEndDate) => {data.shippingEndDate = shippingEndDate; this.setState({data})}}
+                            onBlur={()=>{this.scrollToNext(7)}}
+                          />
+                      </div>
                     </div>
                   </div>
+                  : null }
                 </div>
               </div>
 
