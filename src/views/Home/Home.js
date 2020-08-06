@@ -597,6 +597,12 @@ class Home extends Component {
                       <th>당월</th>
                     </tr>
                     <tr>
+                      <th>거래량</th>
+                      <td style={{textAlign : "right"}}>{this.state.last_amount} 건</td>
+                      <td style={{textAlign : "right"}}>{this.state.this_amount} 건</td>
+                    </tr>
+
+                    <tr>
                       <th>미수금</th>
                       <td style={{textAlign : "right"}}>{this.state.last_income} 원</td>
                       <td style={{textAlign : "right"}}>{this.state.this_income} 원</td>
@@ -605,27 +611,6 @@ class Home extends Component {
                       <th>수금</th>
                       <td style={{textAlign : "right"}}>{this.state.last_receive} 원</td>
                       <td style={{textAlign : "right"}}>{this.state.this_receive} 원</td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </CardBody>
-            </Card>
-          </Col>
-					<Col sm="12" md="6">          
-            <Card>
-              <CardHeader>
-                거래량
-              </CardHeader>
-              <CardBody>
-                <Table className="ShowTable">
-                  <tbody>
-                    <tr>
-                      <th>전월</th>
-                      <td style={{textAlign : "right"}}>{this.state.last_amount} 건</td>
-                    </tr>
-                    <tr>
-                      <th>당월</th>
-                      <td style={{textAlign : "right"}}>{this.state.this_amount} 건</td>
                     </tr>
                   </tbody>
                 </Table>
