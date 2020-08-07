@@ -1,4 +1,3 @@
-/*global daum*/
 import React, { Component } from 'react';
 import { Button, Col, Row, Input, InputGroupAddon, InputGroup} from 'reactstrap';
 import {handleState} from '../common';
