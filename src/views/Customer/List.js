@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input,
-  CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup,
-  InputGroup, InputGroupAddon, UncontrolledButtonDropdown, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
+import { Button, Input, Table, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 /*
 
   GET /customer/state

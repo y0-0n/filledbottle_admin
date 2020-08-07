@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Table, Input, Badge, InputGroup, InputGroupAddon } from 'reactstrap';
+import { Table, Input } from 'reactstrap';
 
 //고객정보 가져오기 위해 임의의 id를 사용함
 

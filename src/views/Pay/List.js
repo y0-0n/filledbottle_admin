@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader, CardFooter, Col, Row, Button, Table, Badge, Input, InputGroup, InputGroupAddon } from 'reactstrap';
-import DatePicker from "react-datepicker";
+import { Button, } from 'reactstrap';
 
 
 class List extends Component {

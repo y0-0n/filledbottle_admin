@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
-import {Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Input, Table, InputGroup, InputGroupAddon} from 'reactstrap';
-import ProductFamilyModal from '../Modal/ProductFamilyModal';
+import {Button, Col, Row, Input, Table, InputGroup, InputGroupAddon} from 'reactstrap';
 import DatePicker from "react-datepicker";
-import Popup from "reactjs-popup";
 import FamilySelector from "./FamilySelector";
 import {handleState} from '../common';
 
