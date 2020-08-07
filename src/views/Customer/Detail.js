@@ -123,6 +123,7 @@ class Detail extends Component {
 
   render() {
     let { data, orderData } = this.state;
+    console.log(data)
     return (
       <div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
@@ -163,13 +164,13 @@ class Detail extends Component {
                     <tr>
                       <th>연락처 2</th>
                       <td>
-                        {data.telephone}
+                        {data.telephone==="undefined" ?'': data.telephone }
                       </td>
                     </tr>
                     <tr>
                       <th>사업자등록번호</th>
                       <td>
-                        {data.crNumber}
+                        {data.crNumber==="undefined" ? '' : data.crNumber}
                       </td>
                     </tr>
                     <tr>
