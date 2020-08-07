@@ -74,26 +74,46 @@ class List extends Component {
           dataIndex: 'key',
           sorter: (a, b) => a.key - b.key,
           sortDirections: ['descend'],
+          render: (content, row) => {
+            return (
+              <div data-id={row.id} onClick={(e) => {this.props.history.push(`/main/analysis/sales/product/`+e.currentTarget.dataset.id)}}>{content}</div>
+            );
+          }
         },
         {
           title: '품목명',
           dataIndex: 'name',
           defaultSortOrder: 'descend',
           sorter: (a, b) => a.name.length - b.name.length,
+          render: (content, row) => {
+            return (
+              <div data-id={row.id} onClick={(e) => {this.props.history.push(`/main/analysis/sales/product/`+e.currentTarget.dataset.id)}}>{content}</div>
+            );
+          }
         },
         {
           title: '판매수량',
           dataIndex: 'quantity',
           sorter: (a, b) => a.quantity - b.quantity,
           sortDirections: ['descend', 'ascend'],
+          render: (content, row) => {
+            return (
+              <div data-id={row.id} onClick={(e) => {this.props.history.push(`/main/analysis/sales/product/`+e.currentTarget.dataset.id)}}>{content}</div>
+            );
+          }
         },
         {
           title: '판매금액',
           dataIndex: 'sales_price',
           sorter: (a, b) => a.sales_price - b.sales_price,
           sortDirections: ['descend', 'ascend'],
+          render: (content, row) => {
+            return (
+              <div data-id={row.id} onClick={(e) => {this.props.history.push(`/main/analysis/sales/product/`+e.currentTarget.dataset.id)}}>{content}</div>
+            );
+          }
         },],
-        monthlySales : [{key: 1, name : '당근', quantity : 8, sales_price : 1000000}, {key: 2, name : '양파', quantity : 20, sales_price : 330000}],
+        monthlySales : [{id: 57, key: 1, name : '당근', quantity : 8, sales_price : 1000000}, {id: 173, key: 2, name : '양파', quantity : 20, sales_price : 330000}],
         totalySales : [{key: 1, name : '누적당근', quantity : 8, sales_price : 1000000}, {key: 2, name : '누적양파', quantity : 20, sales_price : 330000}],
       })
     }
@@ -104,26 +124,46 @@ class List extends Component {
           dataIndex: 'key',
           sorter: (a, b) => a.key - b.key,
           sortDirections: ['descend'],
+          render: (content, row) => {
+            return (
+              <div data-id={row.id} onClick={(e) => {this.props.history.push(`/main/analysis/sales/customer/`+e.currentTarget.dataset.id)}}>{content}</div>
+            );
+          }
         },
         {
           title: '고객명',
           dataIndex: 'name',
           defaultSortOrder: 'descend',
           sorter: (a, b) => a.name.length - b.name.length,
+          render: (content, row) => {
+            return (
+              <div data-id={row.id} onClick={(e) => {this.props.history.push(`/main/analysis/sales/customer/`+e.currentTarget.dataset.id)}}>{content}</div>
+            );
+          }
         },
         {
           title: '주문수량',
           dataIndex: 'quantity',
           sorter: (a, b) => a.quantity - b.quantity,
           sortDirections: ['descend', 'ascend'],
+          render: (content, row) => {
+            return (
+              <div data-id={row.id} onClick={(e) => {this.props.history.push(`/main/analysis/sales/customer/`+e.currentTarget.dataset.id)}}>{content}</div>
+            );
+          }
         },
         {
           title: '주문금액',
           dataIndex: 'order_price',
           sorter: (a, b) => a.sales_price - b.sales_price,
           sortDirections: ['descend', 'ascend'],
+          render: (content, row) => {
+            return (
+              <div data-id={row.id} onClick={(e) => {this.props.history.push(`/main/analysis/sales/customer/`+e.currentTarget.dataset.id)}}>{content}</div>
+            );
+          }
         },],
-        monthlySales : [{key: 1, name : '김철수', quantity: 10, order_price : 1900000}, {key: 2, name : '김영희', quantity : 2, order_price : 30000}],
+        monthlySales : [{id : 57, key: 1, name : '김철수', quantity: 10, order_price : 1900000}, {id: 175, key: 2, name : '김영희', quantity : 2, order_price : 30000}],
         totalySales : [{key: 1, name : '누적김철수', quantity: 10, order_price : 1900000}, {key: 2, name : '누적김영희', quantity : 2, order_price : 30000}],
       })
     }
@@ -223,7 +263,7 @@ class List extends Component {
                 </div>
                 <div className="form-innercontent">
                   <div className="list-box">
-                    <Table dataSource={this.state.totalySales} columns={this.state.columns} /> 
+                    <Table dataSource={this.state.totalySales} columns={this.state.columns} onRowClick={()=>{this.props.history.push('/main/analysis/sales/product')}}/> 
                   </div>
                 </div>
               </div>
