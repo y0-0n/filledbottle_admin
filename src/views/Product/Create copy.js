@@ -99,7 +99,8 @@ class CreateProduct extends Component {
     formData.set('shippingDate', this.convertDateFormat(this.state.data.shippingDate));
     formData.set('shippingEndDate', this.convertDateFormat(this.state.data.shippingEndDate));
 
-    fetch(process.env.REACT_APP_HOST + "/product", {
+    if(this.state.data.category === 1 && this.state.data.productFamily=== 0) alert('품목군을 선택해주세요')
+    else { fetch(process.env.REACT_APP_HOST + "/product", {
       method: 'POST',
       'Content-Type': 'multipart/form-data',
       headers: {
@@ -123,6 +124,7 @@ class CreateProduct extends Component {
           alert('등록에 실패했습니다.');
         }
       });
+    }
   }
 
   getUserFamilyCategory() {
