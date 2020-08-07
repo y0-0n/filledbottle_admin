@@ -122,7 +122,7 @@ class Detail extends Component {
                         <InputGroupAddon addonType="append">
                           원
                         </InputGroupAddon>
-                        <Button style={{marginTop: '10px'}} onClick={() => { this.props.history.push('/main/product/list/calculator'); }} color="primary">원가계산기</Button>
+                        <Button style={{marginTop: '10px'}} onClick={() => { this.props.history.push(`/main/product/`+this.props.match.params.id+`/cost/list`); }} color="primary">원가계산기</Button>
                       </InputGroup>
                     </div>
                   </div>

@@ -4,16 +4,17 @@ import { pageFunction, searchFunction } from '../../action';
 import List from './List';
 
 function mapStateToProps(state) {
-  const { keywordC,  pageNumbers } = state.search;
+  const{ pageNumbersC } = state.pagination;
+  const { keywordC } = state.search;
   return {
-    pageNumbers,
+    pageNumbersC,
     keywordC,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    clickConvertPage: bindActionCreators(pageFunction.clickConvertPage, dispatch),
+    clickConvertPageC: bindActionCreators(pageFunction.clickConvertPageC, dispatch),
     searchKeywordC: bindActionCreators(searchFunction.searchKeywordC, dispatch),
   }
 }

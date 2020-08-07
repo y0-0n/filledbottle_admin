@@ -22,12 +22,17 @@ export default {
     {
       name: '품목 관리',
       icon: 'icon-puzzle',
-      children: [
-        {
-          name: '1차',
-          url: '/main/product/list/primary',
-          icon: 'icon-puzzle',
-        },
+      url: '/main/product/list/primary'
+    },
+    // {
+    //   name: '품목 관리',
+    //   icon: 'icon-puzzle',
+    //   children: [
+    //     {
+    //       name: '1차',
+    //       url: '/main/product/list/primary',
+    //       icon: 'icon-puzzle',
+    //     },
         // {
         //   name: '2차',
         //   url: '/main/product/list/secondary',
@@ -38,8 +43,8 @@ export default {
         //   url: '/main/product/list/tertiary',
         //   icon: 'icon-puzzle',
         // },
-      ]
-    },
+    //   ]
+    // },
     {
       name: '고객 관리',
       url: '/main/customer/list',
@@ -51,31 +56,31 @@ export default {
       icon: 'icon-speedometer',
     },
     {
-      name: '월별 성과',
+      name: '통계 분석',
       icon: 'icon-speedometer',
       children: [
         {
-          name: '품목별',
-          url: '/main/performance/product',
+          name: '매출 분석',
+          url: '/main/analysis/sales',
           icon: 'icon-puzzle',
         },
         {
-          name: '고객별',
-          url: '/main/performance/customer',
+          name: '수금 현황',
+          url: '/main/analysis/collect',
           icon: 'icon-puzzle',
         },
         {
-          name: '일별',
-          url: '/main/performance/daily',
+          name: '손익 계산',
+          url: '/main/analysis/income',
           icon: 'icon-puzzle',
         },
       ]
     },
-    {
-      name: '매장 관리',
-      url: '/main/market',
-      icon: 'icon-speedometer',
-    },
+    // {
+    //   name: '매장 관리',
+    //   url: '/main/market',
+    //   icon: 'icon-speedometer',
+    // },
     // {
     //   name: '손익계산서',
     //   url: '/main/income',

@@ -82,6 +82,11 @@ class familySelector extends Component {
 		this.getFamilyCategory();
   }
 
+  scrollToNext() {
+    var location = document.querySelector("#section2").offsetTop;
+    window.scrollTo({top:location, behavior:'smooth'});
+  }
+
   render() {
     const {allFamilyData, categoryData } = this.state;
     return (
@@ -104,7 +109,7 @@ class familySelector extends Component {
                   return (
                     <li key={i} className="list-productFamily" style={this.state.productFamily === e.id ? {backgroundColor: "#20A8D8", color: "#fff"} : null}
                     onClick={()=> {this.setState({productFamily : e.id}, () => {
-                      this.passStateToParent();
+                      this.passStateToParent(); this.scrollToNext();
                     })}}>{e.name}</li>
                     )}
                   )}

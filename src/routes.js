@@ -52,7 +52,9 @@ const CreateProduct = React.lazy(() => import('./views/Product/Create copy'));
 const ProductDetail = React.lazy(() => import('./views/Product/Detail copy'));
 const ProductModify = React.lazy(() => import('./views/Product/Modify copy'));
 const ProductUnset = React.lazy(() => import('./views/Product/Unset'));
-const CostCalculator = React.lazy(() => import('./views/Product/CostCal'));
+const CreateCost = React.lazy(() => import('./views/Cost/Create'));
+const Cost = React.lazy(() => import('./views/Cost/List'));
+const CostDetail = React.lazy(() => import('./views/Cost/Detail'));
 const Plant = React.lazy(() => import('./views/Plant/Plant'));
 const CreateOrder = React.lazy(() => import('./views/Order/Create'));
 //const Stock = React.lazy(() => import('./views/Stock/Stock'));
@@ -92,9 +94,8 @@ const SurveyHome = React.lazy(() => import('./views/Survey/Home'));
 const Setting = React.lazy(() => import('./views/Setting/Setting'));
 const Income = React.lazy(() => import('./views/Income/Income'));
 const Pay = React.lazy(() => import('./views/Pay/List'));
-const ProductSales = React.lazy(() => import('./views/Performance/ProductSales'));
-const CustomerSales = React.lazy(() => import('./views/Performance/CustomerSales'));
-const DailySales = React.lazy(() => import('./views/Performance/DailySales'));
+const AnalysisSales = React.lazy(() => import('./views/Analysis/Sales'));
+const AnalysisCollect = React.lazy(() => import('./views/Analysis/Collect'));
 const Market = React.lazy(() => import('./views/Market'));
 const MarketDetail = React.lazy(() => import('./views/Market/Detail'));
 
@@ -115,7 +116,9 @@ const routes = [
   { path: '/main/product/edit/:id', exact: true,  name: '상품 수정', component: ProductModify},
   { path: '/product/create', exact: true,  name: '상품 등록', component: CreateProduct},
   { path: '/main/product/list/unset', exact: true,  name: '상품 등록', component: ProductUnset},
-  { path: '/main/product/list/calculator', exact: true,  name: '상품 등록', component: CostCalculator},
+  { path: '/main/product/:id/create/cost', exact: true,  name: '원가 등록', component: CreateCost},
+  { path: '/main/product/:id/cost/list', exact: true,  name: '원가 목록', component: Cost},
+  { path: '/main/product/:id/cost/:id', exact: true,  name: '원가 상세', component: CostDetail},
   { path: '/main/plant', exact: true,  name: '공장', component: Plant},
   { path: '/sales/order', exact: true,  name: '주문', component: CreateOrder},
   { path: '/main/sales/order/:id', exact: true,  name: '주문 상세', component: OrderDetail},
@@ -154,9 +157,8 @@ const routes = [
   { path: '/main/survey/home', exact: true,  name: '마케팅 검사', component: SurveyHome},
   { path: '/main/income', exact: true,  name: '손익 계산서', component: Income},
   { path: '/main/pay', exact: true,  name: '결제상품리스트', component: Pay},
-  { path: '/main/performance/product', exact: true,  name: '월별 성과', component: ProductSales},
-  { path: '/main/performance/customer', exact: true,  name: '월별 성과', component: CustomerSales},
-  { path: '/main/performance/daily', exact: true,  name: '월별 성과', component: DailySales},
+  { path: '/main/analysis/sales', exact: true,  name: '매출 분석', component: AnalysisSales},
+  { path: '/main/analysis/collect', exact: true,  name: '매출 분석', component: AnalysisCollect},
   { path: '/main/market', exact: true,  name: '매장 관리', component: Market},
   { path: '/main/market/:id', exact: true,  name: '매장 상세', component: MarketDetail},
 

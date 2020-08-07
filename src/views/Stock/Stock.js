@@ -80,8 +80,9 @@ class Stock extends Component {
 
   getStock() {
     const name = this.props.keywordS;
-		const { familyData} = this.state;
-    const { pageNumbers, plant } = this.props;
+    const { familyData} = this.state;
+    const pageNumbers = this.props.pageNumbersS;
+    const { plant } = this.props;
     const family = this.props.familyS
     fetch(process.env.REACT_APP_HOST+"/api/stock/list", {
       method: 'POST',
@@ -242,7 +243,7 @@ class Stock extends Component {
 
   render() {
     let {stockData, plantData, familyData} = this.state;
-    var {family, pageNumbers} = this.props;
+    var {family, pageNumbersS} = this.props;
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
     return (
@@ -370,26 +371,26 @@ class Stock extends Component {
               <div style={{width: "100%", textAlign : "center"}}>{this.state.stockData.length === 0 ? <span >"현재 재고 목록이 없습니다."</span> : null}</div>
               <hr></hr>
 							<Pagination style={{justifyContent: 'center'}}>
-								{pageNumbers === 1 ? '' :
+								{pageNumbersS === 1 ? '' :
 								<PaginationItem>
-									<PaginationLink previous onClick={() => {this.countPageNumber(this.props.clickConvertPage(pageNumbers-1))}}/>
+									<PaginationLink previous onClick={() => {this.countPageNumber(this.props.clickConvertPageS(pageNumbersS-1))}}/>
 								</PaginationItem>
 								}
-								{pageNumbers === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
-								{pageNumbers === 2 ? arr.forEach(x => arr1.push(x+1)) : null}
-								{pageNumbers !== 1 && pageNumbers!== 2 ? arr.forEach(x => arr1.push(x)) :null }
+								{pageNumbersS === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
+								{pageNumbersS === 2 ? arr.forEach(x => arr1.push(x+1)) : null}
+								{pageNumbersS !== 1 && pageNumbersS!== 2 ? arr.forEach(x => arr1.push(x)) :null }
 								{arr1.map((e, i) => {
-									if(this.state.lastPage >= pageNumbers+e)
-									return (<PaginationItem key={i} active={pageNumbers === pageNumbers+e}>
-										<PaginationLink onClick={() => {this.countPageNumber(this.props.clickConvertPage(pageNumbers+e));}}>
-										{pageNumbers+e}
+									if(this.state.lastPage >= pageNumbersS+e)
+									return (<PaginationItem key={i} active={pageNumbersS === pageNumbersS+e}>
+										<PaginationLink onClick={() => {this.countPageNumber(this.props.clickConvertPageS(pageNumbersS+e));}}>
+										{pageNumbersS+e}
 										</PaginationLink>
 									</PaginationItem>)
 									return null;
 								})}
-								{pageNumbers === this.state.lastPage ? '' :
+								{pageNumbersS === this.state.lastPage ? '' :
 								<PaginationItem>
-									<PaginationLink next onClick={() => {this.countPageNumber(this.props.clickConvertPage(pageNumbers+1))}}/>
+									<PaginationLink next onClick={() => {this.countPageNumber(this.props.clickConvertPageS(pageNumbersS+1))}}/>
 								</PaginationItem>}
 							</Pagination>
             </div>

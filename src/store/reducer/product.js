@@ -1,5 +1,5 @@
 
-import { product, searchPage, pagination } from '../../action';
+import { product, searchPage } from '../../action';
 
 const InitialState ={
     category : 0,
@@ -14,8 +14,6 @@ export default function pageReducer(state = InitialState, action) {
     switch(action.type) {
         case searchPage.search :
             return searchKeyword(state, action.payload);
-        case pagination.convert :
-            return convertPage(state, action.payload);
         case product.category :
             return checkCategoryId(state, action.payload);
         case product.family :
@@ -70,14 +68,5 @@ function searchKeyword(state, keyword_s) {
         keyword : keyword_s,
         pageNumbers : 1,
         family : 0
-    }
-}
-
-function convertPage(state, next_page) {
-    console.warn(next_page)
-    return {
-        ...state,
-        family: 0,
-        pageNumbers : next_page
     }
 }
