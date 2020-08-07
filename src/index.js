@@ -9,9 +9,9 @@ import * as serviceWorker from './serviceWorker';
 import "react-datepicker/dist/react-datepicker.css";
 import ko from 'date-fns/locale/ko';
 import { registerLocale } from  "react-datepicker";
-import reducer from './store/reducer'
+// import reducer from './store/reducer'
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+// import { createStore } from 'redux';
 import store from './store'
 
 //const store = createStore(reducer);
