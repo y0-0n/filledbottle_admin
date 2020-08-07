@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Input, Table, InputGroup, InputGroupAddon } from 'reactstrap';
-import ProductFamilyModal from '../Modal/ProductFamilyModal';
+import { Input, InputGroup, InputGroupAddon,Button } from 'reactstrap';
 import ProductModal from '../Modal/ProductModal';
 import Popup from "reactjs-popup";
 import DatePicker from "react-datepicker";

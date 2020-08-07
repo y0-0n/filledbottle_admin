@@ -300,9 +300,10 @@ class List extends Component {
                     <td>{e.address} {e.addressDetail} ({e.postcode})</td>
                     {//<td><Button onClick={() => {this.props.history.push(`/main/customer/edit/:id}`)}}>수정</Button></td>
                     }
-                    <td onClick="event.cancelBubble=true" ><input name='selection' type='checkbox' onClick={() => {
+                    <td onClick="event.cancelBubble=true" ><input name='selection' type='checkbox' onChange={() => {
                       let {checks} = this.state;
                       checks[i] = !checks[i];
+                      this.setState({checks})
                     }}/></td>
                   </tr>)
                 })}

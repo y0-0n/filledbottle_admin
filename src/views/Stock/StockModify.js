@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Input, Table, InputGroup, InputGroupAddon } from 'reactstrap';
-import ProductModal from '../Modal/ProductModal';
-import Popup from "reactjs-popup";
+import { Button, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 import DatePicker from "react-datepicker";
 
 class Modify extends Component {

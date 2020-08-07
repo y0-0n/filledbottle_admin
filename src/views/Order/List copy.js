@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import DatePicker from "react-datepicker";
-import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, NavItem, Nav, NavLink,
-   CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup, Badge,
-   InputGroup, InputGroupAddon, UncontrolledButtonDropdown, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
+import { Button, Col, Row, Input, NavItem, Nav, NavLink, Table, Pagination, PaginationItem, PaginationLink, Badge,} from 'reactstrap';
 // import { connect } from 'react-redux'
 // import { bindActionCreators } from 'redux';
 // import { actionCreators } from '../../reducer';

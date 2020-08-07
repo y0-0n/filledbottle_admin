@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter} from 'reactstrap';
+import { Button,} from 'reactstrap';
 import ReactToPrint from "react-to-print";
 
 const product_mockup = [{name : "사과", weight: "10kg", quantity: 3, price: 990, tax : 100},{name : "포도", weight: "30kg", quantity: 30, price: 990, tax : 100}]

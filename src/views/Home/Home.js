@@ -343,8 +343,6 @@ class Home extends Component {
   }
 
   getTodayShipping() {
-    const process_ = 'order', keyword = '', page = '1', limit = 5;
-    const today = new Date()
     fetch(process.env.REACT_APP_HOST+"/order/todayShipping", {
       method: 'GET',
       headers: {
@@ -382,11 +380,11 @@ class Home extends Component {
 
   eventStyleGetter(event, start, end, isSelected) {
     let backgroundColor = '#3174ad';
-    if(event.state == 'shipping')
+    if(event.state === 'shipping')
       backgroundColor = 'gray'
-    else if (event.state == 'cancel')
+    else if (event.state === 'cancel')
       backgroundColor = 'red'
-    else if (event.state == 'complete')
+    else if (event.state === 'complete')
       backgroundColor = 'green'
 
     var style = {

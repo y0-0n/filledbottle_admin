@@ -1,12 +1,5 @@
 import React, { Component } from 'react';
-import DatePicker from "react-datepicker";
-import {
-  Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, NavItem, Nav, NavLink,
-  CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup, Badge,
-  InputGroup, InputGroupAddon, UncontrolledButtonDropdown, Dropdown, DropdownItem, DropdownMenu, DropdownToggle
-} from 'reactstrap';
-
-const listCount = 15;
+import {Col, Row, Table,} from 'reactstrap';
 
 class List extends Component {
   constructor(props) {
@@ -40,8 +33,6 @@ class List extends Component {
   }
 
   render() {
-    const arr = [-2, -1, 0, 1, 2];
-    const arr1 = [];
     return (
       <div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/ListCopy.css"></link>

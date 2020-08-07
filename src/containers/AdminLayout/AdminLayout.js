@@ -1,22 +1,22 @@
 import React, { Component, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import * as router from 'react-router-dom';
+// import * as router from 'react-router-dom';
 import { Container } from 'reactstrap';
 
 import {
-  AppAside,
-  AppFooter,
+  // AppAside,
+  // AppFooter,
   AppHeader,
-  AppSidebar,
-  AppSidebarFooter,
-  AppSidebarForm,
-  AppSidebarHeader,
-  AppSidebarMinimizer,
-  AppBreadcrumb2 as AppBreadcrumb,
-  AppSidebarNav2 as AppSidebarNav,
+  // AppSidebar,
+  // AppSidebarFooter,
+  // AppSidebarForm,
+  // AppSidebarHeader,
+  // AppSidebarMinimizer,
+  // AppBreadcrumb2 as AppBreadcrumb,
+  // AppSidebarNav2 as AppSidebarNav,
 } from '@coreui/react';
 // sidebar nav config
-import main_nav from '../../main_nav';
+// import main_nav from '../../main_nav';
 
 // routes config
 import routes from '../../routesAdmin';

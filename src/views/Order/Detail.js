@@ -325,7 +325,7 @@ class Detail extends Component {
                       <td>{this.numberWithCommas(e['price'])}</td>
                       <td>
                       {
-                        this.state.refund === true && e.refund == false? <React.Fragment>
+                        this.state.refund === true && e.refund === false? <React.Fragment>
                           <InputGroup>
                             <Input className="refund-input" style={{width: '100px'}} onChange={(ee) => {e['refundQuantity'] = ee.target.value;}}/>
                             <InputGroupAddon addonType="append">

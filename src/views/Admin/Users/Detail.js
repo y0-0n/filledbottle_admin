@@ -1,6 +1,6 @@
 /* global naver */
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row, Table, Nav, NavItem, NavLink } from 'reactstrap';
+import {Card, CardBody, CardHeader, Col, Row, Table} from 'reactstrap';
 
 const answer = [1, 1];
 

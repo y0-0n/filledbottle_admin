@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import DatePicker from "react-datepicker";
-import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input, NavItem, Nav, NavLink,
-   CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup, Badge,
-   InputGroup, InputGroupAddon, UncontrolledButtonDropdown, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
+import { Button, Col, Row, Input, Table, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
-const listCount = 15;
 
 class List extends Component {
   constructor(props) {
