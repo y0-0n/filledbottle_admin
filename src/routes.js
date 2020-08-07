@@ -96,6 +96,7 @@ const Income = React.lazy(() => import('./views/Income/Income'));
 const Pay = React.lazy(() => import('./views/Pay/List'));
 const AnalysisSales = React.lazy(() => import('./views/Analysis/Sales'));
 const AnalysisCollect = React.lazy(() => import('./views/Analysis/Collect'));
+const AnalysisCollectDetail = React.lazy(() => import('./views/Analysis/CollectDetail'));
 const Market = React.lazy(() => import('./views/Market'));
 const MarketDetail = React.lazy(() => import('./views/Market/Detail'));
 
@@ -159,6 +160,7 @@ const routes = [
   { path: '/main/pay', exact: true,  name: '결제상품리스트', component: Pay},
   { path: '/main/analysis/sales', exact: true,  name: '매출 분석', component: AnalysisSales},
   { path: '/main/analysis/collect', exact: true,  name: '매출 분석', component: AnalysisCollect},
+  { path: '/main/analysis/collect/:id', exact: true,  name: '매출 분석', component: AnalysisCollectDetail},
   { path: '/main/market', exact: true,  name: '매장 관리', component: Market},
   { path: '/main/market/:id', exact: true,  name: '매장 상세', component: MarketDetail},
 
