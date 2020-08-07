@@ -4,6 +4,7 @@ import ProductFamilyModal from '../Modal/ProductFamilyModal';
 import DatePicker from "react-datepicker";
 import Popup from "reactjs-popup";
 import FamilySelector from "./FamilySelector";
+import {handleState} from '../common';
 
 class CreateProduct extends Component {
   constructor(props) {
@@ -30,6 +31,9 @@ class CreateProduct extends Component {
         vat: '1',
         additional: '',
         gapCheck: '1',
+        weight: 0,
+        weight_unit: '',
+        shippingCheck :'1'
       },
       checkCategory: true,
       category: 'category1',
@@ -78,7 +82,8 @@ class CreateProduct extends Component {
   }
 
   convertDateFormat(date) {
-    return date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
+    if(date === '') alert('출하 날짜를 입력해주세요') 
+    else return date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
   }
 
   handlePost(e) {
@@ -94,7 +99,8 @@ class CreateProduct extends Component {
     formData.set('shippingDate', this.convertDateFormat(this.state.data.shippingDate));
     formData.set('shippingEndDate', this.convertDateFormat(this.state.data.shippingEndDate));
 
-    fetch(process.env.REACT_APP_HOST + "/product", {
+    if(this.state.data.category === 1 && this.state.data.productFamily=== 0) alert('품목군을 선택해주세요')
+    else { fetch(process.env.REACT_APP_HOST + "/product", {
       method: 'POST',
       'Content-Type': 'multipart/form-data',
       headers: {
@@ -118,6 +124,7 @@ class CreateProduct extends Component {
           alert('등록에 실패했습니다.');
         }
       });
+    }
   }
 
   getUserFamilyCategory() {
@@ -191,12 +198,6 @@ class CreateProduct extends Component {
       })
   }
 
-  handleState = ({ target: { name, value } }) => {
-    let {data} = this.state;
-    data[name] = value
-    this.setState(data);
-  };
-
   receiveStateFromChild = (category_value, productFamily_value) => {
     let {data} = this.state;
     data.category = category_value;
@@ -223,9 +224,9 @@ class CreateProduct extends Component {
             <form encType="multipart/form-data" onSubmit={this.handlePost.bind(this)}>
               <FamilySelector receiveStateFromChild={this.receiveStateFromChild} />
               <div className="form-card" id="section2">
-                <div className="form-title">상품명</div>
+                <div className="form-title">상품명 <span style={{color : "#FA5858"}}>*</span></div>
                 <div className="form-innercontent">
-                  <Input required name="name" value={data.name} onChange={this.handleState} placeholder="상품명 입력" onBlur={()=>{this.scrollToNext(3)}}/>
+                  <Input required name="name" value={data.name} onChange={handleState.bind(this)} placeholder="상품명 입력" onBlur={()=>{this.scrollToNext(3)}}/>
                 </div>
               </div>
 
@@ -233,10 +234,10 @@ class CreateProduct extends Component {
                 <div className="form-title">가격</div>
                 <div className="form-innercontent">
                   <div className="sell-list">
-                    <label className="sell-label">판매가</label>
+                    <label className="sell-label">판매가 <span style={{color : "#FA5858"}}>*</span></label>
                     <div className="sell-input">
                       <InputGroup>
-                        <Input className="section3-0" type="number" placeholder="숫자만 입력" required value={data.price} name="price" onChange={this.handleState}/>
+                        <Input type="number" placeholder="숫자만 입력" required value={data.price} name="price" onChange={handleState.bind(this)}/>
                         <InputGroupAddon addonType="append">
                           원
                         </InputGroupAddon>
@@ -254,7 +255,7 @@ class CreateProduct extends Component {
                       </div> */}
                       <div className="sell-input">
                         <InputGroup>
-                          <Input className="section3-1" value={0} type="number" placeholder="숫자만 입력" required value={data.discount_price} name="discount_price" onChange={this.handleState} />
+                          <Input value={0} type="number" placeholder="숫자만 입력" required value={data.discount_price} name="discount_price" onChange={handleState.bind(this)} />
                           <InputGroupAddon addonType="append">
                             원
                           </InputGroupAddon>
@@ -329,18 +330,29 @@ class CreateProduct extends Component {
                     </div>
                   </div> */}
                   <div className="sell-list">
-                    <label className="sell-label">도매 최소 구매 무게</label>
+                    <label className="sell-label">중량</label>
                     <div className="sell-input">
                       <InputGroup>
-                        <Input className="section3-2" style={{width: "30%"}} value={data.weight} name="weight" onChange={this.handleState}></Input>
+                        <Input style={{width: "30%"}} value={data.weight} name="weight" onChange={handleState.bind(this)}></Input>
                         <InputGroupAddon addonType="append">
-                        <select onChange={()=>{this.scrollToNext(4)}}>
+                        <select name="weight_unit" onChange={handleState.bind(this)} onBlur={()=>{this.scrollToNext(4)}}>
                           <option selected disabled value="">단위</option>
                           <option value="kg">kg</option>
                           <option value="되">되</option>
                           <option value="밀">말</option>
                           <option value="근">근</option>
                         </select>
+                        </InputGroupAddon>
+                      </InputGroup>
+                    </div>
+                  </div>
+                  <div className="sell-list">
+                    <label className="sell-label">최소 판매 수량</label>
+                    <div className="sell-input">
+                      <InputGroup>
+                        <Input style={{width: "30%"}}></Input>
+                        <InputGroupAddon addonType="append">
+                          개
                         </InputGroupAddon>
                       </InputGroup>
                     </div>
@@ -361,26 +373,26 @@ class CreateProduct extends Component {
               </div> */}
 
               <div className="form-card" id="section4">
-                <div className="form-title">GAP 인증 여부</div>
+                <div className="form-title">GAP 인증 여부 <span style={{color : "#FA5858"}}>*</span></div>
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <label className="search-input-label"><input className="search-input-checkbox" name="gapCheck" type="radio" value="1" onChange={this.handleState} defaultChecked/>인증</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" name="gapCheck" type="radio" value="2" onChange={this.handleState} onClick={()=>{this.scrollToNext(5)}}/>인증하지 않음</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="gapCheck" type="radio" value="1" onChange={handleState.bind(this)} defaultChecked/>인증</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="gapCheck" type="radio" value="2" onChange={handleState.bind(this)} onClick={()=>{this.scrollToNext(5)}}/>인증하지 않음</label>
                     </div>
-                    {this.state.data.gapCheck ==="1" ? <Input required name="gap" value={data.gap} onChange={this.handleState} placeholder="GAP 인증번호" onBlur={()=>{this.scrollToNext(5)}}/> : null}
+                    {this.state.data.gapCheck ==="1" ? <Input required name="gap" value={data.gap} onChange={handleState.bind(this)} placeholder="GAP 인증번호" onBlur={()=>{this.scrollToNext(5)}}/> : null}
                   </div>
                 </div>
               </div>
 
               <div className="form-card" id="section5">
-                <div className="form-title">품목상태</div>
+                <div className="form-title">품목상태 <span style={{color : "#FA5858"}}>*</span></div>
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={1} onChange={this.handleState} onClick={()=>{this.scrollToNext(6)}} defaultChecked/>판매중</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={2} onChange={this.handleState} onClick={()=>{this.scrollToNext(6)}} />품절</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={3} onChange={this.handleState} onClick={()=>{this.scrollToNext(6)}} />판매중지</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={1} onChange={handleState.bind(this)} onClick={()=>{this.scrollToNext(6)}} defaultChecked/>판매중</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={2} onChange={handleState.bind(this)} onClick={()=>{this.scrollToNext(6)}} />품절</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={3} onChange={handleState.bind(this)} onClick={()=>{this.scrollToNext(6)}} />판매중지</label>
                     </div>
                   </div>
                 </div>
@@ -389,31 +401,39 @@ class CreateProduct extends Component {
               <div className="form-card" id="section6">
                 <div className="form-title">출하일</div>
                 <div className="form-innercontent">
-                  <div className="sell-list">
-                    <label className="sell-label">출하 시작일</label>
-                    <div className="sell-input">
-                      <DatePicker
-                          className="datepicker"
-                          dateFormat="yyyy년 MM월 dd일"
-                          locale="ko"
-                          selected={this.state.data.shippingDate}
-                          onChange={(shippingDate) => {data.shippingDate = shippingDate; this.setState({data})}}
-                        />
-                    </div>
+                  <div className="search-input">
+                    <label className="search-input-label"><input className="search-input-checkbox" name="shippingCheck" type="radio" value="1" onChange={handleState.bind(this)} defaultChecked/>설정</label>
+                    <label className="search-input-label"><input className="search-input-checkbox" name="shippingCheck" type="radio" value="2" onChange={handleState.bind(this)} onClick={()=>{this.scrollToNext(7)}}/>설정하지 않음</label>
                   </div>
-                  <div className="sell-list">
-                    <label className="sell-label">출하 종료일</label>
-                    <div className="sell-input">
+                  { this.state.data.shippingCheck === "1" ?
+                  <div>
+                    <div className="sell-list">
+                      <label className="sell-label">출하 시작일</label>
+                      <div className="sell-input">
                         <DatePicker
-                          className="datepicker"
-                          dateFormat="yyyy년 MM월 dd일"
-                          locale="ko"
-                          selected={this.state.data.shippingEndDate}
-                          onChange={(shippingEndDate) => {data.shippingEndDate = shippingEndDate; this.setState({data})}}
-                          onBlur={()=>{this.scrollToNext(7)}}
-                        />
+                            className="datepicker"
+                            dateFormat="yyyy년 MM월 dd일"
+                            locale="ko"
+                            selected={this.state.data.shippingDate}
+                            onChange={(shippingDate) => {data.shippingDate = shippingDate; this.setState({data})}}
+                          />
+                      </div>
+                    </div>
+                    <div className="sell-list">
+                      <label className="sell-label">출하 종료일</label>
+                      <div className="sell-input">
+                          <DatePicker
+                            className="datepicker"
+                            dateFormat="yyyy년 MM월 dd일"
+                            locale="ko"
+                            selected={this.state.data.shippingEndDate}
+                            onChange={(shippingEndDate) => {data.shippingEndDate = shippingEndDate; this.setState({data})}}
+                            onBlur={()=>{this.scrollToNext(7)}}
+                          />
+                      </div>
                     </div>
                   </div>
+                  : null }
                 </div>
               </div>
 
@@ -422,7 +442,7 @@ class CreateProduct extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <textarea style={{width: '100%', height: '100px'}} type="text" name="additional" value={data.additional} onChange={this.handleState} onBlur={()=>{this.scrollToNext(8)}}></textarea>
+                      <textarea style={{width: '100%', height: '100px'}} type="text" name="additional" value={data.additional} onChange={handleState.bind(this)} onBlur={()=>{this.scrollToNext(8)}}></textarea>
                     </div>
                   </div>
                 </div>
@@ -511,4 +531,3 @@ class CreateProduct extends Component {
 }
 
 export default CreateProduct;
-

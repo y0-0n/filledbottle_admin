@@ -83,7 +83,7 @@ class Detail extends Component {
   }
 
   render() {
-		var data = this.state.data;
+    var data = this.state.data;
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/CreateCopy.css"></link>
@@ -151,6 +151,13 @@ class Detail extends Component {
                       </div>
                     </div>
                   </div>
+
+                  <div className="sell-list">
+                    <label className="sell-label">도매 최소 구매 무게</label>
+                    <div className="sell-input">
+                      {data.weight} {data.weight_unit}
+                    </div>
+                  </div>
                   {/* <div className="sell-list">
                     <div className="sell-content">
                       <label className="sell-label">할인</label>
@@ -216,7 +223,7 @@ class Detail extends Component {
                     <div></div>
                   }
                   </div>*/}
-                  <div className="sell-list">
+                  {/* <div className="sell-list">
                     <label className="sell-label">부가세</label>
                     <div className="category-input-toggle">
                       <Input type="radio" name="vat" id="vat1" disabled checked={data.tax === 1}/>
@@ -224,7 +231,7 @@ class Detail extends Component {
                       <Input type="radio" name="vat" id="vat2" disabled checked={data.tax === 0}/>
                       <label htmlFor="vat2">면세상품</label>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
@@ -257,9 +264,16 @@ class Detail extends Component {
               <div className="form-card">
                 <div className="form-title">출하일</div>
                 <div className="form-innercontent">
-                  <div className="sell-input">
-                    <div className="search-input">
+                  <div className="sell-list">
+                    <label className="sell-label">출하 시작일</label>
+                    <div className="sell-input">
                       {data.shippingDate}
+                    </div>
+                  </div>
+                  <div className="sell-list">
+                    <label className="sell-label">출하 종료일</label>
+                    <div className="sell-input">
+                        {data.shippingEndDate}
                     </div>
                   </div>
                 </div>

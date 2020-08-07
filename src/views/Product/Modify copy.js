@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Input, Table, Badge ,InputGroup, InputGroupAddon } from 'reactstrap';
 import DatePicker from "react-datepicker";
 import { lastIndexOf } from 'core-js/fn/array';
+import {handleState} from '../common';
 import spinner from '../../assets/img/brand/loading_ani.gif'
 
 class Modify extends Component {
@@ -281,12 +282,6 @@ class Modify extends Component {
         }
       })
   }
-
-  handleState = ({ target: { name, value } }) => {
-    let {data} = this.state;
-    data[name] = value
-    this.setState(data);
-  };
   
   async createFile(){
     let response = await fetch(`${this.state.imageFile}`);
@@ -348,7 +343,7 @@ class Modify extends Component {
               <div className="form-card">
                 <div className="form-title">품목군</div>
                 <div className="form-innercontent">
-                  <Input defaultValue={data.familyName} onChange={this.handleState} type='select' name="family">
+                  <Input defaultValue={data.familyName} onChange={handleState.bind(this)} type='select' name="family">
                       {this.state.familyData.map((e, i) => {
                         return <option key={i} value={e.id} selected={e.id === data.family}>{e.name}</option>
                       })}
@@ -359,7 +354,7 @@ class Modify extends Component {
               <div className="form-card">
                 <div className="form-title">상품명</div>
                 <div className="form-innercontent">
-                  <Input name="name" defaultValue={data.name} onChange={this.handleState}/>
+                  <Input name="name" defaultValue={data.name} onChange={handleState.bind(this)}/>
                 </div>
               </div>
 
@@ -370,7 +365,7 @@ class Modify extends Component {
                     <label className="sell-label">판매가</label>
                     <div className="sell-input">
                       <InputGroup>
-                        <Input type="number" defaultValue={data.price_shipping} name="price" value={this.state.price} onChange={this.handleState}/>
+                        <Input type="number" defaultValue={data.price_shipping} name="price" value={this.state.price} onChange={handleState.bind(this)}/>
                         <InputGroupAddon addonType="append">
                           원
                         </InputGroupAddon>
@@ -388,7 +383,7 @@ class Modify extends Component {
                       </div> */}
                       <div className="sell-input">
                         <InputGroup>
-                          <Input type="number" placeholder="숫자만 입력" required defaultValue={data.discount_price} name="discount_price" value={this.state.data.discount_price} onChange={this.handleState} />
+                          <Input type="number" placeholder="숫자만 입력" required defaultValue={data.discount_price} name="discount_price" value={this.state.data.discount_price} onChange={handleState.bind(this)} />
                           <InputGroupAddon addonType="append">
                             원
                           </InputGroupAddon>
@@ -406,7 +401,7 @@ class Modify extends Component {
                     <label className="sell-label">도매 최소 구매 무게</label>
                     <div className="sell-input">
                       <InputGroup>
-                        <Input style={{width: "30%"}} defaultValue={data.weight} value={this.state.data.weight} name="weight" onChange={this.handleState}></Input>
+                        <Input style={{width: "30%"}} defaultValue={data.weight} value={this.state.data.weight} name="weight" onChange={handleState.bind(this)}></Input>
                         <InputGroupAddon addonType="append">
                         <select>
                           <option selected disabled value="">단위</option>
@@ -427,10 +422,10 @@ class Modify extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <label className="search-input-label"><input className="search-input-checkbox" name="gapCheck" type="radio" value="1" onChange={this.handleState} defaultChecked/>인증</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" name="gapCheck" type="radio" value="2" onChange={this.handleState} />인증하지 않음</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="gapCheck" type="radio" value="1" onChange={handleState.bind(this)} defaultChecked/>인증</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="gapCheck" type="radio" value="2" onChange={handleState.bind(this)} />인증하지 않음</label>
                     </div>
-                    {this.state.data.gapCheck ==="1" ? <Input required name="gap" value={this.state.data.gap} onChange={this.handleState} placeholder="GAP 인증번호"/> : null}
+                    {this.state.data.gapCheck ==="1" ? <Input required name="gap" value={this.state.data.gap} onChange={handleState.bind(this)} placeholder="GAP 인증번호"/> : null}
                   </div>
                 </div>
               </div>
@@ -440,9 +435,9 @@ class Modify extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={1} onChange={this.handleState} checked={data.state===1 || data.state==="1"} />판매중</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={2} onChange={this.handleState} checked={data.state===2 || data.state==="2"} />품절</label>
-                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={3} onChange={this.handleState} checked={data.state===3 || data.state==="3"} />판매중지</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={1} onChange={handleState.bind(this)} checked={data.state===1 || data.state==="1"} />판매중</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={2} onChange={handleState.bind(this)} checked={data.state===2 || data.state==="2"} />품절</label>
+                      <label className="search-input-label"><input className="search-input-checkbox" name="state" type="radio" value={3} onChange={handleState.bind(this)} checked={data.state===3 || data.state==="3"} />판매중지</label>
                     </div>
                   </div>
                 </div>
@@ -483,7 +478,7 @@ class Modify extends Component {
                 <div className="form-innercontent">
                   <div className="sell-input">
                     <div className="search-input">
-                      <textarea style={{width: '100%', height: '100px'}} type='text' name="additional" value={data.additional} onChange={this.handleState} />
+                      <textarea style={{width: '100%', height: '100px'}} type='text' name="additional" value={data.additional} onChange={handleState.bind(this)} />
                     </div>
                   </div>
                 </div>

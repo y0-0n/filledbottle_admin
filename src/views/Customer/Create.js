@@ -1,6 +1,7 @@
 /*global daum*/
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Input, Table, InputGroupAddon, InputGroup} from 'reactstrap';
+import {handleState} from '../common';
 
 class Create extends Component {
   constructor(props) {
@@ -93,10 +94,6 @@ class Create extends Component {
     }
   }
 
-  handleState = ({ target: { name, value } }) => {
-    this.setState({[name] : value});
-  };
-
   render() {
     return (
       <div className="animated fadeIn align-items-center">
@@ -110,28 +107,28 @@ class Create extends Component {
                   <div className="sell-list">
                     <label className="sell-label">기업(고객)명<span style={{color : "#FA5858"}}>*</span></label>
                     <div className="sell-input">
-                      <Input style={{width: "50%"}} required name="name" value={this.state.name} onChange={this.handleState}/>
+                      <Input style={{width: "50%"}} required name="name" value={this.state.name} onChange={handleState.bind(this)}/>
                     </div>
                   </div>
 
                   <div className="sell-list">
                     <label className="sell-label">연락처1<span style={{color : "#FA5858"}}>*</span></label>
                     <div className="sell-input">
-                      <Input style={{width: "50%"}} type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"  placeholder={ "000-0000-0000" } name="cellphone" value={this.state.cellphone} onChange={this.handleState} required/>
+                      <Input style={{width: "50%"}} type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"  placeholder={ "000-0000-0000" } name="cellphone" value={this.state.cellphone} onChange={handleState.bind(this)} required/>
                     </div>
                   </div>
 
                   <div className="sell-list">
                     <label className="sell-label">연락처2</label>
                     <div className="sell-input">
-                      <Input style={{width: "50%"}} type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" name="telephone" value={this.state.telephone} onChange={this.handleState}/>
+                      <Input style={{width: "50%"}} type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" name="telephone" value={this.state.telephone} onChange={handleState.bind(this)}/>
                     </div>
                   </div>
 
                   <div className="sell-list">
                     <label className="sell-label">사업자등록번호</label>
                     <div className="sell-input">
-                      <Input style={{width: "50%"}} name="crNumber" value={this.state.crNumber} onChange={this.handleState}/>
+                      <Input style={{width: "50%"}} name="crNumber" value={this.state.crNumber} onChange={handleState.bind(this)}/>
                     </div>
                   </div>
 

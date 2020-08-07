@@ -93,7 +93,7 @@ class familySelector extends Component {
       <div>
         <link rel="stylesheet" type="text/css" href="css/Create copy.css"></link>
         <div className="form-card">
-          <div className="form-title">품목군</div>
+          <div className="form-title">품목군 <span style={{color : "#FA5858"}}>*</span></div>
           <div className="form-innercontent" style={{overflow: 'hidden'}}>
             <Nav tabs>
               {categoryData.map((e,i) => {
@@ -105,7 +105,6 @@ class familySelector extends Component {
             <div>
               <ul className="ul-productFamily" style={{listStyleType: "none",}}>
                 {allFamilyData.map((e, i) => {
-                  const f = (element) => element.id === e.id
                   return (
                     <li key={i} className="list-productFamily" style={this.state.productFamily === e.id ? {backgroundColor: "#20A8D8", color: "#fff"} : null}
                     onClick={()=> {this.setState({productFamily : e.id}, () => {

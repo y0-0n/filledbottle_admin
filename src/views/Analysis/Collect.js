@@ -6,8 +6,8 @@ class List extends Component {
     super(props);
     this.state = {
       data: [
-        { id: 0, name: '김철수', tel: '010-1234-1234', collect: 1000, receivable: 99000 },
-        { id: 1, name: '김영희', tel: '010-1111-2222', collect: 0, receivable: 999000 },
+        { id: 57, name: '김철수', tel: '010-1234-1234', collect: 1000, receivable: 99000 },
+        { id: 196, name: '김영희', tel: '010-1111-2222', collect: 0, receivable: 999000 },
       ],
       totalData: 0,
     };
@@ -42,7 +42,7 @@ class List extends Component {
                 {
                   this.state.data.map((e, i) => {
                     return (
-                      <tr key={i}>
+                      <tr key={i} onClick={() => {this.props.history.push(`/main/analysis/collect/${e.id}`)}}>
                         <td>{e.id}</td>
                         <td>{e.name}</td>
                         <td>{e.tel}</td>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Input, Table, InputGroupAddon, InputGroup, Badge} from 'reactstrap';
+import {handleState} from '../common';
 
 class Modify extends Component {
   constructor(props) {
@@ -118,12 +119,6 @@ class Modify extends Component {
     }
   }
 
-  handleState = ({ target: { name, value } }) => {
-    let {data} = this.state;
-    data[name] = value
-    this.setState(data);
-  };
-
   render() {
     let {data} = this.state;
 
@@ -139,28 +134,28 @@ class Modify extends Component {
                   <div className="sell-list">
                     <label className="sell-label">기업(고객)명<span style={{color : "#FA5858"}}>*</span></label>
                     <div className="sell-input">
-                      <Input style={{width: "50%"}} value={data.name}  name="name" onChange={this.handleState}/>
+                      <Input style={{width: "50%"}} value={data.name}  name="name" onChange={handleState.bind(this)}/>
                     </div>
                   </div>
 
                   <div className="sell-list">
                     <label className="sell-label">연락처1<span style={{color : "#FA5858"}}>*</span></label>
                     <div className="sell-input">
-                      <Input style={{width: "50%"}} value={data.cellphone} required pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"  name="cellphone" onChange={this.handleState}/>
+                      <Input style={{width: "50%"}} value={data.cellphone} required pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"  name="cellphone" onChange={handleState.bind(this)}/>
                     </div>
                   </div>
 
                   <div className="sell-list">
                     <label className="sell-label">연락처2</label>
                     <div className="sell-input">
-                      <Input style={{width: "50%"}} value={data.telephone} pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" name="telephone" onChange={this.handleState} onBlur={this.handleState}/>
+                      <Input style={{width: "50%"}} value={data.telephone} pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" name="telephone" onChange={handleState.bind(this)} onBlur={handleState.bind(this)}/>
                     </div>
                   </div>
 
                   <div className="sell-list">
                     <label className="sell-label">사업자등록번호</label>
                     <div className="sell-input">
-                      <Input style={{width: "50%"}} value={data.crNumber} name="crNumber" onChange={this.handleState} onBlur={this.handleState}/>
+                      <Input style={{width: "50%"}} value={data.crNumber} name="crNumber" onChange={handleState.bind(this)} onBlur={handleState.bind(this)}/>
                     </div>
                   </div>
 

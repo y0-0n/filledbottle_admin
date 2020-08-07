@@ -383,6 +383,13 @@ class List extends Component {
     this.setState({familyName: this.props.checkFamily(0)})
   }
 
+  scrollBtn(type) {
+    if (type === 'left')
+      document.getElementById('category-list').scrollLeft -= 150;
+    else
+      document.getElementById('category-list').scrollLeft += 150;
+  }
+
   render() {
     console.log(this.state.familyName)
     var data = this.state.productData;
@@ -398,31 +405,37 @@ class List extends Component {
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
         <Row>
           <Col>
-            <Table className="category-top list-hidden" >
-              <tbody>
-                <tr>
-                  { userCategoryData.length > 0 ? <td style={{cursor: "pointer", backgroundColor: this.props.category===0 ? '#E6E6E6' : '#fff'}} onClick={() => {this.changeCategory(this.props.checkCategoryId(0))}}>전체</td>  : null}
-									{ this.state.checkCategory ?
-										userCategoryData.map((e, i) => {
-											return <td key={i} style={{cursor: "pointer", backgroundColor: this.props.category===e.id ? '#E6E6E6' : '#fff'}} onClick={() => {this.changeCategory(this.props.checkCategoryId(e.id))}}>{e.name}</td>
-                    })
-                    :
-                    <div style={{textAlign: "left", padding: 30}}>
-                      <div style={{ display: "table-cell" }}>
-                        <i style={{ marginRight: 10 }} className="fa fa-exclamation-circle"></i>
-                      </div>
-                      <div style={{ display: "table-cell" }}>
-												첫번째 품목을 등록해보세요. <br></br>
-                        ( 상단의 품목등록 메뉴 또는 바로가기 버튼을 통해 등록이 가능합니다. )
-                      </div>
-                      <div style={{ display: "table-cell", paddingLeft: 50, verticalAlign: "middle"}}>
-                        <Button color="primary" onClick={() => { this.props.history.push('/product/create') }}>바로가기</Button>
-                      </div>
+            <div className="category-box list-hidden">
+              <div className="category-btn" onClick={()=> {this.scrollBtn('left')}}>
+                <img src="/img/left-arrow.png" />
+              </div>
+              <div className="category-list">
+                <ul id="category-list">
+                  { userCategoryData.length > 0 ? <li style={{cursor: "pointer", backgroundColor: this.props.category===0 ? '#E6E6E6' : '#fff'}} onClick={() => {this.changeCategory(this.props.checkCategoryId(0))}}>전체</li>  : null}
+                  { this.state.checkCategory ?
+                    userCategoryData.map((e, i) => {
+                    return <li key={i} style={{cursor: "pointer", backgroundColor: this.props.category===e.id ? '#E6E6E6' : '#fff'}} onClick={() => {this.changeCategory(this.props.checkCategoryId(e.id))}}>{e.name}</li>
+                  })
+                  :
+                  <div style={{textAlign: "left", padding: 30}}>
+                    <div style={{ display: "table-cell" }}>
+                      <i style={{ marginRight: 10 }} className="fa fa-exclamation-circle"></i>
                     </div>
-									}
-                </tr>
-              </tbody>
-            </Table>
+                    <div style={{ display: "table-cell" }}>
+                      첫번째 품목을 등록해보세요. <br></br>
+                      ( 상단의 품목등록 메뉴 또는 바로가기 버튼을 통해 등록이 가능합니다. )
+                    </div>
+                    <div style={{ display: "table-cell", paddingLeft: 50, verticalAlign: "middle"}}>
+                      <Button color="primary" onClick={() => { this.props.history.push('/product/create') }}>바로가기</Button>
+                    </div>
+                  </div>
+                  }
+                </ul>
+              </div>
+              <div className="category-btn" onClick={()=> {this.scrollBtn('right')}}>
+                <img src="/img/right-arrow.png" />
+              </div>
+            </div>
             <div className="status-box list-hidden">
               <ul className="status-list">
                 <li>

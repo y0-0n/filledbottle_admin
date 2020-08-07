@@ -6,10 +6,50 @@ ul li {
     list-style-type: none;
 }
 
+.category-box {
+    text-align: center;
+    background-color: #fff;
+    padding: 10px;
+}
+
+.category-box .category-btn {
+    display: inline-block;
+    width: 30px;
+}
+
+.category-box .category-btn img{
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.category-box .category-list {
+    display: inline-block;
+    width: 93%;
+}
+
+.category-list ul {
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+.category-list ul::-webkit-scrollbar {
+    display: none;
+}
+
+.category-list li {
+    display: inline-block;
+    width: 150px;
+    padding: 10px;
+    text-align: center;
+}
+
 .status-box {
+    width: 100%;
     background-color: #fff;
     margin: 0 auto 20px;
-    padding: 45px 30px 15px;
+    padding: 20px 30px 15px;
     text-align: center;
 }
 
