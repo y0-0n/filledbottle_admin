@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader, Col, Row, Table, Button, Input, Pagination, PaginationItem, PaginationLink, CardFooter, InputGroupAddon, InputGroup } from 'reactstrap';
-import Popup from "reactjs-popup";
-import DatePicker from "react-datepicker";
+import { Col, Row, Table, Button, Input, Pagination, PaginationItem, PaginationLink} from 'reactstrap';
 
 const listCount = 15;
 

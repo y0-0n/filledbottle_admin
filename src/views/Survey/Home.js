@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Row, Col, Card, CardFooter, CardHeader, CardBody } from 'reactstrap';
+import { Button, Row, Col, Card, CardHeader, CardBody } from 'reactstrap';
 
 const answer = [1, 1];
 
 function Home(props) {
-  const [survey, setSurvey] = useState(true)
+  const [survey] = useState(true)
   const [questionData, setQuestionData] = useState([])
 
   async function getQuestionList() {

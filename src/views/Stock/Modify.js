@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader, Col, Row, Table, Button, Input, Pagination, PaginationItem, PaginationLink, CardFooter } from 'reactstrap';
-import Popup from "reactjs-popup";
-import PlantModal from '../Modal/PlantModal';
+import { Card, CardBody, CardHeader, Col, Row, Table, Button, Input, CardFooter } from 'reactstrap';
 
-const listCount = 15;
 
 class Stock extends Component {
   constructor(props) {

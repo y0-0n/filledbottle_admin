@@ -1,19 +1,20 @@
-/*global daum*/
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Input, Table, InputGroupAddon, InputGroup} from 'reactstrap';
+import { Button, Col, Row, Input, InputGroupAddon, InputGroup} from 'reactstrap';
 import {handleState} from '../common';
 
 class Create extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      telephone: '',
-      cellphone: '',
-      address: '',
-      addressDetail: '',
-      postcode: '',
-      crNumber: '',
+      data : [{
+        name: '',
+        telephone: '',
+        cellphone: '',
+        address: '',
+        addressDetail: '',
+        postcode: '',
+        crNumber: '',
+      }]
     }
   }
 
@@ -56,11 +57,13 @@ class Create extends Component {
 
   handlePost(e) {
     e.preventDefault();
-		let formData = new FormData();
-    this.state.address = document.getElementById("sample6_address").value
-    this.state.addressDetail = document.getElementById("sample6_detailAddress").value;
-		this.state.postcode = document.getElementById("sample6_postcode").value;
-    for (let [key, value] of Object.entries(this.state)) {
+    let formData = new FormData();
+    let{ data } = this.state;
+    data.address = document.getElementById("sample6_address").value;
+    data.addressDetail = document.getElementById("sample6_detailAddress").value;
+    data.postcode = document.getElementById("sample6_postcode").value;
+
+    for (let [key, value] of Object.entries(this.state.data)) {
       formData.append(key, value);
     }
 

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Col, Row, Button, Input, Pagination, PaginationItem, PaginationLink, InputGroupAddon, InputGroup } from 'reactstrap';
-import StockList from '../Stock/Stock'
-const listCount = 15;
+import { Table, Col, Row} from 'reactstrap';
 
 class StockModal extends Component {
   constructor(props) {

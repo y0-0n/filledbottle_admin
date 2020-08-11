@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Input, Table, InputGroupAddon, InputGroup, Badge} from 'reactstrap';
+import { Button, Col, Row, Input, InputGroupAddon, InputGroup, } from 'reactstrap';
 import {handleState} from '../common';
 
 class Modify extends Component {

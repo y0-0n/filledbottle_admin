@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Input, Table } from 'reactstrap';
-import ProductFamilyModal from '../Modal/ProductFamilyModal';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Input, Table } from 'reactstrap';
 import ProductModal from '../Modal/ProductModal';
 import Popup from "reactjs-popup";
 
@@ -12,7 +11,6 @@ class Create extends Component {
       quantity: 0,
 			start: 0,
 			dest: 0,
-			quantity: 0,
     };
 
     this.state = {

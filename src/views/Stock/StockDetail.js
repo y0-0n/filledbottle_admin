@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader, Col, Row, Table, Input, InputGroup, InputGroupAddon, Button} from 'reactstrap';
+import { Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
 
 class Detail extends Component {
   constructor(props) {
@@ -111,7 +111,7 @@ class Detail extends Component {
   }
 
   render() {
-    let {data, orderData, modifyData} = this.state;
+    let {data, orderData} = this.state;
     let stockQuantity = data[0].initial_quantity;
     return (
       <div className="animated fadeIn">

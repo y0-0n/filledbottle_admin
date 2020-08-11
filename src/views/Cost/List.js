@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardHeader, Col, Row, Table, Input, InputGroup, InputGroupAddon, Button } from 'reactstrap';
+import { Table, Button } from 'reactstrap';
 
 class Detail extends Component {
   constructor(props) {

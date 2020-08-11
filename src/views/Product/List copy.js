@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, CardImg, Col, Row, Input,
-   CardTitle, CardSubtitle, Table, Pagination, PaginationItem, PaginationLink, FormGroup, Badge,
-   InputGroup, InputGroupAddon, UncontrolledButtonDropdown, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
+import { Button, Col, Row, Input,
+   Table, Pagination, PaginationItem, PaginationLink, Badge } from 'reactstrap';
 import Switch from "../Switch/Switch";
 import ImageModal from '../Modal/ImageModal';
 import Popup from "reactjs-popup";

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row,Table } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Input, InputGroup, InputGroupAddon, Row, Table } from 'reactstrap';
 
 
 class RegisterModify extends Component {
@@ -13,7 +13,6 @@ class RegisterModify extends Component {
 
   handleFileInput(e) {
     var file = e.target.files[0];
-    var canvasImg = document.createElement("img");
     var reader = new FileReader();
     reader.onload = () => {
       this.setState({image: reader.result})

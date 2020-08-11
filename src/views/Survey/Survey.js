@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, Input, Table, } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row } from 'reactstrap';
 
 const answerList = []
 

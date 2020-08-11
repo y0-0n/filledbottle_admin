@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, CardFooter, Col, Row, FormGroup, Input, Table, InputGroupAddon, InputGroup } from 'reactstrap';
+import { Table } from 'reactstrap';
 
 let d = {name: '사과', purchase_weight: 10, unit: 'kg', purchase_cost: 1000, usage: 10};
 let p = {people: 0, time: 0, salary: 0, total_cost: 0};

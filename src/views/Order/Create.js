@@ -318,7 +318,7 @@ class Create extends Component {
                                                    document.getElementById("sample6_address").value = data.address;
                                                    document.getElementById("sample6_detailAddress").value = data.addressDetail;
                                                    document.getElementById("sample6_postcode").value = data.postcode;
-                                                   let {address, addressDetail, postcode, cellphone, name, id, telephone} = data;
+                                                   let {cellphone, name, id, telephone} = data;
                                                    this.setState({
                                                      cellphone,
                                                      customerName: name,

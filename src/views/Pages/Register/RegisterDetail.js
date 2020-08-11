@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
-import { Button, Card, CardBody, CardHeader, Col, Input, InputGroup, InputGroupAddon, Row, Table, Nav, NavItem, NavLink } from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, Col, Input, InputGroup, InputGroupAddon, Row, Table } from 'reactstrap';
 
-const employee = [
-  {
-      name: '정소원',
-      department: '개발부',
-      position: '부장',
-      cellphone: '01012353512',
-  },
-  {
-    name: '강주희',
-    department: '영업부',
-    position: '사원',
-    cellphone: '01023672958',
-  },
-]
+// const employee = [
+//   {
+//       name: '정소원',
+//       department: '개발부',
+//       position: '부장',
+//       cellphone: '01012353512',
+//   },
+//   {
+//     name: '강주희',
+//     department: '영업부',
+//     position: '사원',
+//     cellphone: '01023672958',
+//   },
+// ]
 
 class RegisterDetail extends Component {
   constructor(props) {
@@ -393,7 +393,7 @@ class RegisterDetail extends Component {
 
   render() {
     console.log(this.state.data)
-    const {data, plantData, allFamilyData, familyData, categoryData, productData} = this.state;
+    const {data, plantData, } = this.state;
     return (
 			<div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
