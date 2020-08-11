@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Button} from 'reactstrap';
 import Table from "../common/Table";
 import Paginations from "../common/Pagination";
+import { useHistory } from 'react-router-dom'
 // import {getList} from './User'
 
 const Farm = () => {
+  const history = useHistory()
+
   const [data, setData] = useState([])
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState();
@@ -19,6 +22,7 @@ const Farm = () => {
             phone : '0109123131',
             address : '서울특별시',
             crNumber : 123,
+            fn: () => {history.push('/admin/farm/detail/' + 1)}
         },
         {
             id: 2,

@@ -56,6 +56,9 @@ const User = () => {
       })
       .then(data => {
         let status = data[0];
+        data[1].forEach(element => {
+          element.fn = () => {history.push('/admin/users/detail/' + element.id)}
+        });
         if (status === 200)
           setData(data[1])
         else {

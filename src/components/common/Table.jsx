@@ -1,9 +1,7 @@
 import React from "react";
-import { useHistory } from 'react-router-dom'
 import "./Table.scss";
 
 const Table = (props) => {
-  const history = useHistory()
   const {
     ths, tds, trClick
   } = props;
@@ -24,11 +22,11 @@ const Table = (props) => {
               <tr key={key}>
                 {
                   Object.keys(ths).map((ele, i) => {
-                    return <td>{el[ele]}</td>;
+                    return <td key={i}>{el[ele]}</td>;
                   })
                 }
                 <td>
-                  <button className="edit_btn" onClick={() => {history.push('/admin/users/detail/' + el[Object.keys(ths)[0]])}}>DETAIL</button>
+                  <button className="edit_btn" onClick={el.fn}>DETAIL</button>
                   <button className="delete_btn">DELETE</button>
                 </td>
               </tr>

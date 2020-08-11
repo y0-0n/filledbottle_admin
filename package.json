@@ -3,7 +3,7 @@
   "version": "2.5.0",
   "description": "CoreUI React Open Source Bootstrap 4 Admin Template",
   "author": "L5vD5",
-  "homepage": "https://l5vd5.github.io/filledbottle_admin",
+  "homepage": "http://localhost:3000/",
   "copyright": "Copyright 2017-2019 creativeLabs Łukasz Holeczek",
   "license": "MIT",
   "private": true,
@@ -31,7 +31,7 @@
     "font-awesome": "^4.7.0",
     "gh-pages": "^2.0.1",
     "moment": "^2.24.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.14.1",
     "prop-types": "^15.7.2",
     "public-ip": "^4.0.1",
     "query-string": "^6.12.1",
@@ -54,7 +54,7 @@
     "style-loader": "^1.1.2"
   },
   "devDependencies": {
-    "react-scripts": "^3.0.1"
+    "react-scripts": "^3.4.2"
   },
   "scripts": {
     "start": "react-scripts start",
