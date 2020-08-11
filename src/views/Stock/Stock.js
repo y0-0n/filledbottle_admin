@@ -20,7 +20,6 @@ class Stock extends Component {
 
   componentWillMount() {
     this.getPlant();
-    this.getFamily();
 	}
 
   getFamily() {//취급 품목 불러오기
@@ -174,6 +173,7 @@ class Stock extends Component {
           this.props.checkPlant(data[1][0].id)
           this.setState({ plantData: data[1],
             /*plant: data[1][0].id*/ }, () => {
+              this.getStock();
             });
         } else {
           this.setState({ checkCategory: false })
@@ -244,6 +244,7 @@ class Stock extends Component {
     var {family, pageNumbersS} = this.props;
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
+    console.warn(this.props.plant)
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/Stock.css"></link>
