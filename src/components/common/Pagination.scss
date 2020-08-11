@@ -1,0 +1,113 @@
+.dropdown-box {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    ul {
+        // background: $dark1;
+        z-index: 9;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        background: #fff;
+    }
+}
+.dropdown-box {
+    position: relative;
+    cursor: pointer;
+
+    svg {
+        float: right;
+        width: 1.25rem;
+        height: 1.25rem;
+        margin-right: -0.25rem;
+    }
+    .current {
+        padding: 0 0.5rem;
+    }
+    &:hover {
+        ul {
+            display: block;
+        }
+    }
+    ul {
+        display: none;
+        position: absolute;
+        z-index: 99;
+        padding: 0.5rem 0;
+        width: 100%;
+        .dropdown-item {
+            cursor: pointer;
+            padding: 0 0.5rem;
+        }
+    }
+}
+.pagination-box {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 0;
+    line-height: 2rem;
+    .pagination {
+        .page-items {
+            min-width: 20rem;
+            padding: 0 1.5rem;
+            ul {
+                display: flex;
+                justify-content: center;
+                li {
+                    min-width: 2rem;
+                    padding: 0 0.25rem;
+                    &.active {
+                        color: #fff;
+                        font-weight: 700;
+                        color: black;
+                    }
+                }
+            }
+        }
+        ul {
+            display: flex;
+            justify-content: space-between;
+            li {
+                cursor: pointer;
+                text-align: center;
+                &.dir-item {
+                    button {
+                        font-size: 1.375rem;
+                        &:disabled {
+                            cursor: not-allowed;
+                            opacity: 0.8;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .page-limit-box {
+        display: flex;
+        .dropdown-box {
+            margin: 0 1rem 0 0.5rem;
+            width: 3.875rem;
+            svg {
+                margin-top: 0.375rem;
+            }
+            ul {
+                top: 2rem;
+            }
+        }
+    }
+    .goto-input {
+        margin-left: 0.5rem;
+        width: 3rem;
+        height: 2rem;
+        padding: 0 0.5rem;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+    }
+    .goto-btn {
+        background: black;
+        height: 2rem;
+        line-height: 1rem;
+        padding: 0.5rem;
+        color: #fff;
+        &:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+    }
+}
