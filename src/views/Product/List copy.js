@@ -75,6 +75,10 @@ class List extends Component {
     if (prevState.familyData !== this.state.familyData) {
       this.getProduct();
     }
+
+    if (prevState.productData !== this.state.productData) {
+      this.getTotal();
+    }    
   }
 	
 	//상태별 품목 개수를 가져옴
@@ -354,9 +358,10 @@ class List extends Component {
     var reset_input = document.getElementsByClassName('searchbox-input')
     for(var i = 0; i < reset_input.length; i++) {
       reset_input[i].value = null;
-      console.log(i);
+      console.log(i,'reset');
     }
     this.setState({familyName: this.props.checkFamily(0)})
+    this.props.changeStateP(0)
   }
 
   scrollBtn(type) {
@@ -505,7 +510,7 @@ class List extends Component {
                 </div>
               </div>*/}
               <div className="search-button">
-                <Button color="primary" style={{marginRight: 10}} onClick={()=> {this.getProduct()}}>검색</Button>
+                <Button color="primary" style={{marginRight: 10}} onClick={()=> {this.getProduct();}}>검색</Button>
                 <Button color="ghost-primary" onClick={() => { this.props.searchKeywordP(''); this.resetInput(); }}>초기화</Button>
               </div>
             </div>
