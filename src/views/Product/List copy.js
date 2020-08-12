@@ -7,6 +7,7 @@ import Popup from "reactjs-popup";
 import ProductFamilyModal from '../Modal/ProductFamilyModal';
 import DatePicker from "react-datepicker";
 import ReactToPrint from 'react-to-print';
+import _fetch from '../../fetch';
 /*
 
   GET /product/state
@@ -155,69 +156,26 @@ class List extends Component {
 	}
 
 	getUserFamilyCategory() {
-		fetch(process.env.REACT_APP_HOST + "/api/product/userFamilyCategory", {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-    })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-				let status = data[0];
-        if (status === 200){
-					if(data[1].length !== 0) {
-            //this.props.checkCategoryId(data[1][0].id)
-						this.setState({ userCategoryData: data[1],});
-					} else {
-						this.setState({
-              checkCategory: false
-            })
-					}
-
-        }
-        else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-      })
+    _fetch("/api/product/userFamilyCategory", "GET", null, (data) => {
+      if(data[1].length !== 0) {
+        //this.props.checkCategoryId(data[1][0].id)
+        this.setState({ userCategoryData: data });
+      } else {
+        this.setState({
+          checkCategory: false
+        })
+      }
+    });
 	}
 
 	getProduct() {
     const name = this.props.keywordP;
     const page = this.props.pageNumbersP;
-    const {category, family, stateP} = this.props;
-    fetch(process.env.REACT_APP_HOST + "/product/list", {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-      body: JSON.stringify(
-        {
-          page, name, family, category, state: stateP
-        }
-      )
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw Error(response.statusText)
-        } else {
-          return response.json();
-        }
-      })
-      .then(data => {
-        this.setState({ productData: data });
-      })
-      .catch(err => {
-        alert(err);
-      })
+    const {category, family} = this.props;
+    const state = this.props.stateP
+    _fetch('/product/list', 'POST', {page, name, family, category, state}, (data) => {
+      this.setState({ productData: data })
+    });
   }
 
   getStock() {
@@ -225,35 +183,9 @@ class List extends Component {
     const name = this.props.keywordP;
     const {category, family} = this.props;
 
-    fetch(process.env.REACT_APP_HOST + "/api/stock/sum", {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-      body: JSON.stringify(
-        {
-          page, name, family, category
-        }
-      )
+    _fetch("/api/stock/sum", "POST", {page, name, category, family}, (data) => {
+      this.setState({stockData: data})
     })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-				let status = data[0];
-        if (status === 200)
-          this.setState({ stockData: data[1] });
-        else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-      });
 	}
 	
   excel() {
