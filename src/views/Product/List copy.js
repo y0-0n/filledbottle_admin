@@ -75,6 +75,10 @@ class List extends Component {
     if (prevState.familyData !== this.state.familyData) {
       this.getProduct();
     }
+
+    if (prevState.productData !== this.state.productData) {
+      this.getTotal();
+    }    
   }
 	
 	//상태별 품목 개수를 가져옴
@@ -218,7 +222,6 @@ class List extends Component {
           alert('로그인 하고 접근해주세요');
           this.props.history.push('/login');
         }
-        this.getTotal();
       })
   }
 
@@ -511,7 +514,7 @@ class List extends Component {
                 </div>
               </div>*/}
               <div className="search-button">
-                <Button color="primary" style={{marginRight: 10}} onClick={()=> {this.getProduct()}}>검색</Button>
+                <Button color="primary" style={{marginRight: 10}} onClick={()=> {this.getProduct();}}>검색</Button>
                 <Button color="ghost-primary" onClick={() => { this.props.searchKeywordP(''); this.resetInput(); }}>초기화</Button>
               </div>
             </div>
