@@ -363,9 +363,10 @@ class List extends Component {
     var reset_input = document.getElementsByClassName('searchbox-input')
     for(var i = 0; i < reset_input.length; i++) {
       reset_input[i].value = null;
-      console.log(i);
+      console.log(i,'reset');
     }
     this.setState({familyName: this.props.checkFamily(0)})
+    this.props.changeStateP(0)
   }
 
   scrollBtn(type) {
