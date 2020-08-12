@@ -122,34 +122,6 @@ class Create extends Component {
       });
   }
 
-  getFamilyId(id, i){
-    fetch(process.env.REACT_APP_HOST+"/api/product/familyId/"+id, {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-    })
-      .then(response => {
-        if(response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-        let status = data[0];
-        if(status === 200){
-          this.setState({productFamily: data[1][0].id}, () => {
-            this.getPlant(i);
-          })
-        }
-        else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-      });
-  }
-
   addOrder() {
     const {sCustomer, sProduct, cellphone, telephone, comment} = this.state;
     let {date} = this.state;
@@ -443,7 +415,6 @@ class Create extends Component {
 
                                                           /* set the state to the new variable */
                                                           this.setState({sProduct});
-                                                          // this.getFamilyId(data['id'], i);
                                                           // this.getStock(data['id'], i);
                                                         }}
                                 />}

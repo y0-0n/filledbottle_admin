@@ -52,6 +52,17 @@ class List extends Component {
     //this.getCafe24Product();
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.userCategoryData !== this.state.userCategoryData) {
+      this.getProductFamily();
+    }
+
+    if (prevState.familyData !== this.state.familyData) {
+      this.getProduct();
+      this.getStock();
+    }
+  }
+
   getTotal() {
     const name = this.props.keyword;
     const {category, family} = this.props;
@@ -106,9 +117,7 @@ class List extends Component {
         if (status === 200){
 					if(data[1].length !== 0) {
             //this.props.checkCategoryId(data[1][0].id)
-						this.setState({ userCategoryData: data[1],}, () => {
-								this.getProductFamily();
-							});
+						this.setState({ userCategoryData: data[1],});
 					} else {
 						this.setState({
               checkCategory: false
@@ -279,10 +288,7 @@ class List extends Component {
       .then(data => {
 				let status = data[0];
         if (status === 200){
-          this.setState({ familyData: data[1] }, () => {
-						this.getProduct();
-						this.getStock();
-					});
+          this.setState({ familyData: data[1] });
         }
         else {
           alert('로그인 하고 접근해주세요');

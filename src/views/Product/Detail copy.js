@@ -73,7 +73,7 @@ class Detail extends Component {
         .then(data => {
           let status = data[0];
           if (status === 200)
-            this.getProduct()
+            window.location.reload(false);
           else {
             alert('로그인 하고 접근해주세요')
             this.props.history.push('/login')

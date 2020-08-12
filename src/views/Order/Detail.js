@@ -90,7 +90,7 @@ class Detail extends Component {
 				.then(data => {
 					const status = data[0];
 					if(status === 200) {
-						this.getData(this.props.match.params.id)
+						window.location.reload(false);
 					} else if(status === 401) {
 						alert('로그인 하고 접근해주세요')
 						this.props.history.push('/login')
@@ -124,7 +124,7 @@ class Detail extends Component {
         .then(data => {
           const status = data[0];
           if (status === 200) {
-            this.getData(this.props.match.params.id)
+            window.location.reload(false);
           } else if (status === 401) {
             alert('로그인 하고 접근해주세요')
             this.props.history.push('/login')
@@ -164,7 +164,7 @@ class Detail extends Component {
         .then(data => {
           const status = data[0];
           if (status === 200) {
-            this.getData(this.props.match.params.id);
+            window.location.reload(false);
           } else if (status === 401) {
             alert('로그인 하고 접근해주세요')
             this.props.history.push('/login')

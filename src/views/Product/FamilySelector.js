@@ -13,6 +13,12 @@ class familySelector extends Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.category !== this.state.category) {
+      this.getAllFamily();
+    }
+  }
+
   getFamilyCategory() {
 		fetch(process.env.REACT_APP_HOST + "/api/product/familyCategory", {
       method: 'GET',
@@ -66,11 +72,7 @@ class familySelector extends Component {
   }
 
   tabClick(category) {
-    this.setState({
-      category,
-    }, () => {
-			this.getAllFamily();
-    });
+    this.setState({category});
   }
 
   passStateToParent = () => {

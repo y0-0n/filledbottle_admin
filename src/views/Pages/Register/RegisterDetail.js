@@ -85,9 +85,6 @@ class RegisterDetail extends Component {
 			let status = data[0];
       if(status === 200){
 				this.setState({plantData: data[1]});
-				data[1].map((e, i) => {
-					this.getFamilyInPlant(e.id, i);
-				})
 			}
       else {
         alert('로그인 하고 접근해주세요');
@@ -96,33 +93,6 @@ class RegisterDetail extends Component {
     });
 	}
 
-	getFamilyInPlant(plantId, i) {
-		fetch(process.env.REACT_APP_HOST+"/api/product/familyInPlant/"+plantId, {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-    })
-    .then(response => {
-      if(response.status === 401) {
-        return Promise.all([401])
-      } else {
-        return Promise.all([response.status, response.json()]);
-      }
-    })
-    .then(data => {
-			let status = data[0];
-      if(status === 200){
-				let {familyInPlantData} = this.state;
-				familyInPlantData[i] = data[1];
-        this.setState({familyInPlantData});}
-      else {
-        alert('로그인 하고 접근해주세요');
-        this.props.history.push('/login');
-      }
-    });
-	}
-	
   getAllFamily() {
     fetch(process.env.REACT_APP_HOST+"/api/product/allFamily/"+this.state.category, {
       method: 'GET',
@@ -141,7 +111,6 @@ class RegisterDetail extends Component {
 			let status = data[0];
       if(status === 200){
 				this.setState({allFamilyData: data[1]});
-				this.getProductFamily();
 			}
       else {
         alert('로그인 하고 접근해주세요');
@@ -173,7 +142,6 @@ class RegisterDetail extends Component {
 						addFamilyList: [],
 						deleteFamilyList: [],
 						modify: false
-					}, () => {
 					});
         }
         else {
@@ -235,7 +203,7 @@ class RegisterDetail extends Component {
       .then(data => {
 				let status = data[0];
         if (status === 200){
-					this.getPlantList();
+          window.location.reload();
         }
         else {
           alert('로그인 하고 접근해주세요');
@@ -270,11 +238,7 @@ class RegisterDetail extends Component {
 	}
 
   tabClick(category) {
-    this.setState({
-      category,
-    }, () => {
-			this.getAllFamily();
-    });
+    this.setState({category});
   }
 	
   componentWillMount() {
@@ -282,6 +246,16 @@ class RegisterDetail extends Component {
 		this.getPlantList();
 		this.getAllFamily();
 		this.getFamilyCategory();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.category !== this.state.category) {
+			this.getAllFamily();
+    }
+
+    if (prevState.allFamilyData !== this.state.allFamilyData) {
+      this.getProductFamily();
+    }
   }
 
   toggleList (list, e) {
@@ -330,7 +304,7 @@ class RegisterDetail extends Component {
       .then(data => {
 				let status = data[0];
         if (status === 200){
-					this.getProductFamily();
+          window.location.reload();
         }
         else {
           alert('로그인 하고 접근해주세요');

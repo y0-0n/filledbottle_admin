@@ -112,6 +112,10 @@ class List extends Component {
     if (prevProps.pageNumbers !== this.props.pageNumbers) {
       this.getOrder()
     }
+    if (prevState.process !== this.state.process) {
+      this.getTotal();
+      this.getOrder();
+    }
   }
 
   getTotal() {
@@ -180,13 +184,7 @@ class List extends Component {
   }
 
   tabClick(process) {
-    this.setState({
-      process,
-      //page: 1
-    }, () => {
-      this.getTotal();
-      this.getOrder();
-    });
+    this.setState({process})
   }
 
   numberWithCommas(x) {

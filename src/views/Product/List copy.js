@@ -67,6 +67,14 @@ class List extends Component {
     if (prevProps.category !== this.props.category) {
       this.getProductFamily();
     }
+
+    if (prevState.userCategoryData !== this.state.userCategoryData) {
+      this.getProductFamily();
+    }
+
+    if (prevState.familyData !== this.state.familyData) {
+      this.getProduct();
+    }
   }
 	
 	//상태별 품목 개수를 가져옴
@@ -161,9 +169,7 @@ class List extends Component {
         if (status === 200){
 					if(data[1].length !== 0) {
             //this.props.checkCategoryId(data[1][0].id)
-						this.setState({ userCategoryData: data[1],}, () => {
-								this.getProductFamily();
-							});
+						this.setState({ userCategoryData: data[1],});
 					} else {
 						this.setState({
               checkCategory: false
@@ -278,12 +284,6 @@ class List extends Component {
       });
   }
 
-
-  searchProduct() {
-		this.getProduct();
-    // this.getStock();
-  }
-
   changeStockEdit() {
     // this.getStock();
     this.setState({ stockEdit: !this.state.stockEdit })
@@ -317,10 +317,7 @@ class List extends Component {
       .then(data => {
 				let status = data[0];
         if (status === 200){
-          this.setState({ familyData: data[1] }, () => {
-						this.getProduct();
-						// this.getStock();
-					});
+          this.setState({ familyData: data[1] });
         }
         else {
           alert('로그인 하고 접근해주세요');
@@ -514,7 +511,7 @@ class List extends Component {
                 </div>
               </div>*/}
               <div className="search-button">
-                <Button color="primary" style={{marginRight: 10}} onClick={()=> {this.searchProduct()}}>검색</Button>
+                <Button color="primary" style={{marginRight: 10}} onClick={()=> {this.getProduct()}}>검색</Button>
                 <Button color="ghost-primary" onClick={() => { this.props.searchKeywordP(''); this.resetInput(); }}>초기화</Button>
               </div>
             </div>

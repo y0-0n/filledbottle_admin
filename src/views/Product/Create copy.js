@@ -50,6 +50,12 @@ class CreateProduct extends Component {
     //this.getProductFamily();
     this.getUserFamilyCategory();
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.userCategoryData !== this.state.userCategoryData) {
+      this.getProductFamily();
+    }
+  }
   
   handleFileInput(e) {
     var file = e.target.files[0];
@@ -144,9 +150,7 @@ class CreateProduct extends Component {
         if (status === 200){
           if(data[1].length !== 0) {
             //this.props.checkCategoryId(data[1][0].id)
-            this.setState({ userCategoryData: data[1], category: data[1][0].id}, () => {
-              this.getProductFamily();
-            });
+            this.setState({ userCategoryData: data[1], category: data[1][0].id});
           } else {
             this.setState({
               checkCategory: false

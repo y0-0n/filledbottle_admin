@@ -113,13 +113,9 @@ class Register extends Component {
 
   checkChecks(){
     if(this.form.checks[0] === true && this.form.checks[1] === true && this.form.checks[2] === true){
-      this.enableBtn();
+      document.getElementById('button_joinus').disabled = false;
     }
     else document.getElementById('button_joinus').disabled = true;
-  }
-
-  enableBtn(){
-    document.getElementById('button_joinus').disabled = false;
   }
 
   render() {

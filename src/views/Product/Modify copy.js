@@ -100,6 +100,18 @@ class Modify extends Component {
   //   }
   // }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.data !== this.state.data && prevState.category !== this.state.category) {
+      this.getProductFamily();
+      this.createFile();
+      this.createMultipleFile();
+    }
+
+    if (prevState.familyData !== this.state.familyData) {
+      this.getProduct();
+    }
+  }
+
   handleFileInput(e) {
     var file = e.target.files[0];
     var canvasImg = document.createElement("img");
@@ -152,12 +164,7 @@ class Modify extends Component {
           shippingDate: data[0].shippingDate,
         }, ()=> {
         })
-        this.setState({ data: data[0], category: data[0].categoryId }, () => {
-          this.getProductFamily();
-          this.createFile();
-          this.createMultipleFile();
-
-        });
+        this.setState({ data: data[0], category: data[0].categoryId });
       });
   }
 
