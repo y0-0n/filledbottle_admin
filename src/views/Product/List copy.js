@@ -53,7 +53,7 @@ class List extends Component {
 		}
 
   }
-  componentWillMount() {
+  componentDidMount() {
 		this.getUserFamilyCategory();
 		this.getStateCount();
     //this.getCafe24Product();
@@ -202,23 +202,17 @@ class List extends Component {
       )
     })
       .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
+        if (!response.ok) {
+          throw Error(response.statusText)
         } else {
-          return Promise.all([response.status, response.json()]);
+          return response.json();
         }
       })
       .then(data => {
-        let status = data[0];
-        if (status === 200){
-          // console.warn(data[1]);
-          this.setState({ productData: data[1] });
-        }
-        else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-        this.getTotal();
+        this.setState({ productData: data });
+      })
+      .catch(err => {
+        alert(err);
       })
   }
 
