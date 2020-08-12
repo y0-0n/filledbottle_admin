@@ -87,7 +87,7 @@ class Stock extends Component {
 
   getStock() {
     const name = this.props.keywordS;
-    const { familyData} = this.state;
+    const { familyData } = this.state;
     const pageNumbers = this.props.pageNumbersS;
     const { plant } = this.props;
     const family = this.props.familyS
@@ -188,8 +188,8 @@ class Stock extends Component {
         } else {
           this.setState({ checkCategory: false })
         }
-				/*this.setState({plantData: data[1], plant: data[1][0].id});
-				this.getFamily();*/
+				//this.setState({plantData: data[1], plant: data[1][0].id});
+				this.getFamily();
 			}
       else {
         alert('로그인 하고 접근해주세요');
