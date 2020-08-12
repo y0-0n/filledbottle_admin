@@ -33,7 +33,13 @@ class List extends Component {
 
   componentWillMount() {
     this.getCustomer();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.pageNumbersC !== this.props.pageNumbersC) {
+      this.getCustomer()
     }
+  }
 
   getTotal() {
     const keyword = this.props.keywordC;
@@ -95,15 +101,6 @@ class List extends Component {
       }
       this.getTotal();
     })
-  }
-
-
-  countPageNumber(x){
-    this.setState({
-      //page: x,
-    }, () => {
-      this.getCustomer();
-    });
   }
 
   deleteCustomer(id) {
@@ -313,7 +310,7 @@ class List extends Component {
           <Pagination style={{justifyContent: 'center'}}>
             {this.props.pageNumbersC === 1 ? '' :
             <PaginationItem>
-              <PaginationLink previous onClick={() => {this.countPageNumber(this.props.clickConvertPageC(this.props.pageNumbersC-1))}}/>
+              <PaginationLink previous onClick={() => {this.props.clickConvertPageC(this.props.pageNumbersC-1)}}/>
             </PaginationItem>
             }
             {this.props.pageNumbersC === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
@@ -322,7 +319,7 @@ class List extends Component {
             {arr1.map((e, i) => {
               if(this.state.total >= this.props.pageNumbersC+e)
               return (<PaginationItem key={i} active={this.props.pageNumbersC === this.props.pageNumbersC+e}>
-                <PaginationLink onClick={() => {this.countPageNumber(this.props.clickConvertPageC(this.props.pageNumbersC+e)); console.log(this.props.pageNumbersC)}}>
+                <PaginationLink onClick={() => {this.props.clickConvertPageC(this.props.pageNumbersC+e); console.log(this.props.pageNumbersC)}}>
                 {this.props.pageNumbersC+e}
                 </PaginationLink>
               </PaginationItem>)
@@ -330,7 +327,7 @@ class List extends Component {
             })}
             {this.props.pageNumbersC === this.state.total ? '' :
             <PaginationItem>
-              <PaginationLink next onClick={() => {this.countPageNumber(this.props.clickConvertPageC(this.props.pageNumbersC+1))}}/>
+              <PaginationLink next onClick={() => {this.props.clickConvertPageC(this.props.pageNumbersC+1)}}/>
             </PaginationItem>}
           </Pagination>
         </div>

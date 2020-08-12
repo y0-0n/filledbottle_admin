@@ -57,7 +57,17 @@ class List extends Component {
 		this.getUserFamilyCategory();
 		this.getStateCount();
     //this.getCafe24Product();
-	}
+  }
+  
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.pageNumbersP !== this.props.pageNumbersP) {
+      this.getProduct()
+    }
+
+    if (prevProps.category !== this.props.category) {
+      this.getProductFamily();
+    }
+  }
 	
 	//상태별 품목 개수를 가져옴
 	getStateCount() {
@@ -289,24 +299,6 @@ class List extends Component {
   //   });
 	// }
 
-	changeCategory(id) {
-		this.setState({
-			// category: id,
-			// page: 1,
-			// family: 0,
-		}, () => {
-			this.getProductFamily();
-		})
-  }
-
-  countPageNumber() {
-    this.setState({
-      familyName :  0
-    }, () => {
-      this.getProduct();
-      // this.getStock();
-    });
-  }
 
   getProductFamily() {
     fetch(process.env.REACT_APP_HOST + "/api/product/familyList/"+this.props.category, {
@@ -335,12 +327,6 @@ class List extends Component {
           this.props.history.push('/login');
         }
       })
-  }
-
-  changeFamily (familyName) {
-    this.setState({ familyName }, () => {
-      this.getProduct();
-    })
   }
 
   // getCafe24Product() {
@@ -410,10 +396,10 @@ class List extends Component {
               </div>
               <div className="category-list">
                 <ul id="category-list">
-                  { userCategoryData.length > 0 ? <li style={{cursor: "pointer", backgroundColor: this.props.category===0 ? '#E6E6E6' : '#fff'}} onClick={() => {this.changeCategory(this.props.checkCategoryId(0))}}>전체</li>  : null}
+                  { userCategoryData.length > 0 ? <li style={{cursor: "pointer", backgroundColor: this.props.category===0 ? '#E6E6E6' : '#fff'}} onClick={() => {this.props.checkCategoryId(0)}}>전체</li>  : null}
                   { this.state.checkCategory ?
                     userCategoryData.map((e, i) => {
-                    return <li key={i} style={{cursor: "pointer", backgroundColor: this.props.category===e.id ? '#E6E6E6' : '#fff'}} onClick={() => {this.changeCategory(this.props.checkCategoryId(e.id))}}>{e.name}</li>
+                    return <li key={i} style={{cursor: "pointer", backgroundColor: this.props.category===e.id ? '#E6E6E6' : '#fff'}} onClick={() => {this.props.checkCategoryId(e.id)}}>{e.name}</li>
                   })
                   :
                   <div style={{textAlign: "left", padding: 30}}>
@@ -528,7 +514,7 @@ class List extends Component {
                 </div>
               </div>*/}
               <div className="search-button">
-                <Button color="primary" style={{marginRight: 10}} onClick={()=> {this.searchProduct(); this.changeFamily(this.state.familyName)}}>검색</Button>
+                <Button color="primary" style={{marginRight: 10}} onClick={()=> {this.searchProduct()}}>검색</Button>
                 <Button color="ghost-primary" onClick={() => { this.props.searchKeywordP(''); this.resetInput(); }}>초기화</Button>
               </div>
             </div>
@@ -593,7 +579,7 @@ class List extends Component {
                 <Pagination style={{justifyContent: 'center'}}>
                   {pageNumbersP === 1 ? '' :
                   <PaginationItem>
-                    <PaginationLink previous onClick={() => {this.countPageNumber(this.props.clickConvertPageP(pageNumbersP-1))}}/>
+                    <PaginationLink previous onClick={() => {this.props.clickConvertPageP(pageNumbersP-1)}}/>
                   </PaginationItem>
                   }
                   {pageNumbersP === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
@@ -602,7 +588,7 @@ class List extends Component {
                   {arr1.map((e, i) => {
                     if(this.state.lastPage >= pageNumbersP+e)
                     return (<PaginationItem key={i} active={pageNumbersP === pageNumbersP+e}>
-                      <PaginationLink onClick={() => {this.countPageNumber(this.props.clickConvertPageP(pageNumbersP+e));}}>
+                      <PaginationLink onClick={() => {this.props.clickConvertPageP(pageNumbersP+e);}}>
                       {pageNumbersP+e}
                       </PaginationLink>
                     </PaginationItem>)
@@ -610,7 +596,7 @@ class List extends Component {
                   })}
                   {pageNumbersP === this.state.lastPage ? '' :
                   <PaginationItem>
-                    <PaginationLink next onClick={() => {this.countPageNumber(this.props.clickConvertPageP(pageNumbersP+1))}}/>
+                    <PaginationLink next onClick={() => {this.props.clickConvertPageP(pageNumbersP+1)}}/>
                   </PaginationItem>}
                 </Pagination>
               </div>

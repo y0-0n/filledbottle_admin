@@ -20,7 +20,17 @@ class Stock extends Component {
 
   componentWillMount() {
     this.getPlant();
-	}
+  }
+  
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.plant !== this.props.plant) {
+      this.getStock()
+    }
+
+    if (prevProps.pageNumbersS !== this.props.pageNumbersS) {
+      this.getStock()
+    }
+  }
 
   getFamily() {//취급 품목 불러오기
     // fetch(process.env.REACT_APP_HOST+"/api/product/familyInPlant/"+this.props.plant, {
@@ -192,27 +202,9 @@ class Stock extends Component {
     this.getStock();
   }
 
-	changePlant(id) {
-		this.setState({
-		}, () => {
-      this.getStock();
-		})
-  }
-
-  countPageNumber(x) {
-    this.setState({
-      page: x,
-    }, () => {
-      this.getStock();
-    });
-	}
-
-	changeFamily (family) {
-    //let keyword = this.keyword
-    this.setState({ family }, () => {
-			this.getStock();
-    })
-  }
+	// changeFamily () {
+	// 	this.getStock();
+  // }
 
   getDate(dateInput) {
     var d = new Date(dateInput);
@@ -244,7 +236,6 @@ class Stock extends Component {
     var {family, pageNumbersS} = this.props;
     const arr = [-2, -1, 0, 1, 2];
     const arr1 = [];
-    console.warn(this.props.plant)
     return (
       <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/Stock.css"></link>
@@ -260,7 +251,7 @@ class Stock extends Component {
                   { this. state.checkCategory ?
                     plantData.map((e,i) => {
                       return (
-                        <td key={i} className='list-plant' style={{backgroundColor: this.props.plant===e.id ? '#E6E6E6' : '#fff'}} onClick={() => {this.changePlant(this.props.checkPlant(e.id))}}>{e.name}</td>
+                        <td key={i} className='list-plant' style={{backgroundColor: this.props.plant===e.id ? '#E6E6E6' : '#fff'}} onClick={() => {this.props.checkPlant(e.id)}}>{e.name}</td>
                       )
                     })
                     :
@@ -314,7 +305,7 @@ class Stock extends Component {
                 </div>
               </div>
               <div className="search-button" style={{textAlign: 'center', paddingBottom: "10px"}}>
-								<Button color="primary" style={{marginRight: 10}} onClick={()=> {this.searchProduct(); this.changeFamily(this.state.familyS)}} >검색</Button>
+								<Button color="primary" style={{marginRight: 10}} onClick={()=> {this.searchProduct(); /*this.changeFamily()*/}} >검색</Button>
 								<Button color="ghost-primary" onClick={() => { this.props.searchKeywordS(''); this.resetInput(); }}>초기화</Button>
 							</div>
             </div>
@@ -372,7 +363,7 @@ class Stock extends Component {
 							<Pagination style={{justifyContent: 'center'}}>
 								{pageNumbersS === 1 ? '' :
 								<PaginationItem>
-									<PaginationLink previous onClick={() => {this.countPageNumber(this.props.clickConvertPageS(pageNumbersS-1))}}/>
+									<PaginationLink previous onClick={() => {this.props.clickConvertPageS(pageNumbersS-1)}}/>
 								</PaginationItem>
 								}
 								{pageNumbersS === 1 ? arr.forEach(x => arr1.push(x+2)) : null}
@@ -381,7 +372,7 @@ class Stock extends Component {
 								{arr1.map((e, i) => {
 									if(this.state.lastPage >= pageNumbersS+e)
 									return (<PaginationItem key={i} active={pageNumbersS === pageNumbersS+e}>
-										<PaginationLink onClick={() => {this.countPageNumber(this.props.clickConvertPageS(pageNumbersS+e));}}>
+										<PaginationLink onClick={() => {this.props.clickConvertPageS(pageNumbersS+e);}}>
 										{pageNumbersS+e}
 										</PaginationLink>
 									</PaginationItem>)
@@ -389,7 +380,7 @@ class Stock extends Component {
 								})}
 								{pageNumbersS === this.state.lastPage ? '' :
 								<PaginationItem>
-									<PaginationLink next onClick={() => {this.countPageNumber(this.props.clickConvertPageS(pageNumbersS+1))}}/>
+									<PaginationLink next onClick={() => {this.props.clickConvertPageS(pageNumbersS+1)}}/>
 								</PaginationItem>}
 							</Pagination>
             </div>
