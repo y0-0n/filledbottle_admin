@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Button} from 'reactstrap';
 import Table from "../common/Table";
 import Paginations from "../common/Pagination";
-import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
+import _fetch from '../../fetch';
 // import {getList} from './User'
 
 const Farm = () => {
@@ -15,23 +16,15 @@ const Farm = () => {
   const listCount = 15
 
   useEffect(() => {
-    setData([
-        {
-            id: 1,
-            name : '민수 농장',
-            phone : '0109123131',
-            address : '서울특별시',
-            crNumber : 123,
-            fn: () => {history.push('/admin/farm/detail/' + 1)}
-        },
-        {
-            id: 2,
-            name : '영희 농장',
-            phone : '01091213231',
-            address : '경기도 광주시',
-            crNumber : 1234,
-        },
-    ])
+    _fetch('/api/admin/company/total', 'GET', null, (data) => {
+      setTotal(data[0].total/listCount)
+    })
+  }, [])
+
+  useEffect(() => {
+    _fetch(`/api/admin/company/list?page=${page}&perPage=${listCount}`, 'GET', null, (data) => {
+      setData(data)
+    })    
   }, [page])
 
   const tableProps = {
