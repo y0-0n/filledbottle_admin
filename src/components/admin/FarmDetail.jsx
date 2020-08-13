@@ -20,7 +20,7 @@ const User = () => {
 
     detailName: {
       name : '농장 이름',
-      // name : '대표자 이름',
+      ceoName : '대표자 이름',
       phone : '대표자 연락처',
       address : '주소',
       addressDetail : '주소 2',

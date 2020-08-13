@@ -32,8 +32,8 @@ const CreateFarm = () => {
   useEffect(() => {
     setForm(
       {
-        // name: formFarmName,
-        name: formName,
+        name: formFarmName,
+        ceoName: formName,
         phone: formPhone,
         address: document.getElementById("sample6_address").value,
         addressDetail: formAddressDetail,
