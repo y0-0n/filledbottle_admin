@@ -329,7 +329,7 @@ class Stock extends Component {
                 <Table className="ListTable" hover>
                   <thead>
                     <tr>
-                      <th style={{ width: 150 }} className="list-hidden">사진</th>
+                      {/* <th style={{ width: 150 }} className="list-hidden">사진</th> */}
                       <th className="list-hidden">제품명</th>
                       <th>구분</th>
                       <th>유통기한</th>
@@ -341,9 +341,9 @@ class Stock extends Component {
                     {stockData.map((d, i) => {
                       return (
                         <tr onClick={() => {this.props.history.push(`/main/manage/stock/${d.id}`)}} style={{cursor: 'pointer'}} key={d.id}>
-                          <td className="list-hidden">
+                          {/* <td className="list-hidden">
                             <img style={{ width: '90%' }} alt="품목 사진" src={d.file_name ? process.env.REACT_APP_HOST+"/static/" + d.file_name : '318x180.svg'} />
-                          </td>
+                          </td> */}
                           <td className="list-hidden">{d.productName}</td>
                           <td>{d.name}</td>
                           <td>

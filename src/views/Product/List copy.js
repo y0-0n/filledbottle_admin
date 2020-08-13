@@ -110,7 +110,7 @@ class List extends Component {
 
 	getUserFamilyCategory() {
     _fetch("/api/product/userFamilyCategory", "GET", null, (data) => {
-      if(data[1].length !== 0) {
+      if(data.length !== 0) {
         //this.props.checkCategoryId(data[1][0].id)
         this.setState({ userCategoryData: data });
       } else {
