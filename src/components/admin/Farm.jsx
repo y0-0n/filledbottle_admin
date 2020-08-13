@@ -13,16 +13,16 @@ const Farm = () => {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState();
 
-  const listCount = 15
+  const perPage = 15
 
   useEffect(() => {
     _fetch('/api/admin/company/total', 'GET', null, (data) => {
-      setTotal(data[0].total/listCount)
+      setTotal(Math.ceil(data[0].total/perPage))
     })
   }, [])
 
   useEffect(() => {
-    _fetch(`/api/admin/company/list?page=${page}&perPage=${listCount}`, 'GET', null, (data) => {
+    _fetch(`/api/admin/company/list?page=${page}&perPage=${perPage}`, 'GET', null, (data) => {
       setData(data)
     })    
   }, [page])
