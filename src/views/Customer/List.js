@@ -44,7 +44,7 @@ class List extends Component {
   getTotal() {
     const keyword = this.props.keywordC;
 
-    fetch(process.env.REACT_APP_HOST+"/customer/total", {
+    fetch(process.env.REACT_APP_HOST+"/api/customer/total", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -75,7 +75,7 @@ class List extends Component {
     const keyword = this.props.keywordC;
     const page = this.props.pageNumbersC;
 
-    fetch(process.env.REACT_APP_HOST+"/customer/list", {
+    fetch(process.env.REACT_APP_HOST+"/api/customer/list", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -106,7 +106,7 @@ class List extends Component {
   deleteCustomer(id) {
     let c = window.confirm('위 고객을 비활성화하시겠습니까?')
     if (c) {
-      fetch(process.env.REACT_APP_HOST + "/customer", {
+      fetch(process.env.REACT_APP_HOST + "/api/customer", {
         method: 'DELETE',
         headers: {
           'Accept': 'application/json',
@@ -139,7 +139,7 @@ class List extends Component {
   activateCustomer(id) {
     let c = window.confirm('위 고객을 활성화하시겠습니까?')
     if (c) {
-      fetch(process.env.REACT_APP_HOST + "/customer", {
+      fetch(process.env.REACT_APP_HOST + "/api/customer", {
         method: 'PUT',
         headers: {
           'Accept': 'application/json',
