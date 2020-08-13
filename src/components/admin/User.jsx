@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 import { Button} from 'reactstrap';
 import Table from "../common/Table";
 import Paginations from "../common/Pagination";
+import _fetch from '../../fetch';
 // import {getList} from './User'
 
 const User = () => {
@@ -13,59 +14,18 @@ const User = () => {
 
   const listCount = 15
   useEffect(() => {
-    fetch(process.env.REACT_APP_HOST + "/api/admin/users/total/", {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      }
+    _fetch("/api/admin/users/total/", 'GET', null, (data) => {
+      setTotal(Math.ceil(data[0].total/listCount))
     })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-        const status = data[0];
-        if (status === 200) {
-          setTotal(Math.ceil(data[1][0].total/listCount))
-        } else {
-          alert('로그인 하고 접근해주세요')
-          // this.props.history.push('/login')
-        }
-      });
   }, [])
 
   useEffect(() => {
-    fetch(process.env.REACT_APP_HOST + "/api/admin/users/list/", {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-      body: JSON.stringify({page})
+    _fetch("/api/admin/users/list/", 'POST', {page}, (data) => {
+      data.forEach(element => {
+        element.fn = () => {history.push('/admin/users/detail/' + element.id)}
+      });
+      setData(data)
     })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-        let status = data[0];
-        data[1].forEach(element => {
-          element.fn = () => {history.push('/admin/users/detail/' + element.id)}
-        });
-        if (status === 200)
-          setData(data[1])
-        else {
-          // alert('로그인 하고 접근해주세요');
-          // this.props.history.push('/login');
-        }
-      })
   }, [page])
 
   const tableProps = {
