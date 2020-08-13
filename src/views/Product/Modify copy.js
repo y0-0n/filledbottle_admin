@@ -6,6 +6,8 @@ import DatePicker from "react-datepicker";
 import { lastIndexOf } from 'core-js/fn/array';
 import {handleState} from '../common';
 import spinner from '../../assets/img/brand/loading_ani.gif'
+import _fetch from '../../fetch';
+import _handlePost from '../../handlePost';
 
 class Modify extends Component {
   constructor(props) {
@@ -145,27 +147,19 @@ class Modify extends Component {
   }
 
   getProduct() {
-    fetch(process.env.REACT_APP_HOST + "/product/" + this.props.match.params.id, {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        data[0].detail_file = data[0].detail_file.split('|');
-        this.setState({
-          price: data[0].price_shipping,
-          additional: data[0].additional, 
-          discount_price: data[0].discount_price, 
-          imageFile: process.env.REACT_APP_HOST + "/static/"+data[0].file_name, 
-          image : process.env.REACT_APP_HOST + "/static/" + data[0].file_name,
-          imageDetailFile : data[0].detail_file,
-          shippingDate: data[0].shippingDate,
-        }, ()=> {
-        })
-        this.setState({ data: data[0], category: data[0].categoryId });
-      });
+    _fetch("/product/" + this.props.match.params.id, "GET", null, (data) => {
+      data[0].detail_file = data[0].detail_file.split('|');
+      this.setState({
+        price: data[0].price_shipping,
+        additional: data[0].additional, 
+        discount_price: data[0].discount_price, 
+        imageFile: process.env.REACT_APP_HOST + "/static/"+data[0].file_name, 
+        image : process.env.REACT_APP_HOST + "/static/" + data[0].file_name,
+        imageDetailFile : data[0].detail_file,
+        // shippingDate: data[0].shippingDate,
+      })
+      this.setState({ data: data[0], category: data[0].categoryId });
+    });
   }
 
   // handleFileInput(e){
@@ -201,93 +195,56 @@ class Modify extends Component {
       for (let [key, value] of Object.entries(this.state.data)) {
         formData.append(key, value);
       }
-      fetch(process.env.REACT_APP_HOST + "/product/modify/" + this.props.match.params.id, {
-        method: 'PUT',
-        'Content-Type': 'multipart/form-data',
-        headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem('token'),
-        },
-        body: formData
+      
+      _handlePost("/product/modify/" + this.props.match.params.id, 'PUT', formData, (data) => {
+        alert('수정됐습니다.');
+        this.props.history.push('/main/product/' + this.props.match.params.id);
       })
-        .then(response => {
-          if (response.status === 401) {
-            return Promise.all([401])
-          } else {
-            return Promise.all([response.status, response.json()]);
-          }
-        })
-        .then(data => {
-          let status = data[0];
-          if (status === 200) {
-            alert('수정됐습니다.');
-            this.props.history.push('/main/product/' + this.props.match.params.id);
-          } else {
-            alert('수정에 실패했습니다.');
-          }
-        });
+
+      // fetch(process.env.REACT_APP_HOST + "/product/modify/" + this.props.match.params.id, {
+      //   method: 'PUT',
+      //   'Content-Type': 'multipart/form-data',
+      //   headers: {
+      //     'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      //   },
+      //   body: formData
+      // })
+      //   .then(response => {
+      //     if (response.status === 401) {
+      //       return Promise.all([401])
+      //     } else {
+      //       return Promise.all([response.status, response.json()]);
+      //     }
+      //   })
+      //   .then(data => {
+      //     let status = data[0];
+      //     if (status === 200) {
+      //       alert('수정됐습니다.');
+      //       this.props.history.push('/main/product/' + this.props.match.params.id);
+      //     } else {
+      //       alert('수정에 실패했습니다.');
+      //     }
+      //   });
     }
   }
 
   getUserFamilyCategory() {
-    fetch(process.env.REACT_APP_HOST + "/api/product/userFamilyCategory", {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-    })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-        let status = data[0];
-        if (status === 200){
-          if(data[1].length !== 0) {
-            // this.props.checkCategoryId(data[1][0].id)
-            this.setState({ userCategoryData: data[1], category: data[1][0].id}, () => {
-              // this.getProductFamily();
-            });
-          } else {
-            this.setState({
-              checkCategory: false
-            })
-          }
-        }
-        else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-      })
+    _fetch("/api/product/userFamilyCategory", "GET", null, (data) => {
+      if(data[1].length !== 0) {
+        this.setState({ userCategoryData: data, category: data.id});
+      } else {
+        this.setState({
+          checkCategory: false
+        })
+      }
+    });
   }
 
   getProductFamily() {
-    fetch(process.env.REACT_APP_HOST + "/api/product/familyList/"+this.state.category, {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-    })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-        let status = data[0];
-        if (status === 200) {
-          this.setState({ familyData: data[1] });
-          this.state.data.productFamily = data[1][0].id;
-        }
-        else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-      })
+    _fetch("/api/product/familyList/"+this.state.category, "GET", null, (data) => {
+      this.setState({ familyData: data });
+      this.state.data.productFamily = data.id;
+    });
   }
   
   async createFile(){

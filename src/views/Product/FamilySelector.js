@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Nav, NavItem, NavLink} from 'reactstrap';
-
+import _fetch from '../../fetch';
 
 class familySelector extends Component {
   constructor(props) {
@@ -13,6 +13,11 @@ class familySelector extends Component {
     }
   }
 
+  componentDidMount() {
+		this.getAllFamily();
+		this.getFamilyCategory();
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (prevState.category !== this.state.category) {
       this.getAllFamily();
@@ -20,54 +25,14 @@ class familySelector extends Component {
   }
 
   getFamilyCategory() {
-		fetch(process.env.REACT_APP_HOST + "/api/product/familyCategory", {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-    })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-				let status = data[0];
-        if (status === 200){
-          this.setState({ categoryData: data[1] });
-        }
-        else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-      })
+    _fetch("/api/product/familyCategory", "GET", null, (data) => {
+      this.setState({ categoryData: data });
+    });
   }
   
   getAllFamily() {
-    fetch(process.env.REACT_APP_HOST+"/api/product/allFamily/"+this.state.category, {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-    })
-    .then(response => {
-      if(response.status === 401) {
-        return Promise.all([401])
-      } else {
-        return Promise.all([response.status, response.json()]);
-      }
-    })
-    .then(data => {
-			let status = data[0];
-      if(status === 200){
-				this.setState({allFamilyData: data[1]});
-			}
-      else {
-        alert('로그인 하고 접근해주세요');
-        this.props.history.push('/login');
-      }
+    _fetch("/api/product/allFamily/"+this.state.category, "GET", null, (data) => {
+      this.setState({allFamilyData: data});
     });
   }
 
@@ -77,11 +42,6 @@ class familySelector extends Component {
 
   passStateToParent = () => {
     this.props.receiveStateFromChild(this.state.category, this.state.productFamily);
-  }
-
-  componentWillMount() {
-		this.getAllFamily();
-		this.getFamilyCategory();
   }
 
   scrollToNext() {

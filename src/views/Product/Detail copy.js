@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Col, Row, Button, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 import DatePicker from "react-datepicker";
-
+import _fetch from '../../fetch';
 
 class Detail extends Component {
   constructor(props) {
@@ -11,74 +11,29 @@ class Detail extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.getProduct();
   }
 
   getProduct() {
-    fetch(process.env.REACT_APP_HOST + "/product/" + this.props.match.params.id, {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        data[0].detail_file = data[0].detail_file.split('|');
-        this.setState({price: data[0].price_shipping, discount_price: data[0].discount_price})
-				this.setState({ data: data[0] })
-			});
+    _fetch("/product/" + this.props.match.params.id, "GET", null, (data) => {
+      data[0].detail_file = data[0].detail_file.split('|');
+      this.setState({price: data[0].price_shipping, discount_price: data[0].discount_price})
+      this.setState({ data: data[0] })
+    });
   }
 
   deactivateProduct(id) {
     let c = window.confirm('Are you sure you wish to delete this item?')
     if (c) {
-      fetch(process.env.REACT_APP_HOST + "/product/deactivate", {
-        method: 'PUT',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage.getItem('token'),
-        },
-        body: JSON.stringify({
-          id
-        })
-      })
-        .then(response => response.json())
-        .then(_ => { this.getProduct() });
+      _fetch("/product/deactivate", 'PUT', {id}, _ => { this.getProduct() });
     }
   }
 
   activateProduct(id) {
     let c = window.confirm('이 품목을 활성화하시겠습니까?')
     if (c) {
-      fetch(process.env.REACT_APP_HOST + "/product/activate", {
-        method: 'PUT',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + localStorage.getItem('token'),
-        },
-        body: JSON.stringify({
-          id
-        })
-      })
-        .then(response => {
-          if (response.status === 401) {
-            return Promise.all([401])
-          } else {
-            return Promise.all([response.status, response.json()]);
-          }
-        })
-        .then(data => {
-          let status = data[0];
-          if (status === 200)
-            window.location.reload(false);
-          else {
-            alert('로그인 하고 접근해주세요')
-            this.props.history.push('/login')
-          }
-        });
+      _fetch("/product/activate", 'PUT', {id}, (data) => { window.location.reload(false); });
     }
   }
 

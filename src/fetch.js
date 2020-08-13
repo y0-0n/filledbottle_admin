@@ -28,3 +28,4 @@ export default function _fetch(url, method, body, callback) {
     alert(err);
   })
 }
+

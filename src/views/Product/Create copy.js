@@ -3,6 +3,8 @@ import {Button, Col, Row, Input, Table, InputGroup, InputGroupAddon} from 'react
 import DatePicker from "react-datepicker";
 import FamilySelector from "./FamilySelector";
 import {handleState} from '../common';
+import _fetch from '../../fetch';
+import _handlePost from '../../handlePost';
 
 class CreateProduct extends Component {
   constructor(props) {
@@ -46,7 +48,7 @@ class CreateProduct extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     //this.getProductFamily();
     this.getUserFamilyCategory();
   }
@@ -104,100 +106,64 @@ class CreateProduct extends Component {
     formData.set('shippingEndDate', this.convertDateFormat(this.state.data.shippingEndDate));
 
     if(this.state.data.category === 1 && this.state.data.productFamily=== 0) alert('품목군을 선택해주세요')
-    else { fetch(process.env.REACT_APP_HOST + "/product", {
-      method: 'POST',
-      'Content-Type': 'multipart/form-data',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-      body: formData
-    })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
+    else { 
+      _handlePost("/product", 'POST', formData, (data) => {
+        alert('등록됐습니다.');
+        this.props.history.push('/main/product/list/primary');
       })
-      .then(data => {
-        let status = data[0];
-        if (status === 200) {
-          alert('등록됐습니다.');
-          this.props.history.push('/main/product/list/primary');
-        } else {
-          alert('등록에 실패했습니다.');
-        }
-      });
+    //   fetch(process.env.REACT_APP_HOST + "/product", {
+    //   method: 'POST',
+    //   'Content-Type': 'multipart/form-data',
+    //   headers: {
+    //     'Authorization': 'Bearer ' + localStorage.getItem('token'),
+    //   },
+    //   body: formData
+    // })
+    //   .then(response => {
+    //     if (response.status === 401) {
+    //       return Promise.all([401])
+    //     } else {
+    //       return Promise.all([response.status, response.json()]);
+    //     }
+    //   })
+    //   .then(data => {
+    //     let status = data[0];
+    //     if (status === 200) {
+    //       alert('등록됐습니다.');
+    //       this.props.history.push('/main/product/list/primary');
+    //     } else {
+    //       alert('등록에 실패했습니다.');
+    //     }
+    //   });
     }
   }
 
   getUserFamilyCategory() {
-    fetch(process.env.REACT_APP_HOST + "/api/product/familyCategory", {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-    })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-        let status = data[0];
-        if (status === 200){
-          if(data[1].length !== 0) {
-            //this.props.checkCategoryId(data[1][0].id)
-            this.setState({ userCategoryData: data[1], category: data[1][0].id});
-          } else {
-            this.setState({
-              checkCategory: false
-            })
-          }
-
-        }
-        else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-      })
+    _fetch("/api/product/familyCategory", "GET", null, (data) => {
+      if(data[1].length !== 0) {
+        //this.props.checkCategoryId(data[1][0].id)
+        this.setState({ userCategoryData: data, category: data.id});
+      } else {
+        this.setState({
+          checkCategory: false
+        })
+      }
+    });
   }
 
 
   getProductFamily() {
-    fetch(process.env.REACT_APP_HOST + "/api/product/allFamily/"+this.state.category, {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-    })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-        let status = data[0];
-
-        if (status === 200) {
-          if (data[1].length !== 0) {
-            this.setState({familyData: data[1]});
-          } else {
-            this.setState({
-              checkCategory: false
-            })
-            alert('품목군 추가를 해주세요');
-            this.props.history.push('/main/registerdetail')
-          }
-        } else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-      })
+    _fetch("/api/product/allFamily/"+this.state.category, "GET", null, (data) => {
+      if (data.length !== 0) {
+        this.setState({familyData: data});
+      } else {
+        this.setState({
+          checkCategory: false
+        })
+        alert('품목군 추가를 해주세요');
+        this.props.history.push('/main/registerdetail')
+      }
+    });
   }
 
   receiveStateFromChild = (category_value, productFamily_value) => {

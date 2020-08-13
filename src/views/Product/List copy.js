@@ -89,7 +89,7 @@ class List extends Component {
       for(var i =0 ; i < 3; i++) {
         stateCount[i] = 0
       }
-      data[1].map((e,i) => {
+      data.map((e,i) => {
         if(e.count)
           stateCount[e.state-1] = e.count
       })
@@ -165,7 +165,7 @@ class List extends Component {
 
   getProductFamily() {
     _fetch("/api/product/familyList/"+this.props.category, "GET", null, (data) => {
-      this.setState({ familyData: data[1] });
+      this.setState({ familyData: data });
     });
   }
 
