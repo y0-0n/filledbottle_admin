@@ -17,11 +17,12 @@ const CreateUser = () => {
       alert('비밀번호와 비밀번호 반복이 일치하는지 확인해주세요');
       return;
     }
-    fetch(process.env.REACT_APP_HOST + "/api/auth/signup", {
+    fetch(process.env.REACT_APP_HOST + "/api/admin/users/create", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
       },
       body: JSON.stringify(form)
     })
@@ -59,10 +60,9 @@ const CreateUser = () => {
     setForm(
       {
         name: formName,
-        farmName: formFarmName,
+        farmId: formFarmName,
         email: formEmail,
         password: formPassword,
-        passwordC: formPasswordC,
         phone: formPhone,
       }
     );
