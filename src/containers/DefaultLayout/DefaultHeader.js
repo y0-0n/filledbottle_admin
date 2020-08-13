@@ -45,7 +45,7 @@ class DefaultHeader extends Component {
           this.setState({ data: data[1][0] });
         else {
           // alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
+          // this.props.history.push('/login');
         }
       })
   }

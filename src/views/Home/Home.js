@@ -57,14 +57,14 @@ class Home extends Component {
   }
 
   componentWillMount() {
-		this.getOrder(moment().startOf('week'), moment().endOf('week'))
-    this.getOrderState(moment().startOf('month')._d, moment().endOf('month')._d);
-    this.getTodayShipping();
-    this.getIncome();
-    this.getReceive();
-		this.getAmount();
-    this.chart();
-		this.getToday();
+		// this.getOrder(moment().startOf('week'), moment().endOf('week'))
+    // this.getOrderState(moment().startOf('month')._d, moment().endOf('month')._d);
+    // this.getTodayShipping();
+    // this.getIncome();
+    // this.getReceive();
+		// this.getAmount();
+    // this.chart();
+		// this.getToday();
 		
     // console.warn(queryString.parse(this.props.location.search).refresh_token)
     const cafe24Token = queryString.parse(this.props.location.search)
@@ -102,7 +102,7 @@ class Home extends Component {
         this.setState({this_income});
       } else {
         // alert('로그인 하고 접근해주세요')
-        this.props.history.push('/login')
+        // this.props.history.push('/login')
       }
     })
 
@@ -127,7 +127,7 @@ class Home extends Component {
         this.setState({last_income});
       } else {
         // alert('로그인 하고 접근해주세요')
-        this.props.history.push('/login')
+        // this.props.history.push('/login')
       }
     })
   }
@@ -158,7 +158,7 @@ class Home extends Component {
         this.setState({this_receive});
       } else {
         // alert('로그인 하고 접근해주세요')
-        this.props.history.push('/login')
+        // this.props.history.push('/login')
       }
     })
 
@@ -183,7 +183,7 @@ class Home extends Component {
         this.setState({last_receive});
       } else {
         // alert('로그인 하고 접근해주세요')
-        this.props.history.push('/login')
+        // this.props.history.push('/login')
       }
     })
 	}
@@ -212,7 +212,7 @@ class Home extends Component {
         this.setState({this_amount});
       } else {
         // alert('로그인 하고 접근해주세요')
-        this.props.history.push('/login')
+        // this.props.history.push('/login')
       }
     })
 
@@ -236,7 +236,7 @@ class Home extends Component {
 				this.setState({last_amount});
       } else {
         // alert('로그인 하고 접근해주세요')
-        this.props.history.push('/login')
+        // this.props.history.push('/login')
       }
     })
 	}
@@ -306,7 +306,7 @@ class Home extends Component {
           });
         } else {
           // alert('로그인 하고 접근해주세요')
-          this.props.history.push('/login')
+          // this.props.history.push('/login')
         }
       });
   }
@@ -337,7 +337,7 @@ class Home extends Component {
         this.setState({orderData2})
       } else {
         // alert('로그인 하고 접근해주세요')
-        this.props.history.push('/login')
+        // this.props.history.push('/login')
       }
     });
   }
@@ -366,7 +366,7 @@ class Home extends Component {
         this.setState({orderData3})
       } else {
         // alert('로그인 하고 접근해주세요')
-        this.props.history.push('/login')
+        // this.props.history.push('/login')
       }
     });
   }
