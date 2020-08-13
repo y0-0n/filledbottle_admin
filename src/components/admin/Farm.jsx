@@ -24,7 +24,7 @@ const Farm = () => {
   useEffect(() => {
     _fetch(`/api/admin/company/list?page=${page}&perPage=${listCount}`, 'GET', null, (data) => {
       data.forEach(element => {
-        element.fn = () => {history.push('/admin/users/detail/' + element.id)}
+        element.fn = () => {history.push('/admin/farm/detail/' + element.id)}
       });
       setData(data)
     })    
