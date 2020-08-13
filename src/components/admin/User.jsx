@@ -32,7 +32,7 @@ const User = () => {
           setTotal(Math.ceil(data[1][0].total/listCount))
         } else {
           alert('로그인 하고 접근해주세요')
-          this.props.history.push('/login')
+          // this.props.history.push('/login')
         }
       });
   }, [])
@@ -62,8 +62,8 @@ const User = () => {
         if (status === 200)
           setData(data[1])
         else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
+          // alert('로그인 하고 접근해주세요');
+          // this.props.history.push('/login');
         }
       })
   }, [page])
