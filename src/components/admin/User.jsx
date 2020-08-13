@@ -33,9 +33,8 @@ const User = () => {
       id: '#',
       name : '이름',
       email : '아이디( 이메일 )',
-      phone : '전화번호',
-      address : '주소',
-      crNumber : '사업자 등록번호',
+      farm : '근무농장',
+      position : '직책',
     },
     tds : data,
   };
