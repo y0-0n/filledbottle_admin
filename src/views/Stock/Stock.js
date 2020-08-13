@@ -231,6 +231,13 @@ class Stock extends Component {
     return textDate;
   }
 
+  scrollBtn(type) {
+    if (type === 'left')
+      document.getElementById('category-list').scrollLeft -= 150;
+    else
+      document.getElementById('category-list').scrollLeft += 150;
+  }
+
   render() {
     let {stockData, plantData, familyData} = this.state;
     var {family, pageNumbersS} = this.props;
@@ -244,17 +251,17 @@ class Stock extends Component {
 
         <Row>
           <Col md="12" xs="12" sm="12">
-						<Table className="category-top">
-              <tbody>
-                <tr>
-                  {/*<td style={{cursor: "pointer", backgroundColor: this.state.plant==='all' ? '#E6E6E6' : '#fff'}} onClick={() => {this.changePlant('all')}}>전체</td>*/}
-                  { this. state.checkCategory ?
-                    plantData.map((e,i) => {
-                      return (
-                        <td key={i} className='list-plant' style={{backgroundColor: this.props.plant===e.id ? '#E6E6E6' : '#fff'}} onClick={() => {this.props.checkPlant(e.id)}}>{e.name}</td>
-                      )
-                    })
-                    :
+            <div className="category-box list-hidden" style={{marginBottom : 10}}>
+              <div className="category-btn" onClick={()=> {this.scrollBtn('left')}}>
+                <img src="/img/left-arrow.png" />
+              </div>
+              <div className="category-list">
+                <ul id="category-list">
+                  { this.state.checkCategory ?
+                    plantData.map((e, i) => {
+                    return <li key={i} style={{backgroundColor: this.props.plant===e.id ? '#E6E6E6' : '#fff'}} onClick={() => {this.props.checkPlant(e.id)}}>{e.name}</li>
+                  })
+                  :
                     <div style={{textAlign: "left", padding: 30}}>
                       <div style={{ display: "table-cell" }}>
                         <i style={{ marginRight: 10 }} class="fa fa-exclamation-circle"></i>
@@ -268,9 +275,12 @@ class Stock extends Component {
                       </div>
                     </div>
                   }
-                </tr>
-              </tbody>
-            </Table>
+                </ul>
+              </div>
+              <div className="category-btn" onClick={()=> {this.scrollBtn('right')}}>
+                <img src="/img/right-arrow.png" />
+              </div>
+            </div>
             <div className="search-box">
               <div className="search-list">
                 <label className="search-label">품목군</label>

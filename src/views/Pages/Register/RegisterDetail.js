@@ -44,28 +44,9 @@ class RegisterDetail extends Component {
   }
 
   getUserDetail() {
-    fetch(process.env.REACT_APP_HOST+"/api/auth/info", {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
+    _fetch("/api/auth/info", "GET", null, (data) => {
+      this.setState({ userData: data[0] });
     })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-        let status = data[0];
-        if (status === 200)
-          this.setState({ userData: data[1][0] });
-        else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-      })
   }
   
   getCompanyDetail() {
@@ -75,174 +56,25 @@ class RegisterDetail extends Component {
   }
 	
   getPlantList() {
-    fetch(process.env.REACT_APP_HOST+"/api/plant", {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
+    _fetch("/api/plant", "GET", null, (data) => {
+      this.setState({plantData: data});
     })
-    .then(response => {
-      if(response.status === 401) {
-        return Promise.all([401])
-      } else {
-        return Promise.all([response.status, response.json()]);
-      }
-    })
-    .then(data => {
-			let status = data[0];
-      if(status === 200){
-				this.setState({plantData: data[1]});
-			}
-      else {
-        alert('로그인 하고 접근해주세요');
-        this.props.history.push('/login');
-      }
-    });
-	}
-
-  getAllFamily() {
-    fetch(process.env.REACT_APP_HOST+"/api/product/allFamily/"+this.state.category, {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-    })
-    .then(response => {
-      if(response.status === 401) {
-        return Promise.all([401])
-      } else {
-        return Promise.all([response.status, response.json()]);
-      }
-    })
-    .then(data => {
-			let status = data[0];
-      if(status === 200){
-				this.setState({allFamilyData: data[1]});
-			}
-      else {
-        alert('로그인 하고 접근해주세요');
-        this.props.history.push('/login');
-      }
-    });
-  }
-
-	getProductFamily() {
-    fetch(process.env.REACT_APP_HOST + "/api/product/familyList/"+this.state.category, {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-    })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-				let status = data[0];
-        if (status === 200){
-					this.setState({ familyData: data[1] });
-					//이 부분 나중에 콜백으로 바꾸기
-					this.setState({
-						addFamilyList: [],
-						deleteFamilyList: [],
-						modify: false
-					});
-        }
-        else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-      })
 	}
 	
 	addPlant() {
-		fetch(process.env.REACT_APP_HOST + "/api/plant/", {
-      method: 'POST',
-      headers: {
-				'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-			},
-			body: JSON.stringify(
-        {
-          plantName: this.newPlant
-        }
-      )
+    const plantName = this.newPlant
+    _fetch("/api/plant/", "POST", {plantName}, (data) => {
+      this.getPlantList();
+      alert('추가되었습니다.');
+      window.location.reload();
     })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-				let status = data[0];
-        if (status === 200){
-          this.getPlantList();
-          alert('추가되었습니다.');
-          window.location.reload();
-        }
-        else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-      })
 	}
 
 	deactivatePlant(plant) {
-		fetch(process.env.REACT_APP_HOST + "/api/plant/deactivate/"+plant.id, {
-      method: 'PUT',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-			},
+    _fetch("/api/plant/deactivate/"+plant.id, "PUT", null, (data) => {
+      window.location.reload();
     })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-				let status = data[0];
-        if (status === 200){
-          window.location.reload();
-        }
-        else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-      })	}
-
-	getFamilyCategory() {
-		fetch(process.env.REACT_APP_HOST + "/api/product/familyCategory", {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-    })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-				let status = data[0];
-        if (status === 200){
-          this.setState({ categoryData: data[1] });
-        }
-        else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-      })
-	}
+  }
 
   tabClick(category) {
     this.setState({category});
@@ -252,118 +84,76 @@ class RegisterDetail extends Component {
     this.getUserDetail();
     this.getCompanyDetail();
 		this.getPlantList();
-		this.getAllFamily();
-		this.getFamilyCategory();
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.category !== this.state.category) {
-			this.getAllFamily();
-    }
-
-    if (prevState.allFamilyData !== this.state.allFamilyData) {
-      this.getProductFamily();
-    }
   }
 
-  toggleList (list, e) {
-		if(this.state.modify){
-      if(list === this.state.deleteFamilyList) {
-        this.getProduct()
-        .then((result) => {
-          if(result){
-            if(!list.includes(e)) list.push(e)
-            else list.splice(list.indexOf(e),1)
-            this.forceUpdate();
-          }
-        })
-      }
-      else {
-        if(!list.includes(e)) list.push(e)
-        else list.splice(list.indexOf(e),1)
-        this.forceUpdate();
-      }
-		} else {
+  // toggleList (list, e) {
+	// 	if(this.state.modify){
+  //     if(list === this.state.deleteFamilyList) {
+  //       this.getProduct()
+  //       .then((result) => {
+  //         if(result){
+  //           if(!list.includes(e)) list.push(e)
+  //           else list.splice(list.indexOf(e),1)
+  //           this.forceUpdate();
+  //         }
+  //       })
+  //     }
+  //     else {
+  //       if(!list.includes(e)) list.push(e)
+  //       else list.splice(list.indexOf(e),1)
+  //       this.forceUpdate();
+  //     }
+	// 	} else {
 
-    }
-	}
-
-  modifyFamily() {
-		const {addFamilyList, deleteFamilyList} = this.state;
-		fetch(process.env.REACT_APP_HOST + "/api/product/modifyFamily", {
-      method: 'POST',
-      headers: {
-				'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-			},
-			body: JSON.stringify(
-        {
-          addFamilyList, deleteFamilyList
-        }
-      )    })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-				let status = data[0];
-        if (status === 200){
-          window.location.reload();
-        }
-        else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-      })
-  }
+  //   }
+  // }
   
-  async getProduct() {
-    const {family, category} = this.state;
-    let result = false;
-    await fetch(process.env.REACT_APP_HOST + "/product/list", {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-      body: JSON.stringify(
-        {
-          name: '', page: 'all', family, category
-        }
-      )
-    })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-        let status = data[0];
-        if (status === 200)
-          this.setState({ productData: data[1] }, () => {
-            console.warn(this.state.productData.length)
-            if(this.state.productData.length){
-              alert("품목이 존재함으로 삭제할 수 없습니다.");
-              result = false;
-            }
-            else {
-              result = true;
-            }
-          });
-        else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-      })
-    return result;
-  }
+  // async getProduct() {
+  //   const {family, category} = this.state;
+  //   let result = false;
+  //   await fetch(process.env.REACT_APP_HOST + "/product/list", {
+  //     method: 'POST',
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'Content-Type': 'application/json',
+  //       'Authorization': 'Bearer ' + localStorage.getItem('token'),
+  //     },
+  //     body: JSON.stringify(
+  //       {
+  //         name: '', page: 'all', family, category
+  //       }
+  //     )
+  //   })
+  //     .then(response => {
+  //       if (response.status === 401) {
+  //         return Promise.all([401])
+  //       } else {
+  //         return Promise.all([response.status, response.json()]);
+  //       }
+  //     })
+  //     .then(data => {
+  //       let status = data[0];
+  //       if (status === 200)
+  //         this.setState({ productData: data[1] }, () => {
+  //           console.warn(this.state.productData.length)
+  //           if(this.state.productData.length){
+  //             alert("품목이 존재함으로 삭제할 수 없습니다.");
+  //             result = false;
+  //           }
+  //           else {
+  //             result = true;
+  //           }
+  //         });
+  //       else {
+  //         alert('로그인 하고 접근해주세요');
+  //         this.props.history.push('/login');
+  //       }
+  //     })
+  //   return result;
+  // }
 
   getDiffDate(dateInput) {
     var d = new Date(dateInput);
@@ -422,6 +212,19 @@ class RegisterDetail extends Component {
                         {userData.email}
                       </td>
                     </tr>
+                  </tbody>
+                </Table>
+              </CardBody>
+            </Card>
+            <Card>
+              <CardHeader>
+                <Row>
+                  <Col>농장 정보</Col>
+                </Row>
+              </CardHeader>
+              <CardBody>
+                <Table className="ShowTable">
+                  <tbody>
                     <tr>
                       <th>전화번호</th>
                       <td>

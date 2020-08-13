@@ -23,6 +23,9 @@ const Farm = () => {
 
   useEffect(() => {
     _fetch(`/api/admin/company/list?page=${page}&perPage=${perPage}`, 'GET', null, (data) => {
+      data.forEach(element => {
+        element.fn = () => {history.push('/admin/farm/detail/' + element.id)}
+      });
       setData(data)
     })    
   }, [page])
@@ -30,10 +33,10 @@ const Farm = () => {
   const tableProps = {
     ths: {
       id: '#',
-      name : '농장 이름',
-      phone : '전화번호',
+      farmName : '농장 이름',
+      name : '대표자 이름',
+      phone : '대표자 연락처',
       address : '주소',
-      crNumber : '사업자 등록번호',
     },
     tds : data,
   };
@@ -49,9 +52,10 @@ const Farm = () => {
       <link rel="stylesheet" type="text/css" href="css/ListCopy.css"></link>
       <div className="list-card">
         <div className="list-title">
-            <span>
-            농장 목록
-            </span>
+          <span>농장 목록</span>
+          <div style={{ float: "right" }}>
+            <Button style={{ marginBottom: 10 }} onClick={() => { history.push('/admin/farm/create'); }} color="primary">농장 등록</Button>
+          </div>
         </div>
         <div style={{ marginTop: 10 }} className="list-box">
           <Table {...tableProps}/>
