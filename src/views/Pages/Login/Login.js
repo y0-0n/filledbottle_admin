@@ -10,16 +10,11 @@ class Login extends Component {
       email: '',
       password: ''
     };
-    this.logout();
   }   
 
   componentWillMount() {
   }
   
-  logout() {
-    localStorage.removeItem('token');
-  }
-
   login(e) {
     e.preventDefault();
     fetch(process.env.REACT_APP_HOST+"/api/auth/login", {
