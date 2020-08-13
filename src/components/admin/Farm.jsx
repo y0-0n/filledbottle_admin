@@ -23,6 +23,9 @@ const Farm = () => {
 
   useEffect(() => {
     _fetch(`/api/admin/company/list?page=${page}&perPage=${listCount}`, 'GET', null, (data) => {
+      data.forEach(element => {
+        element.fn = () => {history.push('/admin/users/detail/' + element.id)}
+      });
       setData(data)
     })    
   }, [page])
@@ -30,9 +33,11 @@ const Farm = () => {
   const tableProps = {
     ths: {
       id: '#',
-      name : '농장 이름',
-      phone : '전화번호',
+      farmName : '농장 이름',
+      name : '대표자 이름',
+      phone : '대표자 연락처',
       address : '주소',
+      img : '생산자 이미지',
       crNumber : '사업자 등록번호',
     },
     tds : data,
