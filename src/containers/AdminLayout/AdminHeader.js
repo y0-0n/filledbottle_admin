@@ -6,7 +6,7 @@ import { DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem } from 'reacts
 import PropTypes from 'prop-types';
 import { AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
 //import { AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
-
+import _fetch from '../../fetch';
 import logo from '../../assets/img/brand/logo.JPG'
 import sygnet from '../../assets/img/brand/sygnet.svg'
 
@@ -26,28 +26,9 @@ class DefaultHeader extends Component {
   }
 
   getDetail() {
-    fetch(process.env.REACT_APP_HOST+"/api/auth/info", {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
+    _fetch('/api/auth/info', 'GET', null, (data) => {
+      this.setState({data: data[0]})
     })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-        let status = data[0];
-        if (status === 200)
-          this.setState({ data: data[1][0] });
-        else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-      })
   }
 
   componentWillMount() {
