@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Card, CardBody, CardFooter, InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
 import { useHistory } from 'react-router-dom'
 import { sample6_execDaumPostcode } from './AddAddress'
+import _fetch from '../../fetch';
 
 const CreateFarm = () => {
   const history = useHistory()
@@ -22,46 +23,16 @@ const CreateFarm = () => {
       return;
     }
 
-    fetch(process.env.REACT_APP_HOST + "/api/auth/signup", {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(form)
-    })
-      .then(response => {
-        return Promise.all([response.status, response.json()]);
-      })
-      .then(data => {
-        let status = data[0];
-        if (status === 422) {
-          let { errors } = data[1];
-          // console.log(errors)
-          errors.map(function (e, _) {
-            switch (e.param) {
-              case 'name': alert('성명을 확인해주세요'); break;
-              default: break;
-            }
-            return null;
-          })
-          return;
-        } else if (status === 400) {
-          alert('이미 존재하는 이메일 계정입니다.');
-          return;
-        } else if (status === 500) {
-          alert('회원가입을 실패했습니다.');
-          return;
-        }
-        alert('성공적으로 회원가입 됐습니다.');
-        history.push('/login');
-      });
+    _fetch("/api/admin/company/create", 'POST', form, (data) => {
+      alert('성공적으로 회원가입 됐습니다.');
+      history.push('/admin/farm/list');
+    });
   }
 
   useEffect(() => {
     setForm(
       {
-        name: formFarmName,
+        // name: formFarmName,
         name: formName,
         phone: formPhone,
         address: document.getElementById("sample6_address").value,

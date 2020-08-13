@@ -52,7 +52,7 @@ const CreateUser = () => {
           return;
         }
         alert('성공적으로 회원가입 됐습니다.');
-        history.push('/login');
+        history.push('/admin/users/list');
       });
   }
 
