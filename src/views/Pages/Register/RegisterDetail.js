@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardHeader, Col, Input, InputGroup, InputGroupAddon, Row, Table } from 'reactstrap';
-
+import _fetch from '../../../fetch';
 // const employee = [
 //   {
 //       name: '정소원',
@@ -20,7 +20,8 @@ class RegisterDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-			data: [[]],
+      userData: {},
+      companyData: {},
 			plantData: [],
 			familyInPlantData: [],
 			allFamilyData: [],
@@ -42,7 +43,7 @@ class RegisterDetail extends Component {
     }
   }
 
-  getDetail() {
+  getUserDetail() {
     fetch(process.env.REACT_APP_HOST+"/api/auth/info", {
       method: 'GET',
       headers: {
@@ -59,13 +60,19 @@ class RegisterDetail extends Component {
       .then(data => {
         let status = data[0];
         if (status === 200)
-          this.setState({ data: data[1][0] });
+          this.setState({ userData: data[1][0] });
         else {
           alert('로그인 하고 접근해주세요');
           this.props.history.push('/login');
         }
       })
-	}
+  }
+  
+  getCompanyDetail() {
+    _fetch('/api/company/info', "GET", null, (data) => {
+      this.setState({ companyData: data[0] });
+    })
+  }
 	
   getPlantList() {
     fetch(process.env.REACT_APP_HOST+"/api/plant", {
@@ -241,8 +248,9 @@ class RegisterDetail extends Component {
     this.setState({category});
   }
 	
-  componentWillMount() {
-		this.getDetail();
+  componentDidMount() {
+    this.getUserDetail();
+    this.getCompanyDetail();
 		this.getPlantList();
 		this.getAllFamily();
 		this.getFamilyCategory();
@@ -366,8 +374,8 @@ class RegisterDetail extends Component {
   }
 
   render() {
-    console.log(this.state.data)
-    const {data, plantData, } = this.state;
+    const {userData, companyData, plantData, } = this.state;
+    // console.warn(userData, companyData)
     return (
 			<div className="animated fadeIn">
         <link rel="stylesheet" type="text/css" href="css/Table.css"></link>
@@ -407,41 +415,41 @@ class RegisterDetail extends Component {
                     <tr>
                       <th>이름</th>
                       <td>
-                        {data.name}
+                        {userData.name}
                       </td>
                       <th>아이디</th>
                       <td>
-                        {data.email}
+                        {userData.email}
                       </td>
                     </tr>
                     <tr>
                       <th>전화번호</th>
                       <td>
-                        {data.phone}
+                        {companyData.phone}
                       </td>
                       <th>사업자등록번호</th>
                       <td>
-                        {data.crNumber}
+                        {companyData.crNumber}
                       </td>
                     </tr>
                     <tr>
                       <th>주소</th>
                       <td>
-                        {data.address} {data.addressDetail} ({data.postcode})
+                        {companyData.address} {companyData.addressDetail} ({companyData.postcode})
                       </td>
                       <th>계좌번호</th>
                       <td>
-                        {data.accountName} {data.accountNumber}
+                        {companyData.accountName} {companyData.accountNumber}
                       </td>
                     </tr>
                     <tr>
                       <th>상점 이름</th>
                       <td style={{textAlign: 'center'}}>
-                        <p>{this.state.storeName}</p>
+                        <p>{companyData.name}</p>
                       </td>
                       <th>상점 사진</th>
                       <td>
-                        <img style={{width: '500px'}} alt="품목 사진" src={data.file_name ? process.env.REACT_APP_HOST+"/static/" + data.file_name : '318x180.svg'} />
+                        <img style={{width: '500px'}} alt="품목 사진" src={companyData.file_name ? process.env.REACT_APP_HOST+"/static/" + companyData.file_name : '318x180.svg'} />
                       </td>
                     </tr>
                   </tbody>
