@@ -212,6 +212,19 @@ class RegisterDetail extends Component {
                         {userData.email}
                       </td>
                     </tr>
+                  </tbody>
+                </Table>
+              </CardBody>
+            </Card>
+            <Card>
+              <CardHeader>
+                <Row>
+                  <Col>농장 정보</Col>
+                </Row>
+              </CardHeader>
+              <CardBody>
+                <Table className="ShowTable">
+                  <tbody>
                     <tr>
                       <th>전화번호</th>
                       <td>
