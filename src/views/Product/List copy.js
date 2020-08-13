@@ -84,75 +84,28 @@ class List extends Component {
 	
 	//상태별 품목 개수를 가져옴
 	getStateCount() {
-    const name = this.props.keywordP;
-
-    fetch(process.env.REACT_APP_HOST + "/api/product/stateCount", {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-    })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
+    _fetch("/api/product/stateCount", "GET", null, (data) => {
+      let stateCount = [];
+      for(var i =0 ; i < 3; i++) {
+        stateCount[i] = 0
+      }
+      data[1].map((e,i) => {
+        if(e.count)
+          stateCount[e.state-1] = e.count
       })
-      .then(data => {
-        const status = data[0];
-        if (status === 200) {
-          let stateCount = [];
-          for(var i =0 ; i < 3; i++) {
-            stateCount[i] = 0
-          }
-					data[1].map((e,i) => {
-            if(e.count)
-						  stateCount[e.state-1] = e.count
-          })
-          this.setState({ stateCount })
-        } else {
-          alert('로그인 하고 접근해주세요')
-          this.props.history.push('/login')
-        }
-      });
+      this.setState({ stateCount })
+    });
 	}
 
 
   //사용자의 (검색 결과에 해당하는) 품목의 개수를 받아옴
   getTotal() {
     const name = this.props.keywordP;
-    const {category, family, stateP} = this.props;
-
-    fetch(process.env.REACT_APP_HOST + "/product/total/", {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-      body: JSON.stringify(
-        {
-          name, family, category, state: stateP
-        }
-      )
-    })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-        const status = data[0];
-        if (status === 200) {
-          this.setState({ lastPage: Math.ceil(data[1][0].total / listCount), totalData: data[1][0].total })
-        } else {
-          alert('로그인 하고 접근해주세요')
-          this.props.history.push('/login')
-        }
-      });
+    const {category, family} = this.props;
+    const state = this.props.stateP;
+    _fetch('/product/total/', 'POST', {name, family, category, state}, (data) => {
+      this.setState({ lastPage: Math.ceil(data[0].total / listCount), totalData: data[0].total })
+    });
 	}
 
 	getUserFamilyCategory() {
@@ -189,29 +142,9 @@ class List extends Component {
 	}
 	
   excel() {
-    fetch(process.env.REACT_APP_HOST + "/api/product/excel", {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-    })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-				let status = data[0];
-        if (status === 200){
-					//this.setState({ stockData: data[1] });
-				}
-        else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-      });
+    _fetch("/api/product/excel", "GET", null, (data) => {
+      //this.setState({ stockData: data[1] });
+    });
   }
 
   changeStockEdit() {
@@ -231,29 +164,9 @@ class List extends Component {
 
 
   getProductFamily() {
-    fetch(process.env.REACT_APP_HOST + "/api/product/familyList/"+this.props.category, {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      },
-    })
-      .then(response => {
-        if (response.status === 401) {
-          return Promise.all([401])
-        } else {
-          return Promise.all([response.status, response.json()]);
-        }
-      })
-      .then(data => {
-				let status = data[0];
-        if (status === 200){
-          this.setState({ familyData: data[1] });
-        }
-        else {
-          alert('로그인 하고 접근해주세요');
-          this.props.history.push('/login');
-        }
-      })
+    _fetch("/api/product/familyList/"+this.props.category, "GET", null, (data) => {
+      this.setState({ familyData: data[1] });
+    });
   }
 
   // getCafe24Product() {
