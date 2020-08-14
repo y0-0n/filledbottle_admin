@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom'
-import { Button} from 'reactstrap';
+import { Button, Input } from 'reactstrap';
 import Table from "../../common/Table";
 import Paginations from "../../common/Pagination";
 import _fetch from '../../../fetch';
@@ -49,6 +49,23 @@ const User = () => {
   return (
     <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/ListCopy.css"></link>
+      <div className="search-box" style={{marginBottom : 10}}>
+        <div className="search-list">
+          <label className="search-label">근무 농장검색</label>
+          <div className="sell-input">
+            <Input className="searchbox-input" placeholder="근무 농장 이름을 검색해주세요." style={{width: "30%"}} />
+          </div>
+        </div>
+        <div className="search-list">
+          <label className="search-label">회원검색</label>
+          <div className="sell-input">
+            <Input className="searchbox-input" placeholder="회원 이름을 검색해주세요." style={{width: "30%"}} />
+          </div>
+        </div>
+        <div className="search-button" style={{textAlign: 'center', paddingBottom: "10px"}}>
+          <Button color="primary" style={{marginRight: 10}}>검색</Button>
+        </div>
+      </div>
       <div className="list-card">
         <div className="list-title">
           <span>회원 목록</span>
