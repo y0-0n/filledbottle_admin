@@ -13,7 +13,10 @@ const User = () => {
       data[0].mallVisible = data[0].mallVisible ? <Badge color="primary">공개</Badge> : <Badge color="danger">비공개</Badge>;
       data[0].createUsers = <NavLink to={`/admin/farm/createUser/${id}`} className="nav-link">회원 등록</NavLink>;
       setContent(data[0])
-    })
+    });
+    _fetch(`/api/admin/company/productList/${id}`, 'GET', null, (data) => {
+      console.warn(data)
+    });
   }, [])
 
   const detailProps = {
