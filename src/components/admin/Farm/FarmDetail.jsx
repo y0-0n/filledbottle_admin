@@ -19,13 +19,12 @@ const User = () => {
     });
     _fetch(`/api/admin/company/detail/${id}`, 'GET', null, (data) => {
       data[0].mallVisible = 
-      // <FormGroup row>
-      //   <FormControlLabel
-      //     control={<Switch checked={mallVisible} onChange={setMallVisible(true)} />}
-      //     label={mallVisible ? <Badge color="primary">공개</Badge> : <Badge color="danger">비공개</Badge>}
-      //   />
-      // </FormGroup>
-       data[0].mallVisible ? <Badge color="primary">공개</Badge> : <Badge color="danger">비공개</Badge>;
+      <FormGroup row>
+        <FormControlLabel
+          control={<Switch checked={mallVisible} onChange={() => setMallVisible(!mallVisible)} />}
+          label={mallVisible ? <Badge color="primary">공개</Badge> : <Badge color="danger">비공개</Badge>}
+        />
+      </FormGroup>
       data[0].createUsers = 
         <div>
           <NavLink style={{display: 'inline-block'}} to={`/admin/users/list`} className="nav-link">회원 목록</NavLink>
