@@ -125,7 +125,7 @@ class DefaultHeader extends Component {
               </DropdownItem>
               <DropdownItem>
                 <NavItem>
-                  <NavLink to="/login" className="nav-link"><i className="icon-lock"></i>로그아웃</NavLink>
+                  <NavLink to="/logout" className="nav-link"><i className="icon-lock"></i>로그아웃</NavLink>
                 </NavItem>
               </DropdownItem>
               {/*<DropdownItem header tag="div" className="text-center"><strong>Account</strong></DropdownItem>

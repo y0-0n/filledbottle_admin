@@ -35,7 +35,7 @@ class Login extends Component {
 				if(data[1].user.role === 5)
 					this.props.history.push('/admin');
 				else
-        	this.props.history.push('/');
+        	this.props.history.push('/main/home');
       } else {
         alert('아이디 혹은 비밀번호가 잘못됐습니다.');
       }

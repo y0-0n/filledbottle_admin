@@ -13,6 +13,7 @@ const AdminLayout = React.lazy(() => import('./containers/AdminLayout'));
 
 // Pages
 const Login = React.lazy(() => import('./views/Pages/Login'));
+const Logout = React.lazy(() => import('./views/Pages/Login/Logout'));
 const Register = React.lazy(() => import('./views/Pages/Register'));
 const Page404 = React.lazy(() => import('./views/Pages/Page404'));
 const Page500 = React.lazy(() => import('./views/Pages/Page500'));
@@ -26,6 +27,7 @@ class App extends Component {
           <ScrollToTop/>
           <Switch>
             <Route exact path="/login" name="Login Page" render={props => <Login {...props}/>} />
+            <Route exact path="/logout" name="Logout Page" render={props => <Logout {...props}/>} />
             <Route exact path="/register" name="Register Page" render={props => <Register {...props}/>} />
 						<Route path="/admin" name="Admin Page" render={props => <AdminLayout {...props}/>} />
             <Route exact path="/404" name="Page 404" render={props => <Page404 {...props}/>} />
