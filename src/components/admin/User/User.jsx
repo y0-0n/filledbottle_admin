@@ -12,15 +12,16 @@ const User = () => {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState();
 
-  const listCount = 15
+  const perPage = 15;
+  
   useEffect(() => {
     _fetch("/api/admin/users/total/", 'GET', null, (data) => {
-      setTotal(Math.ceil(data[0].total/listCount))
+      setTotal(Math.ceil(data[0].total/perPage))
     })
   }, [])
 
   useEffect(() => {
-    _fetch("/api/admin/users/list/", 'POST', {page}, (data) => {
+    _fetch(`/api/admin/users/list/?page=${page}&perPage=${perPage}&name=${''}`, 'GET', null, (data) => {
       data.forEach(element => {
         element.fn = () => {history.push('/admin/users/detail/' + element.id)}
       });
