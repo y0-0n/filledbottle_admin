@@ -15,18 +15,19 @@ const Farm = () => {
 
   const perPage = 15
 
-  useEffect(() => {
-    _fetch('/api/admin/company/total', 'GET', null, (data) => {
-      setTotal(Math.ceil(data[0].total/perPage))
-    })
-  }, [])
+  // useEffect(() => {
+  //   _fetch('/api/admin/company/total', 'GET', null, (data) => {
+  //     setTotal(Math.ceil(data[0].total/perPage))
+  //   })
+  // }, [])
 
   useEffect(() => {
-    _fetch(`/api/admin/company/list?page=${page}&perPage=${perPage}`, 'GET', null, (data) => {
-      data.forEach(element => {
+    _fetch(`/api/admin/company/list?page=${page}&perPage=${perPage}&name=${''}`, 'GET', null, (data) => {
+      data.list.forEach(element => {
         element.fn = () => {history.push('/admin/farm/detail/' + element.id)}
       });
-      setData(data)
+      setData(data.list);
+      setTotal(Math.ceil(data.total/perPage));
     })    
   }, [page])
 
