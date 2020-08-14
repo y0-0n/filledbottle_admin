@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Button} from 'reactstrap';
+import { Button, Input, Nav, NavItem, NavLink } from 'reactstrap';
 import Table from "../../common/Table";
 import Paginations from "../../common/Pagination";
+import ProductFamily from "../../common/ProductFamily";
 import { useHistory } from 'react-router-dom';
 import _fetch from '../../../fetch';
 // import {getList} from './User'
@@ -12,6 +13,10 @@ const Farm = () => {
   const [data, setData] = useState([])
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState();
+  const [category, setCategory] = useState();
+  const [categoryData, setCategoryData] = useState();
+  const [family, setFamily] = useState();
+  const [familyData, setFamilyData] = useState();
 
   const perPage = 15
 
@@ -31,6 +36,18 @@ const Farm = () => {
     })    
   }, [page])
 
+  useEffect(() => {
+    _fetch("/api/product/familyCategory", 'GET', null, (data) => {
+      setCategoryData(data)
+    })    
+  }, [])
+
+  useEffect(() => {
+    _fetch("/api/product/allFamily/" + category, 'GET', null, (data) => {
+      setFamilyData(data)
+    })    
+  }, [category])
+
   const tableProps = {
     ths: {
       id: '#',
@@ -47,10 +64,10 @@ const Farm = () => {
     total : total,
     setPage : setPage
   }
-
   return (
     <div className="animated fadeIn">
       <link rel="stylesheet" type="text/css" href="css/ListCopy.css"></link>
+      <ProductFamily />
       <div className="list-card">
         <div className="list-title">
           <span>농장 목록</span>
