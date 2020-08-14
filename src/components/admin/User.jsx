@@ -51,9 +51,9 @@ const User = () => {
       <div className="list-card">
         <div className="list-title">
           <span>회원 목록</span>
-          <div style={{ float: "right" }}>
+          {/* <div style={{ float: "right" }}>
             <Button style={{ marginBottom: 10 }} onClick={() => { history.push('/admin/users/create'); }} color="primary">회원 등록</Button>
-          </div>
+          </div> */}
         </div>
         <div style={{ marginTop: 10 }} className="list-box">
           <Table {...tableProps}/>

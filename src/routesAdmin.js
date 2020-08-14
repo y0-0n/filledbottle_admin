@@ -17,7 +17,7 @@ const routes = [
 	{ path: '/admin/home', name: '홈', component: Home},
 	{ path: '/admin/users/list', name: '회원 목록', component: User},
 	{ path: '/admin/users/detail/:id', name: '회원 상세', component: UserDetail},
-	{ path: '/admin/users/create', name: '회원 등록', component: CreateUser},
+	{ path: '/admin/farm/createUser/:id', name: '회원 등록', component: CreateUser},
 	{ path: '/admin/farm/list', name: '농장 목록', component: Farm},
 	{ path: '/admin/farm/detail/:id', name: '회원 상세', component: FarmDetail},
 	{ path: '/admin/farm/create', name: '농장 등록', component: CreateFarm},
