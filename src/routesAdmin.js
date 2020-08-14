@@ -1,12 +1,12 @@
 import React from 'react';
 
 const Home = React.lazy(() => import('./views/Admin/Home/Home'));
-const User = React.lazy(() => import('./components/admin/User.jsx'));
-const UserDetail = React.lazy(() => import('./components/admin/UserDetail.jsx'));
-const CreateUser = React.lazy(() => import('./components/admin/CreateUser.jsx'));
-const Farm = React.lazy(() => import('./components/admin/Farm.jsx'));
-const FarmDetail = React.lazy(() => import('./components/admin/FarmDetail.jsx'));
-const CreateFarm = React.lazy(() => import('./components/admin/CreateFarm.jsx'));
+const User = React.lazy(() => import('./components/admin/User/User.js'));
+const UserDetail = React.lazy(() => import('./components/admin/User/UserDetail.jsx'));
+const CreateUser = React.lazy(() => import('./components/admin/User/CreateUser.jsx'));
+const Farm = React.lazy(() => import('./components/admin/Farm/Farm.jsx'));
+const FarmDetail = React.lazy(() => import('./components/admin/Farm/FarmDetail.jsx'));
+const CreateFarm = React.lazy(() => import('./components/admin/Farm/CreateFarm.jsx'));
 const SuggestionList = React.lazy(() => import('./views/Admin/Suggestion/List'));
 const SuggestionDetail = React.lazy(() => import('./views/Admin/Suggestion/Detail'));
 const UserList = React.lazy(() => import('./views/Admin/Users/List'));

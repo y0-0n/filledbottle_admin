@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Card, CardBody, CardFooter, InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
 import { useHistory } from 'react-router-dom'
 import { sample6_execDaumPostcode } from './AddAddress'
-import _fetch from '../../fetch';
+import _fetch from '../../../fetch';
 
 const CreateFarm = () => {
   const history = useHistory()
