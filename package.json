@@ -34,7 +34,7 @@
     "node-sass": "^4.14.1",
     "prop-types": "^15.7.2",
     "public-ip": "^4.0.1",
-    "query-string": "^6.12.1",
+    "query-string": "^6.13.1",
     "react": "^16.8.6",
     "react-app-polyfill": "^1.0.1",
     "react-big-calendar": "^0.22.0",
