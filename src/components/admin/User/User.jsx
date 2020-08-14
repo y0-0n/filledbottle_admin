@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom'
 import { Button} from 'reactstrap';
-import Table from "../common/Table";
-import Paginations from "../common/Pagination";
-import _fetch from '../../fetch';
+import Table from "../../common/Table";
+import Paginations from "../../common/Pagination";
+import _fetch from '../../../fetch';
 // import {getList} from './User'
 
 const User = () => {

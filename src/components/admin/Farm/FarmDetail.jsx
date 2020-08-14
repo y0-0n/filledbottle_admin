@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom'
-import Detail from "../common/Detail";
-import _fetch from '../../fetch';
+import Detail from "../../common/Detail";
+import _fetch from '../../../fetch';
 import {Badge} from 'reactstrap';
 
 const User = () => {

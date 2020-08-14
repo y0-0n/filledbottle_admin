@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Home = React.lazy(() => import('./views/Admin/Home/Home'));
-const User = React.lazy(() => import('./components/admin/User/User.js'));
+const User = React.lazy(() => import('./components/admin/User/User.jsx'));
 const UserDetail = React.lazy(() => import('./components/admin/User/UserDetail.jsx'));
 const CreateUser = React.lazy(() => import('./components/admin/User/CreateUser.jsx'));
 const Farm = React.lazy(() => import('./components/admin/Farm/Farm.jsx'));

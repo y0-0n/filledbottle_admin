@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Button} from 'reactstrap';
-import Table from "../common/Table";
-import Paginations from "../common/Pagination";
+import Table from "../../common/Table";
+import Paginations from "../../common/Pagination";
 import { useHistory } from 'react-router-dom';
-import _fetch from '../../fetch';
+import _fetch from '../../../fetch';
 // import {getList} from './User'
 
 const Farm = () => {
