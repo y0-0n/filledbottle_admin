@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, CardBody, CardFooter, InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 
 const CreateUser = () => {
-  const history = useHistory()
+  const history = useHistory();
+  const {id} = useParams();//farmId
   const [form, setForm] = useState([])
   const [formName, setFormName] = useState("");
-  const [formFarmName, setFormFarmName] = useState("");
   const [formEmail, setFormEmail] = useState("");
   const [formPassword, setFormPassword] = useState("");
   const [formPasswordC, setFormPasswordC] = useState("");
@@ -61,14 +61,14 @@ const CreateUser = () => {
     setForm(
       {
         name: formName,
-        farmId: formFarmName,
+        farmId: id,
         email: formEmail,
         password: formPassword,
         phone: formPhone,
         role: formRole,
       }
     );
-  }, [formName, formEmail, formPassword, formPasswordC, formPhone, formFarmName, formRole])
+  }, [formName, formEmail, formPassword, formPasswordC, formPhone, formRole])
 
   return (
     <div className="animated fadeIn">
@@ -106,14 +106,6 @@ const CreateUser = () => {
               </InputGroupText>
             </InputGroupAddon>
             <Input type="password" onChange={(e) => setFormPasswordC(e.target.value)} placeholder="비밀번호 반복" autoComplete="new-password" />
-          </InputGroup>
-          <InputGroup className="mb-3">
-            <InputGroupAddon addonType="prepend">
-              <InputGroupText>
-                <i className="icon-user"></i>
-              </InputGroupText>
-            </InputGroupAddon>
-            <Input type="text" onChange={(e) => {setFormFarmName(e.target.value)}} placeholder="근무 농장" autoComplete="farmName" />
           </InputGroup>
           <InputGroup className="mb-3">
             <InputGroupAddon addonType="prepend">

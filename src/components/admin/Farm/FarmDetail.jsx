@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from 'react-router-dom'
+import { useParams, NavLink } from 'react-router-dom'
 import Detail from "../../common/Detail";
 import _fetch from '../../../fetch';
-import {Badge} from 'reactstrap';
+import {Badge, Button} from 'reactstrap';
 
 const User = () => {
   let {id} = useParams();
@@ -10,9 +10,13 @@ const User = () => {
 
   useEffect(() => {
     _fetch(`/api/admin/company/detail/${id}`, 'GET', null, (data) => {
-      data[0].mallVisible = data[0].mallVisible ? <Badge color="primary">공개</Badge> : <Badge color="danger">비공개</Badge>
+      data[0].mallVisible = data[0].mallVisible ? <Badge color="primary">공개</Badge> : <Badge color="danger">비공개</Badge>;
+      data[0].createUsers = <NavLink to={`/admin/farm/createUser/${id}`} className="nav-link">회원 등록</NavLink>;
       setContent(data[0])
-    })
+    });
+    _fetch(`/api/admin/company/productList/${id}`, 'GET', null, (data) => {
+      console.warn(data)
+    });
   }, [])
 
   const detailProps = {
@@ -28,6 +32,7 @@ const User = () => {
       mallVisible: '상점 공개 여부',
       // image : '생산자 이미지',
       crNumber : '사업자 등록 번호',
+      createUsers: ''
     },
 
     detailContent: content,
