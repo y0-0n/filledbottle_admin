@@ -7,6 +7,7 @@ const CreateUser = React.lazy(() => import('./components/admin/User/CreateUser.j
 const Farm = React.lazy(() => import('./components/admin/Farm/Farm.jsx'));
 const FarmDetail = React.lazy(() => import('./components/admin/Farm/FarmDetail.jsx'));
 const CreateFarm = React.lazy(() => import('./components/admin/Farm/CreateFarm.jsx'));
+const CreateProduct = React.lazy(() => import('./components/admin/Farm/CreateProduct.jsx'));
 const SuggestionList = React.lazy(() => import('./views/Admin/Suggestion/List'));
 const SuggestionDetail = React.lazy(() => import('./views/Admin/Suggestion/Detail'));
 const UserList = React.lazy(() => import('./views/Admin/Users/List'));
@@ -22,6 +23,7 @@ const routes = [
 	{ path: '/admin/farm/detail/:id', name: '회원 상세', component: FarmDetail},
 	{ path: '/admin/farm/create', name: '농장 등록', component: CreateFarm},
 	// { path: '/admin/users/detail/:id', name: '회원 목록 상세', component: UserListDetail},
+	{ path: '/admin/farm/:id/create', name: '품목 등록', component: CreateProduct},
 	{ path: '/admin/product/list', name: '품목 목록', component: ProductList},
 	{ path: '/admin/suggestion/list', name: '건의사항', component: SuggestionList},
 	{ path: '/admin/suggestion/detail/:id', name: '건의사항 답변', component: SuggestionDetail},
