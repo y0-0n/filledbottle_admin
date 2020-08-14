@@ -11,6 +11,7 @@ const CreateUser = () => {
   const [formPassword, setFormPassword] = useState("");
   const [formPasswordC, setFormPasswordC] = useState("");
   const [formPhone, setFormPhone] = useState("");
+  const [formRole, setFormRole] = useState("");
 
   function signup() {
     if (formPassword !== formPasswordC) {
@@ -64,9 +65,10 @@ const CreateUser = () => {
         email: formEmail,
         password: formPassword,
         phone: formPhone,
+        role: formRole,
       }
     );
-  }, [formName, formEmail, formPassword, formPasswordC, formPhone])
+  }, [formName, formEmail, formPassword, formPasswordC, formPhone, formRole])
 
   return (
     <div className="animated fadeIn">
@@ -112,10 +114,12 @@ const CreateUser = () => {
             <Input type="text" onChange={(e) => setFormPhone(e.target.value)} placeholder="연락처" autoComplete="phone" />
           </InputGroup>
           <InputGroup className="mb-3">
-            <InputGroupAddon addonType="prepend">
-              <InputGroupText>#&nbsp;</InputGroupText>
-            </InputGroupAddon>
-            <Input type="text" onChange={(e) => setFormPhone(e.target.value)} placeholder="대표 / 직원" autoComplete="phone" />
+            <div className="role-box">
+              <Input className="role-input" type="radio" value="rep" onChange={(e) => setFormRole(e.target.value)} />
+              <label>대표</label>
+              <Input className="role-input" type="radio" value="employee" onChange={(e) => setFormRole(e.target.value)} />
+              <label>직원</label>
+            </div>
           </InputGroup>
           <Button color="success" id="button_joinus" disabled=""block onClick={signup}>등록하기</Button>
         </CardBody>

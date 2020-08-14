@@ -164,6 +164,19 @@ ul li {
     padding: 5px 15px 5px 15px;
 }
 
+/* admin create user */
+
+.role-box .role-input {
+    margin: 0 0 0 10px;
+    vertical-align: middle;
+    position: relative;
+}
+
+.role-box label {
+    margin-left: 10px;
+    font-weight: lighter;
+}
+
 @media (max-width: 1024px) {
     .main {
         font-size: 0.8em;
